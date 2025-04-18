@@ -1,0 +1,27 @@
+@use '@angular/material' as mat;
+//@use '@dhutaryan/ngx-mat-timepicker' as mat-timepicker;
+
+@use './m3-theme';
+
+@include mat.core();
+
+// Light Theme created by ng generate @angular-material:m3-theme
+$theme: m3-theme.$light-theme;
+
+:root {
+  @include mat.all-component-themes($theme);
+
+  //@include mat-timepicker.timepicker-theme($theme);
+  // if you want to support color attribute in M3 add compatibility mixin
+  @include mat.color-variants-backwards-compatibility($theme);
+
+  // Add backwards compatibility styles for color variants
+  @include mat.color-variants-backwards-compatibility($theme);
+
+  @include mat.toolbar-overrides(
+    (
+      container-background-color: #2d32aa,
+      container-text-color: #ffffff,
+    )
+  );
+}

@@ -1,0 +1,15 @@
+{
+  "configuration": {
+    "title": "Configurazioni",
+    "filter": "Filtro (per prefisso)",
+    "table": {
+      "springConfiguration": {
+        "title": "Spring configuration"
+      },
+      "prefix": "Prefisso",
+      "properties": "Proprietà",
+      "property": "Proprietà",
+      "value": "Valore"
+    }
+  }
+}

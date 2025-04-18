@@ -1,0 +1,40 @@
+<div *ngIf="permission">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2"><span jhiTranslate="pagopaCruscottoApp.authPermission.detail.title">Permission</span> {{ permission.id }}</div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+      <button
+        id="jh-create-entity"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/admin-users/permissions', permission.id, 'edit']"
+        [title]="['pagopaCruscottoApp.authPermission.detail.updateLabel' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon
+        ><span jhiTranslate="pagopaCruscottoApp.authPermission.detail.updateLabel">Update Permission</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div class="row custom-row p-2">
+            <div class="col-lg-3">
+              <span jhiTranslate="pagopaCruscottoApp.authPermission.module">Module</span>
+              <p class="p-2 bg-light">{{ permission.modulo }}</p>
+            </div>
+            <div class="col-lg-6">
+              <span jhiTranslate="pagopaCruscottoApp.authPermission.name">Name</span>
+              <p class="p-2 bg-light">
+                {{ permission.nome }}
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

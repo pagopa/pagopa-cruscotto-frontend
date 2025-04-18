@@ -1,0 +1,19 @@
+<jhi-error-layout>
+  <router-outlet>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card class="mat-elevation-z8" size="giant">
+          <mat-card-content>
+            <div class="flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12">
+              <h2 class="title">{{ 'error.title' | translate }}</h2>
+              <small class="sub-title" *ngIf="errorMessage">{{ errorMessage }}</small>
+              <button mat-button (click)="goToHome()" type="button" class="home-button w-100">
+                {{ 'error.404.button.label' | translate }}
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </router-outlet>
+</jhi-error-layout>

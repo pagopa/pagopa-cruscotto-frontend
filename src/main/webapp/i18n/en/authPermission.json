@@ -1,0 +1,42 @@
+{
+  "pagopaCruscottoApp": {
+    "authPermission": {
+      "home": {
+        "title": "Back-end permissions"
+      },
+      "created": "A new permission with identifier {{ param }} has been created",
+      "updated": "The permission with identifier {{ param }} has been updated",
+      "deleted": "The permission with identifier {{ param }} has been deleted",
+      "delete": {
+        "question": "Are you sure you want to delete the permission with identifier {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "New Permission",
+        "azione": "",
+        "id": "Id",
+        "nome": "Name",
+        "modulo": "Module",
+        "finder": {
+          "nome": "Name",
+          "modulo": "Module"
+        }
+      },
+      "update": {
+        "create.title": "New Permission Creation",
+        "modify.title": "Permission Modification",
+        "nome": "Name",
+        "modulo": "Module"
+      },
+      "detail": {
+        "title": "Permission Detail",
+        "nome": "Name",
+        "modulo": "Module"
+      },
+      "azione": "",
+      "id": "Id",
+      "nome": "Name",
+      "modulo": "Module",
+      "authFunction": "Function"
+    }
+  }
+}

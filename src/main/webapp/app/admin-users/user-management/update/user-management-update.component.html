@@ -1,0 +1,252 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="userManagement.update.create.title">New User</span>
+    </div>
+    <div class="h2" *ngIf="editForm.get('id')!.value">
+      <span jhiTranslate="userManagement.update.modify.title">Edit User</span> {{ editForm.get('id')?.value }}
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3 p-2">
+              <div class="offset-md-3 col-md-5">
+                @let loginRef = editForm.get('login')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="userManagement.login">Login</mat-label>
+                  <input matInput autocomplete="off" formControlName="login" [readonly]="user.id !== null" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="loginRef.invalid && (loginRef.dirty || loginRef.touched)">
+                    @if (loginRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (loginRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                      </mat-error>
+                    }
+                    @if (loginRef?.errors?.pattern) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.patternLogin">
+                        This field can only contain letters, digits and e-mail addresses.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let firstNameRef = editForm.get('firstName')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="userManagement.firstName">First Name</mat-label>
+                  <input matInput autocomplete="off" formControlName="firstName" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="firstNameRef.invalid && (firstNameRef.dirty || firstNameRef.touched)">
+                    @if (firstNameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (firstNameRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let lastNameRef = editForm.get('lastName')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="userManagement.lastName">Last Name</mat-label>
+                  <input matInput autocomplete="off" formControlName="lastName" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="lastNameRef.invalid && (lastNameRef.dirty || lastNameRef.touched)">
+                    @if (lastNameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (lastNameRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let emailRef = editForm.get('email')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="userManagement.email">Email</mat-label>
+                  <input matInput autocomplete="off" formControlName="email" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="emailRef.invalid && (emailRef.dirty || emailRef.touched)">
+                    @if (emailRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (emailRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                      </mat-error>
+                    }
+                    @if (emailRef?.errors?.minlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 5 }">
+                        This field cannot be longer than 5 characters.
+                      </mat-error>
+                    }
+                    @if (emailRef?.errors?.email) {
+                      <mat-error class="form-text text-danger" jhiTranslate="global.messages.validate.email.invalid">
+                        This field cannot be contain email not valid.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let passwordRef = editForm.get('newPassword')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="global.form.newpassword">New password</mat-label>
+                  <input matInput autocomplete="off" type="password" formControlName="newPassword" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)">
+                    @if (passwordRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (passwordRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                      </mat-error>
+                    }
+                    @if (passwordRef?.errors?.minlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 8 }">
+                        This field cannot be longer than 8 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <jhi-password-strength-bar [passwordToCheck]="passwordRef.value"></jhi-password-strength-bar>
+
+                @let confirmPasswordRef = editForm.get('confirmPassword')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="global.form.confirmpassword">New password confirmation</mat-label>
+                  <input matInput autocomplete="off" type="password" formControlName="confirmPassword" />
+
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="confirmPasswordRef.invalid && (confirmPasswordRef.dirty || confirmPasswordRef.touched)"
+                  >
+                    @if (confirmPasswordRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (confirmPasswordRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                      </mat-error>
+                    }
+                    @if (confirmPasswordRef?.errors?.minlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 8 }">
+                        This field cannot be longer than 8 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let langKeyRef = editForm.get('langKey')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="userManagement.langKey">Lang Key</mat-label>
+                  <mat-select formControlName="langKey">
+                    <mat-option *ngFor="let language of languages" [value]="language">{{ language | findLanguageFromKey }}</mat-option>
+                  </mat-select>
+                  <ng-container ngProjectAs="mat-error" *ngIf="langKeyRef.invalid && (langKeyRef.dirty || langKeyRef.touched)">
+                    @if (langKeyRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <jhi-group-select [parentForm]="editForm" formInnerControlName="gruppo"></jhi-group-select>
+              </div>
+              <div class="col-md-4 border-left pt-4 mb-4">
+                <div>
+                  <mat-list>
+                    <div mat-subheader>
+                      <strong>{{ 'password.messages.requisitiPassword' | translate }}</strong>
+                    </div>
+                    <mat-list-item>
+                      <mat-icon fontSet="material-symbols-outlined" matListItemIcon>check</mat-icon>
+                      <div matListItemLine>{{ 'password.messages.requisito1' | translate }}</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon fontSet="material-symbols-outlined" matListItemIcon>check</mat-icon>
+                      <div matListItemLine>{{ 'password.messages.requisito2' | translate }}</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon fontSet="material-symbols-outlined" matListItemIcon>check</mat-icon>
+                      <div matListItemLine>{{ 'password.messages.requisito3' | translate }}</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon fontSet="material-symbols-outlined" matListItemIcon>check</mat-icon>
+                      <div matListItemLine>{{ 'password.messages.requisito4' | translate }}</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon fontSet="material-symbols-outlined" matListItemIcon>check</mat-icon>
+                      <div matListItemLine>{{ 'password.messages.requisito5' | translate }}</div>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;<span jhiTranslate="entity.action.cancel"
+                    >Cancel</span
+                  >
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  [disabled]="editForm.invalid || isSaving()"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

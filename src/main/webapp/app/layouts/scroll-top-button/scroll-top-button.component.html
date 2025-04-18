@@ -1,0 +1,12 @@
+<button
+  id="keyboardArrowUp"
+  type="button"
+  aria-label="keyboardArrowUp"
+  mat-fab
+  color="primary"
+  (click)="scrollTop()"
+  class="scrollToTopButton"
+  [ngClass]="{ scrollToTopVisible: canScrollTop }"
+>
+  <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">keyboard_arrow_up</mat-icon>
+</button>

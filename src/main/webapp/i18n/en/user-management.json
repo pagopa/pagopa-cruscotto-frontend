@@ -1,0 +1,116 @@
+{
+  "userManagement": {
+    "home": {
+      "title": "Users"
+    },
+    "created": "A new user with identifier {{ param }} has been created",
+    "updated": "The user with identifier {{ param }} has been updated",
+    "deleted": "The user with identifier {{ param }} has been deleted",
+    "reset": "An email with link for reset password has been sent to {{ param }}",
+    "delete": {
+      "question": "Are you sure you want to delete the user {{ login }}?"
+    },
+    "detail": {
+      "title": "User",
+      "login": "Login",
+      "firstName": "Name",
+      "lastName": "Surname",
+      "stato": "State",
+      "email": "Email",
+      "langKey": "Language",
+      "createdBy": "Created by",
+      "createdDate": "Created on",
+      "lastModifiedBy": "Modified by",
+      "lastModifiedDate": "Modified on",
+      "gruppo": "Group"
+    },
+    "lista": {
+      "createLabel": "New User",
+      "azione": "",
+      "id": "Id",
+      "login": "Login",
+      "email": "Email",
+      "stato": "State",
+      "langKey": "Language",
+      "groupName": "Group",
+      "createdDate": "Created on",
+      "lastModifiedBy": "Modified by",
+      "lastModifiedDate": "Modified on",
+      "blocked": "Blocked user",
+      "authenticationType": "Tipo Accesso",
+      "action": {
+        "associaClienti": "Customer association"
+      }
+    },
+    "state": {
+      "activated": "Active",
+      "deactivated": "Inactive",
+      "deleted": "Deleted"
+    },
+    "update": {
+      "create.title": "New user creation",
+      "modify.title": "User modification",
+      "login": "Login",
+      "firstName": "Name",
+      "lastName": "Surname",
+      "email": "Email",
+      "langKey": "Language",
+      "associaClienti": "Customer association"
+    },
+    "resetPassword": {
+      "title": "Confirm reset password",
+      "question": "Are you sure you want to send the password reset link for user {{ login }}?"
+    },
+    "blocked": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "associaClienti": {
+      "title": "Customers-to-user association",
+      "nome": "Name",
+      "descrizione": "Description",
+      "dataCreazione": "Creation date",
+      "created": "Associated customers",
+      "clientiAssociati": {
+        "title": "Associated customers",
+        "ragioneSociale": "Business Name",
+        "nome": "Name",
+        "azione": "",
+        "action": {
+          "delete": "Remove association"
+        },
+        "delete": {
+          "question": "Are you sure you want to delete the association with the customer {{ cliente }}?"
+        }
+      },
+      "clientiAssociabili": {
+        "title": "Associable customers",
+        "action": {
+          "associa": "Save"
+        }
+      }
+    }
+  },
+  "easymonitorApp": {
+    "userManagement": {
+      "associaClienti.created": "Associated customers",
+      "dissociaCliente.created": "Customer association removed"
+    }
+  },
+  "error": {
+    "userManagement": {
+      "associaClienti": {
+        "clienteAlreadyAssociated": "Customer already associated with the user",
+        "clientiDaAssociare.notEmpty": "Select at least one customer to associate with the user"
+      },
+      "dissociaCliente": {
+        "clienteNotExists": "Customer to dissociate non-existent"
+      },
+      "notExists": "Non-existent user",
+      "userAlreadyExist": "Utente esistente",
+      "isTheSameLoggedUser": "The selected user coincides with the logged user: operation not allowed",
+      "statoNotValid": "User state incompatible with the requested operation",
+      "permissionDenied": "Permission denied for user selected"
+    }
+  }
+}
