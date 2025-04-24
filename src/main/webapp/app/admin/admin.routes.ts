@@ -20,11 +20,6 @@ const adminRoutes: Routes = [
     path: 'metrics',
     loadComponent: () => import('./metrics/metrics.component'),
   },
-  // {
-  //   path: 'gateway',
-  //   loadComponent: () => import('./gateway/gateway.component'),
-  //   title: 'gateway.title',
-  // },
 ];
 
 export default adminRoutes;

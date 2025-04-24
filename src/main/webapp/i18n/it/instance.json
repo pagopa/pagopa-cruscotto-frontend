@@ -1,0 +1,33 @@
+{
+  "pagopaCruscottoApp": {
+    "instance": {
+      "home": {
+        "title": "Istanze"
+      },
+      "created": "\u00C8 stata creata una nuova istanza con identificatore {{ param }}",
+      "updated": "\u00C8 stata aggiornata l'istanza con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminata l'istanza con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare l'istanza con identificatore {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "Nuova Istanza"
+      },
+      "detail": {
+        "title": "Dettaglio Istanza",
+        "modify.title": "Modifica Istanza"
+      },
+      "update": {
+        "create.title": "Creazione Istanza",
+        "modify.title": "Modifica Istanza"
+      },
+      "partner": "Partner",
+      "instanceIdentification": "Identificativo Istanza"
+    }
+  },
+  "error": {
+    "instance": {
+      "notExists": "Istanza inesistente"
+    }
+  }
+}

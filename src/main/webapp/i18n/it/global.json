@@ -12,6 +12,9 @@
         "customerType": "Cliente Tipo",
         "bankConfig": "Banca Config"
       },
+      "instance": {
+        "main": "Istanze"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente",
@@ -20,7 +23,6 @@
       },
       "systemAdministration": {
         "main": "Amministrazione",
-        "gateway": "Gateway",
         "userManagement": "Gestione Utenti",
         "tracker": "Tracciamento utente",
         "metrics": "Metriche",

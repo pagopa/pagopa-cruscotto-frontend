@@ -22,14 +22,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options.model';
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
-import { FunctionFilter } from './function.filter';
-import { FunctionService } from '../service/function.service';
-import { IFunction } from '../function.model';
+import { InstanceService } from '../service/instance.service';
+import { IInstance } from '../instance.model';
+import { InstanceFilter } from './instance.filter';
 
 @Component({
-  selector: 'jhi-auth-function',
-  templateUrl: './function.component.html',
-  styleUrls: ['./function.component.scss'],
+  selector: 'jhi-instance',
+  templateUrl: './instance.component.html',
+  styleUrls: ['./instance.component.scss'],
   imports: [
     SharedModule,
     MatIconModule,
@@ -48,10 +48,10 @@ import { IFunction } from '../function.model';
     RouterModule,
   ],
 })
-export class FunctionComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'modulo', 'nome', 'descrizione', 'action'];
+export class InstanceComponent implements OnInit, OnDestroy {
+  displayedColumns: string[] = ['id', 'instanceIdentification'];
 
-  data: IFunction[] = [];
+  data: IInstance[] = [];
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -65,18 +65,17 @@ export class FunctionComponent implements OnInit, OnDestroy {
   searchForm;
 
   protected readonly router = inject(Router);
-  protected readonly filter = inject(FunctionFilter);
+  protected readonly filter = inject(InstanceFilter);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly eventManager = inject(EventManager);
-  private readonly functionService = inject(FunctionService);
+  private readonly instanceService = inject(InstanceService);
   private readonly locationHelper = inject(LocaltionHelper);
   private readonly fb = inject(FormBuilder);
   private readonly confirmModalService = inject(ConfirmModalService);
 
   constructor() {
     this.searchForm = this.fb.group({
-      nome: [null, [Validators.maxLength(50)]],
-      descrizione: [null, [Validators.maxLength(200)]],
+      partner: [null, [Validators.maxLength(100)]],
     });
 
     if (!this.locationHelper.getIsBack()) {
@@ -94,8 +93,7 @@ export class FunctionComponent implements OnInit, OnDestroy {
 
   updateForm(): void {
     this.searchForm.patchValue({
-      nome: getFilterValue(this.filter, FunctionFilter.NOME),
-      descrizione: getFilterValue(this.filter, FunctionFilter.DESCRIZIONE),
+      partner: getFilterValue(this.filter, InstanceFilter.PARTNER),
     });
     this.page = this.filter.page;
   }
@@ -112,7 +110,7 @@ export class FunctionComponent implements OnInit, OnDestroy {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/admin-users/functions']);
+    void this.router.navigate(['/entity/instances']);
   }
 
   changePage(event: PageEvent): void {
@@ -141,8 +139,8 @@ export class FunctionComponent implements OnInit, OnDestroy {
 
     this.populateRequest(params);
 
-    this.functionService.query(params).subscribe({
-      next: (res: HttpResponse<IFunction[]>) => {
+    this.instanceService.query(params).subscribe({
+      next: (res: HttpResponse<IInstance[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
       },
@@ -163,13 +161,11 @@ export class FunctionComponent implements OnInit, OnDestroy {
   }
 
   private populateRequest(req: any): any {
-    addFilterToRequest(this.filter, FunctionFilter.NOME, req);
-    addFilterToRequest(this.filter, FunctionFilter.DESCRIZIONE, req);
+    addFilterToRequest(this.filter, InstanceFilter.PARTNER, req);
   }
 
   private populateFilter(): void {
-    addToFilter(this.filter, this.searchForm.get('nome'), FunctionFilter.NOME);
-    addToFilter(this.filter, this.searchForm.get('descrizione'), FunctionFilter.DESCRIZIONE);
+    addToFilter(this.filter, this.searchForm.get('partner'), InstanceFilter.PARTNER);
 
     this.filter.page = this.page;
   }
@@ -178,9 +174,9 @@ export class FunctionComponent implements OnInit, OnDestroy {
     window.history.back();
   }
 
-  delete(row: IFunction): void {
+  delete(row: IInstance): void {
     this.selectedRowId = row.id;
-    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.authFunction.delete.question', undefined, {
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.instance.delete.question', undefined, {
       id: row.id,
     });
 
@@ -193,28 +189,28 @@ export class FunctionComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.functionService.delete(row.id!).subscribe({
-            next: () => {
-              if (
-                this.resultsLength % this.itemsPerPage === 1 &&
-                Math.ceil(this.resultsLength / this.itemsPerPage) === this.page &&
-                this.page !== 1
-              ) {
-                this.filter.page = this.page - 1;
-              }
-              this.loadPage(this.filter.page, false);
-            },
-            error: () => {
-              this.spinner.hide('isLoadingResults').then(() => {
-                this.isLoadingResults = false;
-              });
-            },
-          });
+          // this.instanceService.delete(row.id!).subscribe({
+          //   next: () => {
+          //     if (
+          //       this.resultsLength % this.itemsPerPage === 1 &&
+          //       Math.ceil(this.resultsLength / this.itemsPerPage) === this.page &&
+          //       this.page !== 1
+          //     ) {
+          //       this.filter.page = this.page - 1;
+          //     }
+          //     this.loadPage(this.filter.page, false);
+          //   },
+          //   error: () => {
+          //     this.spinner.hide('isLoadingResults').then(() => {
+          //       this.isLoadingResults = false;
+          //     });
+          //   },
+          // });
         }
       });
   }
 
-  protected onSuccess(data: IFunction[], headers: HttpHeaders): void {
+  protected onSuccess(data: IInstance[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
     this.spinner.hide('isLoadingResults').then(() => {
