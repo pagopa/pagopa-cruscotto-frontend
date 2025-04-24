@@ -43,8 +43,8 @@
               @let nameRef = searchForm.get('nome')!;
               <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
                 @if (searchForm.get('nome')?.errors?.maxlength) {
-                  <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 45 }">
-                    This field cannot be longer than 45 characters.
+                  <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                    This field cannot be longer than 50 characters.
                   </mat-error>
                 }
               </ng-container>
@@ -57,8 +57,8 @@
               @let descriptionRef = searchForm.get('descrizione')!;
               <ng-container ngProjectAs="mat-error" *ngIf="descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)">
                 @if (searchForm.get('descrizione')?.errors?.maxlength) {
-                  <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
-                    This field cannot be longer than 100 characters.
+                  <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 200 }">
+                    This field cannot be longer than 200 characters.
                   </mat-error>
                 }
               </ng-container>
@@ -165,9 +165,7 @@
                           type="button"
                           matTooltip="{{ 'pagopaCruscottoApp.authFunction.lista.action.managePermissions.label' | translate }}"
                           matTooltipPosition="above"
-                          [attr.aria-label]="[
-                            'pagopaCruscottoApp.authFunction.lista.action.managePermissions.ariaLabel' | translate,
-                          ]"
+                          [attr.aria-label]="['pagopaCruscottoApp.authFunction.lista.action.managePermissions.ariaLabel' | translate]"
                           [routerLink]="['/admin-users/functions', row.id, 'manage-permissions']"
                         >
                           <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">webhook</mat-icon>

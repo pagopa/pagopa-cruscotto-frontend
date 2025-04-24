@@ -49,6 +49,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
 
   menuItems: MenuItem[] = [
     {
+      label: 'global.menu.instance.main',
+      route: '/entity/instances',
+      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      xSmall: false,
+      small: false,
+      medium: true,
+      large: true,
+    },
+    {
       label: 'global.menu.usersAdministration.main',
       xSmall: false,
       small: false,

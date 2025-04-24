@@ -2,17 +2,6 @@
   <div class="table-responsive">
     <h2 id="logs-page-heading" data-cy="logsPageHeading" jhiTranslate="logs.title">Log</h2>
 
-    <div class="float-end">
-      <select class="form-select" id="routesSelect" (change)="changeService($event)">
-        <option [ngValue]="null"></option>
-        @for (service of services; track $index) {
-          <option [value]="service">
-            {{ service }}
-          </option>
-        }
-      </select>
-    </div>
-
     <p jhiTranslate="logs.nbloggers" [translateValues]="{ total: loggers()?.length }">Hai {{ loggers()?.length }} logger.</p>
 
     <span jhiTranslate="logs.filter">Filtro</span>
