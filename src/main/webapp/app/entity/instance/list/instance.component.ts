@@ -25,6 +25,12 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { InstanceService } from '../service/instance.service';
 import { IInstance } from '../instance.model';
 import { InstanceFilter } from './instance.filter';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { UserManagementStateViewComponent } from '../../../admin-users/user-management/shared/user-management-state-view.component';
+import { InstanceStateViewComponent } from '../shared/instance-state-view.component';
+import { GroupSelectComponent } from '../../../admin-users/group/shared/group-select/group-select.component';
+import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
 
 @Component({
   selector: 'jhi-instance',
@@ -46,10 +52,24 @@ import { InstanceFilter } from './instance.filter';
     MatSortModule,
     MatTooltipModule,
     RouterModule,
+    FormatDatePipe,
+    InstanceStateViewComponent,
+    PartnerSelectComponent,
   ],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'instanceIdentification'];
+  displayedColumns: string[] = [
+    'id',
+    'instanceIdentification',
+    'partner',
+    'predictedDateAnalysis',
+    'applicationDate',
+    'assignedUser',
+    'analysisPeriodStartDate',
+    'analysisPeriodEndDate',
+    'status',
+    'lastAnalysisDate',
+  ];
 
   data: IInstance[] = [];
   resultsLength = 0;
@@ -64,6 +84,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   searchForm;
 
+  locale: string;
+
   protected readonly router = inject(Router);
   protected readonly filter = inject(InstanceFilter);
   private readonly spinner = inject(NgxSpinnerService);
@@ -72,12 +94,14 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private readonly locationHelper = inject(LocaltionHelper);
   private readonly fb = inject(FormBuilder);
   private readonly confirmModalService = inject(ConfirmModalService);
+  private readonly translateService = inject(TranslateService);
 
   constructor() {
     this.searchForm = this.fb.group({
-      partner: [null, [Validators.maxLength(100)]],
+      partner: [''],
     });
 
+    this.locale = this.translateService.currentLang;
     if (!this.locationHelper.getIsBack()) {
       this.filter.clear();
     }
@@ -89,6 +113,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
     if (this.locationHelper.getIsBack()) {
       this.loadPage(this.filter.page, true);
     }
+
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.locale = event.lang;
+    });
   }
 
   updateForm(): void {

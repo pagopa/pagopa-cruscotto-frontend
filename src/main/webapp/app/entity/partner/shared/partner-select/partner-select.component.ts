@@ -1,0 +1,171 @@
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, exhaustMap, filter, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { MatSelect, MatSelectChange, MatSelectModule } from '@angular/material/select';
+import SharedModule from '../../../../shared/shared.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectInfiniteScrollDirective } from '../../../../shared/directives/mat-select-infinite-scroll.directive';
+import { ITEMS_PER_PAGE } from '../../../../config/pagination.constants';
+import { HttpResponse } from '@angular/common/http';
+import { PartnerService } from '../../service/partner.service';
+import { IPartner } from '../../partner.model';
+
+interface IExtendPartner extends Omit<IPartner, ''> {
+  order: number;
+  orderForSort: number;
+}
+
+@Component({
+  selector: 'jhi-partner-select',
+  templateUrl: './partner-select.component.html',
+  standalone: true,
+  imports: [
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatIconModule,
+    MatSelectInfiniteScrollDirective,
+  ],
+})
+export class PartnerSelectComponent implements OnInit, OnDestroy {
+  @ViewChild('jhiSelectInfiniteScroll', { static: true })
+  infiniteScrollSelect!: MatSelect;
+
+  @Input() parentForm!: FormGroup;
+
+  @Input() formInnerControlName!: string;
+
+  filteredData$: Observable<IExtendPartner[]> = of([]);
+
+  selectPartner: IExtendPartner | null = null;
+
+  loading = false;
+  totalItems: any;
+  searchTerm = null;
+  countSelect = 0;
+  currentPage = 0;
+  i = 0;
+
+  ngOnInit() {
+    this.selectPartner = this.parentForm.get(this.formInnerControlName)?.value ?? null;
+    if (this.selectPartner) {
+      this.selectPartner.order = this.i++;
+      this.selectPartner.orderForSort = -1;
+    }
+
+    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
+      startWith(null),
+      debounceTime(200),
+      filter(q => typeof q === 'string' || q === null),
+    );
+
+    this.filteredData$ = filter$.pipe(
+      switchMap((value: any) => {
+        this.searchTerm = value;
+        // Note: Reset the page with every new seach text
+        let currentPage = 0;
+        this.i = 0;
+        return this.incrementBatchOffset$.pipe(
+          startWith(currentPage),
+          // Note: Until the backend responds, ignore NextPage requests.
+          exhaustMap(() => {
+            return this.getList(value, currentPage);
+          }),
+          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
+          tap(() => (this.currentPage = ++currentPage)),
+          /** Note: This is a custom operator because we also need the last emitted value.
+           Note: Stop if there are no more pages, or no results at all for the current search text.
+           */
+          takeWhile(p => {
+            return p.length > 0;
+          }, true),
+          scan((allGroups: any[], newGroups: any[]) => {
+            let i = 0;
+
+            newGroups.forEach(group => {
+              group.order = this.i++;
+              group.orderForSort = group.order;
+            });
+
+            if (this.selectPartner) {
+              const foundIntoNewGroups = newGroups.findIndex(
+                (group: { id: any }) => group.id === (this.selectPartner && this.selectPartner.id),
+              );
+              const foundIntoAllGroups = allGroups.findIndex(
+                (group: { id: any }) => group.id === (this.selectPartner && this.selectPartner.id),
+              );
+              if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
+                allGroups.splice(foundIntoAllGroups, 1);
+              } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
+                newGroups.push(this.selectPartner);
+              }
+            }
+
+            return allGroups.concat(newGroups);
+          }, []),
+        );
+      }),
+    );
+  }
+
+  /** Number of items added per batch */
+  batchSize = 20;
+
+  private incrementBatchOffset$: Subject<void> = new Subject<void>();
+  private readonly partnerService = inject(PartnerService);
+
+  private destroy$: Subject<void> = new Subject<void>();
+
+  ngOnDestroy() {
+    this.destroy$.next();
+  }
+
+  getList(value: any, page: number): Observable<IPartner[]> {
+    return this.callService(value, page);
+  }
+
+  private callService(search: string, pageRequired: number): Observable<IPartner[]> {
+    this.loading = true;
+
+    const req = {
+      page: pageRequired,
+      size: ITEMS_PER_PAGE,
+      sort: ['name,asc'],
+    };
+
+    return this.partnerService.query(req).pipe(
+      map((value: HttpResponse<IPartner[]>) => {
+        const partners = value.body || [];
+        this.totalItems = Number(value.headers.get('X-Total-Count'));
+        return partners;
+      }),
+      catchError(() => {
+        return [];
+      }),
+      finalize(() => {
+        this.loading = false;
+      }),
+    );
+  }
+
+  compareFn(obj1: IExtendPartner, obj2: IExtendPartner) {
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  }
+
+  selectionChange(matSelectChange: MatSelectChange): void {
+    this.selectPartner = matSelectChange.value as IExtendPartner;
+  }
+
+  /**
+   * Load the next batch
+   */
+  getNextBatch(): void {
+    this.incrementBatchOffset$.next();
+  }
+}
