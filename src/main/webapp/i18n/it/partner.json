@@ -1,0 +1,13 @@
+{
+  "pagopaCruscottoApp": {
+    "partner": {
+      "home": {
+        "title": "Partner"
+      },
+      "detail": {
+        "title": "Dettaglio Partner"
+      },
+      "partner": "Partner"
+    }
+  }
+}

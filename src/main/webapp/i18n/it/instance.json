@@ -22,7 +22,14 @@
         "modify.title": "Modifica Istanza"
       },
       "partner": "Partner",
-      "instanceIdentification": "Identificativo Istanza"
+      "instanceIdentification": "Identificativo Istanza",
+      "predictedDateAnalysis": "Data Prevista Analisi",
+      "applicationDate": "Data Domanda",
+      "assignedUser": "Utente Assegnatario",
+      "analysisPeriodStartDate": "Data Inizio Periodo",
+      "analysisPeriodEndDate": "Data Fine Periodo",
+      "status": "Stato",
+      "lastAnalysisDate": "Data Ultima Analisi Eseguita"
     }
   },
   "error": {
