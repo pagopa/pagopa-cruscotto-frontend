@@ -1,0 +1,181 @@
+name: Manual Release And Deploy
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: choice
+        description: Select the Environment
+        options:
+          - dev
+          - uat
+          - prod
+      version:
+        required: false
+        type: choice
+        description: Select the version
+        options:
+          - patch
+          - skip_or_promote
+          - new_release
+          - breaking_change
+
+
+permissions:
+  packages: write
+  contents: write
+  issues: write
+  id-token: write
+  actions: read
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      semver: ${{ steps.get_semver.outputs.semver }}
+      environment: ${{ steps.get_env.outputs.environment }}
+    steps:
+      - name: pull request rejected
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged != true
+        run: |
+          echo "❌ PR was closed without a merge"
+          exit 1
+
+      # Set Semvar
+      - run: echo "SEMVER=patch" >> $GITHUB_ENV
+
+      - if: ${{ (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'skip')) }}
+        run: echo "SEMVER=skip" >> $GITHUB_ENV
+
+      - if: ${{ (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'patch')) }}
+        run: echo "SEMVER=patch" >> $GITHUB_ENV
+
+      - if: ${{ (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'minor')) }}
+        run: echo "SEMVER=minor" >> $GITHUB_ENV
+
+      - if: ${{ (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'major')) }}
+        run: echo "SEMVER=major" >> $GITHUB_ENV
+
+      # force semver if dev, !=main or skip release
+      - if: ${{ inputs.version == 'new_release' }}
+        run: echo "SEMVER=minor" >> $GITHUB_ENV
+
+      - if: ${{ inputs.version == 'breaking_change' }}
+        run: echo "SEMVER=major" >> $GITHUB_ENV
+
+      - if: ${{ github.ref_name != 'main' }}
+        run: echo "SEMVER=buildNumber" >> $GITHUB_ENV
+
+      - if: ${{ inputs.version == 'skip_or_promote' }}
+        run: echo "SEMVER=skip" >> $GITHUB_ENV
+
+      - id: get_semver
+        name: Set Output
+        run: echo "semver=${{env.SEMVER}}" >> $GITHUB_OUTPUT
+
+      # Set Environment
+      - run: echo "ENVIRNOMENT=${{ inputs.environment}}" >> $GITHUB_ENV
+
+      - if: ${{ inputs.environment == null }}
+        run: echo "ENVIRNOMENT=dev" >> $GITHUB_ENV
+
+      - id: get_env
+        name: Set Output
+        run: echo "environment=${{env.ENVIRNOMENT}}" >> $GITHUB_OUTPUT
+
+  release:
+    name: Create a New Release
+    runs-on: ubuntu-latest
+    needs: [ setup ]
+    if: ${{ needs.setup.outputs.semver != 'skip' }}
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Make Release
+        id: release
+        uses: pagopa/github-actions-template/node-release@473d7a78d28e15cab46dcaf766087e60604d6a40 # v1.13.3
+        with:
+          semver: ${{ needs.setup.outputs.semver }}
+          github_token: ${{ secrets.BOT_TOKEN_GITHUB }}
+          skip_ci: true
+          prerelease: ${{ needs.setup.outputs.environment != 'prod' }}
+
+      - name: Checkout code
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4 # required to make the script available for next step
+
+      - name: Generate Release Notes for Latest
+        id: generate_notes
+        if: ${{ needs.setup.outputs.environment == 'prod' }}
+        uses: actions/github-script@211cb3fefb35a799baa5156f9321bb774fe56294 # v5
+        env:
+          TAG: ${{ steps.release.outputs.version }}
+          PRERELEASE: false
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { TAG, PRERELEASE } = process.env
+
+            console.log(TAG, PRERELEASE);
+
+            var startingRelease = await github.rest.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            }); 
+            console.log(startingRelease);
+
+            var releaseNotes = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: TAG,
+              previous_tag_name: startingRelease.data.tag_name
+            });
+            console.log(releaseNotes);   
+            
+            var targetRelease = await github.rest.repos.getReleaseByTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: TAG,
+            });
+            console.log(targetRelease); 
+            
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: targetRelease.data.id,
+              body: releaseNotes.data.body,
+              prerelease: PRERELEASE
+            });
+
+  deploy:
+    name: Deploy on CDN
+    needs: [ setup, release ]
+    if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+    uses: ./.github/workflows/deploy_on_cdn_angular.yml
+    with:
+      environment: ${{ needs.setup.outputs.environment }}
+    secrets: inherit
+
+  notify:
+    needs: [ setup, release, deploy ]
+    runs-on: ubuntu-latest
+    name: Notify
+    if: always()
+    steps:
+      - name: Report Status
+        if: ${{ needs.setup.outputs.environment == 'prod' }}
+        uses: ravsamhq/notify-slack-action@be814b201e233b2dc673608aa46e5447c8ab13f2 # v2
+        with:
+          status: ${{ needs.deploy.result }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          notification_title: 'New Release on Production ${{ needs.release.outputs.version }} has {status_message}'
+          message_format: '{emoji} <{run_url}|{workflow}> {status_message} in <{repo_url}|{repo}>'
+          footer: 'Linked to <{workflow_url}| workflow file>'
+          icon_success: ':white_check_mark:'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
