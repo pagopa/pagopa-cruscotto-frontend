@@ -1,0 +1,23 @@
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+@import 'bootstrap/scss/mixins/_breakpoints';
+
+.scrollToTopButton {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  z-index: 1000;
+}
+
+.scrollToTopVisible {
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
+
+  @include media-breakpoint-down(md) {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,14 @@
+/* Column Widths */
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.mat-column-id,
+.mat-column-nome,
+.mat-column-descrizione,
+.mat-column-livello {
+  width: 150px;
+  text-align: center;
+}

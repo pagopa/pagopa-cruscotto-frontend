@@ -1,0 +1,107 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.authGroup.update.create.title">New Group</span>
+    </div>
+    <div class="h2" *ngIf="editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.authGroup.update.modify.title">Edit Group</span> {{ editForm.get('id')?.value }}
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm" autocomplete="off" class="edit-form">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row custom-row mt-3 p-2">
+              <div class="offset-md-3 col-md-5">
+                @let nameRef = editForm.get('nome')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.authGroup.name">Name</mat-label>
+                  <input matInput autocomplete="off" formControlName="nome" />
+                  <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+                    @if (nameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (nameRef?.errors?.minlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                      </mat-error>
+                    }
+                    @if (nameRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+                @let descriptionRef = editForm.get('descrizione')!;
+                <mat-form-field class="d-block">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.authGroup.description">Description</mat-label>
+                  <input matInput autocomplete="off" formControlName="descrizione" />
+                  <ng-container ngProjectAs="mat-error" *ngIf="descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)">
+                    @if (nameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (nameRef?.errors?.minlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 1 }">
+                        This field is required to be at least 1 characters.
+                      </mat-error>
+                    }
+                    @if (nameRef?.errors?.maxlength) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 200 }">
+                        This field cannot be longer than 200 characters.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;<span jhiTranslate="entity.action.cancel"
+                    >Cancel</span
+                  >
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  [disabled]="editForm.invalid || isSaving"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

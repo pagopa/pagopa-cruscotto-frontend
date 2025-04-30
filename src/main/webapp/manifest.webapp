@@ -1,0 +1,16 @@
+{
+  "name": "PagoPaCruscotto",
+  "short_name": "PagoPaCruscotto",
+  "icons": [
+    {
+      "src": "./content/images/icon-109x29.png",
+      "sizes": "109x29",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#e0e0e0",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait"
+}

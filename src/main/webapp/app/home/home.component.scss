@@ -1,0 +1,79 @@
+/* ==========================================================================
+Main page styles
+========================================================================== */
+
+.row-login {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.login-btn {
+  background-color: whitesmoke;
+  width: 200px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 1em;
+}
+
+.home-page {
+  background-image: url(../../content/images/homepage.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+  position: relative;
+  min-height: 740px;
+}
+
+.home-logo-nexi {
+  top: 80%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.flex {
+  max-width: 100%;
+}
+
+.success-message {
+  width: 50%;
+  background-color: whitesmoke;
+  opacity: 0.8;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.warning-message {
+  width: 30%;
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  opacity: 0.8;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 16px;
+  top: 10%;
+  left: 483px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.info-message {
+  width: 30%;
+  background-color: whitesmoke;
+  opacity: 0.8;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  font-size: 16px;
+  top: 10%;
+  position: absolute;
+  left: 483px;
+  transform: translate(-50%, -50%);
+}

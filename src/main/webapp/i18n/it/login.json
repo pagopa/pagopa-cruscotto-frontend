@@ -1,0 +1,30 @@
+{
+  "login": {
+    "title": "Inserisci i tuoi dati per effettuare l'accesso",
+    "titleOtp": "Inserisci il codice otp inviato sulla mail censita in fase di registrazione",
+    "form": {
+      "username": "Il Tuo Nome Utente",
+      "password": "La Tua Password",
+      "rememberme": "Ricordami",
+      "otp": "OTP",
+      "button": "Accedi"
+    },
+    "messages": {
+      "error": {
+        "authentication": "<strong>Accesso non riuscito!</strong> Si prega di controllare le credenziali e riprovare.",
+        "userLockedError": "<strong>Utenza bloccata per numero tentavi errati!</strong>"
+      },
+      "warning": {
+        "avvisoPasswordExpiredDate": "<strong>La password \u00E8 in scadenza il {{data}}</strong>",
+        "avvisoPasswordExpired": "<strong>La password \u00E8 scaduta</strong>"
+      }
+    },
+    "otp": {
+      "resend": "Reinvia otp"
+    },
+    "password": {
+      "forgot": "Password dimenticata?"
+    },
+    "authRunning": "Autenticazione in corso..."
+  }
+}

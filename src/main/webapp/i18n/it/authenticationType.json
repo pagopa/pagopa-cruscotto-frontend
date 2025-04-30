@@ -1,0 +1,9 @@
+{
+  "pagopaCruscottoApp": {
+    "authenticationType": {
+      "null": "",
+      "FORM_LOGIN": "LOGIN FORM",
+      "OAUHT2": "SINGLE SIGN-ON"
+    }
+  }
+}

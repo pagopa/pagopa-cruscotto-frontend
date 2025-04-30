@@ -1,0 +1,253 @@
+{
+  "global": {
+    "title": "PagoPa Cruscotto",
+    "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
+    "menu": {
+      "home": "Home",
+      "customer": {
+        "main": "Customer",
+        "bank": "Bank",
+        "bankGroup": "Bank Group",
+        "customer": "Customer",
+        "customerType": "Customer Type",
+        "bankConfig": "Bank Config"
+      },
+      "institution": {
+        "main": "Institution",
+        "institution": "Institution"
+      },
+      "administration": {
+        "main": "Administration",
+        "gateway": "Gateway",
+        "userManagement": "User Management",
+        "tracker": "User tracker",
+        "metrics": "Metrics",
+        "health": "Health",
+        "configuration": "Configuration",
+        "logSystem": "System Log",
+        "apidocs": "API",
+        "database": "Database"
+      },
+      "language": {
+        "italiano": "Italiano",
+        "english": "English",
+        "it": "Italiano",
+        "en": "English"
+      },
+      "cookie": "Cookie",
+      "account": {
+        "login": "Login",
+        "logout": "Logout",
+        "settings": "User Settings",
+        "password": "Change Password",
+        "passwordExpired": "Expired Password",
+        "exit": "Logout"
+      },
+      "usersAdministration": {
+        "main": "Users Administration",
+        "tracker": "Trackers",
+        "function": "Function",
+        "group": "Group",
+        "user": "Physical User"
+      }
+    },
+    "form": {
+      "username.label": "Username",
+      "currentpassword.label": "Current password",
+      "newpassword.label": "New password",
+      "confirmpassword.label": "New password confirmation",
+      "email.label": "Email",
+      "select": {
+        "notfound": "No data found for '{{ search }}'",
+        "all": "All",
+        "bank.label": "ABI BT Code",
+        "bankingGroup.label": "Gruppo Bancario",
+        "bankingConfig.label": "Configuration",
+        "bankingConfigSiope.label": "Siope Configuration",
+        "bankingConfigMq.label": "Mq Configuration",
+        "clientType.label": "Client Type",
+        "client.label": "Client",
+        "ente.label": "Institution",
+        "userType.label": "User Type",
+        "group.label": "Group"
+      },
+      "checkbox": {
+        "all": "Select All"
+      }
+    },
+    "messages": {
+      "info": {
+        "authenticated": {
+          "prefix": "If you want to ",
+          "link": "sign in",
+          "suffix": ", you can try the default accounts:<br/>- Administrator (login=\"admin\" and password=\"admin\") <br/>- User (login=\"user\" and password=\"user\")."
+        },
+        "register": {
+          "noaccount": "You don't have an account yet?",
+          "link": "Register a new account"
+        }
+      },
+      "error": {
+        "dontmatch": "The password and its confirmation do not match!"
+      },
+      "validate": {
+        "newpassword": {
+          "required": "Your password is required",
+          "minlength": "Your password is required to be at least 8 characters",
+          "maxlength": "Your password cannot be longer than 100 characters",
+          "strength": "Password strength:"
+        },
+        "confirmpassword": {
+          "required": "Your confirmation password is required",
+          "minlength": "Your confirmation password is required to be at least 8 characters",
+          "maxlength": "Your confirmation password cannot be longer than 100 characters"
+        },
+        "email": {
+          "required": "Your email is required",
+          "invalid": "Your email is invalid",
+          "minlength": "Your email is required to be at least 5 characters",
+          "maxlength": "Your email cannot be longer than 50 characters"
+        }
+      }
+    },
+    "field": {
+      "id": "ID"
+    },
+    "ribbon": {
+      "dev": "Development"
+    },
+    "item-count": "Showing {{first}} - {{second}} of {{total}} items",
+    "ng-select-item-count": "Showing {{current}} of {{total}}",
+    "paginator": {
+      "items-for-page": "Items per page:",
+      "next-page": "Next page",
+      "prev-page": "Previous page",
+      "first-page": "First page",
+      "last-page": "Last page",
+      "aria-label": "Select page of periodic elements"
+    },
+    "timepicker": {
+      "inputsTitle": "Enter time",
+      "dialsTitle": "Select time",
+      "openTimepickerLabel": "Open  Timepicker",
+      "closeTimepickerLabel": "Close Timepicher",
+      "hour": "Hour",
+      "minute": "Minute",
+      "am": "AM",
+      "pm": "PM",
+      "button": {
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "entity": {
+    "search": {
+      "title": "Search Filters"
+    },
+    "list": {
+      "noResult": "No record found",
+      "column": {
+        "actions": {
+          "label": "Actions",
+          "delete.ariaLabel": "Delete",
+          "edit.ariaLabel": "Edit",
+          "view.ariaLabel": "View Detail"
+        }
+      }
+    },
+    "action": {
+      "addblob": "Add blob",
+      "addimage": "Add image",
+      "back": "Back",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "open": "Open",
+      "save": "Save",
+      "view": "View",
+      "clear": "Clear",
+      "search": "Search",
+      "show": "Show {{otherEntity}}",
+      "download": "Download"
+    },
+    "detail": {
+      "field": "Field",
+      "value": "Value"
+    },
+    "delete": {
+      "title": "Confirm delete operation"
+    },
+    "validation": {
+      "required": "This field is required",
+      "minlength": "This field is required to be at least {{ min }} characters",
+      "maxlength": "This field cannot be longer than {{ max }} characters",
+      "min": "This field should be at least {{ min }}",
+      "max": "This field cannot be more than {{ max }}",
+      "minbytes": "This field should be at least {{ min }} bytes",
+      "maxbytes": "This field cannot be more than {{ max }} bytes",
+      "pattern": "This field should follow pattern for {{ pattern }}",
+      "number": "This field should be a number",
+      "datetimelocal": "This field should be a date and time",
+      "patternLogin": "This field can only contain letters, digits and e-mail addresses",
+      "email": "This field should be a valid e-mail",
+      "fromDate": "This field should be a valida from date",
+      "toDate": "This field should be a valida to date",
+      "institutionCode": "The field should be a number with 7 digit",
+      "fiscalCode": "The field should be 11 or 16 characters",
+      "fiscalCodeUser": "The field should be 16 characters",
+      "istatCode": "The field should be 9 or 15 characters",
+      "username": "The field should be a valid username",
+      "minCharLength": "The string should contains a number of alphabet letters greater than or equal to {{ minCharLength }}",
+      "dontMatch": "The password and its confirmation do not match!"
+    },
+    "filters": {
+      "set": "Following filters are set",
+      "clear": "Clear filter",
+      "clearAll": "Clear all filters"
+    }
+  },
+  "values": {
+    "yes": "YES",
+    "no": "NO",
+    "ok": "OK",
+    "ko": "KO",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "PDF": "PDF",
+    "TXT": "TXT",
+    "DOC": "DOC",
+    "CSV": "CSV",
+    "XLS": "XLS"
+  },
+  "error": {
+    "internalServerError": "Internal server error",
+    "server.not.reachable": "Server not reachable",
+    "url.not.found": "Not found",
+    "NotNull": "Field {{ fieldName }} cannot be empty!",
+    "Size": "Field {{ fieldName }} does not meet min/max size requirements!",
+    "userexists": "Login name already used!",
+    "emailexists": "Email is already in use!",
+    "idexists": "A new {{ entityName }} cannot already have an ID",
+    "idnull": "Invalid ID",
+    "idinvalid": "Invalid ID",
+    "idnotfound": "ID cannot be found",
+    "file": {
+      "could.not.extract": "Could not extract file",
+      "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
+    }
+  },
+  "footer": "This is your footer",
+  "cookie": {
+    "header": "Cookies used on the website!",
+    "message": "This website uses cookies to ensure you get the best experience on our website",
+    "dismiss": "Got it!",
+    "allow": "Allow cookies",
+    "deny": "Decline",
+    "link": "Learn more",
+    "policy": "Cookie Policy"
+  }
+}

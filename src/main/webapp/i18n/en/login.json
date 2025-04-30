@@ -1,0 +1,30 @@
+{
+  "login": {
+    "title": "Enter your details to log in",
+    "titleOtp": "Enter the OTP code sent to the email address registered during registration",
+    "form": {
+      "username": "Your Username",
+      "password": "Your Password",
+      "rememberme": "Remember me",
+      "otp": "OTP",
+      "button": "Sign in"
+    },
+    "messages": {
+      "error": {
+        "authentication": "<strong>Failed to sign in!</strong> Please check your credentials and try again.",
+        "userLockedError": "<strong>User is locked!</strong>"
+      },
+      "warning": {
+        "avvisoPasswordExpiredDate": "<strong>La password &egrave; in scadenza il {{data}}</strong>",
+        "avvisoPasswordExpired": "<strong>La password &egrave; scaduta</strong>"
+      }
+    },
+    "otp": {
+      "resend": "Reinvia otp"
+    },
+    "password": {
+      "forgot": "Did you forget your password?"
+    },
+    "authRunning": "Authentication running..."
+  }
+}

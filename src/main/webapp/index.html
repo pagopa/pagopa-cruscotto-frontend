@@ -1,0 +1,85 @@
+<!doctype html>
+<html class="no-js" lang="it" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>PagoPa Cruscotto</title>
+    <meta name="description" content="PagoPa Cruscotto Frontend" />
+    <meta name="google" content="notranslate" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#000000" />
+    <base href="/" />
+    <link rel="icon" href="favicon.png" />
+    <link rel="manifest" href="manifest.webapp" />
+    <link rel="stylesheet" href="content/css/loading.css" />
+  </head>
+  <body>
+    <!--[if lt IE 9]>
+      <p class="browserupgrade">
+        You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
+        your experience.
+      </p>
+    <![endif]-->
+    <jhi-app>
+      <div class="app-loading">
+        <div id="nb-global-spinner" class="spinner">
+          <div class="blob blob-0"></div>
+          <div class="blob blob-1"></div>
+          <div class="blob blob-2"></div>
+          <div class="blob blob-3"></div>
+          <div class="blob blob-4"></div>
+          <div class="blob blob-5"></div>
+        </div>
+      </div>
+      <div class="app-loading">
+        <div id="pagopa-cruscotto-error" style="display: none">
+          <!-- This content is for troubleshooting purpose and will be removed when app renders -->
+          <h1>An error has occurred :-(</h1>
+          <h2>Usual error causes</h2>
+          <ol>
+            <li>
+              You started the application from an IDE and you didn't run <code style="color: red">npm start</code> or
+              <code style="color: red">npm run webapp:build</code>.
+            </li>
+            <li>
+              You had a network error while running <code style="color: red">npm install</code>. If you are behind a corporate proxy, it is
+              likely that this error was caused by your proxy.
+            </li>
+            <li>
+              You installed a Node.js version that doesn't work: please use an LTS (long-term support) version, as it's the only version we
+              support.
+            </li>
+          </ol>
+          <h2>Building the client side code again</h2>
+          <p>If you want to go fast, run <code style="color: red">./mvnw</code> to build and run everything.</p>
+          <p>If you want to have more control, so you can debug your issue more easily, you should follow the following steps:</p>
+          <ol>
+            <li>Install npm dependencies with the command <code style="color: red">npm install</code></li>
+            <li>
+              Build the client with the command <code style="color: red">npm run webapp:build</code> or
+              <code style="color: red">npm start</code>
+            </li>
+            <li>Start the server with <code style="color: red">./mvnw</code> or using your IDE</li>
+          </ol>
+
+          <!-- end of troubleshooting content -->
+        </div>
+      </div>
+    </jhi-app>
+    <noscript>
+      <h1>You must enable JavaScript to view this page.</h1>
+    </noscript>
+    <script type="text/javascript">
+      // show an error message if the app loading takes more than 4 sec
+      window.onload = function () {
+        setTimeout(showError, 4000);
+      };
+      function showError() {
+        const errorElm = document.getElementById('pagopa-cruscotto-error');
+        if (errorElm?.style) {
+          errorElm.style.display = 'block';
+        }
+      }
+    </script>
+  </body>
+</html>

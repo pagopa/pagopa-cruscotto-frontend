@@ -1,0 +1,104 @@
+<div *ngIf="group">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2"><span jhiTranslate="pagopaCruscottoApp.authGroup.detail.title">Group</span> {{ group.id }}</div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+      <button
+        id="jh-create-entity"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/admin-users/groups', group.id, 'edit']"
+        [title]="['pagopaCruscottoApp.authGroup.detail.modify.title' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon
+        ><span jhiTranslate="pagopaCruscottoApp.authGroup.detail.modify.title">Update Group</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div class="row custom-row p-2">
+            <div class="col-lg-5">
+              <span jhiTranslate="pagopaCruscottoApp.authGroup.name">Name</span>
+              <p class="p-2 bg-light">
+                {{ group.nome }}
+              </p>
+            </div>
+            <div class="col-lg-5">
+              <span jhiTranslate="pagopaCruscottoApp.authGroup.description">Description</span>
+              <p class="p-2 bg-light">
+                {{ group.descrizione }}
+              </p>
+            </div>
+            <div class="col-lg-2">
+              <span jhiTranslate="pagopaCruscottoApp.authGroup.visibilityLevel">Visibility Level</span>
+              <p class="p-2 bg-light">{{ group.livelloVisibilita }}</p>
+            </div>
+          </div>
+          <div class="row custom-row p-2">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-start align-content-center">
+                <div class="p-2">
+                  <mat-icon fontSet="material-symbols-outlined" color="primary">captive_portal</mat-icon>
+                </div>
+                <div class="p-2">
+                  <span jhiTranslate="pagopaCruscottoApp.authGroup.functions">Funzioni</span>
+                </div>
+              </div>
+
+              <cdk-tree #tree [dataSource]="dataSource" [childrenAccessor]="childrenAccessor">
+                <cdk-nested-tree-node #treeNode="cdkNestedTreeNode" *cdkTreeNodeDef="let node" class="tree-node">
+                  <div *ngIf="node.type === 'permesso'">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <mat-icon fontSet="material-symbols-outlined" color="primary" class="me-2">webhook</mat-icon>
+                      <span class="justify-content-center fw-normal">[{{ node.modulo }}] {{ node.nome }}</span>
+                    </div>
+                  </div>
+                  <div *ngIf="node.type === 'funzione'">
+                    <div class="d-flex justify-content-start align-items-center">
+                      <button mat-icon-button disabled></button>
+                      <span class="justify-content-center fw-normal">[{{ node.modulo }}] {{ node.nome }} - {{ node.descrizione }}</span>
+                    </div>
+                  </div>
+                </cdk-nested-tree-node>
+                <cdk-nested-tree-node
+                  #treeNode="cdkNestedTreeNode"
+                  *cdkTreeNodeDef="let node; when: hasChild"
+                  [cdkTreeNodeTypeaheadLabel]="node.nome"
+                  isExpandable
+                  class="tree-node"
+                >
+                  <div class="d-flex justify-content-start align-items-center">
+                    <button mat-icon-button type="button" [attr.aria-label]="'Toggle ' + node.nome" cdkTreeNodeToggle>
+                      <mat-icon fontSet="material-symbols-outlined">
+                        {{ tree.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                      </mat-icon>
+                    </button>
+                    <span class="justify-content-center fw-normal">[{{ node.modulo }}] {{ node.nome }} - {{ node.descrizione }}</span>
+                  </div>
+                  <div [class.tree-invisible]="!tree.isExpanded(node)">
+                    <ng-container cdkTreeNodeOutlet></ng-container>
+                  </div>
+                </cdk-nested-tree-node>
+              </cdk-tree>
+              <div
+                class="d-flex align-items-center justify-content-center w-100 p-2"
+                *ngIf="(group.authFunctions && group.authFunctions.length <= 0) || group.authFunctions === null"
+              >
+                <div class="row w-100 p-2">
+                  <div class="col-12">
+                    <span class="font-weight-bold text-left">{{ 'entity.list.noResult' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

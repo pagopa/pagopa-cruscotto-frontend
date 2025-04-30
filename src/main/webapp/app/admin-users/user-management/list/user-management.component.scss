@@ -1,0 +1,31 @@
+/* Column Widths */
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}
+
+td.mat-column-stato {
+  width: 150px;
+  text-align: left;
+}
+
+th.mat-column-stato {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-id,
+.mat-column-login,
+.mat-column-authenticationType,
+.mat-column-email,
+.mat-column-langKey,
+.mat-column-group,
+.mat-column-createdDate,
+.mat-column-lastModifiedBy,
+.mat-column-lastModifiedDate,
+.mat-column-isBlocked,
+.mat-column-isDeleted {
+  width: 150px;
+  text-align: center;
+}

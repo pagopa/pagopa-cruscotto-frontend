@@ -1,0 +1,307 @@
+{
+  "global": {
+    "title": "PagoPa Cruscotto",
+    "browsehappy": "Stai utilizzando un browser <strong> non aggiornato </ strong> <a href=\"http://browsehappy.com/?locale=it\"> Aggiorna il tuo browser per </a> migliorare la tua esperienza",
+    "menu": {
+      "home": "Home",
+      "customer": {
+        "main": "Cliente",
+        "bank": "Banca",
+        "bankGroup": "Gruppo Bancario",
+        "customer": "Cliente",
+        "customerType": "Cliente Tipo",
+        "bankConfig": "Banca Config"
+      },
+      "institution": {
+        "main": "Ente",
+        "institution": "Ente",
+        "ipa": "Ipa",
+        "ipaConfigSiope": "Configurazione Siope Ipa"
+      },
+      "systemAdministration": {
+        "main": "Amministrazione",
+        "gateway": "Gateway",
+        "userManagement": "Gestione Utenti",
+        "tracker": "Tracciamento utente",
+        "metrics": "Metriche",
+        "health": "Integrità",
+        "configuration": "Configurazione",
+        "logSystem": "Log Applicativo",
+        "apiDocs": "API",
+        "database": "Database"
+      },
+      "language": {
+        "italiano": "Italiano",
+        "english": "English",
+        "it": "Italiano",
+        "en": "English"
+      },
+      "cookie": "Cookie",
+      "account": {
+        "login": "Login",
+        "logout": "Esci",
+        "settings": "Impostazioni Utente",
+        "password": "Cambio Password",
+        "passwordExpired": "Password Scaduta",
+        "exit": "Esci"
+      },
+      "usersAdministration": {
+        "main": "Amministrazione Utenti",
+        "groupManagement": "Gruppi",
+        "functionManagement": "Funzioni",
+        "permissionManagement": "Permessi",
+        "users": "Utenti"
+      },
+      "flowMonitoring": {
+        "main": "Monitoraggio Flussi",
+        "opiFlow": "Flussi Opi",
+        "serviceReceipt": "Ricevute di Servizio",
+        "mergedApplicationReceipt": "Ricevute Applicative Accorpate",
+        "applicationReceipt": "Ricevute Applicative",
+        "cashJournal": "Giornali di Cassa",
+        "documentVersion": "Versioni Ordinativi",
+        "cash": "Disponibilit\u00E0 Liquide",
+        "conservation": "Distinte Conservazione"
+      },
+      "flowMonitoringTreasureBank": {
+        "main": "Banca Tesoriera",
+        "opiFlow": "Flussi Opi",
+        "documentVersion": "Versioni Ordinativi",
+        "wrongAck": "Ack Errati",
+        "report": "Repot Tabulati"
+      },
+      "flowMonitoringAuditBkit": {
+        "main": "Main",
+        "audit": "Audit"
+      }
+    },
+    "form": {
+      "username": "Utente",
+      "currentPassword": "Password Attuale",
+      "newpassword": "Nuova Password",
+      "confirmpassword": "Conferma Nuova Password",
+      "email": "Email",
+      "select": {
+        "notfound": "Nessun dato trovato per '{{ search }}'",
+        "all": "Tutti",
+        "bank.label": "Banca",
+        "bankingGroup.label": "Gruppo Bancario",
+        "bankingConfig.label": "Configurazione",
+        "bankingConfigSiope.label": "Configurazione Siope",
+        "bankingConfigMq.label": "Configurazione Mq",
+        "clientType.label": "Tipo Cliente",
+        "client.label": "Cliente",
+        "ente.label": "Ente",
+        "userType.label": "Tipologia Utente",
+        "group.label": "Gruppo",
+        "ipa.label": "IPA"
+      },
+      "checkbox": {
+        "all": "Seleziona Tutti"
+      }
+    },
+    "messages": {
+      "info": {
+        "authenticated": {
+          "prefix": "Se vuoi ",
+          "link": "accedere",
+          "suffix": ", puoi provare gli account di default: <br/> - Amministratore (user = \"admin\" e la password = \"admin\") <br/> - utente (user = \"user\" e la password = \"user\")"
+        },
+        "register": {
+          "noaccount": "Non hai ancora un account?",
+          "link": "Crea un account"
+        }
+      },
+      "error": {
+        "dontmatch": "La password e la sua conferma non corrispondono!"
+      },
+      "validate": {
+        "newpassword": {
+          "required": "La password \u00E8 obbligatoria",
+          "minlength": "La password deve essere di almeno 8 caratteri",
+          "maxlength": "La password non pu\u00F2 contenere pi\u00F9 di 100 caratteri",
+          "strength": "Robustezza della password:"
+        },
+        "confirmpassword": {
+          "required": "La password di conferma \u00E8 obbligatoria",
+          "minlength": "La tua password deve essere di almeno 8 caratteri",
+          "maxlength": "La tua password non pu\u00F2 contenere pi\u00F9 di 100 caratteri"
+        },
+        "email": {
+          "required": "L'indirizzo email \u00E8 obbligatorio",
+          "invalid": "L'indirizzo email non \u00E8 valido",
+          "minlength": "L'indirizzo email deve essere di almeno 5 caratteri",
+          "maxlength": "L'indirizzo email non pu\u00F2 contenere pi\u00F9 di 50 caratteri"
+        }
+      }
+    },
+    "field": {
+      "id": "Id",
+      "startDate": "Data Inizio",
+      "endDate": "Data Fine"
+    },
+    "ribbon": {
+      "dev": "Development"
+    },
+    "item-count": "Mostra {{first}} - {{second}} di {{total}} articoli",
+    "ng-select-item-count": "Mostra {{current}} di {{total}}",
+    "paginator": {
+      "items-for-page": "Elementi per pagina:",
+      "next-page": "Pagina successiva",
+      "prev-page": "Pagina precedente",
+      "first-page": "Prima pagina",
+      "last-page": "Ultima pagina",
+      "aria-label": "Seleziona la pagina degli elementi periodici"
+    },
+    "timepicker": {
+      "inputsTitle": "Inserisci Orario",
+      "dialsTitle": "Seleziona Orario",
+      "openTimepickerLabel": "Apri Timepicker",
+      "closeTimepickerLabel": "Chiudi Timepicher",
+      "hour": "Ora",
+      "minute": "Minuto",
+      "am": "AM",
+      "pm": "PM",
+      "button": {
+        "confirm": "Conferma",
+        "cancel": "Cancella"
+      }
+    }
+  },
+  "entity": {
+    "search": {
+      "title": "Filtri di ricerca"
+    },
+    "list": {
+      "noResult": "Nessun elemento disponibile",
+      "filter": "Per visualizzare i risultati effettuare una ricerca",
+      "column": {
+        "actions": {
+          "label": "Azioni",
+          "delete.ariaLabel": "Elimina",
+          "edit.ariaLabel": "Vai alla Modifica",
+          "view.ariaLabel": "Vai al Dettaglio"
+        }
+      }
+    },
+    "action": {
+      "addblob": "Aggiungi blob",
+      "addimage": "Aggiungi immagine",
+      "back": "Indietro",
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "delete": "Elimina",
+      "remove": "Rimuovi",
+      "edit": "Modifica",
+      "open": "Apri",
+      "save": "Salva",
+      "view": "Visualizza",
+      "clear": "Cancella",
+      "search": "Cerca",
+      "detail": "Dettaglio",
+      "confirm": "Conferma",
+      "show": "Show {{otherEntity}}",
+      "download": "Scarica",
+      "source": "Sorgente",
+      "downloadZip": "Download Zip",
+      "downloadXml": "Download Xml",
+      "downloadXmlFlow": "Download Xml Flusso",
+      "downloadDenormalizedFlow": "Download Flusso Denormalizzato",
+      "preservationDetail": "Dettaglio Archiviazione",
+      "signature": "Firmatari",
+      "legislation": "Normativa",
+      "graphic": "Grafico",
+      "resetPassword": "Reset password"
+    },
+    "detail": {
+      "field": "Campo",
+      "value": "Valore"
+    },
+    "delete": {
+      "title": "Conferma operazione di cancellazione"
+    },
+    "resetPassword": {
+      "title": "Conferma operazione di reset password"
+    },
+    "validation": {
+      "required": "Questo campo \u00E8 obbligatorio",
+      "minlength": "Questo campo deve essere di almeno {{ min }} caratteri",
+      "maxlength": "Questo campo non pu\u00F2 essere pi\u00F9 di {{ max }} caratteri",
+      "min": "Questo campo dovrebbe essere pi\u00F9 di {{ min }}",
+      "max": "Questo campo non pu\u00F2 essere superiore a {{ max }}",
+      "minbytes": "Questo campo dovrebbe essere pi\u00F9 di {{ min }} byte",
+      "maxbytes": "Questo campo non pu\u00F2 essere superiore a {{ max }} byte",
+      "pattern": "Questo campo dovrebbe corrispondere al modello {{ pattern }}",
+      "number": "Questo campo dovrebbe essere un numero",
+      "datetimelocal": "Questo campo dovrebbe essere data e ora",
+      "patternLogin": "Questo campo pu\u00F2 contenere solo lettere, cifre e indirizzi e-mail",
+      "email": "Questo campo dovrebbe essere una e-mail valida",
+      "fromDate": "Questo campo dovrebbe essere una data valida di inizio",
+      "toDate": "Questo campo dovrebbe essere una data valida di fine",
+      "institutionCode": "Questo campo dovrebbe essere un numerico di 7 cifre",
+      "fiscalCode": "Questo campo dovrebbe essere di 11 o 16 caratteri",
+      "fiscalCodeUser": "Questo campo dovrebbe essere di 16 caratteri",
+      "istatCode": "Questo campo dovrebbe essere di 9 o 15 caratteri",
+      "username": "Questo campo dovrebbe essere uno username valido",
+      "a2a": "Questo campo dovrebbe essere un formato A2A valido",
+      "minCharLength": "La stringa deve contenere un numero di lettere maggiore o uguale a {{ minCharLength }}",
+      "dontMatch": "La password e la sua conferma non corrispondono!",
+      "dateMax": "Questo campo deve essere una data precedente o uguale a {{ max }}",
+      "dateMin": "Questo campo deve essere una data successiva o uguale a {{ min }}",
+      "timeMax": "Questo campo deve essere un orario precedente o uguale a {{ max }}",
+      "timeMin": "Questo campo deve essere un orario successiva o uguale a {{ min }}",
+      "timeCurrent": "Questo campo deve essere un orario precedente a quello corrente",
+      "lessThanEqualTo": "Questo campo dovrebbe essere maggiore o uguale a {{ min }}",
+      "greaterThanEqualTo": "Questo campo dovrebbe essere minore o uguale a {{ max }}",
+      "dataRange": "Ridurre l'intervallo. Sono ammessi massimo {{ days }} giorni"
+    },
+    "filters": {
+      "set": "Following filters are set",
+      "clear": "Clear filter",
+      "clearAll": "Clear all filters"
+    }
+  },
+  "values": {
+    "yes": "S\u00CC",
+    "no": "NO",
+    "ok": "OK",
+    "ko": "KO",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "PDF": "PDF",
+    "TXT": "TXT",
+    "DOC": "DOC",
+    "CSV": "CSV",
+    "XLS": "XLS"
+  },
+  "error": {
+    "internalServerError": "Internal server error",
+    "server.not.reachable": "Server non raggiungibile",
+    "url.not.found": "Non trovato",
+    "NotNull": "Il campo {{ fieldName }} non pu\u00F2 essere vuoto!",
+    "Size": "Il campo {{ fieldName }} non \u00E8 conforme ai requisiti di lunghezza min/max!",
+    "userexists": "Il nome utente \u00E8 gi\u00E0 in uso!",
+    "emailexists": "L'email \u00E8 gi\u00E0 in uso!",
+    "idexists": "Un(a) nuovo/a {{entityName}} non pu\u00F2 gi\u00E0 avere un ID",
+    "idnull": "Invalid ID",
+    "idinvalid": "Invalid Id",
+    "idnotfound": "ID cannot be found",
+    "file": {
+      "could.not.extract": "Could not extract file",
+      "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
+    }
+  },
+  "footer": "Pi\u00F9 di pagina",
+  "cookie": {
+    "header": "Cookie utilizzati sul sito Web!",
+    "message": "Il nostro sito web utilizza i cookie per assicurarti una migliore esperienza di navigazione",
+    "dismiss": "Accetta e Chiudi!",
+    "allow": "Consenti i cookie",
+    "deny": "Declino",
+    "link": "Per saperne di più",
+    "policy": "Informativa sui cookies"
+  }
+}
