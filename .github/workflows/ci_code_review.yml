@@ -1,0 +1,238 @@
+name: Code Review
+
+# Controls when the workflow will run
+on:
+  merge_group:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+  push:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  PROJECT_KEY: pagopa_pagopa-selfcare-frontend
+
+permissions:
+  id-token: write
+  contents: write
+  deployments: write
+  issues: write
+  pull-requests: write
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          fetch-depth: 0
+
+      - name: Set Node.js 16
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+        with:
+          node-version: 16.14.0
+
+      - name: Build
+        run: |
+          export REACT_APP_ENV='dev'
+          export INLINE_RUNTIME_CHUNK='false'
+
+          export REACT_APP_URL_FE_LOGIN='https://dev.selfcare.pagopa.it/auth/login'
+          export REACT_APP_URL_FE_LOGOUT='https://dev.selfcare.pagopa.it/auth/logout'
+          export REACT_APP_URL_FE_LANDING='https://dev.selfcare.pagopa.it/auth/logout'
+          export REACT_APP_URL_FE_ASSISTANCE='https://dev.selfcare.pagopa.it/assistenza'
+          export REACT_APP_URL_FE_SELFCARE='https://dev.selfcare.pagopa.it/dashboard/'
+          export REACT_APP_URL_FE_TOKEN_EXCHANGE='https://dev.selfcare.pagopa.it/token-exchange'
+
+          export REACT_APP_URL_API_TOKEN='https://api.dev.platform.pagopa.it/api/token/token'
+          export REACT_APP_URL_BACKOFFICE='https://api.dev.platform.pagopa.it/backoffice/v1'
+          export REACT_APP_PUBLIC_URL='/ui'
+          export REACT_APP_URL_BETA='false'
+
+          export REACT_APP_API_MOCK_BACKOFFICE='false'
+          export REACT_APP_API_MOCK_TOKEN='false'
+
+          export REACT_APP_URL_INSTITUTION_LOGO_PREFIX='https://pagopadselfcaresa.z6.web.core.windows.net/institutions/'
+
+          export REACT_APP_PAGOPA_HELP_EMAIL='assistenza@selfcare.it'
+          export REACT_APP_MIXPANEL_TOKEN='DUMMY'
+          export REACT_APP_ONE_TRUST_BASE_URL='https://dev.selfcare.pagopa.it/ot/test'
+          export REACT_APP_ONETRUST_DOMAIN_ID='a8f58d7a-7f6a-4fe6-ac02-f95bac3876d4-test'
+
+          export REACT_APP_ANALYTICS_ENABLE='false'
+          export REACT_APP_ANALYTICS_MOCKED='false'
+
+          sed -i 's/\$APP_JWT/${{ secrets.APP_JWT }}/g' ./public/redirect.html
+
+
+          yarn install
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ github.ref_name }}" = "main" ]; then
+                yarn run generate:api-portal
+            elif [ "${{ github.ref_name }}" = "next" ]; then
+                yarn run generate:api-portal-next
+            else
+                yarn run generate:api-portal-pr
+            fi          
+          else
+            yarn run generate:api-portal-pr
+          fi      
+
+          yarn build
+          mkdir ./out
+          mv ./build ./out/ui
+          mv ./public/redirect.html ./out/index.html
+
+      - name: Build And Deploy
+        id: build_deploy
+        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9 # v1
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          deployment_environment: staging
+          app_location: "/out" # App source code path relative to repository root
+          skip_app_build: true
+          skip_api_build: true
+          skip_deploy_on_missing_secrets: true
+
+  # smoke_test:
+  #   name: Smoke Test
+  #   needs: build
+  #   if: github.event_name == 'pull_request' || github.event_name == 'merge_group'
+  #   uses: ./.github/workflows/ci_integration_test.yml
+  #   with:
+  #     environment: 'local'
+  #     notify: false
+  #   secrets: inherit
+
+  print_debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump Inputs
+        env:
+          JSON_INPUTS: ${{ toJson(inputs) }}
+        run: echo "$JSON_INPUTS"
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+  static_analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          fetch-depth: 0
+
+      - name: Set Node.js 16
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+        with:
+          node-version: 16.14.0
+
+      - name: Lint
+        run: |
+          yarn install
+          yarn lint
+
+  test:
+    name: Unit Test & Sonar
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          fetch-depth: 0
+
+      - name: Set Node.js 16
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+        with:
+          node-version: 16.14.0
+
+      - name: Unit Tests
+        run: |
+          yarn install
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ github.ref_name }}" = "main" ]; then
+                yarn run generate:api-portal
+            elif [ "${{ github.ref_name }}" = "next" ]; then
+                yarn run generate:api-portal-next
+            else
+                yarn run generate:api-portal-pr
+            fi          
+          else
+            yarn run generate:api-portal-pr
+          fi   
+
+          yarn test:coverage --watchAll=false
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.coverage.exclusions=**/utils/**,**/__mocks__/**,**/__tests__/**,**/api/**,**/integration-test/**,**/openApi/**,**/model/**,**/hooks/**,**/MyHeaderProduct.tsx
+            -Dsonar.cpd.exclusions=**/__mocks__/**,**/__tests__/**,**/integration-test/**,**/openApi/**
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9 # v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "close"
+
+  delete-branch:
+    name: delete branch when closed
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+
+      - name: Delete branch
+        run: |
+          echo "Deleting branch ${{github.head_ref}}"
+          git push origin --delete "${{github.head_ref}}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
