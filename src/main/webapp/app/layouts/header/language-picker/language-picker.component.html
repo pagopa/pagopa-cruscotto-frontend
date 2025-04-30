@@ -1,0 +1,9 @@
+<button mat-button [matMenuTriggerFor]="languagePicker">
+  <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
+  {{ 'global.menu.language.' + languageSelected | translate }}
+</button>
+<mat-menu #languagePicker="matMenu">
+  <button mat-menu-item *ngFor="let language of languages" (click)="onLanguageChanged(language)">
+    {{ 'global.menu.language.' + language | translate }}
+  </button>
+</mat-menu>

@@ -1,0 +1,27 @@
+<div class="home-page">
+  <div *ngIf="isNotAuthenticated()">
+    <div class="info-message" *ngIf="passwordResetRequestSuccess" jhiTranslate="reset.request.messages.success">
+      Controlla la tua email per i dettagli su come reimpostare la password
+    </div>
+    <div class="row-login">
+      <button routerLink="/login" class="btn btn-light login-btn btn-lg btn-raised" jhiTranslate="home.access">Accedi</button>
+    </div>
+  </div>
+  <div *ngIf="!isNotAuthenticated()">
+    <div class="row-login success-message" jhiTranslate="home.logged.message" [translateValues]="{ username: account?.login }">
+      You are logged in as user "{{ account?.login }}"
+    </div>
+
+    <div
+      *ngIf="passwordExpiredDate"
+      class="warning-message"
+      jhiTranslate="login.messages.warning.avvisoPasswordExpiredDate"
+      [translateValues]="{ data: passwordExpiredDate }"
+    >
+      Your password will expire on "{{ passwordExpiredDate }}"
+    </div>
+  </div>
+  <div class="home-logo-nexi">
+    <img class="img-fluid" src="content/images/nexi_458x144.png" aria-label="homeLogoNexi" alt="logo" />
+  </div>
+</div>

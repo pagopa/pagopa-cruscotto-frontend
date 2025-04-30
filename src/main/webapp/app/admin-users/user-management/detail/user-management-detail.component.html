@@ -1,0 +1,91 @@
+@if (user(); as userRef) {
+  <div>
+    <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+      <div class="h2">
+        <span jhiTranslate="userManagement.detail.title">User</span> [<strong>{{ userRef.login }}</strong
+        >]
+      </div>
+      <div>
+        <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+          <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+        </button>
+        <button
+          id="jh-create-entity"
+          mat-raised-button
+          color="primary"
+          *ngIf="
+            !userRef!.deleted &&
+            currentAccount() &&
+            currentAccount()?.login !== userRef!.login &&
+            userRef?.authenticationType === authenticationTypeFormLogin
+          "
+          [routerLink]="['/admin-users/user-management', userRef.id, 'edit']"
+          [title]="['userManagement.detail.updateLabel' | translate]"
+        >
+          <mat-icon fontSet="material-symbols-outlined">edit</mat-icon
+          ><span jhiTranslate="userManagement.detail.updateLabel">Update Permission</span>
+        </button>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <mat-card class="mat-elevation-z8">
+          <mat-card-content>
+            <div class="row custom-row p-2">
+              <div class="col-lg-3">
+                <span jhiTranslate="userManagement.login">Login</span>
+                <p class="p-2 bg-light">{{ userRef.login }}</p>
+              </div>
+              <div class="col-lg-6">
+                <span jhiTranslate="userManagement.state">State</span>
+                <p class="p-2 bg-light">
+                  <jhi-user-management-state-view [user]="userRef"></jhi-user-management-state-view>
+                </p>
+              </div>
+              <div class="col-lg-6">
+                <span jhiTranslate="userManagement.firstName">First Name</span>
+                <p class="p-2 bg-light">{{ userRef.firstName }}</p>
+              </div>
+              <div class="col-lg-6">
+                <span jhiTranslate="userManagement.lastName">Last Name</span>
+                <p class="p-2 bg-light">{{ userRef.lastName }}</p>
+              </div>
+              <div class="col-lg-6">
+                <span jhiTranslate="userManagement.email">Email</span>
+                <p class="p-2 bg-light">{{ userRef.email }}</p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="userManagement.langKey">Lang Key</span>
+                <p class="p-2 bg-light">{{ userRef.langKey }}</p>
+              </div>
+              <div class="col-lg-4">
+                <span jhiTranslate="userManagement.groupName">Group</span>
+                <p class="p-2 bg-light">{{ userRef.groupName }}</p>
+              </div>
+              <div class="col-lg-3">
+                <span jhiTranslate="userManagement.createdBy">Created By</span>
+                <p class="p-2 bg-light">{{ userRef.createdBy }}</p>
+              </div>
+              <div class="col-lg-3">
+                <span jhiTranslate="userManagement.createdDate">Created Date</span>
+                <p class="p-2 bg-light">
+                  {{ userRef.createdDate | formatDate: 'L LTS' : locale }}
+                </p>
+              </div>
+              <div class="col-lg-3">
+                <span jhiTranslate="userManagement.lastModifiedBy">Last Modified By</span>
+                <p class="p-2 bg-light">{{ userRef.lastModifiedBy }}</p>
+              </div>
+              <div class="col-lg-3">
+                <span jhiTranslate="userManagement.lastModifiedDate">Last Modified Date</span>
+                <p class="p-2 bg-light">
+                  {{ userRef.lastModifiedDate | formatDate: 'L LTS' : locale }}
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,77 @@
+{
+  "pagopaCruscottoApp": {
+    "authGroup": {
+      "home": {
+        "title": "Gruppi"
+      },
+      "created": "\u00C8 stato creato un nuovo gruppo con identificatore {{ param }}",
+      "updated": "\u00C8 stato aggiornato il gruppo con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminato il gruppo con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il gruppo con identificatore  {{ id }}?"
+      },
+      "name": "Nome",
+      "description": "Descrizione",
+      "functions": "Funzioni",
+      "visibilityLevel": "Livello di visibilit\u00E0",
+      "lista": {
+        "createLabel": "Nuovo Gruppo",
+        "orderLabel": "Ordinamento Gruppi",
+        "action": {
+          "manageFunctions": {
+            "label": "Associa Funzioni",
+            "ariaLabel": "Funzione modifica funzioni associate"
+          }
+        }
+      },
+      "detail": {
+        "title": "Dettaglio Gruppo",
+        "modify.title": "Modifica Gruppo"
+      },
+      "update": {
+        "create.title": "Creazione nuovo Gruppo",
+        "modify.title": "Modifica Gruppo"
+      },
+      "visibilityManagement": {
+        "title": "Gestione visibilit\u00E0"
+      },
+      "manageFunctions": {
+        "title": "Gestione funzioni associate al gruppo",
+        "associatedFunctions": {
+          "title": "Funzioni Associati",
+          "question": {
+            "title": "Dissocia Funzione",
+            "message": "Sei sicuro di volere eliminare l'associazione?"
+          }
+        },
+        "assignableFunctions": {
+          "title": "Funzioni Associabili",
+          "action.associa": "Associa Selezionati",
+          "action.delete": "Rimuovi Associazione",
+          "message.limit.selected": "Sono selezionabili al massimo <strong>{{ param }}</strong> permessi",
+          "question": {
+            "title": "Associa Funzioni",
+            "message": "Sei sicuro di voler associare le funzioni selezionate?"
+          }
+        }
+      },
+      "message": {
+        "associaFunzioni.created": "Funzioni associate",
+        "dissociaFunzione.created": "Associazione funzione rimossa",
+        "aggiornamentoLivelloVisibilita.updated": "Livello di visibilit\u00E0 gruppi aggiornato"
+      }
+    }
+  },
+  "error": {
+    "authGroup": {
+      "associaFunzioni": {
+        "funzioneAlreadyAssociated": "Funzione gi\u00E0 associata al gruppo",
+        "funzioniDaAssociare.notEmpty": "Selezionare almeno una funzione da associare al gruppo"
+      },
+      "dissociaFunzione": {
+        "funzioneNotExists": "Funzione da dissociare inesistente"
+      },
+      "notExists": "Gruppo inesistente"
+    }
+  }
+}

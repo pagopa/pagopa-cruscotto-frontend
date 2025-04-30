@@ -1,0 +1,82 @@
+{
+  "pagopaCruscottoApp": {
+    "authGroup": {
+      "home": {
+        "title": "Groups"
+      },
+      "lista": {
+        "azione": "",
+        "button": {
+          "creazione": "New Group",
+          "ordinamento": "Sorting Groups"
+        },
+        "id": "Id",
+        "nome": "Name",
+        "descrizione": "Description",
+        "livelloVisibilita": "Visibility level",
+        "finder": {
+          "nome": "Name",
+          "descrizione": "Description"
+        },
+        "action": {
+          "associaFunzioni": "Functions Association"
+        }
+      },
+      "created": "A new group with identifier {{ param }} has been created",
+      "updated": "The group with identifier {{ param }} has been updated",
+      "deleted": "The group with identifier {{ param }} has been deleted",
+      "delete": {
+        "question": "Are you sure you want to delete the group with identifier {{ id }}?"
+      },
+      "detail": {
+        "title": "Group",
+        "nome": "Name",
+        "descrizione": "Description",
+        "funzioni": "Functions"
+      },
+      "update": {
+        "create.title": "New Group Creation",
+        "modify.title": "Group Modification",
+        "nome": "Name",
+        "descrizione": "Description",
+        "funzioni": "Functions"
+      },
+      "order": {
+        "title": "Sorting Groups",
+        "notFound": "No groups defined"
+      },
+      "associaFunzioni": {
+        "title": "Functions-to-group Association",
+        "funzioniAssociate.title": "Associated Function",
+        "funzioniAssociabili": {
+          "title": "Associable Function",
+          "action.associa": "Associate",
+          "action.delete": "Remove Association"
+        },
+        "delete": {
+          "question": "Are you sure you want to delete the association with the function {{ funzione }}?"
+        },
+        "azione": "",
+        "nome": "Name",
+        "descrizione": "Description"
+      },
+      "message": {
+        "associaFunzioni.created": "Associated functions",
+        "dissociaFunzione.created": "Function association removed",
+        "aggiornamentoLivelloVisibilita.updated": "Groups visibility level updated"
+      }
+    }
+  },
+  "error": {
+    "authGroup": {
+      "associaFunzioni": {
+        "funzioneAlreadyAssociated": "Function already associated with the group",
+        "funzioniDaAssociare.notEmpty": "Select at least one function to associate with the group"
+      },
+      "dissociaFunzione": {
+        "funzioneNotExists": "Function to be dissociated non-existent"
+      },
+      "notExists": "Non-existent group"
+    }
+  }
+}

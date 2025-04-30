@@ -1,0 +1,19 @@
+{
+  "settings": {
+    "title": "User settings for [<strong>{{username}}</strong>]",
+    "form": {
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "email": "Email",
+      "language": "Language",
+      "button": "Save"
+    },
+    "messages": {
+      "error": {
+        "fail": "<strong>An error has occurred!</strong> Settings could not be saved.",
+        "emailexists": "<strong>Email is already in use!</strong> Please choose another one."
+      },
+      "success": "<strong>Settings saved!</strong>"
+    }
+  }
+}

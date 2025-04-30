@@ -1,0 +1,28 @@
+.flex-centered {
+  margin: auto;
+}
+
+mat-card-content {
+  height: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+}
+
+.sub-title {
+  text-align: center;
+  display: block;
+  margin-bottom: 3rem;
+}
+
+.home-button {
+  color: #ffffff !important;
+  margin-bottom: 2rem;
+  background-color: #af0834 !important;
+  border-color: #af0834 !important;
+}

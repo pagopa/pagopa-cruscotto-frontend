@@ -1,0 +1,72 @@
+{
+  "pagopaCruscottoApp": {
+    "authFunction": {
+      "home": {
+        "title": "Funzioni"
+      },
+      "created": "\u00C8 stata creata una nuova funzione con identificatore {{ param }}",
+      "updated": "\u00C8 stata aggiornata la funzione con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminata la funzione con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare la funzione con identificatore {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "Nuova Funzione",
+        "action": {
+          "managePermissions": {
+            "label": "Associa Permessi",
+            "ariaLabel": "Funzione modifica permessi associati"
+          }
+        }
+      },
+      "detail": {
+        "title": "Dettaglio Funzione",
+        "modify.title": "Modifica Funzione"
+      },
+      "update": {
+        "create.title": "Creazione Funzione",
+        "modify.title": "Modifica Funzione"
+      },
+      "name": "Nome",
+      "module": "Modulo",
+      "description": "Descrizione",
+      "permissions": "Permessi",
+      "managePermissions": {
+        "title": "Gestione permessi associati alla funzione",
+        "associatedPermissions": {
+          "title": "Permessi Associati",
+          "question": {
+            "title": "Dissocia Permesso",
+            "message": "Sei sicuro di volere eliminare l'associazione?"
+          }
+        },
+        "assignablePermissions": {
+          "title": "Permessi Associabili",
+          "action.associa": "Associa Selezionati",
+          "action.delete": "Rimuovi Associazione",
+          "message.limit.selected": "Sono selezionabili al massimo <strong>{{ param }}</strong> permessi",
+          "question": {
+            "title": "Associa Permessi",
+            "message": "Sei sicuro di voler associare i permessi selezionati?"
+          }
+        }
+      },
+      "message": {
+        "associaPermessi.created": "Permessi associati",
+        "dissociaPermesso.created": "Associazione permesso rimossa"
+      }
+    }
+  },
+  "error": {
+    "authFunction": {
+      "associaPermessi": {
+        "permessoAlreadyAssociated": "Permesso gi\u00E0 associato alla funzione",
+        "permessiDaAssociare.notEmpty": "Selezionare almeno un permesso da associare alla funzione"
+      },
+      "dissociaPermesso": {
+        "permessoNotExists": "Permesso da dissociare inesistente"
+      },
+      "notExists": "Funzione inesistente"
+    }
+  }
+}

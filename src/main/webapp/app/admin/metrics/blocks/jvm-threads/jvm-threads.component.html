@@ -1,0 +1,40 @@
+<h4 jhiTranslate="metrics.jvm.threads.title">Threads</h4>
+
+<span><span jhiTranslate="metrics.jvm.threads.runnable">Runnable</span> {{ threadStats().threadDumpRunnable }}</span>
+
+<div class="position-relative">
+  <mat-progress-bar mode="determinate" [value]="(100 * threadStats().threadDumpRunnable) / threadStats().threadDumpAll" class="threadDumpRunnable">
+  </mat-progress-bar>
+  <span [ngStyle]="{'left.%': 50}" class="text-black-50 fw-bold position-absolute top-0">{{ (threadStats().threadDumpRunnable * 100) / threadStats().threadDumpAll | number: '1.0-0' }}%</span>
+</div>
+
+<span><span jhiTranslate="metrics.jvm.threads.timedWaiting">Timed waiting</span> ({{ threadStats().threadDumpTimedWaiting }})</span>
+
+<div class="position-relative">
+  <mat-progress-bar mode="determinate" [value]="(100 * threadStats().threadDumpTimedWaiting) / threadStats().threadDumpAll" class="threadDumpTimedWaiting">
+  </mat-progress-bar>
+  <span [ngStyle]="{'left.%': 50}" class="text-black-50 fw-bold position-absolute top-0">{{ (threadStats().threadDumpTimedWaiting * 100) / threadStats().threadDumpAll | number: '1.0-0' }}%</span>
+</div>
+
+<span><span jhiTranslate="metrics.jvm.threads.waiting">Waiting</span> ({{ threadStats().threadDumpWaiting }})</span>
+
+<div class="position-relative">
+  <mat-progress-bar mode="determinate" [value]="(100 * threadStats().threadDumpWaiting) / threadStats().threadDumpAll" class="threadDumpWaiting">
+  </mat-progress-bar>
+  <span [ngStyle]="{'left.%': 50}" class="text-black-50 fw-bold position-absolute top-0">{{ (threadStats().threadDumpWaiting * 100) / threadStats().threadDumpAll | number: '1.0-0' }}%</span>
+</div>
+
+<span><span jhiTranslate="metrics.jvm.threads.blocked">Blocked</span> ({{ threadStats().threadDumpBlocked }})</span>
+
+<div class="position-relative">
+  <mat-progress-bar mode="determinate" [value]="(100 * threadStats().threadDumpBlocked) / threadStats().threadDumpAll" class="threadDumpBlocked">
+  </mat-progress-bar>
+  <span [ngStyle]="{'left.%': 50}" class="text-black-50 fw-bold position-absolute top-0">{{ (threadStats().threadDumpBlocked * 100) / threadStats().threadDumpAll | number: '1.0-0' }}%</span>
+</div>
+
+<div>Total: {{ threadStats().threadDumpAll }}</div>
+
+<button type="button" mat-flat-button (click)="open()" [title]="['entity.action.close' | translate]" data-target="#threadDump">
+  <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">info</mat-icon>&nbsp;<span jhiTranslate="entity.action.detail">Detail</span>
+</button>
+

@@ -1,0 +1,140 @@
+<div>
+  <div class="d-flex align-items-center justify-content-center w-100 mb-3">
+    <h2>
+      <span
+        class="login-title"
+        jhiTranslate="settings.title"
+        [translateValues]="{ username: settingsForm.value.login }"
+        *ngIf="settingsForm.value.login"
+      >
+        Impostazioni per l'utente [<strong>{{ settingsForm.value.login }}</strong
+        >]
+      </span>
+    </h2>
+  </div>
+
+  <div class="row">
+    <div class="offset-md-3 col-md-6">
+      <form
+        name="settingsForm"
+        (ngSubmit)="save()"
+        [formGroup]="settingsForm"
+        *ngIf="settingsForm.value.login"
+        novalidate
+        autocomplete="off"
+        class="edit-form"
+      >
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3">
+              <div class="offset-md-2 col-md-8">
+                <mat-form-field class="d-block">
+                  <mat-label jhiTranslate="settings.form.firstname">Nome</mat-label>
+                  <input matInput type="text" autocomplete="off" formControlName="firstName" />
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      settingsForm.get('firstName')!.invalid &&
+                      (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)
+                    "
+                  >
+                    @if (settingsForm.get('firstName')?.errors?.required) {
+                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                    @if (settingsForm.get('firstName')?.errors?.maxlength) {
+                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        La password non può contenere più di 50 caratteri
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <mat-form-field class="d-block">
+                  <mat-label jhiTranslate="settings.form.lastname">Cognome</mat-label>
+                  <input matInput type="text" autocomplete="off" formControlName="lastName" />
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      settingsForm.get('lastName')!.invalid &&
+                      (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)
+                    "
+                  >
+                    @if (settingsForm.get('lastName')?.errors?.required) {
+                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                    @if (settingsForm.get('lastName')?.errors?.maxlength) {
+                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        La password non può contenere più di 50 caratteri
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <mat-form-field class="d-block">
+                  <mat-label jhiTranslate="settings.form.email">Email</mat-label>
+                  <input matInput type="email" autocomplete="off" formControlName="email" />
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)"
+                  >
+                    @if (settingsForm.get('email')?.errors?.required) {
+                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                    @if (settingsForm.get('email')?.errors?.email) {
+                      <mat-error jhiTranslate="global.messages.validate.email.invalid"> L'indirizzo email non è valido </mat-error>
+                    }
+                    @if (settingsForm.get('email')?.errors?.minlength) {
+                      <mat-error jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 5 }">
+                        Questo campo deve essere di almeno 5 caratteri
+                      </mat-error>
+                    }
+                    @if (settingsForm.get('email')?.errors?.maxlength) {
+                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        La password non può contenere più di 100 caratteri
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <mat-form-field class="d-block" *ngIf="languages && languages.length > 0">
+                  <mat-label jhiTranslate="settings.form.language">Lingua</mat-label>
+                  <mat-select formControlName="langKey">
+                    <mat-option *ngFor="let language of languages" [value]="language">
+                      {{ language | findLanguageFromKey }}
+                    </mat-option>
+                  </mat-select>
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      settingsForm.get('langKey')!.invalid && (settingsForm.get('langKey')!.dirty || settingsForm.get('langKey')!.touched)
+                    "
+                  >
+                    @if (settingsForm.get('langKey')?.errors?.required) {
+                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                <div class="d-flex align-items-center justify-content-end w-100 mb-3 mt-2">
+                  <button
+                    type="submit"
+                    [disabled]="settingsForm.invalid || isSaving"
+                    mat-raised-button
+                    color="primary"
+                    class="w-100"
+                    [title]="['password.form.button' | translate]"
+                  >
+                    <span jhiTranslate="password.form.button">Save</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

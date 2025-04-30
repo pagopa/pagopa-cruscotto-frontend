@@ -1,0 +1,22 @@
+<mat-menu #childMenu="matMenu" [overlapTrigger]="false">
+  <span *ngFor="let child of items">
+    <!-- Handle branch node menu items -->
+    <span *ngIf="child.children && child.children.length > 0">
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="menu.childMenu"
+        [class.active]="isActive(child.children)"
+        *jhiHasAnyAuthorityMenu="[child]"
+      >
+        {{ child.label | translate }}
+      </button>
+      <jhi-menu-item #menu [items]="child.children"></jhi-menu-item>
+    </span>
+    <!-- Handle leaf node menu items -->
+    <span *ngIf="!child.children || child.children.length === 0">
+      <button mat-menu-item [routerLink]="child.route" [routerLinkActive]="child.route ? 'active' : ''" *jhiHasAnyAuthorityMenu="[child]">
+        {{ child.label | translate }}
+      </button>
+    </span>
+  </span>
+</mat-menu>

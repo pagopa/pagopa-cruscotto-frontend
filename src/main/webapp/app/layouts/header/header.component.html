@@ -1,0 +1,146 @@
+<header>
+  <mat-toolbar color="primary">
+    <span class="flex-1">
+      <a class="logo-img" href="#" [routerLink]="['/home']" aria-label="goToHome"></a>
+    </span>
+    <jhi-language-picker></jhi-language-picker>
+    <span
+      *ngFor="let item of menuItems"
+      [ngClass]="
+        (this.currentRange === 'Large' && item.large) ||
+        (this.currentRange === 'Medium' && item.medium) ||
+        (this.currentRange === 'Small' && item.small) ||
+        (this.currentRange === 'XSmall' && item.xSmall)
+          ? 'd-block ps-2 pe-2'
+          : 'd-none ps-2 pe-2'
+      "
+    >
+      <span *ngIf="item.children && item.children.length > 0">
+        <button mat-button [matMenuTriggerFor]="menu.childMenu" [class.active]="isActive(item.children)" *jhiHasAnyAuthorityMenu="[item]">
+          {{ item.label | translate }}
+          <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
+        </button>
+        <jhi-menu-item #menu [items]="item.children"></jhi-menu-item>
+      </span>
+      <span *ngIf="!item.children || item.children.length === 0">
+        <button mat-button [routerLink]="item.route" [routerLinkActive]="item.route ? 'active' : ''" *jhiHasAnyAuthorityMenu="[item]">
+          {{ item.label | translate }}
+        </button>
+      </span>
+    </span>
+    <ng-container>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="dropMenu"
+        class="mr-2"
+        [ngClass]="{
+          'd-none': this.currentRange === 'Large',
+          'd-block': this.currentRange === 'Medium' || this.currentRange === 'Small' || this.currentRange === 'XSmall',
+        }"
+      >
+        <mat-icon svgIcon="more_vert" aria-hidden="false"></mat-icon>
+      </button>
+      <mat-menu #dropMenu="matMenu">
+        <ng-container *ngFor="let item of menuItems">
+          <div
+            [ngClass]="
+              !(this.currentRange === 'Large' && item.large) &&
+              !(this.currentRange === 'Medium' && item.medium) &&
+              !(this.currentRange === 'Small' && item.small) &&
+              !(this.currentRange === 'XSmall' && item.xSmall)
+                ? 'd-block ps-2 pe-2'
+                : 'd-none ps-2 pe-2'
+            "
+          >
+            <span *ngIf="item.children && item.children.length > 0">
+              <button
+                mat-menu-item
+                [matMenuTriggerFor]="menu.childMenu"
+                [class.active]="isActive(item.children)"
+                *jhiHasAnyAuthorityMenu="[item]"
+              >
+                {{ item.label | translate }}
+              </button>
+              <jhi-menu-item #menu [items]="item.children"></jhi-menu-item>
+            </span>
+            <span *ngIf="!item.children || item.children.length === 0">
+              <button
+                mat-menu-item
+                [routerLink]="item.route"
+                [routerLinkActive]="item.route ? 'active' : ''"
+                *jhiHasAnyAuthorityMenu="[item]"
+              >
+                {{ item.label | translate }}
+              </button>
+            </span>
+            <mat-divider></mat-divider>
+          </div>
+        </ng-container>
+      </mat-menu>
+    </ng-container>
+
+    <span *ngIf="!isAuthenticated()">
+      <button mat-button [routerLinkActive]="'active'" [routerLink]="['login']" aria-label="goToLoginPage">
+        <mat-icon class="mr-2" fontSet="material-symbols-outlined">login</mat-icon>
+        {{ 'global.menu.account.login' | translate }}
+      </button>
+    </span>
+
+    <button
+      mat-mini-fab
+      [matMenuTriggerFor]="manageAccounts"
+      *ngIf="isAuthenticated()"
+      class="ml-5"
+      id="manageAccount"
+      aria-label="manageAccount"
+    >
+      <mat-icon class="mr-2 ml-2" svgIcon="manage_account" aria-hidden="false"></mat-icon>
+    </button>
+    <mat-menu #manageAccounts="matMenu">
+      <ng-template matMenuContent>
+        <mat-card class="user-card">
+          <mat-card-header>
+            <div mat-card-avatar class="user-header-image"></div>
+            @let accountRef = account();
+            <mat-card-title>{{ accountRef?.firstName }}</mat-card-title>
+            <mat-card-subtitle>{{ accountRef?.lastName }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-footer class="pb-2">
+            <mat-list>
+              <mat-list-item role="menuitem" *ngIf="isAuthenticated() && hasAuthorityChangePasswordExpired()">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  [routerLink]="'/account/password-expired'"
+                  class="w-100"
+                  aria-label="changeExpiredPassword"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">password</mat-icon>
+                  {{ 'global.menu.account.passwordExpired' | translate }}
+                </button>
+              </mat-list-item>
+              <mat-list-item role="menuitem" *ngIf="isAuthenticated()">
+                <button mat-raised-button color="primary" [routerLink]="'/account/password'" class="w-100" aria-label="changePassword">
+                  <mat-icon fontSet="material-symbols-outlined">password</mat-icon>
+                  {{ 'global.menu.account.password' | translate }}
+                </button>
+              </mat-list-item>
+              <mat-list-item role="menuitem" *ngIf="isAuthenticated()">
+                <button mat-raised-button color="primary" (click)="goToSettings()" class="w-100" aria-label="changeSettings">
+                  <mat-icon fontSet="material-symbols-outlined">settings</mat-icon>
+                  {{ 'global.menu.account.settings' | translate }}
+                </button>
+              </mat-list-item>
+              <mat-list-item role="menuitem">
+                <button mat-raised-button color="accent" class="w-100" (click)="logout()" aria-label="logout">
+                  <mat-icon fontSet="material-symbols-outlined">logout</mat-icon>
+                  {{ 'global.menu.account.logout' | translate }}
+                </button>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-footer>
+        </mat-card>
+      </ng-template>
+    </mat-menu>
+  </mat-toolbar>
+</header>

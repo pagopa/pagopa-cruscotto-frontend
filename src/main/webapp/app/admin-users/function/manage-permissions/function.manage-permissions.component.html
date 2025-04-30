@@ -1,0 +1,51 @@
+<div *ngIf="function">
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.authFunction.managePermissions.title"
+        >Manage the permissions associated with the function</span
+      >
+      {{ function.id }}
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div class="row custom-row p-2">
+            <div class="col-lg-2">
+              <span jhiTranslate="pagopaCruscottoApp.authFunction.module">Module</span>
+              <p class="p-2 bg-light">{{ function.modulo }}</p>
+            </div>
+            <div class="col-lg-5">
+              <span jhiTranslate="pagopaCruscottoApp.authFunction.name">Name</span>
+              <p class="p-2 bg-light">
+                {{ function.nome }}
+              </p>
+            </div>
+            <div class="col-lg-5">
+              <span jhiTranslate="pagopaCruscottoApp.authFunction.description">Description</span>
+              <p class="p-2 bg-light">
+                {{ function.descrizione }}
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <jhi-auth-function-assignable-permissions [functionId]="function.id"></jhi-auth-function-assignable-permissions>
+    </div>
+    <div class="col-12 col-md-6">
+      <jhi-auth-function-associated-permissions [functionId]="function.id"></jhi-auth-function-associated-permissions>
+    </div>
+  </div>
+</div>

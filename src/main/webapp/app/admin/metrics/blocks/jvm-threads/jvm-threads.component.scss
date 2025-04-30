@@ -1,0 +1,27 @@
+.threadDumpRunnable.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 24px;
+  --mdc-linear-progress-active-indicator-height: 24px;
+  --mdc-linear-progress-track-color: #e9ecef;
+  --mdc-linear-progress-active-indicator-color: #477ded
+}
+
+.threadDumpTimedWaiting.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 24px;
+  --mdc-linear-progress-active-indicator-height: 24px;
+  --mdc-linear-progress-track-color: #e9ecef;
+  --mdc-linear-progress-active-indicator-color: #ffc107
+}
+
+.threadDumpWaiting.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 24px;
+  --mdc-linear-progress-active-indicator-height: 24px;
+  --mdc-linear-progress-track-color: #e9ecef;
+  --mdc-linear-progress-active-indicator-color: #ffc107
+}
+
+.threadDumpBlocked.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 24px;
+  --mdc-linear-progress-active-indicator-height: 24px;
+  --mdc-linear-progress-track-color: #e9ecef;
+  --mdc-linear-progress-active-indicator-color: #3c7e3c
+}

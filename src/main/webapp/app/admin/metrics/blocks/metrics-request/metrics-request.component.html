@@ -1,0 +1,37 @@
+<h3 id="requestMetrics" jhiTranslate="metrics.jvm.http.title">Richieste HTTP (eventi al secondo)</h3>
+
+@let requestMetricsRef = requestMetrics();
+@if (!updating() && requestMetricsRef) {
+  <div class="table-responsive">
+    <table class="table table-light table-hover table-striped" aria-describedby="requestMetrics">
+      <thead>
+        <tr>
+          <th scope="col" jhiTranslate="metrics.jvm.http.table.code">Codice</th>
+          <th scope="col" jhiTranslate="metrics.jvm.http.table.count">Numero</th>
+          <th scope="col" class="text-end" jhiTranslate="metrics.jvm.http.table.mean">Mediana</th>
+          <th scope="col" class="text-end" jhiTranslate="metrics.jvm.http.table.max">Massima</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of requestMetricsRef['percode'] | keyvalue; track entry.key) {
+          <tr>
+            <td>{{ entry.key }}</td>
+            <td>
+              <div class="position-relative">
+                <mat-progress-bar mode="determinate" [value]="(100 * entry.value.count) / requestMetricsRef['all'].count">
+                </mat-progress-bar>
+                <span [ngStyle]="{'left.%': 50}" class="text-black-50 fw-bold position-absolute top-0">
+                  {{ entry.value.count }}
+                </span>
+              </div>
+            </td>
+            <td class="text-end">
+              {{ filterNaN(entry.value.mean) | number: '1.0-2' }}
+            </td>
+            <td class="text-end">{{ entry.value.max | number: '1.0-2' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

@@ -1,0 +1,18 @@
+/* Column Widths */
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.mat-column-id,
+.mat-column-nome,
+.mat-column-descrizione,
+.mat-column-modulo {
+  width: 150px;
+  text-align: center;
+}
+
+.bg-paginator {
+  background-color: var(--mat-paginator-container-background-color, var(--mat-sys-surface));
+}

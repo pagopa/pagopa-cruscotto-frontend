@@ -1,0 +1,65 @@
+{
+  "userManagement": {
+    "home": {
+      "title": "Utenti"
+    },
+    "created": "\u00C8 stato creato un nuovo utente con identificatore {{ param }}",
+    "updated": "Sono stato aggiornati i dati dell'utente con identificatore {{ param }}",
+    "deleted": "\u00C8 stato eliminato l'utente con identificatore {{ param }}",
+    "reset": "\u00c8 stato inviato un link di reset password all'indirizzo email {{ param }}",
+    "delete": {
+      "question": "Si \u00E8 sicuri di volere eliminare l'utente {{ login }}?"
+    },
+    "login": "Login",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "Email",
+    "group": "Gruppo",
+    "state": "Stato",
+    "langKey": "Lingua",
+    "groupName": "Gruppo",
+    "createdDate": "Creato il",
+    "createdBy": "Creato da",
+    "lastModifiedBy": "Modificato da",
+    "lastModifiedDate": "Modificato il",
+    "isBlocked": "Utenza bloccata",
+    "isDeleted": "Utenza cancellata",
+    "authenticationType": "Tipo Accesso",
+    "detail": {
+      "title": "Dettaglio Utente",
+      "updateLabel": "Modifica Utente"
+    },
+    "lista": {
+      "createLabel": "Nuovo Utente"
+    },
+    "update": {
+      "create.title": "Creazione utente",
+      "modify.title": "Modifica utente"
+    },
+    "resetPassword": {
+      "title": "Conferma reset password",
+      "question": "Si \u00e8 sicuri di volere inviare il link di reset password per l'utente {{ login }}?"
+    },
+    "changeState": {
+      "question": {
+        "title": "Cambia Stato",
+        "message": "Sei sicuro di voler cambiare lo stato dell'utente?"
+      }
+    }
+  },
+  "easymonitorApp": {
+    "userManagement": {
+      "associaClienti.created": "Clienti associati",
+      "dissociaCliente.created": "Associazione cliente rimossa"
+    }
+  },
+  "error": {
+    "userManagement": {
+      "notExists": "Utente inesistente",
+      "userAlreadyExist": "Utente esistente",
+      "isTheSameLoggedUser": "L'utente selezionato coincide con l'utente loggato: operazione non ammessa",
+      "statoNotValid": "Stato utente incompatibile con l'operazione richiesta",
+      "permissionDenied": "Permesso negato per l'utente selezionato"
+    }
+  }
+}

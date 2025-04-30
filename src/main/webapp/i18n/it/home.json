@@ -1,0 +1,9 @@
+{
+  "home": {
+    "title": "Benvenuto!",
+    "access": "ACCEDI",
+    "logged": {
+      "message": "Autenticato come \"{{username}}\" "
+    }
+  }
+}

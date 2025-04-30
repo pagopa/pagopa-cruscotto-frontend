@@ -1,0 +1,31 @@
+{
+  "pagopaCruscottoApp": {
+    "authPermission": {
+      "home": {
+        "title": "Permessi back-end"
+      },
+      "created": "\u00C8 stato generato un nuovo permesso con identificatore {{ param }}",
+      "updated": "\u00C8 stato aggiornato il permesso con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminato il permesso con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il permesso con identificatore {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "Nuovo Permesso"
+      },
+      "update": {
+        "create.title": "Creazione nuovo Permesso",
+        "modify.title": "Modifica Permesso"
+      },
+      "detail": {
+        "title": "Dettaglio Permesso",
+        "updateLabel": "Modifica Permesso"
+      },
+      "azione": "",
+      "id": "Id",
+      "name": "Nome",
+      "module": "Modulo",
+      "authFunction": "Funzione"
+    }
+  }
+}

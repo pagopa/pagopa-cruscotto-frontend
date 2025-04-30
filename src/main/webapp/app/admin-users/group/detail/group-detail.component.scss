@@ -1,0 +1,13 @@
+.tree-invisible {
+  display: none;
+}
+
+.tree-node {
+  display: block;
+  line-height: 1px;
+}
+
+.tree-node .tree-node {
+  padding-left: 60px;
+  line-height: 2px;
+}
