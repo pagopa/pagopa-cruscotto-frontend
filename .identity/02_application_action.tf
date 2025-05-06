@@ -22,18 +22,21 @@ resource "azurerm_role_assignment" "environment_cdn_profile" {
   scope                = data.azurerm_cdn_profile.cdn_profile.id
   role_definition_name = "Contributor"
   principal_id         = module.github_runner_app.object_id
+
 }
 
 resource "azurerm_role_assignment" "environment_key_vault" {
   scope                = data.azurerm_key_vault.key_vault.id
   role_definition_name = "Reader"
   principal_id         = module.github_runner_app.object_id
+
 }
 
 resource "azurerm_role_assignment" "environment_key_vault_domain" {
   scope                = data.azurerm_key_vault.domain_key_vault.id
   role_definition_name = "Reader"
   principal_id         = module.github_runner_app.object_id
+
 }
 
 resource "azurerm_key_vault_access_policy" "ad_kv_group_policy" {
@@ -41,6 +44,7 @@ resource "azurerm_key_vault_access_policy" "ad_kv_group_policy" {
 
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = module.github_runner_app.object_id
+
 
   key_permissions         = []
   secret_permissions      = ["Get", "List"]
@@ -53,6 +57,7 @@ resource "azurerm_key_vault_access_policy" "ad_domain_kv_group_policy" {
 
   tenant_id = data.azurerm_client_config.current.tenant_id
   object_id = module.github_runner_app.object_id
+
 
   key_permissions         = []
   secret_permissions      = ["Get", "List"]

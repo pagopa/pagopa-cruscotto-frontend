@@ -6,7 +6,7 @@ tags = {
   CreatedBy   = "Terraform"
   Environment = "Uat"
   Owner       = "pagoPA"
-  Source      = "https://github.com/pagopa/pagopa-cruscotto-fe"
+  Source      = "https://github.com/pagopa/pagopa-cruscotto-frontend"
   CostCenter  = "TS310 - PAGAMENTI & SERVIZI"
 }
 
