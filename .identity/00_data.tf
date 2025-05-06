@@ -14,8 +14,8 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_key_vault" "domain_key_vault" {
-  name                = "pagopa-${var.env_short}-${local.domain}-kv"
-  resource_group_name = "pagopa-${var.env_short}-${local.domain}-sec-rg"
+  name                = "pagopa-${var.env_short}-${local.location_short_itn}-${local.domain}-kv"
+  resource_group_name = "pagopa-${var.env_short}-${local.location_short_itn}-${local.domain}-sec-rg"
 }
 
 data "azurerm_key_vault_secret" "key_vault_sonar" {
@@ -39,6 +39,6 @@ data "azurerm_cdn_profile" "cdn_profile" {
 }
 
 data "azurerm_key_vault_secret" "key_vault_blob_connection_string" {
-  name = "storage-blob-connection-string"
+  name = "web-storage-blob-connection-string"
   key_vault_id = data.azurerm_key_vault.domain_key_vault.id
 }
