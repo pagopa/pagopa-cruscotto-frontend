@@ -12,8 +12,15 @@ export interface IInstance {
   assignedLastName?: string;
   analysisPeriodStartDate?: dayjs.Dayjs | null;
   analysisPeriodEndDate?: dayjs.Dayjs | null;
-  status?: string;
+  status?: InstanceStatus;
   lastAnalysisDate?: dayjs.Dayjs | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };
+
+export enum InstanceStatus {
+  Bozza = 'BOZZA',
+  Pianificata = 'PIANIFICATA',
+  Eseguita = 'ESEGUITA',
+  Cancellata = 'CANCELLATA',
+}

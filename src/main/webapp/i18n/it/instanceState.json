@@ -4,10 +4,8 @@
       "null": "",
       "BOZZA": "Bozza",
       "PIANIFICATA": "Pianificata",
-      "ANALISI_IN_CORSO": "Analisi In Corso",
-      "ANALISI_ESEGUITA": "Analisi Eseguita",
-      "ARCHIVIATA": "Archiviata",
-      "ANNULLATA": "Annullata"
+      "ESEGUITA": "Eseguita",
+      "CANCELLATA": "Cancellata"
     }
   }
 }

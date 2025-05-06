@@ -4,9 +4,6 @@
       "home": {
         "title": "Istanze"
       },
-      "created": "\u00C8 stata creata una nuova istanza con identificatore {{ param }}",
-      "updated": "\u00C8 stata aggiornata l'istanza con identificatore {{ param }}",
-      "deleted": "\u00C8 stato eliminata l'istanza con identificatore {{ param }}",
       "delete": {
         "question": "Sei sicuro di volere eliminare l'istanza con identificatore {{ id }}?"
       },
@@ -19,22 +16,49 @@
       },
       "update": {
         "create.title": "Creazione Istanza",
-        "modify.title": "Modifica Istanza"
+        "modify.title": "Modifica Istanza",
+        "analysisPeriodStartDate": {
+          "validation": {
+            "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
+            "date": "Il campo 'Data Inizio Periodo Analisi' dovrebbe essere una data valida",
+            "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'",
+            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+          }
+        },
+        "analysisPeriodEndDate": {
+          "validation": {
+            "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
+            "date": "Il campo 'Data Fine Periodo Analisi' dovrebbe essere una data valida",
+            "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'",
+            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Fine Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+          }
+        }
       },
       "partner": "Partner",
       "instanceIdentification": "Identificativo Istanza",
       "predictedDateAnalysis": "Data Prevista Analisi",
       "applicationDate": "Data Domanda",
       "assignedUser": "Utente Assegnatario",
-      "analysisPeriodStartDate": "Data Inizio Periodo",
-      "analysisPeriodEndDate": "Data Fine Periodo",
+      "analysisPeriodDate": "Data Periodo Analisi",
+      "analysisPeriodStartDate": "Data Inizio Periodo Analisi",
+      "analysisPeriodEndDate": "Data Fine Periodo Analisi",
       "status": "Stato",
       "lastAnalysisDate": "Data Ultima Analisi Eseguita"
     }
   },
   "error": {
     "instance": {
-      "notExists": "Istanza inesistente"
+      "notExists": "Istanza inesistente",
+      "cannotBeUpdated": "L' istanza non pu\u00F2 essere modificata",
+      "cannotBeDeleted": "L' istanza non pu\u00F2 essere cancellata",
+      "partnerNotExists": "Partner inesistente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "instance": {
+      "created": "\u00C8 stata creata una nuova istanza con identificatore {{ param }}",
+      "updated": "\u00C8 stata aggiornata l'istanza con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminata l'istanza con identificatore {{ param }}"
     }
   }
 }

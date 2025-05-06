@@ -4,11 +4,11 @@ import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
-import { IInstance } from '../instance.model';
+import { IInstance, NewInstance } from '../instance.model';
 import dayjs from 'dayjs/esm';
-import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from '../../../config/input.constants';
+import { DATE_FORMAT, DATE_FORMAT_ISO, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 
-type InstanceRestOf<T extends IInstance> = Omit<
+type InstanceRestOf<T extends IInstance | NewInstance> = Omit<
   T,
   'predictedDateAnalysis' | 'applicationDate' | 'analysisPeriodStartDate' | 'analysisPeriodEndDate' | 'lastAnalysisDate'
 > & {
@@ -21,7 +21,11 @@ type InstanceRestOf<T extends IInstance> = Omit<
 
 export type RestInstance = InstanceRestOf<IInstance>;
 
+export type NewRestInstance = InstanceRestOf<NewInstance>;
+
 type EntityArrayResponseType = HttpResponse<IInstance[]>;
+
+type EntityResponseType = HttpResponse<IInstance>;
 
 @Injectable({ providedIn: 'root' })
 export class InstanceService {
@@ -30,17 +34,25 @@ export class InstanceService {
 
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/instances');
 
-  // create(authPermission: NewPermission): Observable<EntityResponseType> {
-  //   return this.http.post<IPermission>(this.resourceUrl, authPermission, { observe: 'response' });
-  // }
-  //
-  // update(authPermission: IPermission): Observable<EntityResponseType> {
-  //   return this.http.put<IPermission>(this.resourceUrl, authPermission, { observe: 'response' });
-  // }
-  //
-  // find(id: number): Observable<EntityResponseType> {
-  //   return this.http.get<IPermission>(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  // }
+  create(instance: NewInstance): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(instance);
+    return this.http
+      .post<RestInstance>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  update(instance: IInstance): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(instance);
+    return this.http
+      .put<RestInstance>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  find(id: number): Observable<EntityResponseType> {
+    return this.http
+      .get<RestInstance>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
@@ -49,30 +61,26 @@ export class InstanceService {
       .pipe(map(res => this.convertInstanceResponseArrayFromServer(res)));
   }
 
-  // findAllByFunction(req?: any, idFunction?: number): Observable<EntityArrayResponseType> {
-  //   const options = createRequestOption(req);
-  //   return this.http.get<IPermission[]>(`${this.resourceUrl}/auth-function/${idFunction}`, { params: options, observe: 'response' });
-  // }
-  //
-  // delete(id: number): Observable<HttpResponse<{}>> {
-  //   return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  // }
-  //
-  // findAssociatePermissionsToFunction(functionId?: number, req?: any): Observable<EntityArrayResponseType> {
-  //   const options = createRequestOption(req);
-  //   return this.http.get<IPermission[]>(`${this.resourceUrl}/auth-function/${functionId}`, {
-  //     params: options,
-  //     observe: 'response',
-  //   });
-  // }
-  //
-  // findPermessiAssociabiliByFunzione(functionId?: number, req?: any): Observable<EntityArrayResponseType> {
-  //   const options = createRequestOption(req);
-  //   return this.http.get<IPermission[]>(`${this.resourceUrl}/auth-function/${functionId}/associabili`, {
-  //     params: options,
-  //     observe: 'response',
-  //   });
-  // }
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  protected convertDateFromClient<T extends IInstance | NewInstance>(instance: T): InstanceRestOf<T> {
+    return {
+      ...instance,
+      predictedDateAnalysis: instance.predictedDateAnalysis?.format(DATE_FORMAT_ISO) ?? null,
+      analysisPeriodStartDate: instance.analysisPeriodStartDate?.format(DATE_FORMAT_ISO) ?? null,
+      analysisPeriodEndDate: instance.analysisPeriodEndDate?.format(DATE_FORMAT_ISO) ?? null,
+      applicationDate: instance.applicationDate?.format(DATE_TIME_FORMAT_ISO) ?? null,
+      lastAnalysisDate: instance.lastAnalysisDate?.format(DATE_TIME_FORMAT_ISO) ?? null,
+    };
+  }
+
+  protected convertResponseFromServer(res: HttpResponse<RestInstance>): HttpResponse<IInstance> {
+    return res.clone({
+      body: res.body ? this.convertInstanceFromServer(res.body) : null,
+    });
+  }
 
   protected convertInstanceResponseArrayFromServer(res: HttpResponse<RestInstance[]>): HttpResponse<IInstance[]> {
     return res.clone({
