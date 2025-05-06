@@ -181,7 +181,6 @@ export default class UserManagementComponent implements OnInit, OnDestroy {
     this.userManagementService.query(params).subscribe({
       next: (res: HttpResponse<IUser[]>) => {
         const data = res.body ?? [];
-        console.log(data);
         this.onSuccess(data, res.headers);
       },
       error: () => this.onError(),

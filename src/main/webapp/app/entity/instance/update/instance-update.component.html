@@ -1,0 +1,266 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.instance.update.create.title">New Instance</span>
+    </div>
+    <div class="h2" *ngIf="editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.instance.update.modify.title">Edit Instance</span> {{ editForm.get('id')?.value }}
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3 p-2">
+              <div class="offset-md-3 col-md-5">
+                <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
+
+                @let predictedDateAnalysisRef = editForm.get('predictedDateAnalysis')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.predictedDateAnalysis">Predicted Date Analysis</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="predictedDateAnalysis"
+                    formControlName="predictedDateAnalysis"
+                    [matDatepickerFilter]="predictedDateAnalysisValidator"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    *ngIf="predictedDateAnalysisRef.value || predictedDateAnalysisRef?.hasError('matDatepickerParse')"
+                    (click)="clearDate('predictedDateAnalysis')"
+                  >
+                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                      close_small
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="predictedDateAnalysis"></mat-datepicker-toggle>
+                  <mat-datepicker #predictedDateAnalysis></mat-datepicker>
+
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="predictedDateAnalysisRef.invalid && (predictedDateAnalysisRef.dirty || predictedDateAnalysisRef.touched)"
+                  >
+                    @if (predictedDateAnalysisRef?.errors?.required && !predictedDateAnalysisRef?.hasError('matDatepickerParse')) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (predictedDateAnalysisRef?.hasError('matDatepickerParse')) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                    }
+                    @if (predictedDateAnalysisRef?.hasError('matDatepickerFilter')) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday">
+                        This field should be a date after today
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
+                @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodDate">Analysis Period Date</mat-label>
+                  <mat-date-range-input [formGroup]="editForm" [rangePicker]="analysisPeriodDateRange" [dateFilter]="rangeFilter">
+                    <input
+                      matStartDate
+                      #matStartDate
+                      [placeholder]="'pagopaCruscottoApp.instance.analysisPeriodStartDate' | translate"
+                      formControlName="analysisPeriodStartDate"
+                    />
+                    <input
+                      matEndDate
+                      #matEndDate
+                      [placeholder]="'pagopaCruscottoApp.instance.analysisPeriodEndDate' | translate"
+                      formControlName="analysisPeriodEndDate"
+                    />
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle
+                    *ngIf="analysisPeriodStartDateRef.value || analysisPeriodEndDateRef.value"
+                    matSuffix
+                    (click)="clearDate('analysisPeriodStartDate', 'analysisPeriodEndDate')"
+                  >
+                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                      close_small
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="analysisPeriodDateRange"></mat-datepicker-toggle>
+                  <mat-date-range-picker #analysisPeriodDateRange> </mat-date-range-picker>
+                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid && analysisPeriodEndDateRef.invalid">
+                    @if (
+                      analysisPeriodStartDateRef?.errors?.required &&
+                      analysisPeriodEndDateRef?.errors?.required &&
+                      !analysisPeriodStartDateRef?.hasError('matDatepickerParse') &&
+                      !analysisPeriodEndDateRef?.hasError('matDatepickerParse')
+                    ) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (
+                      analysisPeriodStartDateRef?.hasError('matDatepickerParse') && analysisPeriodEndDateRef?.hasError('matDatepickerParse')
+                    ) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                    }
+                  </ng-container>
+                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid">
+                    @if (
+                      analysisPeriodStartDateRef?.hasError('required') &&
+                      !analysisPeriodStartDateRef?.hasError('matDatepickerParse') &&
+                      !analysisPeriodEndDateRef?.hasError('required')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.required"
+                        >This field is required.</mat-error
+                      >
+                    }
+                    @if (
+                      analysisPeriodStartDateRef?.hasError('matDatepickerParse') &&
+                      !analysisPeriodEndDateRef?.hasError('matDatepickerParse')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.date"
+                        >Invalid start date</mat-error
+                      >
+                    }
+                    @if (analysisPeriodStartDateRef?.hasError('matStartDateInvalid')) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.dateLoeThanEndDate"
+                      >
+                        This field should be a date before another date
+                      </mat-error>
+                    }
+
+                    @if (
+                      analysisPeriodStartDateRef?.hasError('matDatepickerFilter') &&
+                      !analysisPeriodEndDateRef?.hasError('required') &&
+                      !analysisPeriodStartDateRef?.hasError('matStartDateInvalid')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.dateLessThanPredictedDateAnalysis"
+                      >
+                        This field should be a date after today
+                      </mat-error>
+                    }
+                  </ng-container>
+                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodEndDateRef.invalid">
+                    @if (
+                      analysisPeriodEndDateRef?.hasError('required') &&
+                      !analysisPeriodEndDateRef?.hasError('matDatepickerParse') &&
+                      !analysisPeriodStartDateRef?.hasError('required')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.required"
+                        >This field is required.</mat-error
+                      >
+                    }
+                    @if (
+                      analysisPeriodEndDateRef?.hasError('matDatepickerParse') &&
+                      !analysisPeriodStartDateRef?.hasError('matDatepickerParse')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.date"
+                        >Invalid start date</mat-error
+                      >
+                    }
+
+                    @if (
+                      analysisPeriodEndDateRef?.hasError('matDatepickerFilter') &&
+                      !analysisPeriodStartDateRef?.hasError('matDatepickerFilter') &&
+                      !analysisPeriodStartDateRef?.hasError('required') &&
+                      !analysisPeriodStartDateRef?.hasError('matEndDateInvalid')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateLessThanPredictedDateAnalysis"
+                      >
+                        This field should be a date after today
+                      </mat-error>
+                    }
+                    <!--                 @if(analysisPeriodEndDateRef?.hasError('matEndDateInvalid')) {
+	                  <mat-error class="form-text text-danger" jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateGoeThanStartDate">
+	                    This field should be a date before another date
+	                  </mat-error>
+	                } -->
+                  </ng-container>
+                </mat-form-field>
+
+                <!--  @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartDate">Analysis Period Start Date</mat-label>
+                  <input matInput autocomplete="off" formControlName="analysisPeriodStartDate" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid && (analysisPeriodDateRangeRef.dirty || analysisPeriodDateRangeRef.touched)">
+                    @if (analysisPeriodDateRangeRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+
+                @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndDate">Analysis Period End Date</mat-label>
+                  <input matInput autocomplete="off" formControlName="analysisPeriodEndDate" />
+
+                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodEndDateRef.invalid && (analysisPeriodEndDateRef.dirty || analysisPeriodEndDateRef.touched)">
+                    @if (analysisPeriodEndDateRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field> -->
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  [disabled]="editForm.invalid || isSaving"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

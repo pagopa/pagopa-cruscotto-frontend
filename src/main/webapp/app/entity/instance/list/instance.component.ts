@@ -6,7 +6,7 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { LocaltionHelper } from '../../../core/location/location.helper';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { addFilterToRequest, addToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -27,10 +27,9 @@ import { IInstance } from '../instance.model';
 import { InstanceFilter } from './instance.filter';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
-import { UserManagementStateViewComponent } from '../../../admin-users/user-management/shared/user-management-state-view.component';
 import { InstanceStateViewComponent } from '../shared/instance-state-view.component';
-import { GroupSelectComponent } from '../../../admin-users/group/shared/group-select/group-select.component';
 import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
+import { InstanceStatus } from '../instance.model';
 
 @Component({
   selector: 'jhi-instance',
@@ -59,7 +58,6 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 })
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
-    'id',
     'instanceIdentification',
     'partner',
     'predictedDateAnalysis',
@@ -69,6 +67,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     'analysisPeriodEndDate',
     'status',
     'lastAnalysisDate',
+    'action',
   ];
 
   data: IInstance[] = [];
@@ -85,6 +84,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
   searchForm;
 
   locale: string;
+
+  status = InstanceStatus;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(InstanceFilter);
@@ -217,23 +218,23 @@ export class InstanceComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          // this.instanceService.delete(row.id!).subscribe({
-          //   next: () => {
-          //     if (
-          //       this.resultsLength % this.itemsPerPage === 1 &&
-          //       Math.ceil(this.resultsLength / this.itemsPerPage) === this.page &&
-          //       this.page !== 1
-          //     ) {
-          //       this.filter.page = this.page - 1;
-          //     }
-          //     this.loadPage(this.filter.page, false);
-          //   },
-          //   error: () => {
-          //     this.spinner.hide('isLoadingResults').then(() => {
-          //       this.isLoadingResults = false;
-          //     });
-          //   },
-          // });
+          this.instanceService.delete(row.id!).subscribe({
+            next: () => {
+              if (
+                this.resultsLength % this.itemsPerPage === 1 &&
+                Math.ceil(this.resultsLength / this.itemsPerPage) === this.page &&
+                this.page !== 1
+              ) {
+                this.filter.page = this.page - 1;
+              }
+              this.loadPage(this.filter.page, false);
+            },
+            error: () => {
+              this.spinner.hide('isLoadingResults').then(() => {
+                this.isLoadingResults = false;
+              });
+            },
+          });
         }
       });
   }

@@ -12,6 +12,9 @@
         "customerType": "Customer Type",
         "bankConfig": "Bank Config"
       },
+      "instance": {
+        "main": "Instances"
+      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
@@ -44,10 +47,10 @@
       },
       "usersAdministration": {
         "main": "Users Administration",
-        "tracker": "Trackers",
-        "function": "Function",
-        "group": "Group",
-        "user": "Physical User"
+        "groupManagement": "Groups",
+        "functionManagement": "Functions",
+        "permissionManagement": "Permissions",
+        "users": "Users"
       }
     },
     "form": {
@@ -55,12 +58,12 @@
       "currentpassword.label": "Current password",
       "newpassword.label": "New password",
       "confirmpassword.label": "New password confirmation",
-      "email.label": "Email",
+      "email": "Email",
       "select": {
         "notfound": "No data found for '{{ search }}'",
         "all": "All",
         "bank.label": "ABI BT Code",
-        "bankingGroup.label": "Gruppo Bancario",
+        "bankingGroup.label": "Banking Group",
         "bankingConfig.label": "Configuration",
         "bankingConfigSiope.label": "Siope Configuration",
         "bankingConfigMq.label": "Mq Configuration",
@@ -110,7 +113,9 @@
       }
     },
     "field": {
-      "id": "ID"
+      "id": "Id",
+      "startDate": "Start Date",
+      "endDate": "End Date"
     },
     "ribbon": {
       "dev": "Development"
@@ -146,6 +151,7 @@
     },
     "list": {
       "noResult": "No record found",
+      "filter": "To view the results perform a search",
       "column": {
         "actions": {
           "label": "Actions",
@@ -159,16 +165,25 @@
       "addblob": "Add blob",
       "addimage": "Add image",
       "back": "Back",
+      "close": "Close",
       "cancel": "Cancel",
       "delete": "Delete",
+      "remove": "Remove",
       "edit": "Edit",
       "open": "Open",
       "save": "Save",
       "view": "View",
       "clear": "Clear",
       "search": "Search",
+      "detail": "Detail",
+      "confirm": "Confirm",
       "show": "Show {{otherEntity}}",
-      "download": "Download"
+      "download": "Download",
+      "source": "Source",
+      "downloadZip": "Download Zip",
+      "downloadXml": "Download Xml",
+      "graphic": "Grafico",
+      "resetPassword": "Reset password"
     },
     "detail": {
       "field": "Field",
@@ -176,6 +191,9 @@
     },
     "delete": {
       "title": "Confirm delete operation"
+    },
+    "resetPassword": {
+      "title": "Confirm password reset operation"
     },
     "validation": {
       "required": "This field is required",
@@ -190,15 +208,25 @@
       "datetimelocal": "This field should be a date and time",
       "patternLogin": "This field can only contain letters, digits and e-mail addresses",
       "email": "This field should be a valid e-mail",
-      "fromDate": "This field should be a valida from date",
-      "toDate": "This field should be a valida to date",
+      "date": "This field should be a valid date",
+      "fromDate": "This field should be a valid from date",
+      "toDate": "This field should be a valid to date",
       "institutionCode": "The field should be a number with 7 digit",
       "fiscalCode": "The field should be 11 or 16 characters",
       "fiscalCodeUser": "The field should be 16 characters",
       "istatCode": "The field should be 9 or 15 characters",
       "username": "The field should be a valid username",
       "minCharLength": "The string should contains a number of alphabet letters greater than or equal to {{ minCharLength }}",
-      "dontMatch": "The password and its confirmation do not match!"
+      "dontMatch": "The password and its confirmation do not match!",
+      "dateMax": "This field must be a date before or equal to {{ max }}",
+      "dateMin": "This field must be a date later than or equal to {{ min }}",
+      "dateAfterToday": "This field must be a date after today",
+      "timeMax": "This field must be a time before or equal to {{ max }}",
+      "timeMin": "This field must be a time later than or equal to {{ min }}",
+      "timeCurrent": "This field must be a time before the current time",
+      "lessThanEqualTo": "This field should be greater than or equal to {{ min }}",
+      "greaterThanEqualTo": "This field should be less than or equal to {{ max }}",
+      "dataRange": "Reduce the interval. Maximum {{ days }} days allowed"
     },
     "filters": {
       "set": "Following filters are set",

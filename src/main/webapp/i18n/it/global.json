@@ -17,9 +17,7 @@
       },
       "institution": {
         "main": "Ente",
-        "institution": "Ente",
-        "ipa": "Ipa",
-        "ipaConfigSiope": "Configurazione Siope Ipa"
+        "institution": "Ente"
       },
       "systemAdministration": {
         "main": "Amministrazione",
@@ -53,28 +51,6 @@
         "functionManagement": "Funzioni",
         "permissionManagement": "Permessi",
         "users": "Utenti"
-      },
-      "flowMonitoring": {
-        "main": "Monitoraggio Flussi",
-        "opiFlow": "Flussi Opi",
-        "serviceReceipt": "Ricevute di Servizio",
-        "mergedApplicationReceipt": "Ricevute Applicative Accorpate",
-        "applicationReceipt": "Ricevute Applicative",
-        "cashJournal": "Giornali di Cassa",
-        "documentVersion": "Versioni Ordinativi",
-        "cash": "Disponibilit\u00E0 Liquide",
-        "conservation": "Distinte Conservazione"
-      },
-      "flowMonitoringTreasureBank": {
-        "main": "Banca Tesoriera",
-        "opiFlow": "Flussi Opi",
-        "documentVersion": "Versioni Ordinativi",
-        "wrongAck": "Ack Errati",
-        "report": "Repot Tabulati"
-      },
-      "flowMonitoringAuditBkit": {
-        "main": "Main",
-        "audit": "Audit"
       }
     },
     "form": {
@@ -95,8 +71,7 @@
         "client.label": "Cliente",
         "ente.label": "Ente",
         "userType.label": "Tipologia Utente",
-        "group.label": "Gruppo",
-        "ipa.label": "IPA"
+        "group.label": "Gruppo"
       },
       "checkbox": {
         "all": "Seleziona Tutti"
@@ -207,11 +182,6 @@
       "source": "Sorgente",
       "downloadZip": "Download Zip",
       "downloadXml": "Download Xml",
-      "downloadXmlFlow": "Download Xml Flusso",
-      "downloadDenormalizedFlow": "Download Flusso Denormalizzato",
-      "preservationDetail": "Dettaglio Archiviazione",
-      "signature": "Firmatari",
-      "legislation": "Normativa",
       "graphic": "Grafico",
       "resetPassword": "Reset password"
     },
@@ -238,6 +208,7 @@
       "datetimelocal": "Questo campo dovrebbe essere data e ora",
       "patternLogin": "Questo campo pu\u00F2 contenere solo lettere, cifre e indirizzi e-mail",
       "email": "Questo campo dovrebbe essere una e-mail valida",
+      "date": "Questo campo dovrebbe essere una data valida",
       "fromDate": "Questo campo dovrebbe essere una data valida di inizio",
       "toDate": "Questo campo dovrebbe essere una data valida di fine",
       "institutionCode": "Questo campo dovrebbe essere un numerico di 7 cifre",
@@ -245,11 +216,11 @@
       "fiscalCodeUser": "Questo campo dovrebbe essere di 16 caratteri",
       "istatCode": "Questo campo dovrebbe essere di 9 o 15 caratteri",
       "username": "Questo campo dovrebbe essere uno username valido",
-      "a2a": "Questo campo dovrebbe essere un formato A2A valido",
       "minCharLength": "La stringa deve contenere un numero di lettere maggiore o uguale a {{ minCharLength }}",
       "dontMatch": "La password e la sua conferma non corrispondono!",
       "dateMax": "Questo campo deve essere una data precedente o uguale a {{ max }}",
       "dateMin": "Questo campo deve essere una data successiva o uguale a {{ min }}",
+      "dateAfterToday": "Questo campo deve essere una data successiva ad oggi",
       "timeMax": "Questo campo deve essere un orario precedente o uguale a {{ max }}",
       "timeMin": "Questo campo deve essere un orario successiva o uguale a {{ min }}",
       "timeCurrent": "Questo campo deve essere un orario precedente a quello corrente",

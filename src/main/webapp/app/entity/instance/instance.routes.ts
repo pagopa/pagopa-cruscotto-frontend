@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { InstanceComponent } from './list/instance.component';
+import { InstanceUpdateComponent } from './update/instance-update.component';
+import { InstanceRoutingResolve } from './route/instance-routing-resolve.service';
 
 const instanceRoutes: Routes = [
   {
@@ -10,28 +12,28 @@ const instanceRoutes: Routes = [
   },
   // {
   //   path: ':id/view',
-  //   component: PermissionDetailComponent,
+  //   component: InstanceDetailComponent,
   //   resolve: {
-  //     permission: PermissionRoutingResolve,
+  //     permission: InstanceRoutingResolve,
   //   },
   //   canActivate: [UserRouteAccessService],
   // },
-  // {
-  //   path: 'new',
-  //   component: PermissionUpdateComponent,
-  //   resolve: {
-  //     permission: PermissionRoutingResolve,
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
-  // {
-  //   path: ':id/edit',
-  //   component: PermissionUpdateComponent,
-  //   resolve: {
-  //     permission: PermissionRoutingResolve,
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
+  {
+    path: 'new',
+    component: InstanceUpdateComponent,
+    resolve: {
+      instance: InstanceRoutingResolve,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/edit',
+    component: InstanceUpdateComponent,
+    resolve: {
+      instance: InstanceRoutingResolve,
+    },
+    canActivate: [UserRouteAccessService],
+  },
 ];
 
 export default instanceRoutes;
