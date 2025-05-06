@@ -21,7 +21,8 @@ resource "github_repository_environment" "github_repository_environment" {
 
 locals {
   env_secrets = {
-    "CLIENT_ID" : module.github_runner_app.application_id,
+    "CLIENT_ID" : data.azurerm_user_assigned_identity.identity_cd_01.client_id,
+    # "CLIENT_ID" : module.github_runner_app.application_id,
     "TENANT_ID" : data.azurerm_client_config.current.tenant_id,
     "SUBSCRIPTION_ID" : data.azurerm_subscription.current.subscription_id,
 
@@ -30,17 +31,17 @@ locals {
   env_variables = {
     "CONTAINER_APP_ENVIRONMENT_NAME" : local.container_app_environment.name,
     "CONTAINER_APP_ENVIRONMENT_RESOURCE_GROUP_NAME" : local.container_app_environment.resource_group,
-    "STORAGE_ACCOUNT" : "pagopa${var.env_short}apiconfigfesa",
-    "CDN_RESOURCE_GROUP" : "pagopa-${var.env_short}-crusc8-fe-rg",
-    "CDN_ENDPOINT" : "pagopa-${var.env_short}-crusc8-fe-cdn-endpoint",
-    "CDN_PROFILE" : "pagopa-${var.env_short}-crusc8-fe-cdn-profile",
+    "STORAGE_ACCOUNT" : "pagopa${var.env_short}crusc8sa", # pagopa<ENV>crusc8sa
+    "CDN_RESOURCE_GROUP" : "pagopa-${var.env_short}-weu-crusc8-fe-rg", # pagopa-<ENV>-weu-crusc8-fe-rg
+    "CDN_ENDPOINT" : "pagopa-${var.env_short}-crusc8-fe-cdn-endpoint", # pagopa-<ENV>-crusc8-cdn-endpoint
+    "CDN_PROFILE" : "pagopa-${var.env_short}-crusc8-fe-cdn-profile", # pagopa-<ENV>-crusc8-cdn-profile
 
-    "APICONFIG_BASEPATH" : "/apiconfig/api/v1",
-    "APICONFIG_HOST" :  var.env == "prod" ?  "https://api.platform.pagopa.it" : "https://api.${var.env}.platform.pagopa.it",
-    "APICONFIG_CLIENT_ID" : var.client_id,
-    "APICONFIG_REDIRECT_URI" :  var.env == "prod" ?  "https://config.platform.pagopa.it/" : "https://config.${var.env}.platform.pagopa.it/",
-    "APICONFIG_SCOPES": "api://${var.prefix}-${var.env_short}-apiconfig-be/access-apiconfig-be"
-    "APICONFIG_TENANT": "https://login.microsoftonline.com/7788edaf-0346-4068-9d79-c868aed15b3d"
+    "CRUSC8_BASEPATH" : "/smo/cruscotto/v1", # https://api.<ENV>.platform.pagopa.it/smo/cruscotto/v1/api/account/change-password
+    "CRUSC8_HOST" :  var.env == "prod" ?  "https://api.platform.pagopa.it" : "https://api.${var.env}.platform.pagopa.it",
+    # "CRUSC8_CLIENT_ID" : var.client_id,
+    "CRUSC8_REDIRECT_URI" :  var.env == "prod" ?  "https://crusc8.platform.pagopa.it/" : "https://crusc8.${var.env}.platform.pagopa.it/",
+    # "CRUSC8_SCOPES": "api://${var.prefix}-${var.env_short}-apiconfig-be/access-apiconfig-be"
+    # "CRUSC8_TENANT": "https://login.microsoftonline.com/7788edaf-0346-4068-9d79-c868aed15b3d"
   }
 }
 
