@@ -1,19 +1,19 @@
 locals {
   github = {
     org        = "pagopa"
-    repository = "pagopa-crusc8-fe"
+    repository = "pagopa-cruscotto-fe"
   }
 
   prefix         = "pagopa"
-  domain         = "apiconfig"
-  location_short = "weu"
+  domain         = "crusc8"
+  location_short = "itn"
   product        = "${var.prefix}-${var.env_short}"
 
   app_name = "github-${local.github.org}-${local.github.repository}-${var.prefix}-${local.domain}-${var.env}-aks"
 
   cdn = {
-    name                = "${local.prefix}-${var.env_short}-crusc8-fe-cdn-profile"
-    resource_group_name = "${local.prefix}-${var.env_short}-crusc8-fe-rg"
+    name                = "${local.prefix}-${var.env_short}-crusc8-cdn-profile"
+    resource_group_name = "${local.prefix}-${var.env_short}-crusc8-rg"
   }
 
   container_app_environment = {
