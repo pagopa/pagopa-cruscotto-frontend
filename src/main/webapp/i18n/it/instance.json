@@ -56,9 +56,9 @@
   },
   "pagopaCruscottoBackendApp": {
     "instance": {
-      "created": "\u00C8 stata creata una nuova istanza con identificatore {{ param }}",
-      "updated": "\u00C8 stata aggiornata l'istanza con identificatore {{ param }}",
-      "deleted": "\u00C8 stato eliminata l'istanza con identificatore {{ param }}"
+      "created": "\u00C8 stata creata una nuova istanza con identificativo {{ param }}",
+      "updated": "\u00C8 stata aggiornata l'istanza con identificativo {{ param }}",
+      "deleted": "\u00C8 stato eliminata l'istanza con identificativo {{ param }}"
     }
   }
 }

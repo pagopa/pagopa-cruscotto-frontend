@@ -206,7 +206,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   delete(row: IInstance): void {
     this.selectedRowId = row.id;
     const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.instance.delete.question', undefined, {
-      id: row.id,
+      id: row.instanceIdentification,
     });
 
     this.confirmSubscriber = this.confirmModalService
