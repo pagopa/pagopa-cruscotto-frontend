@@ -15,6 +15,9 @@
       "instance": {
         "main": "Instances"
       },
+      "shutdown": {
+        "main": "Shutdowns"
+      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
