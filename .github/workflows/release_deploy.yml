@@ -3,7 +3,7 @@ name: Release And Deploy
 # Controls when the workflow will run
 on:
   pull_request:
-    types: [ closed ]
+    types: [closed]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -32,7 +32,6 @@ permissions:
   issues: write
   id-token: write
   actions: read
-
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -82,7 +81,6 @@ jobs:
         name: Set Output
         run: echo "environment=${{env.ENVIRNOMENT}}" >> $GITHUB_OUTPUT
 
-
   release:
     name: Create a New Release
     runs-on: ubuntu-latest
@@ -100,7 +98,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [ setup, release ]
+    needs: [setup, release]
     name: Deploy ${{ needs.setup.outputs.environment }}
     environment: ${{ needs.setup.outputs.environment }}
     steps:
@@ -111,29 +109,15 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set Node.js 16
+      - name: Set Node.js 22
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
-          node-version: 16.10.0
+          node-version: 22.13.1
 
       - name: Build
         run: |
-          yarn install
-          yarn generate
-          
-          export REACT_APP_ENV='${{ needs.setup.outputs.environment }}'
-          export APICONFIG_HOST='${{ vars.APICONFIG_HOST }}'
-          export APICONFIG_BASEPATH='${{ vars.APICONFIG_BASEPATH }}'
-          export APICONFIG_BASEPATH_ALT='${{ vars.APICONFIG_BASEPATH_ALT }}'
-          export APICONFIG_CLIENT_ID='${{ vars.APICONFIG_CLIENT_ID }}'
-          export APICONFIG_REDIRECT_URI='${{ vars.APICONFIG_REDIRECT_URI }}'
-          export APICONFIG_SCOPES='${{ vars.APICONFIG_SCOPES }}'
-          export APICONFIG_TENANT='${{ vars.APICONFIG_TENANT }}'
-          
-          chmod +x env.sh && . ./env.sh
-
-          yarn build
-
+          npm install
+          npm run webapp:prod
       - name: Login
         id: login
         # from https://github.com/Azure/login/commits/master
@@ -148,7 +132,7 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az storage blob sync --container '$web' --account-name ${{ vars.STORAGE_ACCOUNT }} -s "./build/release" --connection-string '${{ secrets.BLOB_CONNECTION_STRING }}'
+            az storage blob sync --container '$web' --account-name ${{ vars.STORAGE_ACCOUNT }} -s "./target/classes/static" --connection-string '${{ secrets.BLOB_CONNECTION_STRING }}'
 
       - name: date
         run: |
@@ -169,21 +153,21 @@ jobs:
           inlineScript: |
             az cdn endpoint purge -g ${{ vars.CDN_RESOURCE_GROUP }} -n ${{ vars.CDN_ENDPOINT }} --profile-name ${{ vars.CDN_PROFILE }} --content-paths "/*"
 
-  notify:
-    needs: [ setup, release, deploy ]
-    runs-on: ubuntu-latest
-    name: Notify
-    if: always()
-    steps:
-      - name: Report Status
-        if: ${{ needs.setup.outputs.environment == 'prod' }}
-        uses: ravsamhq/notify-slack-action@be814b201e233b2dc673608aa46e5447c8ab13f2 # v2
-        with:
-          status: ${{ needs.deploy.result }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          notification_title: 'New Release on Production ${{ needs.release.outputs.version }} has {status_message}'
-          message_format: '{emoji} <{run_url}|{workflow}> {status_message} in <{repo_url}|{repo}>'
-          footer: 'Linked to <{workflow_url}| workflow file>'
-          icon_success: ':white_check_mark:'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#   notify:
+#     needs: [ setup, release, deploy ]
+#     runs-on: ubuntu-latest
+#     name: Notify
+#     if: always()
+#     steps:
+#       - name: Report Status
+#         if: ${{ needs.setup.outputs.environment == 'prod' }}
+#         uses: ravsamhq/notify-slack-action@be814b201e233b2dc673608aa46e5447c8ab13f2 # v2
+#         with:
+#           status: ${{ needs.deploy.result }}
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           notification_title: 'New Release on Production ${{ needs.release.outputs.version }} has {status_message}'
+#           message_format: '{emoji} <{run_url}|{workflow}> {status_message} in <{repo_url}|{repo}>'
+#           footer: 'Linked to <{workflow_url}| workflow file>'
+#           icon_success: ':white_check_mark:'
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
