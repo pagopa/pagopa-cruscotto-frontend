@@ -15,6 +15,9 @@
       "instance": {
         "main": "Istanze"
       },
+      "shutdown": {
+        "main": "Fermi"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
