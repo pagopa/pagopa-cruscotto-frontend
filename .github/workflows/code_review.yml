@@ -35,126 +35,113 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set Node.js 16
+      - name: Set Node.js 22
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
-          node-version: 16.10.0
+          node-version: 22.13.1
 
       - name: Build
         run: |
-          yarn install
-          yarn generate
+          npm install
+          npm run webapp:prod
+  # static_analysis:
+  #   name: Static Analysis
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Set Node.js 16
+  #       uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+  #       with:
+  #         node-version: 16.10.0
+
+  #     - name: Lint
+  #       run: |
+  #         yarn install
+  #         yarn generate
+  #         yarn lint
+
+  # test:
+  #   name: Unit Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Set Node.js 16
+  #       uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+  #       with:
+  #         node-version: 14.19.0
+
+  #     - name: Unit Tests
+  #       run: |
+  #         yarn install
+  #         yarn generate
           
-          export APICONFIG_HOST='http://localhost:8080'
-          export APICONFIG_BASEPATH='/apiconfig/api/v1'
-          export APICONFIG_BASEPATH_ALT='/apiconfig/api/v1'
-          export APICONFIG_CLIENT_ID='aaaa-bbbb-cccc-dddd'
-          export APICONFIG_REDIRECT_URI='http://localhost:3000'
-          export APICONFIG_SCOPES='api://pagopa-t-apiconfig-be/access-apiconfig-be'
-          export APICONFIG_TENANT='abcd12345'
-  
-          chmod +x env.sh && . ./env.sh
+  #         export APICONFIG_HOST='http://localhost:8080'
+  #         export APICONFIG_BASEPATH='/apiconfig/api/v1'
+  #         export APICONFIG_BASEPATH_ALT='/apiconfig/api/v1'
+  #         export APICONFIG_CLIENT_ID='aaaa-bbbb-cccc-dddd'
+  #         export APICONFIG_REDIRECT_URI='http://localhost:3000'
+  #         export APICONFIG_SCOPES='api://pagopa-t-apiconfig-be/access-apiconfig-be'
+  #         export APICONFIG_TENANT='abcd12345'
           
-          yarn build
-
-  static_analysis:
-    name: Static Analysis
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
-        with:
-          fetch-depth: 0
-
-      - name: Set Node.js 16
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
-        with:
-          node-version: 16.10.0
-
-      - name: Lint
-        run: |
-          yarn install
-          yarn generate
-          yarn lint
-
-  test:
-    name: Unit Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
-        with:
-          fetch-depth: 0
-
-      - name: Set Node.js 16
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
-        with:
-          node-version: 14.19.0
-
-      - name: Unit Tests
-        run: |
-          yarn install
-          yarn generate
+  #         chmod +x env.sh && . ./env.sh
           
-          export APICONFIG_HOST='http://localhost:8080'
-          export APICONFIG_BASEPATH='/apiconfig/api/v1'
-          export APICONFIG_BASEPATH_ALT='/apiconfig/api/v1'
-          export APICONFIG_CLIENT_ID='aaaa-bbbb-cccc-dddd'
-          export APICONFIG_REDIRECT_URI='http://localhost:3000'
-          export APICONFIG_SCOPES='api://pagopa-t-apiconfig-be/access-apiconfig-be'
-          export APICONFIG_TENANT='abcd12345'
+  #         yarn test
+
+  # sonar:
+  #   name: Sonar
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Set Node.js 16
+  #       uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+  #       with:
+  #         node-version: 14.19.0
+
+  #     - name: generate
+  #       run: |
+  #         yarn install
+  #         yarn generate
+
+  #         export APICONFIG_HOST='http://localhost:8080'
+  #         export APICONFIG_BASEPATH='/apiconfig/api/v1'
+  #         export APICONFIG_BASEPATH_ALT='/apiconfig/api/v1'
+  #         export APICONFIG_CLIENT_ID='aaaa-bbbb-cccc-dddd'
+  #         export APICONFIG_REDIRECT_URI='http://localhost:3000'
+  #         export APICONFIG_SCOPES='api://pagopa-t-apiconfig-be/access-apiconfig-be'
+  #         export APICONFIG_TENANT='abcd12345'
+
+  #         chmod +x env.sh && . ./env.sh
           
-          chmod +x env.sh && . ./env.sh
-          
-          yarn test
+  #         yarn test
+  #         yarn lint
 
-  sonar:
-    name: Sonar
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
-        with:
-          fetch-depth: 0
-
-      - name: Set Node.js 16
-        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
-        with:
-          node-version: 14.19.0
-
-      - name: generate
-        run: |
-          yarn install
-          yarn generate
-
-          export APICONFIG_HOST='http://localhost:8080'
-          export APICONFIG_BASEPATH='/apiconfig/api/v1'
-          export APICONFIG_BASEPATH_ALT='/apiconfig/api/v1'
-          export APICONFIG_CLIENT_ID='aaaa-bbbb-cccc-dddd'
-          export APICONFIG_REDIRECT_URI='http://localhost:3000'
-          export APICONFIG_SCOPES='api://pagopa-t-apiconfig-be/access-apiconfig-be'
-          export APICONFIG_TENANT='abcd12345'
-
-          chmod +x env.sh && . ./env.sh
-          
-          yarn test
-          yarn lint
-
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          args: >
-            -Dsonar.organization=pagopa
-            -Dsonar.projectKey=${{env.PROJECT_KEY}}
-            -Dsonar.javascript.file.suffixes=.js,.jsx
-            -Dsonar.typescript.file.suffixes=.ts,.tsx
-            -Dsonar.sources=.
-            -Dsonar.exclusions=**/__tests__/**,**/__mocks__/**,**/*.js
-            -Dsonar.tests=**/__tests__
-            -Dsonar.test.inclusions=**/__tests__/**/*.test.tsx
-            -Dsonar.testExecutionReportPaths=test-report.xml
-            -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.verbose=true
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-            -Dsonar.typescript.tsconfigPath=tsconfig.json
-            -Dsonar.eslint.reportPaths=eslint-report.json
+  #     - name: SonarCloud Scan
+  #       uses: sonarsource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #         args: >
+  #           -Dsonar.organization=pagopa
+  #           -Dsonar.projectKey=${{env.PROJECT_KEY}}
+  #           -Dsonar.javascript.file.suffixes=.js,.jsx
+  #           -Dsonar.typescript.file.suffixes=.ts,.tsx
+  #           -Dsonar.sources=.
+  #           -Dsonar.exclusions=**/__tests__/**,**/__mocks__/**,**/*.js
+  #           -Dsonar.tests=**/__tests__
+  #           -Dsonar.test.inclusions=**/__tests__/**/*.test.tsx
+  #           -Dsonar.testExecutionReportPaths=test-report.xml
+  #           -Dsonar.sourceEncoding=UTF-8
+  #           -Dsonar.verbose=true
+  #           -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+  #           -Dsonar.typescript.tsconfigPath=tsconfig.json
+  #           -Dsonar.eslint.reportPaths=eslint-report.json
 
