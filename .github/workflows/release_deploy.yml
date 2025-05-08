@@ -116,6 +116,7 @@ jobs:
 
       - name: Build
         run: |
+          export SERVER_API_URL='https://api.dev.platform.pagopa.it/smo/cruscotto/v1/'
           npm install
           npm run webapp:prod
       - name: Login
