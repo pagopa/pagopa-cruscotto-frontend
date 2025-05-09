@@ -12,10 +12,10 @@
         mat-raised-button
         color="primary"
         [routerLink]="['/entity/instances/new']"
-        [title]="['pagopaCruscottoApp.instance.lista.createLabel' | translate]"
+        [title]="['pagopaCruscottoApp.instance.list.createLabel' | translate]"
       >
         <mat-icon fontSet="material-symbols-outlined">add</mat-icon
-        ><span jhiTranslate="pagopaCruscottoApp.instance.lista.createLabel">Create a new Instance</span>
+        ><span jhiTranslate="pagopaCruscottoApp.instance.list.createLabel">Create a new Instance</span>
       </button>
     </div>
   </div>
@@ -194,6 +194,28 @@
                          [routerLink]="['/admin-users/permissions', row.id, 'view']">
                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">visibility</mat-icon>
                        </button> -->
+                        <span *ngIf="row.status === status.Bozza || row.status === status.Pianificata">
+                          <button
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{
+                              (row.status === status.Bozza
+                                ? 'pagopaCruscottoApp.instance.list.action.updateInPlanned.label'
+                                : 'pagopaCruscottoApp.instance.list.action.updateInDraft.label'
+                              ) | translate
+                            }}"
+                            matTooltipPosition="above"
+                            [attr.aria-label]="[
+                              (row.status === status.Bozza
+                                ? 'pagopaCruscottoApp.instance.list.action.updateInPlanned.label'
+                                : 'pagopaCruscottoApp.instance.list.action.updateInDraft.label'
+                              ) | translate,
+                            ]"
+                            (click)="updateStatus(row)"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">sync_alt</mat-icon>
+                          </button>
+                        </span>
                         <span *ngIf="row.status === status.Bozza || row.status === status.Pianificata">
                           <button
                             mat-icon-button
