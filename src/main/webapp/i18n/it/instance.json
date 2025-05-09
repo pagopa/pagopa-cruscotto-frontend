@@ -5,10 +5,17 @@
         "title": "Istanze"
       },
       "delete": {
-        "question": "Sei sicuro di volere eliminare l'istanza con identificatore {{ id }}?"
+        "question": "Sei sicuro di volere eliminare l'istanza con identificativo <br> {{ id }}?"
       },
-      "lista": {
-        "createLabel": "Nuova Istanza"
+      "updateStatus": {
+        "question": "Sei sicuro di voler aggiornare l'istanza con identificativo <br> {{ id }} in {{ status }}?"
+      },
+      "list": {
+        "createLabel": "Nuova Istanza",
+        "action": {
+          "updateInPlanned.label": "Aggiora In Pianificata",
+          "updateInDraft.label": "Aggiora In Bozza"
+        }
       },
       "detail": {
         "title": "Dettaglio Istanza",

@@ -195,6 +195,9 @@
     "resetPassword": {
       "title": "Confirm password reset operation"
     },
+    "updateStatus": {
+      "title": "Confirm status update operation"
+    },
     "validation": {
       "required": "This field is required",
       "minlength": "This field is required to be at least {{ min }} characters",
