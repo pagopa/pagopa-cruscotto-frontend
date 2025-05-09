@@ -38,6 +38,7 @@
       "partnerName": "Nome Partner",
       "typePlanned": "Shutdown Type",
       "shutdownIdentification": "Shutdown Identification",
+      "shutdownPeriod": "Shutdown Period",
       "shutdownStartDate": "Shutdown Start Date",
       "shutdownEndDate": "Shutdown End Date",
       "stationId": "Station Identifier",

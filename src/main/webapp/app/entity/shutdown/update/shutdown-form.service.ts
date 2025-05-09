@@ -6,6 +6,7 @@ import _ from 'lodash';
 import dayjs from 'dayjs/esm';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import { IShutdown, NewShutdown } from '../shutdown.model';
+import { IStation } from 'app/entity/station/station.model';
 
 /**
  * A partial Type with required key is used as form input.
@@ -14,7 +15,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
 
 /**
  * Type for createFormGroup and resetForm argument.
- * It accepts IInstance for edit and NewInstance for create.
+ * It accepts IShutdown for edit and NewShutdown for create.
  */
 type ShutdownFormGroupInput = IShutdown | PartialWithRequiredKeyOf<NewShutdown>;
 
@@ -23,11 +24,9 @@ type ShutdownFormDefaults = Pick<NewShutdown, 'id'>;
 type ShutdownFormGroupContent = {
   id: FormControl<IShutdown['id'] | NewShutdown['id']>;
   partner: FormControl<IPartner | null>;
-  /*
-  predictedDateAnalysis: FormControl<IShutdown['predictedDateAnalysis']>;
-  analysisPeriodStartDate: FormControl<IShutdown['analysisPeriodStartDate']>;
-  analysisPeriodEndDate: FormControl<IShutdown['analysisPeriodEndDate']>;
-  */
+  station: FormControl<IStation | null>;
+  shutdownStartDate: FormControl<IShutdown['shutdownStartDate']>;
+  shutdownEndDate: FormControl<IShutdown['shutdownEndDate']>;
 };
 
 export type ShutdownFormGroup = FormGroup<ShutdownFormGroupContent>;
@@ -45,22 +44,22 @@ export class ShutdownFormService {
         partner: new FormControl(shutdownRawValue.partnerId ? <IPartner>{ id: shutdownRawValue.partnerId } : null, {
           validators: [Validators.required],
           nonNullable: true,
-        }) /*
-        predictedDateAnalysis: new FormControl(shutdownRawValue.predictedDateAnalysis, {
+        }),
+        station: new FormControl(shutdownRawValue.stationId ? <IStation>{ id: Number(shutdownRawValue.stationId) } : null, {
           validators: [Validators.required],
           nonNullable: true,
         }),
-        analysisPeriodStartDate: new FormControl(shutdownRawValue.analysisPeriodStartDate, {
+        shutdownStartDate: new FormControl(shutdownRawValue.shutdownStartDate, {
           validators: [Validators.required],
           nonNullable: true,
         }),
-        analysisPeriodEndDate: new FormControl(shutdownRawValue.analysisPeriodEndDate, {
+        shutdownEndDate: new FormControl(shutdownRawValue.shutdownEndDate, {
           validators: [Validators.required],
           nonNullable: true,
-        }),*/,
+        }),
       },
       {
-        validators: [datepickerRangeValidatorFn('analysisPeriodStartDate', 'analysisPeriodEndDate')],
+        validators: [datepickerRangeValidatorFn('shutdownStartDate', 'shutdownEndDate')],
       },
     );
   }
@@ -68,7 +67,11 @@ export class ShutdownFormService {
   getShutdown(form: ShutdownFormGroup): IShutdown | NewShutdown {
     const shutdown = form.getRawValue();
 
-    return { ..._.omit(shutdown, 'partner'), partnerId: shutdown.partner?.id } as IShutdown | NewShutdown;
+    return {
+      ..._.omit(shutdown, 'partner', 'station', 'station'),
+      partnerId: shutdown.partner?.id,
+      stationId: String(shutdown.station?.id),
+    } as IShutdown | NewShutdown;
   }
 
   resetForm(form: ShutdownFormGroup, shutdown: ShutdownFormGroupInput): void {
@@ -76,6 +79,7 @@ export class ShutdownFormService {
       ...this.getFormDefaults(),
       ...shutdown,
       partner: shutdown.partnerId !== null ? { id: shutdown.partnerId } : null,
+      station: shutdown.stationId !== null ? { id: shutdown.stationId } : null,
     };
     form.reset(
       {

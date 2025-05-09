@@ -1,0 +1,37 @@
+<div class="row" [formGroup]="parentForm">
+  <div class="col-12">
+    @let formInnerControlNameRef = parentForm.get(formInnerControlName)!;
+    <mat-form-field class="d-block mb-2">
+      <mat-label jhiTranslate="pagopaCruscottoApp.station.station">Station</mat-label>
+      <div matTextSuffix class="d-block">
+        <div class="ng-select-custom-loading-ellipsis" *ngIf="loading">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <mat-select
+        #jhiSelectInfiniteScroll
+        jhiInfiniteScroll
+        (infiniteScroll)="getNextBatch()"
+        (selectionChange)="selectionChange($event)"
+        [compareWith]="compareFn"
+        [formControlName]="formInnerControlName"
+      >
+        <mat-option value="">{{ 'global.form.select.all' | translate }}</mat-option>
+        <mat-option *ngFor="let station of filteredData$ | async" [value]="station">
+          {{ station.name }}
+        </mat-option>
+      </mat-select>
+      <ng-container
+        ngProjectAs="mat-error"
+        *ngIf="formInnerControlNameRef.invalid && (formInnerControlNameRef.dirty || formInnerControlNameRef.touched)"
+      >
+        @if (formInnerControlNameRef?.errors?.required) {
+          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+        }
+      </ng-container>
+    </mat-form-field>
+  </div>
+</div>

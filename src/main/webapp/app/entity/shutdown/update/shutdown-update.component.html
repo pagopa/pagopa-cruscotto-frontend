@@ -1,1 +1,173 @@
-<p>Shutdown Update</p>
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.shutdown.update.create.title">New Shutdown</span>
+    </div>
+    <div class="h2" *ngIf="editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.shutdown.update.modify.title">Edit Shutdown</span> {{ editForm.get('id')?.value }}
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3 p-2">
+              <div class="offset-md-3 col-md-5">
+                <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
+
+                <jhi-station-select [parentForm]="editForm" formInnerControlName="station"></jhi-station-select>
+
+                @let shutdownStartDateRef = editForm.get('shutdownStartDate')!;
+                @let shutdownEndDateRef = editForm.get('shutdownEndDate')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownPeriod">Shutdown Period</mat-label>
+                  <mat-date-range-input [formGroup]="editForm" [rangePicker]="shutdownPeriodDateRange">
+                    <input
+                      matStartDate
+                      #matStartDate
+                      [placeholder]="'pagopaCruscottoApp.shutdown.shutdownStartDate' | translate"
+                      formControlName="shutdownStartDate"
+                    />
+                    <input
+                      matEndDate
+                      #matEndDate
+                      [placeholder]="'pagopaCruscottoApp.shutdown.shutdownEndDate' | translate"
+                      formControlName="shutdownEndDate"
+                    />
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle
+                    *ngIf="shutdownStartDateRef.value || shutdownEndDateRef.value"
+                    matSuffix
+                    (click)="clearDate('shutdownStartDate', 'shutdownEndDate')"
+                  >
+                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                      close_small
+                    </mat-icon>
+                  </mat-datepicker-toggle>
+                  <mat-datepicker-toggle matSuffix [for]="shutdownPeriodDateRange"></mat-datepicker-toggle>
+                  <mat-date-range-picker #shutdownPeriodDateRange> </mat-date-range-picker>
+                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownStartDateRef.invalid && shutdownEndDateRef.invalid">
+                    @if (
+                      shutdownStartDateRef?.errors?.required &&
+                      shutdownEndDateRef?.errors?.required &&
+                      !shutdownStartDateRef?.hasError('matDatepickerParse') &&
+                      !shutdownEndDateRef?.hasError('matDatepickerParse')
+                    ) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
+                    }
+                    @if (shutdownStartDateRef?.hasError('matDatepickerParse') && shutdownEndDateRef?.hasError('matDatepickerParse')) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                    }
+                  </ng-container>
+                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownStartDateRef.invalid">
+                    @if (
+                      shutdownStartDateRef?.hasError('required') &&
+                      !shutdownStartDateRef?.hasError('matDatepickerParse') &&
+                      !shutdownEndDateRef?.hasError('required')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.required"
+                        >This field is required.</mat-error
+                      >
+                    }
+                    @if (shutdownStartDateRef?.hasError('matDatepickerParse') && !shutdownEndDateRef?.hasError('matDatepickerParse')) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.date"
+                        >Invalid start date</mat-error
+                      >
+                    }
+                    @if (shutdownStartDateRef?.hasError('matStartDateInvalid')) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.dateLoeThanEndDate"
+                      >
+                        This field should be a date before another date
+                      </mat-error>
+                    }
+                  </ng-container>
+                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownEndDateRef.invalid">
+                    @if (
+                      shutdownEndDateRef?.hasError('required') &&
+                      !shutdownEndDateRef?.hasError('matDatepickerParse') &&
+                      !shutdownStartDateRef?.hasError('required')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.required"
+                        >This field is required.</mat-error
+                      >
+                    }
+                    @if (shutdownEndDateRef?.hasError('matDatepickerParse') && !shutdownStartDateRef?.hasError('matDatepickerParse')) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.date"
+                        >Invalid start date</mat-error
+                      >
+                    }
+
+                    @if (
+                      shutdownEndDateRef?.hasError('matDatepickerFilter') &&
+                      !shutdownStartDateRef?.hasError('matDatepickerFilter') &&
+                      !shutdownStartDateRef?.hasError('required') &&
+                      !shutdownStartDateRef?.hasError('matEndDateInvalid')
+                    ) {
+                      <mat-error
+                        class="form-text text-danger"
+                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.dateLessThanPredictedDateAnalysis"
+                      >
+                        This field should be a date after today
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  [disabled]="editForm.invalid || isSaving"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>
