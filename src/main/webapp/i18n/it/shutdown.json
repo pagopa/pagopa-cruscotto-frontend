@@ -26,7 +26,7 @@
         },
         "shutdownEndDate": {
           "validation": {
-            "required": "The 'Data Fine Fermo' è richiesta",
+            "required": "La 'Data Fine Fermo' è richiesta",
             "date": "La 'Data Fine Fermo' deve essere una data valida",
             "dateGoeThanStartDate": "La 'Data Fine Fermo' deve essere una data successiva o uguale a 'Data Inizio Fermo'"
           }
@@ -38,6 +38,7 @@
       "partnerName": "Nome Partner",
       "typePlanned": "Tipo Fermo",
       "shutdownIdentification": "Identificativo Fermo",
+      "shutdownPeriod": "Periodo di Fermo",
       "shutdownStartDate": "Data Inizio Fermo",
       "shutdownEndDate": "Data Fine Fermo",
       "stationId": "Identificativo Stazione",
