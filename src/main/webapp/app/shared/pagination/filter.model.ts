@@ -11,6 +11,7 @@ export const enum TypeData {
   DATE = 'DATE',
   TIME = 'TIME',
   NUMERIC = 'NUMERIC',
+  PARTNER = 'PARTNER',
 }
 
 export interface ISortField {
