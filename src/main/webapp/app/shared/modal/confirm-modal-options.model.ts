@@ -7,7 +7,7 @@ export class ConfirmModalOptions {
   constructor(title: string, body: string, titleParams: object | undefined, bodyParams: object | undefined) {
     this.title = title;
     this.body = body;
-    this.bodyParams = bodyParams;
     this.titleParams = titleParams;
+    this.bodyParams = bodyParams;
   }
 }
