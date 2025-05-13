@@ -57,7 +57,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   // Use a BehaviorSubject to hold the current partner ID and emit its changes
   private currentPartnerIdSubject = new BehaviorSubject<number | null>(null);
   currentPartnerId$ = this.currentPartnerIdSubject.asObservable();
-
+  first: boolean = true;
   filteredData$: Observable<IExtendedStation[]> = of([]);
   selectStation: IExtendedStation | null = null;
   loading = false;
@@ -79,62 +79,25 @@ export class StationSelectComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         tap(partnerData => {
-          console.log('received partner id :', partnerData.partnerId);
-          const newPartnerId = partnerData.partnerId ? parseInt(partnerData.partnerId, 10) : null;
-          this.currentPartnerIdSubject.next(newPartnerId);
-
-          // Reset the selected station when the partner changes
-          this.parentForm.get(this.formInnerControlName)?.setValue(null);
-          this.selectStation = null;
+          if (partnerData.partnerId !== 'undefined') {
+            console.log('received partner id :', partnerData.partnerId);
+            const newPartnerId = partnerData.partnerId ? parseInt(partnerData.partnerId, 10) : null;
+            this.currentPartnerIdSubject.next(newPartnerId);
+            if (this.first) {
+              this.first = false;
+            } else {
+              this.parentForm.get(this.formInnerControlName)?.setValue(null);
+              this.selectStation = null;
+            }
+            this.fillStations();
+          } else {
+            this.parentForm.get(this.formInnerControlName)?.setValue(null);
+            this.selectStation = null;
+            this.filteredData$ = of([]);
+          }
         }),
       )
       .subscribe();
-
-    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
-      startWith(null),
-      debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
-    );
-
-    // Combine the search term changes and the partner ID changes
-    this.filteredData$ = combineLatest([filter$, this.currentPartnerId$]).pipe(
-      switchMap(([searchTerm, currentPartnerId]) => {
-        this.searchTerm = searchTerm;
-        let currentPage = 0;
-        this.i = 0;
-        return this.incrementBatchOffset$.pipe(
-          startWith(currentPage),
-          exhaustMap(() => {
-            return this.getList(searchTerm, currentPage, currentPartnerId);
-          }),
-          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
-          tap(() => (this.currentPage = ++currentPage)),
-          takeWhile(p => p.length > 0, true),
-          scan((allGroups: any[], newGroups: any[]) => {
-            let i = 0;
-            newGroups.forEach(group => {
-              group.order = this.i++;
-              group.orderForSort = group.order;
-            });
-
-            if (this.selectStation) {
-              const foundIntoNewGroups = newGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
-              );
-              const foundIntoAllGroups = allGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
-              );
-              if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
-                allGroups.splice(foundIntoAllGroups, 1);
-              } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
-                newGroups.push(this.selectStation);
-              }
-            }
-            return allGroups.concat(newGroups);
-          }, []),
-        );
-      }),
-    );
   }
 
   batchSize = 20;
@@ -173,6 +136,54 @@ export class StationSelectComponent implements OnInit, OnDestroy {
       }),
       finalize(() => {
         this.loading = false;
+      }),
+    );
+  }
+
+  fillStations() {
+    // Combine the search term changes and the partner ID changes
+    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
+      startWith(null),
+      debounceTime(200),
+      filter(q => typeof q === 'string' || q === null),
+    );
+
+    this.filteredData$ = combineLatest([filter$, this.currentPartnerId$]).pipe(
+      switchMap(([searchTerm, currentPartnerId]) => {
+        this.searchTerm = searchTerm;
+        let currentPage = 0;
+        this.i = 0;
+        return this.incrementBatchOffset$.pipe(
+          startWith(currentPage),
+          exhaustMap(() => {
+            return this.getList(searchTerm, currentPage, currentPartnerId);
+          }),
+          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
+          tap(() => (this.currentPage = ++currentPage)),
+          takeWhile(p => p.length > 0, true),
+          scan((allGroups: any[], newGroups: any[]) => {
+            let i = 0;
+            newGroups.forEach(group => {
+              group.order = this.i++;
+              group.orderForSort = group.order;
+            });
+
+            if (this.selectStation) {
+              const foundIntoNewGroups = newGroups.findIndex(
+                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
+              );
+              const foundIntoAllGroups = allGroups.findIndex(
+                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
+              );
+              if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
+                allGroups.splice(foundIntoAllGroups, 1);
+              } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
+                newGroups.push(this.selectStation);
+              }
+            }
+            return allGroups.concat(newGroups);
+          }, []),
+        );
       }),
     );
   }
