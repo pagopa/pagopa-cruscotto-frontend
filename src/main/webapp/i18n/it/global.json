@@ -198,6 +198,9 @@
     "resetPassword": {
       "title": "Conferma operazione di reset password"
     },
+    "updateStatus": {
+      "title": "Conferma operazione di cambio stato"
+    },
     "validation": {
       "required": "Questo campo \u00E8 obbligatorio",
       "minlength": "Questo campo deve essere di almeno {{ min }} caratteri",

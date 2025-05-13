@@ -65,6 +65,10 @@ export class InstanceService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  updateStatus(id: number): Observable<HttpResponse<{}>> {
+    return this.http.put<HttpResponse<{}>>(`${this.resourceUrl}/update-status/${id}`, { observe: 'response' });
+  }
+
   protected convertDateFromClient<T extends IInstance | NewInstance>(instance: T): InstanceRestOf<T> {
     return {
       ...instance,
