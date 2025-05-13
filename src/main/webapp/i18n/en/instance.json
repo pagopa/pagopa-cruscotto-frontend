@@ -1,0 +1,64 @@
+{
+  "pagopaCruscottoApp": {
+    "instance": {
+      "home": {
+        "title": "Instance"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the instance with identifier {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "New Instance"
+      },
+      "detail": {
+        "title": "Detail Instance",
+        "modify.title": "Instance Modification"
+      },
+      "update": {
+        "create.title": "New Instance Creation",
+        "modify.title": "Instance Modification",
+        "analysisPeriodStartDate": {
+          "validation": {
+            "required": "The 'Analysis Period Start Date' field is required",
+            "date": "The 'Analysis Period Start Date' field should be a valid date",
+            "dateLoeThanEndDate": "The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Period End Date'",
+            "dateLessThanPredictedDateAnalysis": "The 'Analysis Period Start Date' field must be a date before 'Predicted Date Analysis'"
+          }
+        },
+        "analysisPeriodEndDate": {
+          "validation": {
+            "required": "The 'Analysis Period End Date' field is required",
+            "date": "The 'Analysis Period End Date' field should be a valid date",
+            "dateGoeThanStartDate": "The 'Analysis Period End Date' field must be a date after or equal to 'Analysis Period Start Date'",
+            "dateLessThanPredictedDateAnalysis": "The 'Analysis Period End Date' field must be a date before 'Predicted Date Analysis'"
+          }
+        }
+      },
+      "partner": "Partner",
+      "instanceIdentification": "Instance Identification",
+      "predictedDateAnalysis": "Predicted Date Analysis",
+      "applicationDate": "Application Date",
+      "assignedUser": "Assignee User",
+      "analysisPeriodDate": "Analysis Period Date",
+      "analysisPeriodStartDate": "Analysis Period Start Date",
+      "analysisPeriodEndDate": "Analysis Period End Date",
+      "status": "State",
+      "lastAnalysisDate": "Last Performed Analysis Date"
+    }
+  },
+  "error": {
+    "instance": {
+      "notExists": "Instance not present",
+      "cannotBeUpdated": "Instance cannot be updated",
+      "cannotBeDeleted": "Instance cannot be deleted",
+      "partnerNotExists": "Partner not present"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "instance": {
+      "created": "A new instance with identifier {{ param }} has been created",
+      "updated": "The instance with identifier {{ param }} has been updated",
+      "deleted": "the instance with identifier {{ param }} has been deleted"
+    }
+  }
+}

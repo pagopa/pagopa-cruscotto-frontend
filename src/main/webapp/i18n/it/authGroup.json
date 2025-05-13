@@ -14,6 +14,7 @@
       "description": "Descrizione",
       "functions": "Funzioni",
       "visibilityLevel": "Livello di visibilit\u00E0",
+      "group": "Gruppo",
       "lista": {
         "createLabel": "Nuovo Gruppo",
         "orderLabel": "Ordinamento Gruppi",

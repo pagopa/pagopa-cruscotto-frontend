@@ -2,7 +2,7 @@
   <div class="col-12">
     @let formInnerControlNameRef = parentForm.get(formInnerControlName)!;
     <mat-form-field class="d-block mb-2">
-      <mat-label jhiTranslate="pagopaCruscottoApp.authGroup.group">Group</mat-label>
+      <mat-label jhiTranslate="pagopaCruscottoApp.partner.partner">Partner</mat-label>
       <div matTextSuffix class="d-block">
         <div class="ng-select-custom-loading-ellipsis" *ngIf="loading">
           <div></div>
@@ -19,8 +19,9 @@
         [compareWith]="compareFn"
         [formControlName]="formInnerControlName"
       >
-        <mat-option *ngFor="let group of filteredData$ | async" [value]="group">
-          {{ group.nome }}
+        <mat-option value="">{{ 'global.form.select.all' | translate }}</mat-option>
+        <mat-option *ngFor="let partner of filteredData$ | async" [value]="partner">
+          {{ partner.name }}
         </mat-option>
       </mat-select>
       <ng-container

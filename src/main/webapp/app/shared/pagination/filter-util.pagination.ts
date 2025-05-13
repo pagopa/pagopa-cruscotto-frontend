@@ -3,6 +3,7 @@ import { IFilterPagination } from './filter.pagination';
 import { IParam, TypeData } from './filter.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT_ISO } from '../../config/input.constants';
+import { IPartner } from '../../entity/partner/partner.model';
 
 export const addToFilter = (pagination: IFilterPagination, data: AbstractControl | null, param: IParam): void => {
   if (data != null) {
@@ -97,6 +98,10 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
 
   if (filter) {
     switch (param.type) {
+      case TypeData.PARTNER: {
+        value = (filter as IPartner).id;
+        break;
+      }
       case TypeData.DATE: {
         value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
         break;
