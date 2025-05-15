@@ -6,7 +6,9 @@ header {
   //padding: 5px;
 
   mat-toolbar {
-    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, .14), 0 7px 12px -5px rgba(21, 99, 168, 0.46);
+    box-shadow:
+      0 4px 20px 0 rgba(0, 0, 0, 0.14),
+      0 7px 12px -5px rgba(21, 99, 168, 0.46);
   }
 }
 
@@ -51,7 +53,7 @@ header {
   width: 200px;
   display: inline-block;
   vertical-align: middle;
-  background: url('../../../content/images/logo_w.png') no-repeat center center transparent;
+  //background: url('../../../content/images/logo_w.png') no-repeat center center transparent;
   background-size: contain;
   cursor: pointer;
 }
