@@ -23,13 +23,12 @@ import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
 import { InstanceService } from '../service/instance.service';
-import { IInstance } from '../instance.model';
+import { IInstance, InstanceStatus } from '../instance.model';
 import { InstanceFilter } from './instance.filter';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { InstanceStateViewComponent } from '../shared/instance-state-view.component';
 import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
-import { InstanceStatus } from '../instance.model';
 
 @Component({
   selector: 'jhi-instance',
@@ -206,7 +205,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   delete(row: IInstance): void {
     this.selectedRowId = row.id;
     const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.instance.delete.question', undefined, {
-      id: row.id,
+      id: row.instanceIdentification,
     });
 
     this.confirmSubscriber = this.confirmModalService
@@ -252,5 +251,43 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.spinner.hide('isLoadingResults').then(() => {
       this.isLoadingResults = false;
     });
+  }
+
+  updateStatus(row: IInstance): void {
+    this.selectedRowId = row.id;
+    const confirmOptions = new ConfirmModalOptions(
+      'entity.updateStatus.title',
+      'pagopaCruscottoApp.instance.updateStatus.question',
+      undefined,
+      {
+        id: row.instanceIdentification,
+        status: this.translateService.instant(
+          'pagopaCruscottoApp.instanceState.' + (row.status === InstanceStatus.Bozza ? InstanceStatus.Pianificata : InstanceStatus.Bozza),
+          undefined,
+        ),
+      },
+    );
+
+    this.confirmSubscriber = this.confirmModalService
+      .save({ width: '500px', hasBackdrop: true }, confirmOptions)
+      .pipe(take(1))
+      .subscribe((result: ModalResult) => {
+        this.selectedRowId = null;
+        if (result === ModalResult.CONFIRMED) {
+          this.spinner.show('isLoadingResults').then(() => {
+            this.isLoadingResults = true;
+          });
+          this.instanceService.updateStatus(row.id!).subscribe({
+            next: () => {
+              this.loadPage(this.filter.page, false);
+            },
+            error: () => {
+              this.spinner.hide('isLoadingResults').then(() => {
+                this.isLoadingResults = false;
+              });
+            },
+          });
+        }
+      });
   }
 }

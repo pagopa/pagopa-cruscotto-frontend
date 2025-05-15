@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "PagoPa Cruscotto",
+    "title": "PagoPa - Cruscotto",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
@@ -194,6 +194,9 @@
     },
     "resetPassword": {
       "title": "Confirm password reset operation"
+    },
+    "updateStatus": {
+      "title": "Confirm status update operation"
     },
     "validation": {
       "required": "This field is required",
