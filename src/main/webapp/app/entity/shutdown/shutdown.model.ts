@@ -5,6 +5,8 @@ export interface IShutdown {
   typePlanned?: TypePlanned;
   shutdownStartDate?: dayjs.Dayjs | null;
   shutdownEndDate?: dayjs.Dayjs | null;
+  shutdownStartHour?: Date | null;
+  shutdownEndHour?: Date | null;
   standIn?: boolean | null;
   year?: number | null;
   externalId?: number | null;

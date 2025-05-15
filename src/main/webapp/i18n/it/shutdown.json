@@ -24,11 +24,23 @@
             "dateLoeThanEndDate": "La 'Data Inizio Fermo' deve essere una data precedente o uguale a 'Data Fine Fermo'"
           }
         },
+        "shutdownStartTime": {
+          "label": "Orario Inizio Fermo",
+          "validation": {
+            "timeLoeThanEndTime": "L'orario di Inizio Fermo deve essere precedente all'orario di Fine Fermo"
+          }
+        },
         "shutdownEndDate": {
           "validation": {
             "required": "La 'Data Fine Fermo' è richiesta",
             "date": "La 'Data Fine Fermo' deve essere una data valida",
             "dateGoeThanStartDate": "La 'Data Fine Fermo' deve essere una data successiva o uguale a 'Data Inizio Fermo'"
+          }
+        },
+        "shutdownEndTime": {
+          "label": "Orario Fine Fermo",
+          "validation": {
+            "timeGoeThanStartTime": "L'orario di Fine Fermo deve essere successivo all'orario di Inizio Fermo"
           }
         }
       },

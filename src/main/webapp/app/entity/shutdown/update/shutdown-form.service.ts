@@ -3,8 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IPartner } from '../../partner/partner.model';
 import _ from 'lodash';
-import dayjs from 'dayjs/esm';
-import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { timeValidatorFn } from 'app/shared/util/validator-util';
 import { IShutdown, NewShutdown } from '../shutdown.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -27,6 +26,8 @@ type ShutdownFormGroupContent = {
   station: FormControl<IStation | null>;
   shutdownStartDate: FormControl<IShutdown['shutdownStartDate']>;
   shutdownEndDate: FormControl<IShutdown['shutdownEndDate']>;
+  shutdownStartHour: FormControl<IShutdown['shutdownStartHour']>;
+  shutdownEndHour: FormControl<IShutdown['shutdownEndHour']>;
 };
 
 export type ShutdownFormGroup = FormGroup<ShutdownFormGroupContent>;
@@ -57,9 +58,17 @@ export class ShutdownFormService {
           validators: [Validators.required],
           nonNullable: true,
         }),
+        shutdownStartHour: new FormControl(shutdownRawValue.shutdownStartHour, {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+        shutdownEndHour: new FormControl(shutdownRawValue.shutdownEndHour, {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
       },
       {
-        validators: [datepickerRangeValidatorFn('shutdownStartDate', 'shutdownEndDate')],
+        validators: [timeValidatorFn('shutdownStartDate', 'shutdownEndDate', 'shutdownStartHour', 'shutdownEndHour')],
       },
     );
   }

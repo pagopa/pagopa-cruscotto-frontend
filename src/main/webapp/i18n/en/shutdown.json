@@ -21,14 +21,27 @@
           "validation": {
             "required": "The 'Shutdown Start Date' field is required",
             "date": "The 'Shutdown Start Date' field should be a valid date",
-            "dateLoeThanEndDate": "The 'Shutdown Start Date' field must be a date before or equal to 'Shutdown End Date'"
+            "dateLoeThanEndDate": "The 'Shutdown Start Date' field must be a date before or equal to 'Shutdown End Date'",
+            "timeLoeThanEndTime": "The 'Shutdown Start Time' field must be a time before or equal to 'Shutdown End Time'"
+          }
+        },
+        "shutdownStartTime": {
+          "label": "Shutdown Start Time",
+          "validation": {
+            "timeLoeThanEndTime": "The 'Shutdown Start Time' field must be a time before or equal to 'Shutdown End Time'"
           }
         },
         "shutdownEndDate": {
+          "label": "Shutdown End Time",
           "validation": {
             "required": "The 'Shutdown End Date' field is required",
             "date": "The 'Shutdown End Date' field should be a valid date",
             "dateGoeThanStartDate": "The 'Shutdown End Date' field must be a date after or equal to 'Shutdown Start Date'"
+          }
+        },
+        "shutdownEndTime": {
+          "validation": {
+            "timeGoeThanStartTime": "The 'Shutdown End Time' field must be a time after or equal to 'Shutdown Start Time'"
           }
         }
       },
