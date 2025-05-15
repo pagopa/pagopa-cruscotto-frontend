@@ -20,6 +20,9 @@ import { IShutdown } from '../shutdown.model';
 import { ShutdownService } from '../service/shutdown.service';
 import { ShutdownFormGroup, ShutdownFormService } from './shutdown-form.service';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
+import { MatTimepickerIntl, MatTimepickerModule, provideNativeDateTimeAdapter, MAT_TIME_LOCALE } from '@dhutaryan/ngx-mat-timepicker';
+
+import { MatTimepickerI18nService } from 'app/shared/time/mat-timepicker.service';
 
 /* eslint-disable no-console */
 
@@ -40,6 +43,12 @@ import { StationSelectComponent } from 'app/entity/station/shared/station-select
     MatDatepickerModule,
     PartnerSelectComponent,
     StationSelectComponent,
+    MatTimepickerModule,
+  ],
+  providers: [
+    { provide: MatTimepickerIntl, useClass: MatTimepickerI18nService },
+    { provide: MAT_TIME_LOCALE, useValue: 'it-IT' },
+    provideNativeDateTimeAdapter(),
   ],
 })
 export class ShutdownUpdateComponent implements OnInit {
@@ -105,7 +114,8 @@ export class ShutdownUpdateComponent implements OnInit {
     }
   }
 
-  clearDate(...ctrlNames: string[]): void {
+  clearField(...ctrlNames: string[]): void {
+    console.log(this.editForm.get('shutdownStartHour')!);
     ctrlNames.forEach(ctrlName => this.editForm.get(ctrlName)?.setValue(null));
   }
 

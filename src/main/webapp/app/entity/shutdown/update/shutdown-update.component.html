@@ -27,113 +27,148 @@
 
                 <jhi-station-select [parentForm]="editForm" formInnerControlName="station"></jhi-station-select>
 
-                @let shutdownStartDateRef = editForm.get('shutdownStartDate')!;
-                @let shutdownEndDateRef = editForm.get('shutdownEndDate')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownPeriod">Shutdown Period</mat-label>
-                  <mat-date-range-input [formGroup]="editForm" [rangePicker]="shutdownPeriodDateRange">
-                    <input
-                      matStartDate
-                      #matStartDate
-                      [placeholder]="'pagopaCruscottoApp.shutdown.shutdownStartDate' | translate"
-                      formControlName="shutdownStartDate"
-                    />
-                    <input
-                      matEndDate
-                      #matEndDate
-                      [placeholder]="'pagopaCruscottoApp.shutdown.shutdownEndDate' | translate"
-                      formControlName="shutdownEndDate"
-                    />
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle
-                    *ngIf="shutdownStartDateRef.value || shutdownEndDateRef.value"
-                    matSuffix
-                    (click)="clearDate('shutdownStartDate', 'shutdownEndDate')"
-                  >
-                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
-                      close_small
-                    </mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker-toggle matSuffix [for]="shutdownPeriodDateRange"></mat-datepicker-toggle>
-                  <mat-date-range-picker #shutdownPeriodDateRange> </mat-date-range-picker>
-                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownStartDateRef.invalid && shutdownEndDateRef.invalid">
-                    @if (
-                      shutdownStartDateRef?.errors?.required &&
-                      shutdownEndDateRef?.errors?.required &&
-                      !shutdownStartDateRef?.hasError('matDatepickerParse') &&
-                      !shutdownEndDateRef?.hasError('matDatepickerParse')
-                    ) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        This field is required.
-                      </mat-error>
-                    }
-                    @if (shutdownStartDateRef?.hasError('matDatepickerParse') && shutdownEndDateRef?.hasError('matDatepickerParse')) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
-                    }
-                  </ng-container>
-                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownStartDateRef.invalid">
-                    @if (
-                      shutdownStartDateRef?.hasError('required') &&
-                      !shutdownStartDateRef?.hasError('matDatepickerParse') &&
-                      !shutdownEndDateRef?.hasError('required')
-                    ) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.required"
-                        >This field is required.</mat-error
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field>
+                      @let shutdownStartDateRef = editForm.get('shutdownStartDate')!;
+                      <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownStartDate">Shutdown Start Date</mat-label>
+                      <input matInput [matDatepicker]="shutdownStartDate" formControlName="shutdownStartDate" />
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        *ngIf="shutdownStartDateRef.value || shutdownStartDateRef?.hasError('matDatepickerParse')"
+                        (click)="clearField('shutdownStartDate')"
                       >
-                    }
-                    @if (shutdownStartDateRef?.hasError('matDatepickerParse') && !shutdownEndDateRef?.hasError('matDatepickerParse')) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.date"
-                        >Invalid start date</mat-error
-                      >
-                    }
-                    @if (shutdownStartDateRef?.hasError('matStartDateInvalid')) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.dateLoeThanEndDate"
-                      >
-                        This field should be a date before another date
-                      </mat-error>
-                    }
-                  </ng-container>
-                  <ng-container ngProjectAs="mat-error" *ngIf="shutdownEndDateRef.invalid">
-                    @if (
-                      shutdownEndDateRef?.hasError('required') &&
-                      !shutdownEndDateRef?.hasError('matDatepickerParse') &&
-                      !shutdownStartDateRef?.hasError('required')
-                    ) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.required"
-                        >This field is required.</mat-error
-                      >
-                    }
-                    @if (shutdownEndDateRef?.hasError('matDatepickerParse') && !shutdownStartDateRef?.hasError('matDatepickerParse')) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.date"
-                        >Invalid start date</mat-error
-                      >
-                    }
+                        <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                          close_small
+                        </mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker-toggle matSuffix [for]="shutdownStartDate"></mat-datepicker-toggle>
+                      <mat-datepicker #shutdownStartDate></mat-datepicker>
 
-                    @if (
-                      shutdownEndDateRef?.hasError('matDatepickerFilter') &&
-                      !shutdownStartDateRef?.hasError('matDatepickerFilter') &&
-                      !shutdownStartDateRef?.hasError('required') &&
-                      !shutdownStartDateRef?.hasError('matEndDateInvalid')
-                    ) {
-                      <mat-error
-                        class="form-text text-danger"
-                        jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.dateLessThanPredictedDateAnalysis"
+                      <ng-container
+                        ngProjectAs="mat-error"
+                        *ngIf="shutdownStartDateRef.invalid && (shutdownStartDateRef.dirty || shutdownStartDateRef.touched)"
                       >
-                        This field should be a date after today
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
+                        @if (shutdownStartDateRef?.errors?.required && !shutdownStartDateRef?.hasError('matDatepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                            This field is required.
+                          </mat-error>
+                        }
+                        @if (shutdownStartDateRef?.hasError('matDatepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                        }
+                        @if (shutdownStartDateRef?.hasError('dateMax') && !shutdownEndDateRef?.hasError('required')) {
+                          <mat-error
+                            class="form-text text-danger"
+                            jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.dateLoeThanEndDate"
+                          ></mat-error>
+                        }
+                        <br />
+                      </ng-container>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    @let shutdownStartHourRef = editForm.get('shutdownStartHour')!;
+                    <mat-form-field>
+                      <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartTime.label"></mat-label>
+                      <input matInput [matTimepicker]="startHourPicker" formControlName="shutdownStartHour" />
+                      <mat-timepicker-toggle matIconSuffix [for]="startHourPicker" />
+                      <mat-timepicker #startHourPicker />
+
+                      <ng-container
+                        ngProjectAs="mat-error"
+                        *ngIf="shutdownStartHourRef.invalid && (shutdownStartHourRef.dirty || shutdownStartHourRef.touched)"
+                      >
+                        @if (shutdownStartHourRef?.errors?.required && !shutdownStartHourRef?.hasError('matTimepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                            This field is required.
+                          </mat-error>
+                        }
+                        @if (shutdownStartHourRef?.hasError('matTimepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.time">Invalid time</mat-error>
+                        }
+                        @if (shutdownStartHourRef?.hasError('timeMax') && !shutdownEndHourRef?.hasError('required')) {
+                          <mat-error
+                            class="form-text text-danger"
+                            jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartTime.validation.timeLoeThanEndTime"
+                          ></mat-error>
+                        }
+                      </ng-container>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br *ngIf="shutdownStartDateRef?.errors?.dateMax || shutdownStartHourRef?.errors?.timeMax" />
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field>
+                      @let shutdownEndDateRef = editForm.get('shutdownEndDate')!;
+                      <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownEndDate">Shutdown End Date</mat-label>
+                      <input matInput [matDatepicker]="shutdownEndDate" formControlName="shutdownEndDate" />
+                      <mat-datepicker-toggle
+                        matIconSuffix
+                        *ngIf="shutdownEndDateRef.value || shutdownEndDateRef?.hasError('matDatepickerParse')"
+                        (click)="clearField('shutdownEndDate')"
+                      >
+                        <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                          close_small
+                        </mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker-toggle matSuffix [for]="shutdownEndDate"></mat-datepicker-toggle>
+                      <mat-datepicker #shutdownEndDate></mat-datepicker>
+
+                      <ng-container
+                        ngProjectAs="mat-error"
+                        *ngIf="shutdownEndDateRef.invalid && (shutdownEndDateRef.dirty || shutdownEndDateRef.touched)"
+                      >
+                        @if (shutdownEndDateRef?.errors?.required && !shutdownEndDateRef?.hasError('matDatepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                            This field is required.
+                          </mat-error>
+                        }
+                        @if (shutdownEndDateRef?.hasError('matDatepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                        }
+                        @if (shutdownEndDateRef?.hasError('dateMin') && !shutdownStartDateRef?.hasError('required')) {
+                          <mat-error
+                            class="form-text text-danger"
+                            jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.dateGoeThanStartDate"
+                          ></mat-error>
+                        }
+                      </ng-container>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    @let shutdownEndHourRef = editForm.get('shutdownEndHour')!;
+
+                    <mat-form-field>
+                      <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndTime.label"></mat-label>
+                      <input matInput [matTimepicker]="endHourPicker" formControlName="shutdownEndHour" />
+                      <mat-timepicker-toggle matIconSuffix [for]="endHourPicker" />
+                      <mat-timepicker #endHourPicker />
+
+                      <ng-container
+                        ngProjectAs="mat-error"
+                        *ngIf="shutdownEndHourRef.invalid && (shutdownEndHourRef.dirty || shutdownEndHourRef.touched)"
+                      >
+                        @if (shutdownEndHourRef?.errors?.required && !shutdownEndHourRef?.hasError('matTimepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                            This field is required.
+                          </mat-error>
+                        }
+                        @if (shutdownEndHourRef?.hasError('matTimepickerParse')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.time">Invalid time</mat-error>
+                        }
+                        @if (shutdownEndHourRef?.hasError('timeMin') && !shutdownStartHourRef?.hasError('required')) {
+                          <mat-error
+                            class="form-text text-danger"
+                            jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndTime.validation.timeGoeThanStartTime"
+                          ></mat-error>
+                        }
+                      </ng-container>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br />
               </div>
             </div>
           </mat-card-content>

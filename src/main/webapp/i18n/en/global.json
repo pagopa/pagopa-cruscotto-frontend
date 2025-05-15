@@ -215,6 +215,7 @@
       "patternLogin": "This field can only contain letters, digits and e-mail addresses",
       "email": "This field should be a valid e-mail",
       "date": "This field should be a valid date",
+      "time": "This field should be a valid time",
       "fromDate": "This field should be a valid from date",
       "toDate": "This field should be a valid to date",
       "institutionCode": "The field should be a number with 7 digit",
