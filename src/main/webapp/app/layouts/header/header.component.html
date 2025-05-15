@@ -1,7 +1,8 @@
 <header>
   <mat-toolbar color="primary">
-    <span class="flex-1">
-      <a class="logo-img" href="#" [routerLink]="['/home']" aria-label="goToHome"></a>
+    <span class="flex-1 ms-5">
+      {{ 'global.title' | translate }}
+      <!--      <a class="logo-img" href="#" [routerLink]="['/home']" aria-label="goToHome"></a>-->
     </span>
     <jhi-language-picker></jhi-language-picker>
     <span
