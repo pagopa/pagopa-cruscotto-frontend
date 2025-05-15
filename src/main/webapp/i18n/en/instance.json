@@ -5,10 +5,17 @@
         "title": "Instance"
       },
       "delete": {
-        "question": "Are you sure you want to delete the instance with identifier {{ id }}?"
+        "question": "Are you sure you want to delete the instance with identifier <br> {{ id }}?"
       },
-      "lista": {
-        "createLabel": "New Instance"
+      "updateStatus": {
+        "question": "Are you sure you want to update the instance with identifier <br> {{ id }} in {{ status }}?"
+      },
+      "list": {
+        "createLabel": "New Instance",
+        "action": {
+          "updateInPlanned.label": "Update In Planned",
+          "updateInDraft.label": "Update In Draft"
+        }
       },
       "detail": {
         "title": "Detail Instance",

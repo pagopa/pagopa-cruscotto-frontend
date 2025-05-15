@@ -1,17 +1,15 @@
 <h2 mat-dialog-title *ngIf="title">{{ title }}</h2>
 <mat-dialog-content>
-  <p>{{ body }}</p>
+  <p [innerHTML]="body"></p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button type="button" mat-raised-button [title]="['entity.action.cancel' | translate]" (click)="cancel()">
-    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">cancel</mat-icon>&nbsp;<span jhiTranslate="entity.action.cancel"
-      >Cancel</span
-    >
+    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">cancel</mat-icon>
+    &nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
   </button>
 
   <button type="button" mat-flat-button (click)="confirm()" [title]="['entity.action.save' | translate]" color="primary">
-    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">save</mat-icon>&nbsp;<span jhiTranslate="entity.action.save"
-      >Delete</span
-    >
+    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">save</mat-icon>
+    &nbsp;<span jhiTranslate="entity.action.save">Delete</span>
   </button>
 </mat-dialog-actions>
