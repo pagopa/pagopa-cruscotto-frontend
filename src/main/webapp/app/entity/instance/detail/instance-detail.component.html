@@ -88,7 +88,7 @@
             <div class="col-lg-6">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.status">Status</span>
               <p class="p-2 bg-light">
-                {{ instance?.status || '' | translate }}
+                {{ 'pagopaCruscottoApp.instanceState.' + instance?.status | translate }}
               </p>
             </div>
 
