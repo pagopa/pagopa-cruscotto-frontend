@@ -32,11 +32,11 @@
                     <mat-form-field>
                       @let shutdownStartDateRef = editForm.get('shutdownStartDate')!;
                       <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownStartDate">Shutdown Start Date</mat-label>
-                      <input matInput [matDatepicker]="shutdownStartDate" formControlName="shutdownStartDate" />
+                      <input matInput [matDatepicker]="shutdownStartDate" formControlName="shutdownStartDate" [min]="minDateFrom" />
                       <mat-datepicker-toggle
                         matIconSuffix
                         *ngIf="shutdownStartDateRef.value || shutdownStartDateRef?.hasError('matDatepickerParse')"
-                        (click)="clearField('shutdownStartDate')"
+                        (click)="clearFields('shutdownStartDate')"
                       >
                         <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                           close_small
@@ -62,6 +62,9 @@
                             class="form-text text-danger"
                             jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.dateLoeThanEndDate"
                           ></mat-error>
+                        }
+                        @if (shutdownStartDateRef?.hasError('afterToday')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday"></mat-error>
                         }
                         <br />
                       </ng-container>
@@ -97,17 +100,23 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <br *ngIf="shutdownStartDateRef?.errors?.dateMax || shutdownStartHourRef?.errors?.timeMax" />
+                <br
+                  *ngIf="
+                    shutdownStartDateRef?.errors?.dateMax ||
+                    shutdownStartHourRef?.errors?.timeMax ||
+                    shutdownStartDateRef?.hasError('afterToday')
+                  "
+                />
                 <div class="row">
                   <div class="col">
                     <mat-form-field>
                       @let shutdownEndDateRef = editForm.get('shutdownEndDate')!;
                       <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownEndDate">Shutdown End Date</mat-label>
-                      <input matInput [matDatepicker]="shutdownEndDate" formControlName="shutdownEndDate" />
+                      <input matInput [matDatepicker]="shutdownEndDate" formControlName="shutdownEndDate" [min]="minDateFrom" />
                       <mat-datepicker-toggle
                         matIconSuffix
                         *ngIf="shutdownEndDateRef.value || shutdownEndDateRef?.hasError('matDatepickerParse')"
-                        (click)="clearField('shutdownEndDate')"
+                        (click)="clearFields('shutdownEndDate')"
                       >
                         <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                           close_small
@@ -133,6 +142,9 @@
                             class="form-text text-danger"
                             jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.dateGoeThanStartDate"
                           ></mat-error>
+                        }
+                        @if (shutdownEndDateRef?.hasError('afterToday')) {
+                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday"></mat-error>
                         }
                       </ng-container>
                     </mat-form-field>

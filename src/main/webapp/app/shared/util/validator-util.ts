@@ -71,17 +71,21 @@ export const timeValidatorFn = (
     const toControl = control.get(toDateControlName);
     const fromTimeControl = control.get(fromTimeControlName);
     const toTimeControl = control.get(toTimeControlName);
-    const startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
-    const endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
+    let startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
+    let endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
     const startTime = fromTimeControl ? (fromTimeControl.value as Date) : null;
     const endTime = toTimeControl ? (toTimeControl.value as Date) : null;
     let notDateError = true;
     let notTimeError = true;
-    let notCurrentDateError = true;
-    let notCurrentTimeError = true;
+    let notStartBeforeToday = true;
+    let notEndBeforeToday = true;
     if (startDate && endDate && startTime && endTime) {
-      const now = dayjs(dayjs().second(0).millisecond(0));
-      const nowStart: dayjs.Dayjs = dayjs().hour(startTime.getHours()).minute(startTime.getMinutes()).second(0).millisecond(0);
+      //considero la sola differenza in giorni fra startDate, endDate e now
+      startDate = startDate.clone().hour(0).minute(0).second(0).millisecond(0);
+      endDate = endDate.clone().hour(0).minute(0).second(0).millisecond(0);
+      const now = dayjs(dayjs().hour(0).minute(0).second(0).millisecond(0));
+      //considero la sola differenza in ore e minuti fra nowStart e nowEnd
+      const nowStart = dayjs().hour(startTime.getHours()).minute(startTime.getMinutes()).second(0).millisecond(0);
       const nowEnd = dayjs(dayjs().hour(endTime.getHours()).minute(endTime.getMinutes()).second(0).millisecond(0));
 
       if (endDate.diff(startDate, 'days') < 0) {
@@ -122,6 +126,30 @@ export const timeValidatorFn = (
         }
       }
 
+      if (startDate.diff(now, 'days') <= 0) {
+        notStartBeforeToday = false;
+        if (fromControl) {
+          fromControl.setErrors({
+            ...fromControl.errors,
+            ...{
+              afterToday: true,
+            },
+          });
+        }
+      }
+
+      if (endDate.diff(now, 'days') <= 0) {
+        notEndBeforeToday = false;
+        if (toControl) {
+          toControl.setErrors({
+            ...toControl.errors,
+            ...{
+              afterToday: true,
+            },
+          });
+        }
+      }
+
       if (notDateError) {
         if (fromControl) {
           const errors = fromControl.errors ?? [];
@@ -135,6 +163,25 @@ export const timeValidatorFn = (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           delete errors['dateMin'];
+          toControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+        }
+      }
+
+      if (notStartBeforeToday) {
+        if (fromControl) {
+          const errors = fromControl.errors ?? [];
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete errors['afterToday'];
+          fromControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+        }
+      }
+      if (notEndBeforeToday) {
+        if (toControl) {
+          const errors = toControl.errors ?? [];
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete errors['afterToday'];
           toControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
         }
       }
