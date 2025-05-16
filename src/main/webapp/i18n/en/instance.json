@@ -49,6 +49,8 @@
       "analysisPeriodDate": "Analysis Period Date",
       "analysisPeriodStartDate": "Analysis Period Start Date",
       "analysisPeriodEndDate": "Analysis Period End Date",
+      "analysisPeriodStartMonth": "Analysis Period Start Month",
+      "analysisPeriodEndMonth": "Analysis Period End Month",
       "status": "State",
       "lastAnalysisDate": "Last Performed Analysis Date"
     }
