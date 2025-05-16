@@ -1,6 +1,6 @@
-import { AnalysisType } from './analysis-type';
-import { AnalysisOutcome } from './analysis-outcome';
-import { ModuleStatus } from './module-status';
+import { AnalysisType } from './analysis-type.model';
+import { AnalysisOutcome } from './analysis-outcome.model';
+import { ModuleStatus } from './module-status.model';
 
 export interface IInstanceModule {
   id?: number; // ID dell'entità
