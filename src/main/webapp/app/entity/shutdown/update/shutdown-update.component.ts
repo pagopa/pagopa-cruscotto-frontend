@@ -114,8 +114,7 @@ export class ShutdownUpdateComponent implements OnInit {
     }
   }
 
-  clearField(...ctrlNames: string[]): void {
-    console.log(this.editForm.get('shutdownStartHour')!);
+  clearFields(...ctrlNames: string[]): void {
     ctrlNames.forEach(ctrlName => this.editForm.get(ctrlName)?.setValue(null));
   }
 
