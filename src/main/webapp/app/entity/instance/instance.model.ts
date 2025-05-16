@@ -1,9 +1,11 @@
 import dayjs from 'dayjs/esm';
+import { IInstanceModule } from '../instance-module/instance-module';
 
 export interface IInstance {
   id: number;
   instanceIdentification?: string | null;
   partnerId?: number | null;
+  partnerFiscalCode?: string | null;
   partnerName?: string | null;
   predictedDateAnalysis?: dayjs.Dayjs | null;
   applicationDate?: dayjs.Dayjs | null;
@@ -14,6 +16,7 @@ export interface IInstance {
   analysisPeriodEndDate?: dayjs.Dayjs | null;
   status?: InstanceStatus;
   lastAnalysisDate?: dayjs.Dayjs | null;
+  instanceModules?: IInstanceModule[] | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };
@@ -30,6 +33,7 @@ export class Instance implements IInstance {
     public id: number,
     public instanceIdentification?: string | null,
     public partnerId?: number | null,
+    public partnerFiscalCode?: string | null,
     public partnerName?: string | null,
     public predictedDateAnalysis?: dayjs.Dayjs | null,
     public applicationDate?: dayjs.Dayjs | null,
@@ -40,5 +44,6 @@ export class Instance implements IInstance {
     public analysisPeriodEndDate?: dayjs.Dayjs | null,
     public status?: InstanceStatus,
     public lastAnalysisDate?: dayjs.Dayjs | null,
+    public instanceModules?: IInstanceModule[] | null,
   ) {}
 }
