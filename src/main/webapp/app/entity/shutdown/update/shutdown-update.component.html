@@ -32,7 +32,7 @@
                     <mat-form-field>
                       @let shutdownStartDateRef = editForm.get('shutdownStartDate')!;
                       <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownStartDate">Shutdown Start Date</mat-label>
-                      <input matInput [matDatepicker]="shutdownStartDate" formControlName="shutdownStartDate" [min]="minDateFrom" />
+                      <input matInput [matDatepicker]="shutdownStartDate" formControlName="shutdownStartDate" />
                       <mat-datepicker-toggle
                         matIconSuffix
                         *ngIf="shutdownStartDateRef.value || shutdownStartDateRef?.hasError('matDatepickerParse')"
@@ -62,9 +62,6 @@
                             class="form-text text-danger"
                             jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartDate.validation.dateLoeThanEndDate"
                           ></mat-error>
-                        }
-                        @if (shutdownStartDateRef?.hasError('afterToday')) {
-                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday"></mat-error>
                         }
                         <br />
                       </ng-container>
@@ -112,7 +109,7 @@
                     <mat-form-field>
                       @let shutdownEndDateRef = editForm.get('shutdownEndDate')!;
                       <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownEndDate">Shutdown End Date</mat-label>
-                      <input matInput [matDatepicker]="shutdownEndDate" formControlName="shutdownEndDate" [min]="minDateFrom" />
+                      <input matInput [matDatepicker]="shutdownEndDate" formControlName="shutdownEndDate" />
                       <mat-datepicker-toggle
                         matIconSuffix
                         *ngIf="shutdownEndDateRef.value || shutdownEndDateRef?.hasError('matDatepickerParse')"
@@ -142,9 +139,6 @@
                             class="form-text text-danger"
                             jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownEndDate.validation.dateGoeThanStartDate"
                           ></mat-error>
-                        }
-                        @if (shutdownEndDateRef?.hasError('afterToday')) {
-                          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday"></mat-error>
                         }
                       </ng-container>
                     </mat-form-field>
