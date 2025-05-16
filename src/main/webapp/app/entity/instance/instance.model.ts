@@ -24,3 +24,21 @@ export enum InstanceStatus {
   Eseguita = 'ESEGUITA',
   Cancellata = 'CANCELLATA',
 }
+
+export class Instance implements IInstance {
+  constructor(
+    public id: number,
+    public instanceIdentification?: string | null,
+    public partnerId?: number | null,
+    public partnerName?: string | null,
+    public predictedDateAnalysis?: dayjs.Dayjs | null,
+    public applicationDate?: dayjs.Dayjs | null,
+    public assignedUserId?: number,
+    public assignedFirstName?: string,
+    public assignedLastName?: string,
+    public analysisPeriodStartDate?: dayjs.Dayjs | null,
+    public analysisPeriodEndDate?: dayjs.Dayjs | null,
+    public status?: InstanceStatus,
+    public lastAnalysisDate?: dayjs.Dayjs | null,
+  ) {}
+}

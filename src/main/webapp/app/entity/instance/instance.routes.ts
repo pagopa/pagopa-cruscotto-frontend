@@ -3,6 +3,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
 import { InstanceComponent } from './list/instance.component';
 import { InstanceUpdateComponent } from './update/instance-update.component';
 import { InstanceRoutingResolve } from './route/instance-routing-resolve.service';
+import { InstanceDetailComponent } from './detail/instance-detail.component';
 
 const instanceRoutes: Routes = [
   {
@@ -10,14 +11,14 @@ const instanceRoutes: Routes = [
     component: InstanceComponent,
     canActivate: [UserRouteAccessService],
   },
-  // {
-  //   path: ':id/view',
-  //   component: InstanceDetailComponent,
-  //   resolve: {
-  //     permission: InstanceRoutingResolve,
-  //   },
-  //   canActivate: [UserRouteAccessService],
-  // },
+  {
+    path: ':id/view',
+    component: InstanceDetailComponent,
+    resolve: {
+      permission: InstanceRoutingResolve,
+    },
+    canActivate: [UserRouteAccessService],
+  },
   {
     path: 'new',
     component: InstanceUpdateComponent,
