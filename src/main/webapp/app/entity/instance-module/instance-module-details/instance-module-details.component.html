@@ -1,0 +1,37 @@
+<div class="row mb-2" *ngIf="moduleId && moduleCode; else noData">
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <div class="row custom-row p-2">
+          <!-- Campo: Module ID -->
+          <div class="col-lg-6">
+            <span><strong>Module ID:</strong></span>
+            <p class="p-2 bg-light">{{ moduleId }}</p>
+          </div>
+
+          <!-- Campo: Analysis Date -->
+          <div class="col-lg-6">
+            <span><strong>Analysis Date:</strong></span>
+            <p class="p-2 bg-light">{{ analysisDate | date: 'medium' }}</p>
+          </div>
+
+          <!-- Campo: Eligibility Threshold -->
+          <div class="col-lg-6">
+            <span><strong>Eligibility Threshold:</strong></span>
+            <p class="p-2 bg-light">{{ eligibilityThreshold || 'N/A' }}</p>
+          </div>
+
+          <!-- Campo: Evaluation Type -->
+          <div class="col-lg-6">
+            <span><strong>Evaluation Type:</strong></span>
+            <p class="p-2 bg-light">{{ evaluationType || 'N/A' }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No module data available</p>
+</ng-template>

@@ -104,4 +104,40 @@
       </mat-card>
     </div>
   </div>
+
+  <!-- Nuova card per i Tabs -->
+  <div class="row mt-4 mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div>
+            <!-- Barra di navigazione dei Tab -->
+            <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+              <a
+                mat-tab-link
+                *ngFor="let module of instanceModulesSorted(); let i = index"
+                (click)="selectModule(module)"
+                [active]="selectedModule?.id === module.id"
+              >
+                {{ module.moduleCode || 'N/A' }}
+              </a>
+            </nav>
+            <mat-tab-nav-panel #tabPanel>
+              <ng-container *ngIf="selectedModule; else noModuleSelected">
+                <!-- Caricamento del componente che mostra i dettagli -->
+                <jhi-instance-module-details
+                  [moduleId]="selectedModule?.id"
+                  [moduleCode]="selectedModule?.moduleCode"
+                ></jhi-instance-module-details>
+              </ng-container>
+            </mat-tab-nav-panel>
+          </div>
+
+          <ng-template #noModuleSelected>
+            <p>No Module Selected</p>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>

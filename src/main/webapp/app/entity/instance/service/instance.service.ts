@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
-import { IInstance, NewInstance } from '../instance.model';
+import { IInstance, NewInstance } from '../models/instance.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT, DATE_FORMAT_ISO, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 

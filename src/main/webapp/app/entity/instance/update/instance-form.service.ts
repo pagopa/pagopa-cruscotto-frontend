@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { IInstance, NewInstance } from '../instance.model';
+import { IInstance, NewInstance } from '../models/instance.model';
 import { IPartner } from '../../partner/partner.model';
 import _ from 'lodash';
-import dayjs from 'dayjs/esm';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 
 /**
