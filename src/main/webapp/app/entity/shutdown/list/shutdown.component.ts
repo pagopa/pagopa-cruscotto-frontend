@@ -25,7 +25,7 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
-import { InstanceStatus } from 'app/entity/instance/instance.model';
+import { InstanceStatus } from 'app/entity/instance/models/instance.model';
 import { ShutdownFilter } from './shutdown.filter';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ShutdownService } from 'app/entity/shutdown/service/shutdown.service';
