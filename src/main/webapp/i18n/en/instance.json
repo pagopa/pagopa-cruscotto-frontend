@@ -21,7 +21,7 @@
         "title": "Instance Detail",
         "modify.title": "Edit Instance",
         "instanceIdentification": "Instance Identification",
-        "partnerId": "Partner ID",
+        "partner": "Partner",
         "partnerName": "Partner Name",
         "predictedDateAnalysis": "Predicted Date for Analysis",
         "applicationDate": "Application Date",

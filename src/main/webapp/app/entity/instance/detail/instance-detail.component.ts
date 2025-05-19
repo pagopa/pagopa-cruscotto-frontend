@@ -4,7 +4,6 @@ import SharedModule from '../../../shared/shared.module';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent } from '@angular/material/card';
-import { FormatDatePipe } from '../../../shared/date';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { InstanceStatus, Instance } from '../models/instance.model';
 import { InstanceService } from '../service/instance.service';
@@ -21,7 +20,6 @@ import { InstanceModuleDetailsComponent } from '../../instance-module/instance-m
     MatIcon,
     MatCard,
     MatCardContent,
-    FormatDatePipe,
     MatTabNav,
     MatTabNavPanel,
     InstanceModuleDetailsComponent,
