@@ -84,12 +84,14 @@ export class ShutdownFormService {
   }
 
   resetForm(form: ShutdownFormGroup, shutdown: ShutdownFormGroupInput): void {
+    console.log(shutdown);
     const shutdownRawValue = {
       ...this.getFormDefaults(),
       ...shutdown,
       partner: shutdown.partnerId !== null ? { id: shutdown.partnerId } : null,
       station: shutdown.stationId !== null ? { id: shutdown.stationId } : null,
     };
+    console.log(shutdownRawValue);
     form.reset(
       {
         ...shutdownRawValue,

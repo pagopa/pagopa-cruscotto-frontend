@@ -5,8 +5,8 @@ export interface IShutdown {
   typePlanned?: TypePlanned;
   shutdownStartDate?: dayjs.Dayjs | null;
   shutdownEndDate?: dayjs.Dayjs | null;
-  shutdownStartHour?: Date | null;
-  shutdownEndHour?: Date | null;
+  shutdownStartHour?: dayjs.Dayjs | null;
+  shutdownEndHour?: dayjs.Dayjs | null;
   standIn?: boolean | null;
   year?: number | null;
   externalId?: number | null;
@@ -21,5 +21,5 @@ export type NewShutdown = Omit<IShutdown, 'id'> & { id: null };
 
 export enum TypePlanned {
   PROGRAMMATO = 'PROGRAMMATO',
-  NON_PROGRAMMATO = 'NON PROGRAMMATO',
+  NON_PROGRAMMATO = 'NON_PROGRAMMATO',
 }

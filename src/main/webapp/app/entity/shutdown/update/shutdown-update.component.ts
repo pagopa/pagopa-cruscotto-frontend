@@ -20,9 +20,7 @@ import { IShutdown } from '../shutdown.model';
 import { ShutdownService } from '../service/shutdown.service';
 import { ShutdownFormGroup, ShutdownFormService } from './shutdown-form.service';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { MatTimepickerIntl, MatTimepickerModule, provideNativeDateTimeAdapter, MAT_TIME_LOCALE } from '@dhutaryan/ngx-mat-timepicker';
-
-import { MatTimepickerI18nService } from 'app/shared/time/mat-timepicker.service';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 
 /* eslint-disable no-console */
 
@@ -44,11 +42,6 @@ import { MatTimepickerI18nService } from 'app/shared/time/mat-timepicker.service
     PartnerSelectComponent,
     StationSelectComponent,
     MatTimepickerModule,
-  ],
-  providers: [
-    { provide: MatTimepickerIntl, useClass: MatTimepickerI18nService },
-    { provide: MAT_TIME_LOCALE, useValue: 'it-IT' },
-    provideNativeDateTimeAdapter(),
   ],
 })
 export class ShutdownUpdateComponent implements OnInit {
@@ -136,4 +129,22 @@ export class ShutdownUpdateComponent implements OnInit {
       this.isSaving = false;
     });
   }
+
+  minDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
+    const maxDate = this.editForm.get('shutdownEndDate')?.value || dayjs().add(1, 'year');
+
+    if (maxDate && d !== null) {
+      return d.isSameOrBefore(maxDate);
+    }
+    return true;
+  };
+
+  maxDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
+    const minDate = this.editForm.get('shutdownStartDate')?.value || dayjs().add(-1, 'year');
+    if (minDate && d !== null) {
+      return d.isSameOrAfter(minDate);
+    }
+
+    return true;
+  };
 }
