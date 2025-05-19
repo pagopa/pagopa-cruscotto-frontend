@@ -185,19 +185,26 @@
                   <td mat-cell *matCellDef="let row">
                     <div class="d-flex justify-content-center align-items-center">
                       <div>
-                        <!--                        <button
-                         mat-icon-button
-                         type="button"
-                         matTooltip="{{ 'entity.action.view' | translate }}"
-                         matTooltipPosition="above"
-                         [attr.aria-label]="['entity.list.column.actions.view.ariaLabel' | translate]"
-                         [routerLink]="['/admin-users/permissions', row.id, 'view']">
-                         <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">visibility</mat-icon>
-                       </button> -->
-                        <span *ngIf="row.status === status.Bozza || row.status === status.Pianificata">
+                        <span>
                           <button
+                            class="m-1"
                             mat-icon-button
                             type="button"
+                            matTooltip="{{ 'entity.action.view' | translate }}"
+                            matTooltipPosition="above"
+                            [disabled]="row.status === status.Eseguita"
+                            [attr.aria-label]="['entity.list.column.actions.view.ariaLabel' | translate]"
+                            [routerLink]="['/entity/instances', row.id, 'view']"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">visibility</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            class="m-1"
+                            mat-icon-button
+                            type="button"
+                            [disabled]="row.status === status.Eseguita"
                             matTooltip="{{
                               (row.status === status.Bozza
                                 ? 'pagopaCruscottoApp.instance.list.action.updateInPlanned.label'
@@ -216,27 +223,41 @@
                             <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">sync_alt</mat-icon>
                           </button>
                         </span>
-                        <span *ngIf="row.status === status.Bozza || row.status === status.Pianificata">
+                        <span>
                           <button
+                            class="m-1"
                             mat-icon-button
                             type="button"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
+                            [disabled]="row.status === status.Eseguita"
                             [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
                             [routerLink]="['/entity/instances', row.id, 'edit']"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">edit</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.status === status.Eseguita ? '' : 'primary'"
+                              aria-hidden="false"
+                              >edit</mat-icon
+                            >
                           </button>
                         </span>
-                        <span *ngIf="row.status === status.Bozza || row.status === status.Pianificata">
+                        <span>
                           <button
+                            class="m-1"
                             mat-icon-button
                             type="button"
+                            [disabled]="row.status === status.Eseguita"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
                             (click)="delete(row)"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" color="warn" aria-hidden="false">delete</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.status === status.Eseguita ? '' : 'warn'"
+                              aria-hidden="false"
+                              >delete</mat-icon
+                            >
                           </button>
                         </span>
                       </div>
