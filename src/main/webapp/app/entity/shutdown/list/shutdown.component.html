@@ -1,0 +1,228 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.shutdown.home.title">Shutdowns</span>
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+      <button
+        id="jh-create-entity"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/entity/shutdowns/new']"
+        [title]="['pagopaCruscottoApp.shutdown.lista.createLabel' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">add</mat-icon
+        ><span jhiTranslate="pagopaCruscottoApp.shutdown.lista.createLabel">Create a new Shutdown</span>
+      </button>
+    </div>
+  </div>
+
+  <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm" autocomplete="off">
+    <mat-accordion>
+      <mat-expansion-panel class="criteri-ricerca mb-4" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-start align-content-center">
+              <div class="p-2">
+                <mat-icon fontSet="material-symbols-outlined" color="primary">search</mat-icon>
+              </div>
+              <div class="p-2">
+                <span jhiTranslate="entity.search.title" class="h6">Filtri di ricerca</span>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-lg-4">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
+          </div>
+        </div>
+
+        <mat-action-row class="d-block">
+          <div class="d-flex justify-content-end align-items-center">
+            <button
+              type="submit"
+              id="search"
+              mat-flat-button
+              color="primary"
+              [disabled]="searchForm.invalid || isLoadingResults"
+              [title]="['entity.action.search' | translate]"
+            >
+              <mat-icon fontSet="material-symbols-outlined">search</mat-icon><span jhiTranslate="entity.action.search">Search</span>
+            </button>
+            <button type="button" mat-raised-button (click)="clear()" [title]="['entity.action.clear' | translate]">
+              <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon><span jhiTranslate="entity.action.clear">Clear</span>
+            </button>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="mat-elevation-z8" *ngIf="!_search">
+        <mat-card-content>
+          <div class="d-flex align-items-center justify-content-center w-100 m-4">
+            <div class="h6 font-weight-bold">
+              {{ 'entity.list.filter' | translate }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mat-elevation-z8" *ngIf="_search">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-paginator
+            *ngIf="resultsLength > 0"
+            [pageSize]="itemsPerPage"
+            [pageIndex]="page - 1"
+            [disabled]="isLoadingResults"
+            [length]="resultsLength"
+            (page)="changePage($event)"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
+          <div class="table-responsive">
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="data"
+                class="w-100"
+                (matSortChange)="sortData($event)"
+                [matSortActive]="filter.sort.field"
+                [matSortDirection]="filter.sort.direction"
+                matSort
+                matSortDisableClear
+              >
+                <ng-container matColumnDef="shutdownIdentification">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.shutdownIdentification' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="typePlanned">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.typePlanned' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.typePlanned }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="shutdownStartDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.shutdownStartDate' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.shutdownStartDate | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="shutdownEndDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.shutdownEndDate' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.shutdownEndDate | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="partnerFiscalCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.partnerFiscalCode' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.partnerFiscalCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="partnerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.partnerName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.partnerName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="stationName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.shutdown.stationName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.stationName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'entity.list.column.actions.label' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{ 'entity.action.detail' | translate }}"
+                            matTooltipPosition="above"
+                            [routerLink]="['/entity/shutdowns', row.id, 'view']"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">visibility</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{ 'entity.action.edit' | translate }}"
+                            matTooltipPosition="above"
+                            [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
+                            [routerLink]="['/entity/shutdowns', row.id, 'edit']"
+                            [disabled]="row.typePlanned === 'PROGRAMMATO'"
+                          >
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.typePlanned === 'PROGRAMMATO' ? null : 'primary'"
+                              aria-hidden="false"
+                              >edit</mat-icon
+                            >
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{ 'entity.action.delete' | translate }}"
+                            matTooltipPosition="above"
+                            [disabled]="row.typePlanned === 'PROGRAMMATO'"
+                            (click)="delete(row)"
+                          >
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.typePlanned === 'PROGRAMMATO' ? null : 'warn'"
+                              aria-hidden="false"
+                              >delete</mat-icon
+                            >
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ highlightTableColor: selectedRowId == row.id }"
+                ></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell font-weight-bold text-center" colspan="10">{{ 'entity.list.noResult' | translate }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

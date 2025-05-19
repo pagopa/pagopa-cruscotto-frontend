@@ -1,0 +1,13 @@
+{
+  "pagopaCruscottoApp": {
+    "station": {
+      "home": {
+        "title": "Stazione"
+      },
+      "detail": {
+        "title": "Dettaglio Stazione"
+      },
+      "station": "Stazione"
+    }
+  }
+}
