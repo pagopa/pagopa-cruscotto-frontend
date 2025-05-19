@@ -28,7 +28,8 @@
         "configuration": "Configurazione",
         "logSystem": "Log Applicativo",
         "apiDocs": "API",
-        "database": "Database"
+        "database": "Database",
+        "jobs": "Jobs"
       },
       "language": {
         "italiano": "Italiano",
