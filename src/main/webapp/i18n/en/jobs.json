@@ -1,0 +1,44 @@
+{
+  "pagopaCruscottoApp": {
+    "job": {
+      "home": {
+        "title": "Jobs",
+        "notFound": "No Jobs found"
+      },
+      "azione": "",
+      "jobName": "Job Name",
+      "groupName": "Group",
+      "scheduleTime": "Schedule Time",
+      "lastFiredTime": "Last Fired Time",
+      "nextFireTime": "Next Fire Time",
+      "jobStatus": "Status",
+      "modalEdit": {
+        "home": {
+          "title": "Modifica Cron Job '{{ jobName }}'"
+        },
+        "cron": "Espressione Cron",
+        "year": "Anno",
+        "month": "Mese",
+        "day": "Giorno",
+        "hour": "Ora",
+        "minute": "Minuti"
+      },
+      "action": {
+        "start": "Start Job",
+        "pause": "Pause Schedulation",
+        "resume": "Resume Schedulation",
+        "stop": "Stop Job",
+        "edit": "Edit Schedulation"
+      }
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "job": {
+      "update": "Job {{ param }} cron aggiornato",
+      "pause": "Il Job {{ param }} &egrave; stato messo in pausa",
+      "stop": "Il Job {{ param }} &egrave; stato fermato",
+      "resume": "Il Job {{ param }} &egrave; stato riavviato",
+      "start": "Il Job {{ param }} &egrave; stato avviato"
+    }
+  }
+}

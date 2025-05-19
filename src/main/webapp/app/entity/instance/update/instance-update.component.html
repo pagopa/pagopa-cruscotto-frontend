@@ -33,6 +33,7 @@
                     [matDatepicker]="predictedDateAnalysis"
                     formControlName="predictedDateAnalysis"
                     [matDatepickerFilter]="predictedDateAnalysisValidator"
+                    datePickerFormat="DD/MM/YYYY"
                   />
                   <mat-datepicker-toggle
                     matIconSuffix
@@ -68,50 +69,88 @@
 
                 @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
                 @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodDate">Analysis Period Date</mat-label>
-                  <mat-date-range-input [formGroup]="editForm" [rangePicker]="analysisPeriodDateRange" [dateFilter]="rangeFilter">
+                <div class="d-block mb-3">
+                  <!-- Campo per il mese di inizio -->
+                  <!-- Start Month -->
+                  <mat-form-field class="d-block mb-2">
+                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartMonth">Start Month</mat-label>
                     <input
-                      matStartDate
-                      #matStartDate
-                      [placeholder]="'pagopaCruscottoApp.instance.analysisPeriodStartDate' | translate"
+                      matInput
+                      [matDatepicker]="startMonthPicker"
                       formControlName="analysisPeriodStartDate"
+                      [matDatepickerFilter]="startMonthFilter"
+                      readonly
                     />
+                    <button
+                      mat-icon-button
+                      *ngIf="editForm.get('analysisPeriodStartDate')?.value"
+                      matSuffix
+                      aria-label="Clear"
+                      (click)="clearDate('analysisPeriodStartDate')"
+                    >
+                      <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                        close_small
+                      </mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="startMonthPicker"></mat-datepicker-toggle>
+                    <mat-datepicker
+                      #startMonthPicker
+                      startView="multi-year"
+                      (monthSelected)="selectStartMonth($event, startMonthPicker)"
+                      panelClass="month-year-picker"
+                    ></mat-datepicker>
+                    <mat-error *ngIf="editForm.get('analysisPeriodStartDate')?.invalid">
+                      <span *ngIf="editForm.get('analysisPeriodStartDate')?.hasError('required')">{{
+                        'entity.validation.required' | translate
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <!-- End Month -->
+                  <mat-form-field class="d-block mb-2">
+                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndMonth">End Month</mat-label>
                     <input
-                      matEndDate
-                      #matEndDate
-                      [placeholder]="'pagopaCruscottoApp.instance.analysisPeriodEndDate' | translate"
+                      matInput
+                      [matDatepicker]="endMonthPicker"
                       formControlName="analysisPeriodEndDate"
+                      [matDatepickerFilter]="endMonthFilter"
+                      readonly
                     />
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle
-                    *ngIf="analysisPeriodStartDateRef.value || analysisPeriodEndDateRef.value"
-                    matSuffix
-                    (click)="clearDate('analysisPeriodStartDate', 'analysisPeriodEndDate')"
-                  >
-                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
-                      close_small
-                    </mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker-toggle matSuffix [for]="analysisPeriodDateRange"></mat-datepicker-toggle>
-                  <mat-date-range-picker #analysisPeriodDateRange> </mat-date-range-picker>
+                    <button
+                      mat-icon-button
+                      *ngIf="editForm.get('analysisPeriodEndDate')?.value"
+                      matSuffix
+                      aria-label="Clear"
+                      (click)="clearDate('analysisPeriodEndDate')"
+                    >
+                      <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                        close_small
+                      </mat-icon>
+                    </button>
+                    <mat-datepicker-toggle matSuffix [for]="endMonthPicker"></mat-datepicker-toggle>
+                    <mat-datepicker
+                      #endMonthPicker
+                      startView="multi-year"
+                      (monthSelected)="selectEndMonth($event, endMonthPicker)"
+                      panelClass="month-year-picker"
+                    ></mat-datepicker>
+                    <mat-error *ngIf="editForm.get('analysisPeriodEndDate')?.invalid">
+                      <span *ngIf="editForm.get('analysisPeriodEndDate')?.hasError('required')">{{
+                        'entity.validation.required' | translate
+                      }}</span>
+                    </mat-error>
+                  </mat-form-field>
+
+                  <!-- INIZIO ERRORI DI VALIDAZIONE -->
                   <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid && analysisPeriodEndDateRef.invalid">
-                    @if (
-                      analysisPeriodStartDateRef?.errors?.required &&
-                      analysisPeriodEndDateRef?.errors?.required &&
-                      !analysisPeriodStartDateRef?.hasError('matDatepickerParse') &&
-                      !analysisPeriodEndDateRef?.hasError('matDatepickerParse')
-                    ) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        This field is required.
-                      </mat-error>
-                    }
                     @if (
                       analysisPeriodStartDateRef?.hasError('matDatepickerParse') && analysisPeriodEndDateRef?.hasError('matDatepickerParse')
                     ) {
                       <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
                     }
                   </ng-container>
+
+                  <!-- ERRORI DI VALIDAZIONE  PeriodStartDate -->
                   <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid">
                     @if (
                       analysisPeriodStartDateRef?.hasError('required') &&
@@ -156,6 +195,8 @@
                       </mat-error>
                     }
                   </ng-container>
+
+                  <!-- ERRORI DI VALIDAZIONE  PeriodEndDate -->
                   <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodEndDateRef.invalid">
                     @if (
                       analysisPeriodEndDateRef?.hasError('required') &&
@@ -192,41 +233,9 @@
                         This field should be a date after today
                       </mat-error>
                     }
-                    <!--                 @if(analysisPeriodEndDateRef?.hasError('matEndDateInvalid')) {
-	                  <mat-error class="form-text text-danger" jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateGoeThanStartDate">
-	                    This field should be a date before another date
-	                  </mat-error>
-	                } -->
                   </ng-container>
-                </mat-form-field>
-
-                <!--  @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartDate">Analysis Period Start Date</mat-label>
-                  <input matInput autocomplete="off" formControlName="analysisPeriodStartDate" />
-
-                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodStartDateRef.invalid && (analysisPeriodDateRangeRef.dirty || analysisPeriodDateRangeRef.touched)">
-                    @if (analysisPeriodDateRangeRef?.errors?.required) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        This field is required.
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-
-                @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndDate">Analysis Period End Date</mat-label>
-                  <input matInput autocomplete="off" formControlName="analysisPeriodEndDate" />
-
-                  <ng-container ngProjectAs="mat-error" *ngIf="analysisPeriodEndDateRef.invalid && (analysisPeriodEndDateRef.dirty || analysisPeriodEndDateRef.touched)">
-                    @if (analysisPeriodEndDateRef?.errors?.required) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        This field is required.
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field> -->
+                  <!-- FINE ERRORI DI VALIDAZIONE -->
+                </div>
               </div>
             </div>
           </mat-card-content>
