@@ -15,6 +15,9 @@
       "instance": {
         "main": "Istanze"
       },
+      "shutdown": {
+        "main": "Fermi"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
@@ -213,6 +216,7 @@
       "patternLogin": "Questo campo pu\u00F2 contenere solo lettere, cifre e indirizzi e-mail",
       "email": "Questo campo dovrebbe essere una e-mail valida",
       "date": "Questo campo dovrebbe essere una data valida",
+      "time": "Questo campo dovrebbe essere un orario valido",
       "fromDate": "Questo campo dovrebbe essere una data valida di inizio",
       "toDate": "Questo campo dovrebbe essere una data valida di fine",
       "institutionCode": "Questo campo dovrebbe essere un numerico di 7 cifre",

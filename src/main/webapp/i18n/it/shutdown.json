@@ -1,0 +1,75 @@
+{
+  "pagopaCruscottoApp": {
+    "shutdown": {
+      "home": {
+        "title": "Fermi"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il fermo con identificatore {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "Nuovo Fermo"
+      },
+      "detail": {
+        "title": "Dettaglio Fermo",
+        "modify.title": "Modifica Fermo"
+      },
+      "update": {
+        "create.title": "Creazione Nuovo Fermo",
+        "modify.title": "Modifica Fermo",
+        "shutdownStartDate": {
+          "validation": {
+            "required": "La 'Data Inizio Fermo' \u00E8 obbligatoria",
+            "date": "La 'Data Inizio Fermo'  dovrebbe essere una data valida",
+            "dateLoeThanEndDate": "La 'Data Inizio Fermo' deve essere una data precedente o uguale a 'Data Fine Fermo'"
+          }
+        },
+        "shutdownStartTime": {
+          "label": "Orario Inizio Fermo",
+          "validation": {
+            "timeLoeThanEndTime": "L'orario di Inizio Fermo deve essere precedente all'orario di Fine Fermo"
+          }
+        },
+        "shutdownEndDate": {
+          "validation": {
+            "required": "La 'Data Fine Fermo' è richiesta",
+            "date": "La 'Data Fine Fermo' deve essere una data valida",
+            "dateGoeThanStartDate": "La 'Data Fine Fermo' deve essere una data successiva o uguale a 'Data Inizio Fermo'"
+          }
+        },
+        "shutdownEndTime": {
+          "label": "Orario Fine Fermo",
+          "validation": {
+            "timeGoeThanStartTime": "L'orario di Fine Fermo deve essere successivo all'orario di Inizio Fermo"
+          }
+        }
+      },
+      "shutdownId": "Identificativo Fermo",
+      "partner": "Partner",
+      "partnerFiscalCode": "Codice Fiscale Partner",
+      "partnerName": "Nome Partner",
+      "typePlanned": "Tipo Fermo",
+      "shutdownIdentification": "Identificativo Fermo",
+      "shutdownPeriod": "Periodo di Fermo",
+      "shutdownStartDate": "Data Inizio Fermo",
+      "shutdownEndDate": "Data Fine Fermo",
+      "stationId": "Identificativo Stazione",
+      "stationName": "Nome Stazione"
+    }
+  },
+  "error": {
+    "shutdown": {
+      "notExists": "Fermo inesistente",
+      "cannotBeUpdated": "Il fermo non può essere modificato",
+      "cannotBeDeleted": "Il fermo non può essere rimosso",
+      "partnerNotExists": "Partner inesistente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "shutdown": {
+      "created": "Un nuovo fermo con identificativo {{ param }} è stato creato",
+      "updated": "Il fermo con identificativo {{ param }} è stato modificato",
+      "deleted": "Il fermo con identificativo {{ param }} è stato cancellato"
+    }
+  }
+}
