@@ -13,7 +13,7 @@
           id="jh-create-entity"
           mat-raised-button
           color="primary"
-          *ngIf="shutdown.typePlanned === 'NON PROGRAMMATO'"
+          *ngIf="shutdown.typePlanned === planned"
           [routerLink]="['/entity/shutdowns', shutdown.id, 'edit']"
           [title]="['userManagement.detail.updateLabel' | translate]"
         >

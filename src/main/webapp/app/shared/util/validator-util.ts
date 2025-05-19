@@ -71,10 +71,12 @@ export const timeValidatorFn = (
     const toControl = control.get(toDateControlName);
     const fromTimeControl = control.get(fromTimeControlName);
     const toTimeControl = control.get(toTimeControlName);
+
+    console.log(toTimeControl);
     let startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
     let endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
-    const startTime = fromTimeControl ? (fromTimeControl.value as Date) : null;
-    const endTime = toTimeControl ? (toTimeControl.value as Date) : null;
+    const startTime = fromTimeControl ? (fromTimeControl.value as dayjs.Dayjs) : null;
+    const endTime = toTimeControl ? (toTimeControl.value as dayjs.Dayjs) : null;
     let notDateError = true;
     let notTimeError = true;
     if (startDate && endDate && startTime && endTime) {
@@ -83,8 +85,8 @@ export const timeValidatorFn = (
       endDate = endDate.clone().hour(0).minute(0).second(0).millisecond(0);
       const now = dayjs(dayjs().hour(0).minute(0).second(0).millisecond(0));
       //considero la sola differenza in ore e minuti fra nowStart e nowEnd
-      const nowStart = dayjs().hour(startTime.getHours()).minute(startTime.getMinutes()).second(0).millisecond(0);
-      const nowEnd = dayjs(dayjs().hour(endTime.getHours()).minute(endTime.getMinutes()).second(0).millisecond(0));
+      const nowStart = dayjs().hour(startTime.hour()).minute(startTime.minute()).second(0).millisecond(0);
+      const nowEnd = dayjs(dayjs().hour(endTime.hour()).minute(endTime.minute()).second(0).millisecond(0));
 
       if (endDate.diff(startDate, 'days') < 0) {
         notDateError = false;
