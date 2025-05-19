@@ -127,6 +127,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
           medium: true,
           large: true,
         },
+        {
+          label: 'global.menu.systemAdministration.jobs',
+          route: '/admin/jobs',
+          permission: Authority.GTW_STRUMENTI_CONTROLLO,
+          xSmall: true,
+          small: true,
+          medium: true,
+          large: true,
+        },
       ],
     },
   ];
