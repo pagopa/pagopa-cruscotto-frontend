@@ -26,77 +26,57 @@
       <mat-card class="mat-elevation-z8">
         <mat-card-content>
           <div class="row custom-row p-2">
-            <!-- Campo: Identificazione dell'istanza -->
-            <div class="col-lg-6">
+            <!-- Prima riga: Identificazione Istanza, Partner, Utente Assegnato -->
+            <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.instanceIdentification">Instance Identification</span>
               <p class="p-2 bg-light">{{ instance?.instanceIdentification }}</p>
             </div>
-
-            <!-- Campo: Partner ID -->
-            <div class="col-lg-6">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.partnerId">Partner ID</span>
-              <p class="p-2 bg-light">{{ instance?.partnerId }}</p>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.partner">Partner</span>
+              <p class="p-2 bg-light">{{ instance?.partnerFiscalCode }} - {{ instance?.partnerName }}</p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.assignedTo">Assigned To</span>
+              <p class="p-2 bg-light">{{ instance?.assignedFirstName }} {{ instance?.assignedLastName }}</p>
             </div>
 
-            <!-- Campo: Nome del partner -->
-            <div class="col-lg-6">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.partnerName">Partner Name</span>
-              <p class="p-2 bg-light">{{ instance?.partnerName }}</p>
-            </div>
-
-            <!-- Campo: Data prevista per l'analisi -->
-            <div class="col-lg-6">
+            <!-- Seconda riga: Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
+            <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
               <p class="p-2 bg-light">
-                {{ instance?.predictedDateAnalysis | formatDate: 'L LTS' : locale }}
+                {{ instance?.predictedDateAnalysis?.toDate() | date: 'dd/MM/YYYY' : locale }}
               </p>
             </div>
-
-            <!-- Campo: Data della richiesta -->
-            <div class="col-lg-6">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
-              <p class="p-2 bg-light">
-                {{ instance?.applicationDate | formatDate: 'L LTS' : locale }}
-              </p>
-            </div>
-
-            <!-- Campo: Utente assegnato -->
-            <div class="col-lg-6">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.assignedTo">Assigned To</span>
-              <p class="p-2 bg-light">
-                {{ instance?.assignedFirstName }} {{ instance?.assignedLastName }} (ID: {{ instance?.assignedUserId }})
-              </p>
-            </div>
-
-            <!-- Campo: Periodo di analisi (inizio) -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.analysisPeriodStartDate | formatDate: 'L LTS' : locale }}
+                {{ instance?.analysisPeriodStartDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
               </p>
             </div>
-
-            <!-- Campo: Periodo di analisi (fine) -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.analysisPeriodEndDate | formatDate: 'L LTS' : locale }}
+                {{ instance?.analysisPeriodEndDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
               </p>
             </div>
 
-            <!-- Campo: Stato -->
-            <div class="col-lg-6">
+            <!-- Terza riga: Data della Richiesta, Ultima Data di Analisi, Stato -->
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.applicationDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.lastAnalysisDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.status">Status</span>
               <p class="p-2 bg-light">
                 {{ 'pagopaCruscottoApp.instanceState.' + instance?.status | translate }}
-              </p>
-            </div>
-
-            <!-- Campo: Ultima analisi -->
-            <div class="col-lg-6">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
-              <p class="p-2 bg-light">
-                {{ instance?.lastAnalysisDate | formatDate: 'L LTS' : locale }}
               </p>
             </div>
           </div>
@@ -126,8 +106,9 @@
               <ng-container *ngIf="selectedModule; else noModuleSelected">
                 <!-- Caricamento del componente che mostra i dettagli -->
                 <jhi-instance-module-details
-                  [moduleId]="selectedModule?.id"
-                  [moduleCode]="selectedModule?.moduleCode"
+                  [moduleId]="selectedModule.id"
+                  [moduleCode]="selectedModule.moduleCode"
+                  [moduleDetails]="selectedModule"
                 ></jhi-instance-module-details>
               </ng-container>
             </mat-tab-nav-panel>

@@ -21,7 +21,7 @@
         "title": "Dettaglio Istanza",
         "modify.title": "Modifica Istanza",
         "instanceIdentification": "Identificazione Istanza",
-        "partnerId": "ID Partner",
+        "partner": "Partner",
         "partnerName": "Nome Partner",
         "predictedDateAnalysis": "Data Prevista per l'Analisi",
         "applicationDate": "Data della Richiesta",
