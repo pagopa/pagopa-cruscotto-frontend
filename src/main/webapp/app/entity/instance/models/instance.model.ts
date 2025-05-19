@@ -1,5 +1,5 @@
 import dayjs from 'dayjs/esm';
-import { IInstanceModule } from '../instance-module/instance-module.model';
+import { IInstanceModule } from '../../instance-module/models/instance-module.model';
 
 export interface IInstance {
   id: number;

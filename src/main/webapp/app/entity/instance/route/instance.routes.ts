@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { InstanceComponent } from './list/instance.component';
-import { InstanceUpdateComponent } from './update/instance-update.component';
-import { InstanceRoutingResolve } from './route/instance-routing-resolve.service';
-import { InstanceDetailComponent } from './detail/instance-detail.component';
+import { InstanceComponent } from '../list/instance.component';
+import { InstanceUpdateComponent } from '../update/instance-update.component';
+import { InstanceRoutingResolve } from './instance-routing-resolve.service';
+import { InstanceDetailComponent } from '../detail/instance-detail.component';
 
 const instanceRoutes: Routes = [
   {
