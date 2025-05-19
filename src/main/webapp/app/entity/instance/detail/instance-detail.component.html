@@ -1,0 +1,124 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{ instance?.id }}</strong
+      >]
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+        <span jhiTranslate="entity.action.back">Back</span>
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        disabled
+        [routerLink]="['/entity/instance', instance?.id, 'edit']"
+        [title]="['pagopaCruscottoApp.instance.detail.updateLabel' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+        <span jhiTranslate="pagopaCruscottoApp.instance.detail.updateLabel">Update</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div class="row custom-row p-2">
+            <!-- Prima riga: Identificazione Istanza, Partner, Utente Assegnato -->
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.instanceIdentification">Instance Identification</span>
+              <p class="p-2 bg-light">{{ instance?.instanceIdentification }}</p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.partner">Partner</span>
+              <p class="p-2 bg-light">{{ instance?.partnerFiscalCode }} - {{ instance?.partnerName }}</p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.assignedTo">Assigned To</span>
+              <p class="p-2 bg-light">{{ instance?.assignedFirstName }} {{ instance?.assignedLastName }}</p>
+            </div>
+
+            <!-- Seconda riga: Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
+              <p class="p-2 bg-light">
+                {{ instance?.predictedDateAnalysis?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.analysisPeriodStartDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.analysisPeriodEndDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+
+            <!-- Terza riga: Data della Richiesta, Ultima Data di Analisi, Stato -->
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.applicationDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.lastAnalysisDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.status">Status</span>
+              <p class="p-2 bg-light">
+                {{ 'pagopaCruscottoApp.instanceState.' + instance?.status | translate }}
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Nuova card per i Tabs -->
+  <div class="row mt-4 mb-2">
+    <div class="col-md-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <div>
+            <!-- Barra di navigazione dei Tab -->
+            <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+              <a
+                mat-tab-link
+                *ngFor="let module of instanceModulesSorted(); let i = index"
+                (click)="selectModule(module)"
+                [active]="selectedModule?.id === module.id"
+              >
+                {{ module.moduleCode || 'N/A' }}
+              </a>
+            </nav>
+            <mat-tab-nav-panel #tabPanel>
+              <ng-container *ngIf="selectedModule; else noModuleSelected">
+                <!-- Caricamento del componente che mostra i dettagli -->
+                <jhi-instance-module-details
+                  [moduleId]="selectedModule.id"
+                  [moduleCode]="selectedModule.moduleCode"
+                  [moduleDetails]="selectedModule"
+                ></jhi-instance-module-details>
+              </ng-container>
+            </mat-tab-nav-panel>
+          </div>
+
+          <ng-template #noModuleSelected>
+            <p>No Module Selected</p>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
