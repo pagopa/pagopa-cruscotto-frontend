@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "PagoPa Cruscotto",
+    "title": "PagoPa - Cruscotto",
     "browsehappy": "Stai utilizzando un browser <strong> non aggiornato </ strong> <a href=\"http://browsehappy.com/?locale=it\"> Aggiorna il tuo browser per </a> migliorare la tua esperienza",
     "menu": {
       "home": "Home",
@@ -31,7 +31,8 @@
         "configuration": "Configurazione",
         "logSystem": "Log Applicativo",
         "apiDocs": "API",
-        "database": "Database"
+        "database": "Database",
+        "jobs": "Jobs"
       },
       "language": {
         "italiano": "Italiano",

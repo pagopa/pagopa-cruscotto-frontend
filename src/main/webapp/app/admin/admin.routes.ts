@@ -20,6 +20,10 @@ const adminRoutes: Routes = [
     path: 'metrics',
     loadComponent: () => import('./metrics/metrics.component'),
   },
+  {
+    path: 'jobs',
+    loadChildren: () => import('./job/job.route'),
+  },
 ];
 
 export default adminRoutes;
