@@ -1,42 +1,115 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import dayjs from 'dayjs/esm';
 import { IInstanceModule } from '../models/instance-module.model';
-import { catchError } from 'rxjs/operators';
+import { ApplicationConfigService } from '../../../core/config/application-config.service';
+import { DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
+import { createRequestOption } from '../../../core/request/request-util';
+
+type InstanceModuleRestOf<T extends IInstanceModule> = Omit<T, 'automaticOutcomeDate' | 'manualOutcomeDate'> & {
+  automaticOutcomeDate?: string | null;
+  manualOutcomeDate?: string | null;
+};
+
+export type RestInstanceModule = InstanceModuleRestOf<IInstanceModule>;
+
+type EntityResponseType = HttpResponse<IInstanceModule>;
+type EntityArrayResponseType = HttpResponse<IInstanceModule[]>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class InstanceModuleService {
-  private baseUrl = '/api/instance-modules'; // Cambia con il tuo URL base del backend
+  private readonly http = inject(HttpClient);
+  private readonly applicationConfigService = inject(ApplicationConfigService);
 
-  constructor(private http: HttpClient) {}
+  private readonly resourceUrl: string; // Endpoint del backend per il modulo
 
-  /**
-   * Ottiene i dettagli di un Module specifico legato a un'istanza
-   *
-   * @param moduleId ID del modulo
-   * @returns Observable con InstanceModuleDTO
-   */
-  getInstanceModule(moduleId: number): Observable<IInstanceModule> {
-    const url = `${this.baseUrl}/${moduleId}`;
-    return this.http.get<IInstanceModule>(url).pipe(catchError(this.handleError));
+  constructor(http: HttpClient, applicationConfigService: ApplicationConfigService) {
+    this.http = http;
+    this.applicationConfigService = applicationConfigService;
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/instance-modules');
   }
 
   /**
-   * Gestione degli errori provenienti dal backend
+   * Ottiene i dettagli di un modulo specifico legato a un'istanza.
    */
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error(error);
-    let errorMessage = 'Si è verificato un errore.';
+  find(id: number): Observable<EntityResponseType> {
+    return this.http
+      .get<RestInstanceModule>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
 
-    if (error.error instanceof ErrorEvent) {
-      // Errore lato client
-      errorMessage = `Erroe Client: ${error.error.message}`;
-    } else {
-      // Errore lato server
-      errorMessage = `Errore Server: Codice ${error.status}, Messaggio: ${error.message}`;
-    }
-    return throwError(() => new Error(errorMessage));
+  /**
+   * Aggiorna i dati di un modulo.
+   */
+  update(instanceModule: IInstanceModule): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(instanceModule);
+    return this.http
+      .put<RestInstanceModule>(`${this.resourceUrl}/${instanceModule.id}`, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  /**
+   * Ottiene l'elenco di tutti i moduli. Supporta parametri di query.
+   */
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<RestInstanceModule[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertInstanceModuleArrayFromServer(res)));
+  }
+
+  /**
+   * Cancella un modulo dato l'id.
+   */
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  /**
+   * Converte le date dal client nel formato richiesto dal server.
+   */
+  protected convertDateFromClient<T extends IInstanceModule>(instanceModule: T): InstanceModuleRestOf<T> {
+    return {
+      ...instanceModule,
+      automaticOutcomeDate: instanceModule.automaticOutcomeDate?.toISOString() ?? null,
+      manualOutcomeDate: instanceModule.manualOutcomeDate?.toISOString() ?? null,
+    };
+  }
+
+  /**
+   * Converte la risposta ricevuta dal server in formato `IInstanceModule`.
+   */
+  protected convertResponseFromServer(res: HttpResponse<RestInstanceModule>): HttpResponse<IInstanceModule> {
+    return res.clone({
+      body: res.body ? this.convertInstanceModuleFromServer(res.body) : null,
+    });
+  }
+
+  /**
+   * Converte un array di moduli restituito dal backend.
+   */
+  protected convertInstanceModuleArrayFromServer(res: HttpResponse<RestInstanceModule[]>): HttpResponse<IInstanceModule[]> {
+    return res.clone({
+      body: res.body ? res.body.map(item => this.convertInstanceModuleFromServer(item)) : null,
+    });
+  }
+
+  /**
+   * Converte un singolo modulo dal formato `Rest` del server al formato `IInstanceModule` del client.
+   */
+  protected convertInstanceModuleFromServer(restInstanceModule: RestInstanceModule): IInstanceModule {
+    return {
+      ...restInstanceModule,
+      automaticOutcomeDate: restInstanceModule.automaticOutcomeDate
+        ? dayjs(restInstanceModule.automaticOutcomeDate, DATE_TIME_FORMAT_ISO)
+        : undefined,
+      manualOutcomeDate: restInstanceModule.manualOutcomeDate
+        ? dayjs(restInstanceModule.manualOutcomeDate, DATE_TIME_FORMAT_ISO)
+        : undefined,
+    };
   }
 }

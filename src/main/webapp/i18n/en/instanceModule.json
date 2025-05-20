@@ -2,7 +2,8 @@
   "pagopaCruscottoApp": {
     "instanceModule": {
       "home": {
-        "title": "Instance Modules"
+        "title": "Instance Module",
+        "description": "Description Module"
       },
       "delete": {
         "question": "Are you sure you want to delete the module with identifier <br> {{ id }}?"
