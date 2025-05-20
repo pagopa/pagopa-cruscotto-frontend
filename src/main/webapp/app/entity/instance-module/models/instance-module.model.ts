@@ -15,6 +15,8 @@ export interface IInstanceModule {
   status?: ModuleStatus;
   assignedUserId?: number;
   manualOutcomeDate?: Date; // Uso del tipo `Date` per Instant
+  assignedUserFirstName?: string;
+  assignedUserLastName?: string;
 }
 
 export class InstanceModule implements IInstanceModule {
@@ -31,7 +33,7 @@ export class InstanceModule implements IInstanceModule {
     public status?: ModuleStatus,
     public assignedUserId?: number,
     public manualOutcomeDate?: Date,
-  ) {
-    this.allowManualOutcome = this.allowManualOutcome ?? false; // Default per `allowManualOutcome`
-  }
+    public assignedUserFirstName?: string,
+    public assignedUserLastName?: string,
+  ) {}
 }
