@@ -1,0 +1,162 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.job.home.title">Jobs</span>
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+      <button
+        id="jh-create-entity"
+        mat-raised-button
+        color="primary"
+        (click)="loadPage()"
+        [title]="['pagopaCruscottoApp.job.action.refresh' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">refresh</mat-icon
+        ><span jhiTranslate="pagopaCruscottoApp.job.action.refresh">Refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <div class="table-responsive">
+            <div class="table-container">
+              <table mat-table [dataSource]="data" class="w-100" (matSortChange)="sortData($event)" matSort matSortDisableClear>
+                <ng-container matColumnDef="jobName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.jobName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.jobName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="groupName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.groupName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="scheduleTime">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.job.scheduleTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.scheduleTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="lastFiredTime">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.job.lastFiredTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lastFiredTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="nextFireTime">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.job.nextFireTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.nextFireTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="jobStatus">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.jobStatus' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <span class="badge bg-info p-2">{{ row.jobStatus }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'entity.list.column.actions.label' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <div>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          [disabled]="row.jobStatus == 'RUNNING' || disabledButton"
+                          matTooltip="{{ 'pagopaCruscottoApp.job.action.start' | translate }}"
+                          matTooltipPosition="above"
+                          [attr.aria-label]="['pagopaCruscottoApp.job.action.start' | translate]"
+                          (click)="start(row.jobName)"
+                        >
+                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">play_arrow</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          [disabled]="row.jobStatus != 'SCHEDULED' || disabledButton"
+                          matTooltip="{{ 'pagopaCruscottoApp.job.action.pause' | translate }}"
+                          matTooltipPosition="above"
+                          [attr.aria-label]="['pagopaCruscottoApp.job.action.pause' | translate]"
+                          (click)="pause(row.jobName)"
+                        >
+                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">pause</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          [disabled]="row.jobStatus != 'PAUSED' || disabledButton"
+                          matTooltip="{{ 'pagopaCruscottoApp.job.action.resume' | translate }}"
+                          matTooltipPosition="above"
+                          [attr.aria-label]="['pagopaCruscottoApp.job.action.resume' | translate]"
+                          (click)="resume(row.jobName)"
+                        >
+                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">resume</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          [disabled]="row.jobStatus != 'RUNNING' || disabledButton"
+                          matTooltip="{{ 'pagopaCruscottoApp.job.action.stop' | translate }}"
+                          matTooltipPosition="above"
+                          [attr.aria-label]="['pagopaCruscottoApp.job.action.stop' | translate]"
+                          (click)="stop(row.jobName)"
+                        >
+                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">stop</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          [disabled]="row.jobStatus == 'RUNNING' || disabledButton"
+                          matTooltip="{{ 'pagopaCruscottoApp.job.action.edit' | translate }}"
+                          matTooltipPosition="above"
+                          [attr.aria-label]="['pagopaCruscottoApp.job.action.edit' | translate]"
+                          (click)="edit(row)"
+                        >
+                          <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">edit</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{
+                    highlightTableColor: selectedRow && selectedRow.groupName == row.groupName && selectedRow.jobName == row.jobName,
+                  }"
+                ></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell font-weight-bold text-center" colspan="7">{{ 'entity.list.noResult' | translate }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,18 @@
       },
       "detail": {
         "title": "Dettaglio Istanza",
-        "modify.title": "Modifica Istanza"
+        "modify.title": "Modifica Istanza",
+        "instanceIdentification": "Identificazione Istanza",
+        "partner": "Partner",
+        "partnerName": "Nome Partner",
+        "predictedDateAnalysis": "Data Prevista per l'Analisi",
+        "applicationDate": "Data della Richiesta",
+        "assignedTo": "Utente Assegnato",
+        "analysisPeriodStartDate": "Inizio Periodo di Analisi",
+        "analysisPeriodEndDate": "Fine Periodo di Analisi",
+        "status": "Stato",
+        "lastAnalysisDate": "Ultima Data di Analisi",
+        "updateLabel": "Modifica"
       },
       "update": {
         "create.title": "Creazione Istanza",
@@ -49,6 +60,8 @@
       "analysisPeriodDate": "Data Periodo Analisi",
       "analysisPeriodStartDate": "Data Inizio Periodo Analisi",
       "analysisPeriodEndDate": "Data Fine Periodo Analisi",
+      "analysisPeriodStartMonth": "Mese Inizio Periodo Analisi",
+      "analysisPeriodEndMonth": "Mese Fine Periodo Analisi",
       "status": "Stato",
       "lastAnalysisDate": "Data Ultima Analisi Eseguita"
     }
