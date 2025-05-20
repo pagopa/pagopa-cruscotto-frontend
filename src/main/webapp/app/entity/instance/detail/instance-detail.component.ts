@@ -10,6 +10,8 @@ import { InstanceService } from '../service/instance.service';
 import { IInstanceModule } from '../../instance-module/models/instance-module.model';
 import { MatTabLink, MatTabNav, MatTabNavPanel } from '@angular/material/tabs';
 import { InstanceModuleDetailsComponent } from '../../instance-module/instance-module-details/instance-module-details.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import FormatDatePipe from '../../../shared/date/format-date.pipe';
 
 @Component({
   selector: 'jhi-instance-detail',
@@ -24,6 +26,8 @@ import { InstanceModuleDetailsComponent } from '../../instance-module/instance-m
     MatTabNavPanel,
     InstanceModuleDetailsComponent,
     MatTabLink,
+    MatTooltip,
+    FormatDatePipe,
   ],
   templateUrl: './instance-detail.component.html',
   styleUrl: './instance-detail.component.scss',

@@ -1,0 +1,58 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "A.1": {
+        "name": "Respect SLA availability of payment service",
+        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analysis period, the total number of timeouts must not exceed a percentage threshold relative to the total number of primitive executions"
+      },
+      "A.2": {
+        "name": "Accurate taxonomy",
+        "description": "The association of all payments with a taxonomic code present in the list published in the SANP must be guaranteed"
+      },
+      "B.1": {
+        "name": "Number of intermediated entities or managed transactions",
+        "description": "Intermediation of over 5 entities or at least 250,000 transactions is required during the reference period"
+      },
+      "B.2": {
+        "name": "Respect SLA response times of primitives",
+        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analyzed period, the percentage of responses exceeding a predetermined time must not exceed a certain percentage relative to the total number of requests"
+      },
+      "B.3": {
+        "name": "Zero Incidents",
+        "description": "No events should occur that trigger the activation of Stand In"
+      },
+      "B.4": {
+        "name": "Integration via asynchronous/synchronous APIs",
+        "description": "During the analysis period, the transfer of debt positions to the Centralized Notification Archive ('ACA') must be guaranteed"
+      },
+      "B.5": {
+        "name": "Use of spontaneous payment features",
+        "description": "The functionality for managing spontaneous payments on all operational stations of the Technology Partner must be kept active and functional"
+      },
+      "B.6": {
+        "name": "Payment options",
+        "description": "The functionality for managing payment options on all operational stations of the Technology Partner must be kept active and functional"
+      },
+      "B.7": {
+        "name": "Compliance with the latest SANP version",
+        "description": "Compliance with SANP/SACI specifications is required for at least 50% of intermediated entities"
+      },
+      "B.8": {
+        "name": "Compliance with formal requirements for asynchronous integration",
+        "description": "Compliance with formal validation requirements is required for at least 95% of debt positions loaded via asynchronous APIs"
+      },
+      "B.9": {
+        "name": "Correct management of payment receipts",
+        "description": "At least 95% of positive outcomes to the primitive paSendRT (outcome OK in the response) must be achieved during the reference period"
+      },
+      "C.1": {
+        "name": "Native integration with IO",
+        "description": "Verify the transmission of the respective message for each debt position on IO, along with communications and payment notices, for at least 50% of intermediaries"
+      },
+      "C.2": {
+        "name": "Native integration with SEND",
+        "description": "Verify the activation of the SEND notification cost updating service in synchronous mode for all integrated entities, guaranteeing the updating of amounts"
+      }
+    }
+  }
+}

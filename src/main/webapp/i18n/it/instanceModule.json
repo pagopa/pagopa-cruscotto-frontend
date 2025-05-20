@@ -2,7 +2,8 @@
   "pagopaCruscottoApp": {
     "instanceModule": {
       "home": {
-        "title": "Moduli Istanze"
+        "title": "Modulo Istanza",
+        "description": "Descrizione Modulo"
       },
       "delete": {
         "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
