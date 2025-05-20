@@ -174,17 +174,18 @@ export class InstanceUpdateComponent implements OnInit {
 
   // Filtro per disabilitare mesi successivi alla data prevista (campo "Mese inizio periodo")
   startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
-    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value;
+    const endDate =
+      this.editForm.get('predictedDateAnalysis')?.value || this.editForm.get('analysisPeriodEndDate')?.value || dayjs().add(5, 'year');
 
     // Consente la selezione se:
     // 1. La data (inizio) è uguale o precedente alla data prevista
-    return date ? date.isBefore(predictedDateAnalysis, 'month') : true;
+    return date ? date.isBefore(endDate, 'month') : true;
   };
 
   // Filtro per disabilitare mesi successivi alla data prevista nel campo "Mese fine periodo"
   endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
-    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value;
-    const startMonth = this.editForm.get('analysisPeriodStartDate')?.value;
+    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value || dayjs().add(5, 'year');
+    const startMonth = this.editForm.get('analysisPeriodStartDate')?.value || dayjs().add(-5, 'year');
 
     return date
       ? date.isBefore(predictedDateAnalysis, 'month') &&
