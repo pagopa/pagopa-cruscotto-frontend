@@ -29,6 +29,7 @@
         "analysisPeriodStartDate": "Inizio Periodo di Analisi",
         "analysisPeriodEndDate": "Fine Periodo di Analisi",
         "status": "Stato",
+        "analysisType": "Tipologia Analisi",
         "lastAnalysisDate": "Ultima Data di Analisi",
         "moduleCode": "Codice Modulo",
         "automaticOutcomeDate": "Data Risultato Automatico",
