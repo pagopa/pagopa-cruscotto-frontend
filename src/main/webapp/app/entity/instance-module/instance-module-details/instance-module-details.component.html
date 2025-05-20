@@ -2,57 +2,79 @@
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
+        <!-- Prima riga: Modulo Istanza (Titolo) e Descrizione (Sottotitolo) -->
         <div class="row custom-row p-2">
-          <!-- Riga 1: Module ID, Instance ID, Module Code -->
-          <div class="col-lg-4">
-            <span><strong>Module ID:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.id || 'N/A' }}</p>
+          <div class="col-lg-12">
+            <!-- Modulo Istanza come Titolo -->
+            <div class="mb-2">
+              <h2 class="text-start">
+                {{ 'pagopaCruscottoApp.module.' + moduleDetails.moduleCode + '.name' | translate }}
+              </h2>
+            </div>
+            <!-- Descrizione come Sottotitolo -->
+            <div>
+              <span class="text-muted text-start">
+                {{ 'pagopaCruscottoApp.module.' + moduleDetails.moduleCode + '.description' | translate }}
+              </span>
+            </div>
           </div>
-          <div class="col-lg-4">
-            <span><strong>Instance ID:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.instanceId || 'N/A' }}</p>
-          </div>
-          <div class="col-lg-4">
-            <span><strong>Module Code:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.moduleCode || 'N/A' }}</p>
-          </div>
+        </div>
 
-          <!-- Riga 2: Analysis Type, Automatic Outcome Date, Allow Manual Outcome -->
-          <div class="col-lg-4">
-            <span><strong>Analysis Type:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
-          </div>
-          <div class="col-lg-4">
-            <span><strong>Automatic Outcome Date:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | date: 'medium' }}</p>
-          </div>
-          <div class="col-lg-4">
-            <span><strong>Allow Manual Outcome:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
-          </div>
+        <br />
 
-          <!-- Riga 3: Automatic Outcome, Manual Outcome, Manual Outcome Date -->
-          <div class="col-lg-4">
-            <span><strong>Automatic Outcome:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
-          </div>
-          <div class="col-lg-4">
-            <span><strong>Manual Outcome:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
-          </div>
-          <div class="col-lg-4">
-            <span><strong>Manual Outcome Date:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | date: 'medium' }}</p>
-          </div>
-
-          <!-- Riga 4: Status, Assigned User ID -->
-          <div class="col-lg-4">
-            <span><strong>Status:</strong></span>
+        <!-- Seconda riga: Stato, Tipologia Analisi, Utente Assegnato, Consenti Risultato Manuale -->
+        <div class="row custom-row p-2">
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
+            >
             <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p>
           </div>
-          <div class="col-lg-4">
-            <span><strong>Assigned User ID:</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.assignedUserId || 'N/A' }}</p>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.assignedUserFirstName || '' }} {{ moduleDetails.assignedUserLastName || '' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
+          </div>
+        </div>
+
+        <!-- Terza riga: Risultato Automatico, Data Risultato Automatico, Risultato Manuale, Data Risultato Manuale -->
+        <div class="row custom-row p-2">
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | formatDate: 'L LTS' : locale }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | formatDate: 'L LTS' : locale }}</p>
           </div>
         </div>
       </mat-card-content>
@@ -61,5 +83,5 @@
 </div>
 
 <ng-template #noData>
-  <p>No module data available</p>
+  <p>{{ 'pagopaCruscottoApp.instanceModule.detail.noData' | translate }}</p>
 </ng-template>

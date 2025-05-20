@@ -44,19 +44,19 @@
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
               <p class="p-2 bg-light">
-                {{ instance?.predictedDateAnalysis?.toDate() | date: 'dd/MM/YYYY' : locale }}
+                {{ instance?.predictedDateAnalysis | formatDate: 'L' : locale }}
               </p>
             </div>
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.analysisPeriodStartDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+                {{ instance?.analysisPeriodStartDate | formatDate: 'L' : locale }}
               </p>
             </div>
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.analysisPeriodEndDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+                {{ instance?.analysisPeriodEndDate | formatDate: 'L' : locale }}
               </p>
             </div>
 
@@ -64,13 +64,13 @@
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.applicationDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+                {{ instance?.applicationDate | formatDate: 'L' : locale }}
               </p>
             </div>
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
               <p class="p-2 bg-light">
-                {{ instance?.lastAnalysisDate?.toDate() | date: 'dd/MM/YYYY' : locale }}
+                {{ instance?.lastAnalysisDate | formatDate: 'L' : locale }}
               </p>
             </div>
             <div class="col-lg-4">
@@ -98,6 +98,7 @@
                 *ngFor="let module of instanceModulesSorted(); let i = index"
                 (click)="selectModule(module)"
                 [active]="selectedModule?.id === module.id"
+                [matTooltip]="'pagopaCruscottoApp.module.' + module.moduleCode + '.name' | translate"
               >
                 {{ module.moduleCode || 'N/A' }}
               </a>
