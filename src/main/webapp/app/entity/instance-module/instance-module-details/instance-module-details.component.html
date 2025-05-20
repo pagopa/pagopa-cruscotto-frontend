@@ -1,0 +1,65 @@
+<div class="row mb-2" *ngIf="moduleDetails; else noData">
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <div class="row custom-row p-2">
+          <!-- Riga 1: Module ID, Instance ID, Module Code -->
+          <div class="col-lg-4">
+            <span><strong>Module ID:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.id || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Instance ID:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.instanceId || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Module Code:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.moduleCode || 'N/A' }}</p>
+          </div>
+
+          <!-- Riga 2: Analysis Type, Automatic Outcome Date, Allow Manual Outcome -->
+          <div class="col-lg-4">
+            <span><strong>Analysis Type:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Automatic Outcome Date:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | date: 'medium' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Allow Manual Outcome:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
+          </div>
+
+          <!-- Riga 3: Automatic Outcome, Manual Outcome, Manual Outcome Date -->
+          <div class="col-lg-4">
+            <span><strong>Automatic Outcome:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Manual Outcome:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Manual Outcome Date:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | date: 'medium' }}</p>
+          </div>
+
+          <!-- Riga 4: Status, Assigned User ID -->
+          <div class="col-lg-4">
+            <span><strong>Status:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-4">
+            <span><strong>Assigned User ID:</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.assignedUserId || 'N/A' }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No module data available</p>
+</ng-template>

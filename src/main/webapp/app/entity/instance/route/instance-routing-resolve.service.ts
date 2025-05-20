@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { InstanceService } from '../service/instance.service';
-import { IInstance } from '../instance.model';
+import { IInstance } from '../models/instance.model';
 
 export const InstanceRoutingResolve = (route: ActivatedRouteSnapshot): Observable<null | IInstance> => {
   const id = route.params.id;

@@ -31,17 +31,16 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
           }
         },
         error: (err: HttpErrorResponse) => {
-          console.log("************");
-          console.log(err);
-          if (err.status === 401 && err.url && !err.url.includes('api/account') && !err.url.includes('api/authenticate')) {
-            console.log("entro");
-
+          if (
+            err.status === 401 &&
+            err.url &&
+            !err.url.includes('api/account') &&
+            !err.url.includes('api/authenticate') &&
+            this.accountService.isAuthenticated()
+          ) {
             this.stateStorageService.storeUrl(this.router.routerState.snapshot.url);
-            console.log(err.error);
-            if (err.error && err.error === 'Unauthenticated') {
-              console.log("Unauthenticated");
-              this.loginService.logout();
-            }
+            this.loginService.logout();
+            void this.router.navigate(['']);
           }
         },
       }),

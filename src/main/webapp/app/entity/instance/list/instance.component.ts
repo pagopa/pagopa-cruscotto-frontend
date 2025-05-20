@@ -23,7 +23,7 @@ import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
 import { InstanceService } from '../service/instance.service';
-import { IInstance, InstanceStatus } from '../instance.model';
+import { IInstance, InstanceStatus } from '../models/instance.model';
 import { InstanceFilter } from './instance.filter';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';

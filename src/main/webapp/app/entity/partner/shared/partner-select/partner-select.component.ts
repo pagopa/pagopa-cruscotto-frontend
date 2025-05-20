@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, debounceTime, exhaustMap, filter, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
@@ -38,13 +38,10 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   infiniteScrollSelect!: MatSelect;
 
   @Input() parentForm!: FormGroup;
-
   @Input() formInnerControlName!: string;
 
   filteredData$: Observable<IExtendPartner[]> = of([]);
-
   selectPartner: IExtendPartner | null = null;
-
   loading = false;
   totalItems: any;
   searchTerm = null;
@@ -94,6 +91,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selectPartner) {
+              this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
               const foundIntoNewGroups = newGroups.findIndex(
                 (group: { id: any }) => group.id === (this.selectPartner && this.selectPartner.id),
               );
@@ -106,7 +104,6 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
                 newGroups.push(this.selectPartner);
               }
             }
-
             return allGroups.concat(newGroups);
           }, []),
         );
@@ -116,14 +113,13 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
 
   /** Number of items added per batch */
   batchSize = 20;
-
   private incrementBatchOffset$: Subject<void> = new Subject<void>();
   private readonly partnerService = inject(PartnerService);
-
   private destroy$: Subject<void> = new Subject<void>();
 
   ngOnDestroy() {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getList(value: any, page: number): Observable<IPartner[]> {
@@ -132,13 +128,11 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
 
   private callService(search: string, pageRequired: number): Observable<IPartner[]> {
     this.loading = true;
-
     const req = {
       page: pageRequired,
       size: ITEMS_PER_PAGE,
       sort: ['name,asc'],
     };
-
     return this.partnerService.query(req).pipe(
       map((value: HttpResponse<IPartner[]>) => {
         const partners = value.body || [];
@@ -160,11 +154,9 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
 
   selectionChange(matSelectChange: MatSelectChange): void {
     this.selectPartner = matSelectChange.value as IExtendPartner;
+    this.partnerService.sendPartnerId(String(matSelectChange.value.id), false, false); // Emit the selected partner's ID
   }
 
-  /**
-   * Load the next batch
-   */
   getNextBatch(): void {
     this.incrementBatchOffset$.next();
   }

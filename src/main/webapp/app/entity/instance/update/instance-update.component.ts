@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
-import { IInstance } from '../instance.model';
+import { IInstance } from '../models/instance.model';
 import { InstanceService } from '../service/instance.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,8 +19,22 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { InstanceFormGroup, InstanceFormService } from './instance-form.service';
 import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DatePickerFormatDirective } from '../../../shared/date/date-picker-format.directive';
 
 /* eslint-disable no-console */
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'jhi-instance-update',
@@ -38,7 +52,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
     RouterModule,
     MatDatepickerModule,
     PartnerSelectComponent,
+    DatePickerFormatDirective,
   ],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class InstanceUpdateComponent implements OnInit {
   isSaving = false;
@@ -115,23 +131,6 @@ export class InstanceUpdateComponent implements OnInit {
     return result;
   };
 
-  rangeFilter = (d: dayjs.Dayjs | null): boolean => {
-    if (d === null) {
-      return false;
-    }
-
-    if (this.editForm === undefined) {
-      return true;
-    }
-
-    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value;
-    if (!predictedDateAnalysis) {
-      return true;
-    }
-
-    return d < predictedDateAnalysis;
-  };
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IInstance>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -150,4 +149,46 @@ export class InstanceUpdateComponent implements OnInit {
       this.isSaving = false;
     });
   }
+
+  /**
+   * Imposta il primo giorno del mese selezionato (`Start Month`).
+   * @param selected Mese selezionato
+   * @param picker Riferimento al MatDatepicker
+   */
+  selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
+    const firstDayOfMonth = selected.startOf('month');
+    this.editForm.get('analysisPeriodStartDate')!.setValue(firstDayOfMonth);
+    picker.close();
+  }
+
+  /**
+   * Imposta l'ultimo giorno del mese selezionato (`End Month`).
+   * @param selected Mese selezionato
+   * @param picker Riferimento al MatDatepicker
+   */
+  selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
+    const lastDayOfMonth = selected.endOf('month');
+    this.editForm.get('analysisPeriodEndDate')!.setValue(lastDayOfMonth);
+    picker.close();
+  }
+
+  // Filtro per disabilitare mesi successivi alla data prevista (campo "Mese inizio periodo")
+  startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value;
+
+    // Consente la selezione se:
+    // 1. La data (inizio) è uguale o precedente alla data prevista
+    return date ? date.isBefore(predictedDateAnalysis, 'month') : true;
+  };
+
+  // Filtro per disabilitare mesi successivi alla data prevista nel campo "Mese fine periodo"
+  endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value;
+    const startMonth = this.editForm.get('analysisPeriodStartDate')?.value;
+
+    return date
+      ? date.isBefore(predictedDateAnalysis, 'month') &&
+          (startMonth ? date.isSame(startMonth, 'month') || date.isAfter(startMonth, 'month') : true)
+      : true;
+  };
 }
