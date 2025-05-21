@@ -5,17 +5,17 @@ import { IInstanceModule } from '../models/instance-module.model';
 import { InstanceModuleService } from '../service/instance-module.service';
 import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { KpiB2ResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-result-table/kpi-b2-result-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
-  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe],
+  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe, KpiB2ResultTableComponent],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
 })
 export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
-  @Input() moduleId?: number; // ID del modulo selezionato
-  @Input() moduleCode?: string; // Codice del modulo selezionato
-  @Input() moduleDetails?: IInstanceModule; // Riceve il modulo selezionato dal genitore
+  @Input() moduleId?: number;
+  moduleDetails?: IInstanceModule;
 
   locale: string;
   private readonly translateService = inject(TranslateService);

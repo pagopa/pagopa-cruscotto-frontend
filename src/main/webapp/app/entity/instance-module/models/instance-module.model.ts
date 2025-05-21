@@ -11,9 +11,9 @@ export interface IInstanceModule {
   analysisType?: AnalysisType;
   allowManualOutcome?: boolean;
   automaticOutcome?: AnalysisOutcome;
-  automaticOutcomeDate?: dayjs.Dayjs; // Cambiato da Date a dayjs.Dayjs
+  automaticOutcomeDate?: dayjs.Dayjs | null;
   manualOutcome?: AnalysisOutcome;
-  manualOutcomeDate?: dayjs.Dayjs; // Cambiato da Date a dayjs.Dayjs
+  manualOutcomeDate?: dayjs.Dayjs | null;
   status?: ModuleStatus;
   assignedUserId?: number;
   assignedUserFirstName?: string;
@@ -29,9 +29,9 @@ export class InstanceModule implements IInstanceModule {
     public analysisType?: AnalysisType,
     public allowManualOutcome?: boolean,
     public automaticOutcome?: AnalysisOutcome,
-    public automaticOutcomeDate?: dayjs.Dayjs, // Cambiato da Date a dayjs.Dayjs
+    public automaticOutcomeDate?: dayjs.Dayjs | null,
     public manualOutcome?: AnalysisOutcome,
-    public manualOutcomeDate?: dayjs.Dayjs, // Cambiato da Date a dayjs.Dayjs
+    public manualOutcomeDate?: dayjs.Dayjs | null,
     public status?: ModuleStatus,
     public assignedUserId?: number,
     public assignedUserFirstName?: string,
