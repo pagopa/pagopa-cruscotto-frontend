@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" class="full-width-table">
     <!-- Colonna ID -->
     <ng-container matColumnDef="id">
@@ -70,7 +70,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-
-  <!-- Paginatore -->
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
+<!-- Paginatore -->
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
+<ng-template #noDataTemplate>
+  <span>{{ 'pagopaCruscottoApp.module.tables.errors.notExists' | translate }}</span>
+</ng-template>
