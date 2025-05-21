@@ -80,7 +80,7 @@ export default class LoginComponent implements OnInit, AfterViewInit {
         next: () => {
           if (!this.router.getCurrentNavigation()) {
             if (this.router.url.startsWith('finishReset') || this.router.url.startsWith('requestReset')) {
-              this.router.navigate(['']);
+              void this.router.navigate(['']);
             }
           }
 
@@ -89,9 +89,9 @@ export default class LoginComponent implements OnInit, AfterViewInit {
           const redirect = this.stateStorageService.getUrl();
 
           if (redirect) {
-            this.router.navigateByUrl(redirect);
+            void this.router.navigateByUrl(redirect);
           } else {
-            this.router.navigate(['']);
+            void this.router.navigate(['']);
           }
         },
         error: (err: any) => {

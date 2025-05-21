@@ -1,16 +1,16 @@
 <div>
   <div class="d-flex align-items-center justify-content-center w-100 mb-3">
-    <h2>
+    <div class="h2">
       <span
         class="login-title"
         jhiTranslate="settings.title"
         [translateValues]="{ username: settingsForm.value.login }"
         *ngIf="settingsForm.value.login"
       >
-        Impostazioni per l'utente [<strong>{{ settingsForm.value.login }}</strong
+        Settings for user [<strong>{{ settingsForm.value.login }}</strong
         >]
       </span>
-    </h2>
+    </div>
   </div>
 
   <div class="row">
@@ -92,8 +92,8 @@
                       </mat-error>
                     }
                     @if (settingsForm.get('email')?.errors?.maxlength) {
-                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
-                        La password non può contenere più di 100 caratteri
+                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 254 }">
+                        La password non può contenere più di 254 caratteri
                       </mat-error>
                     }
                   </ng-container>
