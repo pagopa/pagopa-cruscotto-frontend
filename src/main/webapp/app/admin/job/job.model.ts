@@ -7,6 +7,7 @@ export interface IJob {
   lastFiredTime?: dayjs.Dayjs | null;
   nextFireTime?: dayjs.Dayjs | null;
   jobStatus: string;
+  cron: string;
 }
 
 export interface DialogJobData {
