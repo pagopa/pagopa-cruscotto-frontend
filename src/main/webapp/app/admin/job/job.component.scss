@@ -4,7 +4,8 @@
 .mat-column-scheduleTime,
 .mat-column-lastFiredTime,
 .mat-column-nextFireTime,
-.mat-column-jobStatus {
+.mat-column-jobStatus,
+.mat-column-cron {
   width: 150px;
   text-align: center;
 }

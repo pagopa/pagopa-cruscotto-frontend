@@ -1,9 +1,22 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-
-.row-login {
+.row-login-button {
   top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.row-login-password {
+  top: 20%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.row-logged {
+  top: 30%;
   left: 50%;
   position: absolute;
   transform: translate(-50%, -50%);
@@ -40,7 +53,7 @@ Main page styles
 }
 
 .success-message {
-  width: 50%;
+  width: 40%;
   background-color: whitesmoke;
   opacity: 0.8;
   text-align: center;
@@ -50,30 +63,23 @@ Main page styles
 }
 
 .warning-message {
-  width: 30%;
+  width: 40%;
   color: #856404;
   background-color: #fff3cd;
   border-color: #ffeeba;
+  text-align: center;
   opacity: 0.8;
   font-weight: bold;
   padding: 10px;
   font-size: 16px;
-  top: 10%;
-  left: 483px;
-  position: absolute;
-  transform: translate(-50%, -50%);
 }
 
 .info-message {
-  width: 30%;
+  width: 40%;
   background-color: whitesmoke;
   opacity: 0.8;
   text-align: center;
   font-weight: bold;
   padding: 10px;
   font-size: 16px;
-  top: 10%;
-  position: absolute;
-  left: 483px;
-  transform: translate(-50%, -50%);
 }
