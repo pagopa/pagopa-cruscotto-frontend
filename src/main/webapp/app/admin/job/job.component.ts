@@ -40,7 +40,7 @@ import { JobEditDialogComponent } from './job-edit-dialog.component';
   ],
 })
 export class JobComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['jobName', 'groupName', 'scheduleTime', 'lastFiredTime', 'nextFireTime', 'jobStatus', 'action'];
+  displayedColumns: string[] = ['jobName', 'groupName', 'cron', 'scheduleTime', 'lastFiredTime', 'nextFireTime', 'jobStatus', 'action'];
 
   data: IJob[] = [];
   page!: number;
