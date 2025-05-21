@@ -1,8 +1,10 @@
+import dayjs from 'dayjs/esm';
+
 export class KpiB2Result {
   id: number | null;
   instanceId: number | null;
   instanceModuleId: number | null;
-  analysisDate: string | null; // ISO string format for dates
+  analysisDate: dayjs.Dayjs | null; // ISO string format for dates
   excludePlannedShutdown: boolean | null;
   excludeUnplannedShutdown: boolean | null;
   eligibilityThreshold: number | null;
@@ -16,7 +18,7 @@ export class KpiB2Result {
     id: number | null = null,
     instanceId: number | null = null,
     instanceModuleId: number | null = null,
-    analysisDate: string | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
     excludePlannedShutdown: boolean | null = null,
     excludeUnplannedShutdown: boolean | null = null,
     eligibilityThreshold: number | null = null,

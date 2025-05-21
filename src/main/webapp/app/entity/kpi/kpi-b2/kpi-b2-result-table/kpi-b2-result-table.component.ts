@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { KpiB2Service } from '../../service/kpi-b2.service';
-import { KpiB2Result } from '../../models/KpiB2Result';
+import { KpiB2ResultService } from '../service/kpi-b2-result.service';
+import { KpiB2Result } from '../models/KpiB2Result';
 
 @Component({
   selector: 'jhi-kpi-b2-result-table',
@@ -28,7 +28,7 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  constructor(private kpiB2Service: KpiB2Service) {}
+  constructor(private kpiB2ResultService: KpiB2ResultService) {}
 
   ngOnInit(): void {
     this.fetchKpiB2Results();
@@ -45,7 +45,7 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit {
    */
   fetchKpiB2Results(): void {
     const moduleId = 1; // Da cambiare con l'ID del modulo desiderato
-    this.kpiB2Service.getKpiB2Results(moduleId).subscribe({
+    this.kpiB2ResultService.getKpiB2Results(moduleId).subscribe({
       next: (data: KpiB2Result[]) => {
         this.dataSource.data = data; // Popola la tabella con i dati recuperati
       },
