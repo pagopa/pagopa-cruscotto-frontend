@@ -1,13 +1,15 @@
+import dayjs from 'dayjs/esm';
+
 export class KpiB2DetailResult {
   id: number | null;
   instanceId: number | null;
   instanceModuleId: number | null;
-  analysisDate: string | null; // ISO string format
+  analysisDate: dayjs.Dayjs | null; // ISO string format
   stationId: number | null;
   method: string | null;
   evaluationType: string | null; // Assuming it's a string or enum
-  evaluationStartDate: string | null; // ISO string format
-  evaluationEndDate: string | null; // ISO string format
+  evaluationStartDate: dayjs.Dayjs | null; // ISO string format
+  evaluationEndDate: dayjs.Dayjs | null; // ISO string format
   totReq: number | null;
   avgTime: number | null;
   overTimeLimit: number | null;
@@ -19,12 +21,12 @@ export class KpiB2DetailResult {
     id: number | null = null,
     instanceId: number | null = null,
     instanceModuleId: number | null = null,
-    analysisDate: string | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
     stationId: number | null = null,
     method: string | null = null,
     evaluationType: string | null = null,
-    evaluationStartDate: string | null = null,
-    evaluationEndDate: string | null = null,
+    evaluationStartDate: dayjs.Dayjs | null = null,
+    evaluationEndDate: dayjs.Dayjs | null = null,
     totReq: number | null = null,
     avgTime: number | null = null,
     overTimeLimit: number | null = null,
