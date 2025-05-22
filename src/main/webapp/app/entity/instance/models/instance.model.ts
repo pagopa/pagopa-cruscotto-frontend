@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IInstanceModule } from '../../instance-module/models/instance-module.model';
+import { AnalysisOutcome } from 'app/entity/instance-module/models/analysis-outcome.model';
 
 export interface IInstance {
   id: number;
@@ -29,12 +30,6 @@ export enum InstanceStatus {
   Cancellata = 'CANCELLATA',
 }
 
-export enum AnalysisOutcome {
-  STANDBY = 'STANDBY',
-  OK = 'OK',
-  KO = 'KO',
-}
-
 export class Instance implements IInstance {
   constructor(
     public id: number,
@@ -51,7 +46,7 @@ export class Instance implements IInstance {
     public analysisPeriodEndDate?: dayjs.Dayjs | null,
     public status?: InstanceStatus,
     public lastAnalysisDate?: dayjs.Dayjs | null,
-    public instanceModules?: IInstanceModule[] | null,
     public lastAnalysisOutcome?: AnalysisOutcome | null,
+    public instanceModules?: IInstanceModule[] | null,
   ) {}
 }
