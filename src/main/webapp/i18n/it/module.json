@@ -1,6 +1,20 @@
 {
   "pagopaCruscottoApp": {
     "module": {
+      "tables": {
+        "KpiResults": {
+          "title": "Risultati"
+        },
+        "KpiDetailResults": {
+          "title": "Dati di riscontro"
+        },
+        "KpiAnalyticResults": {
+          "title": "Dati analitici"
+        },
+        "errors": {
+          "notExists": "Nessun dato disponibile"
+        }
+      },
       "A.1": {
         "name": "Rispetto SLA disponibilità servizio di pagamento",
         "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive"

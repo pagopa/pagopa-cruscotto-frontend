@@ -1,4 +1,7 @@
 <div>
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+    <p class="ngx-spinner-loading">Loading...</p>
+  </ngx-spinner>
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
       <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{ instance?.id }}</strong
@@ -40,37 +43,43 @@
               <p class="p-2 bg-light">{{ instance?.assignedFirstName }} {{ instance?.assignedLastName }}</p>
             </div>
 
-            <!-- Seconda riga: Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
-            <div class="col-lg-4">
+            <!-- Seconda riga: Data della richiesta, Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
+            <div class="col-lg-3">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.applicationDate | formatDate: 'L' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
               <p class="p-2 bg-light">
                 {{ instance?.predictedDateAnalysis | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.analysisPeriodStartDate | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.analysisPeriodEndDate | formatDate: 'L' : locale }}
               </p>
             </div>
 
-            <!-- Terza riga: Data della Richiesta, Ultima Data di Analisi, Stato -->
-            <div class="col-lg-4">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
-              <p class="p-2 bg-light">
-                {{ instance?.applicationDate | formatDate: 'L' : locale }}
-              </p>
-            </div>
+            <!-- Terza riga: Data Ultima Analisi, Esito ultima analisi, Stato -->
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.lastAnalysisDate | formatDate: 'L' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisOutcome">Last Analysis Outcome</span>
+              <p class="p-2 bg-light">
+                {{ instance?.lastAnalysisOutcome }}
               </p>
             </div>
             <div class="col-lg-4">
@@ -103,20 +112,17 @@
                 {{ module.moduleCode || 'N/A' }}
               </a>
             </nav>
+            <br />
             <mat-tab-nav-panel #tabPanel>
               <ng-container *ngIf="selectedModule; else noModuleSelected">
                 <!-- Caricamento del componente che mostra i dettagli -->
-                <jhi-instance-module-details
-                  [moduleId]="selectedModule.id"
-                  [moduleCode]="selectedModule.moduleCode"
-                  [moduleDetails]="selectedModule"
-                ></jhi-instance-module-details>
+                <jhi-instance-module-details [moduleId]="selectedModule.id"></jhi-instance-module-details>
               </ng-container>
             </mat-tab-nav-panel>
           </div>
 
           <ng-template #noModuleSelected>
-            <p>No Module Selected</p>
+            <p>{{ 'pagopaCruscottoApp.error.instanceModule.notExists' | translate }}</p>
           </ng-template>
         </mat-card-content>
       </mat-card>
