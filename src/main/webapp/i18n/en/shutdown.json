@@ -50,6 +50,8 @@
       "partnerFiscalCode": "Codice Fiscale Partner",
       "partnerName": "Nome Partner",
       "typePlanned": "Shutdown Type",
+      "typePlanned.PROGRAMMATO": "PLANNED",
+      "typePlanned.NON_PROGRAMMATO": "NOT PLANNED",
       "shutdownIdentification": "Shutdown Identification",
       "shutdownPeriod": "Shutdown Period",
       "shutdownStartDate": "Shutdown Start Date",

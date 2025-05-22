@@ -40,6 +40,19 @@
             <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.typePlanned">Type Planned</mat-label>
+              <mat-select formControlName="typePlanned">
+                <mat-option value="" selected>{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let typePlanned of typePlannedValues" [value]="typePlanned">
+                  {{ 'pagopaCruscottoApp.shutdown.typePlanned.' + typePlanned | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
 
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
@@ -113,7 +126,7 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.shutdown.typePlanned' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.typePlanned }}</td>
+                  <td mat-cell *matCellDef="let row">{{ 'pagopaCruscottoApp.shutdown.typePlanned.' + row.typePlanned | translate }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="shutdownStartDate">

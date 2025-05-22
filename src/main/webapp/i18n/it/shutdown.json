@@ -49,6 +49,8 @@
       "partnerFiscalCode": "Codice Fiscale Partner",
       "partnerName": "Nome Partner",
       "typePlanned": "Tipo Fermo",
+      "typePlanned.PROGRAMMATO": "PROGRAMMATO",
+      "typePlanned.NON_PROGRAMMATO": "NON PROGRAMMATO",
       "shutdownIdentification": "Identificativo Fermo",
       "shutdownPeriod": "Periodo di Fermo",
       "shutdownStartDate": "Data Inizio Fermo",
