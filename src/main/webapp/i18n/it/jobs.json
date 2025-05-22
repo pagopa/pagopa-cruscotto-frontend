@@ -1,0 +1,71 @@
+{
+  "pagopaCruscottoApp": {
+    "job": {
+      "home": {
+        "title": "Jobs",
+        "notFound": "No Jobs found"
+      },
+      "jobName": "Nome Job",
+      "groupName": "Gruppo",
+      "cron": "Cron",
+      "scheduleTime": "Avvio Schedulazione",
+      "lastFiredTime": "Ultima Schedulazione",
+      "nextFireTime": "Prossima Schedulazione",
+      "jobStatus": "Stato",
+      "modalEdit": {
+        "home": {
+          "title": "Modifica Cron Job '{{ jobName }}'"
+        },
+        "cron": "Espressione Cron",
+        "year": "Anno",
+        "month": "Mese",
+        "day": "Giorno",
+        "hour": "Ora",
+        "minute": "Minuti"
+      },
+      "action": {
+        "start": "Start",
+        "pause": "Pausa",
+        "resume": "Restart",
+        "stop": "Stop",
+        "edit": "Modifica Schedulazione",
+        "refresh": "Aggiorna"
+      },
+      "changeState": {
+        "start": {
+          "question": {
+            "title": "Start Job",
+            "message": "Sei sicuro di voler avvia il job?"
+          }
+        },
+        "resume": {
+          "question": {
+            "title": "Restart Job",
+            "message": "Sei sicuro di voler restartare il job?"
+          }
+        },
+        "pause": {
+          "question": {
+            "title": "Pausa Job",
+            "message": "Sei sicuro di voler mettere in pausa il job?"
+          }
+        },
+        "stop": {
+          "question": {
+            "title": "Terminare Job",
+            "message": "Sei sicuro di voler terminare il job?"
+          }
+        }
+      }
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "job": {
+      "update": "Job {{ param }} cron aggiornato",
+      "pause": "Il Job {{ param }} \u00e8 stato messo in pausa",
+      "stop": "Il Job {{ param }} \u00e8 stato fermato",
+      "resume": "Il Job {{ param }} \u00e8 stato riavviato",
+      "start": "Il Job {{ param }} \u00e8 stato avviato"
+    }
+  }
+}

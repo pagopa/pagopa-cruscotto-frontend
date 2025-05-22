@@ -58,6 +58,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
       large: true,
     },
     {
+      label: 'global.menu.shutdown.main',
+      route: '/entity/shutdowns',
+      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      xSmall: false,
+      small: false,
+      medium: true,
+      large: true,
+    },
+    {
       label: 'global.menu.usersAdministration.main',
       xSmall: false,
       small: false,
@@ -121,6 +130,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.systemAdministration.apiDocs',
           route: '/admin/docs',
+          permission: Authority.GTW_STRUMENTI_CONTROLLO,
+          xSmall: true,
+          small: true,
+          medium: true,
+          large: true,
+        },
+        {
+          label: 'global.menu.systemAdministration.jobs',
+          route: '/admin/jobs',
           permission: Authority.GTW_STRUMENTI_CONTROLLO,
           xSmall: true,
           small: true,

@@ -1,0 +1,76 @@
+{
+  "pagopaCruscottoApp": {
+    "shutdown": {
+      "home": {
+        "title": "Shutdowns"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the shutdown with identifier {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "New Shutdown"
+      },
+      "detail": {
+        "title": "Detail Shutdown",
+        "modify.title": "Shutdown Modification"
+      },
+      "update": {
+        "create.title": "New Shutdown Creation",
+        "modify.title": "Shutdown Modification",
+        "shutdownStartDate": {
+          "validation": {
+            "required": "The 'Shutdown Start Date' field is required",
+            "date": "The 'Shutdown Start Date' field should be a valid date",
+            "dateLoeThanEndDate": "The 'Shutdown Start Date' field must be a date before or equal to 'Shutdown End Date'",
+            "timeLoeThanEndTime": "The 'Shutdown Start Time' field must be a time before or equal to 'Shutdown End Time'"
+          }
+        },
+        "shutdownStartTime": {
+          "label": "Shutdown Start Time",
+          "validation": {
+            "timeLoeThanEndTime": "The 'Shutdown Start Time' field must be a time before or equal to 'Shutdown End Time'"
+          }
+        },
+        "shutdownEndDate": {
+          "label": "Shutdown End Time",
+          "validation": {
+            "required": "The 'Shutdown End Date' field is required",
+            "date": "The 'Shutdown End Date' field should be a valid date",
+            "dateGoeThanStartDate": "The 'Shutdown End Date' field must be a date after or equal to 'Shutdown Start Date'"
+          }
+        },
+        "shutdownEndTime": {
+          "validation": {
+            "timeGoeThanStartTime": "The 'Shutdown End Time' field must be a time after or equal to 'Shutdown Start Time'"
+          }
+        }
+      },
+      "shutdownId": "Shutdown identifier",
+      "partner": "Partner",
+      "partnerFiscalCode": "Codice Fiscale Partner",
+      "partnerName": "Nome Partner",
+      "typePlanned": "Shutdown Type",
+      "shutdownIdentification": "Shutdown Identification",
+      "shutdownPeriod": "Shutdown Period",
+      "shutdownStartDate": "Shutdown Start Date",
+      "shutdownEndDate": "Shutdown End Date",
+      "stationId": "Station Identifier",
+      "stationName": "Station Name"
+    }
+  },
+  "error": {
+    "shutdown": {
+      "notExists": "Shutdown not present",
+      "cannotBeUpdated": "Shutdown cannot be updated",
+      "cannotBeDeleted": "Shutdown cannot be deleted",
+      "partnerNotExists": "Partner not present"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "shutdown": {
+      "created": "A new shutdown with identifier {{ param }} has been created",
+      "updated": "The shutdown with identifier {{ param }} has been updated",
+      "deleted": "the shutdown with identifier {{ param }} has been deleted"
+    }
+  }
+}

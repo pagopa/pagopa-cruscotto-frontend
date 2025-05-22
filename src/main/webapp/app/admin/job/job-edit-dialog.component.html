@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>
+  <span jhiTranslate="pagopaCruscottoApp.job.modalEdit.home.title" [translateValues]="{ jobName: data.job.jobName }">Edit Job</span>
+</h2>
+<mat-dialog-content>
+  <form name="schedulerForm" role="form" novalidate (ngSubmit)="confirm()" [formGroup]="schedulerForm">
+    <div class="row">
+      <div class="col-md-12">
+        @let cronExpressionRef = schedulerForm.get('cronExpression')!;
+        <mat-form-field class="d-block mb-2">
+          <mat-label jhiTranslate="pagopaCruscottoApp.job.modalEdit.cron">Cron</mat-label>
+          <input matInput type="text" autocomplete="off" formControlName="cronExpression" />
+          <ng-container ngProjectAs="mat-error" *ngIf="cronExpressionRef.invalid && (cronExpressionRef.dirty || cronExpressionRef.touched)">
+            @if (cronExpressionRef.errors?.required) {
+              <mat-error jhiTranslate="entity.validation.required"> This field is required. </mat-error>
+            }
+            @if (cronExpressionRef.errors?.maxlength) {
+              <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 200 }">
+                This field cannot be longer than 200 characters.
+              </mat-error>
+            }
+          </ng-container>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button type="button" mat-raised-button (click)="dismiss()" [title]="['entity.action.cancel' | translate]">
+    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">cancel</mat-icon>&nbsp;<span jhiTranslate="entity.action.cancel"
+      >Cancel</span
+    >
+  </button>
+  <button type="button" mat-flat-button (click)="confirm()" [title]="['entity.action.edit' | translate]" [disabled]="schedulerForm.invalid">
+    <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">edit</mat-icon>&nbsp;<span jhiTranslate="entity.action.edit"
+      >Edit</span
+    >
+  </button>
+</mat-dialog-actions>
