@@ -9,7 +9,6 @@ import { LoginService } from 'app/login/login.service';
 import { Alert } from 'app/core/util/alert.service';
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import SharedModule from '../../shared/shared.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
@@ -17,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import PasswordStrengthBarComponent from '../../shared/password-strength-bar/password-strength-bar.component';
+import SharedModule from '../../shared/shared.module';
 
 @Component({
   standalone: true,
@@ -27,6 +27,7 @@ import PasswordStrengthBarComponent from '../../shared/password-strength-bar/pas
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    PasswordStrengthBarComponent,
     MatCardModule,
     NgxSpinnerModule,
     MatFormFieldModule,
@@ -34,7 +35,6 @@ import PasswordStrengthBarComponent from '../../shared/password-strength-bar/pas
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    PasswordStrengthBarComponent,
   ],
 })
 export default class PasswordExpiredComponent implements OnInit {
@@ -44,10 +44,6 @@ export default class PasswordExpiredComponent implements OnInit {
   account$?: Observable<Account | null>;
 
   passwordExpiredForm = new FormGroup({
-    username: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50)],
-    }),
     password: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(8), Validators.maxLength(100)],
@@ -77,7 +73,7 @@ export default class PasswordExpiredComponent implements OnInit {
     this.authenticationError = false;
     this.doNotMatch = false;
 
-    const { username, password, passwordNew, confirmPassword } = this.passwordExpiredForm.getRawValue();
+    const { password, passwordNew, confirmPassword } = this.passwordExpiredForm.getRawValue();
 
     if (passwordNew !== confirmPassword) {
       this.doNotMatch = true;
@@ -86,7 +82,7 @@ export default class PasswordExpiredComponent implements OnInit {
         this.isSaving = true;
       });
 
-      this.passwordService.changePasswordExpired(username, password, passwordNew).subscribe({
+      this.passwordService.changePasswordExpired(password, passwordNew).subscribe({
         next: () => {
           this.addMessage('success', 'password.messages.success');
           setTimeout(() => {
@@ -94,7 +90,7 @@ export default class PasswordExpiredComponent implements OnInit {
             // this.passwordForm.reset();
             this.accountService.authenticate(null);
             this.loginService.logout();
-            this.router.navigate(['login']);
+            void this.router.navigate(['login']);
           }, 3000);
         },
         error: (err: any) => {

@@ -40,7 +40,7 @@
             "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Inizio Periodo Analisi' dovrebbe essere una data valida",
             "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
           }
         },
         "analysisPeriodEndDate": {
@@ -48,7 +48,7 @@
             "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Fine Periodo Analisi' dovrebbe essere una data valida",
             "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Fine Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
           }
         }
       },

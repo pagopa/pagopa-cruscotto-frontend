@@ -192,7 +192,6 @@
                             type="button"
                             matTooltip="{{ 'entity.action.view' | translate }}"
                             matTooltipPosition="above"
-                            [disabled]="row.status === status.Eseguita"
                             [attr.aria-label]="['entity.list.column.actions.view.ariaLabel' | translate]"
                             [routerLink]="['/entity/instances', row.id, 'view']"
                           >
