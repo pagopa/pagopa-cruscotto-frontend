@@ -28,7 +28,8 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { InstanceStatus } from 'app/entity/instance/models/instance.model';
 import { ShutdownFilter } from './shutdown.filter';
 import { ShutdownService } from 'app/entity/shutdown/service/shutdown.service';
-import { IShutdown } from '../shutdown.model';
+import { IShutdown, TypePlanned } from '../shutdown.model';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'jhi-shutdown',
@@ -51,6 +52,7 @@ import { IShutdown } from '../shutdown.model';
     RouterModule,
     FormatDatePipe,
     PartnerSelectComponent,
+    MatSelectModule,
   ],
 })
 export class ShutdownComponent implements OnInit, OnDestroy {
@@ -78,6 +80,8 @@ export class ShutdownComponent implements OnInit, OnDestroy {
 
   searchForm;
 
+  typePlannedValues: TypePlanned[] = Object.values(TypePlanned);
+
   locale: string;
 
   status = InstanceStatus;
@@ -95,6 +99,7 @@ export class ShutdownComponent implements OnInit, OnDestroy {
   constructor() {
     this.searchForm = this.fb.group({
       partner: [''],
+      typePlanned: [''],
     });
 
     this.locale = this.translateService.currentLang;
@@ -118,6 +123,7 @@ export class ShutdownComponent implements OnInit, OnDestroy {
   updateForm(): void {
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, ShutdownFilter.PARTNER),
+      typePlanned: getFilterValue(this.filter, ShutdownFilter.TYPE) || '',
     });
     this.page = this.filter.page;
   }
@@ -134,6 +140,7 @@ export class ShutdownComponent implements OnInit, OnDestroy {
     this.data = [];
     this.filter.clear();
     this.updateForm();
+
     void this.router.navigate(['/entity/shutdowns']);
   }
 
@@ -186,10 +193,12 @@ export class ShutdownComponent implements OnInit, OnDestroy {
 
   private populateRequest(req: any): any {
     addFilterToRequest(this.filter, ShutdownFilter.PARTNER, req);
+    addFilterToRequest(this.filter, ShutdownFilter.TYPE, req);
   }
 
   private populateFilter(): void {
     addToFilter(this.filter, this.searchForm.get('partner'), ShutdownFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('typePlanned'), ShutdownFilter.TYPE);
 
     this.filter.page = this.page;
   }
