@@ -6,10 +6,11 @@ import { InstanceModuleService } from '../service/instance-module.service';
 import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { KpiB2ResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-result-table/kpi-b2-result-table.component';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'jhi-instance-module-details',
-  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe, KpiB2ResultTableComponent],
+  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe, KpiB2ResultTableComponent, NgxSpinnerComponent],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
 })
@@ -17,8 +18,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   @Input() moduleId?: number;
   moduleDetails?: IInstanceModule;
 
+  isLoadingResults = false;
   locale: string;
   private readonly translateService = inject(TranslateService);
+  private readonly spinner = inject(NgxSpinnerService);
 
   constructor(private instanceModuleService: InstanceModuleService) {
     this.locale = this.translateService.currentLang;
@@ -37,22 +40,46 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Simula il caricamento dei dettagli di un modulo da backend
-   * e memorizza i dati in una proprietà pubblica.
+   * Caricamento dei dettagli del modulo con gestione dello spinner
    */
   loadModuleDetails(id: number): void {
-    console.log('Caricamento dettagli per il modulo con ID:', id);
+    this.spinner.show('isLoadingResults').then(() => {
+      this.isLoadingResults = true; // Indica che il caricamento è in corso
 
-    this.instanceModuleService.find(id).subscribe({
-      next: res => {
-        if (res.body) {
-          this.moduleDetails = res.body;
-          console.log('Dati ottenuti:', this.moduleDetails);
-        }
-      },
-      error: error => {
-        console.error('Errore durante il caricamento:', error);
-      },
+      this.instanceModuleService.find(id).subscribe({
+        next: res => {
+          if (res.body) {
+            this.onSuccess(res.body);
+          } else {
+            this.onError('Risposta senza corpo!');
+          }
+        },
+        error: error => {
+          this.onError(error);
+        },
+      });
+    });
+  }
+
+  /**
+   * Metodo chiamato al completamento positivo della chiamata API
+   */
+  protected onSuccess(data: IInstanceModule): void {
+    this.spinner.hide('isLoadingResults').then(() => {
+      this.isLoadingResults = false;
+      this.moduleDetails = data; // Imposta i dettagli del modulo
+      console.log('Dati caricati con successo:', this.moduleDetails);
+    });
+  }
+
+  /**
+   * Metodo chiamato in caso di errore
+   */
+  protected onError(error: any): void {
+    this.spinner.hide('isLoadingResults').then(() => {
+      this.isLoadingResults = false;
+      this.moduleDetails = undefined; // Resetta i dettagli del modulo in caso di errore
+      console.error('Errore durante il caricamento:', error);
     });
   }
 }

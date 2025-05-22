@@ -1,3 +1,7 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
 <div class="row mb-2" *ngIf="moduleDetails; else noData">
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
@@ -95,5 +99,5 @@
 </div>
 
 <ng-template #noData>
-  <p>{{ 'pagopaCruscottoApp.instanceModule.detail.noData' | translate }}</p>
+  <p>{{ 'pagopaCruscottoApp.error.instanceModule.notExists' | translate }}</p>
 </ng-template>
