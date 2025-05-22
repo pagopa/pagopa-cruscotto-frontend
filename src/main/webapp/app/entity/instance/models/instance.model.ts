@@ -17,6 +17,7 @@ export interface IInstance {
   status?: InstanceStatus;
   lastAnalysisDate?: dayjs.Dayjs | null;
   instanceModules?: IInstanceModule[] | null;
+  lastAnalysisOutcome?: AnalysisOutcome | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };
@@ -26,6 +27,12 @@ export enum InstanceStatus {
   Pianificata = 'PIANIFICATA',
   Eseguita = 'ESEGUITA',
   Cancellata = 'CANCELLATA',
+}
+
+export enum AnalysisOutcome {
+  STANDBY = 'STANDBY',
+  OK = 'OK',
+  KO = 'KO',
 }
 
 export class Instance implements IInstance {
@@ -45,5 +52,6 @@ export class Instance implements IInstance {
     public status?: InstanceStatus,
     public lastAnalysisDate?: dayjs.Dayjs | null,
     public instanceModules?: IInstanceModule[] | null,
+    public lastAnalysisOutcome?: AnalysisOutcome | null,
   ) {}
 }

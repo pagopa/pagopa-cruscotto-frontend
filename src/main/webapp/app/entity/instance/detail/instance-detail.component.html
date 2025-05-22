@@ -1,4 +1,7 @@
 <div>
+  <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+    <p class="ngx-spinner-loading">Loading...</p>
+  </ngx-spinner>
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
       <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{ instance?.id }}</strong
@@ -113,7 +116,7 @@
           </div>
 
           <ng-template #noModuleSelected>
-            <p>No Module Selected</p>
+            <p>{{ 'pagopaCruscottoApp.error.instanceModule.notExists' | translate }}</p>
           </ng-template>
         </mat-card-content>
       </mat-card>
