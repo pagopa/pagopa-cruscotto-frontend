@@ -29,7 +29,8 @@
         "analysisPeriodStartDate": "Inizio Periodo di Analisi",
         "analysisPeriodEndDate": "Fine Periodo di Analisi",
         "status": "Stato",
-        "lastAnalysisDate": "Ultima Data di Analisi",
+        "lastAnalysisDate": "Data Ultima Analisi",
+        "lastAnalysisOutcome": "Esito Ultima Analisi",
         "updateLabel": "Modifica"
       },
       "update": {
@@ -63,7 +64,8 @@
       "analysisPeriodStartMonth": "Mese Inizio Periodo Analisi",
       "analysisPeriodEndMonth": "Mese Fine Periodo Analisi",
       "status": "Stato",
-      "lastAnalysisDate": "Data Ultima Analisi Eseguita"
+      "lastAnalysisDate": "Data Ultima Analisi Eseguita",
+      "lastAnalysisOutcome": "Esito Ultima Analisi"
     }
   },
   "error": {

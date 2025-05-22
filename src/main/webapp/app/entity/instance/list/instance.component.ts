@@ -66,6 +66,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     'analysisPeriodEndDate',
     'status',
     'lastAnalysisDate',
+    'lastAnalysisOutcome',
     'action',
   ];
 

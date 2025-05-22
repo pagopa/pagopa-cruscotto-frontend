@@ -43,37 +43,43 @@
               <p class="p-2 bg-light">{{ instance?.assignedFirstName }} {{ instance?.assignedLastName }}</p>
             </div>
 
-            <!-- Seconda riga: Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
-            <div class="col-lg-4">
+            <!-- Seconda riga: Data della richiesta, Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
+            <div class="col-lg-3">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
+              <p class="p-2 bg-light">
+                {{ instance?.applicationDate | formatDate: 'L' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
               <p class="p-2 bg-light">
                 {{ instance?.predictedDateAnalysis | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.analysisPeriodStartDate | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.analysisPeriodEndDate | formatDate: 'L' : locale }}
               </p>
             </div>
 
-            <!-- Terza riga: Data della Richiesta, Ultima Data di Analisi, Stato -->
-            <div class="col-lg-4">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
-              <p class="p-2 bg-light">
-                {{ instance?.applicationDate | formatDate: 'L' : locale }}
-              </p>
-            </div>
+            <!-- Terza riga: Data Ultima Analisi, Esito ultima analisi, Stato -->
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
               <p class="p-2 bg-light">
                 {{ instance?.lastAnalysisDate | formatDate: 'L' : locale }}
+              </p>
+            </div>
+            <div class="col-lg-4">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisOutcome">Last Analysis Outcome</span>
+              <p class="p-2 bg-light">
+                {{ instance?.lastAnalysisOutcome }}
               </p>
             </div>
             <div class="col-lg-4">
