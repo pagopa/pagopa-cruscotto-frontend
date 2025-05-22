@@ -30,6 +30,7 @@
         "analysisPeriodEndDate": "Analysis Period End Date",
         "status": "Status",
         "lastAnalysisDate": "Last Analysis Date",
+        "lastAnalysisOutcome": "Last Analysis Outcome",
         "updateLabel": "Edit"
       },
       "update": {
@@ -63,7 +64,8 @@
       "analysisPeriodStartMonth": "Analysis Period Start Month",
       "analysisPeriodEndMonth": "Analysis Period End Month",
       "status": "State",
-      "lastAnalysisDate": "Last Performed Analysis Date"
+      "lastAnalysisDate": "Last Performed Analysis Date",
+      "lastAnalysisOutcome": "Last Analysis Outcome"
     }
   },
   "error": {

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs/esm';
 import { IInstanceModule } from '../../instance-module/models/instance-module.model';
+import { AnalysisOutcome } from 'app/entity/instance-module/models/analysis-outcome.model';
 
 export interface IInstance {
   id: number;
@@ -17,6 +18,7 @@ export interface IInstance {
   status?: InstanceStatus;
   lastAnalysisDate?: dayjs.Dayjs | null;
   instanceModules?: IInstanceModule[] | null;
+  lastAnalysisOutcome?: AnalysisOutcome | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };
@@ -44,6 +46,7 @@ export class Instance implements IInstance {
     public analysisPeriodEndDate?: dayjs.Dayjs | null,
     public status?: InstanceStatus,
     public lastAnalysisDate?: dayjs.Dayjs | null,
+    public lastAnalysisOutcome?: AnalysisOutcome | null,
     public instanceModules?: IInstanceModule[] | null,
   ) {}
 }

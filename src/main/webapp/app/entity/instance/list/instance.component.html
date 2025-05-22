@@ -180,6 +180,13 @@
                   <td mat-cell *matCellDef="let row">{{ row.lastAnalysisDate | formatDate: 'L LTS' : locale }}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="lastAnalysisOutcome">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.instance.lastAnalysisOutcome' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lastAnalysisOutcome }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>{{ 'entity.list.column.actions.label' | translate }}</th>
                   <td mat-cell *matCellDef="let row">
@@ -273,7 +280,7 @@
                 ></tr>
 
                 <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell font-weight-bold text-center" colspan="10">{{ 'entity.list.noResult' | translate }}</td>
+                  <td class="mat-cell font-weight-bold text-center" colspan="11">{{ 'entity.list.noResult' | translate }}</td>
                 </tr>
               </table>
             </div>

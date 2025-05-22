@@ -1,6 +1,20 @@
 {
   "pagopaCruscottoApp": {
     "module": {
+      "tables": {
+        "KpiResults": {
+          "title": "Results"
+        },
+        "KpiDetailResults": {
+          "title": "Feedback Data"
+        },
+        "KpiAnalyticResults": {
+          "title": "Analytical Data"
+        }
+      },
+      "errors": {
+        "notExists": "No data available"
+      },
       "A.1": {
         "name": "Respect SLA availability of payment service",
         "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analysis period, the total number of timeouts must not exceed a percentage threshold relative to the total number of primitive executions"
