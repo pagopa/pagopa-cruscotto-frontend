@@ -1,18 +1,16 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, inject, input, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import SharedModule from '../../../shared/shared.module';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { InstanceStatus, Instance } from '../models/instance.model';
-import { InstanceService } from '../service/instance.service';
+import { IInstance, InstanceStatus } from '../models/instance.model';
 import { IInstanceModule } from '../../instance-module/models/instance-module.model';
 import { MatTabLink, MatTabNav, MatTabNavPanel } from '@angular/material/tabs';
 import { InstanceModuleDetailsComponent } from '../../instance-module/instance-module-details/instance-module-details.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
-import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'jhi-instance-detail',
@@ -29,7 +27,6 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
     MatTabLink,
     MatTooltip,
     FormatDatePipe,
-    NgxSpinnerComponent,
   ],
   templateUrl: './instance-detail.component.html',
   styleUrl: './instance-detail.component.scss',
@@ -37,14 +34,10 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 export class InstanceDetailComponent implements OnInit {
   locale: string;
   status = InstanceStatus;
-  @Input() instance: Instance | null = null;
+  instance = input<IInstance | null>(null);
   selectedModule: IInstanceModule | null = null;
 
-  isLoadingResults = false;
-  private readonly route = inject(ActivatedRoute);
   private readonly translateService = inject(TranslateService);
-  private readonly instanceService = inject(InstanceService);
-  private readonly spinner = inject(NgxSpinnerService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -55,20 +48,10 @@ export class InstanceDetailComponent implements OnInit {
       this.locale = event.lang;
     });
 
-    this.route.params.subscribe(params => {
-      const routeId = params['id'];
-      console.log('Instance ID (via subscribe):', routeId);
-      if (routeId) {
-        this.loadInstance(routeId);
-      }
-    });
-
-    // Seleziona il primo modulo (se l'istanza è già definita e ha moduli)
-    if (this.instance) {
-      const modules = this.instanceModulesSorted();
-      if (modules.length > 0) {
-        this.selectedModule = modules[0];
-      }
+    // Preseleziona il primo modulo se disponibile
+    const sortedModules = this.instanceModulesSorted();
+    if (sortedModules && sortedModules.length > 0) {
+      this.selectModule(sortedModules[0]); // Seleziona il primo modulo
     }
   }
 
@@ -77,61 +60,11 @@ export class InstanceDetailComponent implements OnInit {
   }
 
   /**
-   * Carica i dettagli di un'istanza tramite ID, con gestione dello spinner.
-   */
-  private loadInstance(id: number): void {
-    this.spinner.show('isLoadingResults').then(() => {
-      this.isLoadingResults = true; // Setting the loading state
-
-      this.instanceService.find(id).subscribe({
-        next: response => {
-          const instance = response.body;
-          if (instance) {
-            this.onSuccess(instance);
-          } else {
-            this.onError('Risposta vuota dal server!');
-          }
-        },
-        error: error => {
-          this.onError(error);
-        },
-      });
-    });
-  }
-
-  /**
-   * Gestione del successo dopo il caricamento dei dettagli dell'istanza.
-   */
-  protected onSuccess(instance: Instance): void {
-    this.spinner.hide('isLoadingResults').then(() => {
-      this.isLoadingResults = false;
-      this.instance = instance; // Aggiorna i dettagli dell'istanza
-      console.log("Dati dell'istanza caricati con successo:", this.instance);
-
-      // Seleziona il primo modulo se disponibile
-      const modules = this.instanceModulesSorted();
-      if (modules.length > 0) {
-        this.selectedModule = modules[0];
-      }
-    });
-  }
-
-  /**
-   * Gestione degli errori nel caricamento dei dettagli dell'istanza.
-   */
-  protected onError(error: any): void {
-    this.spinner.hide('isLoadingResults').then(() => {
-      this.isLoadingResults = false;
-      console.error("Errore durante il caricamento dell'istanza:", error);
-      this.instance = null; // Resetta i dati dell'istanza in caso di errore
-    });
-  }
-
-  /**
    * Restituisce l'elenco ordinato dei moduli.
    */
   instanceModulesSorted(): IInstanceModule[] {
-    return (this.instance?.instanceModules || []).sort((a, b) => (a.moduleCode || '').localeCompare(b.moduleCode || ''));
+    const currentInstance = this.instance(); // Recupera il valore attuale del segnale
+    return (currentInstance?.instanceModules || []).sort((a, b) => (a.moduleCode || '').localeCompare(b.moduleCode || ''));
   }
 
   /**
