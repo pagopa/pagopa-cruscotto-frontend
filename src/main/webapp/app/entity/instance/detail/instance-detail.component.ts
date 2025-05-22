@@ -10,6 +10,9 @@ import { InstanceService } from '../service/instance.service';
 import { IInstanceModule } from '../../instance-module/models/instance-module.model';
 import { MatTabLink, MatTabNav, MatTabNavPanel } from '@angular/material/tabs';
 import { InstanceModuleDetailsComponent } from '../../instance-module/instance-module-details/instance-module-details.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'jhi-instance-detail',
@@ -24,6 +27,9 @@ import { InstanceModuleDetailsComponent } from '../../instance-module/instance-m
     MatTabNavPanel,
     InstanceModuleDetailsComponent,
     MatTabLink,
+    MatTooltip,
+    FormatDatePipe,
+    NgxSpinnerComponent,
   ],
   templateUrl: './instance-detail.component.html',
   styleUrl: './instance-detail.component.scss',
@@ -34,9 +40,11 @@ export class InstanceDetailComponent implements OnInit {
   @Input() instance: Instance | null = null;
   selectedModule: IInstanceModule | null = null;
 
+  isLoadingResults = false;
   private readonly route = inject(ActivatedRoute);
   private readonly translateService = inject(TranslateService);
   private readonly instanceService = inject(InstanceService);
+  private readonly spinner = inject(NgxSpinnerService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -68,21 +76,54 @@ export class InstanceDetailComponent implements OnInit {
     window.history.back();
   }
 
+  /**
+   * Carica i dettagli di un'istanza tramite ID, con gestione dello spinner.
+   */
   private loadInstance(id: number): void {
-    // Chiama il servizio per ottenere i dettagli dell'istanza
-    this.instanceService.find(id).subscribe({
-      next: response => {
-        this.instance = response.body; // `response.body` contiene l'istanza
-        console.log('Instance loaded:', this.instance);
-        // Seleziona il primo modulo se esiste
-        const modules = this.instanceModulesSorted();
-        if (modules.length > 0) {
-          this.selectedModule = modules[0];
-        }
-      },
-      error: error => {
-        console.error('Error while fetching instance:', error);
-      },
+    this.spinner.show('isLoadingResults').then(() => {
+      this.isLoadingResults = true; // Setting the loading state
+
+      this.instanceService.find(id).subscribe({
+        next: response => {
+          const instance = response.body;
+          if (instance) {
+            this.onSuccess(instance);
+          } else {
+            this.onError('Risposta vuota dal server!');
+          }
+        },
+        error: error => {
+          this.onError(error);
+        },
+      });
+    });
+  }
+
+  /**
+   * Gestione del successo dopo il caricamento dei dettagli dell'istanza.
+   */
+  protected onSuccess(instance: Instance): void {
+    this.spinner.hide('isLoadingResults').then(() => {
+      this.isLoadingResults = false;
+      this.instance = instance; // Aggiorna i dettagli dell'istanza
+      console.log("Dati dell'istanza caricati con successo:", this.instance);
+
+      // Seleziona il primo modulo se disponibile
+      const modules = this.instanceModulesSorted();
+      if (modules.length > 0) {
+        this.selectedModule = modules[0];
+      }
+    });
+  }
+
+  /**
+   * Gestione degli errori nel caricamento dei dettagli dell'istanza.
+   */
+  protected onError(error: any): void {
+    this.spinner.hide('isLoadingResults').then(() => {
+      this.isLoadingResults = false;
+      console.error("Errore durante il caricamento dell'istanza:", error);
+      this.instance = null; // Resetta i dati dell'istanza in caso di errore
     });
   }
 

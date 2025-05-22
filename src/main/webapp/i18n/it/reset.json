@@ -20,7 +20,7 @@
       "messages": {
         "info": "Scegliere una nuova password",
         "success": "<strong>La tua password \u00E8 stata reimpostata con successo</strong>",
-        "keymissing": "La chiave di reimpostazione non \u00E8 presente",
+        "keyMissing": "La chiave di reimpostazione non \u00E8 presente",
         "error": "La tua password potrebbe non essere ripristinata. Ricorda che la richiesta della password \u00E8 valida solo per 24 ore."
       }
     }

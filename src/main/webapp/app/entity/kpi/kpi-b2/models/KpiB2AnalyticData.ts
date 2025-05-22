@@ -1,11 +1,13 @@
+import dayjs from 'dayjs/esm';
+
 export class KpiB2AnalyticData {
   id: number | null;
   instanceId: number | null;
   instanceModuleId: number | null;
-  analysisDate: string | null; // ISO string format
+  analysisDate: dayjs.Dayjs | null; // ISO string format
   stationId: number | null;
   method: string | null;
-  evaluationDate: string | null; // ISO string format
+  evaluationDate: dayjs.Dayjs | null; // ISO string format
   totReq: number | null;
   reqOk: number | null;
   reqTimeout: number | null;
@@ -17,10 +19,10 @@ export class KpiB2AnalyticData {
     id: number | null = null,
     instanceId: number | null = null,
     instanceModuleId: number | null = null,
-    analysisDate: string | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
     stationId: number | null = null,
     method: string | null = null,
-    evaluationDate: string | null = null,
+    evaluationDate: dayjs.Dayjs | null = null,
     totReq: number | null = null,
     reqOk: number | null = null,
     reqTimeout: number | null = null,

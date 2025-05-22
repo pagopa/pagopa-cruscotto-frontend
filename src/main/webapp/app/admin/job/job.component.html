@@ -44,6 +44,13 @@
                   <td mat-cell *matCellDef="let row">{{ row.groupName }}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="cron">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.job.cron' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.cron }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="scheduleTime">
                   <th mat-header-cell *matHeaderCellDef>
                     {{ 'pagopaCruscottoApp.job.scheduleTime' | translate }}
@@ -126,7 +133,7 @@
                         <button
                           mat-icon-button
                           type="button"
-                          [disabled]="row.jobStatus == 'RUNNING' || disabledButton"
+                          [disabled]="row.jobStatus == 'RUNNING' || disabledButton || row.cron === null"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.edit' | translate }}"
                           matTooltipPosition="above"
                           [attr.aria-label]="['pagopaCruscottoApp.job.action.edit' | translate]"

@@ -51,7 +51,7 @@ export default class SettingsComponent implements OnInit {
     }),
     email: new FormControl(initialAccount.email, {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(100), Validators.email],
+      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
     langKey: new FormControl(initialAccount.langKey, {
       nonNullable: true,
