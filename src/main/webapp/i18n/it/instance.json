@@ -29,7 +29,8 @@
         "analysisPeriodStartDate": "Inizio Periodo di Analisi",
         "analysisPeriodEndDate": "Fine Periodo di Analisi",
         "status": "Stato",
-        "lastAnalysisDate": "Ultima Data di Analisi",
+        "lastAnalysisDate": "Data Ultima Analisi",
+        "lastAnalysisOutcome": "Esito Ultima Analisi",
         "updateLabel": "Modifica"
       },
       "update": {
@@ -40,7 +41,7 @@
             "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Inizio Periodo Analisi' dovrebbe essere una data valida",
             "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
           }
         },
         "analysisPeriodEndDate": {
@@ -48,7 +49,7 @@
             "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Fine Periodo Analisi' dovrebbe essere una data valida",
             "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo 'Data Fine Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
           }
         }
       },
@@ -63,7 +64,8 @@
       "analysisPeriodStartMonth": "Mese Inizio Periodo Analisi",
       "analysisPeriodEndMonth": "Mese Fine Periodo Analisi",
       "status": "Stato",
-      "lastAnalysisDate": "Data Ultima Analisi Eseguita"
+      "lastAnalysisDate": "Data Ultima Analisi Eseguita",
+      "lastAnalysisOutcome": "Esito Ultima Analisi"
     }
   },
   "error": {
