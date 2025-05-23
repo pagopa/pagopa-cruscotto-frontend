@@ -6,57 +6,79 @@
   <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
     <!-- Colonne -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Id' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.id' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     </ng-container>
 
     <ng-container matColumnDef="analysisDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Analysis Date' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.analysisDate' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.analysisDate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="stationId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Station Id' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.stationId' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.stationId }}</td>
     </ng-container>
 
     <ng-container matColumnDef="method">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Method' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.method' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.method }}</td>
     </ng-container>
 
     <ng-container matColumnDef="totalRequests">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Total Requests' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.totalRequests' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.totReq }}</td>
     </ng-container>
 
     <ng-container matColumnDef="averageTime">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Average Time' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.averageTime' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.avgTime }}</td>
     </ng-container>
 
     <ng-container matColumnDef="overTimeLimit">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Over Time Limit' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.overTimeLimit' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.overTimeLimit }}</td>
     </ng-container>
 
     <ng-container matColumnDef="evaluationStartDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Evaluation Start Date' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.evaluationStartDate' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.evaluationStartDate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="evaluationEndDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Evaluation End Date' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.evaluationEndDate' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.evaluationEndDate }}</td>
     </ng-container>
 
     <ng-container matColumnDef="evaluationType">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Evaluation Type' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.evaluationType' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
     </ng-container>
 
     <ng-container matColumnDef="outcome">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'Outcome' | translate }}</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiDetailResults.outcome' | translate }}
+      </th>
       <td mat-cell *matCellDef="let element">{{ element.outcome }}</td>
     </ng-container>
 

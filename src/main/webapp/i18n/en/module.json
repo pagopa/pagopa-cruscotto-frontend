@@ -83,8 +83,19 @@
             "showDetails": "Show Details"
           },
           "KpiDetailResults": {
-            "details": "Results Detail",
-            "showDetails": "Show Details"
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "totalRequests": "Totale Richieste",
+            "averageTime": "Tempo Medio",
+            "overTimeLimit": "Sopra il Limite di Tempo",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           },
           "KpiAnalyticResults": {}
         }
