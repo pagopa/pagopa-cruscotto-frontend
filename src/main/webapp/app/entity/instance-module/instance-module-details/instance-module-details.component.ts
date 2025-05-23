@@ -7,10 +7,22 @@ import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { KpiB2ResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-result-table/kpi-b2-result-table.component';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
+import { KpiA2ResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-result-table/kpi-a2-result-table.component';
+import { KpiA1ResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-result-table/kpi-a1-result-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
-  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe, KpiB2ResultTableComponent, NgxSpinnerComponent],
+  imports: [
+    CommonModule,
+    MatCard,
+    MatCardContent,
+    TranslatePipe,
+    FormatDatePipe,
+    KpiB2ResultTableComponent,
+    NgxSpinnerComponent,
+    KpiA2ResultTableComponent,
+    KpiA1ResultTableComponent,
+  ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
 })

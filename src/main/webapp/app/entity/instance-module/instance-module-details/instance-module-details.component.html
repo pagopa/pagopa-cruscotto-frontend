@@ -86,13 +86,16 @@
   </div>
 </div>
 
-<div class="row mt-3" *ngIf="moduleDetails && moduleDetails?.analysisType === 'AUTOMATICA' && moduleDetails?.moduleCode === 'B.2'">
+<div class="row mt-3" *ngIf="moduleDetails && moduleDetails?.analysisType === 'AUTOMATICA'">
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
         <h3>{{ 'pagopaCruscottoApp.module.tables.KpiResults.title' | translate }}: {{ moduleDetails.moduleCode }}</h3>
-        <!-- Richiama il componente della tabella -->
-        <jhi-kpi-b2-result-table [moduleId]="moduleDetails.id"></jhi-kpi-b2-result-table>
+
+        <!-- Mostra il componente corretto in base al valore di moduleCode -->
+        <jhi-kpi-b2-result-table *ngIf="moduleDetails?.moduleCode === 'B.2'" [moduleId]="moduleDetails.id"></jhi-kpi-b2-result-table>
+        <jhi-kpi-a1-result-table *ngIf="moduleDetails?.moduleCode === 'A.1'" [moduleId]="moduleDetails.id"></jhi-kpi-a1-result-table>
+        <jhi-kpi-a2-result-table *ngIf="moduleDetails?.moduleCode === 'A.2'" [moduleId]="moduleDetails.id"></jhi-kpi-a2-result-table>
       </mat-card-content>
     </mat-card>
   </div>

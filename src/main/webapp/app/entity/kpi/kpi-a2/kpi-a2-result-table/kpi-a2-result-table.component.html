@@ -1,0 +1,55 @@
+<ngx-spinner
+  [fullScreen]="false"
+  type="ball-clip-rotate"
+  size="default"
+  color="#ffffff"
+  name="isLoadingResultsKpiA2ResultTable"
+  aria-label="Caricamento risultati A2 in corso..."
+>
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Analysis Date -->
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.analysisDate }}</td>
+    </ng-container>
+
+    <!-- Tollerance -->
+    <ng-container matColumnDef="tollerance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tollerance</th>
+      <td mat-cell *matCellDef="let element">{{ element.tollerance }}</td>
+    </ng-container>
+
+    <!-- Evaluation Type -->
+    <ng-container matColumnDef="evaluationType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
+    </ng-container>
+
+    <!-- Outcome -->
+    <ng-container matColumnDef="outcome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Outcome</th>
+      <td mat-cell *matCellDef="let element">{{ element.outcome }}</td>
+    </ng-container>
+
+    <!-- Righe -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<!-- Paginatore -->
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+<ng-template #noDataTemplate>
+  <span>Nessun dato disponibile.</span>
+</ng-template>
