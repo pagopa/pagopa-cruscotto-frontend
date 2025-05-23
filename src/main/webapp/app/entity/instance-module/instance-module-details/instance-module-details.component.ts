@@ -43,7 +43,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Caricamento dei dettagli del modulo con gestione dello spinner
    */
   loadModuleDetails(id: number): void {
-    this.spinner.show('isLoadingResults').then(() => {
+    this.spinner.show('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = true; // Indica che il caricamento è in corso
 
       this.instanceModuleService.find(id).subscribe({
@@ -65,7 +65,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo chiamato al completamento positivo della chiamata API
    */
   protected onSuccess(data: IInstanceModule): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = data; // Imposta i dettagli del modulo
       console.log('Dati caricati con successo:', this.moduleDetails);
@@ -76,7 +76,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo chiamato in caso di errore
    */
   protected onError(error: any): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = undefined; // Resetta i dettagli del modulo in caso di errore
       console.error('Errore durante il caricamento:', error);

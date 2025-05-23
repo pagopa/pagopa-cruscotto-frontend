@@ -15,7 +15,7 @@ const instanceRoutes: Routes = [
     path: ':id/view',
     component: InstanceDetailComponent,
     resolve: {
-      permission: InstanceRoutingResolve,
+      instance: InstanceRoutingResolve,
     },
     canActivate: [UserRouteAccessService],
   },
