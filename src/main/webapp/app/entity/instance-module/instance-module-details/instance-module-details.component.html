@@ -93,9 +93,9 @@
         <h3>{{ 'pagopaCruscottoApp.module.tables.KpiResults.title' | translate }}: {{ moduleDetails.moduleCode }}</h3>
 
         <!-- Mostra il componente corretto in base al valore di moduleCode -->
-        <jhi-kpi-b2-result-table *ngIf="moduleDetails?.moduleCode === 'B.2'" [moduleId]="moduleDetails.id"></jhi-kpi-b2-result-table>
         <jhi-kpi-a1-result-table *ngIf="moduleDetails?.moduleCode === 'A.1'" [moduleId]="moduleDetails.id"></jhi-kpi-a1-result-table>
         <jhi-kpi-a2-result-table *ngIf="moduleDetails?.moduleCode === 'A.2'" [moduleId]="moduleDetails.id"></jhi-kpi-a2-result-table>
+        <jhi-kpi-b2-result-table *ngIf="moduleDetails?.moduleCode === 'B.2'" [moduleId]="moduleDetails.id"></jhi-kpi-b2-result-table>
       </mat-card-content>
     </mat-card>
   </div>
