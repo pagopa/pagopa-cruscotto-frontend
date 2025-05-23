@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow, MatRow, MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { KpiB2ResultService } from '../service/kpi-b2-result.service';
@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgIf } from '@angular/common';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'jhi-kpi-b2-result-table',
@@ -25,6 +26,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     MatPaginatorModule,
     MatSortModule,
     NgxSpinnerModule,
+    MatButton,
   ],
 })
 export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges {
@@ -38,10 +40,14 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges {
     'averageTimeLimit',
     'evaluationType',
     'outcome',
+    'details',
   ];
   dataSource = new MatTableDataSource<KpiB2Result>([]);
 
   @Input() moduleId: number | undefined;
+
+  // evento Output che emette l'ID per mostrare i dettagli
+  @Output() showDetails = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -147,6 +153,13 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges {
           return 0;
       }
     });
+  }
+
+  /**
+   * Metodo per emettere l'ID del modulo selezionato
+   */
+  emitShowDetails(moduleId: number): void {
+    this.showDetails.emit(moduleId);
   }
 }
 
