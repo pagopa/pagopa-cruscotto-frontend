@@ -17,11 +17,36 @@
       },
       "A.1": {
         "name": "Rispetto SLA disponibilità servizio di pagamento",
-        "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive"
+        "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tollerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "A.2": {
         "name": "Tassonomia precisa",
-        "description": "Deve essere garantita l'associazione di tutti i pagamenti ad un codice tassonomico presente all'interno dell'elenco pubblicato nelle SANP"
+        "description": "Deve essere garantita l'associazione di tutti i pagamenti ad un codice tassonomico presente all'interno dell'elenco pubblicato nelle SANP",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "tollerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "B.1": {
         "name": "Numero enti intermediati o transazioni gestite",

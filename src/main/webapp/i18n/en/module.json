@@ -17,11 +17,36 @@
       },
       "A.1": {
         "name": "Respect SLA availability of payment service",
-        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analysis period, the total number of timeouts must not exceed a percentage threshold relative to the total number of primitive executions"
+        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analysis period, the total number of timeouts must not exceed a percentage threshold relative to the total number of primitive executions",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "excludePlannedShutdown": "Exclude Planned Shutdowns",
+            "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
+            "eligibilityThreshold": "Eligibility Threshold",
+            "tollerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "A.2": {
         "name": "Accurate taxonomy",
-        "description": "The association of all payments with a taxonomic code present in the list published in the SANP must be guaranteed"
+        "description": "The association of all payments with a taxonomic code present in the list published in the SANP must be guaranteed",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "tollerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "B.1": {
         "name": "Number of intermediated entities or managed transactions",
