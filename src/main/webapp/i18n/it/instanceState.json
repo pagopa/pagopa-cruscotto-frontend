@@ -4,8 +4,8 @@
       "null": "",
       "BOZZA": "Bozza",
       "PIANIFICATA": "Pianificata",
-      "ESEGUITA": "Eseguita",
-      "CANCELLATA": "Cancellata"
+      "IN_ESECUZIONE": "In Esecuzione",
+      "ESEGUITA": "Eseguita"
     }
   }
 }
