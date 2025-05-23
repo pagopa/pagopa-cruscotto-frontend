@@ -1,20 +1,20 @@
 import dayjs from 'dayjs/esm';
 
-export class KpiB2DetailResult {
+export class KpiA1DetailResult {
   id: number | null;
   instanceId: number | null;
   instanceModuleId: number | null;
-  analysisDate: dayjs.Dayjs | null; // ISO string format
+  analysisDate: dayjs.Dayjs | null; // ISO string format for date
   stationId: number | null;
   method: string | null;
-  evaluationType: string | null; // Assuming it's a string or enum
-  evaluationStartDate: dayjs.Dayjs | null; // ISO string format
-  evaluationEndDate: dayjs.Dayjs | null; // ISO string format
+  evaluationType: EvaluationType | null;
+  evaluationStartDate: dayjs.Dayjs | null; // ISO string format for date
+  evaluationEndDate: dayjs.Dayjs | null; // ISO string format for date
   totReq: number | null;
-  avgTime: number | null;
-  overTimeLimit: number | null;
-  outcome: string | null; // Assuming it's an enum or string
-  kpiB2ResultId: number | null;
+  reqTimeout: number | null;
+  timeoutPercentage: number | null;
+  outcome: OutcomeStatus | null;
+  kpiA1ResultId: number | null;
 
   // Costruttore
   constructor(
@@ -28,10 +28,10 @@ export class KpiB2DetailResult {
     evaluationStartDate: dayjs.Dayjs | null = null,
     evaluationEndDate: dayjs.Dayjs | null = null,
     totReq: number | null = null,
-    avgTime: number | null = null,
-    overTimeLimit: number | null = null,
+    reqTimeout: number | null = null,
+    timeoutPercentage: number | null = null,
     outcome: OutcomeStatus | null = null,
-    kpiB2ResultId: number | null = null,
+    kpiA1ResultId: number | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -43,11 +43,17 @@ export class KpiB2DetailResult {
     this.evaluationStartDate = evaluationStartDate;
     this.evaluationEndDate = evaluationEndDate;
     this.totReq = totReq;
-    this.avgTime = avgTime;
-    this.overTimeLimit = overTimeLimit;
+    this.reqTimeout = reqTimeout;
+    this.timeoutPercentage = timeoutPercentage;
     this.outcome = outcome;
-    this.kpiB2ResultId = kpiB2ResultId;
+    this.kpiA1ResultId = kpiA1ResultId;
   }
+}
+
+// Enum di EvaluationType
+export enum EvaluationType {
+  MESE = 'MESE',
+  TOTALE = 'TOTALE',
 }
 
 // Enum di OutcomeStatus
@@ -56,10 +62,4 @@ export enum OutcomeStatus {
   KO = 'KO',
   RUNNING = 'RUNNING',
   STANDBY = 'STANDBY',
-}
-
-// Enum di EvaluationType
-export enum EvaluationType {
-  MESE = 'MESE',
-  TOTALE = 'TOTALE',
 }

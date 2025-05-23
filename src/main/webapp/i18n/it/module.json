@@ -29,7 +29,22 @@
       },
       "B.2": {
         "name": "Rispetto SLA tempi di risposta delle primitive",
-        "description": "Non devono essere violati gli SLA indicati nella sezione \"Disponibilità del servizio\". Nel periodo analizzato la percentuale delle response superiore ad un determinato tempo prestabilito non deve superare una certa percentuale rispetto al totale delle request"
+        "description": "Non devono essere violati gli SLA indicati nella sezione \"Disponibilità del servizio\". Nel periodo analizzato la percentuale delle response superiore ad un determinato tempo prestabilito non deve superare una certa percentuale rispetto al totale delle request",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tollerance": "Tolleranza",
+            "averageTimeLimit": "Limite Medio",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "B.3": {
         "name": "Zero Incident",

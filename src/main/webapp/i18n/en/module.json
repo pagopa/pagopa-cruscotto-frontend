@@ -29,7 +29,22 @@
       },
       "B.2": {
         "name": "Respect SLA response times of primitives",
-        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analyzed period, the percentage of responses exceeding a predetermined time must not exceed a certain percentage relative to the total number of requests"
+        "description": "The SLAs indicated in the 'Service Availability' section must not be violated. During the analyzed period, the percentage of responses exceeding a predetermined time must not exceed a certain percentage relative to the total number of requests",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "excludePlannedShutdown": "Exclude Planned Shutdowns",
+            "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
+            "eligibilityThreshold": "Eligibility Threshold",
+            "tollerance": "Tolerance",
+            "averageTimeLimit": "Average Time Limit",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome"
+          },
+          "KpiDetailResults": {},
+          "KpiAnalyticResults": {}
+        }
       },
       "B.3": {
         "name": "Zero Incidents",
