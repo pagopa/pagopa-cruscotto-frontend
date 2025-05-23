@@ -1,4 +1,4 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsInstanceModuleDetail">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 
@@ -86,7 +86,7 @@
   </div>
 </div>
 
-<div class="row mt-3" *ngIf="moduleDetails; else noData">
+<div class="row mt-3" *ngIf="moduleDetails && moduleDetails?.analysisType === 'AUTOMATICA'">
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
       <mat-card-content>

@@ -4,8 +4,8 @@
       "null": "",
       "BOZZA": "Draft",
       "PIANIFICATA": "Planned",
-      "ESEGUITA": "Performed",
-      "CANCELLATA": "Deleted"
+      "IN_ESECUZIONE": "In Progress",
+      "ESEGUITA": "Performed"
     }
   }
 }
