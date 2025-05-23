@@ -13,8 +13,8 @@
       "list": {
         "createLabel": "Nuova Istanza",
         "action": {
-          "updateInPlanned.label": "Aggiora In Pianificata",
-          "updateInDraft.label": "Aggiora In Bozza"
+          "updateInPlanned.label": "Aggiorna In Pianificata",
+          "updateInDraft.label": "Aggiorna In Bozza"
         }
       },
       "detail": {

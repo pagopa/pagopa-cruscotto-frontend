@@ -1,7 +1,21 @@
 import { Component, inject, Input, OnDestroy, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, exhaustMap, filter, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  delay,
+  exhaustMap,
+  filter,
+  finalize,
+  map,
+  scan,
+  startWith,
+  switchMap,
+  takeUntil,
+  takeWhile,
+  tap,
+} from 'rxjs/operators';
 import { MatSelect, MatSelectChange, MatSelectModule } from '@angular/material/select';
 import SharedModule from '../../../../shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +26,8 @@ import { ITEMS_PER_PAGE } from '../../../../config/pagination.constants';
 import { HttpResponse } from '@angular/common/http';
 import { PartnerService } from '../../service/partner.service';
 import { IPartner } from '../../partner.model';
+import { addFilterToRequest, addStringToReq, addToFilter } from '../../../../shared/pagination/filter-util.pagination';
+import { InstanceFilter } from '../../../instance/list/instance.filter';
 
 interface IExtendPartner extends Omit<IPartner, ''> {
   order: number;
@@ -40,6 +56,12 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   @Input() parentForm!: FormGroup;
   @Input() formInnerControlName!: string;
 
+  public partnerFilteringCtrl: FormControl<string | null> = new FormControl<string>('');
+
+  public searching = false;
+
+  protected partner: IExtendPartner[] = [];
+
   filteredData$: Observable<IExtendPartner[]> = of([]);
   selectPartner: IExtendPartner | null = null;
   loading = false;
@@ -56,8 +78,8 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
       this.selectPartner.orderForSort = -1;
     }
 
-    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
-      startWith(null),
+    const filter$ = this.partnerFilteringCtrl.valueChanges.pipe(
+      startWith(''),
       debounceTime(200),
       filter(q => typeof q === 'string' || q === null),
     );
@@ -65,46 +87,52 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     this.filteredData$ = filter$.pipe(
       switchMap((value: any) => {
         this.searchTerm = value;
-        // Note: Reset the page with every new seach text
         let currentPage = 0;
+        this.countSelect = 0;
         this.i = 0;
+        console.log('Search ' + value);
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
-          // Note: Until the backend responds, ignore NextPage requests.
+          tap(() => {
+            if (value !== null && value !== '' && value !== undefined && value.length >= 1) {
+              this.searching = true;
+            }
+          }),
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
+          tap(partners => (this.countSelect = (this.countSelect ?? 0) + partners.length)),
           tap(() => (this.currentPage = ++currentPage)),
+          tap(() => (this.searching = false)),
           /** Note: This is a custom operator because we also need the last emitted value.
            Note: Stop if there are no more pages, or no results at all for the current search text.
            */
           takeWhile(p => {
             return p.length > 0;
           }, true),
-          scan((allGroups: any[], newGroups: any[]) => {
+          scan((allPartners: any[], newPartners: any[]) => {
             let i = 0;
 
-            newGroups.forEach(group => {
-              group.order = this.i++;
-              group.orderForSort = group.order;
+            newPartners.forEach(partner => {
+              partner.order = this.i++;
+              partner.orderForSort = partner.order;
             });
 
             if (this.selectPartner) {
               this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
-              const foundIntoNewGroups = newGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectPartner && this.selectPartner.id),
+              const foundIntoNewPartners = newPartners.findIndex(
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
               );
-              const foundIntoAllGroups = allGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectPartner && this.selectPartner.id),
+              const foundIntoAllPartners = allPartners.findIndex(
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
               );
-              if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
-                allGroups.splice(foundIntoAllGroups, 1);
-              } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
-                newGroups.push(this.selectPartner);
+              if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
+                allPartners.splice(foundIntoAllPartners, 1);
+              } else if (foundIntoNewPartners === -1 && foundIntoAllPartners === -1) {
+                newPartners.push(this.selectPartner);
               }
             }
-            return allGroups.concat(newGroups);
+            return allPartners.concat(newPartners);
           }, []),
         );
       }),
@@ -133,6 +161,9 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
       size: ITEMS_PER_PAGE,
       sort: ['name,asc'],
     };
+
+    addStringToReq(search, 'name', req);
+
     return this.partnerService.query(req).pipe(
       map((value: HttpResponse<IPartner[]>) => {
         const partners = value.body || [];
