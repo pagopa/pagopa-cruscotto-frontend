@@ -26,6 +26,8 @@ import { HttpResponse } from '@angular/common/http';
 import { StationService } from '../../service/station.service';
 import { IStation } from '../../station.model';
 import { PartnerService } from 'app/entity/partner/service/partner.service';
+import { IPartner } from '../../../partner/partner.model';
+import { addNumericToReq, addStringToReq } from '../../../../shared/pagination/filter-util.pagination';
 
 interface IExtendedStation extends Omit<IStation, ''> {
   order: number;
@@ -53,10 +55,10 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   @Input() parentForm!: FormGroup;
   @Input() formInnerControlName!: string;
+  @Input() partnerControlName!: string;
 
-  // Use a BehaviorSubject to hold the current partner ID and emit its changes
-  private currentPartnerIdSubject = new BehaviorSubject<number | null>(null);
-  currentPartnerId$ = this.currentPartnerIdSubject.asObservable();
+  _partner: IPartner | null = null;
+
   first: boolean = true;
   filteredData$: Observable<IExtendedStation[]> = of([]);
   selectStation: IExtendedStation | null = null;
@@ -74,89 +76,33 @@ export class StationSelectComponent implements OnInit, OnDestroy {
       this.selectStation.orderForSort = -1;
     }
 
-    this.partnerService
-      .getPartnerId()
-      .pipe(
-        takeUntil(this.destroy$),
-        tap(partnerData => {
-          if (partnerData.partnerId !== 'undefined') {
-            console.log('received partner id :', partnerData.partnerId);
-            const newPartnerId = partnerData.partnerId ? parseInt(partnerData.partnerId, 10) : null;
-            this.currentPartnerIdSubject.next(newPartnerId);
-            if (this.first) {
-              this.first = false;
-            } else {
-              this.parentForm.get(this.formInnerControlName)?.setValue(null);
-              this.selectStation = null;
-            }
-            this.fillStations();
-          } else {
-            this.parentForm.get(this.formInnerControlName)?.setValue(null);
-            this.selectStation = null;
-            this.filteredData$ = of([]);
-          }
-        }),
-      )
-      .subscribe();
-  }
-
-  batchSize = 20;
-  private incrementBatchOffset$: Subject<void> = new Subject<void>();
-  private readonly stationService = inject(StationService);
-  private readonly partnerService = inject(PartnerService);
-  private destroy$: Subject<void> = new Subject<void>();
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  getList(value: any, page: number, partnerId: number | null): Observable<IStation[]> {
-    return this.callService(value, page, partnerId);
-  }
-
-  private callService(search: string, pageRequired: number, partnerId: number | null): Observable<IStation[]> {
-    this.loading = true;
-    const req: any = {
-      page: pageRequired,
-      size: ITEMS_PER_PAGE,
-      sort: ['name,asc'],
-    };
-    if (partnerId !== null) {
-      req.partnerId = partnerId;
+    if (this.parentForm.get(this.partnerControlName)!.value !== undefined && this.parentForm.get(this.partnerControlName)!.value !== null) {
+      this._partner = this.parentForm.get(this.partnerControlName)!.value;
     }
-    return this.stationService.query(req).pipe(
-      map((value: HttpResponse<IStation[]>) => {
-        const stations = value.body || [];
-        this.totalItems = Number(value.headers.get('X-Total-Count'));
-        return stations;
-      }),
-      catchError(() => {
-        return [];
-      }),
-      finalize(() => {
-        this.loading = false;
-      }),
-    );
-  }
 
-  fillStations() {
-    // Combine the search term changes and the partner ID changes
+    this.parentForm.get(this.partnerControlName)!.valueChanges.subscribe(value => {
+      this._partner = value;
+      console.log(this._partner);
+      if (value === null || value === '' || value.id !== this.selectStation?.partnerId) {
+        this.clear();
+      }
+    });
+
     const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
       startWith(null),
       debounceTime(200),
       filter(q => typeof q === 'string' || q === null),
     );
 
-    this.filteredData$ = combineLatest([filter$, this.currentPartnerId$]).pipe(
-      switchMap(([searchTerm, currentPartnerId]) => {
-        this.searchTerm = searchTerm;
+    this.filteredData$ = filter$.pipe(
+      switchMap((value: any) => {
+        this.searchTerm = value;
         let currentPage = 0;
         this.i = 0;
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           exhaustMap(() => {
-            return this.getList(searchTerm, currentPage, currentPartnerId);
+            return this.getList(value, currentPage);
           }),
           tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
           tap(() => (this.currentPage = ++currentPage)),
@@ -188,6 +134,51 @@ export class StationSelectComponent implements OnInit, OnDestroy {
     );
   }
 
+  batchSize = 20;
+  private incrementBatchOffset$: Subject<void> = new Subject<void>();
+  private readonly stationService = inject(StationService);
+  private destroy$: Subject<void> = new Subject<void>();
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  getList(value: any, page: number): Observable<IStation[]> {
+    return this.callService(value, page);
+  }
+
+  private callService(search: string, pageRequired: number): Observable<IStation[]> {
+    this.loading = true;
+    if (this._partner !== null && this._partner !== undefined && this._partner.id !== undefined && this._partner.id !== null) {
+      const req: any = {
+        page: pageRequired,
+        size: ITEMS_PER_PAGE,
+        sort: ['name,asc'],
+      };
+      addNumericToReq(this._partner.id, 'partnerId', req);
+      return this.stationService.query(req).pipe(
+        map((value: HttpResponse<IStation[]>) => {
+          const stations = value.body || [];
+          this.totalItems = Number(value.headers.get('X-Total-Count'));
+          return stations;
+        }),
+        catchError(() => {
+          return [];
+        }),
+        finalize(() => {
+          this.loading = false;
+        }),
+      );
+    } else {
+      return of([]).pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      );
+    }
+  }
+
   compareFn(obj1: IExtendedStation, obj2: IExtendedStation) {
     return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
@@ -198,5 +189,11 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   getNextBatch(): void {
     this.incrementBatchOffset$.next();
+  }
+
+  private clear(): void {
+    this.countSelect = 0;
+    this.selectStation = null;
+    this.parentForm.get(this.formInnerControlName)!.setValue(null);
   }
 }
