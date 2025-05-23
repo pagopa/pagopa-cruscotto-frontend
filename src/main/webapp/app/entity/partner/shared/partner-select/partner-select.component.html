@@ -19,7 +19,29 @@
         [compareWith]="compareFn"
         [formControlName]="formInnerControlName"
       >
-        <mat-option value="">{{ 'global.form.select.all' | translate }}</mat-option>
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="partnerFilteringCtrl"
+            [searching]="searching"
+            placeholderLabel="{{ 'global.form.select.search' | translate }}"
+          >
+            <mat-icon ngxMatSelectSearchClear fontSet="material-symbols-outlined" color="accent" aria-hidden="false">close_small</mat-icon>
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option disabled *ngIf="currentPage > 0 && countSelect > 0">
+          <small
+            class="form-text"
+            jhiTranslate="global.ng-select-item-count"
+            [translateValues]="{ current: countSelect, total: totalItems }"
+            >Mostra 0 di 0</small
+          >
+        </mat-option>
+        <mat-option disabled *ngIf="searchTerm && currentPage > 0 && countSelect == 0 && !this.loading">
+          <small class="form-text" jhiTranslate="global.form.select.notFound" [translateValues]="{ search: searchTerm }"
+            >No data found for "{{ searchTerm }}"</small
+          >
+        </mat-option>
+        <mat-option value="" *ngIf="!searchTerm">{{ 'global.form.select.all' | translate }}</mat-option>
         <mat-option *ngFor="let partner of filteredData$ | async" [value]="partner">
           {{ partner.name }}
         </mat-option>

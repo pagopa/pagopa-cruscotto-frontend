@@ -27,7 +27,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     NgxSpinnerModule,
   ],
 })
-export class KpiB2ResultTableComponent implements OnInit, AfterViewInit, OnChanges {
+export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges {
   displayedColumns: string[] = [
     'id',
     'analysisDate',
@@ -51,14 +51,6 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit, OnChang
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2ResultService = inject(KpiB2ResultService);
 
-  ngOnInit(): void {
-    if (this.moduleId) {
-      this.fetchKpiB2Results(this.moduleId);
-    } else {
-      console.warn('moduleId non è disponibile in OnInit');
-    }
-  }
-
   ngOnChanges(): void {
     if (this.moduleId) {
       this.fetchKpiB2Results(this.moduleId);
@@ -78,7 +70,7 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit, OnChang
    * Recupera i risultati KPI B2 dall'API
    */
   fetchKpiB2Results(moduleId: number): void {
-    this.spinner.show('isLoadingResults').then(() => {
+    this.spinner.show('isLoadingResultsKpiB2ResultTable').then(() => {
       this.isLoadingResults = true; // Indica che il caricamento è in corso
 
       this.kpiB2ResultService.getKpiB2Results(moduleId).subscribe({
@@ -92,7 +84,7 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit, OnChang
    * Metodo chiamato al successo della chiamata API
    */
   protected onSuccess(data: KpiB2Result[]): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsKpiB2ResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
 
@@ -107,7 +99,7 @@ export class KpiB2ResultTableComponent implements OnInit, AfterViewInit, OnChang
    * Metodo chiamato in caso di errore nella chiamata API
    */
   protected onError(): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsKpiB2ResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = []; // Resetta i dati in caso di errore
       console.error('Errore durante il recupero dei risultati KPI B2');
