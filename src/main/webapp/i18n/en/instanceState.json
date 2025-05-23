@@ -5,6 +5,7 @@
       "BOZZA": "Draft",
       "PIANIFICATA": "Planned",
       "ESEGUITA": "Performed",
+      "IN_ESECUZIONE": "In Progress",
       "CANCELLATA": "Deleted"
     }
   }
