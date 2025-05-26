@@ -9,6 +9,10 @@ const entityRoutes: Routes = [
     path: 'shutdowns',
     loadChildren: () => import('./shutdown/shutdown.routes'),
   },
+  {
+    path: 'taxonomies',
+    loadChildren: () => import('./taxonomy/taxonomy.routes'),
+  },
 ];
 
 export default entityRoutes;
