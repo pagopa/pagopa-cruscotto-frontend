@@ -18,6 +18,9 @@
       "shutdown": {
         "main": "Shutdowns"
       },
+      "taxonomy": {
+        "main": "Taxonomies"
+      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
