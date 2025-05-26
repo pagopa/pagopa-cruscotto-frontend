@@ -2,19 +2,18 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import SharedModule from 'app/shared/shared.module';
 
-import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent } from '@angular/material/card';
 
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { ITaxonomy } from '../taxonomy.model';
-import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'jhi-taxonomy-detail',
   templateUrl: './taxonomy-detail.component.html',
-  imports: [RouterModule, SharedModule, MatButton, MatIcon, MatCard, MatCardContent, FormatDatePipe, MatIconButton, MatTooltip],
+  imports: [RouterModule, SharedModule, MatButton, MatIcon, MatCard, MatCardContent, FormatDatePipe],
 })
 export default class TaxonomyDetailComponent implements OnInit {
   taxonomy: ITaxonomy | null = null;
