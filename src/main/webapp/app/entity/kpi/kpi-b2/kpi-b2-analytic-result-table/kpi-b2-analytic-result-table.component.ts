@@ -1,25 +1,24 @@
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgIf } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB2AnalyticDataService } from '../service/kpi-b2-analytic-data.service';
 import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
+import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-analytic-result-table',
   templateUrl: './kpi-b2-analytic-result-table.component.html',
   styleUrls: ['./kpi-b2-analytic-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule],
+  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
 })
-export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges {
+export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'id',
-    'instanceId',
-    'instanceModuleId',
     'analysisDate',
     'stationId',
     'method',
@@ -39,9 +38,21 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
+  locale: string;
+  private readonly translateService = inject(TranslateService);
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2AnalyticDataService = inject(KpiB2AnalyticDataService);
+
+  constructor() {
+    this.locale = this.translateService.currentLang;
+  }
+
+  ngOnInit(): void {
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.locale = event.lang;
+    });
+  }
 
   ngOnChanges(): void {
     if (this.kpiB2DetailResultId) {

@@ -11,7 +11,7 @@ export class KpiB2Result {
   tollerance: number | null;
   averageTimeLimit: number | null;
   evaluationType: string | null; // Assuming it's an enum or string representation
-  outcome: string | null; // Assuming it's an enum or string representation
+  outcome: OutcomeStatus | null; // Assuming it's an enum or string representation
 
   // Costruttore
   constructor(
@@ -25,7 +25,7 @@ export class KpiB2Result {
     tollerance: number | null = null,
     averageTimeLimit: number | null = null,
     evaluationType: string | null = null,
-    outcome: string | null = null,
+    outcome: OutcomeStatus | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
