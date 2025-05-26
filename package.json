@@ -1,6 +1,6 @@
 {
   "name": "pagopa-cruscotto",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "PagoPa Cruscotto Frontend",
   "license": "UNLICENSED",
@@ -88,7 +88,7 @@
     "lodash": "^4.17.15",
     "ngx-cookie": "4.0.2",
     "ngx-cookieconsent": "6.0.0",
-    "ngx-mat-select-search": "^8.0.0",
+    "ngx-mat-select-search": "^8.0.1",
     "ngx-spinner": "^17.0.0",
     "ngx-toastr": "^15.2.2",
     "roboto-fontface": "^0.10.0",
