@@ -6,8 +6,8 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { LocaltionHelper } from '../../../core/location/location.helper';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { addFilterToRequest, addToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { addFilterToRequest, addToFilter, addValueToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -29,6 +29,11 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { InstanceStateViewComponent } from '../shared/instance-state-view.component';
 import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import dayjs from '../../../config/dayjs';
+import { DATE_FORMAT_ISO } from 'app/config/input.constants';
+import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 
 @Component({
   selector: 'jhi-instance',
@@ -53,6 +58,8 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
     FormatDatePipe,
     InstanceStateViewComponent,
     PartnerSelectComponent,
+    MatSelectModule,
+    MatDatepickerModule,
   ],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
@@ -86,6 +93,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   locale: string;
 
   status = InstanceStatus;
+  instanceStatusValues: InstanceStatus[] = Object.values(InstanceStatus);
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(InstanceFilter);
@@ -98,9 +106,28 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private readonly translateService = inject(TranslateService);
 
   constructor() {
-    this.searchForm = this.fb.group({
-      partner: [''],
-    });
+    this.searchForm = this.fb.group(
+      {
+        partner: [''],
+        status: [''],
+        predictedAnalysisStartDate: new FormControl<dayjs.Dayjs | null>(dayjs(), { validators: [Validators.required], nonNullable: true }),
+        predictedAnalysisEndDate: new FormControl<dayjs.Dayjs | null>(dayjs().add(1, 'day'), {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+        analysisStartDate: new FormControl<dayjs.Dayjs | null>(dayjs(), { validators: [Validators.required], nonNullable: true }),
+        analysisEndDate: new FormControl<dayjs.Dayjs | null>(dayjs().add(1, 'day'), {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
+      },
+      {
+        validators: [
+          datepickerRangeValidatorFn('predictedAnalysisStartDate', 'predictedAnalysisEndDate'),
+          datepickerRangeValidatorFn('analysisStartDate', 'analysisEndDate'),
+        ],
+      },
+    );
 
     this.locale = this.translateService.currentLang;
     if (!this.locationHelper.getIsBack()) {
@@ -121,8 +148,19 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   updateForm(): void {
+    const stringPredictedAnalysisStartDate = getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE);
+    const stringPredictedAnalysisEndDate = getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE);
+    const stringAnalysisStartDate = getFilterValue(this.filter, InstanceFilter.ANALYSIS_START_DATE);
+    const stringAnalysisEndDate = getFilterValue(this.filter, InstanceFilter.ANALYSIS_END_DATE);
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, InstanceFilter.PARTNER),
+      status: getFilterValue(this.filter, InstanceFilter.STATUS) || '',
+      predictedAnalysisStartDate: stringPredictedAnalysisStartDate ? dayjs(stringPredictedAnalysisStartDate, DATE_FORMAT_ISO) : dayjs(),
+      predictedAnalysisEndDate: stringPredictedAnalysisEndDate
+        ? dayjs(stringPredictedAnalysisEndDate, DATE_FORMAT_ISO)
+        : dayjs().add(1, 'day'),
+      analysisStartDate: stringAnalysisStartDate ? dayjs(stringAnalysisStartDate, DATE_FORMAT_ISO) : dayjs(),
+      analysisEndDate: stringAnalysisEndDate ? dayjs(stringAnalysisEndDate, DATE_FORMAT_ISO) : dayjs().add(1, 'day'),
     });
     this.page = this.filter.page;
   }
@@ -191,12 +229,44 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   private populateRequest(req: any): any {
     addFilterToRequest(this.filter, InstanceFilter.PARTNER, req);
+    addFilterToRequest(this.filter, InstanceFilter.STATUS, req);
+    addFilterToRequest(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.ANALYSIS_START_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.ANALYSIS_END_DATE, req);
   }
 
   private populateFilter(): void {
     addToFilter(this.filter, this.searchForm.get('partner'), InstanceFilter.PARTNER);
-
-    this.filter.page = this.page;
+    addToFilter(this.filter, this.searchForm.get('status'), InstanceFilter.STATUS);
+    if (this.searchForm.get('predictedAnalysisStartDate')?.value) {
+      addValueToFilter(
+        this.filter,
+        this.searchForm.get('predictedAnalysisStartDate')?.value?.format(DATE_FORMAT_ISO),
+        InstanceFilter.PREDICTED_ANALYSIS_START_DATE,
+      );
+    }
+    if (this.searchForm.get('predictedAnalysisEndDate')?.value) {
+      addValueToFilter(
+        this.filter,
+        this.searchForm.get('predictedAnalysisEndDate')?.value?.format(DATE_FORMAT_ISO),
+        InstanceFilter.PREDICTED_ANALYSIS_END_DATE,
+      );
+    }
+    if (this.searchForm.get('analysisStartDate')?.value) {
+      addValueToFilter(
+        this.filter,
+        this.searchForm.get('analysisStartDate')?.value?.format(DATE_FORMAT_ISO),
+        InstanceFilter.ANALYSIS_START_DATE,
+      );
+    }
+    if (this.searchForm.get('analysisEndDate')?.value) {
+      addValueToFilter(
+        this.filter,
+        this.searchForm.get('analysisEndDate')?.value?.format(DATE_FORMAT_ISO),
+        InstanceFilter.ANALYSIS_END_DATE,
+      );
+    }
   }
 
   previousState(): void {

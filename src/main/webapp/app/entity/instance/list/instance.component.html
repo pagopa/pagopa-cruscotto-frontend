@@ -52,6 +52,92 @@
             <!--              </ng-container>-->
             <!--            </mat-form-field>-->
           </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.instance.status">Stato</mat-label>
+              <mat-select formControlName="status">
+                <mat-option value="" selected>{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let instanceStatus of instanceStatusValues" [value]="instanceStatus">
+                  {{ 'pagopaCruscottoApp.instanceState.' + instanceStatus | translate | uppercase }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.instance.predictedDateAnalysis"></mat-label>
+              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="predictedAnalysisDatePicker">
+                <input matStartDate formControlName="predictedAnalysisStartDate" />
+                <input matEndDate formControlName="predictedAnalysisEndDate" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle matIconSuffix [for]="predictedAnalysisDatePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #predictedAnalysisDatePicker></mat-date-range-picker>
+
+              @let predictedAnalysisStartDateRef = searchForm.get('predictedAnalysisStartDate')!;
+              @let predictedAnalysisEndDateRef = searchForm.get('predictedAnalysisEndDate')!;
+            </mat-form-field>
+
+            @if (predictedAnalysisStartDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisStartDate.validation.date' | translate }}</mat-error>
+            }
+            @if (predictedAnalysisStartDateRef?.errors?.required && !predictedAnalysisStartDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisStartDate.validation.required' | translate }}</mat-error>
+            }
+            @if (predictedAnalysisStartDateRef?.errors?.matStartDateInvalid) {
+              <mat-error>{{
+                'pagopaCruscottoApp.instance.query.predictedAnalysisStartDate.validation.dateLoeThanEndDate' | translate
+              }}</mat-error>
+            }
+            @if (predictedAnalysisEndDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.date' | translate }}</mat-error>
+            }
+            @if (predictedAnalysisEndDateRef?.errors?.required && !predictedAnalysisEndDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.required' | translate }}</mat-error>
+            }
+            @if (predictedAnalysisStartDateRef?.errors?.matEndDateInvalid) {
+              <mat-error>{{
+                'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.dateGoeThanStartDate' | translate
+              }}</mat-error>
+            }
+
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriod"></mat-label>
+              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="analysisDatePicker">
+                <input matStartDate formControlName="analysisStartDate" />
+                <input matEndDate formControlName="analysisEndDate" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle matIconSuffix [for]="analysisDatePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #analysisDatePicker></mat-date-range-picker>
+
+              @let analysisStartDateRef = searchForm.get('analysisStartDate')!;
+              @let analysisEndDateRef = searchForm.get('analysisEndDate')!;
+            </mat-form-field>
+
+            @if (analysisStartDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodStartDate.validation.date' | translate }}</mat-error>
+            }
+            @if (analysisStartDateRef?.errors?.required && !analysisStartDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodStartDate.validation.required' | translate }}</mat-error>
+            }
+            @if (analysisStartDateRef?.errors?.matStartDateInvalid) {
+              <mat-error>{{
+                'pagopaCruscottoApp.instance.query.analysisPeriodStartDate.validation.dateLoeThanEndDate' | translate
+              }}</mat-error>
+            }
+            @if (analysisEndDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.date' | translate }}</mat-error>
+            }
+            @if (analysisEndDateRef?.errors?.required && !analysisEndDateRef?.errors?.matDatepickerParse) {
+              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.required' | translate }}</mat-error>
+            }
+            @if (analysisStartDateRef?.errors?.matEndDateInvalid) {
+              <mat-error>{{
+                'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.dateGoeThanStartDate' | translate
+              }}</mat-error>
+            }
+          </div>
         </div>
 
         <mat-action-row class="d-block">

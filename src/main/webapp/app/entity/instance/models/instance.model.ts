@@ -27,7 +27,7 @@ export enum InstanceStatus {
   Bozza = 'BOZZA',
   Pianificata = 'PIANIFICATA',
   Eseguita = 'ESEGUITA',
-  Cancellata = 'CANCELLATA',
+  In_Esecuzione = 'IN_ESECUZIONE',
 }
 
 export class Instance implements IInstance {
