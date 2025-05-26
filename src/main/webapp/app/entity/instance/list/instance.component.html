@@ -36,7 +36,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
 
             <!--            <mat-form-field class="d-block">-->
@@ -52,7 +52,7 @@
             <!--              </ng-container>-->
             <!--            </mat-form-field>-->
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.instance.status">Stato</mat-label>
               <mat-select formControlName="status">
@@ -63,10 +63,8 @@
               </mat-select>
             </mat-form-field>
           </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field>
+          <div class="col-lg-6">
+            <mat-form-field id="mat-form-field-predictedAnalysis">
               <mat-label jhiTranslate="pagopaCruscottoApp.instance.predictedDateAnalysis"></mat-label>
               <mat-date-range-input [formGroup]="searchForm" [rangePicker]="predictedAnalysisDatePicker">
                 <input matStartDate formControlName="predictedAnalysisStartDate" />
@@ -74,16 +72,21 @@
               </mat-date-range-input>
               <mat-datepicker-toggle matIconSuffix [for]="predictedAnalysisDatePicker"></mat-datepicker-toggle>
               <mat-date-range-picker #predictedAnalysisDatePicker></mat-date-range-picker>
-
+              <button
+                mat-icon-button
+                matSuffix
+                aria-label="Clear"
+                type="button"
+                (click)="clearFields('predictedAnalysisStartDate', 'predictedAnalysisEndDate')"
+              >
+                <mat-icon class="mat-icon-rtl-mirror" svgIcon="close"></mat-icon>
+              </button>
               @let predictedAnalysisStartDateRef = searchForm.get('predictedAnalysisStartDate')!;
               @let predictedAnalysisEndDateRef = searchForm.get('predictedAnalysisEndDate')!;
             </mat-form-field>
 
             @if (predictedAnalysisStartDateRef?.errors?.matDatepickerParse) {
               <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisStartDate.validation.date' | translate }}</mat-error>
-            }
-            @if (predictedAnalysisStartDateRef?.errors?.required && !predictedAnalysisStartDateRef?.errors?.matDatepickerParse) {
-              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisStartDate.validation.required' | translate }}</mat-error>
             }
             @if (predictedAnalysisStartDateRef?.errors?.matStartDateInvalid) {
               <mat-error>{{
@@ -93,33 +96,36 @@
             @if (predictedAnalysisEndDateRef?.errors?.matDatepickerParse) {
               <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.date' | translate }}</mat-error>
             }
-            @if (predictedAnalysisEndDateRef?.errors?.required && !predictedAnalysisEndDateRef?.errors?.matDatepickerParse) {
-              <mat-error>{{ 'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.required' | translate }}</mat-error>
-            }
             @if (predictedAnalysisStartDateRef?.errors?.matEndDateInvalid) {
               <mat-error>{{
                 'pagopaCruscottoApp.instance.query.predictedAnalysisEndDate.validation.dateGoeThanStartDate' | translate
               }}</mat-error>
             }
 
-            <mat-form-field>
+            <mat-form-field id="mat-form-field-analysisPeriod">
               <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriod"></mat-label>
               <mat-date-range-input [formGroup]="searchForm" [rangePicker]="analysisDatePicker">
                 <input matStartDate formControlName="analysisStartDate" />
                 <input matEndDate formControlName="analysisEndDate" />
               </mat-date-range-input>
+
               <mat-datepicker-toggle matIconSuffix [for]="analysisDatePicker"></mat-datepicker-toggle>
               <mat-date-range-picker #analysisDatePicker></mat-date-range-picker>
-
+              <button
+                mat-icon-button
+                matSuffix
+                aria-label="Clear"
+                type="button"
+                (click)="clearFields('analysisStartDate', 'analysisEndDate')"
+              >
+                <mat-icon class="mat-icon-rtl-mirror" svgIcon="close"></mat-icon>
+              </button>
               @let analysisStartDateRef = searchForm.get('analysisStartDate')!;
               @let analysisEndDateRef = searchForm.get('analysisEndDate')!;
             </mat-form-field>
 
             @if (analysisStartDateRef?.errors?.matDatepickerParse) {
               <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodStartDate.validation.date' | translate }}</mat-error>
-            }
-            @if (analysisStartDateRef?.errors?.required && !analysisStartDateRef?.errors?.matDatepickerParse) {
-              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodStartDate.validation.required' | translate }}</mat-error>
             }
             @if (analysisStartDateRef?.errors?.matStartDateInvalid) {
               <mat-error>{{
@@ -129,9 +135,6 @@
             @if (analysisEndDateRef?.errors?.matDatepickerParse) {
               <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.date' | translate }}</mat-error>
             }
-            @if (analysisEndDateRef?.errors?.required && !analysisEndDateRef?.errors?.matDatepickerParse) {
-              <mat-error>{{ 'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.required' | translate }}</mat-error>
-            }
             @if (analysisStartDateRef?.errors?.matEndDateInvalid) {
               <mat-error>{{
                 'pagopaCruscottoApp.instance.query.analysisPeriodEndDate.validation.dateGoeThanStartDate' | translate
@@ -139,7 +142,6 @@
             }
           </div>
         </div>
-
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
             <button
