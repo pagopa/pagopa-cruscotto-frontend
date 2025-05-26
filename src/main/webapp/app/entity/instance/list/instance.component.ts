@@ -110,16 +110,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
       {
         partner: [''],
         status: [''],
-        predictedAnalysisStartDate: new FormControl<dayjs.Dayjs | null>(dayjs(), { validators: [Validators.required], nonNullable: true }),
-        predictedAnalysisEndDate: new FormControl<dayjs.Dayjs | null>(dayjs().add(1, 'day'), {
-          validators: [Validators.required],
-          nonNullable: true,
-        }),
-        analysisStartDate: new FormControl<dayjs.Dayjs | null>(dayjs(), { validators: [Validators.required], nonNullable: true }),
-        analysisEndDate: new FormControl<dayjs.Dayjs | null>(dayjs().add(1, 'day'), {
-          validators: [Validators.required],
-          nonNullable: true,
-        }),
+        predictedAnalysisStartDate: new FormControl<dayjs.Dayjs | null>(null),
+        predictedAnalysisEndDate: new FormControl<dayjs.Dayjs | null>(null),
+        analysisStartDate: new FormControl<dayjs.Dayjs | null>(null),
+        analysisEndDate: new FormControl<dayjs.Dayjs | null>(null),
       },
       {
         validators: [
@@ -155,12 +149,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, InstanceFilter.PARTNER),
       status: getFilterValue(this.filter, InstanceFilter.STATUS) || '',
-      predictedAnalysisStartDate: stringPredictedAnalysisStartDate ? dayjs(stringPredictedAnalysisStartDate, DATE_FORMAT_ISO) : dayjs(),
-      predictedAnalysisEndDate: stringPredictedAnalysisEndDate
-        ? dayjs(stringPredictedAnalysisEndDate, DATE_FORMAT_ISO)
-        : dayjs().add(1, 'day'),
-      analysisStartDate: stringAnalysisStartDate ? dayjs(stringAnalysisStartDate, DATE_FORMAT_ISO) : dayjs(),
-      analysisEndDate: stringAnalysisEndDate ? dayjs(stringAnalysisEndDate, DATE_FORMAT_ISO) : dayjs().add(1, 'day'),
+      predictedAnalysisStartDate: stringPredictedAnalysisStartDate ? dayjs(stringPredictedAnalysisStartDate, DATE_FORMAT_ISO) : null,
+      predictedAnalysisEndDate: stringPredictedAnalysisEndDate ? dayjs(stringPredictedAnalysisEndDate, DATE_FORMAT_ISO) : null,
+      analysisStartDate: stringAnalysisStartDate ? dayjs(stringAnalysisStartDate, DATE_FORMAT_ISO) : null,
+      analysisEndDate: stringAnalysisEndDate ? dayjs(stringAnalysisEndDate, DATE_FORMAT_ISO) : null,
     });
     this.page = this.filter.page;
   }
@@ -267,6 +259,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
         InstanceFilter.ANALYSIS_END_DATE,
       );
     }
+  }
+
+  clearFields(...ctrlNames: string[]): void {
+    ctrlNames.forEach(ctrlName => this.searchForm.get(ctrlName)?.setValue(null));
   }
 
   previousState(): void {
