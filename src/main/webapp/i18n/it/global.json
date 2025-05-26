@@ -18,6 +18,9 @@
       "shutdown": {
         "main": "Fermi"
       },
+      "taxonomy": {
+        "main": "Tassonomia"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
