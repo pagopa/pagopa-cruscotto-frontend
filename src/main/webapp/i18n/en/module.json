@@ -97,7 +97,22 @@
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
-          "KpiAnalyticResults": {}
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationDate": "Evaluation Date",
+            "totReq": "Total Requests",
+            "reqOk": "Requests Ok",
+            "reqTimeout": "Requests in Timeout",
+            "avgTime": "Average Time",
+            "kpiB2DetailResultId": "B2 Detail Result ID",
+            "details": "Details",
+            "showDetails": "Show Details"
+          }
         }
       },
       "B.3": {

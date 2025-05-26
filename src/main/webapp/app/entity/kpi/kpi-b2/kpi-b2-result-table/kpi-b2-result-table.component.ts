@@ -156,10 +156,10 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges {
   }
 
   /**
-   * Metodo per emettere l'ID del modulo selezionato
+   * Metodo per emettere l'ID della riga selezionata
    */
-  emitShowDetails(moduleId: number): void {
-    this.showDetails.emit(moduleId);
+  emitShowDetails(kpiB2ResultId: number): void {
+    this.showDetails.emit(kpiB2ResultId);
   }
 }
 
