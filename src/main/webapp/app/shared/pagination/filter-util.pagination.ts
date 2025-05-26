@@ -120,3 +120,17 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
     return value;
   }
 };
+
+export const addStringToReq = (filterValue: string | undefined | null, filterKey: string, req: any) => {
+  if (filterValue !== undefined && filterValue !== null && filterValue.trim() !== '') {
+    const reqFilter = { [filterKey]: filterValue };
+    Object.assign(req, reqFilter);
+  }
+};
+
+export const addNumericToReq = (filterValue: number | undefined | null, filterKey: string, req: any) => {
+  if (filterValue !== undefined && filterValue !== null) {
+    const reqFilter = { [filterKey]: filterValue };
+    Object.assign(req, reqFilter);
+  }
+};
