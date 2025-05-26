@@ -1,21 +1,33 @@
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { NgClass, NgIf } from '@angular/common';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB2DetailResultService } from '../service/kpi-b2-detail-result.service';
-import { KpiB2DetailResult } from '../models/KpiB2DetailResult';
+import { EvaluationType, KpiB2DetailResult } from '../models/KpiB2DetailResult';
 import { MatButtonModule } from '@angular/material/button';
+import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { OutcomeStatus } from '../models/KpiB2Result';
 
 @Component({
   selector: 'jhi-kpi-b2-detail-result-table',
   templateUrl: './kpi-b2-detail-result-table.component.html',
   styleUrls: ['./kpi-b2-detail-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    MatButtonModule,
+    FormatDatePipe,
+    NgClass,
+  ],
 })
-export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges {
+export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'id',
     'analysisDate',
@@ -43,6 +55,19 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2DetailResultService = inject(KpiB2DetailResultService);
+
+  locale: string;
+  private readonly translateService = inject(TranslateService);
+
+  constructor() {
+    this.locale = this.translateService.currentLang;
+  }
+
+  ngOnInit(): void {
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.locale = event.lang;
+    });
+  }
 
   ngOnChanges(): void {
     if (this.kpiB2ResultId) {
@@ -151,6 +176,9 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   emitShowDetails(kpiB2DetailResultId: number): void {
     this.showDetails.emit(kpiB2DetailResultId);
   }
+
+  protected readonly OutcomeStatus = OutcomeStatus;
+  protected readonly EvaluationType = EvaluationType;
 }
 
 /**

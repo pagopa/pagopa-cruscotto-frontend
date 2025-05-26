@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { KpiB2DetailResult } from '../models/KpiB2DetailResult';
-import { DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 type RestKpiB2DetailResult = Omit<KpiB2DetailResult, 'analysisDate' | 'evaluationStartDate' | 'evaluationEndDate'> & {
@@ -44,13 +44,9 @@ export class KpiB2DetailResultService {
   private convertFromServer(restKpiB2DetailResult: RestKpiB2DetailResult): KpiB2DetailResult {
     return {
       ...restKpiB2DetailResult,
-      analysisDate: restKpiB2DetailResult.analysisDate ? dayjs(restKpiB2DetailResult.analysisDate, DATE_TIME_FORMAT_ISO) : null,
-      evaluationStartDate: restKpiB2DetailResult.evaluationStartDate
-        ? dayjs(restKpiB2DetailResult.evaluationStartDate, DATE_TIME_FORMAT_ISO)
-        : null,
-      evaluationEndDate: restKpiB2DetailResult.evaluationEndDate
-        ? dayjs(restKpiB2DetailResult.evaluationEndDate, DATE_TIME_FORMAT_ISO)
-        : null,
+      analysisDate: restKpiB2DetailResult.analysisDate ? dayjs(restKpiB2DetailResult.analysisDate, DATE_FORMAT) : null,
+      evaluationStartDate: restKpiB2DetailResult.evaluationStartDate ? dayjs(restKpiB2DetailResult.evaluationStartDate, DATE_FORMAT) : null,
+      evaluationEndDate: restKpiB2DetailResult.evaluationEndDate ? dayjs(restKpiB2DetailResult.evaluationEndDate, DATE_FORMAT) : null,
     };
   }
 }

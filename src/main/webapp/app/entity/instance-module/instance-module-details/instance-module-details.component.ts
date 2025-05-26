@@ -11,6 +11,7 @@ import { KpiA2ResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-result-table/
 import { KpiA1ResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-result-table/kpi-a1-result-table.component';
 import { KpiB2DetailResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-detail-result-table/kpi-b2-detail-result-table.component';
 import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analytic-result-table/kpi-b2-analytic-result-table.component';
+import { AnalysisType } from '../models/analysis-type.model';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -121,4 +122,6 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB2DetailResultIdForAnalytics =
       this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
   }
+
+  protected readonly AnalysisType = AnalysisType;
 }
