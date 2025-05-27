@@ -57,6 +57,8 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   isLoadingResults = false;
+  selectedElementId: number | null = null;
+  protected readonly OutcomeStatus = OutcomeStatus;
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2ResultService = inject(KpiB2ResultService);
@@ -174,10 +176,15 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
    * Metodo per emettere l'ID della riga selezionata
    */
   emitShowDetails(kpiB2ResultId: number): void {
+    if (this.selectedElementId === kpiB2ResultId) {
+      // Se l'elemento è già selezionato, deseleziona
+      this.selectedElementId = null;
+    } else {
+      // Altrimenti seleziona l'elemento
+      this.selectedElementId = kpiB2ResultId;
+    }
     this.showDetails.emit(kpiB2ResultId);
   }
-
-  protected readonly OutcomeStatus = OutcomeStatus;
 }
 
 /**
