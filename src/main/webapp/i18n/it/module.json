@@ -111,7 +111,8 @@
             "avgTime": "Tempo Medio",
             "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
             "details": "Dettagli",
-            "showDetails": "Mostra dettagli"
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
           }
         }
       },

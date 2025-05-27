@@ -111,7 +111,8 @@
             "avgTime": "Average Time",
             "kpiB2DetailResultId": "B2 Detail Result ID",
             "details": "Details",
-            "showDetails": "Show Details"
+            "showDetails": "Show Details",
+            "stationName": "Station name"
           }
         }
       },
