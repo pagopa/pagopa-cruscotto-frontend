@@ -56,28 +56,24 @@
       "query": {
         "predictedAnalysisStartDate": {
           "validation": {
-            "required": "La 'Data Prevista Analisi Da' \u00E8 obbligatoria",
-            "date": "Il campo dovrebbe essere una data valida",
+            "date": "Il campo 'Data Prevista Analisi Da' dovrebbe essere una data valida",
             "dateLoeThanEndDate": "La 'Data Prevista Analisi Da' deve essere precedente o uguale alla 'Data Prevista Analisi A'"
           }
         },
         "predictedAnalysisEndDate": {
           "validation": {
-            "required": "La 'Data Prevista Analisi A' \u00E8 obbligatoria",
-            "date": "Il campo dovrebbe essere una data valida",
+            "date": "Il campo 'Data Prevista Analisi A' dovrebbe essere una data valida",
             "dateGoeThanStartDate": "La 'Data Prevista Analisi A' deve essere successiva o uguale alla data di inizio"
           }
         },
         "analysisPeriodStartDate": {
           "validation": {
-            "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Inizio Periodo Analisi' dovrebbe essere una data valida",
             "dateLoeThanEndDate": "La 'Data Inizio Periodo Analisi' deve essere precedente o uguale a 'Data Fine Periodo Analisi'"
           }
         },
         "analysisPeriodEndDate": {
           "validation": {
-            "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
             "date": "Il campo 'Data Fine Periodo Analisi' dovrebbe essere una data valida",
             "dateGoeThanStartDate": "La 'Data Fine Periodo Analisi' deve essere successiva o uguale a 'Data Inizio Periodo Analisi'"
           }
