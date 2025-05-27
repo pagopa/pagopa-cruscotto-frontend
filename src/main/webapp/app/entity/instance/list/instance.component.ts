@@ -34,6 +34,20 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import dayjs from '../../../config/dayjs';
 import { DATE_FORMAT_ISO } from 'app/config/input.constants';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { DatePickerFormatDirective } from '../../../shared/date/date-picker-format.directive';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'jhi-instance',
@@ -60,7 +74,9 @@ import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
     PartnerSelectComponent,
     MatSelectModule,
     MatDatepickerModule,
+    DatePickerFormatDirective,
   ],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
@@ -142,17 +158,13 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   updateForm(): void {
-    const stringPredictedAnalysisStartDate = getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE);
-    const stringPredictedAnalysisEndDate = getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE);
-    const stringAnalysisStartDate = getFilterValue(this.filter, InstanceFilter.ANALYSIS_START_DATE);
-    const stringAnalysisEndDate = getFilterValue(this.filter, InstanceFilter.ANALYSIS_END_DATE);
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, InstanceFilter.PARTNER),
-      status: getFilterValue(this.filter, InstanceFilter.STATUS) || '',
-      predictedAnalysisStartDate: stringPredictedAnalysisStartDate ? dayjs(stringPredictedAnalysisStartDate, DATE_FORMAT_ISO) : null,
-      predictedAnalysisEndDate: stringPredictedAnalysisEndDate ? dayjs(stringPredictedAnalysisEndDate, DATE_FORMAT_ISO) : null,
-      analysisStartDate: stringAnalysisStartDate ? dayjs(stringAnalysisStartDate, DATE_FORMAT_ISO) : null,
-      analysisEndDate: stringAnalysisEndDate ? dayjs(stringAnalysisEndDate, DATE_FORMAT_ISO) : null,
+      status: getFilterValue(this.filter, InstanceFilter.STATUS),
+      predictedAnalysisStartDate: getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE),
+      predictedAnalysisEndDate: getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE),
+      analysisStartDate: getFilterValue(this.filter, InstanceFilter.ANALYSIS_START_DATE),
+      analysisEndDate: getFilterValue(this.filter, InstanceFilter.ANALYSIS_END_DATE),
     });
     this.page = this.filter.page;
   }
@@ -231,34 +243,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private populateFilter(): void {
     addToFilter(this.filter, this.searchForm.get('partner'), InstanceFilter.PARTNER);
     addToFilter(this.filter, this.searchForm.get('status'), InstanceFilter.STATUS);
-    if (this.searchForm.get('predictedAnalysisStartDate')?.value) {
-      addValueToFilter(
-        this.filter,
-        this.searchForm.get('predictedAnalysisStartDate')?.value?.format(DATE_FORMAT_ISO),
-        InstanceFilter.PREDICTED_ANALYSIS_START_DATE,
-      );
-    }
-    if (this.searchForm.get('predictedAnalysisEndDate')?.value) {
-      addValueToFilter(
-        this.filter,
-        this.searchForm.get('predictedAnalysisEndDate')?.value?.format(DATE_FORMAT_ISO),
-        InstanceFilter.PREDICTED_ANALYSIS_END_DATE,
-      );
-    }
-    if (this.searchForm.get('analysisStartDate')?.value) {
-      addValueToFilter(
-        this.filter,
-        this.searchForm.get('analysisStartDate')?.value?.format(DATE_FORMAT_ISO),
-        InstanceFilter.ANALYSIS_START_DATE,
-      );
-    }
-    if (this.searchForm.get('analysisEndDate')?.value) {
-      addValueToFilter(
-        this.filter,
-        this.searchForm.get('analysisEndDate')?.value?.format(DATE_FORMAT_ISO),
-        InstanceFilter.ANALYSIS_END_DATE,
-      );
-    }
+    addToFilter(this.filter, this.searchForm.get('predictedAnalysisStartDate'), InstanceFilter.PREDICTED_ANALYSIS_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('predictedAnalysisEndDate'), InstanceFilter.PREDICTED_ANALYSIS_END_DATE);
+    addToFilter(this.filter, this.searchForm.get('analysisStartDate'), InstanceFilter.ANALYSIS_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('analysisEndDate'), InstanceFilter.ANALYSIS_END_DATE);
   }
 
   clearFields(...ctrlNames: string[]): void {
@@ -356,5 +344,29 @@ export class InstanceComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const endDate = this.searchForm.get('analysisEndDate')?.value || dayjs().add(5, 'year');
+
+    return date ? date.isSameOrBefore(endDate, 'month') : true;
+  };
+
+  endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const startDate = this.searchForm.get('analysisStartDate')?.value || dayjs().add(-5, 'year');
+
+    return date ? date.isSameOrAfter(startDate, 'month') : true;
+  };
+
+  selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
+    const firstDayOfMonth = selected.startOf('month');
+    this.searchForm.get('analysisStartDate')!.setValue(firstDayOfMonth);
+    picker.close();
+  }
+
+  selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
+    const lastDayOfMonth = selected.endOf('month');
+    this.searchForm.get('analysisEndDate')!.setValue(lastDayOfMonth);
+    picker.close();
   }
 }
