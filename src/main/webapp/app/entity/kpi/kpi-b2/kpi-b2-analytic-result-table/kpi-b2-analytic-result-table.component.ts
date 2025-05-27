@@ -9,12 +9,23 @@ import { KpiB2AnalyticDataService } from '../service/kpi-b2-analytic-data.servic
 import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-analytic-result-table',
   templateUrl: './kpi-b2-analytic-result-table.component.html',
   styleUrls: ['./kpi-b2-analytic-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    MatButtonModule,
+    FormatDatePipe,
+    AverageFormatPipe,
+  ],
 })
 export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = ['id', 'stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];

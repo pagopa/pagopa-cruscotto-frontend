@@ -10,6 +10,7 @@ import { EvaluationType, KpiB2DetailResult } from '../models/KpiB2DetailResult';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../models/KpiB2Result';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-detail-result-table',
@@ -25,6 +26,7 @@ import { OutcomeStatus } from '../models/KpiB2Result';
     MatButtonModule,
     FormatDatePipe,
     NgClass,
+    AverageFormatPipe,
   ],
 })
 export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
