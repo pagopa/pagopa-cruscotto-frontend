@@ -1,0 +1,29 @@
+{
+  "pagopaCruscottoApp": {
+    "taxonomy": {
+      "home": {
+        "title": "Taxonomy"
+      },
+      "detail": {
+        "title": "Detail Taxonomy"
+      },
+      "version": "Version",
+      "institutionTypeCode": "Institution Type Code",
+      "institutionType": "Institution Type",
+      "areaProgressiveCode": "Area Progressive Code",
+      "areaName": "Area Name",
+      "areaDescription": "Area Description",
+      "serviceTypeCode": "Service Type Code",
+      "serviceType": "Service Type",
+      "serviceTypeDescription": "Service Type Description",
+      "reasonCollection": "Reason Collection",
+      "takingsIdentifier": "Takings Identifier",
+      "validityStartDate": "Validity Start Date",
+      "validityEndDate": "Validity End Date",
+      "createdDate": "Created Date",
+      "createdBy": "Created By",
+      "lastModifiedBy": "Modify By",
+      "lastModifiedDate": "Modify Date"
+    }
+  }
+}

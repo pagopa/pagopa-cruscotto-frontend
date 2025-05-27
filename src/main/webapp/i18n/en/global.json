@@ -18,6 +18,9 @@
       "shutdown": {
         "main": "Shutdowns"
       },
+      "taxonomy": {
+        "main": "Taxonomies"
+      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
@@ -63,7 +66,8 @@
       "confirmpassword.label": "New password confirmation",
       "email": "Email",
       "select": {
-        "notfound": "No data found for '{{ search }}'",
+        "search": "Search",
+        "notFound": "No data found for '{{ search }}'",
         "all": "All",
         "bank.label": "ABI BT Code",
         "bankingGroup.label": "Banking Group",
