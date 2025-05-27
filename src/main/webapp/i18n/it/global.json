@@ -21,6 +21,9 @@
       "taxonomy": {
         "main": "Tassonomia"
       },
+      "kpiConfiguration": {
+        "main": "Configurazioni Kpi"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
