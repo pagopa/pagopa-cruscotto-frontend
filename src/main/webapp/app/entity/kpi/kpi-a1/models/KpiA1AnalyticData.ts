@@ -1,19 +1,18 @@
 import dayjs from 'dayjs/esm';
 
-export class KpiB2AnalyticData {
+export class KpiA1AnalyticData {
   id: number | null;
   instanceId: number | null;
   instanceModuleId: number | null;
-  analysisDate: dayjs.Dayjs | null; // ISO string format
+  analysisDate: dayjs.Dayjs | null; // ISO string format for date
   stationId: number | null;
   method: string | null;
-  evaluationDate: dayjs.Dayjs | null; // ISO string format
+  evaluationDate: dayjs.Dayjs | null; // ISO string format for date
   totReq: number | null;
   reqOk: number | null;
-  reqTimeout: number | null;
-  avgTime: number | null;
-  kpiB2DetailResultId: number | null;
-  stationName: string | null;
+  reqTimeoutReal: number | null;
+  reqTimeoutValid: number | null;
+  kpiA1DetailResultId: number | null;
 
   // Costruttore
   constructor(
@@ -26,10 +25,9 @@ export class KpiB2AnalyticData {
     evaluationDate: dayjs.Dayjs | null = null,
     totReq: number | null = null,
     reqOk: number | null = null,
-    reqTimeout: number | null = null,
-    avgTime: number | null = null,
-    kpiB2DetailResultId: number | null = null,
-    stationName: string | null = null,
+    reqTimeoutReal: number | null = null,
+    reqTimeoutValid: number | null = null,
+    kpiA1DetailResultId: number | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -40,9 +38,8 @@ export class KpiB2AnalyticData {
     this.evaluationDate = evaluationDate;
     this.totReq = totReq;
     this.reqOk = reqOk;
-    this.reqTimeout = reqTimeout;
-    this.avgTime = avgTime;
-    this.kpiB2DetailResultId = kpiB2DetailResultId;
-    this.stationName = stationName;
+    this.reqTimeoutReal = reqTimeoutReal;
+    this.reqTimeoutValid = reqTimeoutValid;
+    this.kpiA1DetailResultId = kpiA1DetailResultId;
   }
 }

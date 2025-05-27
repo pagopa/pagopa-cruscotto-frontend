@@ -3,13 +3,16 @@
     "module": {
       "tables": {
         "KpiResults": {
-          "title": "Risultati"
+          "title": "Risultati",
+          "notExists": "Nessun risultato disponibile"
         },
         "KpiDetailResults": {
-          "title": "Dati di riscontro"
+          "title": "Dati di riscontro",
+          "notExists": "Nessun dato di riscontro disponibile"
         },
         "KpiAnalyticResults": {
-          "title": "Dati analitici"
+          "title": "Dati analitici",
+          "notExists": "Nessun dato analitico disponibile"
         },
         "errors": {
           "notExists": "Nessun dato disponibile"
@@ -17,11 +20,46 @@
       },
       "A.1": {
         "name": "Rispetto SLA disponibilità servizio di pagamento",
-        "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive"
+        "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {}
+        }
       },
       "A.2": {
         "name": "Tassonomia precisa",
-        "description": "Deve essere garantita l'associazione di tutti i pagamenti ad un codice tassonomico presente all'interno dell'elenco pubblicato nelle SANP"
+        "description": "Deve essere garantita l'associazione di tutti i pagamenti ad un codice tassonomico presente all'interno dell'elenco pubblicato nelle SANP",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {}
+        }
       },
       "B.1": {
         "name": "Numero enti intermediati o transazioni gestite",
@@ -29,7 +67,55 @@
       },
       "B.2": {
         "name": "Rispetto SLA tempi di risposta delle primitive",
-        "description": "Non devono essere violati gli SLA indicati nella sezione \"Disponibilità del servizio\". Nel periodo analizzato la percentuale delle response superiore ad un determinato tempo prestabilito non deve superare una certa percentuale rispetto al totale delle request"
+        "description": "Non devono essere violati gli SLA indicati nella sezione \"Disponibilità del servizio\". Nel periodo analizzato la percentuale delle response superiore ad un determinato tempo prestabilito non deve superare una certa percentuale rispetto al totale delle request",
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza",
+            "averageTimeLimit": "Limite Medio",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "totalRequests": "Totale Richieste",
+            "averageTime": "Tempo Medio",
+            "overTimeLimit": "Sopra il Limite di Tempo",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID dell'Istanza",
+            "instanceModuleId": "ID del Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Data di Valutazione",
+            "totReq": "Totale Richieste",
+            "reqOk": "Richieste Ok",
+            "reqTimeout": "Richieste in Timeout",
+            "avgTime": "Tempo Medio",
+            "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
+            "details": "Dettagli",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
+          }
+        }
       },
       "B.3": {
         "name": "Zero Incident",
