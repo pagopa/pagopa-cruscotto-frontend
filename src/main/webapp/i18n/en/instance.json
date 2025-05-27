@@ -53,32 +53,6 @@
           }
         }
       },
-      "query": {
-        "predictedAnalysisStartDate": {
-          "validation": {
-            "date": "The field should be a valid date",
-            "dateLoeThanEndDate": "The 'Predicted Analysis Date From' must be before or equal to the 'Predicted Analysis Date To'"
-          }
-        },
-        "predictedAnalysisEndDate": {
-          "validation": {
-            "date": "The field should be a valid date",
-            "dateGoeThanStartDate": "The 'Predicted Analysis Date To' must be after or equal to the start date"
-          }
-        },
-        "analysisPeriodStartDate": {
-          "validation": {
-            "date": "The 'Analysis Period Start Date' field should be a valid date",
-            "dateLoeThanEndDate": "The 'Analysis Period Start Date' must be before or equal to 'Analysis Period End Date'"
-          }
-        },
-        "analysisPeriodEndDate": {
-          "validation": {
-            "date": "The 'Analysis Period End Date' field should be a valid date",
-            "dateGoeThanStartDate": "The 'Analysis Period End Date' must be after or equal to 'Analysis Period Start Date'"
-          }
-        }
-      },
       "partner": "Partner",
       "instanceIdentification": "Instance Identification",
       "predictedDateAnalysis": "Predicted Date Analysis",
