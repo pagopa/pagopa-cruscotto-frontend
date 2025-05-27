@@ -21,7 +21,7 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
-    'tollerance',
+    'tolerance',
     'evaluationType',
     'outcome',
   ];
@@ -124,7 +124,7 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
         case 'eligibilityThreshold':
           return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
         case 'tollerance':
-          return compare(a.tollerance, b.tollerance, isAsc);
+          return compare(a.tolerance, b.tolerance, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':

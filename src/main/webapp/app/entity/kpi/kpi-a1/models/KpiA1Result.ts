@@ -12,7 +12,7 @@ export class KpiA1Result {
   excludePlannedShutdown: boolean | null;
   excludeUnplannedShutdown: boolean | null;
   eligibilityThreshold: number | null;
-  tollerance: number | null;
+  tolerance: number | null;
   evaluationType: EvaluationType | null;
   outcome: OutcomeStatus | null;
 
@@ -27,7 +27,7 @@ export class KpiA1Result {
     excludePlannedShutdown: boolean | null = null,
     excludeUnplannedShutdown: boolean | null = null,
     eligibilityThreshold: number | null = null,
-    tollerance: number | null = null,
+    tolerance: number | null = null,
     evaluationType: EvaluationType | null = null,
     outcome: OutcomeStatus | null = null,
   ) {
@@ -40,7 +40,7 @@ export class KpiA1Result {
     this.excludePlannedShutdown = excludePlannedShutdown;
     this.excludeUnplannedShutdown = excludeUnplannedShutdown;
     this.eligibilityThreshold = eligibilityThreshold;
-    this.tollerance = tollerance;
+    this.tolerance = tolerance;
     this.evaluationType = evaluationType;
     this.outcome = outcome;
   }
