@@ -15,7 +15,7 @@ import { KpiA2Result } from '../models/KpiA2Result';
   imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
-  displayedColumns: string[] = ['id', 'analysisDate', 'tollerance', 'evaluationType', 'outcome'];
+  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'evaluationType', 'outcome'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 
@@ -113,7 +113,7 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'tollerance':
-          return compare(a.tollerance, b.tollerance, isAsc);
+          return compare(a.tolerance, b.tolerance, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':

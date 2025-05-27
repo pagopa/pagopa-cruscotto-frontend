@@ -39,7 +39,7 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
-    'tollerance',
+    'tolerance',
     'averageTimeLimit',
     'evaluationType',
     'outcome',
@@ -157,7 +157,7 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
         case 'eligibilityThreshold':
           return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
         case 'tollerance':
-          return compare(a.tollerance, b.tollerance, isAsc);
+          return compare(a.tolerance, b.tolerance, isAsc);
         case 'averageTimeLimit':
           return compare(a.averageTimeLimit, b.averageTimeLimit, isAsc);
         case 'evaluationType':

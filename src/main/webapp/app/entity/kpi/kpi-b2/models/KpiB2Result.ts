@@ -8,7 +8,7 @@ export class KpiB2Result {
   excludePlannedShutdown: boolean | null;
   excludeUnplannedShutdown: boolean | null;
   eligibilityThreshold: number | null;
-  tollerance: number | null;
+  tolerance: number | null;
   averageTimeLimit: number | null;
   evaluationType: string | null; // Assuming it's an enum or string representation
   outcome: OutcomeStatus | null; // Assuming it's an enum or string representation
@@ -22,7 +22,7 @@ export class KpiB2Result {
     excludePlannedShutdown: boolean | null = null,
     excludeUnplannedShutdown: boolean | null = null,
     eligibilityThreshold: number | null = null,
-    tollerance: number | null = null,
+    tolerance: number | null = null,
     averageTimeLimit: number | null = null,
     evaluationType: string | null = null,
     outcome: OutcomeStatus | null = null,
@@ -34,7 +34,7 @@ export class KpiB2Result {
     this.excludePlannedShutdown = excludePlannedShutdown;
     this.excludeUnplannedShutdown = excludeUnplannedShutdown;
     this.eligibilityThreshold = eligibilityThreshold;
-    this.tollerance = tollerance;
+    this.tolerance = tolerance;
     this.averageTimeLimit = averageTimeLimit;
     this.evaluationType = evaluationType;
     this.outcome = outcome;

@@ -9,7 +9,7 @@ export class KpiA2Result {
   instanceModule: InstanceModule | null;
   instanceModuleId: number | null;
   analysisDate: dayjs.Dayjs | null;
-  tollerance: number | null;
+  tolerance: number | null;
   evaluationType: EvaluationType | null;
   outcome: OutcomeStatus | null;
 
@@ -20,7 +20,7 @@ export class KpiA2Result {
     instanceModule: InstanceModule | null = null,
     instanceModuleId: number | null = null,
     analysisDate: dayjs.Dayjs | null = null,
-    tollerance: number | null = null,
+    tolerance: number | null = null,
     evaluationType: EvaluationType | null = null,
     outcome: OutcomeStatus | null = null,
   ) {
@@ -30,7 +30,7 @@ export class KpiA2Result {
     this.instanceModule = instanceModule;
     this.instanceModuleId = instanceModuleId;
     this.analysisDate = analysisDate;
-    this.tollerance = tollerance;
+    this.tolerance = tolerance;
     this.evaluationType = evaluationType;
     this.outcome = outcome;
   }
