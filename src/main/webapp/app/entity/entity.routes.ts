@@ -13,6 +13,10 @@ const entityRoutes: Routes = [
     path: 'taxonomies',
     loadChildren: () => import('./taxonomy/taxonomy.routes'),
   },
+  {
+    path: 'kpi-configurations',
+    loadChildren: () => import('./kpi/kpi-configuration/kpi-configuration.routes'),
+  },
 ];
 
 export default entityRoutes;

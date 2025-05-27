@@ -76,6 +76,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
       large: true,
     },
     {
+      label: 'global.menu.kpiConfiguration.main',
+      route: '/entity/kpi-configurations',
+      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      xSmall: false,
+      small: false,
+      medium: true,
+      large: true,
+    },
+    {
       label: 'global.menu.usersAdministration.main',
       xSmall: false,
       small: false,
