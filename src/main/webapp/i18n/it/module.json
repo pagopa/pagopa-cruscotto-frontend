@@ -75,7 +75,7 @@
             "excludePlannedShutdown": "Escludi Fermate Pianificate",
             "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
             "eligibilityThreshold": "Soglia di Idoneità",
-            "tolerance": "Tolleranza",
+            "tolerance": "Tolleranza 0,00%",
             "averageTimeLimit": "Limite Medio",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",

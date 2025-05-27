@@ -75,7 +75,7 @@
             "excludePlannedShutdown": "Exclude Planned Shutdowns",
             "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
             "eligibilityThreshold": "Eligibility Threshold",
-            "tolerance": "Tolerance",
+            "tolerance": "Tolerance 0,00%",
             "averageTimeLimit": "Average Time Limit",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
