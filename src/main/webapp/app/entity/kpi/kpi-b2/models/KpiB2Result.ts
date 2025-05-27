@@ -8,10 +8,10 @@ export class KpiB2Result {
   excludePlannedShutdown: boolean | null;
   excludeUnplannedShutdown: boolean | null;
   eligibilityThreshold: number | null;
-  tollerance: number | null;
+  tolerance: number | null;
   averageTimeLimit: number | null;
   evaluationType: string | null; // Assuming it's an enum or string representation
-  outcome: string | null; // Assuming it's an enum or string representation
+  outcome: OutcomeStatus | null; // Assuming it's an enum or string representation
 
   // Costruttore
   constructor(
@@ -22,10 +22,10 @@ export class KpiB2Result {
     excludePlannedShutdown: boolean | null = null,
     excludeUnplannedShutdown: boolean | null = null,
     eligibilityThreshold: number | null = null,
-    tollerance: number | null = null,
+    tolerance: number | null = null,
     averageTimeLimit: number | null = null,
     evaluationType: string | null = null,
-    outcome: string | null = null,
+    outcome: OutcomeStatus | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -34,19 +34,23 @@ export class KpiB2Result {
     this.excludePlannedShutdown = excludePlannedShutdown;
     this.excludeUnplannedShutdown = excludeUnplannedShutdown;
     this.eligibilityThreshold = eligibilityThreshold;
-    this.tollerance = tollerance;
+    this.tolerance = tolerance;
     this.averageTimeLimit = averageTimeLimit;
     this.evaluationType = evaluationType;
     this.outcome = outcome;
   }
 }
 
+// Enum di EvaluationType
 export enum EvaluationType {
-  TYPE_1 = 'TYPE_1',
-  TYPE_2 = 'TYPE_2',
+  MESE = 'MESE',
+  TOTALE = 'TOTALE',
 }
 
+// Enum di OutcomeStatus
 export enum OutcomeStatus {
-  SUCCESS = 'SUCCESS',
-  FAILURE = 'FAILURE',
+  OK = 'OK',
+  KO = 'KO',
+  RUNNING = 'RUNNING',
+  STANDBY = 'STANDBY',
 }

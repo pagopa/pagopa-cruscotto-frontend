@@ -289,7 +289,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
-                            [disabled]="row.status === status.Eseguita"
+                            [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
                             matTooltip="{{
                               (row.status === status.Bozza
                                 ? 'pagopaCruscottoApp.instance.list.action.updateInPlanned.label'
@@ -315,7 +315,7 @@
                             type="button"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
-                            [disabled]="row.status === status.Eseguita"
+                            [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
                             [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
                             [routerLink]="['/entity/instances', row.id, 'edit']"
                           >
@@ -332,7 +332,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
-                            [disabled]="row.status === status.Eseguita"
+                            [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
                             (click)="delete(row)"

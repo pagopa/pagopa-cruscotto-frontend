@@ -7,16 +7,36 @@ import { LangChangeEvent, TranslatePipe, TranslateService } from '@ngx-translate
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { KpiB2ResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-result-table/kpi-b2-result-table.component';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
+import { KpiA2ResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-result-table/kpi-a2-result-table.component';
+import { KpiA1ResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-result-table/kpi-a1-result-table.component';
+import { KpiB2DetailResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-detail-result-table/kpi-b2-detail-result-table.component';
+import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analytic-result-table/kpi-b2-analytic-result-table.component';
+import { AnalysisType } from '../models/analysis-type.model';
 
 @Component({
   selector: 'jhi-instance-module-details',
-  imports: [CommonModule, MatCard, MatCardContent, TranslatePipe, FormatDatePipe, KpiB2ResultTableComponent, NgxSpinnerComponent],
+  imports: [
+    CommonModule,
+    MatCard,
+    MatCardContent,
+    TranslatePipe,
+    FormatDatePipe,
+    KpiB2ResultTableComponent,
+    NgxSpinnerComponent,
+    KpiA2ResultTableComponent,
+    KpiA1ResultTableComponent,
+    KpiB2DetailResultTableComponent,
+    KpiB2AnalyticResultTableComponent,
+  ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
 })
 export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   @Input() moduleId?: number;
   moduleDetails?: IInstanceModule;
+  // Questo ID tiene traccia del pulsante "Show Details" selezionato
+  selectedKpiB2ResultIdForDetailsResults: number | null = null;
+  selectedKpiB2DetailResultIdForAnalytics: number | null = null;
 
   isLoadingResults = false;
   locale: string;
@@ -43,7 +63,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Caricamento dei dettagli del modulo con gestione dello spinner
    */
   loadModuleDetails(id: number): void {
-    this.spinner.show('isLoadingResults').then(() => {
+    this.spinner.show('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = true; // Indica che il caricamento è in corso
 
       this.instanceModuleService.find(id).subscribe({
@@ -65,9 +85,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo chiamato al completamento positivo della chiamata API
    */
   protected onSuccess(data: IInstanceModule): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = data; // Imposta i dettagli del modulo
+      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
+      this.selectedKpiB2DetailResultIdForAnalytics = null;
       console.log('Dati caricati con successo:', this.moduleDetails);
     });
   }
@@ -76,10 +98,30 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo chiamato in caso di errore
    */
   protected onError(error: any): void {
-    this.spinner.hide('isLoadingResults').then(() => {
+    this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = undefined; // Resetta i dettagli del modulo in caso di errore
+      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
+      this.selectedKpiB2DetailResultIdForAnalytics = null;
       console.error('Errore durante il caricamento:', error);
     });
   }
+
+  /**
+   * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella kpiB2results
+   */
+  onShowDetails(kpiB2ResultId: number): void {
+    this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
+  }
+
+  /**
+   * Metodo che viene richiamato quando si clicca il pulsante "Show Analytic Details"
+   */
+  onAnalyticsShowDetails(kpiB2DetailResultId: number): void {
+    this.selectedKpiB2DetailResultIdForAnalytics =
+      this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
+  }
+
+  protected readonly AnalysisType = AnalysisType;
 }

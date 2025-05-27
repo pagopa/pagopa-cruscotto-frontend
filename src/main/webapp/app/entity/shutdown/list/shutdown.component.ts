@@ -34,6 +34,7 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'jhi-shutdown',
   templateUrl: './shutdown.component.html',
+  styleUrls: ['./shutdown.component.scss'],
   imports: [
     SharedModule,
     MatIconModule,

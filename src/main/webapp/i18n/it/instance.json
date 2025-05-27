@@ -13,8 +13,8 @@
       "list": {
         "createLabel": "Nuova Istanza",
         "action": {
-          "updateInPlanned.label": "Aggiora In Pianificata",
-          "updateInDraft.label": "Aggiora In Bozza"
+          "updateInPlanned.label": "Aggiorna In Pianificata",
+          "updateInDraft.label": "Aggiorna In Bozza"
         }
       },
       "detail": {
@@ -38,18 +38,17 @@
         "modify.title": "Modifica Istanza",
         "analysisPeriodStartDate": {
           "validation": {
-            "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
-            "date": "Il campo 'Data Inizio Periodo Analisi' dovrebbe essere una data valida",
-            "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'"
           }
         },
         "analysisPeriodEndDate": {
           "validation": {
-            "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
-            "date": "Il campo 'Data Fine Periodo Analisi' dovrebbe essere una data valida",
-            "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'",
-            "dateLessThanPredictedDateAnalysis": "Il campo deve essere una data precedente a 'Data Prevista Analisi'"
+            "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'"
+          }
+        },
+        "predictedDateAnalysis": {
+          "validation": {
+            "dateAfterTodayOrAnalysisPeriod": "Il campo 'Data Prevista Analisi' deve essere una data successiva ad oggi o a 'Data Periodo Analisi'"
           }
         }
       },
