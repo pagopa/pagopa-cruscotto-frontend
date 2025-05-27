@@ -12,14 +12,6 @@
       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     </ng-container>
 
-    <!-- Colonna Analysis Date -->
-    <ng-container matColumnDef="analysisDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
-    </ng-container>
-
     <!-- Colonna Station Name -->
     <ng-container matColumnDef="stationName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -74,14 +66,6 @@
         {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.avgTime' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.avgTime }}</td>
-    </ng-container>
-
-    <!-- Colonna KPI B2 Detail Result ID -->
-    <ng-container matColumnDef="kpiB2DetailResultId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.kpiB2DetailResultId' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.kpiB2DetailResultId }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -17,18 +17,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
 })
 export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'id',
-    'analysisDate',
-    'stationName',
-    'method',
-    'evaluationDate',
-    'totReq',
-    'reqOk',
-    'reqTimeout',
-    'avgTime',
-    'kpiB2DetailResultId',
-  ];
+  displayedColumns: string[] = ['id', 'stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
   dataSource = new MatTableDataSource<KpiB2AnalyticData>([]);
 
   @Input() kpiB2DetailResultId: number | undefined;
