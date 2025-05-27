@@ -1,0 +1,18 @@
+/* Column Widths */
+
+.mat-column-shutdownIdentification,
+.mat-column-typePlanned,
+.mat-column-shutdownStartDate,
+.mat-column-shutdownEndDate,
+.mat-column-partnerFiscalCode,
+.mat-column-partnerName,
+.mat-column-stationName {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}

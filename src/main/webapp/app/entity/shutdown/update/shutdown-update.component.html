@@ -25,7 +25,11 @@
               <div class="offset-md-3 col-md-5">
                 <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
 
-                <jhi-station-select [parentForm]="editForm" formInnerControlName="station"></jhi-station-select>
+                <jhi-station-select
+                  [parentForm]="editForm"
+                  formInnerControlName="station"
+                  partnerControlName="partner"
+                ></jhi-station-select>
               </div>
               <div class="offset-md-3 col-md-3">
                 <mat-form-field class="w-100 mb-2">
