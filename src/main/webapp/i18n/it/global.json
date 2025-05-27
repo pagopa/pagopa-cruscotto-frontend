@@ -18,6 +18,9 @@
       "shutdown": {
         "main": "Fermi"
       },
+      "taxonomy": {
+        "main": "Tassonomia"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
@@ -64,7 +67,8 @@
       "confirmpassword": "Conferma Nuova Password",
       "email": "Email",
       "select": {
-        "notfound": "Nessun dato trovato per '{{ search }}'",
+        "search": "Ricerca",
+        "notFound": "Nessun dato trovato per '{{ search }}'",
         "all": "Tutti",
         "bank.label": "Banca",
         "bankingGroup.label": "Gruppo Bancario",

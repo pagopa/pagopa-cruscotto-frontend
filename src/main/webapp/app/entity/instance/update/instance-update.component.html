@@ -25,48 +25,6 @@
               <div class="offset-md-3 col-md-5">
                 <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
 
-                @let predictedDateAnalysisRef = editForm.get('predictedDateAnalysis')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.instance.predictedDateAnalysis">Predicted Date Analysis</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="predictedDateAnalysis"
-                    formControlName="predictedDateAnalysis"
-                    [matDatepickerFilter]="predictedDateAnalysisValidator"
-                    datePickerFormat="DD/MM/YYYY"
-                  />
-                  <mat-datepicker-toggle
-                    matIconSuffix
-                    *ngIf="predictedDateAnalysisRef.value || predictedDateAnalysisRef?.errors?.matDatepickerParse"
-                    (click)="clearDate('predictedDateAnalysis')"
-                  >
-                    <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
-                      close_small
-                    </mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker-toggle matSuffix [for]="predictedDateAnalysis"></mat-datepicker-toggle>
-                  <mat-datepicker #predictedDateAnalysis></mat-datepicker>
-
-                  <ng-container
-                    ngProjectAs="mat-error"
-                    *ngIf="predictedDateAnalysisRef.invalid && (predictedDateAnalysisRef.dirty || predictedDateAnalysisRef.touched)"
-                  >
-                    @if (predictedDateAnalysisRef?.errors?.required && !predictedDateAnalysisRef?.errors?.matDatepickerParse) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        This field is required.
-                      </mat-error>
-                    }
-                    @if (predictedDateAnalysisRef?.errors?.matDatepickerParse) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
-                    }
-                    @if (predictedDateAnalysisRef?.errors?.matDatepickerFilter) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.dateAfterToday">
-                        This field should be a date after today
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-
                 @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
 
                 <div class="d-block mb-3">
@@ -79,7 +37,6 @@
                       [matDatepicker]="startMonthPicker"
                       formControlName="analysisPeriodStartDate"
                       [matDatepickerFilter]="startMonthFilter"
-                      readonly
                     />
                     <button
                       mat-icon-button
@@ -114,17 +71,9 @@
                       @if (analysisPeriodStartDateRef?.errors?.matDatepickerFilter) {
                         <mat-error
                           class="form-text text-danger"
-                          jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.dateLessThanPredictedDateAnalysis"
-                        >
-                          The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Predicted Date'
-                        </mat-error>
-                      }
-                      @if (analysisPeriodStartDateRef?.errors?.matStartDateInvalid) {
-                        <mat-error
-                          class="form-text text-danger"
                           jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.dateLoeThanEndDate"
                         >
-                          This field should be a date before another date
+                          The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Period End Date'
                         </mat-error>
                       }
                     </ng-container>
@@ -139,7 +88,6 @@
                       [matDatepicker]="endMonthPicker"
                       formControlName="analysisPeriodEndDate"
                       [matDatepickerFilter]="endMonthFilter"
-                      readonly
                     />
                     <button
                       mat-icon-button
@@ -174,17 +122,54 @@
                       @if (analysisPeriodEndDateRef?.errors?.matDatepickerFilter) {
                         <mat-error
                           class="form-text text-danger"
-                          jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateLessThanPredictedDateAnalysis"
+                          jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateGoeThanStartDate"
                         >
-                          The 'Analysis Period End Date' field must be a date before or equal to 'Analysis Predicted Date'
+                          The 'Analysis Period End Date' field must be a date before or equal to 'Analysis Period Start Date'
                         </mat-error>
                       }
-                      @if (analysisPeriodEndDateRef?.errors?.matEndDateInvalid) {
+                    </ng-container>
+                  </mat-form-field>
+
+                  @let predictedDateAnalysisRef = editForm.get('predictedDateAnalysis')!;
+                  <mat-form-field class="d-block mb-2">
+                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.predictedDateAnalysis">Predicted Date Analysis</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="predictedDateAnalysis"
+                      formControlName="predictedDateAnalysis"
+                      [matDatepickerFilter]="predictedDateAnalysisFilter"
+                      datePickerFormat="DD/MM/YYYY"
+                    />
+                    <mat-datepicker-toggle
+                      matIconSuffix
+                      *ngIf="predictedDateAnalysisRef.value || predictedDateAnalysisRef?.errors?.matDatepickerParse"
+                      (click)="clearDate('predictedDateAnalysis')"
+                    >
+                      <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                        close_small
+                      </mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="predictedDateAnalysis"></mat-datepicker-toggle>
+                    <mat-datepicker #predictedDateAnalysis></mat-datepicker>
+
+                    <ng-container
+                      ngProjectAs="mat-error"
+                      *ngIf="predictedDateAnalysisRef.invalid && (predictedDateAnalysisRef.dirty || predictedDateAnalysisRef.touched)"
+                    >
+                      @if (predictedDateAnalysisRef?.errors?.required && !predictedDateAnalysisRef?.errors?.matDatepickerParse) {
+                        <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                          This field is required.
+                        </mat-error>
+                      }
+                      @if (predictedDateAnalysisRef?.errors?.matDatepickerParse) {
+                        <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                      }
+                      @if (predictedDateAnalysisRef?.errors?.matDatepickerFilter) {
                         <mat-error
                           class="form-text text-danger"
-                          jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodStartDate.validation.dateGoeThanStartDate"
+                          jhiTranslate="pagopaCruscottoApp.instance.update.predictedDateAnalysis.validation.dateAfterTodayOrAnalysisPeriod"
                         >
-                          This field should be a date before another date
+                          This field should be a date after today or Analysis Period
                         </mat-error>
                       }
                     </ng-container>
