@@ -92,7 +92,7 @@
 
     <!-- Header e Righe -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'selected-row': row.id === selectedElementId }"></tr>
   </table>
 </div>
 <!-- Paginatore -->

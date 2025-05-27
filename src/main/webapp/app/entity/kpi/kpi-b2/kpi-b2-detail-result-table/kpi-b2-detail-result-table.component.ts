@@ -52,7 +52,10 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
+  selectedElementId: number | null = null;
 
+  protected readonly OutcomeStatus = OutcomeStatus;
+  protected readonly EvaluationType = EvaluationType;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2DetailResultService = inject(KpiB2DetailResultService);
 
@@ -174,11 +177,15 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
    * Metodo per emettere l'ID della riga selezionata
    */
   emitShowDetails(kpiB2DetailResultId: number): void {
+    if (this.selectedElementId === kpiB2DetailResultId) {
+      // Se l'elemento è già selezionato, deseleziona
+      this.selectedElementId = null;
+    } else {
+      // Altrimenti seleziona l'elemento
+      this.selectedElementId = kpiB2DetailResultId;
+    }
     this.showDetails.emit(kpiB2DetailResultId);
   }
-
-  protected readonly OutcomeStatus = OutcomeStatus;
-  protected readonly EvaluationType = EvaluationType;
 }
 
 /**
