@@ -31,7 +31,7 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   displayedColumns: string[] = [
     'id',
     'analysisDate',
-    'stationId',
+    'stationName',
     'method',
     'totalRequests',
     'averageTime',
@@ -146,8 +146,8 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
           return compare(a.id, b.id, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'method':
           return compare(a.method, b.method, isAsc);
         case 'totalRequests':

@@ -95,7 +95,8 @@
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",
-            "showDetails": "Mostra dettagli"
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
           },
           "KpiAnalyticResults": {
             "id": "ID",

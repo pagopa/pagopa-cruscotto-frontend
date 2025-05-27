@@ -15,6 +15,7 @@ export class KpiB2DetailResult {
   overTimeLimit: number | null;
   outcome: string | null; // Assuming it's an enum or string
   kpiB2ResultId: number | null;
+  stationName: string | null;
 
   // Costruttore
   constructor(
@@ -32,6 +33,7 @@ export class KpiB2DetailResult {
     overTimeLimit: number | null = null,
     outcome: OutcomeStatus | null = null,
     kpiB2ResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -47,6 +49,7 @@ export class KpiB2DetailResult {
     this.overTimeLimit = overTimeLimit;
     this.outcome = outcome;
     this.kpiB2ResultId = kpiB2ResultId;
+    this.stationName = stationName;
   }
 }
 
