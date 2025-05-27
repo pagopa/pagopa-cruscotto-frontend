@@ -20,7 +20,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   displayedColumns: string[] = [
     'id',
     'analysisDate',
-    'stationId',
+    'stationName',
     'method',
     'evaluationDate',
     'totReq',

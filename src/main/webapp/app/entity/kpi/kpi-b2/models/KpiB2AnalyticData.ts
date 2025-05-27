@@ -13,6 +13,7 @@ export class KpiB2AnalyticData {
   reqTimeout: number | null;
   avgTime: number | null;
   kpiB2DetailResultId: number | null;
+  stationName: string | null;
 
   // Costruttore
   constructor(
@@ -28,6 +29,7 @@ export class KpiB2AnalyticData {
     reqTimeout: number | null = null,
     avgTime: number | null = null,
     kpiB2DetailResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -41,5 +43,6 @@ export class KpiB2AnalyticData {
     this.reqTimeout = reqTimeout;
     this.avgTime = avgTime;
     this.kpiB2DetailResultId = kpiB2DetailResultId;
+    this.stationName = stationName;
   }
 }
