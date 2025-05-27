@@ -24,12 +24,8 @@
             <div class="row mt-3 p-2">
               <div class="offset-md-3 col-md-5">
                 <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
-
-                @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
-
                 <div class="d-block mb-3">
-                  <!-- Campo per il mese di inizio -->
-                  <!-- Start Month -->
+                  @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
                   <mat-form-field class="d-block mb-2">
                     <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartMonth">Start Month</mat-label>
                     <input
@@ -38,17 +34,15 @@
                       formControlName="analysisPeriodStartDate"
                       [matDatepickerFilter]="startMonthFilter"
                     />
-                    <button
-                      mat-icon-button
+                    <mat-datepicker-toggle
+                      matIconSuffix
                       *ngIf="analysisPeriodStartDateRef.value"
-                      matSuffix
-                      aria-label="Clear"
                       (click)="clearDate('analysisPeriodStartDate')"
                     >
                       <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                         close_small
                       </mat-icon>
-                    </button>
+                    </mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix [for]="startMonthPicker"></mat-datepicker-toggle>
                     <mat-datepicker
                       #startMonthPicker
@@ -80,7 +74,6 @@
                   </mat-form-field>
 
                   @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
-                  <!-- End Month -->
                   <mat-form-field class="d-block mb-2">
                     <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndMonth">End Month</mat-label>
                     <input
@@ -89,17 +82,15 @@
                       formControlName="analysisPeriodEndDate"
                       [matDatepickerFilter]="endMonthFilter"
                     />
-                    <button
-                      mat-icon-button
+                    <mat-datepicker-toggle
+                      matIconSuffix
                       *ngIf="analysisPeriodEndDateRef.value"
-                      matSuffix
-                      aria-label="Clear"
                       (click)="clearDate('analysisPeriodEndDate')"
                     >
                       <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                         close_small
                       </mat-icon>
-                    </button>
+                    </mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix [for]="endMonthPicker"></mat-datepicker-toggle>
                     <mat-datepicker
                       #endMonthPicker
