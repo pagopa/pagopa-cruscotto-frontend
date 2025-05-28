@@ -1,29 +1,43 @@
-import { AfterViewInit, Component, inject, Input, OnChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA2ResultService } from '../service/kpi-a2-result.service';
 import { KpiA2Result } from '../models/KpiA2Result';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
+import { MatButton } from '@angular/material/button';
+import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 
 @Component({
   selector: 'jhi-kpi-a2-result-table',
   templateUrl: './kpi-a2-result-table.component.html',
   styleUrls: ['./kpi-a2-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    AverageFormatPipe,
+    NgClass,
+    MatButton,
+  ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
-  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'evaluationType', 'outcome'];
+  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'evaluationType', 'outcome', 'details'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 
   @Input() moduleId: number | undefined;
+  @Output() showDetails = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-
+  selectedElementId: number | null = null;
   isLoadingResults = false;
 
   private readonly spinner = inject(NgxSpinnerService);
@@ -123,6 +137,22 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
       }
     });
   }
+
+  /**
+   * Metodo per emettere l'ID della riga selezionata
+   */
+  emitShowDetails(kpiA2ResultId: number): void {
+    if (this.selectedElementId === kpiA2ResultId) {
+      // Se l'elemento è già selezionato, deseleziona
+      this.selectedElementId = null;
+    } else {
+      // Altrimenti seleziona l'elemento
+      this.selectedElementId = kpiA2ResultId;
+    }
+    this.showDetails.emit(kpiA2ResultId);
+  }
+
+  protected readonly OutcomeStatus = OutcomeStatus;
 }
 
 /**
