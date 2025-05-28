@@ -54,10 +54,12 @@
       "typePlanned.NON_PROGRAMMATO": "NOT PLANNED",
       "shutdownIdentification": "Shutdown Identification",
       "shutdownPeriod": "Shutdown Period",
+      "shutdownRangeDate": "Shutdown Range Date",
       "shutdownStartDate": "Shutdown Start Date",
       "shutdownEndDate": "Shutdown End Date",
       "stationId": "Station Identifier",
-      "stationName": "Station Name"
+      "stationName": "Station Name",
+      "year": "Year"
     }
   },
   "error": {
