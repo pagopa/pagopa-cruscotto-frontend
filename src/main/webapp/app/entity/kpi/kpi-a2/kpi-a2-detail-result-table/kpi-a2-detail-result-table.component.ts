@@ -10,6 +10,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { OutcomeStatus } from '../models/KpiA2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-a2-detail-result-table',
@@ -23,6 +24,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatSortModule,
     NgxSpinnerModule,
     CommonModule,
+    AverageFormatPipe,
   ],
   templateUrl: './kpi-a2-detail-result-table.component.html',
   styleUrl: './kpi-a2-detail-result-table.component.scss',
