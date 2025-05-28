@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { KpiA2Result } from '../models/KpiA2Result';
-import { DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 type KpiA2ResultRestOf<T extends KpiA2Result> = Omit<T, 'analysisDate'> & {
@@ -111,7 +111,7 @@ export class KpiA2ResultService {
   protected convertKpiA2ResultFromServer(restKpiA2Result: RestKpiA2Result): KpiA2Result {
     return {
       ...restKpiA2Result,
-      analysisDate: restKpiA2Result.analysisDate ? dayjs(restKpiA2Result.analysisDate, DATE_TIME_FORMAT_ISO) : null,
+      analysisDate: restKpiA2Result.analysisDate ? dayjs(restKpiA2Result.analysisDate, DATE_FORMAT) : null,
     };
   }
 }

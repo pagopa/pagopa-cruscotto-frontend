@@ -73,9 +73,19 @@
       <td mat-cell *matCellDef="let element" class="text-uppercase">{{ element.outcome }}</td>
     </ng-container>
 
+    <!-- Colonna Details -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.details' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="emitShowDetails(element.id)">
+          {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.showDetails' | translate }}
+        </button>
+      </td>
+    </ng-container>
+
     <!-- Header and Rows -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'selected-row': row.id === selectedElementId }"></tr>
   </table>
 </div>
 

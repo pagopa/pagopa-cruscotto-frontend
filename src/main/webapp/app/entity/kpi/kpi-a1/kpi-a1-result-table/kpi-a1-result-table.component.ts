@@ -1,18 +1,19 @@
-import { AfterViewInit, Component, inject, Input, OnChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1ResultService } from '../service/kpi-a1-result.service';
 import { KpiA1Result } from '../models/KpiA1Result';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'jhi-kpi-a1-result-table',
   templateUrl: './kpi-a1-result-table.component.html',
   styleUrls: ['./kpi-a1-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf],
+  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, NgClass, MatButton],
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
   displayedColumns: string[] = [
@@ -24,6 +25,7 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
     'tolerance',
     'evaluationType',
     'outcome',
+    'details',
   ];
 
   dataSource = new MatTableDataSource<KpiA1Result>([]);
@@ -32,9 +34,10 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
+  @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
-
+  selectedElementId: number | null = null;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA1ResultService = inject(KpiA1ResultService);
 
@@ -133,6 +136,20 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
           return 0;
       }
     });
+  }
+
+  /**
+   * Metodo per emettere l'ID della riga selezionata
+   */
+  emitShowDetails(kpiA1ResultId: number): void {
+    if (this.selectedElementId === kpiA1ResultId) {
+      // Se l'elemento è già selezionato, deseleziona
+      this.selectedElementId = null;
+    } else {
+      // Altrimenti seleziona l'elemento
+      this.selectedElementId = kpiA1ResultId;
+    }
+    this.showDetails.emit(kpiA1ResultId);
   }
 }
 

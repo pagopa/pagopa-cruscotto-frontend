@@ -6,16 +6,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class AverageFormatPipe implements PipeTransform {
   /**
    * Trasforma i numeri in formato decimale italiano e aggiunge il simbolo %
-   * @param value Il numero da formattare
+   * @param value Il valore numerico da formattare (può essere null o stringa)
    * @param decimals Numero di cifre decimali (default: 5)
-   * @returns Ritorna il valore formattato
+   * @returns Ritorna il valore formattato. Se valore nullo o invalido: "0,00 %" o "0,00000 %"
    */
-  transform(value: number, decimals: number = 5): string {
-    if (isNaN(value) && decimals == 5) return '0,00000 %'; // Gestisce il caso di valore nullo o non numerico
-    if (isNaN(value) && decimals == 2) return '0,00 %';
-    // Usa `toFixed` per assicurarsi di mantenere un numero fisso di cifre decimali
-    const formattedValue = value.toFixed(decimals); // Esempio: 0.1 --> '0.10000'
-    // Sostituisci il punto con la virgola per il formato italiano
-    return formattedValue.replace('.', ',') + ' %'; // Esempio: '0.10000' --> '0,10000 %'
+  transform(value: any, decimals: number = 5): string {
+    // Controlla se il valore è nullo, undefined, o invalido
+    if (value === null || value === undefined || isNaN(parseFloat(value))) {
+      return decimals === 2 ? '0,00 %' : '0,00000 %';
+    }
+    const numericValue = parseFloat(value);
+    const formattedValue = numericValue.toFixed(decimals);
+    return formattedValue.replace('.', ',') + ' %';
   }
 }
