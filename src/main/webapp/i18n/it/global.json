@@ -235,6 +235,7 @@
       "dontMatch": "La password e la sua conferma non corrispondono!",
       "dateMax": "Questo campo deve essere una data precedente o uguale a {{ max }}",
       "dateMin": "Questo campo deve essere una data successiva o uguale a {{ min }}",
+      "dateRange": "Questo campo dovrebbe essere un range valido di date",
       "dateAfterToday": "Questo campo deve essere una data successiva ad oggi",
       "timeMax": "Questo campo deve essere un orario precedente o uguale a {{ max }}",
       "timeMin": "Questo campo deve essere un orario successiva o uguale a {{ min }}",
