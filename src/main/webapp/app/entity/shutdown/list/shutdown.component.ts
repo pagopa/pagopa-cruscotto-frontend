@@ -6,7 +6,7 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { LocaltionHelper } from '../../../core/location/location.helper';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { addFilterToRequest, addToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
@@ -28,7 +28,17 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { InstanceStatus } from 'app/entity/instance/models/instance.model';
 import { ShutdownFilter } from './shutdown.filter';
 import { ShutdownService } from 'app/entity/shutdown/service/shutdown.service';
-import { IShutdown } from '../shutdown.model';
+import { IShutdown, TypePlanned } from '../shutdown.model';
+import { MatSelectModule } from '@angular/material/select';
+import dayjs from 'dayjs';
+import {
+  MatDatepickerToggle,
+  MatDatepickerToggleIcon,
+  MatDateRangeInput,
+  MatDateRangePicker,
+  MatEndDate,
+  MatStartDate,
+} from '@angular/material/datepicker';
 
 @Component({
   selector: 'jhi-shutdown',
@@ -52,6 +62,13 @@ import { IShutdown } from '../shutdown.model';
     RouterModule,
     FormatDatePipe,
     PartnerSelectComponent,
+    MatSelectModule,
+    MatDateRangeInput,
+    MatDateRangePicker,
+    MatDatepickerToggle,
+    MatDatepickerToggleIcon,
+    MatEndDate,
+    MatStartDate,
   ],
 })
 export class ShutdownComponent implements OnInit, OnDestroy {
@@ -79,9 +96,19 @@ export class ShutdownComponent implements OnInit, OnDestroy {
 
   searchForm;
 
+  typePlannedValues: TypePlanned[] = Object.values(TypePlanned);
+
   locale: string;
 
   status = InstanceStatus;
+
+  minDate = dayjs().startOf('year');
+
+  maxDate = dayjs().endOf('year');
+
+  year = dayjs().year();
+
+  years: number[] = [this.year + 2, this.year + 1, this.year, this.year - 1, this.year - 2];
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(ShutdownFilter);
@@ -96,6 +123,10 @@ export class ShutdownComponent implements OnInit, OnDestroy {
   constructor() {
     this.searchForm = this.fb.group({
       partner: [''],
+      typePlanned: [''],
+      year: [null, [Validators.required]],
+      shutdownStartDate: new FormControl<dayjs.Dayjs | null>(null),
+      shutdownEndDate: new FormControl<dayjs.Dayjs | null>(null),
     });
 
     this.locale = this.translateService.currentLang;
@@ -119,6 +150,10 @@ export class ShutdownComponent implements OnInit, OnDestroy {
   updateForm(): void {
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, ShutdownFilter.PARTNER),
+      typePlanned: getFilterValue(this.filter, ShutdownFilter.TYPE),
+      year: getFilterValue(this.filter, ShutdownFilter.YEAR),
+      shutdownStartDate: getFilterValue(this.filter, ShutdownFilter.SHUTDOWN_START_DATE),
+      shutdownEndDate: getFilterValue(this.filter, ShutdownFilter.SHUTDOWN_END_DATE),
     });
     this.page = this.filter.page;
   }
@@ -135,6 +170,8 @@ export class ShutdownComponent implements OnInit, OnDestroy {
     this.data = [];
     this.filter.clear();
     this.updateForm();
+    this.year = dayjs().year();
+    this.changeYear(this.year);
     void this.router.navigate(['/entity/shutdowns']);
   }
 
@@ -187,16 +224,28 @@ export class ShutdownComponent implements OnInit, OnDestroy {
 
   private populateRequest(req: any): any {
     addFilterToRequest(this.filter, ShutdownFilter.PARTNER, req);
+    addFilterToRequest(this.filter, ShutdownFilter.TYPE, req);
+    addFilterToRequest(this.filter, ShutdownFilter.YEAR, req);
+    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_START_DATE, req);
+    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_END_DATE, req);
   }
 
   private populateFilter(): void {
     addToFilter(this.filter, this.searchForm.get('partner'), ShutdownFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('typePlanned'), ShutdownFilter.TYPE);
+    addToFilter(this.filter, this.searchForm.get('year'), ShutdownFilter.YEAR);
+    addToFilter(this.filter, this.searchForm.get('shutdownStartDate'), ShutdownFilter.SHUTDOWN_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('shutdownEndDate'), ShutdownFilter.SHUTDOWN_END_DATE);
 
     this.filter.page = this.page;
   }
 
   previousState(): void {
     window.history.back();
+  }
+
+  clearFields(...ctrlNames: string[]): void {
+    ctrlNames.forEach(ctrlName => this.searchForm.get(ctrlName)?.setValue(null));
   }
 
   delete(row: IShutdown): void {
@@ -248,5 +297,10 @@ export class ShutdownComponent implements OnInit, OnDestroy {
     this.spinner.hide('isLoadingResults').then(() => {
       this.isLoadingResults = false;
     });
+  }
+
+  changeYear(year: number): void {
+    this.minDate = dayjs().set('year', year).startOf('year');
+    this.maxDate = dayjs().set('year', year).endOf('year');
   }
 }
