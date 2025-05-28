@@ -1,0 +1,95 @@
+<ngx-spinner
+  [fullScreen]="false"
+  type="ball-spin-fade-rotating"
+  size="medium"
+  color="#007bff"
+  name="isLoadingResultsKpiA1ResultTable"
+  aria-label="Caricamento risultati A1 in corso..."
+>
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate">
+  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.id' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Analysis Date -->
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.analysisDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.analysisDate }}</td>
+    </ng-container>
+
+    <!-- Exclude Planned Shutdown -->
+    <ng-container matColumnDef="excludePlannedShutdown">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.excludePlannedShutdown' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.excludePlannedShutdown ? 'Sì' : 'No' }}</td>
+    </ng-container>
+
+    <!-- Exclude Unplanned Shutdown -->
+    <ng-container matColumnDef="excludeUnplannedShutdown">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.excludeUnplannedShutdown' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.excludeUnplannedShutdown ? 'Sì' : 'No' }}</td>
+    </ng-container>
+
+    <!-- Eligibility Threshold -->
+    <ng-container matColumnDef="eligibilityThreshold">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.eligibilityThreshold' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.eligibilityThreshold }}</td>
+    </ng-container>
+
+    <!-- Tolerance -->
+    <ng-container matColumnDef="tolerance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.tolerance' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.tolerance }}</td>
+    </ng-container>
+
+    <!-- Evaluation Type -->
+    <ng-container matColumnDef="evaluationType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.evaluationType' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
+    </ng-container>
+
+    <!-- Outcome -->
+    <ng-container matColumnDef="outcome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.outcome' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element" class="text-uppercase">{{ element.outcome }}</td>
+    </ng-container>
+
+    <!-- Colonna Details -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.details' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="emitShowDetails(element.id)">
+          {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.showDetails' | translate }}
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'selected-row': row.id === selectedElementId }"></tr>
+  </table>
+</div>
+
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+<ng-template #noDataTemplate>
+  <p class="no-results">Nessun dato disponibile.</p>
+</ng-template>

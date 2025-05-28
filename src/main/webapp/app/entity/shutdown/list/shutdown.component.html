@@ -39,6 +39,69 @@
           <div class="col-lg-4">
             <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
           </div>
+          <div class="col-lg-3">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.typePlanned">Type Planned</mat-label>
+              <mat-select formControlName="typePlanned">
+                <mat-option value="">{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let typePlanned of typePlannedValues" [value]="typePlanned">
+                  {{ 'pagopaCruscottoApp.shutdown.typePlanned.' + typePlanned | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-2">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.year">Year</mat-label>
+              <mat-select formControlName="year" (valueChange)="changeYear($event)">
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{ year }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-3">
+            @let shutdownStartDateRef = searchForm.get('shutdownStartDate')!;
+            @let shutdownEndDateRef = searchForm.get('shutdownEndDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.shutdownRangeDate"></mat-label>
+              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="shutdownDatePicker" [min]="minDate" [max]="maxDate">
+                <input matStartDate formControlName="shutdownStartDate" />
+                <input matEndDate formControlName="shutdownEndDate" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matIconSuffix
+                *ngIf="shutdownStartDateRef.value || shutdownEndDateRef.value"
+                (click)="clearFields('shutdownStartDate', 'shutdownEndDate')"
+              >
+                <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                  close_small
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix [for]="shutdownDatePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #shutdownDatePicker></mat-date-range-picker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="
+                  (shutdownStartDateRef.invalid && (shutdownStartDateRef.dirty || shutdownStartDateRef.touched)) ||
+                  (shutdownEndDateRef.invalid && (shutdownEndDateRef.dirty || shutdownEndDateRef.touched))
+                "
+              >
+                @if (shutdownStartDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.fromDate"> Invalid start date </mat-error>
+                } @else if (shutdownEndDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.toDate"> Invalid end date </mat-error>
+                } @else if (
+                  shutdownEndDateRef?.errors?.matDatepickerMin ||
+                  shutdownStartDateRef?.errors?.matDatepickerMin ||
+                  shutdownEndDateRef?.errors?.matDatepickerMax ||
+                  shutdownStartDateRef?.errors?.matDatepickerMax
+                ) {
+                  <mat-error jhiTranslate="entity.validation.dateRange"> This field should be a valid range of date </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
         </div>
 
         <mat-action-row class="d-block">
@@ -113,7 +176,7 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.shutdown.typePlanned' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.typePlanned }}</td>
+                  <td mat-cell *matCellDef="let row">{{ 'pagopaCruscottoApp.shutdown.typePlanned.' + row.typePlanned | translate }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="shutdownStartDate">

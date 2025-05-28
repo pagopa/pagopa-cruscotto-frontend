@@ -1,0 +1,29 @@
+{
+  "pagopaCruscottoApp": {
+    "taxonomy": {
+      "home": {
+        "title": "Tassonomia"
+      },
+      "detail": {
+        "title": "Dettaglio Tassonomia"
+      },
+      "version": "Versione",
+      "institutionTypeCode": "Codice Tipologia Ente",
+      "institutionType": "Tipologia Ente",
+      "areaProgressiveCode": "Codice Progressivo Area",
+      "areaName": "Nome Area",
+      "areaDescription": "Descrizione Area",
+      "serviceTypeCode": "Codice Tipologia Servizio",
+      "serviceType": "Tipologia Servizio",
+      "serviceTypeDescription": "Descrizione Tipologia Servizio",
+      "reasonCollection": "Motivo della Riscossione",
+      "takingsIdentifier": "Dati di Incasso",
+      "validityStartDate": "Data Inizio Validit\u00E0",
+      "validityEndDate": "Data Fine Validit\u00E0",
+      "createdDate": "Creato il",
+      "createdBy": "Creato da",
+      "lastModifiedBy": "Modificato da",
+      "lastModifiedDate": "Modificato il"
+    }
+  }
+}

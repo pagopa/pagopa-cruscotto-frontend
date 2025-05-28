@@ -43,7 +43,7 @@
         </mat-option>
         <mat-option value="" *ngIf="!searchTerm">{{ 'global.form.select.all' | translate }}</mat-option>
         <mat-option *ngFor="let partner of filteredData$ | async" [value]="partner">
-          {{ partner.name }}
+          {{ partner.fiscalCode }} - {{ partner.name }}
         </mat-option>
       </mat-select>
       <ng-container

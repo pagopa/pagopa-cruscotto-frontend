@@ -1,0 +1,21 @@
+/* Column Widths */
+.mat-column-id,
+.mat-column-institutionType,
+.mat-column-areaName,
+.mat-column-serviceType,
+.mat-column-takingsIdentifier,
+.mat-column-validityStartDate,
+.mat-column-validityEndDate,
+.mat-column-createdBy,
+.mat-column-createdDate,
+.mat-column-lastModifiedBy,
+.mat-column-lastModifiedDate {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}

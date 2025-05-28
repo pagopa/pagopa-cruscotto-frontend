@@ -80,11 +80,6 @@ export class InstanceUpdateComponent implements OnInit {
       if (instance) {
         this.updateForm(instance);
       }
-
-      Object.keys(this.editForm.controls).forEach(field => {
-        const control = this.editForm.get(field);
-        if (control !== null) control.markAsTouched({ onlySelf: true });
-      });
     });
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -118,19 +113,6 @@ export class InstanceUpdateComponent implements OnInit {
     ctrlNames.forEach(ctrlName => this.editForm.get(ctrlName)?.setValue(null));
   }
 
-  predictedDateAnalysisValidator = (d: dayjs.Dayjs | null): boolean => {
-    const result = d ? d > dayjs() : false;
-
-    if (result) {
-      const analysisPeriodStartDateControl = this.editForm.get('analysisPeriodStartDate');
-      const analysisPeriodEndDateControl = this.editForm.get('analysisPeriodEndDate');
-      analysisPeriodStartDateControl?.updateValueAndValidity();
-      analysisPeriodEndDateControl?.updateValueAndValidity();
-    }
-
-    return result;
-  };
-
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IInstance>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -149,47 +131,52 @@ export class InstanceUpdateComponent implements OnInit {
       this.isSaving = false;
     });
   }
-
-  /**
-   * Imposta il primo giorno del mese selezionato (`Start Month`).
-   * @param selected Mese selezionato
-   * @param picker Riferimento al MatDatepicker
-   */
   selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
     const firstDayOfMonth = selected.startOf('month');
     this.editForm.get('analysisPeriodStartDate')!.setValue(firstDayOfMonth);
     picker.close();
   }
 
-  /**
-   * Imposta l'ultimo giorno del mese selezionato (`End Month`).
-   * @param selected Mese selezionato
-   * @param picker Riferimento al MatDatepicker
-   */
   selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
     const lastDayOfMonth = selected.endOf('month');
     this.editForm.get('analysisPeriodEndDate')!.setValue(lastDayOfMonth);
     picker.close();
   }
 
-  // Filtro per disabilitare mesi successivi alla data prevista (campo "Mese inizio periodo")
   startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
-    const endDate =
-      this.editForm.get('predictedDateAnalysis')?.value || this.editForm.get('analysisPeriodEndDate')?.value || dayjs().add(5, 'year');
+    const endDate = this.editForm.get('analysisPeriodEndDate')?.value || dayjs().add(5, 'year');
 
-    // Consente la selezione se:
-    // 1. La data (inizio) è uguale o precedente alla data prevista
-    return date ? date.isBefore(endDate, 'month') : true;
+    if (this.editForm.controls.predictedDateAnalysis.value) {
+      this.editForm.controls.predictedDateAnalysis.updateValueAndValidity();
+    }
+
+    return date ? date.isSameOrBefore(endDate, 'month') : true;
   };
 
-  // Filtro per disabilitare mesi successivi alla data prevista nel campo "Mese fine periodo"
   endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
-    const predictedDateAnalysis = this.editForm.get('predictedDateAnalysis')?.value || dayjs().add(5, 'year');
-    const startMonth = this.editForm.get('analysisPeriodStartDate')?.value || dayjs().add(-5, 'year');
+    const startDate = this.editForm.get('analysisPeriodStartDate')?.value || dayjs().add(-5, 'year');
 
-    return date
-      ? date.isBefore(predictedDateAnalysis, 'month') &&
-          (startMonth ? date.isSame(startMonth, 'month') || date.isAfter(startMonth, 'month') : true)
-      : true;
+    if (this.editForm.controls.predictedDateAnalysis.value) {
+      this.editForm.controls.predictedDateAnalysis.updateValueAndValidity();
+    }
+
+    return date ? date.isSameOrAfter(startDate, 'month') : true;
+  };
+
+  predictedDateAnalysisFilter = (date: dayjs.Dayjs | null): boolean => {
+    let referenceDate = dayjs();
+    if (
+      this.editForm.controls.analysisPeriodEndDate.value &&
+      referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value.endOf('month'))
+    ) {
+      referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
+    } else if (
+      this.editForm.controls.analysisPeriodStartDate.value &&
+      referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value.endOf('month'))
+    ) {
+      referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
+    }
+
+    return date ? date.isAfter(referenceDate, 'month') : true;
   };
 }

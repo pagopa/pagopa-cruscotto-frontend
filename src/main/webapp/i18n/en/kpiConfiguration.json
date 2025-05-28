@@ -1,0 +1,19 @@
+{
+  "pagopaCruscottoApp": {
+    "kpiConfiguration": {
+      "home": {
+        "title": "Kpi Configuration"
+      },
+      "detail": {
+        "title": "Kpi Configuration Detail"
+      },
+      "moduleCode": "Module",
+      "excludePlannedShutdown": "Exclude Planned Shutdown",
+      "excludeUnplannedShutdown": "Exclude Unplanned Shutdown",
+      "eligibilityThreshold": "Eligibility Threshold",
+      "tolerance": "Tolerance",
+      "averageTimeLimit": "Average Time Limit",
+      "evaluationType": "Evaluation Type"
+    }
+  }
+}
