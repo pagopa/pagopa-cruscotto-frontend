@@ -111,8 +111,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = data; // Imposta i dettagli del modulo
-      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
-      this.selectedKpiB2DetailResultIdForAnalytics = null;
+      this.resetAllVariables();
       console.log('Dati caricati con successo:', this.moduleDetails);
     });
   }
@@ -124,8 +123,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = undefined; // Resetta i dettagli del modulo in caso di errore
-      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
-      this.selectedKpiB2DetailResultIdForAnalytics = null;
+      this.resetAllVariables();
       console.error('Errore durante il caricamento:', error);
     });
   }
@@ -135,15 +133,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    */
   onShowDetailsB2(kpiB2ResultId: number): void {
     this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
-    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
   onShowDetailsA2(kpiA2ResultId: number): void {
     this.selectedKpiA2ResultIdForDetailsResults = this.selectedKpiA2ResultIdForDetailsResults === kpiA2ResultId ? null : kpiA2ResultId;
-    this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
   onShowDetailsA1(kpiA1ResultId: number): void {
     this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
-    this.selectedKpiA1DetailResultIdForAnalytics = null;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
 
   /**
@@ -160,6 +158,27 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsA1(kpiA1DetailResultId: number): void {
     this.selectedKpiA1DetailResultIdForAnalytics =
       this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
+  }
+
+  /**
+   * Metodo per resettare tutte le variabili legate ad analytics
+   */
+  resetAnalyticsVariables(): void {
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.selectedKpiA1DetailResultIdForAnalytics = null;
+  }
+
+  /**
+   * Metodo per resettare tutte le variabili legate ad analytics
+   */
+  resetAllVariables(): void {
+    this.selectedKpiB2ResultIdForDetailsResults = null;
+    this.selectedKpiA2ResultIdForDetailsResults = null;
+    this.selectedKpiA1ResultIdForDetailsResults = null;
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.selectedKpiA1DetailResultIdForAnalytics = null;
   }
 }
 type DetailComponentMappingDynamic = {
