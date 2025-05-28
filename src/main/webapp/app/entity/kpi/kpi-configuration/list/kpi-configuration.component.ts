@@ -23,6 +23,7 @@ import { EventManager } from '../../../../core/util/event-manager.service';
 import { KpiConfigurationService } from '../service/kpi-configuration.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-configuration',
@@ -45,6 +46,7 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     MatTooltipModule,
     RouterModule,
     YesOrNoViewComponent,
+    AverageFormatPipe,
   ],
 })
 export class KpiConfigurationComponent implements OnInit, OnDestroy {

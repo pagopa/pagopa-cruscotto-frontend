@@ -5,33 +5,30 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { KpiB2AnalyticDataService } from '../service/kpi-b2-analytic-data.service';
-import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
+import { KpiA2AnalyticDataService } from '../service/kpi-a2-analytic-data.service';
+import { KpiA2AnalyticData } from '../models/KpiA2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
-  selector: 'jhi-kpi-b2-analytic-result-table',
-  templateUrl: './kpi-b2-analytic-result-table.component.html',
-  styleUrls: ['./kpi-b2-analytic-result-table.component.scss'],
-  imports: [
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    NgxSpinnerModule,
-    TranslateModule,
-    NgIf,
-    MatButtonModule,
-    FormatDatePipe,
-    AverageFormatPipe,
-  ],
+  selector: 'jhi-kpi-a2-analytic-result-table',
+  templateUrl: './kpi-a2-analytic-result-table.component.html',
+  styleUrls: ['./kpi-a2-analytic-result-table.component.scss'],
+  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
 })
-export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['id', 'stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
-  dataSource = new MatTableDataSource<KpiB2AnalyticData>([]);
+export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
+  displayedColumns: string[] = [
+    'id',
+    'instanceId',
+    'instanceModuleId',
+    'analysisDate',
+    'evaluationDate',
+    'totPayments',
+    'totIncorrectPayments',
+  ];
+  dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
-  @Input() kpiB2DetailResultId: number | undefined;
+  @Input() kpiA2DetailResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -42,7 +39,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   private readonly translateService = inject(TranslateService);
 
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly kpiB2AnalyticDataService = inject(KpiB2AnalyticDataService);
+  private readonly kpiA2AnalyticDataService = inject(KpiA2AnalyticDataService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -55,8 +52,8 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngOnChanges(): void {
-    if (this.kpiB2DetailResultId) {
-      this.fetchKpiB2AnalyticData(this.kpiB2DetailResultId);
+    if (this.kpiA2DetailResultId) {
+      this.fetchKpiA2AnalyticData(this.kpiA2DetailResultId);
     }
   }
 
@@ -70,13 +67,13 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   /**
-   * Fetch KPI B2 Analytic Data by kpiB2DetailResultId
+   * Fetch KPI A2 Analytic Data by kpiA2DetailResultId
    */
-  fetchKpiB2AnalyticData(detailResultId: number): void {
-    this.spinner.show('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
+  fetchKpiA2AnalyticData(moduleId: number): void {
+    this.spinner.show('isLoadingResultsKpiA2AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiB2AnalyticDataService.findByDetailResultId(detailResultId).subscribe({
-        next: (data: KpiB2AnalyticData[]) => this.onSuccess(data),
+      this.kpiA2AnalyticDataService.findByModuleId(moduleId).subscribe({
+        next: (data: KpiA2AnalyticData[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
     });
@@ -85,8 +82,8 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Handle successful data retrieval
    */
-  protected onSuccess(data: KpiB2AnalyticData[]): void {
-    this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
+  protected onSuccess(data: KpiA2AnalyticData[]): void {
+    this.spinner.hide('isLoadingResultsKpiA2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
@@ -99,10 +96,10 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
    * Handle errors during data retrieval
    */
   protected onError(): void {
-    this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
+    this.spinner.hide('isLoadingResultsKpiA2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = [];
-      console.error('Error retrieving KPI B2 Analytic Data');
+      console.error('Error retrieving KPI A2 Analytic Data');
     });
   }
 
@@ -135,22 +132,12 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
-        case 'method':
-          return compare(a.method, b.method, isAsc);
         case 'evaluationDate':
           return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
-        case 'totReq':
-          return compare(a.totReq, b.totReq, isAsc);
-        case 'reqOk':
-          return compare(a.reqOk, b.reqOk, isAsc);
-        case 'reqTimeout':
-          return compare(a.reqTimeout, b.reqTimeout, isAsc);
-        case 'avgTime':
-          return compare(a.avgTime, b.avgTime, isAsc);
-        case 'kpiB2DetailResultId':
-          return compare(a.kpiB2DetailResultId, b.kpiB2DetailResultId, isAsc);
+        case 'totPayments':
+          return compare(a.totPayments, b.totPayments, isAsc);
+        case 'totIncorrectPayments':
+          return compare(a.totIncorrectPayments, b.totIncorrectPayments, isAsc);
         default:
           return 0;
       }
@@ -160,8 +147,8 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiB2DetailResultId: number): void {
-    this.showDetails.emit(kpiB2DetailResultId);
+  emitShowDetails(kpiA2DetailResultId: number): void {
+    this.showDetails.emit(kpiA2DetailResultId);
   }
 }
 

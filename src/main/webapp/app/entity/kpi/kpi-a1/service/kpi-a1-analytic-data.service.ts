@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { KpiA1AnalyticData } from '../models/KpiA1AnalyticData';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { DATE_TIME_FORMAT_ISO } from '../../../../config/input.constants';
+import { DATE_FORMAT } from '../../../../config/input.constants';
 
 type RestKpiA1AnalyticData = Omit<KpiA1AnalyticData, 'analysisDate' | 'evaluationDate'> & {
   analysisDate?: string | null;
@@ -43,8 +43,8 @@ export class KpiA1AnalyticDataService {
   private convertFromServer(restKpiA1AnalyticData: RestKpiA1AnalyticData): KpiA1AnalyticData {
     return {
       ...restKpiA1AnalyticData,
-      analysisDate: restKpiA1AnalyticData.analysisDate ? dayjs(restKpiA1AnalyticData.analysisDate, DATE_TIME_FORMAT_ISO) : null,
-      evaluationDate: restKpiA1AnalyticData.evaluationDate ? dayjs(restKpiA1AnalyticData.evaluationDate, DATE_TIME_FORMAT_ISO) : null,
+      analysisDate: restKpiA1AnalyticData.analysisDate ? dayjs(restKpiA1AnalyticData.analysisDate, DATE_FORMAT) : null,
+      evaluationDate: restKpiA1AnalyticData.evaluationDate ? dayjs(restKpiA1AnalyticData.evaluationDate, DATE_FORMAT) : null,
     };
   }
 }

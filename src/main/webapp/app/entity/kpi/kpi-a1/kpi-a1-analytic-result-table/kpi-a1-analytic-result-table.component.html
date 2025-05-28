@@ -1,4 +1,4 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB2AnalyticResultTable">
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiA1AnalyticResultTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 
@@ -7,23 +7,39 @@
     <!-- Colonna ID -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.id' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.id' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     </ng-container>
 
-    <!-- Colonna Station Name -->
-    <ng-container matColumnDef="stationName">
+    <!-- Colonna Instance ID -->
+    <ng-container matColumnDef="instanceId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.stationName' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.instanceId' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.stationName }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.instanceId }}</td>
+    </ng-container>
+
+    <!-- Colonna Analysis Date -->
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
+
+    <!-- Colonna Station ID -->
+    <ng-container matColumnDef="stationId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.stationId' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.stationId }}</td>
     </ng-container>
 
     <!-- Colonna Method -->
     <ng-container matColumnDef="method">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.method' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.method' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.method }}</td>
     </ng-container>
@@ -31,7 +47,7 @@
     <!-- Colonna Evaluation Date -->
     <ng-container matColumnDef="evaluationDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.evaluationDate | formatDate: 'L' : locale }}</td>
     </ng-container>
@@ -39,7 +55,7 @@
     <!-- Colonna Tot Requests -->
     <ng-container matColumnDef="totReq">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.totReq' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.totReq' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.totReq }}</td>
     </ng-container>
@@ -47,25 +63,25 @@
     <!-- Colonna Requests OK -->
     <ng-container matColumnDef="reqOk">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.reqOk' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.reqOk' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.reqOk }}</td>
     </ng-container>
 
-    <!-- Colonna Requests Timeout -->
-    <ng-container matColumnDef="reqTimeout">
+    <!-- Colonna Requests Timeout Real -->
+    <ng-container matColumnDef="reqTimeoutReal">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.reqTimeout' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.reqTimeoutReal' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.reqTimeout }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.reqTimeoutReal }}</td>
     </ng-container>
 
-    <!-- Colonna Average Time -->
-    <ng-container matColumnDef="avgTime">
+    <!-- Colonna Requests Timeout Valid -->
+    <ng-container matColumnDef="reqTimeoutValid">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.avgTime' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.reqTimeoutValid' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.avgTime | averageFormat }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.reqTimeoutValid }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

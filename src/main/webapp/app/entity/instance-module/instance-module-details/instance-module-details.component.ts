@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IInstanceModule } from '../models/instance-module.model';
@@ -12,6 +12,10 @@ import { KpiA1ResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-result-table/
 import { KpiB2DetailResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-detail-result-table/kpi-b2-detail-result-table.component';
 import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analytic-result-table/kpi-b2-analytic-result-table.component';
 import { AnalysisType } from '../models/analysis-type.model';
+import { KpiA2DetailResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-detail-result-table/kpi-a2-detail-result-table.component';
+import { KpiA2AnalyticResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-result-table/kpi-a2-analytic-result-table.component';
+import { KpiA1DetailResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-detail-result-table/kpi-a1-detail-result-table.component';
+import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analytic-result-table/kpi-a1-analytic-result-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -27,6 +31,10 @@ import { AnalysisType } from '../models/analysis-type.model';
     KpiA1ResultTableComponent,
     KpiB2DetailResultTableComponent,
     KpiB2AnalyticResultTableComponent,
+    KpiA2DetailResultTableComponent,
+    KpiA2AnalyticResultTableComponent,
+    KpiA1DetailResultTableComponent,
+    KpiA1AnalyticResultTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -34,14 +42,29 @@ import { AnalysisType } from '../models/analysis-type.model';
 export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   @Input() moduleId?: number;
   moduleDetails?: IInstanceModule;
-  // Questo ID tiene traccia del pulsante "Show Details" selezionato
+
+  selectedKpiResultIdForDetailsResults: number | null = null;
+  selectedKpiDetailResultIdForAnalytics: number | null = null;
+
   selectedKpiB2ResultIdForDetailsResults: number | null = null;
   selectedKpiB2DetailResultIdForAnalytics: number | null = null;
+  selectedKpiA2ResultIdForDetailsResults: number | null = null;
+  selectedKpiA2DetailResultIdForAnalytics: number | null = null;
+  selectedKpiA1ResultIdForDetailsResults: number | null = null;
+  selectedKpiA1DetailResultIdForAnalytics: number | null = null;
 
   isLoadingResults = false;
   locale: string;
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
+  protected readonly AnalysisType = AnalysisType;
+
+  detailComponentMapping: DetailComponentMappingDynamic = {
+    'B.2': {
+      resultTable: KpiB2DetailResultTableComponent,
+      analyticTable: KpiB2AnalyticResultTableComponent,
+    },
+  };
 
   constructor(private instanceModuleService: InstanceModuleService) {
     this.locale = this.translateService.currentLang;
@@ -88,8 +111,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = data; // Imposta i dettagli del modulo
-      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
-      this.selectedKpiB2DetailResultIdForAnalytics = null;
+      this.resetAllVariables();
       console.log('Dati caricati con successo:', this.moduleDetails);
     });
   }
@@ -101,8 +123,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.spinner.hide('isLoadingResultsInstanceModuleDetail').then(() => {
       this.isLoadingResults = false;
       this.moduleDetails = undefined; // Resetta i dettagli del modulo in caso di errore
-      this.selectedKpiB2ResultIdForDetailsResults = null; // mi permette di resettare le varie tabelle di dettaglio seconde
-      this.selectedKpiB2DetailResultIdForAnalytics = null;
+      this.resetAllVariables();
       console.error('Errore durante il caricamento:', error);
     });
   }
@@ -110,18 +131,59 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   /**
    * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella kpiB2results
    */
-  onShowDetails(kpiB2ResultId: number): void {
+  onShowDetailsB2(kpiB2ResultId: number): void {
     this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
-    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+  onShowDetailsA2(kpiA2ResultId: number): void {
+    this.selectedKpiA2ResultIdForDetailsResults = this.selectedKpiA2ResultIdForDetailsResults === kpiA2ResultId ? null : kpiA2ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+  onShowDetailsA1(kpiA1ResultId: number): void {
+    this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
 
   /**
    * Metodo che viene richiamato quando si clicca il pulsante "Show Analytic Details"
    */
-  onAnalyticsShowDetails(kpiB2DetailResultId: number): void {
+  onAnalyticsShowDetailsB2(kpiB2DetailResultId: number): void {
     this.selectedKpiB2DetailResultIdForAnalytics =
       this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
   }
+  onAnalyticsShowDetailsA2(kpiA2DetailResultId: number): void {
+    this.selectedKpiA2DetailResultIdForAnalytics =
+      this.selectedKpiA2DetailResultIdForAnalytics === kpiA2DetailResultId ? null : kpiA2DetailResultId;
+  }
+  onAnalyticsShowDetailsA1(kpiA1DetailResultId: number): void {
+    this.selectedKpiA1DetailResultIdForAnalytics =
+      this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
+  }
 
-  protected readonly AnalysisType = AnalysisType;
+  /**
+   * Metodo per resettare tutte le variabili legate ad analytics
+   */
+  resetAnalyticsVariables(): void {
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.selectedKpiA1DetailResultIdForAnalytics = null;
+  }
+
+  /**
+   * Metodo per resettare tutte le variabili legate ad analytics
+   */
+  resetAllVariables(): void {
+    this.selectedKpiB2ResultIdForDetailsResults = null;
+    this.selectedKpiA2ResultIdForDetailsResults = null;
+    this.selectedKpiA1ResultIdForDetailsResults = null;
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
+    this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.selectedKpiA1DetailResultIdForAnalytics = null;
+  }
 }
+type DetailComponentMappingDynamic = {
+  [key: string]: {
+    resultTable: Type<any>;
+    analyticTable: Type<any>;
+  };
+};
