@@ -23,6 +23,7 @@
         "instanceIdentification": "Identificazione Istanza",
         "partner": "Partner",
         "partnerName": "Nome Partner",
+        "partnerFiscalCode": "Codice Fiscale Partner",
         "predictedDateAnalysis": "Data Prevista per l'Analisi",
         "applicationDate": "Data della Richiesta",
         "assignedTo": "Utente Assegnato",
@@ -53,6 +54,7 @@
         }
       },
       "partner": "Partner",
+      "partnerFiscalCode": "Codice Fiscale Partner",
       "instanceIdentification": "Identificativo Istanza",
       "predictedDateAnalysis": "Data Prevista Analisi",
       "applicationDate": "Data Domanda",

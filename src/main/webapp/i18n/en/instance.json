@@ -23,6 +23,7 @@
         "instanceIdentification": "Instance Identification",
         "partner": "Partner",
         "partnerName": "Partner Name",
+        "partnerFiscalCode": "Partner Fiscal Code",
         "predictedDateAnalysis": "Predicted Date for Analysis",
         "applicationDate": "Application Date",
         "assignedTo": "Assigned User",
@@ -52,9 +53,6 @@
           }
         }
       },
-      "partner": "Partner",
-      "instanceIdentification": "Instance Identification",
-      "predictedDateAnalysis": "Predicted Date Analysis",
       "predictedAnalysisStartDate": {
         "validation": {
           "required": "The 'Analysis Period Start Date' field is required",
@@ -71,6 +69,10 @@
           "dateLessThanPredictedDateAnalysis": "The 'Analysis Period End Date' field must be a date before 'Predicted Date Analysis'"
         }
       },
+      "partner": "Partner",
+      "instanceIdentification": "Instance Identification",
+      "predictedDateAnalysis": "Predicted Date Analysis",
+      "partnerFiscalCode": "Codice Fiscale Partner",
       "applicationDate": "Application Date",
       "assignedUser": "Assignee User",
       "analysisPeriod": "Analysis Period",

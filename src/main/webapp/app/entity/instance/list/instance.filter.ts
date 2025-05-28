@@ -11,13 +11,13 @@ export class InstanceFilter extends IFilterPagination {
   static PREDICTED_ANALYSIS_START_DATE: IParam = {
     name: 'predictedAnalysisStartDate',
     req: 'predictedAnalysisStartDate',
-    type: TypeData.START_DATE,
+    type: TypeData.DATE,
     defaultValue: null,
   };
   static PREDICTED_ANALYSIS_END_DATE: IParam = {
     name: 'predictedAnalysisEndDate',
     req: 'predictedAnalysisEndDate',
-    type: TypeData.END_DATE,
+    type: TypeData.DATE,
     defaultValue: null,
   };
   static ANALYSIS_START_DATE: IParam = {

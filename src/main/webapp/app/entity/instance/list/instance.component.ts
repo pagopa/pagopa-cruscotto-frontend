@@ -81,6 +81,7 @@ export const MY_FORMATS = {
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'instanceIdentification',
+    'partnerFiscalCode',
     'partner',
     'predictedDateAnalysis',
     'applicationDate',
