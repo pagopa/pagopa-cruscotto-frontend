@@ -35,10 +35,37 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID Stazione",
+            "method": "Metodo",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "totReq": "Totale Richieste",
+            "reqTimeout": "Richieste Timeout",
+            "timeoutPercentage": "Percentuale Timeout",
+            "outcome": "Risultato",
+            "kpiA1ResultId": "ID KPI A.1 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
-          "KpiAnalyticResults": {}
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Data Valutazione",
+            "totReq": "Totale Richieste",
+            "reqOk": "Richieste OK",
+            "reqTimeoutReal": "Richieste Timeout Reali",
+            "reqTimeoutValid": "Timeout Validi",
+            "kpiA1DetailResultId": "ID Dettaglio KPI A.1"
+          }
         }
       },
       "A.2": {
@@ -55,10 +82,30 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "totPayments": "Totale Pagamenti",
+            "totIncorrectPayments": "Pagamenti Errati Totali",
+            "errorPercentage": "Percentuale Errori",
+            "outcome": "Risultato",
+            "kpiA2ResultId": "ID KPI A.2 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
-          "KpiAnalyticResults": {}
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "evaluationDate": "Data Valutazione",
+            "totPayments": "Totale Pagamenti",
+            "totIncorrectPayments": "Totale Pagamenti Errati",
+            "kpiA2DetailResultId": "ID Dettaglio KPI A.2"
+          }
         }
       },
       "B.1": {
