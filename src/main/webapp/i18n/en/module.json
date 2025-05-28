@@ -35,10 +35,37 @@
             "showDetails": "Show Details"
           },
           "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationType": "Evaluation Type",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totReq": "Total Requests",
+            "reqTimeout": "Timeout Requests",
+            "timeoutPercentage": "Timeout Percentage",
+            "outcome": "Outcome",
+            "kpiA1ResultId": "KPI A.1 Result ID",
             "details": "Results Detail",
             "showDetails": "Show Details"
           },
-          "KpiAnalyticResults": {}
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationDate": "Evaluation Date",
+            "totReq": "Total Requests",
+            "reqOk": "Requests OK",
+            "reqTimeoutReal": "Real Timeout Requests",
+            "reqTimeoutValid": "Valid Timeouts",
+            "kpiA1DetailResultId": "KPI A.1 Detail ID"
+          }
         }
       },
       "A.2": {
@@ -55,10 +82,30 @@
             "showDetails": "Show Details"
           },
           "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totPayments": "Total Payments",
+            "totIncorrectPayments": "Total Incorrect Payments",
+            "errorPercentage": "Error Percentage",
+            "outcome": "Outcome",
+            "kpiA2ResultId": "KPI A.2 Result ID",
             "details": "Results Detail",
             "showDetails": "Show Details"
           },
-          "KpiAnalyticResults": {}
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "evaluationDate": "Evaluation Date",
+            "totPayments": "Total Payments",
+            "totIncorrectPayments": "Total Incorrect Payments",
+            "kpiA2DetailResultId": "KPI A.2 Detail ID"
+          }
         }
       },
       "B.1": {
@@ -75,7 +122,7 @@
             "excludePlannedShutdown": "Exclude Planned Shutdowns",
             "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
             "eligibilityThreshold": "Eligibility Threshold",
-            "tolerance": "Tolerance",
+            "tolerance": "Tolerance 0,00%",
             "averageTimeLimit": "Average Time Limit",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",

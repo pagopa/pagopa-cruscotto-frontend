@@ -1,68 +1,60 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
-import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { KpiA2DetailResult } from '../models/KpiA2DetailResult';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { KpiB2DetailResultService } from '../service/kpi-b2-detail-result.service';
-import { EvaluationType, KpiB2DetailResult } from '../models/KpiB2DetailResult';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { KpiA2DetailResultService } from '../service/kpi-a2-detail-result.service';
+import { CommonModule, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { OutcomeStatus } from '../models/KpiA2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { OutcomeStatus } from '../models/KpiB2Result';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
-  selector: 'jhi-kpi-b2-detail-result-table',
-  templateUrl: './kpi-b2-detail-result-table.component.html',
-  styleUrls: ['./kpi-b2-detail-result-table.component.scss'],
+  selector: 'jhi-kpi-a2-detail-result-table',
   imports: [
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    NgxSpinnerModule,
+    MatPaginator,
     TranslateModule,
-    NgIf,
+    NgClass,
+    MatTableModule,
     MatButtonModule,
     FormatDatePipe,
-    NgClass,
-    AverageFormatPipe,
+    MatSortModule,
+    NgxSpinnerModule,
+    CommonModule,
   ],
+  templateUrl: './kpi-a2-detail-result-table.component.html',
+  styleUrl: './kpi-a2-detail-result-table.component.scss',
 })
-export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
+export class KpiA2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'id',
     'analysisDate',
-    'stationName',
-    'method',
-    'totalRequests',
-    'averageTime',
-    'overTimeLimit',
+    'totPayments',
+    'totIncorrectPayments',
+    'errorPercentage',
     'evaluationStartDate',
     'evaluationEndDate',
-    'evaluationType',
     'outcome',
     'details',
   ];
-  dataSource = new MatTableDataSource<KpiB2DetailResult>([]);
+  dataSource = new MatTableDataSource<KpiA2DetailResult>([]);
 
-  @Input() kpiB2ResultId: number | undefined;
+  @Input() kpiA2ResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  // evento Output che emette l'ID per mostrare i dettagli
   @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
   selectedElementId: number | null = null;
 
-  protected readonly OutcomeStatus = OutcomeStatus;
-  protected readonly EvaluationType = EvaluationType;
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly kpiB2DetailResultService = inject(KpiB2DetailResultService);
+  private readonly translateService = inject(TranslateService);
+  private readonly kpiA2DetailResultService = inject(KpiA2DetailResultService);
 
   locale: string;
-  private readonly translateService = inject(TranslateService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -75,8 +67,8 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   }
 
   ngOnChanges(): void {
-    if (this.kpiB2ResultId) {
-      this.fetchKpiB2DetailResults(this.kpiB2ResultId);
+    if (this.kpiA2ResultId) {
+      this.fetchKpiA2DetailResults(this.kpiA2ResultId);
     }
   }
 
@@ -90,13 +82,13 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   }
 
   /**
-   * Fetch Kpi B2 Detail Results by kpiB2ResultId
+   * Fetch KPI A2 Detail Results by kpiA2ResultId
    */
-  fetchKpiB2DetailResults(kpiB2ResultId: number): void {
-    this.spinner.show('isLoadingResultsKpiB2DetailResultTable').then(() => {
+  fetchKpiA2DetailResults(kpiA2ResultId: number): void {
+    this.spinner.show('isLoadingResultsKpiA2DetailResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiB2DetailResultService.findByResultId(kpiB2ResultId).subscribe({
-        next: (data: KpiB2DetailResult[]) => this.onSuccess(data),
+      this.kpiA2DetailResultService.findByModuleId(kpiA2ResultId).subscribe({
+        next: (data: KpiA2DetailResult[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
     });
@@ -105,8 +97,8 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   /**
    * Called on successful data retrieval
    */
-  protected onSuccess(data: KpiB2DetailResult[]): void {
-    this.spinner.hide('isLoadingResultsKpiB2DetailResultTable').then(() => {
+  protected onSuccess(data: KpiA2DetailResult[]): void {
+    this.spinner.hide('isLoadingResultsKpiA2DetailResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
@@ -119,10 +111,10 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
    * Called on error during data retrieval
    */
   protected onError(): void {
-    this.spinner.hide('isLoadingResultsKpiB2DetailResultTable').then(() => {
+    this.spinner.hide('isLoadingResultsKpiA2DetailResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = [];
-      console.error('Errore durante il recupero dei dettagli KPI B2');
+      console.error('Errore durante il recupero dei dettagli KPI A2');
     });
   }
 
@@ -151,22 +143,16 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
           return compare(a.id, b.id, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationName':
-          return compare(a.stationName, b.stationName, isAsc);
-        case 'method':
-          return compare(a.method, b.method, isAsc);
-        case 'totalRequests':
-          return compare(a.totReq, b.totReq, isAsc);
-        case 'averageTime':
-          return compare(a.avgTime, b.avgTime, isAsc);
-        case 'overTimeLimit':
-          return compare(a.overTimeLimit, b.overTimeLimit, isAsc);
+        case 'totPayments':
+          return compare(a.totPayments, b.totPayments, isAsc);
+        case 'totIncorrectPayments':
+          return compare(a.totIncorrectPayments, b.totIncorrectPayments, isAsc);
+        case 'errorPercentage':
+          return compare(a.errorPercentage, b.errorPercentage, isAsc);
         case 'evaluationStartDate':
           return compare(a.evaluationStartDate?.toISOString(), b.evaluationStartDate?.toISOString(), isAsc);
         case 'evaluationEndDate':
           return compare(a.evaluationEndDate?.toISOString(), b.evaluationEndDate?.toISOString(), isAsc);
-        case 'evaluationType':
-          return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':
           return compare(a.outcome, b.outcome, isAsc);
         default:
@@ -178,16 +164,18 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
   /**
    * Metodo per emettere l'ID della riga selezionata
    */
-  emitShowDetails(kpiB2DetailResultId: number): void {
-    if (this.selectedElementId === kpiB2DetailResultId) {
-      // Se l'elemento è già selezionato, deseleziona
+  emitShowDetails(kpiA2DetailResultId: number): void {
+    if (this.selectedElementId === kpiA2DetailResultId) {
+      // Deseleziona l'elemento se è già selezionato
       this.selectedElementId = null;
     } else {
-      // Altrimenti seleziona l'elemento
-      this.selectedElementId = kpiB2DetailResultId;
+      // Seleziona un nuovo elemento
+      this.selectedElementId = kpiA2DetailResultId;
     }
-    this.showDetails.emit(kpiB2DetailResultId);
+    this.showDetails.emit(kpiA2DetailResultId);
   }
+
+  protected readonly OutcomeStatus = OutcomeStatus;
 }
 
 /**

@@ -9,11 +9,12 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { IKpiConfiguration } from '../kpi-configuration.model';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-configuration-detail',
   templateUrl: './kpi-configuration-detail.component.html',
-  imports: [RouterModule, SharedModule, MatButton, MatIcon, MatCard, MatCardContent, YesOrNoViewComponent],
+  imports: [RouterModule, SharedModule, MatButton, MatIcon, MatCard, MatCardContent, YesOrNoViewComponent, AverageFormatPipe],
 })
 export default class KpiConfigurationDetailComponent implements OnInit {
   kpiConfiguration: IKpiConfiguration | null = null;

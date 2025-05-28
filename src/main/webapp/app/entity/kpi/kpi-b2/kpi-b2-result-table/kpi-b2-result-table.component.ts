@@ -9,6 +9,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-result-table',
@@ -30,6 +31,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatButton,
     FormatDatePipe,
     NgClass,
+    AverageFormatPipe,
   ],
 })
 export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {

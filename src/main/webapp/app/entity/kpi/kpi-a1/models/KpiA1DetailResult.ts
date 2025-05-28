@@ -15,6 +15,7 @@ export class KpiA1DetailResult {
   timeoutPercentage: number | null;
   outcome: OutcomeStatus | null;
   kpiA1ResultId: number | null;
+  stationName: string | null;
 
   // Costruttore
   constructor(
@@ -32,6 +33,7 @@ export class KpiA1DetailResult {
     timeoutPercentage: number | null = null,
     outcome: OutcomeStatus | null = null,
     kpiA1ResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -47,6 +49,7 @@ export class KpiA1DetailResult {
     this.timeoutPercentage = timeoutPercentage;
     this.outcome = outcome;
     this.kpiA1ResultId = kpiA1ResultId;
+    this.stationName = stationName;
   }
 }
 
