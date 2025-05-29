@@ -52,8 +52,8 @@ import { ModalResult } from 'app/shared/modal/modal-results.enum';
 })
 export class KpiConfigurationComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
-    'id',
     'moduleCode',
+    'moduleName',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
