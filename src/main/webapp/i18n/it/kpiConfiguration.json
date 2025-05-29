@@ -20,6 +20,7 @@
         "question": "Sei sicuro di volere eliminare la configurazione kpi con identificativo <br> {{ id }}?"
       },
       "moduleCode": "Modulo",
+      "moduleName": "Nome Modulo",
       "excludePlannedShutdown": "Escludi Fermi Programmati",
       "excludeUnplannedShutdown": "Escludi Fermi Non Programmati",
       "eligibilityThreshold": "Soglia di ammissibilit\u00E0",

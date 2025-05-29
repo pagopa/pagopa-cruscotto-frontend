@@ -97,13 +97,6 @@
                 matSort
                 matSortDisableClear
               >
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    {{ 'global.field.id' | translate }}
-                  </th>
-                  <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="moduleCode">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.moduleCode' | translate }}
@@ -111,46 +104,71 @@
                   <td mat-cell *matCellDef="let row">{{ row.moduleCode }}</td>
                 </ng-container>
 
+                <ng-container matColumnDef="moduleName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.kpiConfiguration.moduleName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.moduleName }}</td>
+                </ng-container>
+
                 <ng-container matColumnDef="excludePlannedShutdown">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.excludePlannedShutdown' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row"><jhi-yes-or-no-view [yesOrNo]="row.excludePlannedShutdown"></jhi-yes-or-no-view></td>
+                  <td mat-cell *matCellDef="let row">
+                    <jhi-yes-or-no-view
+                      [yesOrNo]="row.excludePlannedShutdown"
+                      *ngIf="row.configExcludePlannedShutdown; else notAllowed"
+                    ></jhi-yes-or-no-view>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="excludeUnplannedShutdown">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.excludeUnplannedShutdown' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row"><jhi-yes-or-no-view [yesOrNo]="row.excludeUnplannedShutdown"></jhi-yes-or-no-view></td>
+                  <td mat-cell *matCellDef="let row">
+                    <jhi-yes-or-no-view
+                      [yesOrNo]="row.excludeUnplannedShutdown"
+                      *ngIf="row.excludeUnplannedShutdown; else notAllowed"
+                    ></jhi-yes-or-no-view>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="eligibilityThreshold">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.eligibilityThreshold }}</td>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.configTolerance; else notAllowed">{{ row.eligibilityThreshold }}</span>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tolerance">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.tolerance' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.tolerance }}</td>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.configTolerance; else notAllowed">{{ row.tolerance }}</span>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="averageTimeLimit">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.averageTimeLimit' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.averageTimeLimit }}</td>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.configAverageTimeLimit; else notAllowed">{{ row.averageTimeLimit }}</span>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="evaluationType">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.kpiConfiguration.evaluationType' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.evaluationType }}</td>
+                  <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row.configEvaluationType; else notAllowed">{{ row.evaluationType }}</span>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -218,3 +236,5 @@
     </div>
   </div>
 </div>
+
+<ng-template #notAllowed> ************** </ng-template>

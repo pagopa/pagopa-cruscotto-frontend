@@ -20,6 +20,7 @@
         "question": "Are you sure you want to delete the kpi configuration with identifier <br> {{ id }}?"
       },
       "moduleCode": "Module",
+      "moduleName": "Module Name",
       "excludePlannedShutdown": "Exclude Planned Shutdown",
       "excludeUnplannedShutdown": "Exclude Unplanned Shutdown",
       "eligibilityThreshold": "Eligibility Threshold",
