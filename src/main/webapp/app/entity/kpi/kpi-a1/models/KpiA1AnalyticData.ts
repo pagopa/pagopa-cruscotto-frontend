@@ -13,6 +13,7 @@ export class KpiA1AnalyticData {
   reqTimeoutReal: number | null;
   reqTimeoutValid: number | null;
   kpiA1DetailResultId: number | null;
+  stationName: string | null;
 
   // Costruttore
   constructor(
@@ -28,6 +29,7 @@ export class KpiA1AnalyticData {
     reqTimeoutReal: number | null = null,
     reqTimeoutValid: number | null = null,
     kpiA1DetailResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -41,5 +43,6 @@ export class KpiA1AnalyticData {
     this.reqTimeoutReal = reqTimeoutReal;
     this.reqTimeoutValid = reqTimeoutValid;
     this.kpiA1DetailResultId = kpiA1DetailResultId;
+    this.stationName = stationName;
   }
 }
