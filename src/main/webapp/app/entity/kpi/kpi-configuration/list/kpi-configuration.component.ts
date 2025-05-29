@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -23,6 +23,9 @@ import { EventManager } from '../../../../core/util/event-manager.service';
 import { KpiConfigurationService } from '../service/kpi-configuration.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { ConfirmModalOptions } from 'app/shared/modal/confirm-modal-options.model';
+import { ConfirmModalService } from 'app/shared/modal/confirm-modal.service';
+import { ModalResult } from 'app/shared/modal/modal-results.enum';
 
 @Component({
   selector: 'jhi-kpi-configuration',
@@ -83,6 +86,7 @@ export class KpiConfigurationComponent implements OnInit, OnDestroy {
   private readonly kpiConfigurationService = inject(KpiConfigurationService);
   private readonly fb = inject(FormBuilder);
   private readonly locationHelper = inject(LocaltionHelper);
+  private readonly confirmModalService = inject(ConfirmModalService);
 
   constructor() {
     this.searchForm = this.fb.group({});
@@ -159,6 +163,46 @@ export class KpiConfigurationComponent implements OnInit, OnDestroy {
       },
       error: () => this.onError(),
     });
+  }
+
+  delete(row: IKpiConfiguration) {
+    this.selectedRowId = row.id;
+    const confirmOptions = new ConfirmModalOptions(
+      'entity.delete.title',
+      'pagopaCruscottoApp.kpiConfiguration.delete.question',
+      undefined,
+      {
+        id: row.id,
+      },
+    );
+    this.confirmSubscriber = this.confirmModalService
+      .delete({ width: '500px', hasBackdrop: true }, confirmOptions)
+      .pipe(take(1))
+      .subscribe((result: ModalResult) => {
+        this.selectedRowId = null;
+        if (result === ModalResult.CONFIRMED) {
+          this.spinner.show('isLoadingResults').then(() => {
+            this.isLoadingResults = true;
+          });
+          this.kpiConfigurationService.delete(row.id!).subscribe({
+            next: () => {
+              if (
+                this.resultsLength % this.itemsPerPage === 1 &&
+                Math.ceil(this.resultsLength / this.itemsPerPage) === this.page &&
+                this.page !== 1
+              ) {
+                this.filter.page = this.page - 1;
+              }
+              this.loadPage(this.filter.page, false);
+            },
+            error: () => {
+              this.spinner.hide('isLoadingResults').then(() => {
+                this.isLoadingResults = false;
+              });
+            },
+          });
+        }
+      });
   }
 
   sortData(sort: Sort): void {

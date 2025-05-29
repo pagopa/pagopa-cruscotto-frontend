@@ -7,6 +7,16 @@
       <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
         <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
       </button>
+      <button
+        id="jh-create-entity"
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/entity/kpi-configurations/new']"
+        [title]="['pagopaCruscottoApp.kpiConfiguration.list.createLabel' | translate]"
+      >
+        <mat-icon fontSet="material-symbols-outlined">add</mat-icon
+        ><span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.list.createLabel">New Configuration</span>
+      </button>
     </div>
   </div>
 
@@ -157,6 +167,31 @@
                             [routerLink]="['/entity/kpi-configurations', row.moduleCode, 'view']"
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">visibility</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            class="m-1"
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{ 'entity.action.edit' | translate }}"
+                            matTooltipPosition="above"
+                            [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
+                            [routerLink]="['/entity/kpi-configurations', row.moduleCode, 'edit']"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" [color]="'primary'" aria-hidden="false">edit</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            class="m-1"
+                            mat-icon-button
+                            type="button"
+                            matTooltip="{{ 'entity.action.delete' | translate }}"
+                            matTooltipPosition="above"
+                            (click)="delete(row)"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" [color]="'warn'" aria-hidden="false">delete</mat-icon>
                           </button>
                         </span>
                       </div>

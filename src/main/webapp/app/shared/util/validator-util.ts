@@ -1,6 +1,14 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import dayjs, { Dayjs } from 'dayjs';
 
+function isStringNumeric(str: string): boolean {
+  str = String(str).replace(',', '.');
+  if (typeof str !== 'string' || str.trim() === '') {
+    return false;
+  }
+  return !isNaN(Number(str));
+}
+
 export const datepickerRangeValidatorFn = (fromControlName: string, toControlName: string): ValidatorFn => {
   return (control: AbstractControl): ValidationErrors | null => {
     const fromControl = control.get(fromControlName);
@@ -158,6 +166,38 @@ export const timeValidatorFn = (
         }
       }
     }
+    return null;
+  };
+};
+
+export const stringNumericValidatorFn = (...formControlNames: string[]): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let notStringNumericError = true;
+    formControlNames.forEach(name => {
+      const formControl = control.get(name);
+      if (formControl) {
+        const value = formControl.value;
+        if (value !== null && value !== '' && !isStringNumeric(value)) {
+          notStringNumericError = false;
+          formControl.setErrors({
+            ...formControl.errors,
+            ...{
+              matStringNumeric: true,
+            },
+          });
+        }
+      }
+      if (notStringNumericError) {
+        if (formControl) {
+          const errors = formControl.errors ?? [];
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete errors['matStringNumeric'];
+          formControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+        }
+      }
+    });
+
     return null;
   };
 };
