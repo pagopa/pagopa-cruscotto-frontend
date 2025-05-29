@@ -283,7 +283,9 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "Pi\u00F9 di pagina",
+  "footer": {
+    "version": "Versione"
+  },
   "cookie": {
     "header": "Cookie utilizzati sul sito Web!",
     "message": "Il nostro sito web utilizza i cookie per assicurarti una migliore esperienza di navigazione",
