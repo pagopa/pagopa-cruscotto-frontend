@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "A.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID Stazione",
+            "method": "Metodo",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "totalRequests": "Totale Richieste",
+            "reqTimeout": "Richieste Timeout",
+            "timeoutPercentage": "Percentuale Timeout",
+            "outcome": "Risultato",
+            "kpiA1ResultId": "ID KPI A.1 Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Data Valutazione",
+            "totalRequests": "Totale Richieste",
+            "reqOk": "Richieste OK",
+            "reqTimeoutReal": "Richieste Timeout Reali",
+            "reqTimeoutValid": "Timeout Validi",
+            "kpiA1DetailResultId": "ID Dettaglio KPI A.1",
+            "stationName": "Nome della Stazione"
+          }
+        }
+      }
+    }
+  }
+}

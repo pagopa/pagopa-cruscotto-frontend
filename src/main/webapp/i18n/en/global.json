@@ -234,6 +234,7 @@
       "dontMatch": "The password and its confirmation do not match!",
       "dateMax": "This field must be a date before or equal to {{ max }}",
       "dateMin": "This field must be a date later than or equal to {{ min }}",
+      "dateRange": "This field should be a valid range of date",
       "dateAfterToday": "This field must be a date after today",
       "timeMax": "This field must be a time before or equal to {{ max }}",
       "timeMin": "This field must be a time later than or equal to {{ min }}",
@@ -281,7 +282,9 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer",
+  "footer": {
+    "version": "Version"
+  },
   "cookie": {
     "header": "Cookies used on the website!",
     "message": "This website uses cookies to ensure you get the best experience on our website",

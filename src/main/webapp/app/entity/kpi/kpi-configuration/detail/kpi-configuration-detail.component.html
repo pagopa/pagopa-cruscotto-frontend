@@ -40,11 +40,11 @@
               </div>
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance">Tolerance</span>
-                <p class="p-2 bg-light text-truncate">{{ kpiConfiguration.tolerance }}</p>
+                <p class="p-2 bg-light text-truncate">{{ kpiConfiguration.tolerance | averageFormat: 2 }}</p>
               </div>
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit">Average Time Limit</span>
-                <p class="p-2 bg-light">{{ kpiConfiguration.averageTimeLimit }}</p>
+                <p class="p-2 bg-light">{{ kpiConfiguration.averageTimeLimit | averageFormat: 2 }}</p>
               </div>
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType">Evaluation Type</span>

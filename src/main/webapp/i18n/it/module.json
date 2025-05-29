@@ -3,13 +3,16 @@
     "module": {
       "tables": {
         "KpiResults": {
-          "title": "Risultati"
+          "title": "Risultati",
+          "notExists": "Nessun risultato disponibile"
         },
         "KpiDetailResults": {
-          "title": "Dati di riscontro"
+          "title": "Dati di riscontro",
+          "notExists": "Nessun dato di riscontro disponibile"
         },
         "KpiAnalyticResults": {
-          "title": "Dati analitici"
+          "title": "Dati analitici",
+          "notExists": "Nessun dato analitico disponibile"
         },
         "errors": {
           "notExists": "Nessun dato disponibile"

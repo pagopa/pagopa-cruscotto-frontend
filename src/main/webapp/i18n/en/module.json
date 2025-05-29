@@ -3,17 +3,20 @@
     "module": {
       "tables": {
         "KpiResults": {
-          "title": "Results"
+          "title": "Results",
+          "notExists": "No results available"
         },
         "KpiDetailResults": {
-          "title": "Feedback Data"
+          "title": "Feedback Data",
+          "notExists": "No feedback data available"
         },
         "KpiAnalyticResults": {
-          "title": "Analytical Data"
+          "title": "Analytical Data",
+          "notExists": "No analytical data available"
+        },
+        "errors": {
+          "notExists": "No data available"
         }
-      },
-      "errors": {
-        "notExists": "No data available"
       },
       "A.1": {
         "name": "Respect SLA availability of payment service",

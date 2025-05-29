@@ -6,8 +6,8 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { LocaltionHelper } from '../../../core/location/location.helper';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { addFilterToRequest, addToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { addFilterToRequest, addToFilter, addValueToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -29,6 +29,25 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { InstanceStateViewComponent } from '../shared/instance-state-view.component';
 import { PartnerSelectComponent } from '../../partner/shared/partner-select/partner-select.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import dayjs from '../../../config/dayjs';
+import { DATE_FORMAT_ISO } from 'app/config/input.constants';
+import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { DatePickerFormatDirective } from '../../../shared/date/date-picker-format.directive';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'jhi-instance',
@@ -53,11 +72,16 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
     FormatDatePipe,
     InstanceStateViewComponent,
     PartnerSelectComponent,
+    MatSelectModule,
+    MatDatepickerModule,
+    DatePickerFormatDirective,
   ],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'instanceIdentification',
+    'partnerFiscalCode',
     'partner',
     'predictedDateAnalysis',
     'applicationDate',
@@ -86,6 +110,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   locale: string;
 
   status = InstanceStatus;
+  instanceStatusValues: InstanceStatus[] = Object.values(InstanceStatus);
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(InstanceFilter);
@@ -98,9 +123,22 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private readonly translateService = inject(TranslateService);
 
   constructor() {
-    this.searchForm = this.fb.group({
-      partner: [''],
-    });
+    this.searchForm = this.fb.group(
+      {
+        partner: [''],
+        status: [''],
+        predictedAnalysisStartDate: new FormControl<dayjs.Dayjs | null>(null),
+        predictedAnalysisEndDate: new FormControl<dayjs.Dayjs | null>(null),
+        analysisStartDate: new FormControl<dayjs.Dayjs | null>(null),
+        analysisEndDate: new FormControl<dayjs.Dayjs | null>(null),
+      },
+      {
+        validators: [
+          datepickerRangeValidatorFn('predictedAnalysisStartDate', 'predictedAnalysisEndDate'),
+          datepickerRangeValidatorFn('analysisStartDate', 'analysisEndDate'),
+        ],
+      },
+    );
 
     this.locale = this.translateService.currentLang;
     if (!this.locationHelper.getIsBack()) {
@@ -123,6 +161,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
   updateForm(): void {
     this.searchForm.patchValue({
       partner: getFilterValue(this.filter, InstanceFilter.PARTNER),
+      status: getFilterValue(this.filter, InstanceFilter.STATUS),
+      predictedAnalysisStartDate: getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE),
+      predictedAnalysisEndDate: getFilterValue(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE),
+      analysisStartDate: getFilterValue(this.filter, InstanceFilter.ANALYSIS_START_DATE),
+      analysisEndDate: getFilterValue(this.filter, InstanceFilter.ANALYSIS_END_DATE),
     });
     this.page = this.filter.page;
   }
@@ -191,12 +234,24 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   private populateRequest(req: any): any {
     addFilterToRequest(this.filter, InstanceFilter.PARTNER, req);
+    addFilterToRequest(this.filter, InstanceFilter.STATUS, req);
+    addFilterToRequest(this.filter, InstanceFilter.PREDICTED_ANALYSIS_START_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.PREDICTED_ANALYSIS_END_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.ANALYSIS_START_DATE, req);
+    addFilterToRequest(this.filter, InstanceFilter.ANALYSIS_END_DATE, req);
   }
 
   private populateFilter(): void {
     addToFilter(this.filter, this.searchForm.get('partner'), InstanceFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('status'), InstanceFilter.STATUS);
+    addToFilter(this.filter, this.searchForm.get('predictedAnalysisStartDate'), InstanceFilter.PREDICTED_ANALYSIS_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('predictedAnalysisEndDate'), InstanceFilter.PREDICTED_ANALYSIS_END_DATE);
+    addToFilter(this.filter, this.searchForm.get('analysisStartDate'), InstanceFilter.ANALYSIS_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('analysisEndDate'), InstanceFilter.ANALYSIS_END_DATE);
+  }
 
-    this.filter.page = this.page;
+  clearFields(...ctrlNames: string[]): void {
+    ctrlNames.forEach(ctrlName => this.searchForm.get(ctrlName)?.setValue(null));
   }
 
   previousState(): void {
@@ -290,5 +345,29 @@ export class InstanceComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const endDate = this.searchForm.get('analysisEndDate')?.value || dayjs().add(5, 'year');
+
+    return date ? date.isSameOrBefore(endDate, 'month') : true;
+  };
+
+  endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+    const startDate = this.searchForm.get('analysisStartDate')?.value || dayjs().add(-5, 'year');
+
+    return date ? date.isSameOrAfter(startDate, 'month') : true;
+  };
+
+  selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
+    const firstDayOfMonth = selected.startOf('month');
+    this.searchForm.get('analysisStartDate')!.setValue(firstDayOfMonth);
+    picker.close();
+  }
+
+  selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
+    const lastDayOfMonth = selected.endOf('month');
+    this.searchForm.get('analysisEndDate')!.setValue(lastDayOfMonth);
+    picker.close();
   }
 }

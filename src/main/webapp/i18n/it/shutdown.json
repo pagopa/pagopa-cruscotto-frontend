@@ -49,12 +49,16 @@
       "partnerFiscalCode": "Codice Fiscale Partner",
       "partnerName": "Nome Partner",
       "typePlanned": "Tipo Fermo",
+      "typePlanned.PROGRAMMATO": "PROGRAMMATO",
+      "typePlanned.NON_PROGRAMMATO": "NON PROGRAMMATO",
       "shutdownIdentification": "Identificativo Fermo",
       "shutdownPeriod": "Periodo di Fermo",
+      "shutdownRangeDate": "Data Fermo",
       "shutdownStartDate": "Data Inizio Fermo",
       "shutdownEndDate": "Data Fine Fermo",
       "stationId": "Identificativo Stazione",
-      "stationName": "Nome Stazione"
+      "stationName": "Nome Stazione",
+      "year": "Anno"
     }
   },
   "error": {

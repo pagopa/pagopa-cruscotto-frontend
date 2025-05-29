@@ -1,0 +1,71 @@
+<ngx-spinner
+  [fullScreen]="false"
+  type="ball-clip-rotate"
+  size="default"
+  color="#ffffff"
+  name="isLoadingResultsKpiA2ResultTable"
+  aria-label="Caricamento risultati A2 in corso..."
+>
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+    <!-- ID -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.id' | translate }}</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Analysis Date -->
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.analysisDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
+
+    <!-- Tollerance -->
+    <ng-container matColumnDef="tolerance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.tolerance' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.tolerance | averageFormat: 2 }}</td>
+    </ng-container>
+
+    <!-- Outcome -->
+    <ng-container matColumnDef="outcome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.outcome' | translate }}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+      >
+        {{ element.outcome }}
+      </td>
+    </ng-container>
+
+    <!-- Colonna Details -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.details' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="emitShowDetails(element.id)">
+          {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.showDetails' | translate }}
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Righe -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+  </table>
+</div>
+
+<!-- Paginatore -->
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+<ng-template #noDataTemplate>
+  <span>Nessun dato disponibile.</span>
+</ng-template>

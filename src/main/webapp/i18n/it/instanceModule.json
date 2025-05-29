@@ -40,21 +40,6 @@
         "manualOutcomeDate": "Data Risultato Manuale",
         "updateLabel": "Modifica"
       }
-    },
-    "error": {
-      "instanceModule": {
-        "notExists": "Modulo inesistente",
-        "cannotBeUpdated": "Il modulo non pu\u00F2 essere modificato",
-        "cannotBeDeleted": "Il modulo non pu\u00F2 essere cancellato",
-        "partnerNotExists": "Partner inesistente"
-      }
-    },
-    "pagopaCruscottoBackendApp": {
-      "instanceModule": {
-        "created": "\u00C8 stato creato un nuovo modulo con identificativo {{ param }}",
-        "updated": "\u00C8 stato aggiornato il modulo con identificativo {{ param }}",
-        "deleted": "\u00C8 stato eliminato il modulo con identificativo {{ param }}"
-      }
     }
   }
 }

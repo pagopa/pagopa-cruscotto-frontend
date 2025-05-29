@@ -9,6 +9,7 @@
 .mat-column-id,
 .mat-column-instanceIdentification,
 .mat-column-partner,
+.mat-column-partnerFiscalCode,
 .mat-column-predictedDateAnalysis,
 .mat-column-applicationDate,
 .mat-column-analysisPeriodStartDate,
@@ -24,4 +25,9 @@
   width: 200px;
   min-width: 200px;
   text-align: center;
+}
+
+#mat-form-field-predictedAnalysis,
+#mat-form-field-analysisPeriod {
+  padding: 0 10px;
 }
