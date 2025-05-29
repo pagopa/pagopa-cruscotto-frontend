@@ -149,7 +149,7 @@
                     {{ 'pagopaCruscottoApp.kpiConfiguration.tolerance' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row.configTolerance; else notAllowed">{{ row.tolerance }}</span>
+                    <span *ngIf="row.configTolerance; else notAllowed">{{ row.tolerance | averageFormat: 2 }}</span>
                   </td>
                 </ng-container>
 
@@ -158,7 +158,7 @@
                     {{ 'pagopaCruscottoApp.kpiConfiguration.averageTimeLimit' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row.configAverageTimeLimit; else notAllowed">{{ row.averageTimeLimit }}</span>
+                    <span *ngIf="row.configAverageTimeLimit; else notAllowed">{{ row.averageTimeLimit | averageFormat: 2 }}</span>
                   </td>
                 </ng-container>
 

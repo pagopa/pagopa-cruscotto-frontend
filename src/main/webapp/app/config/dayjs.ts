@@ -23,3 +23,5 @@ dayjs.extend(arraySupport);
 dayjs.extend(relativeTime);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
+
+export default dayjs;

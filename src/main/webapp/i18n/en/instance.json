@@ -23,6 +23,7 @@
         "instanceIdentification": "Instance Identification",
         "partner": "Partner",
         "partnerName": "Partner Name",
+        "partnerFiscalCode": "Partner Fiscal Code",
         "predictedDateAnalysis": "Predicted Date for Analysis",
         "applicationDate": "Application Date",
         "assignedTo": "Assigned User",
@@ -52,11 +53,29 @@
           }
         }
       },
+      "predictedAnalysisStartDate": {
+        "validation": {
+          "required": "The 'Analysis Period Start Date' field is required",
+          "date": "The 'Analysis Period Start Date' field should be a valid date",
+          "dateLoeThanEndDate": "The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Period End Date'",
+          "dateLessThanPredictedDateAnalysis": "The 'Analysis Period Start Date' field must be a date before 'Predicted Date Analysis'"
+        }
+      },
+      "predictedAnalysisEndDate": {
+        "validation": {
+          "required": "The 'Analysis Period End Date' field is required",
+          "date": "The 'Analysis Period End Date' field should be a valid date",
+          "dateGoeThanStartDate": "The 'Analysis Period End Date' field must be a date after or equal to 'Analysis Period Start Date'",
+          "dateLessThanPredictedDateAnalysis": "The 'Analysis Period End Date' field must be a date before 'Predicted Date Analysis'"
+        }
+      },
       "partner": "Partner",
       "instanceIdentification": "Instance Identification",
       "predictedDateAnalysis": "Predicted Date Analysis",
+      "partnerFiscalCode": "Codice Fiscale Partner",
       "applicationDate": "Application Date",
       "assignedUser": "Assignee User",
+      "analysisPeriod": "Analysis Period",
       "analysisPeriodDate": "Analysis Period Date",
       "analysisPeriodStartDate": "Analysis Period Start Date",
       "analysisPeriodEndDate": "Analysis Period End Date",

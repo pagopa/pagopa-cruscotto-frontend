@@ -1,0 +1,16 @@
+.mat-column-id,
+.mat-column-analysisDate,
+.mat-column-stationName,
+.mat-column-method,
+.mat-column-totalRequests,
+.mat-column-reqTimeout,
+.mat-column-timeoutPercentage,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
+.mat-column-evaluationType,
+.mat-column-outcome,
+.mat-column-details {
+  text-align: center; /* Centra il contenuto orizzontalmente */
+  justify-content: center; /* Centra il contenuto orizzontalmente */
+  align-items: center; /* Centra il contenuto verticalmente */
+}

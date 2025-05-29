@@ -1,7 +1,7 @@
 export interface InfoResponse {
   'display-ribbon-on-profiles'?: string;
   git?: any;
-  build?: any;
+  build?: BuildInfo;
   activeProfiles?: string[];
 }
 
@@ -11,5 +11,16 @@ export class ProfileInfo {
     public ribbonEnv?: string,
     public inProduction?: boolean,
     public openAPIEnabled?: boolean,
+    public build?: BuildInfo,
+  ) {}
+}
+
+export class BuildInfo {
+  constructor(
+    public artifact?: string,
+    public name?: string,
+    public time?: string,
+    public version?: string,
+    public group?: string,
   ) {}
 }

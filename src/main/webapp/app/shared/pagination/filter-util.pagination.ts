@@ -106,6 +106,14 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
         break;
       }
+      case TypeData.START_DATE: {
+        value = (filter as dayjs.Dayjs).startOf('month').format(DATE_FORMAT_ISO);
+        break;
+      }
+      case TypeData.END_DATE: {
+        value = (filter as dayjs.Dayjs).endOf('month').format(DATE_FORMAT_ISO);
+        break;
+      }
       case TypeData.TIME: {
         const day = filter as Date;
         value = day.getHours().toString().padStart(2, '0').concat(':').concat(day.getMinutes().toString().padStart(2, '0'));
