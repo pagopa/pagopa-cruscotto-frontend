@@ -1,16 +1,16 @@
-/* Stile per outcome OK - verde */
-.outcome-ok {
-  color: green;
-  font-weight: bold;
-}
-
-/* Stile per outcome KO - rosso */
-.outcome-ko {
-  color: red;
-  font-weight: bold;
-}
-
-.selected-row {
-  background-color: lightgrey; /* Colore di sfondo selezionato */
-  transition: background-color 0.3s ease-in-out; /* Transizione liscia */
+.mat-column-id,
+.mat-column-analysisDate,
+.mat-column-stationName,
+.mat-column-method,
+.mat-column-totalRequests,
+.mat-column-reqTimeout,
+.mat-column-timeoutPercentage,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
+.mat-column-evaluationType,
+.mat-column-outcome,
+.mat-column-details {
+  text-align: center; /* Centra il contenuto orizzontalmente */
+  justify-content: center; /* Centra il contenuto orizzontalmente */
+  align-items: center; /* Centra il contenuto verticalmente */
 }

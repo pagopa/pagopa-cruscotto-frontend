@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Escludi Fermate Pianificate",
+            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza 0,00%",
+            "averageTimeLimit": "Limite Medio",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "totalRequests": "Totale Richieste",
+            "averageTime": "Tempo Medio",
+            "overTimeLimit": "Sopra il Limite di Tempo",
+            "evaluationStartDate": "Data Inizio Valutazione",
+            "evaluationEndDate": "Data Fine Valutazione",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID dell'Istanza",
+            "instanceModuleId": "ID del Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Data di Valutazione",
+            "totReq": "Totale Richieste",
+            "reqOk": "Richieste Ok",
+            "reqTimeout": "Richieste in Timeout",
+            "avgTime": "Tempo Medio",
+            "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
+            "details": "Dettagli",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Nome della Stazione"
+          }
+        }
+      }
+    }
+  }
+}
