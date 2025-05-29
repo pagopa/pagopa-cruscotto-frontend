@@ -4,8 +4,20 @@
       "home": {
         "title": "Kpi Configuration"
       },
+      "list": {
+        "createLabel": "New Kpi Configuration"
+      },
       "detail": {
         "title": "Kpi Configuration Detail"
+      },
+      "update": {
+        "create.title": "New Kpi Configuration Creation",
+        "modify.title": "Kpi Configuration Modification",
+        "evaluationType.month": "month",
+        "evaluationType.whole": "whole"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the kpi configuration with identifier <br> {{ id }}?"
       },
       "moduleCode": "Module",
       "excludePlannedShutdown": "Exclude Planned Shutdown",
@@ -14,6 +26,20 @@
       "tolerance": "Tolerance",
       "averageTimeLimit": "Average Time Limit",
       "evaluationType": "Evaluation Type"
+    }
+  },
+  "error": {
+    "kpiConfiguration": {
+      "moduleNotExists": "Module not present",
+      "cannotBeUpdated": "Kpi Configuration cannot be updated",
+      "cannotBeDeleted": "Kpi Configuration cannot be deleted"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "kpiConfiguration": {
+      "created": "A new configuration with identifier {{ param }} has been created",
+      "updated": "The configuration with identifier {{ param }} has been updated",
+      "deleted": "the configuration with identifier {{ param }} has been deleted"
     }
   }
 }
