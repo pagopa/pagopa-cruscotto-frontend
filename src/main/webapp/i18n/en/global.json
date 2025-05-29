@@ -282,7 +282,9 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer",
+  "footer": {
+    "version": "Version"
+  },
   "cookie": {
     "header": "Cookies used on the website!",
     "message": "This website uses cookies to ensure you get the best experience on our website",
