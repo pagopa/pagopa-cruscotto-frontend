@@ -17,7 +17,6 @@ export class PartnerService {
   private subject = new Subject<{ partnerId: string | null; reset: boolean; change: boolean }>();
 
   sendPartnerId(arg1: string | null, arg2: boolean, arg3: boolean): void {
-    console.log('sent partner id :' + arg1);
     this.subject.next({ partnerId: arg1, reset: arg2, change: arg3 });
   }
 

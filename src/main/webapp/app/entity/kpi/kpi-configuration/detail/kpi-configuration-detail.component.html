@@ -11,6 +11,15 @@
         <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
           <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
         </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/entity/kpi-configurations', kpiConfiguration.moduleCode, 'edit']"
+          [title]="['pagopaCruscottoApp.kpiConfiguration.detail.modify.title' | translate]"
+        >
+          <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+          <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.detail.modify.title">Update</span>
+        </button>
       </div>
     </div>
     <div class="row mb-2">
@@ -23,30 +32,30 @@
                 <p class="p-2 bg-light">{{ kpiConfiguration.id }}</p>
               </div>
               <div class="col-lg-2">
-                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.moduleCode">Module Code</span>
-                <p class="p-2 bg-light">{{ kpiConfiguration.moduleCode }}</p>
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.moduleName">Module Name</span>
+                <p class="p-2 bg-light">{{ kpiConfiguration.moduleName }}</p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configExcludePlannedShutdown">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludePlannedShutdown">Exclude Planned Shutdown</span>
                 <p class="p-2 bg-light"><jhi-yes-or-no-view [yesOrNo]="kpiConfiguration.excludePlannedShutdown"></jhi-yes-or-no-view></p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configExcludeUnplannedShutdown">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludeUnplannedShutdown">Exclude Unplanned Shutdown</span>
                 <p class="p-2 bg-light"><jhi-yes-or-no-view [yesOrNo]="kpiConfiguration.excludeUnplannedShutdown"></jhi-yes-or-no-view></p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configEligibilityThreshold">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold">Eligibility Threshold</span>
                 <p class="p-2 bg-light">{{ kpiConfiguration.eligibilityThreshold }}</p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configTolerance">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance">Tolerance</span>
                 <p class="p-2 bg-light text-truncate">{{ kpiConfiguration.tolerance | averageFormat: 2 }}</p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configAverageTimeLimit">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit">Average Time Limit</span>
-                <p class="p-2 bg-light">{{ kpiConfiguration.averageTimeLimit | averageFormat: 2 }}</p>
+                <p class="p-2 bg-light">{{ kpiConfiguration.averageTimeLimit }} {{ 'abbr.millisecond' | translate }}</p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configEvaluationType">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType">Evaluation Type</span>
                 <p class="p-2 bg-light">{{ kpiConfiguration.evaluationType }}</p>
               </div>
@@ -56,4 +65,6 @@
       </div>
     </div>
   </div>
+
+  <ng-template #notAllowed> ************** </ng-template>
 }
