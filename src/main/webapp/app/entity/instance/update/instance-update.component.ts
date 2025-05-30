@@ -169,14 +169,14 @@ export class InstanceUpdateComponent implements OnInit {
       this.editForm.controls.analysisPeriodEndDate.value &&
       referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value.endOf('month'))
     ) {
-      referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
+      referenceDate = this.editForm.controls.analysisPeriodEndDate.value.endOf('month');
     } else if (
       this.editForm.controls.analysisPeriodStartDate.value &&
       referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value.endOf('month'))
     ) {
-      referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
+      referenceDate = this.editForm.controls.analysisPeriodStartDate.value.endOf('month');
     }
 
-    return date ? date.isAfter(referenceDate, 'month') : true;
+    return date ? date.isAfter(referenceDate) : true;
   };
 }

@@ -40,21 +40,6 @@
         "manualOutcomeDate": "Manual Outcome Date",
         "updateLabel": "Edit"
       }
-    },
-    "error": {
-      "instanceModule": {
-        "notExists": "Module does not exist",
-        "cannotBeUpdated": "The module cannot be updated",
-        "cannotBeDeleted": "The module cannot be deleted",
-        "partnerNotExists": "Partner does not exist"
-      }
-    },
-    "pagopaCruscottoBackendApp": {
-      "instanceModule": {
-        "created": "A new module with identifier {{ param }} has been created",
-        "updated": "The module with identifier {{ param }} has been updated",
-        "deleted": "The module with identifier {{ param }} has been deleted"
-      }
     }
   }
 }

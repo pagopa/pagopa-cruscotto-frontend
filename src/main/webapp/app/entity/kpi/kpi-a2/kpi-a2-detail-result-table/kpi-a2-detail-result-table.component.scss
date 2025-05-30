@@ -1,0 +1,13 @@
+.mat-column-id,
+.mat-column-analysisDate,
+.mat-column-totPayments,
+.mat-column-totIncorrectPayments,
+.mat-column-errorPercentage,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
+.mat-column-outcome,
+.mat-column-details {
+  text-align: center; /* Centra il contenuto orizzontalmente */
+  justify-content: center; /* Centra il contenuto in orizzontale */
+  align-items: center; /* Centra il contenuto in verticale */
+}

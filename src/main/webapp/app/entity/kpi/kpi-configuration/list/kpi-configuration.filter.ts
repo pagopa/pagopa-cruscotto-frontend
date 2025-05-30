@@ -6,6 +6,6 @@ import { ISortField } from '../../../../shared/pagination/filter.model';
   providedIn: 'root',
 })
 export class KpiConfigurationFilter extends IFilterPagination {
-  sort: ISortField = { field: 'moduleCode', direction: 'desc' };
-  sortDefault: ISortField = { field: 'moduleCode', direction: 'desc' };
+  sort: ISortField = { field: 'moduleCode', direction: 'asc' };
+  sortDefault: ISortField = { field: 'moduleCode', direction: 'asc' };
 }

@@ -21,7 +21,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     'id',
     'instanceId',
     'analysisDate',
-    'stationId',
+    'stationName',
     'method',
     'evaluationDate',
     'totReq',
@@ -135,8 +135,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'method':
           return compare(a.method, b.method, isAsc);
         case 'evaluationDate':

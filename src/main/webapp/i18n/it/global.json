@@ -286,6 +286,9 @@
   "footer": {
     "version": "Versione"
   },
+  "abbr": {
+    "millisecond": "ms"
+  },
   "cookie": {
     "header": "Cookie utilizzati sul sito Web!",
     "message": "Il nostro sito web utilizza i cookie per assicurarti una migliore esperienza di navigazione",
