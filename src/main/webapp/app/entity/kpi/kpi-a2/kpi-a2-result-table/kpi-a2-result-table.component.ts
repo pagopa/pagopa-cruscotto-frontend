@@ -30,7 +30,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'outcome', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'tolerance', 'outcome', 'details'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 
@@ -80,7 +80,7 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.show('isLoadingResultsKpiA2ResultTable').then(() => {
       this.isLoadingResults = true;
 
-      this.kpiA2ResultService.getKpiA2Results(moduleId).subscribe({
+      this.kpiA2ResultService.getKpiResults(moduleId).subscribe({
         next: (data: KpiA2Result[]) => this.onSuccess(data),
         error: () => this.onError(),
       });

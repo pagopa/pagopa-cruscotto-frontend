@@ -124,7 +124,7 @@
       <mat-card-content>
         <h3>
           {{ 'pagopaCruscottoApp.module.tables.KpiDetailResults.title' | translate }}:
-          {{ selectedKpiB2ResultIdForDetailsResults || selectedKpiA2ResultIdForDetailsResults || selectedKpiA1ResultIdForDetailsResults }}
+          {{ moduleDetails?.moduleCode }}
         </h3>
         <jhi-kpi-b2-detail-result-table
           *ngIf="selectedKpiB2ResultIdForDetailsResults"
@@ -157,9 +157,7 @@
         <h3>
           <h3>
             {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
-            {{
-              selectedKpiB2DetailResultIdForAnalytics || selectedKpiA2DetailResultIdForAnalytics || selectedKpiA1DetailResultIdForAnalytics
-            }}
+            {{ moduleDetails?.moduleCode }}
           </h3>
         </h3>
         <jhi-kpi-b2-analytic-result-table

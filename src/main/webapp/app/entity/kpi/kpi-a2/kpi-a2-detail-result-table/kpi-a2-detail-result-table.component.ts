@@ -31,7 +31,6 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
 })
 export class KpiA2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
     'analysisDate',
     'totPayments',
     'totIncorrectPayments',
@@ -89,7 +88,7 @@ export class KpiA2DetailResultTableComponent implements AfterViewInit, OnChanges
   fetchKpiA2DetailResults(kpiA2ResultId: number): void {
     this.spinner.show('isLoadingResultsKpiA2DetailResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiA2DetailResultService.findByModuleId(kpiA2ResultId).subscribe({
+      this.kpiA2DetailResultService.findByResultId(kpiA2ResultId).subscribe({
         next: (data: KpiA2DetailResult[]) => this.onSuccess(data),
         error: () => this.onError(),
       });

@@ -10,6 +10,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
+import { BooleanTranslatePipe } from '../../../../shared/pipes/boolean-translate.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-result-table',
@@ -32,11 +33,11 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
     FormatDatePipe,
     NgClass,
     AverageFormatPipe,
+    BooleanTranslatePipe,
   ],
 })
 export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
@@ -98,7 +99,7 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.show('isLoadingResultsKpiB2ResultTable').then(() => {
       this.isLoadingResults = true; // Indica che il caricamento è in corso
 
-      this.kpiB2ResultService.getKpiB2Results(moduleId).subscribe({
+      this.kpiB2ResultService.getKpiResults(moduleId).subscribe({
         next: (data: KpiB2Result[]) => this.onSuccess(data),
         error: () => this.onError(),
       });

@@ -1,0 +1,102 @@
+<ngx-spinner
+  [fullScreen]="false"
+  type="ball-clip-rotate"
+  size="default"
+  color="#ffffff"
+  name="isLoadingResultsKpiB9ResultTable"
+  aria-label="Caricamento risultati B9 in corso..."
+>
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+    <!-- Analysis Date -->
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.analysisDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.dtAnalisysDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
+
+    <!-- Exclude Planned Shutdown -->
+    <ng-container matColumnDef="excludePlanned">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.excludePlanned' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.flExcludePlannedShutdown | booleanTranslate: locale }}</td>
+    </ng-container>
+
+    <!-- Exclude Unplanned Shutdown -->
+    <ng-container matColumnDef="excludeUnplanned">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.excludeUnplanned' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.flExcludeUnplannedShutdown | booleanTranslate: locale }}</td>
+    </ng-container>
+
+    <!-- Eligibility Threshold -->
+    <ng-container matColumnDef="eligibilityThreshold">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.eligibilityThreshold' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.coEligibilityThreshold | averageFormat: 2 }}</td>
+    </ng-container>
+
+    <!-- Tolerances -->
+    <ng-container matColumnDef="tolerance">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.tolerance' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.coTolerance | averageFormat: 2 }}</td>
+    </ng-container>
+
+    <!-- Evaluation Type -->
+    <ng-container matColumnDef="evaluationType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.evaluationType' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.teEvaluationType | translate }}</td>
+    </ng-container>
+
+    <!-- Outcome -->
+    <ng-container matColumnDef="outcome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.outcome' | translate }}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{
+          'outcome-ok': element.teOutcome === OutcomeStatus.OK,
+          'outcome-ko': element.teOutcome === OutcomeStatus.KO,
+          'outcome-running': element.teOutcome === OutcomeStatus.RUNNING,
+          'outcome-standby': element.teOutcome === OutcomeStatus.STANDBY,
+        }"
+      >
+        {{ element.teOutcome | translate }}
+      </td>
+    </ng-container>
+
+    <!-- Colonna Details -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.details' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="emitShowDetails(element.coId)">
+          {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.showDetails' | translate }}
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Righe -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.coId === selectedElementId }"></tr>
+  </table>
+</div>
+
+<!-- Paginatore -->
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+<ng-template #noDataTemplate>
+  <span>Nessun dato disponibile.</span>
+</ng-template>

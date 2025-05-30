@@ -18,8 +18,6 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
-    'instanceId',
     'analysisDate',
     'stationName',
     'method',
@@ -75,7 +73,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   fetchKpiA1AnalyticData(detailResultId: number): void {
     this.spinner.show('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiA1AnalyticDataService.findByModuleId(detailResultId).subscribe({
+      this.kpiA1AnalyticDataService.findByDetailResultId(detailResultId).subscribe({
         next: (data: KpiA1AnalyticData[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
@@ -127,12 +125,6 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'id':
-          return compare(a.id, b.id, isAsc);
-        case 'instanceId':
-          return compare(a.instanceId, b.instanceId, isAsc);
-        case 'instanceModuleId':
-          return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'stationName':
