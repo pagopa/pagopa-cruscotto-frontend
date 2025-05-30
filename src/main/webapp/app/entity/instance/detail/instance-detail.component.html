@@ -15,10 +15,10 @@
         color="primary"
         [disabled]="istanceRef.status !== status.Bozza && istanceRef.status !== status.Pianificata"
         [routerLink]="['/entity/instances', istanceRef?.id, 'edit']"
-        [title]="['pagopaCruscottoApp.instance.detail.updateLabel' | translate]"
+        [title]="['pagopaCruscottoApp.instance.detail.modify.title' | translate]"
       >
         <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
-        <span jhiTranslate="pagopaCruscottoApp.instance.detail.updateLabel">Update</span>
+        <span jhiTranslate="pagopaCruscottoApp.instance.detail.modify.title">Update</span>
       </button>
     </div>
   </div>

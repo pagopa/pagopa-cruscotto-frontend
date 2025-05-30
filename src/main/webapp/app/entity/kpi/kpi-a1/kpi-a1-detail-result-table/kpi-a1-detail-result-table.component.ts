@@ -10,6 +10,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiA1DetailResult } from '../models/KpiA1DetailResult';
 import { KpiA1DetailResultService } from '../service/kpi-a1-detail-result.service';
 import { EvaluationType, OutcomeStatus } from '../models/KpiA1Result';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-a1-detail-result-table',
@@ -23,6 +24,7 @@ import { EvaluationType, OutcomeStatus } from '../models/KpiA1Result';
     MatButtonModule,
     FormatDatePipe,
     NgClass,
+    AverageFormatPipe,
   ],
   templateUrl: './kpi-a1-detail-result-table.component.html',
   styleUrl: './kpi-a1-detail-result-table.component.scss',
@@ -31,7 +33,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
   displayedColumns: string[] = [
     'id',
     'analysisDate',
-    'stationId',
+    'stationName',
     'method',
     'totalRequests',
     'reqTimeout',
@@ -135,8 +137,8 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
           return compare(a.id, b.id, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'method':
           return compare(a.method, b.method, isAsc);
         case 'totalRequests':

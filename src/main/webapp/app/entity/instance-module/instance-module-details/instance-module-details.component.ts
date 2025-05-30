@@ -181,6 +181,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiA1DetailResultIdForAnalytics = null;
   }
 }
+
 type DetailComponentMappingDynamic = {
   [key: string]: {
     resultTable: Type<any>;

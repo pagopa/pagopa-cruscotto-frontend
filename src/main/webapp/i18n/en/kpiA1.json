@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "A.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "excludePlannedShutdown": "Exclude Planned Shutdowns",
+            "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
+            "eligibilityThreshold": "Eligibility Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationType": "Evaluation Type",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totalRequests": "Total Requests",
+            "reqTimeout": "Timeout Requests",
+            "timeoutPercentage": "Timeout Percentage",
+            "outcome": "Outcome",
+            "kpiA1ResultId": "KPI A.1 Result ID",
+            "details": "Results Detail",
+            "showDetails": "Show Details",
+            "stationName": "Station name"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationDate": "Evaluation Date",
+            "totalRequests": "Total Requests",
+            "reqOk": "Requests OK",
+            "reqTimeoutReal": "Real Timeout Requests",
+            "reqTimeoutValid": "Valid Timeouts",
+            "kpiA1DetailResultId": "KPI A.1 Detail ID",
+            "stationName": "Station name"
+          }
+        }
+      }
+    }
+  }
+}

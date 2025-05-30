@@ -1,15 +1,16 @@
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgClass, NgIf } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA2ResultService } from '../service/kpi-a2-result.service';
 import { KpiA2Result } from '../models/KpiA2Result';
 import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 import { MatButton } from '@angular/material/button';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
+import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 
 @Component({
   selector: 'jhi-kpi-a2-result-table',
@@ -25,10 +26,11 @@ import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
     AverageFormatPipe,
     NgClass,
     MatButton,
+    FormatDatePipe,
   ],
 })
-export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
-  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'evaluationType', 'outcome', 'details'];
+export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
+  displayedColumns: string[] = ['id', 'analysisDate', 'tolerance', 'outcome', 'details'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 
@@ -39,9 +41,22 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort | null = null;
   selectedElementId: number | null = null;
   isLoadingResults = false;
-
+  protected readonly OutcomeStatus = OutcomeStatus;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA2ResultService = inject(KpiA2ResultService);
+
+  locale: string;
+  private readonly translateService = inject(TranslateService);
+
+  constructor() {
+    this.locale = this.translateService.currentLang;
+  }
+
+  ngOnInit(): void {
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.locale = event.lang;
+    });
+  }
 
   ngOnChanges(): void {
     if (this.moduleId) {
@@ -128,8 +143,6 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'tollerance':
           return compare(a.tolerance, b.tolerance, isAsc);
-        case 'evaluationType':
-          return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':
           return compare(a.outcome, b.outcome, isAsc);
         default:
@@ -151,8 +164,6 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges {
     }
     this.showDetails.emit(kpiA2ResultId);
   }
-
-  protected readonly OutcomeStatus = OutcomeStatus;
 }
 
 /**

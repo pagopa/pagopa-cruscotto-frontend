@@ -29,11 +29,11 @@
     </ng-container>
 
     <!-- Colonna Station ID -->
-    <ng-container matColumnDef="stationId">
+    <ng-container matColumnDef="stationName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.stationId' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.stationName' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.stationId }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.stationName }}</td>
     </ng-container>
 
     <!-- Colonna Method -->
@@ -55,7 +55,7 @@
     <!-- Colonna Tot Requests -->
     <ng-container matColumnDef="totReq">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.totReq' | translate }}
+        {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.totalRequests' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element.totReq }}</td>
     </ng-container>
