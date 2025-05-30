@@ -26,7 +26,7 @@
         "partnerName": "Partner Name",
         "predictedDateAnalysis": "Expected Analysis Date",
         "applicationDate": "Request Date",
-        "assignedTo": "Assigned User",
+        "assignedTo": "Examiner",
         "analysisPeriodStartDate": "Analysis Period Start Date",
         "analysisPeriodEndDate": "Analysis Period End Date",
         "status": "Status",

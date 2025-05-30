@@ -17,7 +17,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
 })
 export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['id', 'analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments'];
+  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments'];
   dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
   @Input() kpiA2DetailResultId: number | undefined;
@@ -61,10 +61,10 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Fetch KPI A2 Analytic Data by kpiA2DetailResultId
    */
-  fetchKpiA2AnalyticData(moduleId: number): void {
+  fetchKpiA2AnalyticData(detailResultId: number): void {
     this.spinner.show('isLoadingResultsKpiA2AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiA2AnalyticDataService.findByModuleId(moduleId).subscribe({
+      this.kpiA2AnalyticDataService.findByDetailResultId(detailResultId).subscribe({
         next: (data: KpiA2AnalyticData[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
