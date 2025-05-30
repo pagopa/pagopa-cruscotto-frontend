@@ -1,0 +1,44 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "A.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totPayments": "Total Payments",
+            "totIncorrectPayments": "Total Incorrect Payments",
+            "errorPercentage": "Error Percentage",
+            "outcome": "Outcome",
+            "kpiA2ResultId": "KPI A.2 Result ID",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "evaluationDate": "Evaluation Date",
+            "totPayments": "Total Payments",
+            "totIncorrectPayments": "Total Incorrect Payments",
+            "kpiA2DetailResultId": "KPI A.2 Detail ID"
+          }
+        }
+      }
+    }
+  }
+}

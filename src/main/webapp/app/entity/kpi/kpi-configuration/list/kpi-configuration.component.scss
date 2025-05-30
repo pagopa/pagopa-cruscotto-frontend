@@ -1,15 +1,12 @@
 /* Column Widths */
-.mat-column-id,
-.mat-column-institutionType,
-.mat-column-areaName,
-.mat-column-serviceType,
-.mat-column-takingsIdentifier,
-.mat-column-validityStartDate,
-.mat-column-validityEndDate,
-.mat-column-createdBy,
-.mat-column-createdDate,
-.mat-column-lastModifiedBy,
-.mat-column-lastModifiedDate {
+.mat-column-moduleName,
+.mat-column-moduleCode,
+.mat-column-excludePlannedShutdown,
+.mat-column-excludeUnplannedShutdown,
+.mat-column-eligibilityThreshold,
+.mat-column-tolerance,
+.mat-column-averageTimeLimit,
+.mat-column-evaluationType {
   width: 150px;
   text-align: center;
 }

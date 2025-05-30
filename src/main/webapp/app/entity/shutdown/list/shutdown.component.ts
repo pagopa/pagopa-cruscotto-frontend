@@ -74,12 +74,12 @@ import {
 export class ShutdownComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'shutdownIdentification',
-    'typePlanned',
-    'shutdownStartDate',
-    'shutdownEndDate',
     'partnerFiscalCode',
     'partnerName',
     'stationName',
+    'typePlanned',
+    'shutdownStartDate',
+    'shutdownEndDate',
     'action',
   ];
 

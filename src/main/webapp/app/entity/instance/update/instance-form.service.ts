@@ -39,10 +39,19 @@ export class InstanceFormService {
     return new FormGroup<InstanceFormGroupContent>(
       {
         id: new FormControl({ value: instanceRawValue.id, disabled: true }, { validators: [Validators.required], nonNullable: true }),
-        partner: new FormControl(instanceRawValue.partnerId ? <IPartner>{ id: instanceRawValue.partnerId } : null, {
-          validators: [Validators.required],
-          nonNullable: true,
-        }),
+        partner: new FormControl(
+          instanceRawValue.partnerId
+            ? <IPartner>{
+                id: instanceRawValue.partnerId,
+                name: instanceRawValue.partnerName,
+                fiscalCode: instanceRawValue.partnerFiscalCode,
+              }
+            : null,
+          {
+            validators: [Validators.required],
+            nonNullable: true,
+          },
+        ),
         predictedDateAnalysis: new FormControl(instanceRawValue.predictedDateAnalysis, {
           validators: [Validators.required],
           nonNullable: true,
@@ -72,7 +81,8 @@ export class InstanceFormService {
     const instanceRawValue = {
       ...this.getFormDefaults(),
       ...instance,
-      partner: instance.partnerId !== null ? { id: instance.partnerId } : null,
+      partner:
+        instance.partnerId !== null ? { id: instance.partnerId, name: instance.partnerName, fiscalCode: instance.partnerFiscalCode } : null,
     };
     form.reset(
       {

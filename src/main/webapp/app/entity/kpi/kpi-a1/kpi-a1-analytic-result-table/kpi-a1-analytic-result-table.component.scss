@@ -1,0 +1,14 @@
+.mat-column-id,
+.mat-column-instanceId,
+.mat-column-analysisDate,
+.mat-column-stationName,
+.mat-column-method,
+.mat-column-evaluationDate,
+.mat-column-totReq,
+.mat-column-reqOk,
+.mat-column-reqTimeoutReal,
+.mat-column-reqTimeoutValid {
+  text-align: center; /* Centra il contenuto orizzontalmente */
+  justify-content: center; /* Centra orizzontalmente il contenuto */
+  align-items: center; /* Centra verticalmente il contenuto */
+}

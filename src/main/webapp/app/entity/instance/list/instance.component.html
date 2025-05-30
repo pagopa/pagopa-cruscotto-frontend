@@ -363,7 +363,7 @@
                           >
                             <mat-icon
                               fontSet="material-symbols-outlined"
-                              [color]="row.status === status.Eseguita ? '' : 'primary'"
+                              [color]="row.status !== status.Bozza && row.status !== status.Pianificata ? '' : 'primary'"
                               aria-hidden="false"
                               >edit</mat-icon
                             >
@@ -381,7 +381,7 @@
                           >
                             <mat-icon
                               fontSet="material-symbols-outlined"
-                              [color]="row.status === status.Eseguita ? '' : 'warn'"
+                              [color]="row.status !== status.Bozza && row.status !== status.Pianificata ? '' : 'warn'"
                               aria-hidden="false"
                               >delete</mat-icon
                             >
