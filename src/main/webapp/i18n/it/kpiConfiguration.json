@@ -8,7 +8,8 @@
         "createLabel": "Nuova Configurazione Kpi"
       },
       "detail": {
-        "title": "Dettaglio Configurazione Kpi"
+        "title": "Dettaglio Configurazione Kpi",
+        "modify.title": "Modifica Configurazione Kpi"
       },
       "update": {
         "create.title": "Creazione Configurazione Kpi",

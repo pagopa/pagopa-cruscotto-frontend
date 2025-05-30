@@ -4,6 +4,17 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import _ from 'lodash';
 import { IKpiConfiguration, NewKpiConfiguration } from '../kpi-configuration.model';
 import { stringNumericValidatorFn } from 'app/shared/util/validator-util';
+import { IModule, IModuleConfiguration } from '../../../module/module.model';
+import { IPartner } from '../../../partner/partner.model';
+
+const CONFIG_FIELD_MAPPINGS = {
+  configEligibilityThreshold: 'eligibilityThreshold',
+  configTolerance: 'tolerance',
+  configAverageTimeLimit: 'averageTimeLimit',
+  configEvaluationType: 'evaluationType',
+  configExcludePlannedShutdown: 'excludePlannedShutdown',
+  configExcludeUnplannedShutdown: 'excludeUnplannedShutdown',
+} as const;
 
 /**
  * A partial Type with required key is used as form input.
@@ -20,7 +31,7 @@ type KpiConfigurationFormDefaults = Pick<NewKpiConfiguration, 'id'>;
 
 type KpiConfigurationFormGroupContent = {
   id: FormControl<IKpiConfiguration['id'] | NewKpiConfiguration['id']>;
-  moduleCode: FormControl<IKpiConfiguration['moduleCode'] | NewKpiConfiguration['moduleCode']>;
+  module: FormControl<IModule | null>;
   excludePlannedShutdown: FormControl<IKpiConfiguration['excludePlannedShutdown'] | NewKpiConfiguration['excludePlannedShutdown']>;
   excludeUnplannedShutdown: FormControl<IKpiConfiguration['excludeUnplannedShutdown'] | NewKpiConfiguration['excludeUnplannedShutdown']>;
   eligibilityThreshold: FormControl<IKpiConfiguration['eligibilityThreshold'] | NewKpiConfiguration['eligibilityThreshold']>;
@@ -44,7 +55,22 @@ export class KpiConfigurationFormService {
           { value: kpiConfigurationRawValue.id, disabled: true },
           { validators: [Validators.required], nonNullable: true },
         ),
-        moduleCode: new FormControl(kpiConfigurationRawValue.moduleCode, { validators: [Validators.required], nonNullable: true }),
+        module: new FormControl(
+          {
+            value: kpiConfigurationRawValue.moduleId
+              ? <IModule>{
+                  id: kpiConfigurationRawValue.moduleId,
+                  name: kpiConfigurationRawValue.moduleName,
+                  code: kpiConfigurationRawValue.moduleCode,
+                }
+              : null,
+            disabled: kpiConfigurationRawValue.id !== null,
+          },
+          {
+            validators: [Validators.required],
+            nonNullable: true,
+          },
+        ),
         excludePlannedShutdown: new FormControl(kpiConfigurationRawValue.excludePlannedShutdown),
         excludeUnplannedShutdown: new FormControl(kpiConfigurationRawValue.excludeUnplannedShutdown),
         eligibilityThreshold: new FormControl(kpiConfigurationRawValue.eligibilityThreshold),
@@ -58,20 +84,41 @@ export class KpiConfigurationFormService {
     );
   }
 
-  getKpiConfiguration(form: KpiConfigurationFormGroup): IKpiConfiguration | NewKpiConfiguration {
+  getKpiConfiguration(form: KpiConfigurationFormGroup, moduleConfiguration: IModuleConfiguration): IKpiConfiguration | NewKpiConfiguration {
     const kpiConfiguration = form.getRawValue();
-    return kpiConfiguration;
+
+    const toOmit = this.getFieldsToOmit(moduleConfiguration);
+    toOmit.push('partner');
+
+    return {
+      ..._.omit(kpiConfiguration, toOmit),
+      moduleCode: kpiConfiguration.module?.code,
+    } as IKpiConfiguration | NewKpiConfiguration;
   }
 
   resetForm(form: KpiConfigurationFormGroup, kpiConfiguration: KpiConfigurationFormGroupInput): void {
     const kpiConfigurationRawValue = {
       ...this.getFormDefaults(),
       ...kpiConfiguration,
+      module:
+        kpiConfiguration.moduleId !== null
+          ? { id: kpiConfiguration.moduleId, name: kpiConfiguration.moduleName, code: kpiConfiguration.moduleCode }
+          : null,
     };
     form.reset(
       {
         ...kpiConfigurationRawValue,
         id: { value: kpiConfigurationRawValue.id, disabled: true },
+        module: {
+          value: kpiConfigurationRawValue.moduleId
+            ? <IModule>{
+                id: kpiConfigurationRawValue.moduleId,
+                name: kpiConfigurationRawValue.moduleName,
+                code: kpiConfigurationRawValue.moduleCode,
+              }
+            : null,
+          disabled: kpiConfigurationRawValue.id !== null,
+        },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
@@ -80,5 +127,11 @@ export class KpiConfigurationFormService {
     return {
       id: null,
     };
+  }
+
+  private getFieldsToOmit(moduleConfiguration: IModuleConfiguration): string[] {
+    return Object.entries(CONFIG_FIELD_MAPPINGS)
+      .filter(([configKey]) => !moduleConfiguration[configKey as keyof IModuleConfiguration])
+      .map(([, fieldName]) => fieldName);
   }
 }

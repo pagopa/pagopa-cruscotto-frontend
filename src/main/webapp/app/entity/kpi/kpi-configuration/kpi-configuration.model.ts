@@ -1,4 +1,6 @@
-export interface IKpiConfiguration {
+import { IModuleConfiguration } from '../../module/module.model';
+
+export interface IKpiConfiguration extends IModuleConfiguration {
   id: number;
   moduleId?: number | null;
   moduleCode?: string | null;
@@ -9,12 +11,6 @@ export interface IKpiConfiguration {
   tolerance?: string | null;
   averageTimeLimit?: string | null;
   evaluationType?: string | null;
-  configExcludePlannedShutdown?: boolean | null;
-  configExcludeUnplannedShutdown?: boolean | null;
-  configEligibilityThreshold?: boolean | null;
-  configTolerance?: boolean | null;
-  configAverageTimeLimit?: boolean | null;
-  configEvaluationType?: boolean | null;
 }
 
 export type NewKpiConfiguration = Omit<IKpiConfiguration, 'id'> & { id: null };

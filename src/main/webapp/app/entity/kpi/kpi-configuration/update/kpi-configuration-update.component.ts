@@ -23,6 +23,8 @@ import { IKpiConfiguration } from '../kpi-configuration.model';
 import { KpiConfigurationService } from '../service/kpi-configuration.service';
 import { KpiConfigurationFormGroup, KpiConfigurationFormService } from './kpi-configuration-form.service';
 import { MatSelectModule } from '@angular/material/select';
+import { ModuleSelectComponent } from '../../../module/shared/module-select/module-select.component';
+import { IModule, IModuleConfiguration, ModuleConfiguration } from '../../../module/module.model';
 
 /* eslint-disable no-console */
 
@@ -55,12 +57,16 @@ export const MY_FORMATS = {
     RouterModule,
     MatDatepickerModule,
     MatSelectModule,
+    ModuleSelectComponent,
   ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class KpiConfigurationUpdateComponent implements OnInit {
   isSaving = false;
   kpiConfiguration: IKpiConfiguration | null = null;
+
+  moduleConfiguration: IModuleConfiguration = new ModuleConfiguration();
+
   minDateFrom = dayjs().add(1, 'day');
   locale: string;
   booleanOptions: { value: boolean; text: string }[] = [
@@ -88,6 +94,7 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ kpiConfiguration }) => {
       this.kpiConfiguration = kpiConfiguration;
       if (kpiConfiguration) {
+        this.moduleConfiguration = new ModuleConfiguration(kpiConfiguration as IModuleConfiguration);
         this.updateForm(kpiConfiguration);
       }
     });
@@ -110,17 +117,14 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     this.spinner.show('isSaving').then(() => {
       this.isSaving = true;
     });
-    const kpiConfiguration = this.kpiConfigurationFormService.getKpiConfiguration(this.editForm);
+
+    const kpiConfiguration = this.kpiConfigurationFormService.getKpiConfiguration(this.editForm, this.moduleConfiguration);
 
     if (kpiConfiguration.id !== null) {
       this.subscribeToSaveResponse(this.kpiConfigurationService.update(kpiConfiguration));
     } else {
       this.subscribeToSaveResponse(this.kpiConfigurationService.create(kpiConfiguration));
     }
-  }
-
-  clearDate(...ctrlNames: string[]): void {
-    ctrlNames.forEach(ctrlName => this.editForm.get(ctrlName)?.setValue(null));
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IKpiConfiguration>>): void {
@@ -140,5 +144,11 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     this.spinner.hide('isSaving').then(() => {
       this.isSaving = false;
     });
+  }
+
+  selectModule(module: IModule): void {
+    console.log(module);
+    this.moduleConfiguration = new ModuleConfiguration(module as IModuleConfiguration);
+    console.log(this.moduleConfiguration);
   }
 }
