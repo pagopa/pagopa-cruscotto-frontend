@@ -32,7 +32,7 @@
                       matInput
                       [matDatepicker]="startMonthPicker"
                       formControlName="analysisPeriodStartDate"
-                      [matDatepickerFilter]="startMonthFilter"
+                      [matDatepickerFilter]="startFilter"
                     />
                     <mat-datepicker-toggle
                       matIconSuffix
@@ -44,12 +44,7 @@
                       </mat-icon>
                     </mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix [for]="startMonthPicker"></mat-datepicker-toggle>
-                    <mat-datepicker
-                      #startMonthPicker
-                      startView="multi-year"
-                      (monthSelected)="selectStartMonth($event, startMonthPicker)"
-                      panelClass="month-year-picker"
-                    ></mat-datepicker>
+                    <mat-datepicker #startMonthPicker></mat-datepicker>
                     <ng-container
                       ngProjectAs="mat-error"
                       *ngIf="analysisPeriodStartDateRef.invalid && (analysisPeriodStartDateRef.dirty || analysisPeriodStartDateRef.touched)"
@@ -80,7 +75,7 @@
                       matInput
                       [matDatepicker]="endMonthPicker"
                       formControlName="analysisPeriodEndDate"
-                      [matDatepickerFilter]="endMonthFilter"
+                      [matDatepickerFilter]="endFilter"
                     />
                     <mat-datepicker-toggle
                       matIconSuffix
@@ -92,12 +87,7 @@
                       </mat-icon>
                     </mat-datepicker-toggle>
                     <mat-datepicker-toggle matSuffix [for]="endMonthPicker"></mat-datepicker-toggle>
-                    <mat-datepicker
-                      #endMonthPicker
-                      startView="multi-year"
-                      (monthSelected)="selectEndMonth($event, endMonthPicker)"
-                      panelClass="month-year-picker"
-                    ></mat-datepicker>
+                    <mat-datepicker #endMonthPicker></mat-datepicker>
                     <ng-container
                       ngProjectAs="mat-error"
                       *ngIf="analysisPeriodEndDateRef.invalid && (analysisPeriodEndDateRef.dirty || analysisPeriodEndDateRef.touched)"
@@ -129,7 +119,6 @@
                       [matDatepicker]="predictedDateAnalysis"
                       formControlName="predictedDateAnalysis"
                       [matDatepickerFilter]="predictedDateAnalysisFilter"
-                      datePickerFormat="DD/MM/YYYY"
                     />
                     <mat-datepicker-toggle
                       matIconSuffix
