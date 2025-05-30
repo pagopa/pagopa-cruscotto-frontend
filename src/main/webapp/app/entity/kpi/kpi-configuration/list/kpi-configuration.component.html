@@ -130,7 +130,7 @@
                   <td mat-cell *matCellDef="let row">
                     <jhi-yes-or-no-view
                       [yesOrNo]="row.excludeUnplannedShutdown"
-                      *ngIf="row.excludeUnplannedShutdown; else notAllowed"
+                      *ngIf="row.configExcludeUnplannedShutdown; else notAllowed"
                     ></jhi-yes-or-no-view>
                   </td>
                 </ng-container>
@@ -140,7 +140,7 @@
                     {{ 'pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row.configTolerance; else notAllowed">{{ row.eligibilityThreshold }}</span>
+                    <span *ngIf="row.configEligibilityThreshold; else notAllowed">{{ row.eligibilityThreshold }}</span>
                   </td>
                 </ng-container>
 
@@ -158,7 +158,9 @@
                     {{ 'pagopaCruscottoApp.kpiConfiguration.averageTimeLimit' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row.configAverageTimeLimit; else notAllowed">{{ row.averageTimeLimit | averageFormat: 2 }}</span>
+                    <span *ngIf="row.configAverageTimeLimit; else notAllowed"
+                      >{{ row.averageTimeLimit }} {{ 'abbr.millisecond' | translate }}</span
+                    >
                   </td>
                 </ng-container>
 

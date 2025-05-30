@@ -1,6 +1,7 @@
 {
   "pagopaCruscottoApp": {
     "module": {
+      "module": "Module",
       "tables": {
         "KpiResults": {
           "title": "Results",

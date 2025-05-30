@@ -3,9 +3,9 @@
     <div class="h2" *ngIf="!editForm.get('id')!.value">
       <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.update.create.title">New Configuration Kpi</span>
     </div>
-    <div class="h2" *ngIf="editForm.get('id')!.value">
+    <div class="h2" *ngIf="kpiConfiguration !== null && kpiConfiguration.id">
       <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.update.modify.title">Edit Configuration Kpi</span> [{{
-        editForm.get('moduleCode')?.value
+        kpiConfiguration.moduleCode
       }}]
     </div>
     <div>
@@ -25,42 +25,35 @@
           <mat-card-content>
             <div class="row mt-3 p-2">
               <div class="col-lg-3">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.moduleCode"></mat-label>
-                  <input matInput autocomplete="off" formControlName="moduleCode" />
-                  @let moduleCodeRef = editForm.get('moduleCode')!;
-                  <ng-container ngProjectAs="mat-error" *ngIf="moduleCodeRef.invalid && (moduleCodeRef.dirty || moduleCodeRef.touched)">
-                    @if (moduleCodeRef?.errors?.required) {
-                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
-                        {{ 'entity.validation.required' | translate }}
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
+                <jhi-module-select
+                  [parentForm]="editForm"
+                  formInnerControlName="module"
+                  (changeSelected)="selectModule($event)"
+                ></jhi-module-select>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configExcludePlannedShutdown">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludePlannedShutdown"></mat-label>
                   <mat-select formControlName="excludePlannedShutdown">
-                    <mat-option value="null" selected></mat-option>
+                    <mat-option value="null"></mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configExcludeUnplannedShutdown">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludeUnplannedShutdown"></mat-label>
                   <mat-select formControlName="excludeUnplannedShutdown">
-                    <mat-option value="null" selected></mat-option>
+                    <mat-option value="null"></mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configEligibilityThreshold">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold"></mat-label>
                   <input matInput autocomplete="off" formControlName="eligibilityThreshold" />
@@ -77,26 +70,24 @@
                   </ng-container>
                 </mat-form-field>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configTolerance">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance"></mat-label>
                   <input matInput autocomplete="off" formControlName="tolerance" />
                 </mat-form-field>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configEvaluationType">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType"></mat-label>
                   <mat-select formControlName="evaluationType">
-                    <mat-option value="null" selected></mat-option>
+                    <mat-option value="null"></mat-option>
                     <mat-option *ngFor="let evaluationTypeOption of evaluationTypeOptions" [value]="evaluationTypeOption.value">
                       {{ evaluationTypeOption.text | translate | uppercase }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-lg-3">
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configAverageTimeLimit">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit"></mat-label>
                   <input matInput autocomplete="off" formControlName="averageTimeLimit" />
