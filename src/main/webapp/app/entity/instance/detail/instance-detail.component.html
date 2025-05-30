@@ -13,7 +13,7 @@
       <button
         mat-raised-button
         color="primary"
-        disabled
+        [disabled]="istanceRef.status !== status.Bozza && istanceRef.status !== status.Pianificata"
         [routerLink]="['/entity/instances', istanceRef?.id, 'edit']"
         [title]="['pagopaCruscottoApp.instance.detail.modify.title' | translate]"
       >
