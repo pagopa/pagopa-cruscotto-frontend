@@ -19,22 +19,8 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { InstanceFormGroup, InstanceFormService } from './instance-form.service';
 import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { DatePickerFormatDirective } from '../../../shared/date/date-picker-format.directive';
 
 /* eslint-disable no-console */
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'jhi-instance-update',
@@ -52,14 +38,11 @@ export const MY_FORMATS = {
     RouterModule,
     MatDatepickerModule,
     PartnerSelectComponent,
-    DatePickerFormatDirective,
   ],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class InstanceUpdateComponent implements OnInit {
   isSaving = false;
   instance: IInstance | null = null;
-  minDateFrom = dayjs().add(1, 'day');
   locale: string;
 
   private readonly instanceService = inject(InstanceService);
@@ -131,50 +114,36 @@ export class InstanceUpdateComponent implements OnInit {
       this.isSaving = false;
     });
   }
-  selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
-    const firstDayOfMonth = selected.startOf('month');
-    this.editForm.get('analysisPeriodStartDate')!.setValue(firstDayOfMonth);
-    picker.close();
-  }
 
-  selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
-    const lastDayOfMonth = selected.endOf('month');
-    this.editForm.get('analysisPeriodEndDate')!.setValue(lastDayOfMonth);
-    picker.close();
-  }
-
-  startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+  startFilter = (date: dayjs.Dayjs | null): boolean => {
     const endDate = this.editForm.get('analysisPeriodEndDate')?.value || dayjs().add(5, 'year');
 
     if (this.editForm.controls.predictedDateAnalysis.value) {
       this.editForm.controls.predictedDateAnalysis.updateValueAndValidity();
     }
 
-    return date ? date.isSameOrBefore(endDate, 'month') : true;
+    return date ? date.isSameOrBefore(endDate) : true;
   };
 
-  endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+  endFilter = (date: dayjs.Dayjs | null): boolean => {
     const startDate = this.editForm.get('analysisPeriodStartDate')?.value || dayjs().add(-5, 'year');
 
     if (this.editForm.controls.predictedDateAnalysis.value) {
       this.editForm.controls.predictedDateAnalysis.updateValueAndValidity();
     }
 
-    return date ? date.isSameOrAfter(startDate, 'month') : true;
+    return date ? date.isSameOrAfter(startDate) : true;
   };
 
   predictedDateAnalysisFilter = (date: dayjs.Dayjs | null): boolean => {
     let referenceDate = dayjs();
-    if (
-      this.editForm.controls.analysisPeriodEndDate.value &&
-      referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value.endOf('month'))
-    ) {
-      referenceDate = this.editForm.controls.analysisPeriodEndDate.value.endOf('month');
+    if (this.editForm.controls.analysisPeriodEndDate.value && referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value)) {
+      referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
     } else if (
       this.editForm.controls.analysisPeriodStartDate.value &&
-      referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value.endOf('month'))
+      referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value)
     ) {
-      referenceDate = this.editForm.controls.analysisPeriodStartDate.value.endOf('month');
+      referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
     }
 
     return date ? date.isAfter(referenceDate) : true;
