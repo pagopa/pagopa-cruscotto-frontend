@@ -1,21 +1,35 @@
-import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { NgClass, NgIf } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1ResultService } from '../service/kpi-a1-result.service';
 import { KpiA1Result } from '../models/KpiA1Result';
 import { MatButton } from '@angular/material/button';
+import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
+import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-a1-result-table',
   templateUrl: './kpi-a1-result-table.component.html',
   styleUrls: ['./kpi-a1-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, NgClass, MatButton],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    NgClass,
+    MatButton,
+    FormatDatePipe,
+    AverageFormatPipe,
+  ],
 })
-export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
+export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'id',
     'analysisDate',
@@ -40,6 +54,19 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
   selectedElementId: number | null = null;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA1ResultService = inject(KpiA1ResultService);
+
+  locale: string;
+  private readonly translateService = inject(TranslateService);
+
+  constructor() {
+    this.locale = this.translateService.currentLang;
+  }
+
+  ngOnInit(): void {
+    this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.locale = event.lang;
+    });
+  }
 
   ngOnChanges(): void {
     if (this.moduleId) {
@@ -151,6 +178,8 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges {
     }
     this.showDetails.emit(kpiA1ResultId);
   }
+
+  protected readonly OutcomeStatus = OutcomeStatus;
 }
 
 /**
