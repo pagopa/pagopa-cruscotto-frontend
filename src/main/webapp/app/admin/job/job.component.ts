@@ -40,7 +40,17 @@ import { JobEditDialogComponent } from './job-edit-dialog.component';
   ],
 })
 export class JobComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['jobName', 'groupName', 'cron', 'scheduleTime', 'lastFiredTime', 'nextFireTime', 'jobStatus', 'action'];
+  displayedColumns: string[] = [
+    'schedulerName',
+    'jobName',
+    'groupName',
+    'cron',
+    'scheduleTime',
+    'lastFiredTime',
+    'nextFireTime',
+    'jobStatus',
+    'action',
+  ];
 
   data: IJob[] = [];
   page!: number;
@@ -131,7 +141,9 @@ export class JobComponent implements OnInit, OnDestroy {
     });
   }
 
-  start(job: string) {
+  start(job: IJob) {
+    this.selectedRow = job;
+
     const confirmOptions = new ConfirmModalOptions(
       'pagopaCruscottoApp.job.changeState.start.question.title',
       'pagopaCruscottoApp.job.changeState.start.question.message',
@@ -143,11 +155,12 @@ export class JobComponent implements OnInit, OnDestroy {
       .save({ width: '500px', hasBackdrop: true }, confirmOptions)
       .pipe(take(1))
       .subscribe((result: ModalResult) => {
+        this.selectedRow = null;
         if (result === ModalResult.CONFIRMED) {
           this.disabledButton = true;
           this.jobsService
             .start({
-              jobName: job,
+              jobName: job.jobName,
             })
             .subscribe(() => {
               this.disabledButton = false;
@@ -157,7 +170,9 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  resume(job: string) {
+  resume(job: IJob) {
+    this.selectedRow = job;
+
     const confirmOptions = new ConfirmModalOptions(
       'pagopaCruscottoApp.job.changeState.resume.question.title',
       'pagopaCruscottoApp.job.changeState.resume.question.message',
@@ -169,11 +184,12 @@ export class JobComponent implements OnInit, OnDestroy {
       .save({ width: '500px', hasBackdrop: true }, confirmOptions)
       .pipe(take(1))
       .subscribe((result: ModalResult) => {
+        this.selectedRow = null;
         if (result === ModalResult.CONFIRMED) {
           this.disabledButton = true;
           this.jobsService
             .resume({
-              jobName: job,
+              jobName: job.jobName,
             })
             .subscribe(() => {
               this.disabledButton = false;
@@ -183,7 +199,9 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  pause(job: string) {
+  pause(job: IJob) {
+    this.selectedRow = job;
+
     const confirmOptions = new ConfirmModalOptions(
       'pagopaCruscottoApp.job.changeState.pause.question.title',
       'pagopaCruscottoApp.job.changeState.pause.question.message',
@@ -195,11 +213,12 @@ export class JobComponent implements OnInit, OnDestroy {
       .save({ width: '500px', hasBackdrop: true }, confirmOptions)
       .pipe(take(1))
       .subscribe((result: ModalResult) => {
+        this.selectedRow = null;
         if (result === ModalResult.CONFIRMED) {
           this.disabledButton = true;
           this.jobsService
             .pause({
-              jobName: job,
+              jobName: job.jobName,
             })
             .subscribe(() => {
               this.disabledButton = false;
@@ -209,7 +228,9 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  stop(job: string) {
+  stop(job: IJob) {
+    this.selectedRow = job;
+
     const confirmOptions = new ConfirmModalOptions(
       'pagopaCruscottoApp.job.changeState.stop.question.title',
       'pagopaCruscottoApp.job.changeState.stop.question.message',
@@ -221,11 +242,12 @@ export class JobComponent implements OnInit, OnDestroy {
       .save({ width: '500px', hasBackdrop: true }, confirmOptions)
       .pipe(take(1))
       .subscribe((result: ModalResult) => {
+        this.selectedRow = null;
         if (result === ModalResult.CONFIRMED) {
           this.disabledButton = true;
           this.jobsService
             .stop({
-              jobName: job,
+              jobName: job.jobName,
             })
             .subscribe(() => {
               this.disabledButton = false;
@@ -236,7 +258,9 @@ export class JobComponent implements OnInit, OnDestroy {
   }
 
   edit(job: IJob) {
-    this.matDialog.open(JobEditDialogComponent, {
+    this.selectedRow = job;
+
+    const modal = this.matDialog.open(JobEditDialogComponent, {
       disableClose: true,
       width: '800px',
       maxWidth: '800px',
@@ -248,10 +272,25 @@ export class JobComponent implements OnInit, OnDestroy {
         job: job,
       },
     });
+
+    modal.afterClosed().subscribe(() => {
+      this.selectedRow = null;
+    });
   }
 
   previousState(): void {
     window.history.back();
+  }
+
+  toExecution(row: IJob): void {
+    if (row) {
+      // addValueToFilter(this.executionFilter, row.schedulerName, ExecutionFilter.SCHEDULER_NAME);
+      // addValueToFilter(this.executionFilter, row.groupName, ExecutionFilter.JOB_GROUP);
+      // addValueToFilter(this.executionFilter, row.jobName, ExecutionFilter.JOB_NAME);
+      void this.router.navigate(['/admin/jobs/execution'], {
+        queryParams: { schedulerName: row.schedulerName, groupName: row.groupName, jobName: row.jobName },
+      });
+    }
   }
 }
 
