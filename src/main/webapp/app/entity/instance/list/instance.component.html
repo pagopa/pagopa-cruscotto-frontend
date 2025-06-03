@@ -95,7 +95,7 @@
           <div class="col-lg-3">
             @let analysisStartDateRef = searchForm.get('analysisStartDate')!;
             <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartMonth">Start Month</mat-label>
+              <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartDate">Analysis Period Start Date</mat-label>
               <input
                 matInput
                 [matDatepicker]="startMonthPicker"
@@ -135,7 +135,7 @@
           <div class="col-lg-3">
             @let analysisEndDateRef = searchForm.get('analysisEndDate')!;
             <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndMonth">End Month</mat-label>
+              <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndDate">Analysis Period End Date</mat-label>
               <input matInput [matDatepicker]="endMonthPicker" formControlName="analysisEndDate" [matDatepickerFilter]="endMonthFilter" />
               <mat-datepicker-toggle matIconSuffix *ngIf="analysisEndDateRef.value" (click)="clearFields('analysisEndDate')">
                 <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
