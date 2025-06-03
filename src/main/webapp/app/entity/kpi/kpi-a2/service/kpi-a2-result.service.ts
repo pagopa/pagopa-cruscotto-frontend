@@ -35,7 +35,7 @@ export class KpiA2ResultService {
    * @param moduleId - ID del modulo per cui recuperare i KPI.
    * @returns Observable con l'array dei risultati di tipo KpiA2Result.
    */
-  getKpiA2Results(moduleId: number | undefined): Observable<KpiA2Result[]> {
+  getKpiResults(moduleId: number | undefined): Observable<KpiA2Result[]> {
     return this.http
       .get<RestKpiA2Result[]>(`${this.resourceUrl}/${moduleId}`)
       .pipe(map(res => res.map(item => this.convertKpiA2ResultFromServer(item))));
