@@ -40,7 +40,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.eligibilityThreshold' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.eligibilityThreshold | averageFormat: 2 }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.eligibilityThreshold }} {{ 'abbr.millisecond' | translate }}</td>
     </ng-container>
 
     <!-- Tolerance -->
