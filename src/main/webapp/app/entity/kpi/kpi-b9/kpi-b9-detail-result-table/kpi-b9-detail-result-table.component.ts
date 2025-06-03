@@ -105,7 +105,7 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }
