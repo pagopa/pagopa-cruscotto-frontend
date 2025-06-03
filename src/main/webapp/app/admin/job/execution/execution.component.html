@@ -1,0 +1,195 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span
+        jhiTranslate="pagopaCruscottoApp.job.execution.home.title"
+        [translateValues]="{
+          schedulerName: filter.filters['schedulerName'],
+          jobName: filter.filters['jobName'],
+          jobGroup: filter.filters['jobGroup'],
+        }"
+        >List Execution</span
+      >
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm" autocomplete="off">
+    <mat-accordion>
+      <mat-expansion-panel class="criteri-ricerca mb-4" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-start align-content-center">
+              <div class="p-2">
+                <mat-icon fontSet="material-symbols-outlined" color="primary">search</mat-icon>
+              </div>
+              <div class="p-2">
+                <span jhiTranslate="entity.search.title" class="h6">Filtri di ricerca</span>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-action-row class="d-block">
+          <div class="d-flex justify-content-end align-items-center">
+            <button
+              type="submit"
+              id="search"
+              mat-flat-button
+              color="primary"
+              [disabled]="searchForm.invalid || isLoadingResults"
+              [title]="['entity.action.search' | translate]"
+            >
+              <mat-icon fontSet="material-symbols-outlined">search</mat-icon><span jhiTranslate="entity.action.search">Search</span>
+            </button>
+            <button type="button" mat-raised-button (click)="clear()" [title]="['entity.action.clear' | translate]">
+              <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon><span jhiTranslate="entity.action.clear">Clear</span>
+            </button>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="mat-elevation-z8" *ngIf="!_search">
+        <mat-card-content>
+          <div class="d-flex align-items-center justify-content-center w-100 m-4">
+            <div class="h6 font-weight-bold">
+              {{ 'entity.list.filter' | translate }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mat-elevation-z8" *ngIf="_search">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-paginator
+            *ngIf="resultsLength > 0"
+            [pageSize]="itemsPerPage"
+            [pageIndex]="page - 1"
+            [disabled]="isLoadingResults"
+            [length]="resultsLength"
+            (page)="changePage($event)"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
+          <div class="table-responsive">
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="data"
+                class="w-100"
+                (matSortChange)="sortData($event)"
+                [matSortActive]="filter.sort.field"
+                [matSortDirection]="filter.sort.direction"
+                multiTemplateDataRows
+                matSort
+                matSortDisableClear
+              >
+                <ng-container matColumnDef="fireInstanceId">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.fireInstanceId' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.fireInstanceId }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="triggerName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.triggerName' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.triggerName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="triggerGroup">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.triggerGroup' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.triggerGroup }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="scheduledTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.scheduledTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.scheduledTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="initFiredTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.initFiredTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.initFiredTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="endFiredTime">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.endFiredTime' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.endFiredTime | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.job.execution.state' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.state }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="expand">
+                  <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                  <td mat-cell *matCellDef="let row">
+                    <button
+                      *ngIf="row.state == 'ERROR'"
+                      mat-icon-button
+                      aria-label="expand row"
+                      (click)="toggle(row); $event.stopPropagation()"
+                      class="toggle-button"
+                      [class.toggle-button-expanded]="isExpanded(row)"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined" color="primary">keyboard_arrow_down</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumnsWithExpand.length">
+                    <div class="element-detail-wrapper" [class.element-detail-wrapper-expanded]="isExpanded(row)">
+                      <div class="element-detail">
+                        <div *ngIf="row.messageException">
+                          <div [innerHTML]="row.messageException | safe: 'html'"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsWithExpand; sticky: true"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsWithExpand" class="element-row" (click)="toggle(row)"></tr>
+
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell font-weight-bold text-center" [attr.colspan]="displayedColumnsWithExpand.length">
+                    {{ 'entity.list.noResult' | translate }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
