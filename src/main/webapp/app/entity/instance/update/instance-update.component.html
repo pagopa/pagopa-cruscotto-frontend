@@ -27,10 +27,10 @@
                 <div class="d-block mb-3">
                   @let analysisPeriodStartDateRef = editForm.get('analysisPeriodStartDate')!;
                   <mat-form-field class="d-block mb-2">
-                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartMonth">Start Month</mat-label>
+                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartDate">Analysis Period Start Date</mat-label>
                     <input
                       matInput
-                      [matDatepicker]="startMonthPicker"
+                      [matDatepicker]="startDatePicker"
                       formControlName="analysisPeriodStartDate"
                       [matDatepickerFilter]="startFilter"
                     />
@@ -43,8 +43,8 @@
                         close_small
                       </mat-icon>
                     </mat-datepicker-toggle>
-                    <mat-datepicker-toggle matSuffix [for]="startMonthPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #startMonthPicker></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
                     <ng-container
                       ngProjectAs="mat-error"
                       *ngIf="analysisPeriodStartDateRef.invalid && (analysisPeriodStartDateRef.dirty || analysisPeriodStartDateRef.touched)"
@@ -70,10 +70,10 @@
 
                   @let analysisPeriodEndDateRef = editForm.get('analysisPeriodEndDate')!;
                   <mat-form-field class="d-block mb-2">
-                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndMonth">End Month</mat-label>
+                    <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndDate">Analysis Period End Date</mat-label>
                     <input
                       matInput
-                      [matDatepicker]="endMonthPicker"
+                      [matDatepicker]="endDatePicker"
                       formControlName="analysisPeriodEndDate"
                       [matDatepickerFilter]="endFilter"
                     />
@@ -86,8 +86,8 @@
                         close_small
                       </mat-icon>
                     </mat-datepicker-toggle>
-                    <mat-datepicker-toggle matSuffix [for]="endMonthPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #endMonthPicker></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #endDatePicker></mat-datepicker>
                     <ng-container
                       ngProjectAs="mat-error"
                       *ngIf="analysisPeriodEndDateRef.invalid && (analysisPeriodEndDateRef.dirty || analysisPeriodEndDateRef.touched)"
