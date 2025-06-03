@@ -97,7 +97,7 @@ export class KpiB9ResultTableComponent implements AfterViewInit, OnChanges, OnIn
       this.dataSource.data = data;
 
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }

@@ -9,7 +9,7 @@
             "excludePlannedShutdown": "Exclude Planned Shutdowns",
             "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
             "eligibilityThreshold": "Eligibility Threshold (2000,00 milliseconds)",
-            "tolerance": "Tolerance 0,00%",
+            "tolerance": "Tolerance 0,00 %",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
