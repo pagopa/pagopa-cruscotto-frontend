@@ -79,7 +79,7 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }
