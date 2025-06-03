@@ -113,10 +113,8 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.hide('isLoadingResultsKpiB2ResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-
       if (this.paginator) {
-        // Associa il paginator ai dati appena caricati
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }
