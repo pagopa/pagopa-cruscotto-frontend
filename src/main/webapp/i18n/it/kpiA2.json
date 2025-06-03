@@ -6,7 +6,7 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Data Analisi",
-            "tolerance": "Tolleranza",
+            "tolerance": "Tolleranza  0,00%",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",

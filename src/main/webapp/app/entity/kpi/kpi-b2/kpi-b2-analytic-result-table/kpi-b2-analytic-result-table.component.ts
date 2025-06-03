@@ -28,7 +28,7 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
   ],
 })
 export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['id', 'stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
+  displayedColumns: string[] = ['stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
   dataSource = new MatTableDataSource<KpiB2AnalyticData>([]);
 
   @Input() kpiB2DetailResultId: number | undefined;

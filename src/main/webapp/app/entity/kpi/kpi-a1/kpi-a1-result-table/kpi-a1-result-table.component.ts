@@ -11,6 +11,7 @@ import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
+import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
 
 @Component({
   selector: 'jhi-kpi-a1-result-table',
@@ -27,11 +28,11 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
     MatButton,
     FormatDatePipe,
     AverageFormatPipe,
+    YesOrNoViewComponent,
   ],
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
@@ -90,7 +91,7 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.show('isLoadingResultsKpiA1ResultTable').then(() => {
       this.isLoadingResults = true;
 
-      this.kpiA1ResultService.getKpiA1Results(moduleId).subscribe({
+      this.kpiA1ResultService.getKpiResults(moduleId).subscribe({
         next: (data: KpiA1Result[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
