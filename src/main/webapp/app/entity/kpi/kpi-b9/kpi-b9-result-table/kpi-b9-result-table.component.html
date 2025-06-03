@@ -24,7 +24,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.excludePlanned' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.flExcludePlannedShutdown | booleanTranslate: locale }}</td>
+      <td mat-cell *matCellDef="let element"><jhi-yes-or-no-view [yesOrNo]="element.excludePlanned"></jhi-yes-or-no-view></td>
     </ng-container>
 
     <!-- Exclude Unplanned Shutdown -->
@@ -32,7 +32,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiResults.excludeUnplanned' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.flExcludeUnplannedShutdown | booleanTranslate: locale }}</td>
+      <td mat-cell *matCellDef="let element"><jhi-yes-or-no-view [yesOrNo]="element.excludeUnplanned"></jhi-yes-or-no-view></td>
     </ng-container>
 
     <!-- Eligibility Threshold -->

@@ -11,7 +11,7 @@ import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
-import { BooleanTranslatePipe } from '../../../../shared/pipes/boolean-translate.pipe';
+import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
 
 @Component({
   selector: 'jhi-kpi-a1-result-table',
@@ -28,7 +28,7 @@ import { BooleanTranslatePipe } from '../../../../shared/pipes/boolean-translate
     MatButton,
     FormatDatePipe,
     AverageFormatPipe,
-    BooleanTranslatePipe,
+    YesOrNoViewComponent,
   ],
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
