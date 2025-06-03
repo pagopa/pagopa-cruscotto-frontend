@@ -11,12 +11,6 @@
 
 <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate">
   <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
-    <!-- ID -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.id' | translate }}</th>
-      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-    </ng-container>
-
     <!-- Analysis Date -->
     <ng-container matColumnDef="analysisDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -30,7 +24,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.excludePlannedShutdown' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.excludePlannedShutdown ? 'Sì' : 'No' }}</td>
+      <td mat-cell *matCellDef="let element"><jhi-yes-or-no-view [yesOrNo]="element.excludePlannedShutdown"></jhi-yes-or-no-view></td>
     </ng-container>
 
     <!-- Exclude Unplanned Shutdown -->
@@ -38,7 +32,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.excludeUnplannedShutdown' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.excludeUnplannedShutdown ? 'Sì' : 'No' }}</td>
+      <td mat-cell *matCellDef="let element"><jhi-yes-or-no-view [yesOrNo]="element.excludeUnplannedShutdown"></jhi-yes-or-no-view></td>
     </ng-container>
 
     <!-- Eligibility Threshold -->
@@ -46,7 +40,7 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.eligibilityThreshold' | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.eligibilityThreshold | averageFormat: 2 }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.eligibilityThreshold }} {{ 'abbr.millisecond' | translate }}</td>
     </ng-container>
 
     <!-- Tolerance -->

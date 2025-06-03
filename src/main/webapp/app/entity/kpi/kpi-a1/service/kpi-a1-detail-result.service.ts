@@ -29,12 +29,12 @@ export class KpiA1DetailResultService {
   /**
    * Recupera i dettagli dei KPI A1 per un dato modulo.
    *
-   * @param moduleId ID del modulo
+   * @param kpiA1ResultId ID del modulo
    * @returns Observable con l'array dei risultati di tipo KpiA1DetailResult.
    */
-  findByModuleId(moduleId: number): Observable<KpiA1DetailResult[]> {
+  findByResultId(kpiA1ResultId: number): Observable<KpiA1DetailResult[]> {
     return this.http
-      .get<RestKpiA1DetailResult[]>(`${this.resourceUrl}/${moduleId}`)
+      .get<RestKpiA1DetailResult[]>(`${this.resourceUrl}/${kpiA1ResultId}`)
       .pipe(map(res => res.map(item => this.convertFromServer(item))));
   }
 
