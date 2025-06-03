@@ -26,7 +26,7 @@
         "partnerFiscalCode": "Partner FC",
         "predictedDateAnalysis": "Predicted Date for Analysis",
         "applicationDate": "Instance Date",
-        "assignedTo": "Assigned User",
+        "assignedTo": "Examiner",
         "analysisPeriodStartDate": "Analysis Period Start Date",
         "analysisPeriodEndDate": "Analysis Period End Date",
         "status": "Status",

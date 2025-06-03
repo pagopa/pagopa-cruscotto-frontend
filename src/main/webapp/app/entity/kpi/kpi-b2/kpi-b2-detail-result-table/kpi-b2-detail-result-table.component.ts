@@ -31,7 +31,6 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
 })
 export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
     'analysisDate',
     'stationName',
     'method',

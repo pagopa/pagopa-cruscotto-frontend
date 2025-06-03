@@ -5,6 +5,7 @@
         "title": "Jobs",
         "notFound": "No Jobs found"
       },
+      "schedulerName": "Scheduler",
       "jobName": "Job Name",
       "groupName": "Group",
       "cron": "Cron",
@@ -24,11 +25,24 @@
         "minute": "Minuti"
       },
       "action": {
+        "history": "Execution History",
         "start": "Start Job",
         "pause": "Pause Schedulation",
         "resume": "Resume Schedulation",
         "stop": "Stop Job",
         "edit": "Edit Schedulation"
+      },
+      "execution": {
+        "home": {
+          "title": "List Execution '{{ schedulerName }}: {{ jobGroup }} - {{ jobName }}'"
+        },
+        "fireInstanceId": "Unique Identifier",
+        "triggerName": "Trigger Name",
+        "triggerGroup": "Trigger Group",
+        "initFiredTime": "Execution Start Date",
+        "endFiredTime": "Execution End Date",
+        "scheduledTime": "Scheduled Time",
+        "state": "State"
       }
     }
   },

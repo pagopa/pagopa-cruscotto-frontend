@@ -6,8 +6,8 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { LocaltionHelper } from '../../../core/location/location.helper';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { addFilterToRequest, addToFilter, addValueToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { addFilterToRequest, addToFilter, getFilterValue } from '../../../shared/pagination/filter-util.pagination';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -32,22 +32,7 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import dayjs from '../../../config/dayjs';
-import { DATE_FORMAT_ISO } from 'app/config/input.constants';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
-import { DatePickerFormatDirective } from '../../../shared/date/date-picker-format.directive';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 
 @Component({
   selector: 'jhi-instance',
@@ -74,9 +59,7 @@ export const MY_FORMATS = {
     PartnerSelectComponent,
     MatSelectModule,
     MatDatepickerModule,
-    DatePickerFormatDirective,
   ],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
@@ -347,27 +330,15 @@ export class InstanceComponent implements OnInit, OnDestroy {
       });
   }
 
-  startMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+  startFilter = (date: dayjs.Dayjs | null): boolean => {
     const endDate = this.searchForm.get('analysisEndDate')?.value || dayjs().add(5, 'year');
 
-    return date ? date.isSameOrBefore(endDate, 'month') : true;
+    return date ? date.isSameOrBefore(endDate) : true;
   };
 
-  endMonthFilter = (date: dayjs.Dayjs | null): boolean => {
+  endFilter = (date: dayjs.Dayjs | null): boolean => {
     const startDate = this.searchForm.get('analysisStartDate')?.value || dayjs().add(-5, 'year');
 
-    return date ? date.isSameOrAfter(startDate, 'month') : true;
+    return date ? date.isSameOrAfter(startDate) : true;
   };
-
-  selectStartMonth(selected: dayjs.Dayjs, picker: any): void {
-    const firstDayOfMonth = selected.startOf('month');
-    this.searchForm.get('analysisStartDate')!.setValue(firstDayOfMonth);
-    picker.close();
-  }
-
-  selectEndMonth(selected: dayjs.Dayjs, picker: any): void {
-    const lastDayOfMonth = selected.endOf('month');
-    this.searchForm.get('analysisEndDate')!.setValue(lastDayOfMonth);
-    picker.close();
-  }
 }
