@@ -96,14 +96,14 @@
             @let analysisStartDateRef = searchForm.get('analysisStartDate')!;
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodStartDate">Analysis Period Start Date</mat-label>
-              <input matInput [matDatepicker]="startMonthPicker" formControlName="analysisStartDate" [matDatepickerFilter]="startFilter" />
+              <input matInput [matDatepicker]="startDatePicker" formControlName="analysisStartDate" [matDatepickerFilter]="startFilter" />
               <mat-datepicker-toggle matIconSuffix *ngIf="analysisStartDateRef.value" (click)="clearFields('analysisStartDate')">
                 <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                   close_small
                 </mat-icon>
               </mat-datepicker-toggle>
-              <mat-datepicker-toggle matSuffix [for]="startMonthPicker"></mat-datepicker-toggle>
-              <mat-datepicker #startMonthPicker></mat-datepicker>
+              <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker></mat-datepicker>
               <ng-container
                 ngProjectAs="mat-error"
                 *ngIf="analysisStartDateRef.invalid && (analysisStartDateRef.dirty || analysisStartDateRef.touched)"
@@ -126,14 +126,14 @@
             @let analysisEndDateRef = searchForm.get('analysisEndDate')!;
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.instance.analysisPeriodEndDate">Analysis Period End Date</mat-label>
-              <input matInput [matDatepicker]="endMonthPicker" formControlName="analysisEndDate" [matDatepickerFilter]="endFilter" />
+              <input matInput [matDatepicker]="endDatePicker" formControlName="analysisEndDate" [matDatepickerFilter]="endFilter" />
               <mat-datepicker-toggle matIconSuffix *ngIf="analysisEndDateRef.value" (click)="clearFields('analysisEndDate')">
                 <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
                   close_small
                 </mat-icon>
               </mat-datepicker-toggle>
-              <mat-datepicker-toggle matSuffix [for]="endMonthPicker"></mat-datepicker-toggle>
-              <mat-datepicker #endMonthPicker></mat-datepicker>
+              <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
               <ng-container
                 ngProjectAs="mat-error"
                 *ngIf="analysisEndDateRef.invalid && (analysisEndDateRef.dirty || analysisEndDateRef.touched)"
