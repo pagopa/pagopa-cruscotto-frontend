@@ -15,8 +15,17 @@ export class ModuleService {
 
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/modules');
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  getWithoutConfiguration(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IModule[]>(`${this.resourceUrl}/no-configuration`, { params: options, observe: 'response' });
+  }
+
+  query(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IModule[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
+
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 }

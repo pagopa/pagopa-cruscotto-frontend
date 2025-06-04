@@ -24,6 +24,9 @@
       "kpiConfiguration": {
         "main": "Configurazioni Kpi"
       },
+      "module": {
+        "main": "Moduli"
+      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"

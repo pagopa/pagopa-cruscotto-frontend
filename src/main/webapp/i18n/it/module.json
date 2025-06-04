@@ -2,6 +2,24 @@
   "pagopaCruscottoApp": {
     "module": {
       "module": "Modulo",
+      "home": {
+        "title": "Moduli"
+      },
+      "list": {
+        "createLabel": "Nuovo Modulo"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
+      },
+      "id": "id",
+      "code": "codice",
+      "name": "nome",
+      "description": "descrizione",
+      "analysisType": "analisi",
+      "allowManualOutcome": "abilita risultati manuali",
+      "status": "stato",
+      "status.ATTIVO": "attivo",
+      "status.NON_ATTIVO": "non attivo",
       "tables": {
         "KpiResults": {
           "title": "Risultati",
