@@ -28,7 +28,7 @@
         "main": "Institution",
         "institution": "Institution"
       },
-      "administration": {
+      "systemAdministration": {
         "main": "Administration",
         "userManagement": "User Management",
         "tracker": "User tracker",
@@ -36,13 +36,14 @@
         "health": "Health",
         "configuration": "Configuration",
         "logSystem": "System Log",
-        "apidocs": "API",
-        "database": "Database"
+        "apiDocs": "API",
+        "database": "Database",
+        "jobs": "Jobs"
       },
       "language": {
-        "italiano": "Italiano",
+        "italiano": "Italian",
         "english": "English",
-        "it": "Italiano",
+        "it": "Italian",
         "en": "English"
       },
       "cookie": "Cookie",
@@ -63,10 +64,10 @@
       }
     },
     "form": {
-      "username.label": "Username",
-      "currentpassword.label": "Current password",
-      "newpassword.label": "New password",
-      "confirmpassword.label": "New password confirmation",
+      "username": "Username",
+      "currentPassword": "Current password",
+      "newpassword": "New password",
+      "confirmpassword": "New password confirmation",
       "email": "Email",
       "select": {
         "search": "Search",
@@ -192,7 +193,7 @@
       "source": "Source",
       "downloadZip": "Download Zip",
       "downloadXml": "Download Xml",
-      "graphic": "Grafico",
+      "graphic": "Graphic",
       "resetPassword": "Reset password"
     },
     "detail": {
@@ -288,7 +289,6 @@
   "abbr": {
     "millisecond": "msec"
   },
-  "millisecond": "ms",
   "cookie": {
     "header": "Cookies used on the website!",
     "message": "This website uses cookies to ensure you get the best experience on our website",

@@ -4,61 +4,57 @@
       "home": {
         "title": "Groups"
       },
-      "lista": {
-        "azione": "",
-        "button": {
-          "creazione": "New Group",
-          "ordinamento": "Sorting Groups"
-        },
-        "id": "Id",
-        "nome": "Name",
-        "descrizione": "Description",
-        "livelloVisibilita": "Visibility level",
-        "finder": {
-          "nome": "Name",
-          "descrizione": "Description"
-        },
-        "action": {
-          "associaFunzioni": "Functions Association"
-        }
-      },
       "created": "A new group with identifier {{ param }} has been created",
       "updated": "The group with identifier {{ param }} has been updated",
       "deleted": "The group with identifier {{ param }} has been deleted",
       "delete": {
         "question": "Are you sure you want to delete the group with identifier {{ id }}?"
       },
+      "nome": "Name",
+      "descrizione": "Description",
+      "functions": "Functions",
+      "livelloVisibilita": "Visibility level",
+      "group": "Group",
+      "lista": {
+        "createLabel": "New Group",
+        "orderLabel": "Group Sorting",
+        "action": {
+          "manageFunctions": {
+            "label": "Functions Association",
+            "ariaLabel": "Edit associated functions function"
+          }
+        }
+      },
       "detail": {
-        "title": "Group",
-        "nome": "Name",
-        "descrizione": "Description",
-        "funzioni": "Functions"
+        "title": "Group Detail",
+        "modify.title": "Group Modification"
       },
       "update": {
         "create.title": "New Group Creation",
-        "modify.title": "Group Modification",
-        "nome": "Name",
-        "descrizione": "Description",
-        "funzioni": "Functions"
+        "modify.title": "Group Modification"
       },
-      "order": {
-        "title": "Sorting Groups",
-        "notFound": "No groups defined"
+      "visibilityManagement": {
+        "title": "Visibility Management"
       },
-      "associaFunzioni": {
-        "title": "Functions-to-group Association",
-        "funzioniAssociate.title": "Associated Function",
-        "funzioniAssociabili": {
-          "title": "Associable Function",
-          "action.associa": "Associate",
-          "action.delete": "Remove Association"
+      "manageFunctions": {
+        "title": "Manage Functions Associated with the Group",
+        "associatedFunctions": {
+          "title": "Associated Functions",
+          "question": {
+            "title": "Dissociate Function",
+            "message": "Are you sure you want to remove the association?"
+          }
         },
-        "delete": {
-          "question": "Are you sure you want to delete the association with the function {{ funzione }}?"
-        },
-        "azione": "",
-        "nome": "Name",
-        "descrizione": "Description"
+        "assignableFunctions": {
+          "title": "Assignable Functions",
+          "action.associa": "Associate Selected",
+          "action.delete": "Remove Association",
+          "message.limit.selected": "You can select up to <strong>{{ param }}</strong> permissions",
+          "question": {
+            "title": "Associate Functions",
+            "message": "Are you sure you want to associate the selected functions?"
+          }
+        }
       },
       "message": {
         "associaFunzioni.created": "Associated functions",
@@ -77,6 +73,26 @@
         "funzioneNotExists": "Function to be dissociated non-existent"
       },
       "notExists": "Non-existent group"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authGroupUpdateRequestBean": {
+      "id": {
+        "NotEmpty": "The 'Id' field is required",
+        "Digits": "The 'Id' field must be a positive integer"
+      },
+      "livelloVisibilita": {
+        "NotEmpty": "The 'Visibility Level' field is required",
+        "Pattern": "The 'Visibility Level' field must be a positive integer"
+      }
+    },
+    "authGroupFilter": {
+      "nome": {
+        "Size": "The 'Name' field must contain a maximum of 50 characters"
+      },
+      "descrizione": {
+        "Size": "The 'Description' field must contain a maximum of 200 characters"
+      }
     }
   }
 }

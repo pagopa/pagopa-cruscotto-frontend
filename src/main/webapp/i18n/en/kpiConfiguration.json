@@ -32,6 +32,7 @@
   },
   "error": {
     "kpiConfiguration": {
+      "notExists": "Kpi Configuration not present",
       "moduleNotExists": "Module not present",
       "cannotBeUpdated": "Kpi Configuration cannot be updated",
       "cannotBeDeleted": "Kpi Configuration cannot be deleted"
