@@ -9,5 +9,12 @@
       },
       "station": "Stazione"
     }
+  },
+  "pagopaCruscottoBackendApp": {
+    "stationFilter": {
+      "partnerId": {
+        "Pattern": "Il campo 'Partner' deve essere un numero intero positivo"
+      }
+    }
   }
 }

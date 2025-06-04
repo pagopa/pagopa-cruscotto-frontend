@@ -28,8 +28,8 @@
           "waitedcount": "Waited Count",
           "lockname": "Lock name",
           "stacktrace": "Stacktrace",
-          "show": "Show",
-          "hide": "Hide"
+          "show": "Mostra Stacktrace",
+          "hide": "Nascandi Stacktrace"
         }
       },
       "gc": {
@@ -57,12 +57,12 @@
         }
       },
       "endpoint": {
-        "title": "Endpoints requests (time in millisecond)",
+        "title": "Endpoints delle richieste (time in millisecond)",
         "table": {
           "method": "Method",
           "url": "Endpoint Url",
           "mean": "Mean",
-          "count": "count"
+          "count": "Count"
         }
       }
     },
@@ -83,9 +83,9 @@
     "cache": {
       "title": "Statistiche cache",
       "cacheName": "Nome Cache",
-      "hits": "Hits",
-      "misses": "Misses",
-      "evictions": "Evictions",
+      "hits": "Cache Hits",
+      "misses": "Cache Misses",
+      "evictions": "Cache Evictions",
       "gets": "Cache Gets",
       "puts": "Cache Puts",
       "removals": "Cache Removals",
@@ -93,7 +93,7 @@
       "missPercent": "Cache Miss %"
     },
     "datasource": {
-      "usage": "Utilizzo",
+      "usage": "Utilizzo Connection Pool",
       "title": "Statistiche DataSource (in millisecondi)",
       "name": "Pool usage",
       "count": "Count",

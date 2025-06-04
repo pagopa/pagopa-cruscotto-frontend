@@ -42,9 +42,9 @@
       },
       "language": {
         "italiano": "Italiano",
-        "english": "English",
+        "english": "Inglese",
         "it": "Italiano",
-        "en": "English"
+        "en": "Inglese"
       },
       "cookie": "Cookie",
       "account": {
@@ -188,7 +188,7 @@
       "search": "Cerca",
       "detail": "Dettaglio",
       "confirm": "Conferma",
-      "show": "Show {{otherEntity}}",
+      "show": "Mostra {{otherEntity}}",
       "download": "Scarica",
       "source": "Sorgente",
       "downloadZip": "Download Zip",

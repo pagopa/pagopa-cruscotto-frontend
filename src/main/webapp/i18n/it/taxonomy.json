@@ -25,5 +25,12 @@
       "lastModifiedBy": "Modificato da",
       "lastModifiedDate": "Modificato il"
     }
+  },
+  "pagopaCruscottoBackendApp": {
+    "taxonomyFilter": {
+      "takingsIdentifier": {
+        "Size": "Il campo 'Dati di Incasso' non pu\u00F2 contenere più di 50 caratteri"
+      }
+    }
   }
 }

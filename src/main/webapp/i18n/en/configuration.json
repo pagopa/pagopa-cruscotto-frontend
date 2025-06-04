@@ -3,8 +3,13 @@
     "title": "Configuration",
     "filter": "Filter (by prefix)",
     "table": {
+      "springConfiguration": {
+        "title": "Spring configuration"
+      },
       "prefix": "Prefix",
-      "properties": "Properties"
+      "properties": "Properties",
+      "property": "property",
+      "value": "Value"
     }
   }
 }
