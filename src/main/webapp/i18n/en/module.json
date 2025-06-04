@@ -2,6 +2,24 @@
   "pagopaCruscottoApp": {
     "module": {
       "module": "Module",
+      "home": {
+        "title": "Module"
+      },
+      "list": {
+        "createLabel": "New Module"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the module with identifier <br> {{ id }}?"
+      },
+      "id": "id",
+      "code": "code",
+      "name": "name",
+      "description": "description",
+      "analysisType": "analysisType",
+      "allowManualOutcome": "allowManualOutcome",
+      "status": "status",
+      "status.ATTIVO": "active",
+      "status.NON_ATTIVO": "inactive",
       "tables": {
         "KpiResults": {
           "title": "Results",

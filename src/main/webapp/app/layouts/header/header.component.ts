@@ -85,6 +85,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
       large: true,
     },
     {
+      label: 'global.menu.module.main',
+      route: '/entity/modules',
+      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      xSmall: false,
+      small: false,
+      medium: true,
+      large: true,
+    },
+    {
       label: 'global.menu.usersAdministration.main',
       xSmall: false,
       small: false,

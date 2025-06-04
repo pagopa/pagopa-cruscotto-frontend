@@ -149,7 +149,7 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
 
     addStringToReq(search, 'name', req);
 
-    return this.moduleService.query(req).pipe(
+    return this.moduleService.getWithoutConfiguration(req).pipe(
       map((value: HttpResponse<IModule[]>) => {
         const modules = value.body || [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
