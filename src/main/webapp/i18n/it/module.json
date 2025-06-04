@@ -8,6 +8,17 @@
       "list": {
         "createLabel": "Nuovo Modulo"
       },
+      "detail": {
+        "title": "Dettaglio Modulo"
+      },
+      "update": {
+        "create.title": "Creazione Modulo",
+        "modify.title": "Modifica Modulo",
+        "status.active": "Attivo",
+        "status.inactive": "Non Attivo",
+        "analysisType.automatic": "Automatica",
+        "analysisType.manual": "Manuale"
+      },
       "delete": {
         "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
       },
@@ -89,6 +100,13 @@
         "name": "Integrazione nativa con SEND",
         "description": "Verifica attivazione del servizio di attualizzazione delle spese di notifica SEND in modalità sincrona per tutti gli enti integrati, con garanzia di aggiornamento degli importi"
       }
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "module": {
+      "created": "\u00C8 stato creato un nuovo modulo con identificativo {{ param }}",
+      "updated": "\u00C8 stato aggiornato il modulo con identificativo {{ param }}",
+      "deleted": "\u00C8 stato eliminato il modulo con identificativo {{ param }}"
     }
   }
 }

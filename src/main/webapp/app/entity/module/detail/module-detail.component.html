@@ -1,0 +1,66 @@
+@if (module) {
+  <div>
+    <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+      <div class="h2">
+        <span jhiTranslate="pagopaCruscottoApp.module.detail.title">Module Detail</span> [<strong>{{ module.code }}</strong
+        >]
+      </div>
+      <div>
+        <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+          <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/entity/modules', module.id, 'edit']"
+          [title]="['pagopaCruscottoApp.module.detail.modify.title' | translate]"
+        >
+          <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+          <span jhiTranslate="pagopaCruscottoApp.module.update.modify.title">Update</span>
+        </button>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <mat-card class="mat-elevation-z8">
+          <mat-card-content>
+            <div class="row custom-row p-2">
+              <div class="col-lg-2">
+                <span jhiTranslate="global.field.id">Id</span>
+                <p class="p-2 bg-light">{{ module.id }}</p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.code">Code</span>
+                <p class="p-2 bg-light">{{ module.code }}</p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.name">Name</span>
+                <p class="p-2 bg-light">{{ module.name }}</p>
+              </div>
+              <div class="col-lg-6">
+                <span jhiTranslate="pagopaCruscottoApp.module.description">Description</span>
+                <p class="p-2 bg-light">{{ module.description }}</p>
+              </div>
+            </div>
+            <div class="row custom-row p-2">
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.analysisType">Analysis Type</span>
+                <p class="p-2 bg-light">{{ module.analysisType }}</p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.allowManualOutcome">Allow Manual Outcome</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.allowManualOutcome"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.status">status</span>
+                <p class="p-2 bg-light">{{ 'pagopaCruscottoApp.module.status.' + module.status | translate | uppercase }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+}
