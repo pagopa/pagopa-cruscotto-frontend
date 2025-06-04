@@ -10,6 +10,8 @@ export interface IModule {
   status?: string;
 }
 
+export type NewModule = Omit<IModule, 'id'> & { id: null };
+
 export interface IModuleConfiguration {
   configExcludePlannedShutdown?: boolean | null;
   configExcludeUnplannedShutdown?: boolean | null;
