@@ -22,7 +22,7 @@
           </ngx-spinner>
           <mat-card-content>
             <div class="row mt-3 p-2">
-              <div class="offset-md-3 col-md-5">
+              <div class="offset-md-3 col-md-6">
                 <jhi-partner-select [parentForm]="editForm" formInnerControlName="partner"></jhi-partner-select>
 
                 <jhi-station-select
@@ -77,7 +77,7 @@
                   </ng-container>
                 </mat-form-field>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 @let shutdownStartHourRef = editForm.get('shutdownStartHour')!;
                 <mat-form-field class="w-100 mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.shutdown.update.shutdownStartTime.label"></mat-label>
@@ -151,7 +151,7 @@
                   </ng-container>
                 </mat-form-field>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 @let shutdownEndHourRef = editForm.get('shutdownEndHour')!;
 
                 <mat-form-field class="w-100 mb-2">

@@ -64,9 +64,19 @@
         "permessiDaAssociare.notEmpty": "Selezionare almeno un permesso da associare alla funzione"
       },
       "dissociaPermesso": {
-        "permessoNotExists": "Permesso da dissociare inesistente"
+        "permessoNotExists": "Permesso da dissociare non presente"
       },
-      "notExists": "Funzione inesistente"
+      "notExists": "Funzione non presente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authFunctionFilter": {
+      "nome": {
+        "Size": "Il campo 'Nome' deve contenere al massimo 50 caratteri"
+      },
+      "descrizione": {
+        "Size": "Il campo 'Descrizione' deve contenere al massimo 200 caratteri"
+      }
     }
   }
 }

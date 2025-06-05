@@ -3,7 +3,6 @@
 .mat-column-evaluationDate,
 .mat-column-totPayments,
 .mat-column-totIncorrectPayments {
-  text-align: center; /* Centra il contenuto orizzontalmente */
-  justify-content: center; /* Centra orizzontalmente il contenuto */
-  align-items: center; /* Centra verticalmente il contenuto */
+  width: 150px;
+  text-align: center;
 }

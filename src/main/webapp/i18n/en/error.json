@@ -11,6 +11,10 @@
       "503": "Service Unavailable"
     },
     "empty": "{{ message }}",
+    "download": {
+      "generic": "Error while downloading",
+      "404": "File not found"
+    },
     "concurrencyFailure": "Another user modified this data at the same time as you. Your changes were rejected",
     "validation": "Validation error on the server",
     "404": {

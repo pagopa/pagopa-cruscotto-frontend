@@ -33,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import dayjs from '../../../config/dayjs';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { OutcomeStatus } from '../../kpi/kpi-b2/models/KpiB2Result';
 
 @Component({
   selector: 'jhi-instance',
@@ -341,4 +342,5 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
     return date ? date.isSameOrAfter(startDate) : true;
   };
+  protected readonly OutcomeStatus = OutcomeStatus;
 }

@@ -5,15 +5,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class AverageFormatPipe implements PipeTransform {
   /**
-   * Trasforma i numeri in formato decimale italiano e aggiunge il simbolo %
-   * @param value Il valore numerico da formattare (può essere null o stringa)
-   * @param decimals Numero di cifre decimali (default: 5)
-   * @returns Ritorna il valore formattato. Se valore nullo o invalido: "0,00 %" o "0,00000 %"
+   * Transforms a numeric value into a formatted string with specified decimals, replacing the decimal separator with a comma and appending a percentage sign.
+   *
+   * @param {any} value - The input value to be transformed. It is expected to be a numeric value or a string that can be parsed as a number.
+   * @param {number} [decimals=5] - The number of decimal places to retain in the formatted output. Defaults to 5.
+   * @return {string} A formatted string representing the numeric value with specified decimals, a comma as the decimal separator, and a percentage sign. Returns an empty string if the input is invalid or cannot be parsed as a number.
    */
   transform(value: any, decimals: number = 5): string {
-    // Controlla se il valore è nullo, undefined, o invalido
     if (value === null || value === undefined || isNaN(parseFloat(value))) {
-      return decimals === 2 ? '0,00 %' : '0,00000 %';
+      return '';
     }
     const numericValue = parseFloat(value);
     const formattedValue = numericValue.toFixed(decimals);
