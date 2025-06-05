@@ -27,7 +27,7 @@
         "shutdownStartTime": {
           "label": "Orario Inizio Fermo",
           "validation": {
-            "timeLoeThanEndTime": "L'orario di Inizio Fermo deve essere precedente all'orario di Fine Fermo"
+            "timeLoeThanEndTime": "L'ora di Inizio deve essere precedente all'ora di Fine"
           }
         },
         "shutdownEndDate": {
@@ -40,7 +40,7 @@
         "shutdownEndTime": {
           "label": "Orario Fine Fermo",
           "validation": {
-            "timeGoeThanStartTime": "L'orario di Fine Fermo deve essere successivo all'orario di Inizio Fermo"
+            "timeGoeThanStartTime": "L'ora di Fine deve essere successiva all'ora di Inizio"
           }
         }
       },

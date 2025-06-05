@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1ResultService } from '../service/kpi-a1-result.service';
@@ -10,7 +10,6 @@ import { KpiA1Result } from '../models/KpiA1Result';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
 
 @Component({
@@ -27,8 +26,8 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     NgClass,
     MatButton,
     FormatDatePipe,
-    AverageFormatPipe,
     YesOrNoViewComponent,
+    DecimalPipe,
   ],
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {

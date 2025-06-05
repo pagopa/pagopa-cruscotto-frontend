@@ -4,12 +4,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { KpiB2ResultService } from '../service/kpi-b2-result.service';
 import { KpiB2Result, OutcomeStatus } from '../models/KpiB2Result';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
 
 @Component({
@@ -32,8 +31,8 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     MatButton,
     FormatDatePipe,
     NgClass,
-    AverageFormatPipe,
     YesOrNoViewComponent,
+    DecimalPipe,
   ],
 })
 export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {

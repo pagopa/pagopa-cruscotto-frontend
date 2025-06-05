@@ -2,12 +2,11 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA2ResultService } from '../service/kpi-a2-result.service';
 import { KpiA2Result } from '../models/KpiA2Result';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 import { MatButton } from '@angular/material/button';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
@@ -23,10 +22,10 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     NgxSpinnerModule,
     TranslateModule,
     NgIf,
-    AverageFormatPipe,
     NgClass,
     MatButton,
     FormatDatePipe,
+    DecimalPipe,
   ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
