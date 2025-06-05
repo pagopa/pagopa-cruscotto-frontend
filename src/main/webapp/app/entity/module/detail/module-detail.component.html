@@ -29,20 +29,10 @@
                 <span jhiTranslate="global.field.id">Id</span>
                 <p class="p-2 bg-light">{{ module.id }}</p>
               </div>
-              <div class="col-lg-2">
-                <span jhiTranslate="pagopaCruscottoApp.module.code">Code</span>
-                <p class="p-2 bg-light">{{ module.code }}</p>
-              </div>
-              <div class="col-lg-2">
+              <div class="col-lg-4">
                 <span jhiTranslate="pagopaCruscottoApp.module.name">Name</span>
                 <p class="p-2 bg-light">{{ module.name }}</p>
               </div>
-              <div class="col-lg-6">
-                <span jhiTranslate="pagopaCruscottoApp.module.description">Description</span>
-                <p class="p-2 bg-light">{{ module.description }}</p>
-              </div>
-            </div>
-            <div class="row custom-row p-2">
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.module.analysisType">Analysis Type</span>
                 <p class="p-2 bg-light">{{ module.analysisType }}</p>
@@ -56,6 +46,10 @@
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.module.status">status</span>
                 <p class="p-2 bg-light">{{ 'pagopaCruscottoApp.module.status.' + module.status | translate | uppercase }}</p>
+              </div>
+              <div class="col-lg-12">
+                <span jhiTranslate="pagopaCruscottoApp.module.description">Description</span>
+                <p class="p-2 bg-light">{{ module.description }}</p>
               </div>
             </div>
           </mat-card-content>
