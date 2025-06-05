@@ -47,6 +47,42 @@
                 <span jhiTranslate="pagopaCruscottoApp.module.status">status</span>
                 <p class="p-2 bg-light">{{ 'pagopaCruscottoApp.module.status.' + module.status | translate | uppercase }}</p>
               </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configExcludePlannedShutdown">Configure Planned Shutdowns Esclusion</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configExcludePlannedShutdown"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configExcludeUnplannedShutdown">Configure Unplanned Shutdowns Esclusion</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configExcludeUnplannedShutdown"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configEligibilityThreshold">Configure Elegibility Threshold</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configEligibilityThreshold"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configEvaluationType">Configure Evaluation Type</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configEvaluationType"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configTolerance">Configure Tolerance</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configTolerance"></jhi-yes-or-no-view>
+                </p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.module.configAverageTimeLimit">Configure Average Time Limit</span>
+                <p class="p-2 bg-light">
+                  <jhi-yes-or-no-view [yesOrNo]="module.configAverageTimeLimit"></jhi-yes-or-no-view>
+                </p>
+              </div>
               <div class="col-lg-12">
                 <span jhiTranslate="pagopaCruscottoApp.module.description">Description</span>
                 <p class="p-2 bg-light">{{ module.description }}</p>

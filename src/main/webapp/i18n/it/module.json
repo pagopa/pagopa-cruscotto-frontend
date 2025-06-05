@@ -31,6 +31,12 @@
       "status": "stato",
       "status.ATTIVO": "attivo",
       "status.NON_ATTIVO": "non attivo",
+      "configAverageTimeLimit": "configura tempo limite medio",
+      "configEligibilityThreshold": "configura soglia",
+      "configEvaluationType": "configura tipo valutazione",
+      "configExcludePlannedShutdown": "configura esclusione fermi pianificati",
+      "configExcludeUnplannedShutdown": "configura esclusione fermi non pianificati",
+      "configTolerance": "configura tolleranza",
       "tables": {
         "KpiResults": {
           "title": "Risultati",

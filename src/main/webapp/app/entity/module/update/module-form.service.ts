@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
 import _ from 'lodash';
 
-import { stringNumericValidatorFn } from 'app/shared/util/validator-util';
-import { IModule, NewModule, IModuleConfiguration } from '../module.model';
+import { IModule, NewModule } from '../module.model';
 
 const CONFIG_FIELD_MAPPINGS = {
   configEligibilityThreshold: 'eligibilityThreshold',
@@ -36,6 +34,12 @@ type ModuleFormGroupContent = {
   analysisType: FormControl<IModule['analysisType'] | NewModule['analysisType']>;
   allowManualOutcome: FormControl<IModule['allowManualOutcome'] | NewModule['allowManualOutcome']>;
   status: FormControl<IModule['status'] | NewModule['status']>;
+  configAverageTimeLimit: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit']>;
+  configEligibilityThreshold: FormControl<IModule['configEligibilityThreshold'] | NewModule['configEligibilityThreshold']>;
+  configEvaluationType: FormControl<IModule['configEvaluationType'] | NewModule['configEvaluationType']>;
+  configExcludePlannedShutdown: FormControl<IModule['configExcludePlannedShutdown'] | NewModule['configExcludePlannedShutdown']>;
+  configExcludeUnplannedShutdown: FormControl<IModule['configExcludeUnplannedShutdown'] | NewModule['configExcludeUnplannedShutdown']>;
+  configTolerance: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit']>;
 };
 
 export type ModuleFormGroup = FormGroup<ModuleFormGroupContent>;
@@ -64,6 +68,30 @@ export class ModuleFormService {
         { validators: [Validators.required], nonNullable: true },
       ),
       status: new FormControl({ value: ModuleRawValue.status, disabled: false }, { validators: [Validators.required], nonNullable: true }),
+      configAverageTimeLimit: new FormControl(
+        { value: ModuleRawValue.configAverageTimeLimit, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configEligibilityThreshold: new FormControl(
+        { value: ModuleRawValue.configEligibilityThreshold, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configEvaluationType: new FormControl(
+        { value: ModuleRawValue.configEvaluationType, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configExcludePlannedShutdown: new FormControl(
+        { value: ModuleRawValue.configExcludePlannedShutdown, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configExcludeUnplannedShutdown: new FormControl(
+        { value: ModuleRawValue.configExcludeUnplannedShutdown, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configTolerance: new FormControl(
+        { value: ModuleRawValue.configTolerance, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
     });
   }
 

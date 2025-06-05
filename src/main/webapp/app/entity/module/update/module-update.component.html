@@ -112,6 +112,141 @@
                   </ng-container>
                 </mat-form-field>
               </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludePlannedShutdown"></mat-label>
+                  <mat-select formControlName="configExcludePlannedShutdown">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configExcludePlannedShutdownRef = editForm.get('configExcludePlannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configExcludePlannedShutdownRef.invalid &&
+                      (configExcludePlannedShutdownRef.dirty || configExcludePlannedShutdownRef.touched)
+                    "
+                  >
+                    @if (configExcludePlannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludeUnplannedShutdown"></mat-label>
+                  <mat-select formControlName="configExcludeUnplannedShutdown">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configExcludeUnplannedShutdownRef = editForm.get('configExcludeUnplannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configExcludeUnplannedShutdownRef.invalid &&
+                      (configExcludeUnplannedShutdownRef.dirty || configExcludeUnplannedShutdownRef.touched)
+                    "
+                  >
+                    @if (configExcludeUnplannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configEligibilityThreshold"></mat-label>
+                  <mat-select formControlName="configEligibilityThreshold">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configEligibilityThresholdRef = editForm.get('configEligibilityThreshold')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configEligibilityThresholdRef.invalid &&
+                      (configEligibilityThresholdRef.dirty || configEligibilityThresholdRef.touched)
+                    "
+                  >
+                    @if (configEligibilityThresholdRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configEvaluationType"></mat-label>
+                  <mat-select formControlName="configEvaluationType">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configEvaluationTypeRef = editForm.get('configEvaluationType')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configEvaluationTypeRef.invalid && (configEvaluationTypeRef.dirty || configEvaluationTypeRef.touched)"
+                  >
+                    @if (configExcludePlannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configTolerance"></mat-label>
+                  <mat-select formControlName="configTolerance">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configToleranceRef = editForm.get('configTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configToleranceRef.invalid && (configToleranceRef.dirty || configToleranceRef.touched)"
+                  >
+                    @if (configToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configAverageTimeLimit"></mat-label>
+                  <mat-select formControlName="configAverageTimeLimit">
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configAverageTimeLimitRef = editForm.get('configAverageTimeLimit')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configAverageTimeLimitRef.invalid && (configAverageTimeLimitRef.dirty || configAverageTimeLimitRef.touched)"
+                  >
+                    @if (configAverageTimeLimitRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
               <div class="col-md-12">
                 <mat-form-field class="d-block mb-2 h-100">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.description"></mat-label>
