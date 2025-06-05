@@ -1,0 +1,10 @@
+{
+  "pagopaCruscottoApp": {
+    "userState": {
+      "null": "",
+      "activated": "Active",
+      "deactivated": "Inactive",
+      "deleted": "Deleted"
+    }
+  }
+}

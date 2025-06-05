@@ -25,5 +25,12 @@
       "lastModifiedBy": "Modify By",
       "lastModifiedDate": "Modify Date"
     }
+  },
+  "pagopaCruscottoBackendApp": {
+    "taxonomyFilter": {
+      "takingsIdentifier": {
+        "Size": "The 'Takings Identifier' field cannot contain more than 50 characters"
+      }
+    }
   }
 }

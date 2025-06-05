@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { IKpiConfiguration, NewKpiConfiguration } from '../kpi-configuration.model';
 import { stringNumericValidatorFn } from 'app/shared/util/validator-util';
 import { IModule, IModuleConfiguration } from '../../../module/module.model';
-import { IPartner } from '../../../partner/partner.model';
 
 const CONFIG_FIELD_MAPPINGS = {
   configEligibilityThreshold: 'eligibilityThreshold',

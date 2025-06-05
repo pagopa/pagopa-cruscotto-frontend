@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,6 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiA1DetailResult } from '../models/KpiA1DetailResult';
 import { KpiA1DetailResultService } from '../service/kpi-a1-detail-result.service';
 import { EvaluationType, OutcomeStatus } from '../models/KpiA1Result';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-a1-detail-result-table',
@@ -24,7 +23,7 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
     MatButtonModule,
     FormatDatePipe,
     NgClass,
-    AverageFormatPipe,
+    DecimalPipe,
   ],
   templateUrl: './kpi-a1-detail-result-table.component.html',
   styleUrl: './kpi-a1-detail-result-table.component.scss',
@@ -104,7 +103,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }

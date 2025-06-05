@@ -6,7 +6,7 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Data Analisi",
-            "tolerance": "Tolleranza  0,00%",
+            "tolerance": "Tolleranza",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",
@@ -17,11 +17,11 @@
             "instanceId": "ID Istanza",
             "instanceModuleId": "ID Modulo Istanza",
             "analysisDate": "Data Analisi",
-            "evaluationStartDate": "Data Inizio Valutazione",
-            "evaluationEndDate": "Data Fine Valutazione",
-            "totPayments": "Totale Pagamenti",
-            "totIncorrectPayments": "Pagamenti Errati Totali",
-            "errorPercentage": "Percentuale Errori",
+            "evaluationStartDate": "Inizio Periodo",
+            "evaluationEndDate": "Fine Periodo",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Versamenti Errati",
+            "errorPercentage": "Percentuale Errati",
             "outcome": "Risultato",
             "kpiA2ResultId": "ID KPI A.2 Risultato",
             "details": "Dettagli Risultato",
@@ -32,9 +32,9 @@
             "instanceId": "ID Istanza",
             "instanceModuleId": "ID Modulo Istanza",
             "analysisDate": "Data Analisi",
-            "evaluationDate": "Data Valutazione",
-            "totPayments": "Totale Pagamenti",
-            "totIncorrectPayments": "Totale Pagamenti Errati",
+            "evaluationDate": "Periodo",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Versamenti Errati",
             "kpiA2DetailResultId": "ID Dettaglio KPI A.2"
           }
         }

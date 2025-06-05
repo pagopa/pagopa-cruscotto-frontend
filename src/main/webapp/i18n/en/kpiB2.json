@@ -6,11 +6,11 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Analysis Date",
-            "excludePlannedShutdown": "Exclude Planned Shutdowns",
-            "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
-            "eligibilityThreshold": "Eligibility Threshold (2000,00 milliseconds)",
-            "tolerance": "Tolerance 0,00%",
-            "averageTimeLimit": "Average Time Limit",
+            "excludePlannedShutdown": "Planned Shutdowns Excluded",
+            "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "averageTimeLimit": "Average Time Limit (ms)",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
@@ -24,13 +24,13 @@
             "totalRequests": "Total Requests",
             "averageTime": "Average time",
             "overTimeLimit": "Over Time Limit",
-            "evaluationStartDate": "Start Date Evaluation",
-            "evaluationEndDate": "End Date Evaluation",
-            "evaluationType": "Type of Valutation",
+            "evaluationStartDate": "Start Period",
+            "evaluationEndDate": "End Period",
+            "evaluationType": "Type of Evaluation",
             "outcome": "Result",
             "details": "Details",
             "showDetails": "Show detail",
-            "stationName": "Station name"
+            "stationName": "Station"
           },
           "KpiAnalyticResults": {
             "id": "ID",
@@ -39,7 +39,7 @@
             "analysisDate": "Analysis Date",
             "stationId": "Station ID",
             "method": "Method",
-            "evaluationDate": "Evaluation Date",
+            "evaluationDate": "Period",
             "totReq": "Total Requests",
             "reqOk": "Requests Ok",
             "reqTimeout": "Requests in Timeout",
@@ -47,7 +47,7 @@
             "kpiB2DetailResultId": "B2 Detail Result ID",
             "details": "Details",
             "showDetails": "Show Details",
-            "stationName": "Station name"
+            "stationName": "Station"
           }
         }
       }

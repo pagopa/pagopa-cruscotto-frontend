@@ -6,10 +6,10 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Analysis Date",
-            "excludePlannedShutdown": "Exclude Planned Shutdowns",
-            "excludeUnplannedShutdown": "Exclude Unplanned Shutdowns",
-            "eligibilityThreshold": "Eligibility Threshold (2000,00 milliseconds)",
-            "tolerance": "Tolerance 0,00%",
+            "excludePlannedShutdown": "Planned Shutdowns Excluded",
+            "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
@@ -26,13 +26,13 @@
             "evaluationStartDate": "Evaluation Start Date",
             "evaluationEndDate": "Evaluation End Date",
             "totalRequests": "Total Requests",
-            "reqTimeout": "Timeout Requests",
-            "timeoutPercentage": "Timeout Percentage",
+            "reqTimeout": "Timed out Requests",
+            "timeoutPercentage": "Percentage in Timeout",
             "outcome": "Outcome",
             "kpiA1ResultId": "KPI A.1 Result ID",
             "details": "Results Detail",
             "showDetails": "Show Details",
-            "stationName": "Station name"
+            "stationName": "Station"
           },
           "KpiAnalyticResults": {
             "id": "ID",
@@ -41,13 +41,13 @@
             "analysisDate": "Analysis Date",
             "stationId": "Station ID",
             "method": "Method",
-            "evaluationDate": "Evaluation Date",
+            "evaluationDate": "Period",
             "totalRequests": "Total Requests",
             "reqOk": "Requests OK",
             "reqTimeoutReal": "Real Timeout Requests",
             "reqTimeoutValid": "Valid Timeouts",
             "kpiA1DetailResultId": "KPI A.1 Detail ID",
-            "stationName": "Station name"
+            "stationName": "Station"
           }
         }
       }

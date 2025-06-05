@@ -6,11 +6,11 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Data Analisi",
-            "excludePlannedShutdown": "Escludi Fermate Pianificate",
-            "excludeUnplannedShutdown": "Escludi Fermate Non Pianificate",
-            "eligibilityThreshold": "Soglia di Idoneità (2000,00 millisecondi)",
-            "tolerance": "Tolleranza 0,00%",
-            "averageTimeLimit": "Limite Medio",
+            "excludePlannedShutdown": "Fermi Programmati Esclusi",
+            "excludeUnplannedShutdown": "Fermi Non Programamti Esclusi",
+            "eligibilityThreshold": "Soglia",
+            "tolerance": "Tolleranza",
+            "averageTimeLimit": "Limite Tempo Medio (ms)",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",
@@ -24,13 +24,13 @@
             "totalRequests": "Totale Richieste",
             "averageTime": "Tempo Medio",
             "overTimeLimit": "Sopra il Limite di Tempo",
-            "evaluationStartDate": "Data Inizio Valutazione",
-            "evaluationEndDate": "Data Fine Valutazione",
+            "evaluationStartDate": "Inizio Periodo",
+            "evaluationEndDate": "Fine Periodo",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
-            "stationName": "Nome della Stazione"
+            "stationName": "Stazione"
           },
           "KpiAnalyticResults": {
             "id": "ID",
@@ -39,7 +39,7 @@
             "analysisDate": "Data Analisi",
             "stationId": "ID della Stazione",
             "method": "Metodo",
-            "evaluationDate": "Data di Valutazione",
+            "evaluationDate": "Periodo",
             "totReq": "Totale Richieste",
             "reqOk": "Richieste Ok",
             "reqTimeout": "Richieste in Timeout",
@@ -47,7 +47,7 @@
             "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
-            "stationName": "Nome della Stazione"
+            "stationName": "Stazione"
           }
         }
       }

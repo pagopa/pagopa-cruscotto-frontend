@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB2DetailResultService } from '../service/kpi-b2-detail-result.service';
@@ -10,7 +10,6 @@ import { EvaluationType, KpiB2DetailResult } from '../models/KpiB2DetailResult';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../models/KpiB2Result';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 
 @Component({
   selector: 'jhi-kpi-b2-detail-result-table',
@@ -26,7 +25,7 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
     MatButtonModule,
     FormatDatePipe,
     NgClass,
-    AverageFormatPipe,
+    DecimalPipe,
   ],
 })
 export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -109,7 +108,7 @@ export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }
