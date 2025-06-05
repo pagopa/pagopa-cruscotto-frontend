@@ -7,7 +7,6 @@
 .mat-column-evaluationEndDate,
 .mat-column-outcome,
 .mat-column-details {
-  text-align: center; /* Centra il contenuto orizzontalmente */
-  justify-content: center; /* Centra il contenuto in orizzontale */
-  align-items: center; /* Centra il contenuto in verticale */
+  width: 150px;
+  text-align: center;
 }

@@ -24,7 +24,7 @@
       "moduleName": "Nome Modulo",
       "excludePlannedShutdown": "Escludi Fermi Programmati",
       "excludeUnplannedShutdown": "Escludi Fermi Non Programmati",
-      "eligibilityThreshold": "Soglia di ammissibilit\u00E0",
+      "eligibilityThreshold": "Soglia",
       "tolerance": "Tolleranza",
       "averageTimeLimit": "Limite Tempo Medio",
       "evaluationType": "Tipo Valutazione"

@@ -24,7 +24,7 @@
       "moduleName": "Module Name",
       "excludePlannedShutdown": "Exclude Planned Shutdown",
       "excludeUnplannedShutdown": "Exclude Unplanned Shutdown",
-      "eligibilityThreshold": "Eligibility Threshold",
+      "eligibilityThreshold": "Threshold",
       "tolerance": "Tolerance",
       "averageTimeLimit": "Average Time Limit",
       "evaluationType": "Evaluation Type"

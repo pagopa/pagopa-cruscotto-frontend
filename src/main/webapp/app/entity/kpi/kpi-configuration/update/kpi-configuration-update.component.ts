@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
@@ -15,9 +15,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 
-import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 import { IKpiConfiguration } from '../kpi-configuration.model';
 import { KpiConfigurationService } from '../service/kpi-configuration.service';
@@ -25,25 +23,11 @@ import { KpiConfigurationFormGroup, KpiConfigurationFormService } from './kpi-co
 import { MatSelectModule } from '@angular/material/select';
 import { ModuleSelectComponent } from '../../../module/shared/module-select/module-select.component';
 import { IModule, IModuleConfiguration, ModuleConfiguration } from '../../../module/module.model';
-
-/* eslint-disable no-console */
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'jhi-kpi-configuration-update',
   templateUrl: './kpi-configuration-update.component.html',
-  styleUrls: ['./kpi-configuration-update.component.scss'],
   imports: [
     SharedModule,
     MatIconModule,
@@ -58,8 +42,8 @@ export const MY_FORMATS = {
     MatDatepickerModule,
     MatSelectModule,
     ModuleSelectComponent,
+    NgxMaskDirective,
   ],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
 })
 export class KpiConfigurationUpdateComponent implements OnInit {
   isSaving = false;
@@ -67,7 +51,6 @@ export class KpiConfigurationUpdateComponent implements OnInit {
 
   moduleConfiguration: IModuleConfiguration = new ModuleConfiguration();
 
-  minDateFrom = dayjs().add(1, 'day');
   locale: string;
   booleanOptions: { value: boolean; text: string }[] = [
     { value: true, text: 'values.yes' },
@@ -85,6 +68,7 @@ export class KpiConfigurationUpdateComponent implements OnInit {
   private readonly translateService = inject(TranslateService);
 
   editForm: KpiConfigurationFormGroup = this.kpiConfigurationFormService.createKpiConfigurationFormGroup();
+  nullOption = null;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -96,6 +80,7 @@ export class KpiConfigurationUpdateComponent implements OnInit {
       if (kpiConfiguration) {
         this.moduleConfiguration = new ModuleConfiguration(kpiConfiguration as IModuleConfiguration);
         this.updateForm(kpiConfiguration);
+        this.updateValidationForm(this.moduleConfiguration);
       }
     });
 
@@ -147,8 +132,23 @@ export class KpiConfigurationUpdateComponent implements OnInit {
   }
 
   selectModule(module: IModule): void {
-    console.log(module);
     this.moduleConfiguration = new ModuleConfiguration(module as IModuleConfiguration);
-    console.log(this.moduleConfiguration);
+    this.updateValidationForm(this.moduleConfiguration);
+  }
+
+  private updateValidationForm(moduleConfiguration: IModuleConfiguration): void {
+    const setControlValidator = (controlName: string, isRequired: boolean | null | undefined): void => {
+      const validators = isRequired ? [Validators.required] : null;
+      this.editForm.get(controlName)?.setValidators(validators);
+    };
+
+    setControlValidator('excludePlannedShutdown', moduleConfiguration.configExcludePlannedShutdown);
+    setControlValidator('excludeUnplannedShutdown', moduleConfiguration.configExcludeUnplannedShutdown);
+    setControlValidator('tolerance', moduleConfiguration.configTolerance);
+    setControlValidator('averageTimeLimit', moduleConfiguration.configAverageTimeLimit);
+    setControlValidator('eligibilityThreshold', moduleConfiguration.configEligibilityThreshold);
+    setControlValidator('evaluationType', moduleConfiguration.configEvaluationType);
+
+    this.editForm.updateValueAndValidity();
   }
 }

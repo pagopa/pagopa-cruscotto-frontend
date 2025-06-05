@@ -73,6 +73,7 @@
         "search": "Search",
         "notFound": "No data found for '{{ search }}'",
         "all": "All",
+        "singleValue": "Select Value",
         "bank.label": "ABI BT Code",
         "bankingGroup.label": "Banking Group",
         "bankingConfig.label": "Configuration",
@@ -287,7 +288,8 @@
     "version": "Version"
   },
   "abbr": {
-    "millisecond": "msec"
+    "millisecond": "msec",
+    "percent": "%"
   },
   "cookie": {
     "header": "Cookies used on the website!",

@@ -1,5 +1,3 @@
-import { IUser } from '../../admin-users/user-management/user-management.model';
-
 export interface IModule {
   id: number;
   code?: string | null;
@@ -20,21 +18,21 @@ export interface IModuleConfiguration {
 }
 
 export class ModuleConfiguration implements IModuleConfiguration {
-  configExcludePlannedShutdown = true;
-  configExcludeUnplannedShutdown = true;
-  configEligibilityThreshold = true;
-  configTolerance = true;
-  configAverageTimeLimit = true;
-  configEvaluationType = true;
+  configExcludePlannedShutdown = false;
+  configExcludeUnplannedShutdown = false;
+  configEligibilityThreshold = false;
+  configTolerance = false;
+  configAverageTimeLimit = false;
+  configEvaluationType = false;
 
   constructor(configuration?: IModuleConfiguration) {
     if (configuration) {
-      this.configExcludePlannedShutdown = configuration.configExcludePlannedShutdown ?? true;
-      this.configExcludeUnplannedShutdown = configuration.configExcludeUnplannedShutdown ?? true;
-      this.configEligibilityThreshold = configuration.configEligibilityThreshold ?? true;
-      this.configTolerance = configuration.configTolerance ?? true;
-      this.configAverageTimeLimit = configuration.configAverageTimeLimit ?? true;
-      this.configEvaluationType = configuration.configEvaluationType ?? true;
+      this.configExcludePlannedShutdown = configuration.configExcludePlannedShutdown ?? false;
+      this.configExcludeUnplannedShutdown = configuration.configExcludeUnplannedShutdown ?? false;
+      this.configEligibilityThreshold = configuration.configEligibilityThreshold ?? false;
+      this.configTolerance = configuration.configTolerance ?? false;
+      this.configAverageTimeLimit = configuration.configAverageTimeLimit ?? false;
+      this.configEvaluationType = configuration.configEvaluationType ?? false;
     }
   }
 }
