@@ -45,9 +45,9 @@
       },
       "language": {
         "italiano": "Italiano",
-        "english": "English",
+        "english": "Inglese",
         "it": "Italiano",
-        "en": "English"
+        "en": "Inglese"
       },
       "cookie": "Cookie",
       "account": {
@@ -76,6 +76,7 @@
         "search": "Ricerca",
         "notFound": "Nessun dato trovato per '{{ search }}'",
         "all": "Tutti",
+        "singleValue": "Seleziona Valore",
         "bank.label": "Banca",
         "bankingGroup.label": "Gruppo Bancario",
         "bankingConfig.label": "Configurazione",
@@ -191,7 +192,7 @@
       "search": "Cerca",
       "detail": "Dettaglio",
       "confirm": "Conferma",
-      "show": "Show {{otherEntity}}",
+      "show": "Mostra {{otherEntity}}",
       "download": "Scarica",
       "source": "Sorgente",
       "downloadZip": "Download Zip",
@@ -290,7 +291,8 @@
     "version": "Versione"
   },
   "abbr": {
-    "millisecond": "ms"
+    "millisecond": "ms",
+    "percent": "%"
   },
   "cookie": {
     "header": "Cookie utilizzati sul sito Web!",

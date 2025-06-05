@@ -30,29 +30,70 @@
         "pause": "Pause Schedulation",
         "resume": "Resume Schedulation",
         "stop": "Stop Job",
-        "edit": "Edit Schedulation"
+        "edit": "Edit Schedulation",
+        "refresh": "Refresh"
       },
       "execution": {
         "home": {
-          "title": "List Execution '{{ schedulerName }}: {{ jobGroup }} - {{ jobName }}'"
+          "title": "Execution List '{{ schedulerName }}: {{ jobGroup }} - {{ jobName }}'"
         },
         "fireInstanceId": "Unique Identifier",
         "triggerName": "Trigger Name",
         "triggerGroup": "Trigger Group",
         "initFiredTime": "Execution Start Date",
         "endFiredTime": "Execution End Date",
-        "scheduledTime": "Scheduled Time",
+        "scheduledTime": "Scheduled Date",
         "state": "State"
+      },
+      "changeState": {
+        "start": {
+          "question": {
+            "title": "Start Job",
+            "message": "Are you sure you want to start the job?"
+          }
+        },
+        "resume": {
+          "question": {
+            "title": "Restart Job",
+            "message": "Are you sure you want to restart the job?"
+          }
+        },
+        "pause": {
+          "question": {
+            "title": "Pause Job",
+            "message": "Are you sure you want to pause the job?"
+          }
+        },
+        "stop": {
+          "question": {
+            "title": "Stop Job",
+            "message": "Are you sure you want to stop the job?"
+          }
+        }
       }
     }
   },
   "pagopaCruscottoBackendApp": {
     "job": {
-      "update": "Job {{ param }} cron aggiornato",
-      "pause": "Il Job {{ param }} &egrave; stato messo in pausa",
-      "stop": "Il Job {{ param }} &egrave; stato fermato",
-      "resume": "Il Job {{ param }} &egrave; stato riavviato",
-      "start": "Il Job {{ param }} &egrave; stato avviato"
+      "update": "Job {{ param }} cron updated",
+      "pause": "The Job {{ param }} has been paused",
+      "stop": "The Job {{ param }} has been stopped",
+      "resume": "The Job {{ param }} has been restarted",
+      "start": "The Job {{ param }} has been started"
+    },
+    "jobExecutionFilter": {
+      "schedulerName": {
+        "NotNull": "The 'Scheduler Name' field is required",
+        "Size": "The 'Scheduler Name' field cannot contain more than 120 characters"
+      },
+      "jobName": {
+        "NotNull": "The 'Job Name' field is required",
+        "Size": "The 'Job Name' field cannot contain more than 200 characters"
+      },
+      "jobGroup": {
+        "NotNull": "The 'Job Group' field is required",
+        "Size": "The 'Job Group' field cannot contain more than 200 characters"
+      }
     }
   }
 }

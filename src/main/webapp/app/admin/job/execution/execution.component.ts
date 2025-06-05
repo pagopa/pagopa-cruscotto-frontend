@@ -23,7 +23,7 @@ import { IJobExecution } from '../job.model';
 import { JobService } from '../job.service';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { addFilterToRequest, addValueToFilter } from '../../../shared/pagination/filter-util.pagination';
-import { SafePipe } from '../../../shared/pipes/SafePipe';
+import { ReplaceLineBreaks } from '../../../shared/pipes/replace-line-breaks.pipe';
 
 @Component({
   selector: 'jhi-execution',
@@ -47,7 +47,7 @@ import { SafePipe } from '../../../shared/pipes/SafePipe';
     RouterModule,
     MatSelectModule,
     FormatDatePipe,
-    SafePipe,
+    ReplaceLineBreaks,
   ],
 })
 export class ExecutionComponent implements OnInit {

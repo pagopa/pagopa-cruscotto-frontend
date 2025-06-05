@@ -80,6 +80,20 @@
       "stop": "Il Job {{ param }} \u00e8 stato fermato",
       "resume": "Il Job {{ param }} \u00e8 stato riavviato",
       "start": "Il Job {{ param }} \u00e8 stato avviato"
+    },
+    "jobExecutionFilter": {
+      "schedulerName": {
+        "NotNull": "Il campo 'Scheduler Name' \u00E8 obbligatorio",
+        "Size": "Il campo 'Scheduler Name' non pu\u00F2 contenere più di 120 caratteri"
+      },
+      "jobName": {
+        "NotNull": "Il campo 'Job Name' \u00E8 obbligatorio",
+        "Size": "Il campo 'Job Name' non pu\u00F2 contenere più di 200 caratteri"
+      },
+      "jobGroup": {
+        "NotNull": "Il campo 'Job Group' \u00E8 obbligatorio",
+        "Size": "Il campo 'Job Group' non pu\u00F2 contenere più di 200 caratteri"
+      }
     }
   }
 }

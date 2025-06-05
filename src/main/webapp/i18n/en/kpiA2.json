@@ -6,7 +6,7 @@
           "KpiResults": {
             "id": "ID",
             "analysisDate": "Analysis Date",
-            "tolerance": "Tolerance  0,00%",
+            "tolerance": "Tolerance",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
@@ -17,11 +17,11 @@
             "instanceId": "Instance ID",
             "instanceModuleId": "Instance Module ID",
             "analysisDate": "Analysis Date",
-            "evaluationStartDate": "Evaluation Start Date",
-            "evaluationEndDate": "Evaluation End Date",
+            "evaluationStartDate": "Period Start",
+            "evaluationEndDate": "Period End",
             "totPayments": "Total Payments",
-            "totIncorrectPayments": "Total Incorrect Payments",
-            "errorPercentage": "Error Percentage",
+            "totIncorrectPayments": "Incorrect Payments",
+            "errorPercentage": "Wrong Percentage",
             "outcome": "Outcome",
             "kpiA2ResultId": "KPI A.2 Result ID",
             "details": "Results Detail",
@@ -32,9 +32,9 @@
             "instanceId": "Instance ID",
             "instanceModuleId": "Instance Module ID",
             "analysisDate": "Analysis Date",
-            "evaluationDate": "Evaluation Date",
+            "evaluationDate": "Period",
             "totPayments": "Total Payments",
-            "totIncorrectPayments": "Total Incorrect Payments",
+            "totIncorrectPayments": "Incorrect Payments",
             "kpiA2DetailResultId": "KPI A.2 Detail ID"
           }
         }

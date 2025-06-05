@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1AnalyticDataService } from '../service/kpi-a1-analytic-data.service';
@@ -14,7 +14,17 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   selector: 'jhi-kpi-a1-analytic-result-table',
   templateUrl: './kpi-a1-analytic-result-table.component.html',
   styleUrls: ['./kpi-a1-analytic-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    MatButtonModule,
+    FormatDatePipe,
+    DecimalPipe,
+  ],
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
@@ -88,7 +98,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
       }
     });
   }

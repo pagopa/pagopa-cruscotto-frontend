@@ -45,15 +45,24 @@
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configEligibilityThreshold">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold">Eligibility Threshold</span>
-                <p class="p-2 bg-light">{{ kpiConfiguration.eligibilityThreshold }}</p>
+                <p class="p-2 bg-light">
+                  {{ kpiConfiguration.eligibilityThreshold | number: '1.2-2' }}
+                  <span *ngIf="kpiConfiguration.eligibilityThreshold" class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configTolerance">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance">Tolerance</span>
-                <p class="p-2 bg-light text-truncate">{{ kpiConfiguration.tolerance | averageFormat: 2 }}</p>
+                <p class="p-2 bg-light text-truncate">
+                  {{ kpiConfiguration.tolerance | number: '1.2-2' }}
+                  <span *ngIf="kpiConfiguration.tolerance" class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configAverageTimeLimit">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit">Average Time Limit</span>
-                <p class="p-2 bg-light">{{ kpiConfiguration.averageTimeLimit }} {{ 'abbr.millisecond' | translate }}</p>
+                <p class="p-2 bg-light">
+                  {{ kpiConfiguration.averageTimeLimit | number: '1.2-2' }}
+                  <span *ngIf="kpiConfiguration.averageTimeLimit" class="fw-bold">{{ 'abbr.millisecond' | translate }}</span>
+                </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configEvaluationType">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType">Evaluation Type</span>
