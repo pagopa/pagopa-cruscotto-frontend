@@ -141,8 +141,7 @@
                   </th>
                   <td mat-cell *matCellDef="let row">
                     <span *ngIf="row.configEligibilityThreshold; else notAllowed"
-                      >{{ row.eligibilityThreshold | number: '1.2-2' }}
-                      <span *ngIf="row.eligibilityThreshold" class="fw-bold">{{ 'abbr.percent' | translate }}</span></span
+                      >{{ row.eligibilityThreshold | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span></span
                     >
                   </td>
                 </ng-container>
@@ -153,8 +152,7 @@
                   </th>
                   <td mat-cell *matCellDef="let row">
                     <span *ngIf="row.configTolerance; else notAllowed"
-                      >{{ row.tolerance | number: '1.2-2' }}
-                      <span *ngIf="row.tolerance" class="fw-bold">{{ 'abbr.percent' | translate }}</span></span
+                      >{{ row.tolerance | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span></span
                     >
                   </td>
                 </ng-container>
@@ -165,8 +163,7 @@
                   </th>
                   <td mat-cell *matCellDef="let row">
                     <span *ngIf="row.configAverageTimeLimit; else notAllowed"
-                      >{{ row.averageTimeLimit | number: '1.2-2' }}
-                      <span *ngIf="row.averageTimeLimit" class="fw-bold">{{ 'abbr.millisecond' | translate }}</span></span
+                      >{{ row.averageTimeLimit | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.millisecond' | translate }}</span></span
                     >
                   </td>
                 </ng-container>
