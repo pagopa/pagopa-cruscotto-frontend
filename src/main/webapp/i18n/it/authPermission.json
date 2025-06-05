@@ -27,5 +27,15 @@
       "module": "Modulo",
       "authFunction": "Funzione"
     }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authPermissionFilter": {
+      "nome": {
+        "Size": "Il campo 'Nome' deve contenere al massimo 100 caratteri"
+      },
+      "modulo": {
+        "Size": "Il campo 'Modulo' deve contenere al massimo 50 caratteri"
+      }
+    }
   }
 }

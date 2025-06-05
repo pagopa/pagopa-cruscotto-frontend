@@ -74,5 +74,25 @@
       },
       "notExists": "Gruppo inesistente"
     }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authGroupUpdateRequestBean": {
+      "id": {
+        "NotEmpty": "Il campo 'Id' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Id' deve essere un numero intero positivo"
+      },
+      "livelloVisibilita": {
+        "NotEmpty": "Il campo 'Livello di Visibilita' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Livello di Visibilita' deve essere un numero intero positivo"
+      }
+    },
+    "authGroupFilter": {
+      "nome": {
+        "Size": "Il campo 'Nome' deve contenere al massimo 50 caratteri"
+      },
+      "descrizione": {
+        "Size": "Il campo 'Descrizione' deve contenere al massimo 200 caratteri"
+      }
+    }
   }
 }

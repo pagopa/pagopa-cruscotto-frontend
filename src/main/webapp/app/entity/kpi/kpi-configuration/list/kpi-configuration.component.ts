@@ -23,7 +23,6 @@ import { EventManager } from '../../../../core/util/event-manager.service';
 import { KpiConfigurationService } from '../service/kpi-configuration.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
 import { ConfirmModalOptions } from 'app/shared/modal/confirm-modal-options.model';
 import { ConfirmModalService } from 'app/shared/modal/confirm-modal.service';
 import { ModalResult } from 'app/shared/modal/modal-results.enum';
@@ -49,7 +48,6 @@ import { ModalResult } from 'app/shared/modal/modal-results.enum';
     MatTooltipModule,
     RouterModule,
     YesOrNoViewComponent,
-    AverageFormatPipe,
   ],
 })
 export class KpiConfigurationComponent implements OnInit, OnDestroy {

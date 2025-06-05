@@ -74,13 +74,11 @@
       "predictedDateAnalysis": "Predicted Date Analysis",
       "partnerFiscalCode": "Partner FC",
       "applicationDate": "Instance Date",
-      "assignedUser": "Assignee User",
+      "assignedUser": "Examiner",
       "analysisPeriod": "Analysis Period",
       "analysisPeriodDate": "Analysis Period Date",
       "analysisPeriodStartDate": "Analysis Period Start Date",
       "analysisPeriodEndDate": "Analysis Period End Date",
-      "analysisPeriodStartMonth": "Analysis Period Start Month",
-      "analysisPeriodEndMonth": "Analysis Period End Month",
       "status": "State",
       "lastAnalysisDate": "Last Performed Analysis Date",
       "lastAnalysisOutcome": "Last Analysis Outcome"
@@ -99,6 +97,57 @@
       "created": "A new instance with identifier {{ param }} has been created",
       "updated": "The instance with identifier {{ param }} has been updated",
       "deleted": "the instance with identifier {{ param }} has been deleted"
+    },
+    "instanceRequestBean": {
+      "partnerId": {
+        "NotBlank": "The 'Partner' field is required",
+        "Digits": "The 'Partner' field must be a positive integer"
+      },
+      "predictedDateAnalysis": {
+        "NotBlank": "The 'Predicted Date for Analysis' field is required",
+        "Pattern": "The 'Predicted Date for Analysis' field must be a valid date in the format 'dd/MM/yyyy'",
+        "FutureOrPresent": "The 'Predicted Date for Analysis' field must be a date after today"
+      },
+      "analysisPeriodStartDate": {
+        "NotBlank": "The 'Analysis Period Start Date' field is required",
+        "Pattern": "The 'Analysis Period Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisPeriodEndDate": {
+        "NotBlank": "The 'Analysis Period End Date' field is required",
+        "Pattern": "The 'Analysis Period End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisPeriodStartDateEndDate": {
+        "ValidRangeDate": "The 'Analysis Period Start Date' field must be a date before or equal to the 'Analysis Period End Date' field"
+      },
+      "analysisPeriodStartDatePredictedDateAnalysis": {
+        "ValidRangeDate": "The 'Predicted Date for Analysis' field must be a date after the 'Analysis Period Start Date' field"
+      },
+      "analysisPeriodEndDatePredictedDateAnalysis": {
+        "ValidRangeDate": "The 'Predicted Date for Analysis' field must be a date after the 'Analysis Period End Date' field"
+      }
+    },
+    "instanceFilter": {
+      "partnerId": {
+        "Pattern": "The 'Partner' field must be a positive integer"
+      },
+      "predictedAnalysisStartDate": {
+        "Pattern": "The 'Predicted Analysis Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisEndDate": {
+        "Pattern": "The 'Predicted Analysis End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisStartDate": {
+        "Pattern": "The 'Analysis Period Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisEndDate": {
+        "Pattern": "The 'Analysis Period End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisStartDateEndDate": {
+        "ValidRangeDate": "The 'Predicted Analysis Start Date' field must be a date earlier than or equal to the 'Predicted Analysis End Date' field"
+      },
+      "analysisStartDateEndDate": {
+        "ValidRangeDate": "The 'Analysis Period Start Date' field must be a date earlier than or equal to the 'Analysis Period End Date' field"
+      }
     }
   }
 }

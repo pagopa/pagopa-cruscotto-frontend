@@ -6,7 +6,6 @@
 .mat-column-reqOk,
 .mat-column-reqTimeout,
 .mat-column-avgTime {
-  text-align: center; /* Centra il contenuto del testo orizzontalmente */
-  justify-content: center; /* Centra orizzontalmente il contenuto */
-  align-items: center; /* Centra verticalmente il contenuto */
+  width: 150px;
+  text-align: center;
 }
