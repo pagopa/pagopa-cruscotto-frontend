@@ -15,21 +15,19 @@
       "instance": {
         "main": "Istanze"
       },
-      "shutdown": {
-        "main": "Fermi"
-      },
-      "taxonomy": {
-        "main": "Tassonomia"
-      },
-      "kpiConfiguration": {
-        "main": "Configurazioni Kpi"
-      },
-      "module": {
-        "main": "Moduli"
-      },
       "institution": {
         "main": "Ente",
         "institution": "Ente"
+      },
+      "registry": {
+        "main": "Anagrafica",
+        "shutdown": "Fermi",
+        "taxonomy": "Tassonomia"
+      },
+      "configuration": {
+        "main": "Configurazioni",
+        "kpiConfiguration": "Configurazioni Kpi",
+        "module": "Moduli"
       },
       "systemAdministration": {
         "main": "Amministrazione",

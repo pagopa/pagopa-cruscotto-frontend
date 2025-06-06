@@ -15,21 +15,19 @@
       "instance": {
         "main": "Instances"
       },
-      "shutdown": {
-        "main": "Shutdowns"
-      },
-      "taxonomy": {
-        "main": "Taxonomies"
-      },
-      "kpiConfiguration": {
-        "main": "Kpi Configuration"
-      },
-      "module": {
-        "main": "Modules"
-      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
+      },
+      "registry": {
+        "main": "Registry",
+        "shutdown": "Shutdowns",
+        "taxonomy": "Taxonomies"
+      },
+      "configuration": {
+        "main": "Configuration",
+        "kpiConfiguration": "Kpi Configuration",
+        "module": "Modules"
       },
       "systemAdministration": {
         "main": "Administration",
