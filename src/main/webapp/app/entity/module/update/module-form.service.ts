@@ -122,6 +122,7 @@ export class ModuleFormService {
         ...moduleRawValue,
         id: { value: moduleRawValue.id, disabled: true },
         code: { value: moduleRawValue.code, disabled: true },
+        analysisType: { value: 'MANUALE', disabled: true },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
@@ -133,7 +134,7 @@ export class ModuleFormService {
     form.reset(
       {
         ...moduleRawValue,
-        analysisType: { value: '', disabled: false },
+        analysisType: { value: 'MANUALE', disabled: true },
         allowManualOutcome: { value: '', disabled: false },
         status: { value: '', disabled: false },
         configAverageTimeLimit: { value: '', disabled: false },
