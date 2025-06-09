@@ -21,6 +21,7 @@ import { ShutdownService } from '../service/shutdown.service';
 import { ShutdownFormGroup, ShutdownFormService } from './shutdown-form.service';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
 import { MatTimepickerModule } from '@angular/material/timepicker';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -49,6 +50,8 @@ export class ShutdownUpdateComponent implements OnInit {
   shutdown: IShutdown | null = null;
   minDateFrom = dayjs().add(1, 'day');
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly shutdownService = inject(ShutdownService);
   private readonly shutdownFormService = inject(ShutdownFormService);

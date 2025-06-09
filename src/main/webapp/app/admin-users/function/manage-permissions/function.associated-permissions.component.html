@@ -39,6 +39,7 @@
                   <button
                     mat-icon-button
                     type="button"
+                    *jhiHasAnyAuthority="Authority.FUNCTION_MANAGEMENT"
                     matTooltip="{{ 'entity.action.remove' | translate }}"
                     matTooltipPosition="above"
                     (click)="remove(row)"

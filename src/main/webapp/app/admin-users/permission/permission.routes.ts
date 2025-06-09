@@ -4,16 +4,23 @@ import { PermissionComponent } from './list/permission.component';
 import { PermissionDetailComponent } from './detail/permission-detail.component';
 import { PermissionUpdateComponent } from './update/permission-update.component';
 import { PermissionRoutingResolve } from './route/permission-routing-resolve.service';
+import { Authority } from 'app/config/authority.constants';
 
 const permissionRoutes: Routes = [
   {
     path: '',
     component: PermissionComponent,
+    data: {
+      authorities: [Authority.PERMISSION_INQUIRY],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: PermissionDetailComponent,
+    data: {
+      authorities: [Authority.PERMISSION_INQUIRY],
+    },
     resolve: {
       permission: PermissionRoutingResolve,
     },
@@ -22,6 +29,9 @@ const permissionRoutes: Routes = [
   {
     path: 'new',
     component: PermissionUpdateComponent,
+    data: {
+      authorities: [Authority.PERMISSION_MANAGEMENT],
+    },
     resolve: {
       permission: PermissionRoutingResolve,
     },
@@ -30,6 +40,9 @@ const permissionRoutes: Routes = [
   {
     path: ':id/edit',
     component: PermissionUpdateComponent,
+    data: {
+      authorities: [Authority.PERMISSION_MANAGEMENT],
+    },
     resolve: {
       permission: PermissionRoutingResolve,
     },

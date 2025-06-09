@@ -34,6 +34,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import dayjs from '../../../config/dayjs';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import { OutcomeStatus } from '../../kpi/kpi-b2/models/KpiB2Result';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-instance',
@@ -95,6 +96,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
   status = InstanceStatus;
   instanceStatusValues: InstanceStatus[] = Object.values(InstanceStatus);
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(InstanceFilter);

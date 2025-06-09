@@ -17,12 +17,8 @@ import { ModalResult } from '../../../shared/modal/modal-results.enum';
 @Component({
   selector: 'jhi-user-management-state-view',
   template: `
-    <div *ngIf="hasAnyAuthority()">
-      <mat-slide-toggle
-        [(ngModel)]="isChecked"
-        (click)="setActive(user())"
-        [disabled]="!currentAccount() || currentAccount()?.login === user().login || (user().deleted ?? false)"
-      >
+    <div *ngIf="editable()">
+      <mat-slide-toggle [(ngModel)]="isChecked" (click)="setActive(user())">
         @if (user().activated && !user().deleted) {
           {{ 'pagopaCruscottoApp.userState.activated' | translate }}
         } @else if (!user().activated && !user().deleted) {
@@ -32,7 +28,7 @@ import { ModalResult } from '../../../shared/modal/modal-results.enum';
         }
       </mat-slide-toggle>
     </div>
-    <div *ngIf="hasNotAuthority()">
+    <div *ngIf="disabled()">
       <mat-slide-toggle [(ngModel)]="isChecked" disabled="disabled">
         @if (user().activated && !user().deleted) {
           {{ 'pagopaCruscottoApp.userState.activated' | translate }}
@@ -82,7 +78,11 @@ export class UserManagementStateViewComponent {
         if (result === ModalResult.CONFIRMED) {
           if (user.id) {
             this.userManagementService.changeState(user.id).subscribe({
-              next: () => this.eventManager.broadcast('userManagementRefresh'),
+              next: () => {
+                this.user().activated = !this.user().activated;
+                this.eventManager.broadcast('userManagementRefresh');
+              },
+              error: () => (this.isChecked = !this.isChecked),
             });
           }
         } else {
@@ -91,17 +91,23 @@ export class UserManagementStateViewComponent {
       });
   }
 
-  hasAnyAuthority(): boolean {
+  editable(): boolean {
     return (
-      this.accountService.hasAnyAuthority(Authority.GTW_MODIFICA_UTENTE) &&
-      this.user().authenticationType === this.authenticationTypeFormLogin
+      this.accountService.hasAnyAuthority(Authority.USER_MANAGEMENT) &&
+      this.user().authenticationType === this.authenticationTypeFormLogin &&
+      this.currentAccount() !== null &&
+      this.currentAccount()?.login !== this.user().login &&
+      !this.user().deleted
     );
   }
 
-  hasNotAuthority(): boolean {
+  disabled(): boolean {
     return (
-      !this.accountService.hasAnyAuthority(Authority.GTW_MODIFICA_UTENTE) ||
-      this.user().authenticationType === this.authenticationTypeOauth2
+      !this.accountService.hasAnyAuthority(Authority.USER_MANAGEMENT) ||
+      this.user().authenticationType === this.authenticationTypeOauth2 ||
+      !this.currentAccount() ||
+      this.currentAccount()?.login === this.user().login ||
+      (this.user().deleted ?? false)
     );
   }
 }

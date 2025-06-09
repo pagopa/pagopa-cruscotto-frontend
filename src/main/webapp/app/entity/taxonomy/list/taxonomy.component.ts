@@ -24,6 +24,7 @@ import { TaxonomyFilter } from './taxonomy.filter';
 import { ITaxonomy } from '../taxonomy.model';
 import { TaxonomyService } from '../service/taxonomy.service';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-taxonomy',
@@ -78,6 +79,8 @@ export class TaxonomyComponent implements OnInit, OnDestroy {
   searchForm;
 
   locale: string;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(TaxonomyFilter);

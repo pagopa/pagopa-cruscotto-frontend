@@ -8,6 +8,7 @@ import { UserRouteAccessService } from '../../core/auth/user-route-access.servic
 import UserManagementComponent from './list/user-management.component';
 import UserManagementDetailComponent from './detail/user-management-detail.component';
 import UserManagementUpdateComponent from './update/user-management-update.component';
+import { Authority } from 'app/config/authority.constants';
 
 export const userManagementResolve: ResolveFn<IUser | null> = (route: ActivatedRouteSnapshot) => {
   const login = route.paramMap.get('login');
@@ -24,11 +25,17 @@ const userManagementRoute: Routes = [
   {
     path: '',
     component: UserManagementComponent,
+    data: {
+      authorities: [Authority.USER_INQUIRY],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':login/view',
     component: UserManagementDetailComponent,
+    data: {
+      authorities: [Authority.USER_INQUIRY],
+    },
     resolve: {
       user: userManagementResolve,
     },
@@ -37,6 +44,9 @@ const userManagementRoute: Routes = [
   {
     path: 'new',
     component: UserManagementUpdateComponent,
+    data: {
+      authorities: [Authority.USER_MANAGEMENT],
+    },
     resolve: {
       user: userManagementResolve,
     },
@@ -45,6 +55,9 @@ const userManagementRoute: Routes = [
   {
     path: ':id/edit',
     component: UserManagementUpdateComponent,
+    data: {
+      authorities: [Authority.USER_MANAGEMENT],
+    },
     resolve: {
       user: userManagementResolve,
     },

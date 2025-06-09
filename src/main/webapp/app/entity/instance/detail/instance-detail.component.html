@@ -13,6 +13,7 @@
       <button
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
         [disabled]="istanceRef.status !== status.Bozza && istanceRef.status !== status.Pianificata"
         [routerLink]="['/entity/instances', istanceRef?.id, 'edit']"
         [title]="['pagopaCruscottoApp.instance.detail.modify.title' | translate]"
