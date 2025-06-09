@@ -9,6 +9,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.component';
 import { IModule } from '../module.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-module-detail',
@@ -18,6 +19,8 @@ import { IModule } from '../module.model';
 export default class ModuleDetailComponent implements OnInit {
   module: IModule | null = null;
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly translateService = inject(TranslateService);
   private readonly activatedRoute = inject(ActivatedRoute);
