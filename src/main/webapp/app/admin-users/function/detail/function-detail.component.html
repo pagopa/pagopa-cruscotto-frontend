@@ -8,6 +8,7 @@
       <button
         id="jh-create-entity"
         mat-raised-button
+        *jhiHasAnyAuthority="Authority.FUNCTION_MANAGEMENT"
         color="primary"
         [routerLink]="['/admin-users/functions', function.id, 'edit']"
         [title]="['pagopaCruscottoApp.authFunction.detail.modify.title' | translate]"

@@ -11,6 +11,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { UserManagementStateViewComponent } from '../shared/user-management-state-view.component';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-user-management-detail',
@@ -22,6 +23,8 @@ export default class UserManagementDetailComponent implements OnInit {
   currentAccount = inject(AccountService).trackCurrentAccount();
   authenticationTypeFormLogin = AuthenticationType.FORM_LOGIN;
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly translateService = inject(TranslateService);
 

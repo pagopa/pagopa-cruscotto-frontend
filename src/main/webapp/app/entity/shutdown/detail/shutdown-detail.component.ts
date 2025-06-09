@@ -9,6 +9,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { IShutdown, TypePlanned } from '../shutdown.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-shutdown-detail',
@@ -19,6 +20,8 @@ export default class ShutdownDetailComponent implements OnInit {
   shutdown: IShutdown | null = null;
   planned: TypePlanned = TypePlanned.NON_PROGRAMMATO;
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly translateService = inject(TranslateService);
   private readonly activatedRoute = inject(ActivatedRoute);

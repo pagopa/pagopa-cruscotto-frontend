@@ -4,9 +4,6 @@
       "home": {
         "title": "Functions"
       },
-      "created": "A new function with identifier {{ param }} has been created",
-      "updated": "The function with identifier {{ param }} has been updated",
-      "deleted": "The function with identifier {{ param }} has been deleted",
       "delete": {
         "question": "Are you sure you want to delete the function with identifier {{ id }}?"
       },
@@ -50,10 +47,6 @@
             "message": "Are you sure you want to associate the selected permissions?"
           }
         }
-      },
-      "message": {
-        "associaPermessi.created": "Associated permissions",
-        "dissociaPermesso.created": "Permission association removed"
       }
     }
   },
@@ -70,6 +63,15 @@
     }
   },
   "pagopaCruscottoBackendApp": {
+    "authFunction": {
+      "created": "A new function with identifier {{ param }} has been created",
+      "updated": "The function with identifier {{ param }} has been updated",
+      "deleted": "The function with identifier {{ param }} has been deleted",
+      "message": {
+        "associaPermessi.created": "Associated permissions",
+        "dissociaPermesso.created": "Permission association removed"
+      }
+    },
     "authFunctionFilter": {
       "nome": {
         "Size": "The 'Name' field must contain a maximum of 50 characters"

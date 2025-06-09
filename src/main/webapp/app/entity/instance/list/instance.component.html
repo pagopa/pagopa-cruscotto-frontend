@@ -11,6 +11,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
         [routerLink]="['/entity/instances/new']"
         [title]="['pagopaCruscottoApp.instance.list.createLabel' | translate]"
       >
@@ -160,6 +161,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.INSTANCE_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
@@ -312,6 +314,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.INSTANCE_INQUIRY"
                             matTooltip="{{ 'entity.action.view' | translate }}"
                             matTooltipPosition="above"
                             [attr.aria-label]="['entity.list.column.actions.view.ariaLabel' | translate]"
@@ -325,6 +328,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
                             matTooltip="{{
                               (row.status === status.Bozza
@@ -349,6 +353,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
                             [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
@@ -368,6 +373,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"

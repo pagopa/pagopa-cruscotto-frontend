@@ -4,9 +4,6 @@
       "home": {
         "title": "Back-end permissions"
       },
-      "created": "A new permission with identifier {{ param }} has been created",
-      "updated": "The permission with identifier {{ param }} has been updated",
-      "deleted": "The permission with identifier {{ param }} has been deleted",
       "delete": {
         "question": "Are you sure you want to delete the permission with identifier {{ id }}?"
       },
@@ -29,6 +26,11 @@
     }
   },
   "pagopaCruscottoBackendApp": {
+    "authPermission": {
+      "created": "A new permission with identifier {{ param }} has been created",
+      "updated": "The permission with identifier {{ param }} has been updated",
+      "deleted": "The permission with identifier {{ param }} has been deleted"
+    },
     "authPermissionFilter": {
       "nome": {
         "Size": "The 'Name' field must contain a maximum of 100 characters"

@@ -11,6 +11,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
         [routerLink]="['/entity/kpi-configurations/new']"
         [title]="['pagopaCruscottoApp.kpiConfiguration.list.createLabel' | translate]"
       >
@@ -43,6 +44,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
@@ -189,6 +191,7 @@
                           <button
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_INQUIRY"
                             matTooltip="{{ 'entity.action.detail' | translate }}"
                             matTooltipPosition="above"
                             [routerLink]="['/entity/kpi-configurations', row.moduleCode, 'view']"
@@ -201,6 +204,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
                             [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
@@ -214,6 +218,7 @@
                             class="m-1"
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
                             (click)="delete(row)"
