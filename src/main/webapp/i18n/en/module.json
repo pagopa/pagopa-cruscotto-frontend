@@ -2,6 +2,41 @@
   "pagopaCruscottoApp": {
     "module": {
       "module": "Module",
+      "home": {
+        "title": "Module"
+      },
+      "list": {
+        "createLabel": "New Module"
+      },
+      "detail": {
+        "title": "Module Detail"
+      },
+      "update": {
+        "create.title": "New Module Creation",
+        "modify.title": "Module Modification",
+        "status.active": "Active",
+        "status.inactive": "Inactive",
+        "analysisType.automatic": "Automatic",
+        "analysisType.manual": "Manual"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the module with identifier <br> {{ id }}?"
+      },
+      "id": "Id",
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "analysisType": "Analysis",
+      "allowManualOutcome": "Manual Outcome",
+      "status": "Status",
+      "status.ATTIVO": "active",
+      "status.NON_ATTIVO": "inactive",
+      "configAverageTimeLimit": "Average Time Limit",
+      "configEligibilityThreshold": "Threshold",
+      "configEvaluationType": "Evaluation Type",
+      "configExcludePlannedShutdown": "Planned Shutdowns Exclusion",
+      "configExcludeUnplannedShutdown": "Unplanned Shutdowns Exclusion",
+      "configTolerance": "Tolerance",
       "tables": {
         "KpiResults": {
           "title": "Results",
@@ -14,9 +49,6 @@
         "KpiAnalyticResults": {
           "title": "Analytical Data",
           "notExists": "No analytical data available"
-        },
-        "errors": {
-          "notExists": "No data available"
         }
       },
       "A.1": {
@@ -71,6 +103,21 @@
         "name": "Native integration with SEND",
         "description": "Verify the activation of the SEND notification cost updating service in synchronous mode for all integrated entities, guaranteeing the updating of amounts"
       }
+    }
+  },
+  "error": {
+    "module": {
+      "notExists": "No data available",
+      "notDeletable": "Module status incompatible with the requested operation",
+      "cannotBeUpdated": "The module cannot be updated",
+      "cannotBeCreated": "The module cannot be created"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "module": {
+      "created": "A new module with identifier {{ param }} has been created",
+      "updated": "The module with identifier {{ param }} has been updated",
+      "deleted": "the module with identifier {{ param }} has been deleted"
     }
   }
 }
