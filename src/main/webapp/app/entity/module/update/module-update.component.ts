@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IModule, IModuleConfiguration, ModuleConfiguration } from '../module.model';
 import { ModuleService } from '../service/module.service';
 import { ModuleFormGroup, ModuleFormService } from './module-form.service';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -78,6 +79,8 @@ export class ModuleUpdateComponent implements OnInit {
     { value: 'AUTOMATICA', text: 'pagopaCruscottoApp.module.update.analysisType.automatic' },
     { value: 'MANUALE', text: 'pagopaCruscottoApp.module.update.analysisType.manual' },
   ];
+
+  protected readonly Authority = Authority;
 
   private readonly moduleService = inject(ModuleService);
   private readonly moduleFormService = inject(ModuleFormService);
