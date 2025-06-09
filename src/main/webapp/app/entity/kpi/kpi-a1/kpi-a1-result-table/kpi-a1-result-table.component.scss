@@ -2,11 +2,15 @@
 .mat-column-analysisDate,
 .mat-column-excludePlannedShutdown,
 .mat-column-excludeUnplannedShutdown,
-.mat-column-eligibilityThreshold,
-.mat-column-tolerance,
 .mat-column-evaluationType,
 .mat-column-outcome,
 .mat-column-details {
   width: 150px;
   text-align: center;
+}
+
+.mat-column-eligibilityThreshold,
+.mat-column-tolerance {
+  width: 150px;
+  text-align: right;
 }

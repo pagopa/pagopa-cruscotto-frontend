@@ -2,9 +2,6 @@
 .mat-column-analysisDate,
 .mat-column-stationName,
 .mat-column-method,
-.mat-column-totalRequests,
-.mat-column-reqTimeout,
-.mat-column-timeoutPercentage,
 .mat-column-evaluationStartDate,
 .mat-column-evaluationEndDate,
 .mat-column-evaluationType,
@@ -12,4 +9,11 @@
 .mat-column-details {
   width: 150px;
   text-align: center;
+}
+
+.mat-column-totalRequests,
+.mat-column-reqTimeout,
+.mat-column-timeoutPercentage {
+  width: 150px;
+  text-align: right;
 }
