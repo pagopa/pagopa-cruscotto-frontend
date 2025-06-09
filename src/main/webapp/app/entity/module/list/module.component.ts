@@ -30,6 +30,7 @@ import { ModuleService } from '../service/module.service';
 import { LocaltionHelper } from 'app/core/location/location.helper';
 import { InstanceStatus } from '../../instance/models/instance.model';
 import { AnalysisType } from '../../instance-module/models/analysis-type.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-module',
@@ -72,6 +73,8 @@ export class ModuleComponent implements OnInit, OnDestroy {
 
   searchForm;
   analysisTypeAutomatic = AnalysisType.AUTOMATICA;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(ModuleFilter);
