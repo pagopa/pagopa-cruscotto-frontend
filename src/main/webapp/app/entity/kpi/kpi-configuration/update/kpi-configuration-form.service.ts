@@ -96,6 +96,7 @@ export class KpiConfigurationFormService {
   }
 
   resetForm(form: KpiConfigurationFormGroup, kpiConfiguration: KpiConfigurationFormGroupInput): void {
+    console.log('resetForm', kpiConfiguration.eligibilityThreshold ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null);
     const kpiConfigurationRawValue = {
       ...this.getFormDefaults(),
       ...kpiConfiguration,
@@ -103,6 +104,9 @@ export class KpiConfigurationFormService {
         kpiConfiguration.moduleId !== null
           ? { id: kpiConfiguration.moduleId, name: kpiConfiguration.moduleName, code: kpiConfiguration.moduleCode }
           : null,
+      eligibilityThreshold: kpiConfiguration.eligibilityThreshold ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
+      tolerance: kpiConfiguration.tolerance ? kpiConfiguration.tolerance.toFixed(2) : null,
+      averageTimeLimit: kpiConfiguration.averageTimeLimit ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
     };
     form.reset(
       {
