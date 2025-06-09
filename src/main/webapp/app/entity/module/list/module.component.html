@@ -184,9 +184,15 @@
                             type="button"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
+                            [disabled]="row.analysisType === analysisTypeAutomatic"
                             (click)="delete(row)"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" [color]="'warn'" aria-hidden="false">delete</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.analysisType === analysisTypeAutomatic ? '' : 'warn'"
+                              aria-hidden="false"
+                              >delete</mat-icon
+                            >
                           </button>
                         </span>
                       </div>
