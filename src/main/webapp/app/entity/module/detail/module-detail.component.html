@@ -12,6 +12,7 @@
         <button
           mat-raised-button
           color="primary"
+          *jhiHasAnyAuthority="Authority.MODULE_MANAGEMENT"
           [routerLink]="['/entity/modules', module.id, 'edit']"
           [title]="['pagopaCruscottoApp.module.detail.modify.title' | translate]"
         >
