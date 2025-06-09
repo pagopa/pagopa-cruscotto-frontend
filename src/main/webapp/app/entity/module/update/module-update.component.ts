@@ -65,6 +65,7 @@ export class ModuleUpdateComponent implements OnInit {
   moduleConfiguration: IModuleConfiguration = new ModuleConfiguration();
 
   locale: string;
+  emptyOption = '';
   booleanOptions: { value: boolean; text: string }[] = [
     { value: true, text: 'values.yes' },
     { value: false, text: 'values.no' },
@@ -96,6 +97,8 @@ export class ModuleUpdateComponent implements OnInit {
       if (module) {
         this.moduleConfiguration = new ModuleConfiguration(module as IModuleConfiguration);
         this.updateForm(module);
+      } else {
+        this.moduleFormService.prepareEmptyForm(this.editForm);
       }
     });
 

@@ -22,21 +22,21 @@
       "delete": {
         "question": "Are you sure you want to delete the module with identifier <br> {{ id }}?"
       },
-      "id": "id",
-      "code": "code",
-      "name": "name",
-      "description": "description",
-      "analysisType": "analysisType",
-      "allowManualOutcome": "allowManualOutcome",
-      "status": "status",
+      "id": "Id",
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "analysisType": "Analysis",
+      "allowManualOutcome": "Manual Outcome",
+      "status": "Status",
       "status.ATTIVO": "active",
       "status.NON_ATTIVO": "inactive",
-      "configAverageTimeLimit": "configure average time limit",
-      "configEligibilityThreshold": "configure elegibility threshold",
-      "configEvaluationType": "configure evaluation type",
-      "configExcludePlannedShutdown": "configure planned shutdowns exclusion",
-      "configExcludeUnplannedShutdown": "configure unplanned shutdowns exclusion",
-      "configTolerance": "configure tolerance",
+      "configAverageTimeLimit": "Average Time Limit",
+      "configEligibilityThreshold": "Threshold",
+      "configEvaluationType": "Evaluation Type",
+      "configExcludePlannedShutdown": "Planned Shutdowns Exclusion",
+      "configExcludeUnplannedShutdown": "Unplanned Shutdowns Exclusion",
+      "configTolerance": "Tolerance",
       "tables": {
         "KpiResults": {
           "title": "Results",
@@ -49,9 +49,6 @@
         "KpiAnalyticResults": {
           "title": "Analytical Data",
           "notExists": "No analytical data available"
-        },
-        "errors": {
-          "notExists": "No data available"
         }
       },
       "A.1": {
@@ -106,6 +103,14 @@
         "name": "Native integration with SEND",
         "description": "Verify the activation of the SEND notification cost updating service in synchronous mode for all integrated entities, guaranteeing the updating of amounts"
       }
+    }
+  },
+  "error": {
+    "module": {
+      "notExists": "No data available",
+      "notDeletable": "Module status incompatible with the requested operation",
+      "cannotBeUpdated": "The module cannot be updated",
+      "cannotBeCreated": "The module cannot be created"
     }
   },
   "pagopaCruscottoBackendApp": {

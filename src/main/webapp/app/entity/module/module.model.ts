@@ -5,7 +5,7 @@ export interface IModule {
   description?: string;
   analysisType?: string;
   allowManualOutcome?: boolean | null;
-  status?: boolean | null;
+  status?: string | null;
   configAverageTimeLimit?: boolean | null;
   configEligibilityThreshold?: boolean | null;
   configEvaluationType?: boolean | null;
