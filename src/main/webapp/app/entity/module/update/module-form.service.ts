@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import _ from 'lodash';
 
 import { IModule, NewModule } from '../module.model';
+import { AnalysisType } from '../../instance-module/models/analysis-type.model';
 
 const CONFIG_FIELD_MAPPINGS = {
   configEligibilityThreshold: 'eligibilityThreshold',
@@ -122,7 +123,7 @@ export class ModuleFormService {
         ...moduleRawValue,
         id: { value: moduleRawValue.id, disabled: true },
         code: { value: moduleRawValue.code, disabled: true },
-        analysisType: { value: 'MANUALE', disabled: true },
+        analysisType: { value: moduleRawValue.analysisType, disabled: true },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
@@ -134,7 +135,7 @@ export class ModuleFormService {
     form.reset(
       {
         ...moduleRawValue,
-        analysisType: { value: 'MANUALE', disabled: true },
+        analysisType: { value: AnalysisType.MANUALE, disabled: true },
         allowManualOutcome: { value: '', disabled: false },
         status: { value: '', disabled: false },
         configAverageTimeLimit: { value: '', disabled: false },
