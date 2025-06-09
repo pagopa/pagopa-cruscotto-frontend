@@ -28,6 +28,8 @@ import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { EventManager } from '../../../core/util/event-manager.service';
 import { ModuleService } from '../service/module.service';
 import { LocaltionHelper } from 'app/core/location/location.helper';
+import { InstanceStatus } from '../../instance/models/instance.model';
+import { AnalysisType } from '../../instance-module/models/analysis-type.model';
 
 @Component({
   selector: 'jhi-module',
@@ -69,6 +71,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
   confirmSubscriber?: Subscription;
 
   searchForm;
+  analysisTypeAutomatic = AnalysisType.AUTOMATICA;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(ModuleFilter);
