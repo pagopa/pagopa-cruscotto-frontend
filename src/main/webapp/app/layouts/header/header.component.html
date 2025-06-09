@@ -1,8 +1,8 @@
 <header>
   <mat-toolbar color="primary">
     <span class="flex-1 ms-5">
+      <a class="logo-img" href="#" [routerLink]="['/home']" aria-label="goToHome"></a>
       {{ 'global.title' | translate }}
-      <!--      <a class="logo-img" href="#" [routerLink]="['/home']" aria-label="goToHome"></a>-->
       <jhi-language-picker class="ms-3"></jhi-language-picker>
     </span>
     <button mat-button [routerLink]="['/home']" [routerLinkActive]="['active']">
