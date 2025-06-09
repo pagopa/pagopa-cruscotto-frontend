@@ -26,6 +26,7 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
 import { ConfirmModalOptions } from 'app/shared/modal/confirm-modal-options.model';
 import { ConfirmModalService } from 'app/shared/modal/confirm-modal.service';
 import { ModalResult } from 'app/shared/modal/modal-results.enum';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-kpi-configuration',
@@ -77,6 +78,8 @@ export class KpiConfigurationComponent implements OnInit, OnDestroy {
   confirmSubscriber?: Subscription;
 
   searchForm;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(KpiConfigurationFilter);

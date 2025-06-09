@@ -11,11 +11,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { Authority } from '../../../config/authority.constants';
 import { PermissionFormGroup, PermissionFormService } from './permission-form.service';
 import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -38,6 +38,8 @@ import { finalize } from 'rxjs/operators';
 export class PermissionUpdateComponent implements OnInit {
   isSaving = false;
   permission: IPermission | null = null;
+
+  protected readonly Authority = Authority;
 
   private readonly permissionService = inject(PermissionService);
   private readonly permissionFormService = inject(PermissionFormService);

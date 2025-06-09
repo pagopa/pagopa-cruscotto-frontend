@@ -8,7 +8,7 @@ const passwordRoutes: Route = {
   path: 'password',
   component: PasswordComponent,
   data: {
-    authorities: [Authority.FUNZIONI_BASE],
+    authorities: [Authority.BASIC_FUNCTIONS],
   },
   title: 'global.menu.account.password',
   canActivate: [UserRouteAccessService],

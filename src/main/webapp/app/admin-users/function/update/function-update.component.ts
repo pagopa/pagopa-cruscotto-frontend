@@ -15,6 +15,7 @@ import { finalize } from 'rxjs/operators';
 import { FunctionFormGroup, FunctionFormService } from './function-form.service';
 import { FunctionService } from '../service/function.service';
 import { IFunction } from '../function.model';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -37,6 +38,8 @@ import { IFunction } from '../function.model';
 export class FunctionUpdateComponent implements OnInit {
   isSaving = false;
   function: IFunction | null = null;
+
+  protected readonly Authority = Authority;
 
   private readonly functionService = inject(FunctionService);
   private readonly functionFormService = inject(FunctionFormService);

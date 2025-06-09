@@ -51,7 +51,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     {
       label: 'global.menu.instance.main',
       route: '/entity/instances',
-      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      permission: Authority.INSTANCE_INQUIRY,
       xSmall: false,
       small: false,
       medium: true,
@@ -60,7 +60,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     {
       label: 'global.menu.shutdown.main',
       route: '/entity/shutdowns',
-      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      permission: Authority.SHUTDOWN_INQUIRY,
       xSmall: false,
       small: false,
       medium: true,
@@ -69,7 +69,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     {
       label: 'global.menu.taxonomy.main',
       route: '/entity/taxonomies',
-      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      permission: Authority.TAXONOMY_INQUIRY,
       xSmall: false,
       small: false,
       medium: true,
@@ -78,7 +78,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     {
       label: 'global.menu.kpiConfiguration.main',
       route: '/entity/kpi-configurations',
-      permission: Authority.GTW_STRUMENTI_CONTROLLO,
+      permission: Authority.KPI_CONFIGURATION_INQUIRY,
       xSmall: false,
       small: false,
       medium: true,
@@ -94,7 +94,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.usersAdministration.users',
           route: '/admin-users/user-management',
-          permission: Authority.GTW_ELENCO_UTENTI,
+          permission: Authority.USER_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -103,7 +103,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.usersAdministration.groupManagement',
           route: '/admin-users/groups',
-          permission: Authority.GTW_ELENCO_GRUPPI,
+          permission: Authority.GROUP_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -112,7 +112,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.usersAdministration.functionManagement',
           route: '/admin-users/functions',
-          permission: Authority.GTW_ELENCO_FUNZIONI,
+          permission: Authority.FUNCTION_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -121,7 +121,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.usersAdministration.permissionManagement',
           route: '/admin-users/permissions',
-          permission: Authority.GTW_ELENCO_PERMESSI,
+          permission: Authority.PERMISSION_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -139,7 +139,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.systemAdministration.metrics',
           route: '/admin/metrics',
-          permission: Authority.GTW_STRUMENTI_CONTROLLO,
+          permission: Authority.CONTROL_TOOLS,
           xSmall: true,
           small: true,
           medium: true,
@@ -148,7 +148,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.systemAdministration.apiDocs',
           route: '/admin/docs',
-          permission: Authority.GTW_STRUMENTI_CONTROLLO,
+          permission: Authority.CONTROL_TOOLS,
           xSmall: true,
           small: true,
           medium: true,
@@ -157,7 +157,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.systemAdministration.jobs',
           route: '/admin/jobs',
-          permission: Authority.GTW_STRUMENTI_CONTROLLO,
+          permission: Authority.JOB_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,

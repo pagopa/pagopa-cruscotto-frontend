@@ -26,6 +26,7 @@ import { IFunction } from '../function.model';
 import { FunctionAssociatedPermissionsFilter } from './function.associated-permissions.filter';
 import { PermissionService } from '../../permission/service/permission.service';
 import { IPermission } from '../../permission/permission.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-function-associated-permissions',
@@ -64,6 +65,8 @@ export class FunctionAssociatedPermissionsComponent implements OnDestroy {
 
   loadSubscriber?: Subscription;
   confirmSubscriber?: Subscription;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(FunctionAssociatedPermissionsFilter);

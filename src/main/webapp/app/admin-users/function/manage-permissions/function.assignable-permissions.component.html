@@ -16,6 +16,7 @@
           mat-raised-button
           size="small"
           color="primary"
+          *jhiHasAnyAuthority="Authority.FUNCTION_MANAGEMENT"
           [matBadge]="selection.selected.length + ''"
           [matBadgeHidden]="selection.isEmpty()"
           matBadgeColor="accent"

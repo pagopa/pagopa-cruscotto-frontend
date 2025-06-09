@@ -25,6 +25,7 @@ import { GroupAssociatedFunctionsFilter } from './group.associated-functions.fil
 import { GroupService } from '../service/group.service';
 import { IFunction } from '../../function/function.model';
 import { FunctionService } from '../../function/service/function.service';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-group-associated-functions',
@@ -63,6 +64,8 @@ export class GroupAssociatedFunctionsComponent implements OnDestroy {
 
   loadSubscriber?: Subscription;
   confirmSubscriber?: Subscription;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(GroupAssociatedFunctionsFilter);

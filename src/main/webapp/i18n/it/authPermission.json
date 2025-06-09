@@ -4,9 +4,6 @@
       "home": {
         "title": "Permessi back-end"
       },
-      "created": "\u00C8 stato generato un nuovo permesso con identificatore {{ param }}",
-      "updated": "\u00C8 stato aggiornato il permesso con identificatore {{ param }}",
-      "deleted": "\u00C8 stato eliminato il permesso con identificatore {{ param }}",
       "delete": {
         "question": "Sei sicuro di volere eliminare il permesso con identificatore {{ id }}?"
       },
@@ -29,6 +26,11 @@
     }
   },
   "pagopaCruscottoBackendApp": {
+    "authPermission": {
+      "created": "\u00C8 stato generato un nuovo permesso con identificatore {{ param }}",
+      "updated": "\u00C8 stato aggiornato il permesso con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminato il permesso con identificatore {{ param }}"
+    },
     "authPermissionFilter": {
       "nome": {
         "Size": "Il campo 'Nome' deve contenere al massimo 100 caratteri"

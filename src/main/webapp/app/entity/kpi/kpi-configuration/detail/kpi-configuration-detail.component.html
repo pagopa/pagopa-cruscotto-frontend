@@ -14,6 +14,7 @@
         <button
           mat-raised-button
           color="primary"
+          *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
           [routerLink]="['/entity/kpi-configurations', kpiConfiguration.moduleCode, 'edit']"
           [title]="['pagopaCruscottoApp.kpiConfiguration.detail.modify.title' | translate]"
         >
