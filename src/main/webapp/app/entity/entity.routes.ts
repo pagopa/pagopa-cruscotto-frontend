@@ -17,6 +17,10 @@ const entityRoutes: Routes = [
     path: 'kpi-configurations',
     loadChildren: () => import('./kpi/kpi-configuration/kpi-configuration.routes'),
   },
+  {
+    path: 'modules',
+    loadChildren: () => import('./module/module.routes'),
+  },
 ];
 
 export default entityRoutes;
