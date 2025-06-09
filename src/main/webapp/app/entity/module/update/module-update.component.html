@@ -55,6 +55,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.analysisType"></mat-label>
                   <mat-select formControlName="analysisType">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of analysisTypeOptions" [value]="option.value">
                       {{ option.text | translate | uppercase }}
                     </mat-option>
@@ -77,6 +78,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.allowManualOutcome"></mat-label>
                   <mat-select formControlName="allowManualOutcome">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -98,6 +100,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.status"></mat-label>
                   <mat-select formControlName="status">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of statusOptions" [value]="option.value">
                       {{ option.text | translate | uppercase }}
                     </mat-option>
@@ -116,6 +119,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludePlannedShutdown"></mat-label>
                   <mat-select formControlName="configExcludePlannedShutdown">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -140,6 +144,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludeUnplannedShutdown"></mat-label>
                   <mat-select formControlName="configExcludeUnplannedShutdown">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -164,6 +169,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configEligibilityThreshold"></mat-label>
                   <mat-select formControlName="configEligibilityThreshold">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -188,6 +194,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configEvaluationType"></mat-label>
                   <mat-select formControlName="configEvaluationType">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -209,6 +216,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configTolerance"></mat-label>
                   <mat-select formControlName="configTolerance">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>
@@ -230,6 +238,7 @@
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.configAverageTimeLimit"></mat-label>
                   <mat-select formControlName="configAverageTimeLimit">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
                     <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
                       {{ option.text | translate }}
                     </mat-option>

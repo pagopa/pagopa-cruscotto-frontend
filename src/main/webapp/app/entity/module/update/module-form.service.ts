@@ -31,83 +31,117 @@ type ModuleFormGroupContent = {
   code: FormControl<IModule['code'] | NewModule['code']>;
   name: FormControl<IModule['name'] | NewModule['name']>;
   description: FormControl<IModule['description'] | NewModule['description']>;
-  analysisType: FormControl<IModule['analysisType'] | NewModule['analysisType']>;
-  allowManualOutcome: FormControl<IModule['allowManualOutcome'] | NewModule['allowManualOutcome']>;
-  status: FormControl<IModule['status'] | NewModule['status']>;
-  configAverageTimeLimit: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit']>;
-  configEligibilityThreshold: FormControl<IModule['configEligibilityThreshold'] | NewModule['configEligibilityThreshold']>;
-  configEvaluationType: FormControl<IModule['configEvaluationType'] | NewModule['configEvaluationType']>;
-  configExcludePlannedShutdown: FormControl<IModule['configExcludePlannedShutdown'] | NewModule['configExcludePlannedShutdown']>;
-  configExcludeUnplannedShutdown: FormControl<IModule['configExcludeUnplannedShutdown'] | NewModule['configExcludeUnplannedShutdown']>;
-  configTolerance: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit']>;
+  analysisType: FormControl<IModule['analysisType'] | NewModule['analysisType'] | ''>;
+  allowManualOutcome: FormControl<IModule['allowManualOutcome'] | NewModule['allowManualOutcome'] | ''>;
+  status: FormControl<IModule['status'] | NewModule['status'] | ''>;
+  configAverageTimeLimit: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit'] | ''>;
+  configEligibilityThreshold: FormControl<IModule['configEligibilityThreshold'] | NewModule['configEligibilityThreshold'] | ''>;
+  configEvaluationType: FormControl<IModule['configEvaluationType'] | NewModule['configEvaluationType'] | ''>;
+  configExcludePlannedShutdown: FormControl<IModule['configExcludePlannedShutdown'] | NewModule['configExcludePlannedShutdown'] | ''>;
+  configExcludeUnplannedShutdown: FormControl<IModule['configExcludeUnplannedShutdown'] | NewModule['configExcludeUnplannedShutdown'] | ''>;
+  configTolerance: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit'] | ''>;
 };
 
 export type ModuleFormGroup = FormGroup<ModuleFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class ModuleFormService {
-  createModuleFormGroup(Module: ModuleFormGroupInput = { id: null }): ModuleFormGroup {
-    const ModuleRawValue = {
+  createModuleFormGroup(module: ModuleFormGroupInput = { id: null }): ModuleFormGroup {
+    const moduleRawValue = {
       ...this.getFormDefaults(),
-      ...Module,
+      ...module,
     };
     return new FormGroup<ModuleFormGroupContent>({
-      id: new FormControl({ value: ModuleRawValue.id, disabled: false }, { nonNullable: false }),
-      code: new FormControl({ value: ModuleRawValue.code, disabled: false }, { validators: [Validators.required], nonNullable: true }),
-      name: new FormControl({ value: ModuleRawValue.name, disabled: false }, { validators: [Validators.required], nonNullable: true }),
+      id: new FormControl({ value: moduleRawValue.id, disabled: false }, { nonNullable: false }),
+      code: new FormControl({ value: moduleRawValue.code, disabled: false }, { validators: [Validators.required], nonNullable: true }),
+      name: new FormControl({ value: moduleRawValue.name, disabled: false }, { validators: [Validators.required], nonNullable: true }),
       description: new FormControl(
-        { value: ModuleRawValue.description, disabled: false },
+        { value: moduleRawValue.description, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       analysisType: new FormControl(
-        { value: ModuleRawValue.analysisType, disabled: false },
+        { value: moduleRawValue.analysisType, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       allowManualOutcome: new FormControl(
-        { value: ModuleRawValue.allowManualOutcome, disabled: false },
+        { value: moduleRawValue.allowManualOutcome, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
-      status: new FormControl({ value: ModuleRawValue.status, disabled: false }, { validators: [Validators.required], nonNullable: true }),
+      status: new FormControl({ value: moduleRawValue.status, disabled: false }, { validators: [Validators.required], nonNullable: true }),
       configAverageTimeLimit: new FormControl(
-        { value: ModuleRawValue.configAverageTimeLimit, disabled: false },
+        { value: moduleRawValue.configAverageTimeLimit, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       configEligibilityThreshold: new FormControl(
-        { value: ModuleRawValue.configEligibilityThreshold, disabled: false },
+        { value: moduleRawValue.configEligibilityThreshold, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       configEvaluationType: new FormControl(
-        { value: ModuleRawValue.configEvaluationType, disabled: false },
+        { value: moduleRawValue.configEvaluationType, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       configExcludePlannedShutdown: new FormControl(
-        { value: ModuleRawValue.configExcludePlannedShutdown, disabled: false },
+        { value: moduleRawValue.configExcludePlannedShutdown, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       configExcludeUnplannedShutdown: new FormControl(
-        { value: ModuleRawValue.configExcludeUnplannedShutdown, disabled: false },
+        { value: moduleRawValue.configExcludeUnplannedShutdown, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
       configTolerance: new FormControl(
-        { value: ModuleRawValue.configTolerance, disabled: false },
+        { value: moduleRawValue.configTolerance, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
     });
   }
 
   getModule(form: ModuleFormGroup): IModule | NewModule {
-    return form.getRawValue();
+    const rawValue = form.getRawValue();
+    const module = {
+      ...rawValue,
+      analysisType: String(rawValue.analysisType),
+      allowManualOutcome: !!rawValue.allowManualOutcome,
+      configAverageTimeLimit: !!rawValue.configAverageTimeLimit,
+      configEligibilityThreshold: !!rawValue.configEligibilityThreshold,
+      configEvaluationType: !!rawValue.configEvaluationType,
+      configExcludePlannedShutdown: !!rawValue.configExcludePlannedShutdown,
+      configExcludeUnplannedShutdown: !!rawValue.configExcludeUnplannedShutdown,
+      configTolerance: !!rawValue.configTolerance,
+      status: String(rawValue.status),
+    };
+    return module;
   }
 
   resetForm(form: ModuleFormGroup, module: ModuleFormGroupInput): void {
-    const ModuleRawValue = {
+    const moduleRawValue = {
       ...this.getFormDefaults(),
       ...module,
     };
     form.reset(
       {
-        ...ModuleRawValue,
-        id: { value: ModuleRawValue.id, disabled: true },
+        ...moduleRawValue,
+        id: { value: moduleRawValue.id, disabled: true },
+        code: { value: moduleRawValue.code, disabled: true },
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
+    );
+  }
+
+  prepareEmptyForm(form: ModuleFormGroup): void {
+    const moduleRawValue = {
+      ...this.getFormDefaults(),
+    };
+    form.reset(
+      {
+        ...moduleRawValue,
+        analysisType: { value: '', disabled: false },
+        allowManualOutcome: { value: '', disabled: false },
+        status: { value: '', disabled: false },
+        configAverageTimeLimit: { value: '', disabled: false },
+        configEligibilityThreshold: { value: '', disabled: false },
+        configEvaluationType: { value: '', disabled: false },
+        configExcludePlannedShutdown: { value: '', disabled: false },
+        configExcludeUnplannedShutdown: { value: '', disabled: false },
+        configTolerance: { value: '', disabled: false },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }

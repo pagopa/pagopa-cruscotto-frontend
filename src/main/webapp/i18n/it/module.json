@@ -22,21 +22,21 @@
       "delete": {
         "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
       },
-      "id": "id",
-      "code": "codice",
-      "name": "nome",
-      "description": "descrizione",
-      "analysisType": "analisi",
-      "allowManualOutcome": "abilita risultati manuali",
-      "status": "stato",
+      "id": "Id",
+      "code": "Codice",
+      "name": "Nome",
+      "description": "Descrizione",
+      "analysisType": "Analisi",
+      "allowManualOutcome": "Risultati Manuali",
+      "status": "Stato",
       "status.ATTIVO": "attivo",
       "status.NON_ATTIVO": "non attivo",
-      "configAverageTimeLimit": "configura tempo limite medio",
-      "configEligibilityThreshold": "configura soglia",
-      "configEvaluationType": "configura tipo valutazione",
-      "configExcludePlannedShutdown": "configura esclusione fermi pianificati",
-      "configExcludeUnplannedShutdown": "configura esclusione fermi non pianificati",
-      "configTolerance": "configura tolleranza",
+      "configAverageTimeLimit": "Tempo Limite Medio",
+      "configEligibilityThreshold": "Soglia",
+      "configEvaluationType": "Tipo Valutazione",
+      "configExcludePlannedShutdown": "Escludi Fermi Pianificati",
+      "configExcludeUnplannedShutdown": "Escludi Fermi Non Pianificati",
+      "configTolerance": "Tolleranza",
       "tables": {
         "KpiResults": {
           "title": "Risultati",
@@ -49,9 +49,6 @@
         "KpiAnalyticResults": {
           "title": "Dati analitici",
           "notExists": "Nessun dato analitico disponibile"
-        },
-        "errors": {
-          "notExists": "Nessun dato disponibile"
         }
       },
       "A.1": {
@@ -106,6 +103,14 @@
         "name": "Integrazione nativa con SEND",
         "description": "Verifica attivazione del servizio di attualizzazione delle spese di notifica SEND in modalità sincrona per tutti gli enti integrati, con garanzia di aggiornamento degli importi"
       }
+    }
+  },
+  "error": {
+    "module": {
+      "notExists": "Nessun dato disponibile",
+      "notDeletable": "Stato del modulo incompatibile con l' operazione richiesta",
+      "cannotBeUpdated": "Il modulo non può essere modificato",
+      "cannotBeCreated": "Il modulo non può essere creato"
     }
   },
   "pagopaCruscottoBackendApp": {
