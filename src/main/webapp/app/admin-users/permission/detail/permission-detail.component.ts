@@ -5,6 +5,7 @@ import SharedModule from '../../../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-permission-detail',
@@ -13,6 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class PermissionDetailComponent implements OnInit {
   permission: IPermission | null = null;
+
+  protected readonly Authority = Authority;
 
   protected readonly activatedRoute = inject(ActivatedRoute);
 

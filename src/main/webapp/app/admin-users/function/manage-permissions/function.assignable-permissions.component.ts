@@ -29,6 +29,7 @@ import { addFilterToRequest, addValueToFilter, getFilterValue } from '../../../s
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatBadgeModule } from '@angular/material/badge';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -78,6 +79,8 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
 
   loadSubscriber?: Subscription;
   confirmSubscriber?: Subscription;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(FunctionAssignablePermissionsFilter);

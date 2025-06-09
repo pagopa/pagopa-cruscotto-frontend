@@ -14,6 +14,7 @@ import { HttpResponse } from '@angular/common/http';
 import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Observable } from 'rxjs';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-group-visibility-management',
@@ -38,6 +39,8 @@ export class GroupVisibilityManagementComponent implements OnInit {
   isChanged = false;
 
   groups: IGroup[] = [];
+
+  protected readonly Authority = Authority;
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly groupService = inject(GroupService);

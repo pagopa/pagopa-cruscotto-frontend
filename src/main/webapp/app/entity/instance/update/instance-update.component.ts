@@ -19,6 +19,7 @@ import { PartnerSelectComponent } from '../../partner/shared/partner-select/part
 import { InstanceFormGroup, InstanceFormService } from './instance-form.service';
 import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -44,6 +45,8 @@ export class InstanceUpdateComponent implements OnInit {
   isSaving = false;
   instance: IInstance | null = null;
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly instanceService = inject(InstanceService);
   private readonly instanceFormService = inject(InstanceFormService);

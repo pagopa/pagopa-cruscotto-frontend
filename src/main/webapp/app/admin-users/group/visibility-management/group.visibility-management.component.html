@@ -55,6 +55,7 @@
                 id="save-save"
                 mat-flat-button
                 color="primary"
+                *jhiHasAnyAuthority="Authority.GROUP_MANAGEMENT"
                 (click)="save()"
                 [disabled]="isSaving || !isChanged"
                 [title]="['entity.action.save' | translate]"

@@ -25,6 +25,7 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { GroupFilter } from './group.filter';
 import { GroupService } from '../service/group.service';
 import { IGroup } from '../group.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-group',
@@ -63,6 +64,8 @@ export class GroupComponent implements OnInit, OnDestroy {
   confirmSubscriber?: Subscription;
 
   searchForm;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(GroupFilter);
@@ -180,14 +183,9 @@ export class GroupComponent implements OnInit, OnDestroy {
 
   delete(row: IGroup): void {
     this.selectedRowId = row.id;
-    const confirmOptions = new ConfirmModalOptions(
-      'entity.delete.title',
-      'pagopaCruscottoApp.authGroup.delete.question',
-      undefined,
-      {
-        id: row.id,
-      },
-    );
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.authGroup.delete.question', undefined, {
+      id: row.id,
+    });
 
     this.confirmSubscriber = this.confirmModalService
       .delete({ width: '500px', hasBackdrop: true }, confirmOptions)

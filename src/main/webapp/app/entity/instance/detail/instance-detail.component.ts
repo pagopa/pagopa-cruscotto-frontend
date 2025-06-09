@@ -11,6 +11,7 @@ import { MatTabLink, MatTabNav, MatTabNavPanel } from '@angular/material/tabs';
 import { InstanceModuleDetailsComponent } from '../../instance-module/instance-module-details/instance-module-details.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-instance-detail',
@@ -36,6 +37,8 @@ export class InstanceDetailComponent implements OnInit {
   status = InstanceStatus;
   instance = input<IInstance | null>(null);
   selectedModule: IInstanceModule | null = null;
+
+  protected readonly Authority = Authority;
 
   private readonly translateService = inject(TranslateService);
 

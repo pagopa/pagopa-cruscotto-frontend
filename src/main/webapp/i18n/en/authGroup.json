@@ -4,9 +4,6 @@
       "home": {
         "title": "Groups"
       },
-      "created": "A new group with identifier {{ param }} has been created",
-      "updated": "The group with identifier {{ param }} has been updated",
-      "deleted": "The group with identifier {{ param }} has been deleted",
       "delete": {
         "question": "Are you sure you want to delete the group with identifier {{ id }}?"
       },
@@ -55,11 +52,6 @@
             "message": "Are you sure you want to associate the selected functions?"
           }
         }
-      },
-      "message": {
-        "associaFunzioni.created": "Associated functions",
-        "dissociaFunzione.created": "Function association removed",
-        "aggiornamentoLivelloVisibilita.updated": "Groups visibility level updated"
       }
     }
   },
@@ -76,6 +68,16 @@
     }
   },
   "pagopaCruscottoBackendApp": {
+    "authGroup": {
+      "created": "A new group with identifier {{ param }} has been created",
+      "updated": "The group with identifier {{ param }} has been updated",
+      "deleted": "The group with identifier {{ param }} has been deleted",
+      "message": {
+        "associaFunzioni.created": "Associated functions",
+        "dissociaFunzione.created": "Function association removed",
+        "aggiornamentoLivelloVisibilita.updated": "Groups visibility level updated"
+      }
+    },
     "authGroupUpdateRequestBean": {
       "id": {
         "NotEmpty": "The 'Id' field is required",
