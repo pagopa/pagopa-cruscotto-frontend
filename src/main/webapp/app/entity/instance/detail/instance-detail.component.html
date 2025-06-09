@@ -2,7 +2,9 @@
   @let istanceRef = instance()!;
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
-      <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{ istanceRef?.id }}</strong
+      <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{
+        istanceRef?.instanceIdentification
+      }}</strong
       >]
     </div>
     <div>
