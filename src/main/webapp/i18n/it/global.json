@@ -22,7 +22,10 @@
       "registry": {
         "main": "Anagrafica",
         "shutdown": "Fermi",
-        "taxonomy": "Tassonomia"
+        "taxonomy": "Tassonomia",
+        "pagoPaPaymentReceipt": "Ricevute Pagamento PagoPA",
+        "pagoPaRecordedTimeout": "Timeout Registrati PagoPA",
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Posizioni Aggregate PagoPA"
       },
       "configuration": {
         "main": "Configurazioni",

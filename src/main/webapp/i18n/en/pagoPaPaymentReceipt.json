@@ -1,0 +1,16 @@
+{
+  "pagopaCruscottoApp": {
+    "pagoPaPaymentReceipt": {
+      "home": {
+        "title": "PagoPa Payment Receipts"
+      },
+      "cfPartner": "Partner's CF",
+      "station": "Station",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "totRes": "Total Res",
+      "resOk": "Res Ok",
+      "resKo": "Res Ko"
+    }
+  }
+}

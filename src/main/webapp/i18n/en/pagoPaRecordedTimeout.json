@@ -1,0 +1,18 @@
+{
+  "pagopaCruscottoApp": {
+    "pagoPaRecordedTimeout": {
+      "home": {
+        "title": "PagoPa Recorded Timeouts"
+      },
+      "cfPartner": "Partner's CF",
+      "station": "Station",
+      "method": "Method",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "totReq": "Total Req",
+      "reqOk": "Req Ok",
+      "reqTimeout": "Req Timeout",
+      "avgTime": "Average Time"
+    }
+  }
+}

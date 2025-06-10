@@ -1,0 +1,15 @@
+{
+  "pagopaCruscottoApp": {
+    "pagoPaTaxonomyAggregatePosition": {
+      "home": {
+        "title": "PagoPa Aggregate Positions Taxonomy"
+      },
+      "cfPartner": "Partner's CF",
+      "station": "Station",
+      "transferCategory": "Transfer Category",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "total": "Total"
+    }
+  }
+}
