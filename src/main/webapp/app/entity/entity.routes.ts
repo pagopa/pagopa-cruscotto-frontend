@@ -21,6 +21,18 @@ const entityRoutes: Routes = [
     path: 'modules',
     loadChildren: () => import('./module/module.routes'),
   },
+  {
+    path: 'pagoPaPaymentReceipt',
+    loadChildren: () => import('./pagoPaPaymentReceipt/pagoPaPaymentReceipt.routes'),
+  },
+  {
+    path: 'pagoPaRecordedTimeout',
+    loadChildren: () => import('./pagoPaRecordedTimeout/pagoPaRecordedTimeout.routes'),
+  },
+  {
+    path: 'pagoPaTaxonomyAggregatePosition',
+    loadChildren: () => import('./pagoPaTaxonomyAggregatePosition/pagoPaTaxonomyAggregatePosition.routes'),
+  },
 ];
 
 export default entityRoutes;
