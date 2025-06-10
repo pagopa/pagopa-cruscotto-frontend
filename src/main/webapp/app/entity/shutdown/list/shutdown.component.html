@@ -11,6 +11,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.SHUTDOWN_MANAGEMENT"
         [routerLink]="['/entity/shutdowns/new']"
         [title]="['pagopaCruscottoApp.shutdown.lista.createLabel' | translate]"
       >
@@ -111,6 +112,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.SHUTDOWN_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
@@ -223,6 +225,7 @@
                           <button
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.SHUTDOWN_INQUIRY"
                             matTooltip="{{ 'entity.action.detail' | translate }}"
                             matTooltipPosition="above"
                             [routerLink]="['/entity/shutdowns', row.id, 'view']"
@@ -234,6 +237,7 @@
                           <button
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.SHUTDOWN_MANAGEMENT"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
                             [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
@@ -252,6 +256,7 @@
                           <button
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.SHUTDOWN_MANAGEMENT"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
                             [disabled]="row.typePlanned === 'PROGRAMMATO'"

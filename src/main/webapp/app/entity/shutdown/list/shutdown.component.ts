@@ -39,6 +39,7 @@ import {
   MatEndDate,
   MatStartDate,
 } from '@angular/material/datepicker';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-shutdown',
@@ -109,6 +110,8 @@ export class ShutdownComponent implements OnInit, OnDestroy {
   year = dayjs().year();
 
   years: number[] = [this.year + 2, this.year + 1, this.year, this.year - 1, this.year - 2];
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(ShutdownFilter);

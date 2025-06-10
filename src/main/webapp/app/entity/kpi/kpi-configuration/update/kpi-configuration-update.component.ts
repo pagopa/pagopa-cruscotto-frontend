@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ModuleSelectComponent } from '../../../module/shared/module-select/module-select.component';
 import { IModule, IModuleConfiguration, ModuleConfiguration } from '../../../module/module.model';
 import { NgxMaskDirective } from 'ngx-mask';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-kpi-configuration-update',
@@ -60,6 +61,8 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     { value: 'MESE', text: 'pagopaCruscottoApp.kpiConfiguration.update.evaluationType.month' },
     { value: 'TOTALE', text: 'pagopaCruscottoApp.kpiConfiguration.update.evaluationType.whole' },
   ];
+
+  protected readonly Authority = Authority;
 
   private readonly kpiConfigurationService = inject(KpiConfigurationService);
   private readonly kpiConfigurationFormService = inject(KpiConfigurationFormService);

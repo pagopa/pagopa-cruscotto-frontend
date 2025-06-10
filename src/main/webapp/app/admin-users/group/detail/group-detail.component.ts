@@ -11,6 +11,7 @@ import { CdkTree, CdkTreeModule } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { IPermission } from '../../permission/permission.model';
 import { IFunction } from '../../function/function.model';
+import { Authority } from 'app/config/authority.constants';
 
 function flattenNodes(nodes: IFunction[]): IPermission[] {
   const flattenedNodes = [];
@@ -47,6 +48,8 @@ export class GroupDetailComponent implements OnInit {
   childrenAccessor = (dataNode: IFunction) => dataNode.authPermissions ?? [];
 
   dataSource = new MatTreeNestedDataSource<any>();
+
+  protected readonly Authority = Authority;
 
   protected readonly activatedRoute = inject(ActivatedRoute);
 

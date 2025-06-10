@@ -9,6 +9,7 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { IKpiConfiguration } from '../kpi-configuration.model';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-kpi-configuration-detail',
@@ -18,6 +19,8 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
 export default class KpiConfigurationDetailComponent implements OnInit {
   kpiConfiguration: IKpiConfiguration | null = null;
   locale: string;
+
+  protected readonly Authority = Authority;
 
   private readonly translateService = inject(TranslateService);
   private readonly activatedRoute = inject(ActivatedRoute);
@@ -29,6 +32,7 @@ export default class KpiConfigurationDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ kpiConfiguration }) => {
       this.kpiConfiguration = kpiConfiguration;
+      console.log(this.kpiConfiguration);
     });
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {

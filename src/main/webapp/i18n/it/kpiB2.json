@@ -22,7 +22,7 @@
             "stationId": "ID della Stazione",
             "method": "Metodo",
             "totalRequests": "Totale Richieste",
-            "averageTime": "Tempo Medio",
+            "averageTime": "Tempo Medio (ms)",
             "overTimeLimit": "Sopra il Limite di Tempo",
             "evaluationStartDate": "Inizio Periodo",
             "evaluationEndDate": "Fine Periodo",

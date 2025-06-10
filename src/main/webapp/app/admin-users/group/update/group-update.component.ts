@@ -15,6 +15,7 @@ import { finalize } from 'rxjs/operators';
 import { GroupFormGroup, GroupFormService } from './group-form.service';
 import { IGroup } from '../group.model';
 import { GroupService } from '../service/group.service';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -37,6 +38,8 @@ import { GroupService } from '../service/group.service';
 export class GroupUpdateComponent implements OnInit {
   isSaving = false;
   group: IGroup | null = null;
+
+  protected readonly Authority = Authority;
 
   private readonly groupService = inject(GroupService);
   private readonly groupFormService = inject(GroupFormService);

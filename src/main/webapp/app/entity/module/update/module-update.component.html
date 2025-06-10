@@ -1,0 +1,309 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.module.update.create.title">New Configuration Kpi</span>
+    </div>
+    <div class="h2" *ngIf="module !== null && module.id">
+      <span jhiTranslate="pagopaCruscottoApp.module.update.modify.title">Edit Configuration Kpi</span> [{{ module.code }}]
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3 p-2">
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.code"></mat-label>
+                  <input matInput autocomplete="off" formControlName="code" />
+                  @let codeRef = editForm.get('code')!;
+                  <ng-container ngProjectAs="mat-error" *ngIf="codeRef.invalid && (codeRef.dirty || codeRef.touched)">
+                    @if (codeRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-4">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.name"></mat-label>
+                  <input matInput autocomplete="off" formControlName="name" />
+                  @let nameRef = editForm.get('name')!;
+                  <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+                    @if (nameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.analysisType"></mat-label>
+                  <mat-select formControlName="analysisType">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of analysisTypeOptions" [value]="option.value">
+                      {{ option.text | translate | uppercase }}
+                    </mat-option>
+                  </mat-select>
+                  @let analysisTypeRef = editForm.get('analysisType')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="analysisTypeRef.invalid && (analysisTypeRef.dirty || analysisTypeRef.touched)"
+                  >
+                    @if (analysisTypeRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.allowManualOutcome"></mat-label>
+                  <mat-select formControlName="allowManualOutcome">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let allowManualOutcomeRef = editForm.get('allowManualOutcome')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="allowManualOutcomeRef.invalid && (allowManualOutcomeRef.dirty || allowManualOutcomeRef.touched)"
+                  >
+                    @if (allowManualOutcomeRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.status"></mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                      {{ option.text | translate | uppercase }}
+                    </mat-option>
+                  </mat-select>
+                  @let statusRef = editForm.get('status')!;
+                  <ng-container ngProjectAs="mat-error" *ngIf="statusRef.invalid && (statusRef.dirty || statusRef.touched)">
+                    @if (statusRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludePlannedShutdown"></mat-label>
+                  <mat-select formControlName="configExcludePlannedShutdown">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configExcludePlannedShutdownRef = editForm.get('configExcludePlannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configExcludePlannedShutdownRef.invalid &&
+                      (configExcludePlannedShutdownRef.dirty || configExcludePlannedShutdownRef.touched)
+                    "
+                  >
+                    @if (configExcludePlannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configExcludeUnplannedShutdown"></mat-label>
+                  <mat-select formControlName="configExcludeUnplannedShutdown">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configExcludeUnplannedShutdownRef = editForm.get('configExcludeUnplannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configExcludeUnplannedShutdownRef.invalid &&
+                      (configExcludeUnplannedShutdownRef.dirty || configExcludeUnplannedShutdownRef.touched)
+                    "
+                  >
+                    @if (configExcludeUnplannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configEligibilityThreshold"></mat-label>
+                  <mat-select formControlName="configEligibilityThreshold">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configEligibilityThresholdRef = editForm.get('configEligibilityThreshold')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configEligibilityThresholdRef.invalid &&
+                      (configEligibilityThresholdRef.dirty || configEligibilityThresholdRef.touched)
+                    "
+                  >
+                    @if (configEligibilityThresholdRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configEvaluationType"></mat-label>
+                  <mat-select formControlName="configEvaluationType">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configEvaluationTypeRef = editForm.get('configEvaluationType')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configEvaluationTypeRef.invalid && (configEvaluationTypeRef.dirty || configEvaluationTypeRef.touched)"
+                  >
+                    @if (configExcludePlannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configTolerance"></mat-label>
+                  <mat-select formControlName="configTolerance">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configToleranceRef = editForm.get('configTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configToleranceRef.invalid && (configToleranceRef.dirty || configToleranceRef.touched)"
+                  >
+                    @if (configToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configAverageTimeLimit"></mat-label>
+                  <mat-select formControlName="configAverageTimeLimit">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configAverageTimeLimitRef = editForm.get('configAverageTimeLimit')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configAverageTimeLimitRef.invalid && (configAverageTimeLimitRef.dirty || configAverageTimeLimitRef.touched)"
+                  >
+                    @if (configAverageTimeLimitRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="d-block mb-2 h-100">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.description"></mat-label>
+                  <textarea matInput formControlName="description" rows="5"></textarea>
+                  @let descriptionRef = editForm.get('description')!;
+                  <ng-container ngProjectAs="mat-error" *ngIf="descriptionRef.invalid && (descriptionRef.dirty || descriptionRef.touched)">
+                    @if (descriptionRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  *jhiHasAnyAuthority="Authority.MODULE_MANAGEMENT"
+                  [disabled]="editForm.invalid || isSaving"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

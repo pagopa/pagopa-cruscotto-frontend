@@ -11,6 +11,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.JOB_INQUIRY"
         (click)="loadPage()"
         [title]="['pagopaCruscottoApp.job.action.refresh' | translate]"
       >
@@ -96,6 +97,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_INQUIRY"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.history' | translate }}"
                           matTooltipPosition="above"
                           [attr.aria-label]="['pagopaCruscottoApp.job.action.history' | translate]"
@@ -107,6 +109,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_MANAGEMENT"
                           [disabled]="row.jobStatus == 'RUNNING' || disabledButton"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.start' | translate }}"
                           matTooltipPosition="above"
@@ -118,6 +121,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_MANAGEMENT"
                           [disabled]="row.jobStatus != 'SCHEDULED' || disabledButton"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.pause' | translate }}"
                           matTooltipPosition="above"
@@ -129,6 +133,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_MANAGEMENT"
                           [disabled]="row.jobStatus != 'PAUSED' || disabledButton"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.resume' | translate }}"
                           matTooltipPosition="above"
@@ -140,6 +145,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_MANAGEMENT"
                           [disabled]="row.jobStatus != 'RUNNING' || disabledButton"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.stop' | translate }}"
                           matTooltipPosition="above"
@@ -151,6 +157,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.JOB_MANAGEMENT"
                           [disabled]="row.jobStatus == 'RUNNING' || disabledButton || row.cron === null"
                           matTooltip="{{ 'pagopaCruscottoApp.job.action.edit' | translate }}"
                           matTooltipPosition="above"

@@ -20,6 +20,7 @@ import { ModalResult } from '../../shared/modal/modal-results.enum';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FormatDatePipe } from '../../shared/date';
 import { JobEditDialogComponent } from './job-edit-dialog.component';
+import { Authority } from '../../config/authority.constants';
 
 @Component({
   selector: 'jhi-job',
@@ -63,6 +64,8 @@ export class JobComponent implements OnInit, OnDestroy {
   locale: string;
 
   disabledButton = false;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   private readonly spinner = inject(NgxSpinnerService);

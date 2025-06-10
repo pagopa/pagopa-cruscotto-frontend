@@ -5,16 +5,23 @@ import ShutdownDetailComponent from './detail/shutdown-detail.component';
 
 import { ShutdownRoutingResolve } from './route/shutdown-routing-resolve.service';
 import { ShutdownUpdateComponent } from './update/shutdown-update.component';
+import { Authority } from 'app/config/authority.constants';
 
 const instanceRoutes: Routes = [
   {
     path: '',
     component: ShutdownComponent,
+    data: {
+      authorities: [Authority.SHUTDOWN_INQUIRY],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: ShutdownDetailComponent,
+    data: {
+      authorities: [Authority.SHUTDOWN_INQUIRY],
+    },
     resolve: {
       shutdown: ShutdownRoutingResolve,
     },
@@ -23,6 +30,9 @@ const instanceRoutes: Routes = [
   {
     path: 'new',
     component: ShutdownUpdateComponent,
+    data: {
+      authorities: [Authority.SHUTDOWN_MANAGEMENT],
+    },
     resolve: {
       shutdown: ShutdownRoutingResolve,
     },
@@ -31,6 +41,9 @@ const instanceRoutes: Routes = [
   {
     path: ':id/edit',
     component: ShutdownUpdateComponent,
+    data: {
+      authorities: [Authority.SHUTDOWN_MANAGEMENT],
+    },
     resolve: {
       shutdown: ShutdownRoutingResolve,
     },

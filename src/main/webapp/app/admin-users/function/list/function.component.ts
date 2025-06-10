@@ -25,6 +25,7 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { FunctionFilter } from './function.filter';
 import { FunctionService } from '../service/function.service';
 import { IFunction } from '../function.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-function',
@@ -63,6 +64,8 @@ export class FunctionComponent implements OnInit, OnDestroy {
   confirmSubscriber?: Subscription;
 
   searchForm;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(FunctionFilter);

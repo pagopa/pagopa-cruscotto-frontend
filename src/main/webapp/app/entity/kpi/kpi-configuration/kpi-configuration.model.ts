@@ -7,9 +7,9 @@ export interface IKpiConfiguration extends IModuleConfiguration {
   moduleName?: string | null;
   excludePlannedShutdown?: boolean | null;
   excludeUnplannedShutdown?: boolean | null;
-  eligibilityThreshold?: string | null;
-  tolerance?: string | null;
-  averageTimeLimit?: string | null;
+  eligibilityThreshold?: number | null;
+  tolerance?: number | null;
+  averageTimeLimit?: number | null;
   evaluationType?: string | null;
 }
 

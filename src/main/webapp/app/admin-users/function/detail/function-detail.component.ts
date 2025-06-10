@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { IFunction } from '../function.model';
 import { MatListModule } from '@angular/material/list';
 import { MatLineModule } from '@angular/material/core';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-function-detail',
@@ -15,6 +16,8 @@ import { MatLineModule } from '@angular/material/core';
 })
 export class FunctionDetailComponent implements OnInit {
   function: IFunction | null = null;
+
+  protected readonly Authority = Authority;
 
   protected readonly activatedRoute = inject(ActivatedRoute);
 
