@@ -82,7 +82,7 @@ export default class PasswordExpiredComponent implements OnInit {
         this.isSaving = true;
       });
 
-      this.passwordService.changePasswordExpired(password, passwordNew).subscribe({
+      this.passwordService.save(passwordNew, password).subscribe({
         next: () => {
           this.addMessage('success', 'password.messages.success');
           setTimeout(() => {
