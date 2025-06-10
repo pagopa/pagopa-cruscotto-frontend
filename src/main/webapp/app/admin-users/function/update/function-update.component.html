@@ -113,6 +113,7 @@
                   id="save-save"
                   mat-flat-button
                   color="primary"
+                  *jhiHasAnyAuthority="Authority.FUNCTION_MANAGEMENT"
                   [disabled]="editForm.invalid || isSaving"
                   [title]="['entity.action.save' | translate]"
                 >

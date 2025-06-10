@@ -9,6 +9,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.PERMISSION_MANAGEMENT"
         [routerLink]="['/admin-users/permissions', permission.id, 'edit']"
         [title]="['pagopaCruscottoApp.authPermission.detail.updateLabel' | translate]"
       >

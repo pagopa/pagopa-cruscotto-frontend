@@ -1,11 +1,15 @@
 .mat-column-id,
 .mat-column-stationName,
 .mat-column-method,
-.mat-column-evaluationDate,
+.mat-column-evaluationDate {
+  width: 150px;
+  text-align: center;
+}
+
 .mat-column-totReq,
 .mat-column-reqOk,
 .mat-column-reqTimeout,
 .mat-column-avgTime {
   width: 150px;
-  text-align: center;
+  text-align: right;
 }

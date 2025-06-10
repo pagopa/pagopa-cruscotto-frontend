@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { GroupSelectComponent } from '../../group/shared/group-select/group-select.component';
+import { Authority } from 'app/config/authority.constants';
 
 const userTemplate = {} as IUser;
 
@@ -83,6 +84,8 @@ export default class UserManagementUpdateComponent implements OnInit {
       validators: [Validators.required],
     }),
   });
+
+  protected readonly Authority = Authority;
 
   private readonly userService = inject(UserManagementService);
   private readonly route = inject(ActivatedRoute);

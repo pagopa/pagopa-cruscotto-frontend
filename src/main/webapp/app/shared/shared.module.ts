@@ -6,13 +6,14 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import FindLanguageFromKeyPipe from './language/find-language-from-key.pipe';
 import TranslateDirective from './language/translate.directive';
+import HasAnyAuthorityDirective from './auth/has-any-authority.directive';
 import { HasAnyAuthorityMenuDirective } from './auth/has-any-authority-menu.directive';
 
 /**
  * Application wide Module
  */
 @NgModule({
-  imports: [FindLanguageFromKeyPipe, TranslateDirective, HasAnyAuthorityMenuDirective],
+  imports: [FindLanguageFromKeyPipe, TranslateDirective, HasAnyAuthorityMenuDirective, HasAnyAuthorityDirective],
   exports: [
     CommonModule,
     NgbModule,
@@ -21,6 +22,7 @@ import { HasAnyAuthorityMenuDirective } from './auth/has-any-authority-menu.dire
     FindLanguageFromKeyPipe,
     TranslateDirective,
     HasAnyAuthorityMenuDirective,
+    HasAnyAuthorityDirective,
   ],
 })
 export default class SharedModule {}

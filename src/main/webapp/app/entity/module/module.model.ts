@@ -5,8 +5,16 @@ export interface IModule {
   description?: string;
   analysisType?: string;
   allowManualOutcome?: boolean | null;
-  status?: string;
+  status?: string | null;
+  configAverageTimeLimit?: boolean | null;
+  configEligibilityThreshold?: boolean | null;
+  configEvaluationType?: boolean | null;
+  configExcludePlannedShutdown?: boolean | null;
+  configExcludeUnplannedShutdown?: boolean | null;
+  configTolerance?: boolean | null;
 }
+
+export type NewModule = Omit<IModule, 'id'> & { id: null };
 
 export interface IModuleConfiguration {
   configExcludePlannedShutdown?: boolean | null;

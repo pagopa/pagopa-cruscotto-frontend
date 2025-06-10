@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options.model';
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-permission',
@@ -63,6 +64,8 @@ export class PermissionComponent implements OnInit, OnDestroy {
   confirmSubscriber?: Subscription;
 
   searchForm;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(PermissionFilter);
@@ -180,14 +183,9 @@ export class PermissionComponent implements OnInit, OnDestroy {
 
   delete(row: IPermission): void {
     this.selectedRowId = row.id;
-    const confirmOptions = new ConfirmModalOptions(
-      'entity.delete.title',
-      'pagopaCruscottoApp.authPermission.delete.question',
-      undefined,
-      {
-        id: row.id,
-      },
-    );
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.authPermission.delete.question', undefined, {
+      id: row.id,
+    });
 
     this.confirmSubscriber = this.confirmModalService
       .delete({ width: '500px', hasBackdrop: true }, confirmOptions)

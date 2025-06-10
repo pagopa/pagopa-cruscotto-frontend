@@ -24,6 +24,7 @@ import { JobService } from '../job.service';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { addFilterToRequest, addValueToFilter } from '../../../shared/pagination/filter-util.pagination';
 import { ReplaceLineBreaks } from '../../../shared/pipes/replace-line-breaks.pipe';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-execution',
@@ -69,6 +70,8 @@ export class ExecutionComponent implements OnInit {
   searchForm;
 
   locale: string;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly route = inject(ActivatedRoute);

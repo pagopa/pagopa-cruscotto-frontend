@@ -1,12 +1,16 @@
 .mat-column-id,
 .mat-column-analysisDate,
-.mat-column-totPayments,
-.mat-column-totIncorrectPayments,
-.mat-column-errorPercentage,
 .mat-column-evaluationStartDate,
 .mat-column-evaluationEndDate,
 .mat-column-outcome,
 .mat-column-details {
   width: 150px;
   text-align: center;
+}
+
+.mat-column-totPayments,
+.mat-column-totIncorrectPayments,
+.mat-column-errorPercentage {
+  width: 150px;
+  text-align: right;
 }

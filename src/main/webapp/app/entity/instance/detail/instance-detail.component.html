@@ -2,7 +2,9 @@
   @let istanceRef = instance()!;
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
-      <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{ istanceRef?.id }}</strong
+      <span jhiTranslate="pagopaCruscottoApp.instance.detail.title">Instance</span> [<strong>{{
+        istanceRef?.instanceIdentification
+      }}</strong
       >]
     </div>
     <div>
@@ -13,6 +15,7 @@
       <button
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
         [disabled]="istanceRef.status !== status.Bozza && istanceRef.status !== status.Pianificata"
         [routerLink]="['/entity/instances', istanceRef?.id, 'edit']"
         [title]="['pagopaCruscottoApp.instance.detail.modify.title' | translate]"
@@ -27,11 +30,6 @@
       <mat-card class="mat-elevation-z8">
         <mat-card-content>
           <div class="row custom-row p-2">
-            <!-- Prima riga: Identificazione Istanza, Partner, Utente Assegnato -->
-            <div class="col-lg-4">
-              <span jhiTranslate="pagopaCruscottoApp.instance.detail.instanceIdentification">Instance Identification</span>
-              <p class="p-2 bg-light">{{ istanceRef?.instanceIdentification }}</p>
-            </div>
             <div class="col-lg-4">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.partner">Partner</span>
               <p class="p-2 bg-light">{{ istanceRef?.partnerFiscalCode }} - {{ istanceRef?.partnerName }}</p>
@@ -41,46 +39,44 @@
               <p class="p-2 bg-light">{{ istanceRef?.assignedFirstName }} {{ istanceRef?.assignedLastName }}</p>
             </div>
 
-            <!-- Seconda riga: Data della richiesta, Data prevista per l'analisi, Periodo di analisi (inizio), Periodo di analisi (fine) -->
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.applicationDate">Application Date</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.applicationDate | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.predictedDateAnalysis">Predicted Date Analysis</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.predictedDateAnalysis | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodStartDate">Analysis Period Start Date</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.analysisPeriodStartDate | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.analysisPeriodEndDate">Analysis Period End Date</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.analysisPeriodEndDate | formatDate: 'L' : locale }}
               </p>
             </div>
 
-            <!-- Terza riga: Data Ultima Analisi, Esito ultima analisi, Stato -->
-            <div class="col-lg-4">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisDate">Last Analysis Date</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.lastAnalysisDate | formatDate: 'L' : locale }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.lastAnalysisOutcome">Last Analysis Outcome</span>
               <p class="p-2 bg-light">
                 {{ istanceRef?.lastAnalysisOutcome }}
               </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
               <span jhiTranslate="pagopaCruscottoApp.instance.detail.status">Status</span>
               <p class="p-2 bg-light">
                 {{ 'pagopaCruscottoApp.instanceState.' + istanceRef?.status | translate }}

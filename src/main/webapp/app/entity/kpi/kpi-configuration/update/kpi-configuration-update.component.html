@@ -80,7 +80,8 @@
                     matInput
                     autocomplete="off"
                     formControlName="eligibilityThreshold"
-                    mask="percent"
+                    mask="separator.2"
+                    [leadZero]="true"
                     decimalMarker=","
                     class="text-end"
                   />
@@ -104,7 +105,15 @@
               <div class="col-lg-3" *ngIf="moduleConfiguration.configTolerance">
                 <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance"></mat-label>
-                  <input matInput autocomplete="off" formControlName="tolerance" mask="percent" decimalMarker="," class="text-end" />
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="tolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
                   <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
                   @let toleranceRef = editForm.get('tolerance')!;
                   <ng-container ngProjectAs="mat-error" *ngIf="toleranceRef.invalid && (toleranceRef.dirty || toleranceRef.touched)">
@@ -191,6 +200,7 @@
                   id="save-save"
                   mat-flat-button
                   color="primary"
+                  *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
                   [disabled]="editForm.invalid || isSaving"
                   [title]="['entity.action.save' | translate]"
                 >
