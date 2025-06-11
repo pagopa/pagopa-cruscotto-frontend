@@ -16,6 +16,7 @@ on:
           - dev
           - uat
           - prod
+        default: dev
       version:
         required: false
         type: choice
