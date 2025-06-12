@@ -22,7 +22,9 @@
       "registry": {
         "main": "Registry",
         "shutdown": "Shutdowns",
-        "taxonomy": "Taxonomies"
+        "taxonomy": "Taxonomies",
+        "partners": "Partners",
+        "stations": "Stations"
       },
       "configuration": {
         "main": "Configuration",
@@ -128,7 +130,11 @@
     "field": {
       "id": "Id",
       "startDate": "Start Date",
-      "endDate": "End Date"
+      "endDate": "End Date",
+      "createdDate": "Created Date",
+      "createdBy": "Created By",
+      "lastModifiedBy": "Modify By",
+      "lastModifiedDate": "Modify Date"
     },
     "ribbon": {
       "dev": "Development"

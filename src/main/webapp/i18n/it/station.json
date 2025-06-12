@@ -2,12 +2,25 @@
   "pagopaCruscottoApp": {
     "station": {
       "home": {
-        "title": "Stazione"
+        "title": "Stazioni"
       },
       "detail": {
         "title": "Dettaglio Stazione"
       },
-      "station": "Stazione"
+      "station": "Stazione",
+      "name": "Nome",
+      "partnerId": "Id Partner",
+      "activationDate": "Data Attivazione",
+      "partnerFiscalCode": "Codice Fiscale Partner",
+      "partnerName": "Nome Partner",
+      "typeConnection": "Tipo connessione",
+      "primitiveVersion": "Prima Versione",
+      "paymentOption": "Opzione Pagamento",
+      "associatedInstitutes": "Istituti Associati",
+      "status": "Stato",
+      "status.ATTIVA": "Attiva",
+      "status.NON_ATTIVA": "Non Attiva",
+      "deactivationDate": "Data Disattivazione"
     }
   },
   "pagopaCruscottoBackendApp": {
