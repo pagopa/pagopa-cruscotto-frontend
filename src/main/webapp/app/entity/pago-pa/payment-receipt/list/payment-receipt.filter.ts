@@ -5,7 +5,7 @@ import { IFilterPagination } from 'app/shared/pagination/filter.pagination';
 @Injectable({
   providedIn: 'root',
 })
-export class PagoPaRecordedTimeoutFilter extends IFilterPagination {
+export class PaymentReceiptFilter extends IFilterPagination {
   sort: ISortField = { field: 'startDate', direction: 'asc' };
   sortDefault: ISortField = { field: 'startDate', direction: 'asc' };
 }

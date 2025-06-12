@@ -2,7 +2,7 @@
   "pagopaCruscottoApp": {
     "pagoPaTaxonomyAggregatePosition": {
       "home": {
-        "title": "PagoPa Aggregate Positions Taxonomy"
+        "title": "Taxonomy Aggregate Position"
       },
       "cfPartner": "Partner's CF",
       "station": "Station",

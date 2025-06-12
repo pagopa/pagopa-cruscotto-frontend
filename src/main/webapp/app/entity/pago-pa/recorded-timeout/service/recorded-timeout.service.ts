@@ -3,11 +3,11 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
-import { ApplicationConfigService } from '../../../core/config/application-config.service';
+import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT } from 'app/config/input.constants';
-import { IPagoPaRecordedTimeout } from '../pagoPaRecordedTimeout.model';
+import { IPagoPaRecordedTimeout } from '../recorded-timeout.model';
 
 type PagoPaRecordedTimeoutRestOf<T extends IPagoPaRecordedTimeout> = T & {
   startDate?: string | null;
@@ -20,7 +20,7 @@ type EntityResponseType = HttpResponse<IPagoPaRecordedTimeout>;
 type EntityArrayResponseType = HttpResponse<IPagoPaRecordedTimeout[]>;
 
 @Injectable({ providedIn: 'root' })
-export class PagoPaRecordedTimeoutService {
+export class RecordedTimeoutService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 

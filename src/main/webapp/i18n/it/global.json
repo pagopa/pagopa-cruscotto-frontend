@@ -23,9 +23,9 @@
         "main": "Anagrafica",
         "shutdown": "Fermi",
         "taxonomy": "Tassonomia",
-        "pagoPaPaymentReceipt": "Ricevute Pagamento PagoPA",
-        "pagoPaRecordedTimeout": "Timeout Registrati PagoPA",
-        "pagoPaTaxonomyAggregatePosition": "Tassonomia Posizioni Aggregate PagoPA"
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"
       },
       "configuration": {
         "main": "Configurazioni",

@@ -13,20 +13,20 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import SharedModule from 'app/shared/shared.module';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { LocaltionHelper } from 'app/core/location/location.helper';
 import { Authority } from 'app/config/authority.constants';
-import FormatDatePipe from '../../../shared/date/format-date.pipe';
-import { PagoPaPaymentReceiptService } from '../service/pagoPaPaymentReceipt.service';
-import { PagoPaPaymentReceiptFilter } from './pagoPaPaymentReceipt.filter';
-import { IPagoPaPaymentReceipt } from '../pagoPaPaymentReceipt.model';
+import { FormatDatePipe } from '../../../../shared/date';
+import { RecordedTimeoutFilter } from './recorded-timeout.filter';
+import { RecordedTimeoutService } from '../service/recorded-timeout.service';
+import { IPagoPaRecordedTimeout } from '../recorded-timeout.model';
 
 @Component({
-  selector: 'jhi-pagoPaPaymentReceipt',
-  templateUrl: './pagoPaPaymentReceipt.component.html',
+  selector: 'jhi-pago-pa-recorded-timeout',
+  templateUrl: './recorded-timeout.component.html',
+  styleUrl: './recorded-timeout.component.scss',
   imports: [
     SharedModule,
     MatIconModule,
@@ -46,12 +46,12 @@ import { IPagoPaPaymentReceipt } from '../pagoPaPaymentReceipt.model';
     FormatDatePipe,
   ],
 })
-export class PagoPaPaymentReceiptComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'cfPartner', 'station', 'startDate', 'endDate', 'totRes', 'resOk', 'resKo'];
+export class PagoPaRecordedTimeoutComponent implements OnInit {
+  displayedColumns: string[] = ['cfPartner', 'station', 'method', 'startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
 
   locale: string;
 
-  data: IPagoPaPaymentReceipt[] = [];
+  data: IPagoPaRecordedTimeout[] = [];
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -65,10 +65,10 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
   protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
-  protected readonly filter = inject(PagoPaPaymentReceiptFilter);
+  protected readonly filter = inject(RecordedTimeoutFilter);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
-  private readonly pagoPaPaymentReceiptService = inject(PagoPaPaymentReceiptService);
+  private readonly pagoPaRecordedTimeoutService = inject(RecordedTimeoutService);
   private readonly fb = inject(FormBuilder);
   private readonly locationHelper = inject(LocaltionHelper);
 
@@ -111,7 +111,7 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/pagoPaPaymentReceipt']);
+    void this.router.navigate(['/entity/pagoPaRecordedTimeout']);
   }
 
   changePage(event: PageEvent): void {
@@ -140,8 +140,8 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
 
     this.populateRequest(params);
 
-    this.pagoPaPaymentReceiptService.query(params).subscribe({
-      next: (res: HttpResponse<IPagoPaPaymentReceipt[]>) => {
+    this.pagoPaRecordedTimeoutService.query(params).subscribe({
+      next: (res: HttpResponse<IPagoPaRecordedTimeout[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
       },
@@ -165,7 +165,7 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
     window.history.back();
   }
 
-  protected onSuccess(data: IPagoPaPaymentReceipt[], headers: HttpHeaders): void {
+  protected onSuccess(data: IPagoPaRecordedTimeout[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
     this.spinner.hide('isLoadingResults').then(() => {

@@ -2,7 +2,7 @@
   "pagopaCruscottoApp": {
     "pagoPaRecordedTimeout": {
       "home": {
-        "title": "Timeout Registrati PagoPa"
+        "title": "Request"
       },
       "cfPartner": "CF Partner",
       "station": "Stazione",

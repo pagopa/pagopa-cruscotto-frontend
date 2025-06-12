@@ -84,7 +84,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         },
         {
           label: 'global.menu.registry.pagoPaPaymentReceipt',
-          route: '/entity/pagoPaPaymentReceipt',
+          route: '/entity/pago-pa/payment-receipt',
           xSmall: true,
           small: true,
           medium: true,
@@ -92,7 +92,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         },
         {
           label: 'global.menu.registry.pagoPaRecordedTimeout',
-          route: '/entity/pagoPaRecordedTimeout',
+          route: '/entity/pago-pa/recorded-timeout',
           xSmall: true,
           small: true,
           medium: true,
@@ -100,7 +100,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         },
         {
           label: 'global.menu.registry.pagoPaTaxonomyAggregatePosition',
-          route: '/entity/pagoPaTaxonomyAggregatePosition',
+          route: '/entity/pago-pa/taxonomy-aggregate-position',
           xSmall: true,
           small: true,
           medium: true,

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { PagoPaPaymentReceiptComponent } from './list/pagoPaPaymentReceipt.component';
+import { PagoPaPaymentReceiptComponent } from './list/payment-receipt.component';
 
-const pagoPaPaymentReceiptRoutes: Routes = [
+const paymentReceiptRoutes: Routes = [
   {
     path: '',
     component: PagoPaPaymentReceiptComponent,
@@ -10,4 +10,4 @@ const pagoPaPaymentReceiptRoutes: Routes = [
   },
 ];
 
-export default pagoPaPaymentReceiptRoutes;
+export default paymentReceiptRoutes;

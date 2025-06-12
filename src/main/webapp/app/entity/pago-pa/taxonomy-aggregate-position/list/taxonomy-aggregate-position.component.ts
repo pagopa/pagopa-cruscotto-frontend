@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,14 +18,15 @@ import SharedModule from 'app/shared/shared.module';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { LocaltionHelper } from 'app/core/location/location.helper';
 import { Authority } from 'app/config/authority.constants';
-import FormatDatePipe from '../../../shared/date/format-date.pipe';
-import { PagoPaRecordedTimeoutFilter } from './pagoPaRecordedTimeout.filter';
-import { PagoPaRecordedTimeoutService } from '../service/pagoPaRecordedTimeout.service';
-import { IPagoPaRecordedTimeout } from '../pagoPaRecordedTimeout.model';
+import { TaxonomyAggregatePositionService } from '../service/taxonomy-aggregate-position.service';
+import { FormatDatePipe } from '../../../../shared/date';
+import { PagoPaTaxonomyAggregatePositionFilter } from './taxonomy-aggregate-position.filter';
+import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position.model';
 
 @Component({
-  selector: 'jhi-pagoPaRecordedTimeout',
-  templateUrl: './pagoPaRecordedTimeout.component.html',
+  selector: 'jhi-pago-pa-taxonomy-aggregate-position',
+  templateUrl: './taxonomy-aggregate-position.component.html',
+  styleUrl: './taxonomy-aggregate-position.component.scss',
   imports: [
     SharedModule,
     MatIconModule,
@@ -45,12 +46,12 @@ import { IPagoPaRecordedTimeout } from '../pagoPaRecordedTimeout.model';
     FormatDatePipe,
   ],
 })
-export class PagoPaRecordedTimeoutComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'cfPartner', 'station', 'method', 'startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
+export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
+  displayedColumns: string[] = ['cfPartner', 'station', 'transferCategory', 'startDate', 'endDate', 'total'];
 
   locale: string;
 
-  data: IPagoPaRecordedTimeout[] = [];
+  data: IPagoPaTaxonomyAggregatePosition[] = [];
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -64,10 +65,10 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
   protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
-  protected readonly filter = inject(PagoPaRecordedTimeoutFilter);
+  protected readonly filter = inject(PagoPaTaxonomyAggregatePositionFilter);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
-  private readonly pagoPaRecordedTimeoutService = inject(PagoPaRecordedTimeoutService);
+  private readonly pagoPaTaxonomyAggregatePositionService = inject(TaxonomyAggregatePositionService);
   private readonly fb = inject(FormBuilder);
   private readonly locationHelper = inject(LocaltionHelper);
 
@@ -110,7 +111,7 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/pagoPaRecordedTimeout']);
+    void this.router.navigate(['/entity/PagoPaTaxonomyAggregatePositionFilter']);
   }
 
   changePage(event: PageEvent): void {
@@ -139,8 +140,8 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
 
     this.populateRequest(params);
 
-    this.pagoPaRecordedTimeoutService.query(params).subscribe({
-      next: (res: HttpResponse<IPagoPaRecordedTimeout[]>) => {
+    this.pagoPaTaxonomyAggregatePositionService.query(params).subscribe({
+      next: (res: HttpResponse<IPagoPaTaxonomyAggregatePosition[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
       },
@@ -164,7 +165,7 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
     window.history.back();
   }
 
-  protected onSuccess(data: IPagoPaRecordedTimeout[], headers: HttpHeaders): void {
+  protected onSuccess(data: IPagoPaTaxonomyAggregatePosition[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
     this.spinner.hide('isLoadingResults').then(() => {

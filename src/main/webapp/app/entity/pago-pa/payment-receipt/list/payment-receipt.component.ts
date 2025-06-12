@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,19 +13,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import SharedModule from 'app/shared/shared.module';
 import { ITEMS_PER_PAGE } from 'app/config/pagination.constants';
 import { LocaltionHelper } from 'app/core/location/location.helper';
 import { Authority } from 'app/config/authority.constants';
-import FormatDatePipe from '../../../shared/date/format-date.pipe';
-import { IPagoPaTaxonomyAggregatePosition } from '../pagoPaTaxonomyAggregatePosition.model';
-import { PagoPaTaxonomyAggregatePositionFilter } from './pagoPaRecordedTimeout.filter';
-import { PagoPaTaxonomyAggregatePositionService } from '../service/pagoPaTaxonomyAggregatePosition.service';
+import { FormatDatePipe } from '../../../../shared/date';
+import { PaymentReceiptService } from '../service/payment-receipt.service';
+import { PaymentReceiptFilter } from './payment-receipt.filter';
+import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
 
 @Component({
-  selector: 'jhi-pagoPaTaxonomyAggregatePosition',
-  templateUrl: './pagoPaTaxonomyAggregatePosition.component.html',
+  selector: 'jhi-pago-pa-payment-receipt',
+  templateUrl: './payment-receipt.component.html',
+  styleUrl: './payment-receipt.component.scss',
   imports: [
     SharedModule,
     MatIconModule,
@@ -45,12 +47,12 @@ import { PagoPaTaxonomyAggregatePositionService } from '../service/pagoPaTaxonom
     FormatDatePipe,
   ],
 })
-export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'cfPartner', 'station', 'transferCategory', 'startDate', 'endDate', 'total'];
+export class PagoPaPaymentReceiptComponent implements OnInit {
+  displayedColumns: string[] = ['cfPartner', 'station', 'startDate', 'endDate', 'totRes', 'resOk', 'resKo'];
 
   locale: string;
 
-  data: IPagoPaTaxonomyAggregatePosition[] = [];
+  data: IPagoPaPaymentReceipt[] = [];
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -64,10 +66,10 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
   protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
-  protected readonly filter = inject(PagoPaTaxonomyAggregatePositionFilter);
+  protected readonly filter = inject(PaymentReceiptFilter);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
-  private readonly pagoPaTaxonomyAggregatePositionService = inject(PagoPaTaxonomyAggregatePositionService);
+  private readonly pagoPaPaymentReceiptService = inject(PaymentReceiptService);
   private readonly fb = inject(FormBuilder);
   private readonly locationHelper = inject(LocaltionHelper);
 
@@ -110,7 +112,7 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/PagoPaTaxonomyAggregatePositionFilter']);
+    void this.router.navigate(['/entity/pagoPaPaymentReceipt']);
   }
 
   changePage(event: PageEvent): void {
@@ -139,8 +141,8 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
 
     this.populateRequest(params);
 
-    this.pagoPaTaxonomyAggregatePositionService.query(params).subscribe({
-      next: (res: HttpResponse<IPagoPaTaxonomyAggregatePosition[]>) => {
+    this.pagoPaPaymentReceiptService.query(params).subscribe({
+      next: (res: HttpResponse<IPagoPaPaymentReceipt[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
       },
@@ -164,7 +166,7 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
     window.history.back();
   }
 
-  protected onSuccess(data: IPagoPaTaxonomyAggregatePosition[], headers: HttpHeaders): void {
+  protected onSuccess(data: IPagoPaPaymentReceipt[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
     this.spinner.hide('isLoadingResults').then(() => {
