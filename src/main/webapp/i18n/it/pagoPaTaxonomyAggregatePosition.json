@@ -1,0 +1,15 @@
+{
+  "pagopaCruscottoApp": {
+    "pagoPaTaxonomyAggregatePosition": {
+      "home": {
+        "title": "Tassonomia versamenti"
+      },
+      "cfPartner": "CF Partner",
+      "station": "Stazione",
+      "transferCategory": "Categoria Trasferimento",
+      "startDate": "Data Inizio",
+      "endDate": "Data Fine",
+      "total": "Totale"
+    }
+  }
+}

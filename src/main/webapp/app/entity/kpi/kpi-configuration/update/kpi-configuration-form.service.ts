@@ -104,9 +104,9 @@ export class KpiConfigurationFormService {
         kpiConfiguration.moduleId !== null
           ? { id: kpiConfiguration.moduleId, name: kpiConfiguration.moduleName, code: kpiConfiguration.moduleCode }
           : null,
-      eligibilityThreshold: kpiConfiguration.eligibilityThreshold ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
-      tolerance: kpiConfiguration.tolerance ? kpiConfiguration.tolerance.toFixed(2) : null,
-      averageTimeLimit: kpiConfiguration.averageTimeLimit ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
+      eligibilityThreshold: kpiConfiguration.eligibilityThreshold != null ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
+      tolerance: kpiConfiguration.tolerance != null ? kpiConfiguration.tolerance.toFixed(2) : null,
+      averageTimeLimit: kpiConfiguration.averageTimeLimit != null ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
     };
     form.reset(
       {
