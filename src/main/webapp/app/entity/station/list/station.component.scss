@@ -1,7 +1,6 @@
 /* Column Widths */
 .mat-column-name,
 .mat-column-activationDate,
-.mat-column-partnerId,
 .mat-column-partnerFiscalCode,
 .mat-column-partnerName,
 .mat-column-typeConnection,
@@ -9,11 +8,7 @@
 .mat-column-paymentOption,
 .mat-column-associatedInstitutes,
 .mat-column-status,
-.mat-column-deactivationDate,
-.mat-column-createdBy,
-.mat-column-createdDate,
-.mat-column-lastModifiedBy,
-.mat-column-lastModifiedDate {
+.mat-column-deactivationDate {
   width: 150px;
   text-align: center;
 }

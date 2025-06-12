@@ -55,7 +55,6 @@ export class StationComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'name',
     'activationDate',
-    'partnerId',
     'partnerFiscalCode',
     'partnerName',
     'typeConnection',
@@ -64,10 +63,6 @@ export class StationComponent implements OnInit, OnDestroy {
     'associatedInstitutes',
     'status',
     'deactivationDate',
-    'createdBy',
-    'createdDate',
-    'lastModifiedBy',
-    'lastModifiedDate',
     'action',
   ];
 
