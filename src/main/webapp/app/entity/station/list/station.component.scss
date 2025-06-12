@@ -1,0 +1,26 @@
+/* Column Widths */
+.mat-column-id,
+.mat-column-name,
+.mat-column-activationDate,
+.mat-column-partnerId,
+.mat-column-partnerFiscalCode,
+.mat-column-partnerName,
+.mat-column-typeConnection,
+.mat-column-primitiveVersion,
+.mat-column-paymentOption,
+.mat-column-associatedInstitutes,
+.mat-column-status,
+.mat-column-deactivationDate,
+.mat-column-createdBy,
+.mat-column-createdDate,
+.mat-column-lastModifiedBy,
+.mat-column-lastModifiedDate {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}

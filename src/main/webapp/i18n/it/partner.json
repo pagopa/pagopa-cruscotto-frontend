@@ -7,7 +7,14 @@
       "detail": {
         "title": "Dettaglio Partner"
       },
-      "partner": "Partner"
+      "partner": "Partner",
+      "fiscalCode": "Codice Fiscale",
+      "name": "Nome",
+      "status": "Stato",
+      "status.ATTIVO": "Attivo",
+      "status.NON_ATTIVO": "Non Attivo",
+      "qualified": "qualificato",
+      "deactivationDate": "Data Disattivazione"
     }
   }
 }

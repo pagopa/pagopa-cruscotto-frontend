@@ -1,0 +1,20 @@
+/* Column Widths */
+.mat-column-id,
+.mat-column-fiscalCode,
+.mat-column-name,
+.mat-column-status,
+.mat-column-qualified,
+.mat-column-deactivationDate,
+.mat-column-createdBy,
+.mat-column-createdDate,
+.mat-column-lastModifiedBy,
+.mat-column-lastModifiedDate {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-action {
+  width: 200px;
+  min-width: 200px;
+  text-align: center;
+}

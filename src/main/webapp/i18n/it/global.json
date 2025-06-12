@@ -22,7 +22,9 @@
       "registry": {
         "main": "Anagrafica",
         "shutdown": "Fermi",
-        "taxonomy": "Tassonomia"
+        "taxonomy": "Tassonomia",
+        "partners": "Partner",
+        "stations": "Stazioni"
       },
       "configuration": {
         "main": "Configurazioni",
@@ -128,7 +130,11 @@
     "field": {
       "id": "Id",
       "startDate": "Data Inizio",
-      "endDate": "Data Fine"
+      "endDate": "Data Fine",
+      "createdDate": "Creato il",
+      "createdBy": "Creato da",
+      "lastModifiedBy": "Modificato da",
+      "lastModifiedDate": "Modificato il"
     },
     "ribbon": {
       "dev": "Development"

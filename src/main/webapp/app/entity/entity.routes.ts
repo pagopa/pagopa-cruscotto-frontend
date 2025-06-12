@@ -21,6 +21,14 @@ const entityRoutes: Routes = [
     path: 'modules',
     loadChildren: () => import('./module/module.routes'),
   },
+  {
+    path: 'partners',
+    loadChildren: () => import('./partner/partner.routes'),
+  },
+  {
+    path: 'stations',
+    loadChildren: () => import('./station/station.routes'),
+  },
 ];
 
 export default entityRoutes;
