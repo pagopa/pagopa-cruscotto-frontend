@@ -83,6 +83,22 @@ export default class HeaderComponent implements OnInit, OnDestroy {
           large: true,
         },
         {
+          label: 'global.menu.registry.partners',
+          route: '/entity/partners',
+          xSmall: true,
+          small: true,
+          medium: true,
+          large: true,
+        },
+        {
+          label: 'global.menu.registry.stations',
+          route: '/entity/stations',
+          xSmall: true,
+          small: true,
+          medium: true,
+          large: true,
+        },
+        {
           label: 'global.menu.registry.pagoPaPaymentReceipt',
           route: '/entity/pago-pa/payment-receipt',
           xSmall: true,

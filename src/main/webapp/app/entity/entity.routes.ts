@@ -22,6 +22,14 @@ const entityRoutes: Routes = [
     loadChildren: () => import('./module/module.routes'),
   },
   {
+    path: 'partners',
+    loadChildren: () => import('./partner/partner.routes'),
+  },
+  {
+    path: 'stations',
+    loadChildren: () => import('./station/station.routes'),
+  },
+  {
     path: 'pago-pa/payment-receipt',
     loadChildren: () => import('./pago-pa/payment-receipt/payment-receipt.routes'),
   },
