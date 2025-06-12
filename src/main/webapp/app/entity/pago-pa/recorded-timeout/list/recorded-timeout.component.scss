@@ -1,0 +1,16 @@
+.mat-column-cfPartner,
+.mat-column-station,
+.mat-column-method,
+.mat-column-startDate,
+.mat-column-endDate {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-totReq,
+.mat-column-reqOk,
+.mat-column-reqTimeout,
+.mat-column-avgTime {
+  width: 150px;
+  text-align: right;
+}

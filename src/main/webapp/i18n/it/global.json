@@ -24,7 +24,10 @@
         "shutdown": "Fermi",
         "taxonomy": "Tassonomia",
         "partners": "Partner",
-        "stations": "Stazioni"
+        "stations": "Stazioni",
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"
       },
       "configuration": {
         "main": "Configurazioni",
@@ -130,11 +133,7 @@
     "field": {
       "id": "Id",
       "startDate": "Data Inizio",
-      "endDate": "Data Fine",
-      "createdDate": "Creato il",
-      "createdBy": "Creato da",
-      "lastModifiedBy": "Modificato da",
-      "lastModifiedDate": "Modificato il"
+      "endDate": "Data Fine"
     },
     "ribbon": {
       "dev": "Development"
