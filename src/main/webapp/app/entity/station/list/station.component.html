@@ -87,13 +87,6 @@
                 matSort
                 matSortDisableClear
               >
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    {{ 'global.field.id' | translate }}
-                  </th>
-                  <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.station.name' | translate }}
@@ -231,7 +224,7 @@
                 ></tr>
 
                 <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell font-weight-bold text-center" colspan="17">{{ 'entity.list.noResult' | translate }}</td>
+                  <td class="mat-cell font-weight-bold text-center" colspan="16">{{ 'entity.list.noResult' | translate }}</td>
                 </tr>
               </table>
             </div>

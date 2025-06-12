@@ -51,7 +51,6 @@ import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.compon
 })
 export class PartnerComponent implements OnInit {
   displayedColumns: string[] = [
-    'id',
     'fiscalCode',
     'name',
     'status',

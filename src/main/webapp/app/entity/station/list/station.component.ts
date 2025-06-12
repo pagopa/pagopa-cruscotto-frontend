@@ -53,7 +53,6 @@ import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.compon
 })
 export class StationComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
-    'id',
     'name',
     'activationDate',
     'partnerId',
