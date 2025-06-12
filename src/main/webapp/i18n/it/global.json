@@ -22,7 +22,10 @@
       "registry": {
         "main": "Anagrafica",
         "shutdown": "Fermi",
-        "taxonomy": "Tassonomia"
+        "taxonomy": "Tassonomia",
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"
       },
       "configuration": {
         "main": "Configurazioni",

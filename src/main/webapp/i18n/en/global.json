@@ -22,7 +22,10 @@
       "registry": {
         "main": "Registry",
         "shutdown": "Shutdowns",
-        "taxonomy": "Taxonomies"
+        "taxonomy": "Taxonomies",
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
       },
       "configuration": {
         "main": "Configuration",
