@@ -23,7 +23,7 @@ export class TaxonomyAggregatePositionService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/pagoPaTaxonomyAggregatePositions');
+  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/pago-pa/taxonomy-aggregate-position');
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);

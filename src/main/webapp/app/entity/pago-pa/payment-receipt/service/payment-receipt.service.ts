@@ -23,7 +23,7 @@ export class PaymentReceiptService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/pagoPaPaymentReceipts');
+  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/pago-pa/payment-receipt');
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
