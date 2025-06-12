@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex align-items-center justify-content-between w-100 mb-5">
       <div class="h2">
-        <span jhiTranslate="pagopaCruscottoApp.partner.detail.title">Partner Detail</span> [<strong>{{ partner.id }}</strong
+        <span jhiTranslate="pagopaCruscottoApp.partner.detail.title">Partner Detail</span> [<strong>{{ partner.fiscalCode }}</strong
         >]
       </div>
       <div>
@@ -16,15 +16,7 @@
         <mat-card class="mat-elevation-z8">
           <mat-card-content>
             <div class="row custom-row p-2">
-              <div class="col-lg-1">
-                <span jhiTranslate="global.field.id">ID</span>
-                <p class="p-2 bg-light">{{ partner.id }}</p>
-              </div>
-              <div class="col-lg-2">
-                <span jhiTranslate="pagopaCruscottoApp.partner.fiscalCode">Fiscal Code</span>
-                <p class="p-2 bg-light">{{ partner.fiscalCode }}</p>
-              </div>
-              <div class="col-lg-3">
+              <div class="col-lg-4">
                 <span jhiTranslate="pagopaCruscottoApp.partner.name">Name</span>
                 <p class="p-2 bg-light">{{ partner.name }}</p>
               </div>
@@ -39,26 +31,6 @@
               <div class="col-lg-2">
                 <span jhiTranslate="pagopaCruscottoApp.partner.deactivationDate">Deactivation Date</span>
                 <p class="p-2 bg-light">{{ partner.deactivationDate | formatDate: 'L' : locale }}</p>
-              </div>
-              <div class="col-lg-3">
-                <span jhiTranslate="global.field.createdBy">Created By</span>
-                <p class="p-2 bg-light">{{ partner.createdBy }}</p>
-              </div>
-              <div class="col-lg-3">
-                <span jhiTranslate="global.field.createdDate">Created Date</span>
-                <p class="p-2 bg-light">
-                  {{ partner.createdDate | formatDate: 'L LTS' : locale }}
-                </p>
-              </div>
-              <div class="col-lg-3">
-                <span jhiTranslate="global.field.lastModifiedBy">Last Modified By</span>
-                <p class="p-2 bg-light">{{ partner.lastModifiedBy }}</p>
-              </div>
-              <div class="col-lg-3">
-                <span jhiTranslate="global.field.lastModifiedDate">Last Modified Date</span>
-                <p class="p-2 bg-light">
-                  {{ partner.lastModifiedDate | formatDate: 'L LTS' : locale }}
-                </p>
               </div>
             </div>
           </mat-card-content>
