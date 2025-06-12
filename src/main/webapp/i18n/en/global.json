@@ -23,6 +23,8 @@
         "main": "Registry",
         "shutdown": "Shutdowns",
         "taxonomy": "Taxonomies",
+        "partners": "Partners",
+        "stations": "Stations",
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
         "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
