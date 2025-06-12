@@ -2,7 +2,7 @@
   "pagopaCruscottoApp": {
     "pagoPaRecordedTimeout": {
       "home": {
-        "title": "PagoPa Recorded Timeouts"
+        "title": "Request"
       },
       "cfPartner": "Partner's CF",
       "station": "Station",

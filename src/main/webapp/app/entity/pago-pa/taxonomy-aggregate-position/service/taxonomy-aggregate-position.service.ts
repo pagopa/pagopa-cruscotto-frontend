@@ -3,11 +3,10 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
-import { ApplicationConfigService } from '../../../core/config/application-config.service';
-
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT } from 'app/config/input.constants';
-import { IPagoPaTaxonomyAggregatePosition } from '../pagoPaTaxonomyAggregatePosition.model';
+import { ApplicationConfigService } from '../../../../core/config/application-config.service';
+import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position.model';
 
 type PagoPaTaxonomyAggregatePositionRestOf<T extends IPagoPaTaxonomyAggregatePosition> = T & {
   startDate?: string | null;
@@ -20,7 +19,7 @@ type EntityResponseType = HttpResponse<IPagoPaTaxonomyAggregatePosition>;
 type EntityArrayResponseType = HttpResponse<IPagoPaTaxonomyAggregatePosition[]>;
 
 @Injectable({ providedIn: 'root' })
-export class PagoPaTaxonomyAggregatePositionService {
+export class TaxonomyAggregatePositionService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 

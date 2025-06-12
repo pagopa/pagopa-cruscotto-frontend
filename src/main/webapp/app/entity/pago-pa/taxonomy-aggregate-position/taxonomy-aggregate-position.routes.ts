@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { PagoPaTaxonomyAggregatePositionComponent } from './list/pagoPaTaxonomyAggregatePosition.component';
+import { PagoPaTaxonomyAggregatePositionComponent } from './list/taxonomy-aggregate-position.component';
 
-const pagoPaTaxonomyAggregatePositionRoutes: Routes = [
+const taxonomyAggregatePositionRoutes: Routes = [
   {
     path: '',
     component: PagoPaTaxonomyAggregatePositionComponent,
@@ -10,4 +10,4 @@ const pagoPaTaxonomyAggregatePositionRoutes: Routes = [
   },
 ];
 
-export default pagoPaTaxonomyAggregatePositionRoutes;
+export default taxonomyAggregatePositionRoutes;

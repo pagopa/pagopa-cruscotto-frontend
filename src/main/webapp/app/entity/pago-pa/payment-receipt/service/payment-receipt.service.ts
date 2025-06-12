@@ -2,12 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
-
-import { ApplicationConfigService } from '../../../core/config/application-config.service';
+import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT } from 'app/config/input.constants';
-import { IPagoPaPaymentReceipt } from '../pagoPaPaymentReceipt.model';
+import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
 
 type PagoPaPaymentReceiptRestOf<T extends IPagoPaPaymentReceipt> = T & {
   startDate?: string | null;
@@ -20,7 +19,7 @@ type EntityResponseType = HttpResponse<IPagoPaPaymentReceipt>;
 type EntityArrayResponseType = HttpResponse<IPagoPaPaymentReceipt[]>;
 
 @Injectable({ providedIn: 'root' })
-export class PagoPaPaymentReceiptService {
+export class PaymentReceiptService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 

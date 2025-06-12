@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { PagoPaRecordedTimeoutComponent } from './list/pagoPaRecordedTimeout.component';
+import { PagoPaRecordedTimeoutComponent } from './list/recorded-timeout.component';
 
-const pagoPaRecordedTimeoutRoutes: Routes = [
+const recordedTimeoutRoutes: Routes = [
   {
     path: '',
     component: PagoPaRecordedTimeoutComponent,
@@ -10,4 +10,4 @@ const pagoPaRecordedTimeoutRoutes: Routes = [
   },
 ];
 
-export default pagoPaRecordedTimeoutRoutes;
+export default recordedTimeoutRoutes;

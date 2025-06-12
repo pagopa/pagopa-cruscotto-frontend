@@ -22,16 +22,16 @@ const entityRoutes: Routes = [
     loadChildren: () => import('./module/module.routes'),
   },
   {
-    path: 'pagoPaPaymentReceipt',
-    loadChildren: () => import('./pagoPaPaymentReceipt/pagoPaPaymentReceipt.routes'),
+    path: 'pago-pa/payment-receipt',
+    loadChildren: () => import('./pago-pa/payment-receipt/payment-receipt.routes'),
   },
   {
-    path: 'pagoPaRecordedTimeout',
-    loadChildren: () => import('./pagoPaRecordedTimeout/pagoPaRecordedTimeout.routes'),
+    path: 'pago-pa/recorded-timeout',
+    loadChildren: () => import('./pago-pa/recorded-timeout/recorded-timeout.routes'),
   },
   {
-    path: 'pagoPaTaxonomyAggregatePosition',
-    loadChildren: () => import('./pagoPaTaxonomyAggregatePosition/pagoPaTaxonomyAggregatePosition.routes'),
+    path: 'pago-pa/taxonomy-aggregate-position',
+    loadChildren: () => import('./pago-pa/taxonomy-aggregate-position/taxonomy-aggregate-position.routes'),
   },
 ];
 

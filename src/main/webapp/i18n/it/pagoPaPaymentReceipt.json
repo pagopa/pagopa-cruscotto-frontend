@@ -2,7 +2,7 @@
   "pagopaCruscottoApp": {
     "pagoPaPaymentReceipt": {
       "home": {
-        "title": "Ricevute di Pagamento PagoPa"
+        "title": "Receipt"
       },
       "cfPartner": "CF Partner",
       "station": "Stazione",

@@ -23,9 +23,9 @@
         "main": "Registry",
         "shutdown": "Shutdowns",
         "taxonomy": "Taxonomies",
-        "pagoPaPaymentReceipt": "PagoPA Payment Receipts",
-        "pagoPaRecordedTimeout": "PagoPA Recorded Timeout",
-        "pagoPaTaxonomyAggregatePosition": "PagoPA Aggregate Positions Taxonomy"
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
       },
       "configuration": {
         "main": "Configuration",
