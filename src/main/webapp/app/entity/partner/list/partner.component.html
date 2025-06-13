@@ -33,6 +33,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
@@ -133,6 +134,7 @@
                           <button
                             mat-icon-button
                             type="button"
+                            *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'entity.action.detail' | translate }}"
                             matTooltipPosition="above"
                             [routerLink]="['/entity/partners', row.id, 'view']"

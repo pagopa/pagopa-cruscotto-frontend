@@ -33,6 +33,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.PAGOPA_TAXONOMY_AGGREGATE_POSITION_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
