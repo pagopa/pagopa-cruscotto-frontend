@@ -110,17 +110,14 @@ export default class UserManagementUpdateComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show('isSaving').then(() => {
-      this.isSaving.set(true);
-    });
-
     const newPassword = this.editForm.get(['newPassword'])!.value;
     if (newPassword !== this.editForm.get(['confirmPassword'])!.value) {
-      this.spinner.show('isSaving').then(() => {
-        this.isSaving.set(false);
-      });
       this.addMessage('danger', 'global.messages.error.dontmatch');
     } else {
+      this.spinner.show('isSaving').then(() => {
+        this.isSaving.set(true);
+      });
+
       this.updateUser(this.user);
       if (this.user.id !== null) {
         this.subscribeToSaveResponse(this.userService.update(this.user));
