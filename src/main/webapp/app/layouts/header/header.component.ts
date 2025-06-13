@@ -85,6 +85,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.partners',
           route: '/entity/partners',
+          permission: Authority.PARTNER_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -93,6 +94,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.stations',
           route: '/entity/stations',
+          permission: Authority.STATION_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -101,6 +103,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.pagoPaPaymentReceipt',
           route: '/entity/pago-pa/payment-receipt',
+          permission: Authority.PAGOPA_PAYMENT_RECEIPT_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -109,6 +112,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.pagoPaRecordedTimeout',
           route: '/entity/pago-pa/recorded-timeout',
+          permission: Authority.PAGOPA_RECORDED_TIMEOUT_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
@@ -117,6 +121,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.pagoPaTaxonomyAggregatePosition',
           route: '/entity/pago-pa/taxonomy-aggregate-position',
+          permission: Authority.PAGOPA_TAXONOMY_AGGREGATE_POSITION_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
