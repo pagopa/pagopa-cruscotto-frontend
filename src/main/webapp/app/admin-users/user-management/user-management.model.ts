@@ -1,5 +1,4 @@
 import dayjs from 'dayjs/esm';
-import { IFunction } from '../function/function.model';
 
 export interface IUser {
   id: number | null;
