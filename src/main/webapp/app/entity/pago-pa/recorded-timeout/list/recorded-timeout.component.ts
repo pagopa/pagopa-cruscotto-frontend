@@ -24,7 +24,7 @@ import { RecordedTimeoutService } from '../service/recorded-timeout.service';
 import { IPagoPaRecordedTimeout } from '../recorded-timeout.model';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { addFilterToRequest } from '../../../../shared/pagination/filter-util.pagination';
+import { addFilterToRequest, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { IPartner } from 'app/entity/partner/partner.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -105,7 +105,10 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, RecordedTimeoutFilter.PARTNER),
+      station: getFilterValue(this.filter, RecordedTimeoutFilter.STATION),
+    });
     this.page = this.filter.page;
   }
 
@@ -121,7 +124,7 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/pagoPaRecordedTimeout']);
+    void this.router.navigate(['/entity/pago-pa/recorded-timeout']);
   }
 
   changePage(event: PageEvent): void {
