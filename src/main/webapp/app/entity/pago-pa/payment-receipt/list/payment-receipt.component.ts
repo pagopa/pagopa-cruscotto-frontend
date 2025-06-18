@@ -25,7 +25,7 @@ import { PaymentReceiptFilter } from './payment-receipt.filter';
 import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { addFilterToRequest } from '../../../../shared/pagination/filter-util.pagination';
+import { addFilterToRequest, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { IPartner } from 'app/entity/partner/partner.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -106,7 +106,10 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, PaymentReceiptFilter.PARTNER),
+      station: getFilterValue(this.filter, PaymentReceiptFilter.STATION),
+    });
     this.page = this.filter.page;
   }
 
@@ -122,7 +125,7 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/pagoPaPaymentReceipt']);
+    void this.router.navigate(['/entity/pago-pa/payment-receipt']);
   }
 
   changePage(event: PageEvent): void {
