@@ -23,6 +23,11 @@ import { FormatDatePipe } from '../../../../shared/date';
 import { PaymentReceiptService } from '../service/payment-receipt.service';
 import { PaymentReceiptFilter } from './payment-receipt.filter';
 import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
+import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
+import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
+import { addFilterToRequest } from '../../../../shared/pagination/filter-util.pagination';
+import { IPartner } from 'app/entity/partner/partner.model';
+import { IStation } from 'app/entity/station/station.model';
 
 @Component({
   selector: 'jhi-pago-pa-payment-receipt',
@@ -45,6 +50,8 @@ import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
     MatTooltipModule,
     RouterModule,
     FormatDatePipe,
+    PartnerSelectComponent,
+    StationSelectComponent,
   ],
 })
 export class PagoPaPaymentReceiptComponent implements OnInit {
@@ -74,7 +81,10 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
   private readonly locationHelper = inject(LocaltionHelper);
 
   constructor() {
-    this.searchForm = this.fb.group({});
+    this.searchForm = this.fb.group({
+      partner: [''],
+      station: [''],
+    });
 
     this.locale = this.translateService.currentLang;
 
@@ -156,10 +166,17 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
     this.loadPage(this.page, false);
   }
 
-  private populateRequest(req: any): any {}
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, PaymentReceiptFilter.PARTNER, req);
+    addFilterToRequest(this.filter, PaymentReceiptFilter.STATION, req);
+  }
 
   private populateFilter(): void {
     this.filter.page = this.page;
+    const partner = this.searchForm.get('partner')?.value as unknown as IPartner;
+    this.filter.filters['cfPartner'] = partner?.fiscalCode;
+    const station = this.searchForm.get('station')?.value as unknown as IStation;
+    this.filter.filters['station'] = station?.name;
   }
 
   previousState(): void {
