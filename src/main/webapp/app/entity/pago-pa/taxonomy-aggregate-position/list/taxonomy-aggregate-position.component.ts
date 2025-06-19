@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,7 @@ import { PagoPaTaxonomyAggregatePositionFilter } from './taxonomy-aggregate-posi
 import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position.model';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { addFilterToRequest } from '../../../../shared/pagination/filter-util.pagination';
+import { addFilterToRequest, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { IPartner } from 'app/entity/partner/partner.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -105,7 +105,10 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, PagoPaTaxonomyAggregatePositionFilter.PARTNER),
+      station: getFilterValue(this.filter, PagoPaTaxonomyAggregatePositionFilter.STATION),
+    });
     this.page = this.filter.page;
   }
 
@@ -121,7 +124,7 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/PagoPaTaxonomyAggregatePositionFilter']);
+    void this.router.navigate(['/entity/pago-pa/taxonomy-aggregate-position']);
   }
 
   changePage(event: PageEvent): void {
