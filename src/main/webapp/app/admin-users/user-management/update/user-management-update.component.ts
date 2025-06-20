@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import SharedModule from 'app/shared/shared.module';
 import { LANGUAGES } from 'app/config/language.constants';
-import { IUser, NewUser } from '../user-management.model';
+import { IUser } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,11 +25,6 @@ import { GroupSelectComponent } from '../../group/shared/group-select/group-sele
 import { Authority } from 'app/config/authority.constants';
 
 const userTemplate = {} as IUser;
-
-const newUser: IUser = {
-  id: null,
-  langKey: 'it',
-} as IUser;
 
 @Component({
   selector: 'jhi-user-management-update',
@@ -53,7 +48,7 @@ const newUser: IUser = {
   ],
 })
 export default class UserManagementUpdateComponent implements OnInit {
-  user: IUser = newUser;
+  user: IUser = { id: null, langKey: 'it' } as IUser;
   languages = LANGUAGES;
   isSaving = signal(false);
   doNotMatch = false;
@@ -110,17 +105,14 @@ export default class UserManagementUpdateComponent implements OnInit {
   }
 
   save(): void {
-    this.spinner.show('isSaving').then(() => {
-      this.isSaving.set(true);
-    });
-
     const newPassword = this.editForm.get(['newPassword'])!.value;
     if (newPassword !== this.editForm.get(['confirmPassword'])!.value) {
-      this.spinner.show('isSaving').then(() => {
-        this.isSaving.set(false);
-      });
       this.addMessage('danger', 'global.messages.error.dontmatch');
     } else {
+      this.spinner.show('isSaving').then(() => {
+        this.isSaving.set(true);
+      });
+
       this.updateUser(this.user);
       if (this.user.id !== null) {
         this.subscribeToSaveResponse(this.userService.update(this.user));

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +22,11 @@ import { TaxonomyAggregatePositionService } from '../service/taxonomy-aggregate-
 import { FormatDatePipe } from '../../../../shared/date';
 import { PagoPaTaxonomyAggregatePositionFilter } from './taxonomy-aggregate-position.filter';
 import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position.model';
+import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
+import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
+import { addFilterToRequest, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
+import { IPartner } from 'app/entity/partner/partner.model';
+import { IStation } from 'app/entity/station/station.model';
 
 @Component({
   selector: 'jhi-pago-pa-taxonomy-aggregate-position',
@@ -44,6 +49,8 @@ import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position
     MatTooltipModule,
     RouterModule,
     FormatDatePipe,
+    PartnerSelectComponent,
+    StationSelectComponent,
   ],
 })
 export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
@@ -73,7 +80,10 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
   private readonly locationHelper = inject(LocaltionHelper);
 
   constructor() {
-    this.searchForm = this.fb.group({});
+    this.searchForm = this.fb.group({
+      partner: [''],
+      station: [''],
+    });
 
     this.locale = this.translateService.currentLang;
 
@@ -95,7 +105,10 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, PagoPaTaxonomyAggregatePositionFilter.PARTNER),
+      station: getFilterValue(this.filter, PagoPaTaxonomyAggregatePositionFilter.STATION),
+    });
     this.page = this.filter.page;
   }
 
@@ -111,7 +124,7 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/PagoPaTaxonomyAggregatePositionFilter']);
+    void this.router.navigate(['/entity/pago-pa/taxonomy-aggregate-position']);
   }
 
   changePage(event: PageEvent): void {
@@ -155,10 +168,17 @@ export class PagoPaTaxonomyAggregatePositionComponent implements OnInit {
     this.loadPage(this.page, false);
   }
 
-  private populateRequest(req: any): any {}
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, PagoPaTaxonomyAggregatePositionFilter.PARTNER, req);
+    addFilterToRequest(this.filter, PagoPaTaxonomyAggregatePositionFilter.STATION, req);
+  }
 
   private populateFilter(): void {
     this.filter.page = this.page;
+    const partner = this.searchForm.get('partner')?.value as unknown as IPartner;
+    this.filter.filters['cfPartner'] = partner?.fiscalCode;
+    const station = this.searchForm.get('station')?.value as unknown as IStation;
+    this.filter.filters['station'] = station?.name;
   }
 
   previousState(): void {

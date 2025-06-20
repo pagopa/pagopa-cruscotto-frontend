@@ -26,6 +26,15 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
+        <div class="row">
+          <div class="col-lg-3">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
+          </div>
+          <div class="col-lg-3">
+            <jhi-station-select [parentForm]="searchForm" formInnerControlName="station" partnerControlName="partner"></jhi-station-select>
+          </div>
+        </div>
+
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
             <button
@@ -33,6 +42,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.PAGOPA_PAYMENT_RECEIPT_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
