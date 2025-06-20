@@ -120,7 +120,7 @@ jobs:
           # export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/'
 
           case "{{ inputs.environment}}" in
-          prod) export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/' ;;
+          "prod") export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/' ;;
           *) export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/' ;;
           esac
 
