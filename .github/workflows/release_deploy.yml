@@ -119,12 +119,13 @@ jobs:
         run: |
           # export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/'
 
-          case "{{ inputs.environment}}" in
-          "prod") export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/' ;;
-          *) export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/' ;;
-          esac
+          if [[ "$my_var" == "prod" ]]; then
+            export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/' ;;            
+          else
+            export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/' ;;
+          fi          
 
-          echo "SERVER_API_URL=$SERVER_API_URL"
+          echo ">>>>>>>>>>> SERVER_API_URL=$SERVER_API_URL"
 
           npm install
           npm run webapp:prod
