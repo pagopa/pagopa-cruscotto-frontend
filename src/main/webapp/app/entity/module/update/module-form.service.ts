@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import _ from 'lodash';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IModule, NewModule } from '../module.model';
 import { AnalysisType } from '../../instance-module/models/analysis-type.model';
@@ -98,7 +97,7 @@ export class ModuleFormService {
 
   getModule(form: ModuleFormGroup): IModule | NewModule {
     const rawValue = form.getRawValue();
-    const module = {
+    return {
       ...rawValue,
       analysisType: String(rawValue.analysisType),
       allowManualOutcome: !!rawValue.allowManualOutcome,
@@ -110,7 +109,6 @@ export class ModuleFormService {
       configTolerance: !!rawValue.configTolerance,
       status: String(rawValue.status),
     };
-    return module;
   }
 
   resetForm(form: ModuleFormGroup, module: ModuleFormGroupInput): void {
@@ -123,7 +121,7 @@ export class ModuleFormService {
         ...moduleRawValue,
         id: { value: moduleRawValue.id, disabled: true },
         code: { value: moduleRawValue.code, disabled: true },
-        analysisType: { value: moduleRawValue.analysisType, disabled: true },
+        analysisType: { value: moduleRawValue.analysisType, disabled: false },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
     );
   }
@@ -135,7 +133,7 @@ export class ModuleFormService {
     form.reset(
       {
         ...moduleRawValue,
-        analysisType: { value: AnalysisType.MANUALE, disabled: true },
+        analysisType: { value: AnalysisType.MANUALE, disabled: false },
         allowManualOutcome: { value: '', disabled: false },
         status: { value: '', disabled: false },
         configAverageTimeLimit: { value: '', disabled: false },
