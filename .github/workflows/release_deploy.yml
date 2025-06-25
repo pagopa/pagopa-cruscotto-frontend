@@ -117,7 +117,7 @@ jobs:
 
       - name: Build
         run: |
-          # export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/'
+          echo ">>>>>>>>>>> Building for ${{ inputs.environment}} environment"
 
           if [[ ${{ inputs.environment}} == "prod" ]]; then
             export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/'
