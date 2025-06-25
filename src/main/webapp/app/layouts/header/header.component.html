@@ -43,7 +43,7 @@
           'd-block': this.currentRange === 'Medium' || this.currentRange === 'Small' || this.currentRange === 'XSmall',
         }"
       >
-        <mat-icon svgIcon="more_vert" aria-hidden="false" class="text-white"></mat-icon>
+        <mat-icon fontSet="material-symbols-outlined" aria-hidden="false" class="text-white">more_vert</mat-icon>
       </button>
       <mat-menu #dropMenu="matMenu">
         <ng-container *ngFor="let item of menuItems">
@@ -99,7 +99,7 @@
       id="manageAccount"
       aria-label="manageAccount"
     >
-      <mat-icon class="mr-2 ml-2" svgIcon="manage_account" aria-hidden="false"></mat-icon>
+      <mat-icon class="mr-2 ml-2" fontSet="material-symbols-outlined" aria-hidden="false">manage_accounts</mat-icon>
     </button>
     <mat-menu #manageAccounts="matMenu">
       <ng-template matMenuContent>
