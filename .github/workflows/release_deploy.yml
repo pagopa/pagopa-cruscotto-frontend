@@ -1,5 +1,4 @@
 name: Release And Deploy
-
 # Controls when the workflow will run
 on:
   pull_request:
@@ -115,7 +114,7 @@ jobs:
         with:
           node-version: 22.13.1
 
-      - name: Build
+      - name: Build Webapp
         run: |
           echo ">>>>>>>>>>> Building for ${{ inputs.environment}} environment"
 
