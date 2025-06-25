@@ -116,15 +116,12 @@ jobs:
 
       - name: Build Webapp
         run: |
-          echo ">>>>>>>>>>> Building(input) for ${{ inputs.environment}} environment"
-          echo ">>>>>>>>>>> Building(env) for ${{ env.ENVIRNOMENT}} environment"
+          echo ">>>>>>>>>>> Building for ${{ needs.setup.outputs.environment}} environment"
 
-          #if [[ ${{ inputs.environment}} == "prod" ]]; then
-
-          if [[ ${{ env.ENVIRNOMENT}} == "prod" ]]; then
+          if [[ ${{ needs.setup.outputs.environment}} == "prod" ]]; then
             export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/'
           else
-            export SERVER_API_URL='https://api.${{ env.ENVIRNOMENT }}.platform.pagopa.it/smo/cruscotto/v1/'
+            export SERVER_API_URL='https://api.${{ needs.setup.outputs.environment }}.platform.pagopa.it/smo/cruscotto/v1/'
           fi          
 
           echo ">>>>>>>>>>> SERVER_API_URL=$SERVER_API_URL"
