@@ -1,5 +1,4 @@
 name: Release And Deploy
-
 # Controls when the workflow will run
 on:
   pull_request:
@@ -115,14 +114,14 @@ jobs:
         with:
           node-version: 22.13.1
 
-      - name: Build
+      - name: Build Webapp
         run: |
-          # export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/'
+          echo ">>>>>>>>>>> Building for ${{ needs.setup.outputs.environment}} environment"
 
-          if [[ ${{ inputs.environment}} == "prod" ]]; then
+          if [[ ${{ needs.setup.outputs.environment}} == "prod" ]]; then
             export SERVER_API_URL='https://api.platform.pagopa.it/smo/cruscotto/v1/'
           else
-            export SERVER_API_URL='https://api.${{ inputs.environment}}.platform.pagopa.it/smo/cruscotto/v1/'
+            export SERVER_API_URL='https://api.${{ needs.setup.outputs.environment }}.platform.pagopa.it/smo/cruscotto/v1/'
           fi          
 
           echo ">>>>>>>>>>> SERVER_API_URL=$SERVER_API_URL"
