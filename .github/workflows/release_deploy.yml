@@ -116,7 +116,8 @@ jobs:
 
       - name: Build Webapp
         run: |
-          echo ">>>>>>>>>>> Building for ${{ inputs.environment}} environment"
+          echo ">>>>>>>>>>> Building(input) for ${{ inputs.environment}} environment"
+          echo ">>>>>>>>>>> Building(env) for ${{ env.ENVIRNOMENT}} environment"
 
           #if [[ ${{ inputs.environment}} == "prod" ]]; then
 
