@@ -1,24 +1,19 @@
 import { Routes } from '@angular/router';
+import { UserRouteAccessService } from '../core/auth/user-route-access.service';
+import { Authority } from '../config/authority.constants';
 
 const adminRoutes: Routes = [
   {
     path: 'docs',
     loadComponent: () => import('./docs/docs.component'),
-    title: 'global.menu.admin.apidocs',
+    data: { authorities: [Authority.CONTROL_TOOLS] },
+    canActivate: [UserRouteAccessService],
   },
-  // {
-  //   path: 'health',
-  //   loadComponent: () => import('./health/health.component'),
-  //   title: 'health.title',
-  // },
-  // {
-  //   path: 'logs',
-  //   loadComponent: () => import('./logs/logs.component'),
-  //   title: 'logs.title',
-  // },
   {
     path: 'metrics',
     loadComponent: () => import('./metrics/metrics.component'),
+    data: { authorities: [Authority.CONTROL_TOOLS] },
+    canActivate: [UserRouteAccessService],
   },
   {
     path: 'jobs',
