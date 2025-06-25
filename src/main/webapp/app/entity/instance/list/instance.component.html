@@ -231,7 +231,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="partner">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="partnerName">
                     {{ 'pagopaCruscottoApp.instance.partner' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.partnerName }}</td>
