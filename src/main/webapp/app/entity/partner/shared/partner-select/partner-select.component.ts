@@ -163,6 +163,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     };
 
     addStringToReq(search, 'name', req);
+    addStringToReq(search, 'fiscalCode', req);
 
     return this.partnerService.query(req).pipe(
       map((value: HttpResponse<IPartner[]>) => {

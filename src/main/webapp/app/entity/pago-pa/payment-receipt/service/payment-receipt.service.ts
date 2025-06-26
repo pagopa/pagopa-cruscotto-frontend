@@ -5,7 +5,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 import dayjs from 'dayjs/esm';
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { IPagoPaPaymentReceipt } from '../payment-receipt.model';
 
 type PagoPaPaymentReceiptRestOf<T extends IPagoPaPaymentReceipt> = T & {
@@ -55,8 +55,8 @@ export class PaymentReceiptService {
   protected convertPagoPaPaymentReceiptFromServer(restPagoPaPaymentReceipt: RestPagoPaPaymentReceipt): IPagoPaPaymentReceipt {
     return {
       ...restPagoPaPaymentReceipt,
-      startDate: restPagoPaPaymentReceipt.startDate ? dayjs(restPagoPaPaymentReceipt.startDate, DATE_FORMAT) : undefined,
-      endDate: restPagoPaPaymentReceipt.endDate ? dayjs(restPagoPaPaymentReceipt.endDate, DATE_FORMAT) : undefined,
+      startDate: restPagoPaPaymentReceipt.startDate ? dayjs(restPagoPaPaymentReceipt.startDate, DATE_TIME_FORMAT_ISO) : undefined,
+      endDate: restPagoPaPaymentReceipt.endDate ? dayjs(restPagoPaPaymentReceipt.endDate, DATE_TIME_FORMAT_ISO) : undefined,
     };
   }
 }
