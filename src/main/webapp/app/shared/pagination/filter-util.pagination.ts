@@ -102,6 +102,10 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         value = (filter as IPartner).id;
         break;
       }
+      case TypeData.PARTNER_FISCAL_CODE: {
+        value = (filter as IPartner).fiscalCode;
+        break;
+      }
       case TypeData.DATE: {
         value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
         break;
