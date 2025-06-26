@@ -6,7 +6,7 @@ import { IFilterPagination } from 'app/shared/pagination/filter.pagination';
   providedIn: 'root',
 })
 export class PagoPaTaxonomyAggregatePositionFilter extends IFilterPagination {
-  static PARTNER: IParam = { name: 'cfPartner', req: 'cfPartner', type: TypeData.STRING, defaultValue: '' };
+  static PARTNER: IParam = { name: 'cfPartner', req: 'cfPartner', type: TypeData.PARTNER_FISCAL_CODE, defaultValue: '' };
   static STATION: IParam = { name: 'station', req: 'station', type: TypeData.STRING, defaultValue: '' };
   sort: ISortField = { field: 'startDate', direction: 'asc' };
   sortDefault: ISortField = { field: 'startDate', direction: 'asc' };

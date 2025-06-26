@@ -24,7 +24,7 @@ import { RecordedTimeoutService } from '../service/recorded-timeout.service';
 import { IPagoPaRecordedTimeout } from '../recorded-timeout.model';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { addFilterToRequest, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
+import { addFilterToRequest, addToFilter, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { IPartner } from 'app/entity/partner/partner.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -174,11 +174,8 @@ export class PagoPaRecordedTimeoutComponent implements OnInit {
   }
 
   private populateFilter(): void {
-    this.filter.page = this.page;
-    const partner = this.searchForm.get('partner')?.value as unknown as IPartner;
-    this.filter.filters['cfPartner'] = partner?.fiscalCode;
-    const station = this.searchForm.get('station')?.value as unknown as IStation;
-    this.filter.filters['station'] = station?.name;
+    addToFilter(this.filter, this.searchForm.get('partner'), RecordedTimeoutFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('station'), RecordedTimeoutFilter.STATION);
   }
 
   previousState(): void {

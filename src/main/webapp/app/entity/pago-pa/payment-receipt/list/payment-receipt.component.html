@@ -115,14 +115,14 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.pagoPaPaymentReceipt.startDate' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.startDate | formatDate: 'L' : locale }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.startDate | formatDate: 'L LTS' : locale }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="endDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.pagoPaPaymentReceipt.endDate' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.endDate | formatDate: 'L' : locale }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.endDate | formatDate: 'L LTS' : locale }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="totRes">
