@@ -6,8 +6,9 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 import dayjs from 'dayjs/esm';
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { IPagoPaRecordedTimeout } from '../recorded-timeout.model';
+import { filterNaN } from '../../../../core/util/operators';
 
 type PagoPaRecordedTimeoutRestOf<T extends IPagoPaRecordedTimeout> = T & {
   startDate?: string | null;
@@ -56,8 +57,9 @@ export class RecordedTimeoutService {
   protected convertPagoPaRecordedTimeoutFromServer(restPagoPaRecordedTimeout: RestPagoPaRecordedTimeout): IPagoPaRecordedTimeout {
     return {
       ...restPagoPaRecordedTimeout,
-      startDate: restPagoPaRecordedTimeout.startDate ? dayjs(restPagoPaRecordedTimeout.startDate, DATE_FORMAT) : undefined,
-      endDate: restPagoPaRecordedTimeout.endDate ? dayjs(restPagoPaRecordedTimeout.endDate, DATE_FORMAT) : undefined,
+      startDate: restPagoPaRecordedTimeout.startDate ? dayjs(restPagoPaRecordedTimeout.startDate, DATE_TIME_FORMAT_ISO) : undefined,
+      endDate: restPagoPaRecordedTimeout.endDate ? dayjs(restPagoPaRecordedTimeout.endDate, DATE_TIME_FORMAT_ISO) : undefined,
+      avgTime: filterNaN(restPagoPaRecordedTimeout.avgTime ?? 0),
     };
   }
 }
