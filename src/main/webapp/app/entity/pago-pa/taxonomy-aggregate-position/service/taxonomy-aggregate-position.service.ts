@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
 import dayjs from 'dayjs/esm';
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 import { IPagoPaTaxonomyAggregatePosition } from '../taxonomy-aggregate-position.model';
 
@@ -60,9 +60,11 @@ export class TaxonomyAggregatePositionService {
     return {
       ...restPagoPaTaxonomyAggregatePosition,
       startDate: restPagoPaTaxonomyAggregatePosition.startDate
-        ? dayjs(restPagoPaTaxonomyAggregatePosition.startDate, DATE_FORMAT)
+        ? dayjs(restPagoPaTaxonomyAggregatePosition.startDate, DATE_TIME_FORMAT_ISO)
         : undefined,
-      endDate: restPagoPaTaxonomyAggregatePosition.endDate ? dayjs(restPagoPaTaxonomyAggregatePosition.endDate, DATE_FORMAT) : undefined,
+      endDate: restPagoPaTaxonomyAggregatePosition.endDate
+        ? dayjs(restPagoPaTaxonomyAggregatePosition.endDate, DATE_TIME_FORMAT_ISO)
+        : undefined,
     };
   }
 }
