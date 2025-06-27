@@ -1,0 +1,99 @@
+{
+  "pagopaCruscottoApp": {
+    "job": {
+      "home": {
+        "title": "Jobs",
+        "notFound": "No Jobs found"
+      },
+      "schedulerName": "Scheduler",
+      "jobName": "Job Name",
+      "groupName": "Group",
+      "cron": "Cron",
+      "scheduleTime": "Schedule Time",
+      "lastFiredTime": "Last Fired Time",
+      "nextFireTime": "Next Fire Time",
+      "jobStatus": "Status",
+      "modalEdit": {
+        "home": {
+          "title": "Modifica Cron Job '{{ jobName }}'"
+        },
+        "cron": "Espressione Cron",
+        "year": "Anno",
+        "month": "Mese",
+        "day": "Giorno",
+        "hour": "Ora",
+        "minute": "Minuti"
+      },
+      "action": {
+        "history": "Execution History",
+        "start": "Start Job",
+        "pause": "Pause Schedulation",
+        "resume": "Resume Schedulation",
+        "stop": "Stop Job",
+        "edit": "Edit Schedulation",
+        "refresh": "Refresh"
+      },
+      "execution": {
+        "home": {
+          "title": "Execution List '{{ schedulerName }}: {{ jobGroup }} - {{ jobName }}'"
+        },
+        "fireInstanceId": "Unique Identifier",
+        "triggerName": "Trigger Name",
+        "triggerGroup": "Trigger Group",
+        "initFiredTime": "Execution Start Date",
+        "endFiredTime": "Execution End Date",
+        "scheduledTime": "Scheduled Date",
+        "state": "State"
+      },
+      "changeState": {
+        "start": {
+          "question": {
+            "title": "Start Job",
+            "message": "Are you sure you want to start the job?"
+          }
+        },
+        "resume": {
+          "question": {
+            "title": "Restart Job",
+            "message": "Are you sure you want to restart the job?"
+          }
+        },
+        "pause": {
+          "question": {
+            "title": "Pause Job",
+            "message": "Are you sure you want to pause the job?"
+          }
+        },
+        "stop": {
+          "question": {
+            "title": "Stop Job",
+            "message": "Are you sure you want to stop the job?"
+          }
+        }
+      }
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "job": {
+      "update": "Job {{ param }} cron updated",
+      "pause": "The Job {{ param }} has been paused",
+      "stop": "The Job {{ param }} has been stopped",
+      "resume": "The Job {{ param }} has been restarted",
+      "start": "The Job {{ param }} has been started"
+    },
+    "jobExecutionFilter": {
+      "schedulerName": {
+        "NotNull": "The 'Scheduler Name' field is required",
+        "Size": "The 'Scheduler Name' field cannot contain more than 120 characters"
+      },
+      "jobName": {
+        "NotNull": "The 'Job Name' field is required",
+        "Size": "The 'Job Name' field cannot contain more than 200 characters"
+      },
+      "jobGroup": {
+        "NotNull": "The 'Job Group' field is required",
+        "Size": "The 'Job Group' field cannot contain more than 200 characters"
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "pagopaCruscottoApp": {
+    "job": {
+      "home": {
+        "title": "Jobs",
+        "notFound": "No Jobs found"
+      },
+      "schedulerName": "Scheduler",
+      "jobName": "Nome Job",
+      "groupName": "Gruppo",
+      "cron": "Cron",
+      "scheduleTime": "Avvio Schedulazione",
+      "lastFiredTime": "Ultima Schedulazione",
+      "nextFireTime": "Prossima Schedulazione",
+      "jobStatus": "Stato",
+      "modalEdit": {
+        "home": {
+          "title": "Modifica Cron Job '{{ jobName }}'"
+        },
+        "cron": "Espressione Cron",
+        "year": "Anno",
+        "month": "Mese",
+        "day": "Giorno",
+        "hour": "Ora",
+        "minute": "Minuti"
+      },
+      "action": {
+        "history": "Storico Esecuzioni",
+        "start": "Start",
+        "pause": "Pausa",
+        "resume": "Restart",
+        "stop": "Stop",
+        "edit": "Modifica Schedulazione",
+        "refresh": "Aggiorna"
+      },
+      "execution": {
+        "home": {
+          "title": "Elenco Esecuzioni '{{ schedulerName }}: {{ jobGroup }} - {{ jobName }}'"
+        },
+        "fireInstanceId": "Identificativo Univoco",
+        "triggerName": "Nome Trigger",
+        "triggerGroup": "Gruppo Trigger",
+        "initFiredTime": "Data Inzio Esecuzione",
+        "endFiredTime": "Data Termine Esecuzione",
+        "scheduledTime": "Data Schedulazione",
+        "state": "Stato"
+      },
+      "changeState": {
+        "start": {
+          "question": {
+            "title": "Start Job",
+            "message": "Sei sicuro di voler avvia il job?"
+          }
+        },
+        "resume": {
+          "question": {
+            "title": "Restart Job",
+            "message": "Sei sicuro di voler restartare il job?"
+          }
+        },
+        "pause": {
+          "question": {
+            "title": "Pausa Job",
+            "message": "Sei sicuro di voler mettere in pausa il job?"
+          }
+        },
+        "stop": {
+          "question": {
+            "title": "Terminare Job",
+            "message": "Sei sicuro di voler terminare il job?"
+          }
+        }
+      }
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "job": {
+      "update": "Job {{ param }} cron aggiornato",
+      "pause": "Il Job {{ param }} \u00e8 stato messo in pausa",
+      "stop": "Il Job {{ param }} \u00e8 stato fermato",
+      "resume": "Il Job {{ param }} \u00e8 stato riavviato",
+      "start": "Il Job {{ param }} \u00e8 stato avviato"
+    },
+    "jobExecutionFilter": {
+      "schedulerName": {
+        "NotNull": "Il campo 'Scheduler Name' \u00E8 obbligatorio",
+        "Size": "Il campo 'Scheduler Name' non pu\u00F2 contenere più di 120 caratteri"
+      },
+      "jobName": {
+        "NotNull": "Il campo 'Job Name' \u00E8 obbligatorio",
+        "Size": "Il campo 'Job Name' non pu\u00F2 contenere più di 200 caratteri"
+      },
+      "jobGroup": {
+        "NotNull": "Il campo 'Job Group' \u00E8 obbligatorio",
+        "Size": "Il campo 'Job Group' non pu\u00F2 contenere più di 200 caratteri"
+      }
+    }
+  }
+}

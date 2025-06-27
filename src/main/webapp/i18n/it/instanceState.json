@@ -1,0 +1,12 @@
+{
+  "pagopaCruscottoApp": {
+    "instanceState": {
+      "null": "",
+      "BOZZA": "Bozza",
+      "PIANIFICATA": "Pianificata",
+      "ESEGUITA": "Eseguita",
+      "IN_ESECUZIONE": "In Esecuzione",
+      "CANCELLATA": "Cancellata"
+    }
+  }
+}

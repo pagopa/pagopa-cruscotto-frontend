@@ -29,6 +29,7 @@ import { GroupService } from '../service/group.service';
 import { GroupAssignablePermissionsFilter } from './group.assignable-permissions.filter';
 import { FunctionService } from '../../function/service/function.service';
 import { IFunction } from '../../function/function.model';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -78,6 +79,8 @@ export class GroupAssignableFunctionsComponent implements OnDestroy {
 
   loadSubscriber?: Subscription;
   confirmSubscriber?: Subscription;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(GroupAssignablePermissionsFilter);

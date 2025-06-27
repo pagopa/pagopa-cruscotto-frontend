@@ -1,0 +1,123 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "module": "Modulo",
+      "home": {
+        "title": "Moduli"
+      },
+      "list": {
+        "createLabel": "Nuovo Modulo"
+      },
+      "detail": {
+        "title": "Dettaglio Modulo"
+      },
+      "update": {
+        "create.title": "Creazione Modulo",
+        "modify.title": "Modifica Modulo",
+        "status.active": "Attivo",
+        "status.inactive": "Non Attivo",
+        "analysisType.automatic": "Automatica",
+        "analysisType.manual": "Manuale"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
+      },
+      "id": "Id",
+      "code": "Codice",
+      "name": "Nome",
+      "description": "Descrizione",
+      "analysisType": "Analisi",
+      "allowManualOutcome": "Risultati Manuali",
+      "status": "Stato",
+      "status.ATTIVO": "attivo",
+      "status.NON_ATTIVO": "non attivo",
+      "configAverageTimeLimit": "Tempo Limite Medio",
+      "configEligibilityThreshold": "Soglia",
+      "configEvaluationType": "Tipo Valutazione",
+      "configExcludePlannedShutdown": "Escludi Fermi Pianificati",
+      "configExcludeUnplannedShutdown": "Escludi Fermi Non Pianificati",
+      "configTolerance": "Tolleranza",
+      "tables": {
+        "KpiResults": {
+          "title": "Risultati",
+          "notExists": "Nessun risultato disponibile"
+        },
+        "KpiDetailResults": {
+          "title": "Dati di riscontro",
+          "notExists": "Nessun dato di riscontro disponibile"
+        },
+        "KpiAnalyticResults": {
+          "title": "Dati analitici",
+          "notExists": "Nessun dato analitico disponibile"
+        }
+      },
+      "A.1": {
+        "name": "Rispetto SLA disponibilità servizio di pagamento",
+        "description": "Non devono essere violati gli SLA indicati nella sezione “Disponibilità del servizio”. Nel periodo di analisi il numero totale di timeout non deve superare una soglia percentuale rispetto al totale delle esecuzioni delle primitive"
+      },
+      "A.2": {
+        "name": "Tassonomia precisa",
+        "description": "Deve essere garantita l'associazione di tutti i pagamenti ad un codice tassonomico presente all'interno dell'elenco pubblicato nelle SANP"
+      },
+      "B.1": {
+        "name": "Numero enti intermediati o transazioni gestite",
+        "description": "È richiesta l'intermediazione di oltre 5 enti o almeno 250.000 transazioni nel periodo di riferimento"
+      },
+      "B.2": {
+        "name": "Rispetto SLA tempi di risposta delle primitive",
+        "description": "Non devono essere violati gli SLA indicati nella sezione \"Disponibilità del servizio\". Nel periodo analizzato la percentuale delle response superiore ad un determinato tempo prestabilito non deve superare una certa percentuale rispetto al totale delle request"
+      },
+      "B.3": {
+        "name": "Zero Incident",
+        "description": "Non devono verificarsi eventi che abbiano comportato l'attivazione dello Stand In"
+      },
+      "B.4": {
+        "name": "Integrazione tramite API Asincrone/sincrone",
+        "description": "Nel periodo di analisi deve essere garantito il conferimento delle posizioni debitorie all'Archivio Centralizzato Avvisi (\"ACA\")"
+      },
+      "B.5": {
+        "name": "Utilizzo funzionalità pagamenti spontanei",
+        "description": "Deve essere mantenuta attiva e funzionante la funzionalità per la gestione dei pagamenti spontanei su tutte le stazioni operative del Partner Tecnologico"
+      },
+      "B.6": {
+        "name": "Opzioni di pagamento",
+        "description": "Deve essere mantenuta attiva e funzionante la funzionalità per la gestione delle opzioni di pagamento su tutte le stazioni operative del Partner Tecnologico"
+      },
+      "B.7": {
+        "name": "Adeguamento all’ultima versione SANP",
+        "description": "È richiesta la conformità alle specifiche SANP/SACI per almeno il 50% degli enti intermediati"
+      },
+      "B.8": {
+        "name": "Rispetto dei requisiti formali per l'integrazione asincrona",
+        "description": "È richiesto il rispetto dei requisiti di validazione formale per almeno il 95% dei caricamenti delle posizioni debitorie effettuati tramite API asincrone"
+      },
+      "B.9": {
+        "name": "Corretta gestione delle ricevute di pagamento",
+        "description": "È richiesto di ottenere almeno il 95% di riscontri positivi alla primitiva paSendRT (outcome OK nella response) nel periodo di riferimento"
+      },
+      "C.1": {
+        "name": "Integrazione nativa con IO",
+        "description": "Verifica trasmissione per ogni posizione debitoria il relativo messaggio su IO, insieme alle comunicazioni e agli avvisi di pagamento per almeno 50% degli intermediari"
+      },
+      "C.2": {
+        "name": "Integrazione nativa con SEND",
+        "description": "Verifica attivazione del servizio di attualizzazione delle spese di notifica SEND in modalità sincrona per tutti gli enti integrati, con garanzia di aggiornamento degli importi"
+      }
+    }
+  },
+  "error": {
+    "module": {
+      "notExists": "Nessun dato disponibile",
+      "notDeletable": "Stato del modulo incompatibile con l' operazione richiesta",
+      "cannotBeUpdated": "Il modulo non può essere modificato",
+      "cannotBeCreated": "Il modulo non può essere creato"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "module": {
+      "created": "\u00C8 stato creato un nuovo modulo con identificativo {{ param }}",
+      "updated": "\u00C8 stato aggiornato il modulo con identificativo {{ param }}",
+      "deleted": "\u00C8 stato eliminato il modulo con identificativo {{ param }}"
+    }
+  }
+}

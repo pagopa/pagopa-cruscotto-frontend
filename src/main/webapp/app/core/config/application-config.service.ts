@@ -4,19 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApplicationConfigService {
+  private readonly apiUrlKey = 'jhi-serverApiUrl';
   private endpointPrefix = '';
-  private microfrontend = false;
 
   setEndpointPrefix(endpointPrefix: string): void {
     this.endpointPrefix = endpointPrefix;
-  }
-
-  setMicrofrontend(microfrontend = true): void {
-    this.microfrontend = microfrontend;
-  }
-
-  isMicrofrontend(): boolean {
-    return this.microfrontend;
+    localStorage.setItem(this.apiUrlKey, endpointPrefix);
   }
 
   getEndpointFor(api: string, microservice?: string): string {

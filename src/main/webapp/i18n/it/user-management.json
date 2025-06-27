@@ -47,19 +47,68 @@
       }
     }
   },
-  "easymonitorApp": {
-    "userManagement": {
-      "associaClienti.created": "Clienti associati",
-      "dissociaCliente.created": "Associazione cliente rimossa"
-    }
-  },
   "error": {
     "userManagement": {
-      "notExists": "Utente inesistente",
+      "notExists": "Utente non presente",
       "userAlreadyExist": "Utente esistente",
       "isTheSameLoggedUser": "L'utente selezionato coincide con l'utente loggato: operazione non ammessa",
       "statoNotValid": "Stato utente incompatibile con l'operazione richiesta",
       "permissionDenied": "Permesso negato per l'utente selezionato"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authUserCreateRequestBean": {
+      "login": {
+        "NotBlank": "Il campo 'Login' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Login' pu\u00F2 contenere solo lettere, cifre e indirizzi e-mail",
+        "Size": "Il campo 'Login' non pu\u00F2 contenere più di 50 caratteri"
+      },
+      "firstName": {
+        "NotBlank": "Il campo 'Nome' \u00E8 obbligatorio",
+        "Size": "Il campo 'Nome' non pu\u00F2 contenere più di 50 caratteri"
+      },
+      "lastName": {
+        "NotBlank": "Il campo 'Cognome' \u00E8 obbligatorio",
+        "Size": "Il campo 'Cognome' non pu\u00F2 contenere più di 50 caratteri"
+      },
+      "email": {
+        "Email": "Il campo 'Email' deve essere una e-mail valida",
+        "Size": "Il campo 'Email' deve contenere minimo 5 caratteri e massimo 254 caratteri"
+      },
+      "langKey": {
+        "Size": "Il campo 'Lingua' deve contenere minimo 2 caratteri e massimo 10 caratteri"
+      },
+      "groupId": {
+        "NotNull": "Il campo 'Gruppo' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Gruppo' deve essere un numero intero positivo",
+        "ValidAuthGroup": "Il Gruppo 'Login' deve essere un gruppo esistente"
+      }
+    }
+  },
+  "AuthUserUpdateRequestBean": {
+    "id": {
+      "NotNull": "Il campo 'Id' \u00E8 obbligatorio",
+      "Digits": "Il campo 'Id' deve essere un numero intero positivo"
+    },
+    "firstName": {
+      "NotBlank": "Il campo 'Nome' \u00E8 obbligatorio",
+      "Size": "Il campo 'Nome' non pu\u00F2 contenere più di 50 caratteri"
+    },
+    "lastName": {
+      "NotBlank": "Il campo 'Cognome' \u00E8 obbligatorio",
+      "Size": "Il campo 'Cognome' non pu\u00F2 contenere più di 50 caratteri"
+    },
+    "email": {
+      "Email": "Il campo 'Email' deve essere una e-mail valida",
+      "Size": "Il campo 'Email' deve contenere minimo 5 caratteri e massimo 254 caratteri"
+    },
+    "langKey": {
+      "Size": "Il campo 'Lingua' deve contenere minimo 2 caratteri e massimo 10 caratteri"
+    },
+    "groupId": {
+      "NotNull": "Il campo 'Gruppo' \u00E8 obbligatorio",
+      "Digits": "Il campo 'Gruppo' deve essere un numero intero positivo",
+      "ValidAuthGroup": "Il Gruppo 'Login' deve essere un gruppo esistente"
     }
   }
 }

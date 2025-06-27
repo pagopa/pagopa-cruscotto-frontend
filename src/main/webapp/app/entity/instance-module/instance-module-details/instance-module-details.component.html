@@ -1,0 +1,182 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsInstanceModuleDetail">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div class="row mb-2" *ngIf="moduleDetails; else noData">
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <!-- Prima riga: Modulo Istanza (Titolo) e Descrizione (Sottotitolo) -->
+        <div class="row custom-row p-2">
+          <div class="col-lg-12">
+            <!-- Modulo Istanza come Titolo -->
+            <div class="mb-2">
+              <h2 class="text-start">
+                {{ 'pagopaCruscottoApp.module.' + moduleDetails.moduleCode + '.name' | translate }}
+              </h2>
+            </div>
+            <!-- Descrizione come Sottotitolo -->
+            <div>
+              <span class="text-muted text-start">
+                {{ 'pagopaCruscottoApp.module.' + moduleDetails.moduleCode + '.description' | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <!-- Seconda riga: Stato, Tipologia Analisi, Utente Assegnato, Consenti Risultato Manuale -->
+        <div class="row custom-row p-2">
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.assignedUserFirstName || '' }} {{ moduleDetails.assignedUserLastName || '' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
+          </div>
+        </div>
+
+        <!-- Terza riga: Risultato Automatico, Data Risultato Automatico, Risultato Manuale, Data Risultato Manuale -->
+        <div class="row custom-row p-2">
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | formatDate: 'L LTS' : locale }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
+          </div>
+          <div class="col-lg-3">
+            <span
+              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</strong></span
+            >
+            <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | formatDate: 'L LTS' : locale }}</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Seconda card contenente la tabella result -->
+<div class="row mt-3" *ngIf="moduleDetails && moduleDetails?.analysisType === AnalysisType.AUTOMATICA">
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <h3>{{ 'pagopaCruscottoApp.module.tables.KpiResults.title' | translate }}: {{ moduleDetails.moduleCode }}</h3>
+
+        <!-- Mostra il componente corretto in base al valore di moduleCode -->
+        <jhi-kpi-a1-result-table
+          *ngIf="moduleDetails?.moduleCode === 'A.1'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsA1($event)"
+        ></jhi-kpi-a1-result-table>
+        <jhi-kpi-a2-result-table
+          *ngIf="moduleDetails?.moduleCode === 'A.2'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsA2($event)"
+        ></jhi-kpi-a2-result-table>
+        <jhi-kpi-b2-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.2'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB2($event)"
+        ></jhi-kpi-b2-result-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Terzo card contenente la tabella detail results -->
+<div
+  class="row mt-3"
+  *ngIf="selectedKpiB2ResultIdForDetailsResults || selectedKpiA2ResultIdForDetailsResults || selectedKpiA1ResultIdForDetailsResults"
+>
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <h3>
+          {{ 'pagopaCruscottoApp.module.tables.KpiDetailResults.title' | translate }}:
+          {{ moduleDetails?.moduleCode }}
+        </h3>
+        <jhi-kpi-b2-detail-result-table
+          *ngIf="selectedKpiB2ResultIdForDetailsResults"
+          [kpiB2ResultId]="selectedKpiB2ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB2($event)"
+        ></jhi-kpi-b2-detail-result-table>
+        <jhi-kpi-a2-detail-result-table
+          *ngIf="selectedKpiA2ResultIdForDetailsResults"
+          [kpiA2ResultId]="selectedKpiA2ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsA2($event)"
+        ></jhi-kpi-a2-detail-result-table>
+        <jhi-kpi-a1-detail-result-table
+          *ngIf="selectedKpiA1ResultIdForDetailsResults"
+          [kpiA1ResultId]="selectedKpiA1ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsA1($event)"
+        ></jhi-kpi-a1-detail-result-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Quarto card contenente la tabella detail analytics -->
+<div
+  class="row mt-3"
+  *ngIf="selectedKpiB2DetailResultIdForAnalytics || selectedKpiA2DetailResultIdForAnalytics || selectedKpiA1DetailResultIdForAnalytics"
+>
+  <div class="col-md-12">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <h3>
+          <h3>
+            {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
+            {{ moduleDetails?.moduleCode }}
+          </h3>
+        </h3>
+        <jhi-kpi-b2-analytic-result-table
+          *ngIf="selectedKpiB2DetailResultIdForAnalytics"
+          [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
+        ></jhi-kpi-b2-analytic-result-table>
+        <jhi-kpi-a2-analytic-result-table
+          *ngIf="selectedKpiA2DetailResultIdForAnalytics"
+          [kpiA2DetailResultId]="selectedKpiA2DetailResultIdForAnalytics"
+        ></jhi-kpi-a2-analytic-result-table>
+        <jhi-kpi-a1-analytic-result-table
+          *ngIf="selectedKpiA1DetailResultIdForAnalytics"
+          [kpiA1DetailResultId]="selectedKpiA1DetailResultIdForAnalytics"
+        ></jhi-kpi-a1-analytic-result-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>{{ 'entity.list.noResult' | translate }}</p>
+</ng-template>

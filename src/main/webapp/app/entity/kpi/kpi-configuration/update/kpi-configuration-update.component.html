@@ -1,0 +1,217 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2" *ngIf="!editForm.get('id')!.value">
+      <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.update.create.title">New Configuration Kpi</span>
+    </div>
+    <div class="h2" *ngIf="kpiConfiguration !== null && kpiConfiguration.id">
+      <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.update.modify.title">Edit Configuration Kpi</span> [{{
+        kpiConfiguration.moduleCode
+      }}]
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+        <mat-card class="mat-elevation-z8">
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-card-content>
+            <div class="row mt-3 p-2">
+              <div class="col-lg-3">
+                <jhi-module-select
+                  [parentForm]="editForm"
+                  formInnerControlName="module"
+                  (changeSelected)="selectModule($event)"
+                ></jhi-module-select>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configExcludePlannedShutdown">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludePlannedShutdown"></mat-label>
+                  <mat-select formControlName="excludePlannedShutdown" canSelectNullableOptions>
+                    <mat-option [value]="nullOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let excludePlannedShutdownRef = editForm.get('excludePlannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="excludePlannedShutdownRef.invalid && (excludePlannedShutdownRef.dirty || excludePlannedShutdownRef.touched)"
+                  >
+                    @if (excludePlannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configExcludeUnplannedShutdown">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludeUnplannedShutdown"></mat-label>
+                  <mat-select formControlName="excludeUnplannedShutdown" canSelectNullableOptions>
+                    <mat-option [value]="nullOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let excludeUnplannedShutdownRef = editForm.get('excludeUnplannedShutdown')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      excludeUnplannedShutdownRef.invalid && (excludeUnplannedShutdownRef.dirty || excludeUnplannedShutdownRef.touched)
+                    "
+                  >
+                    @if (excludeUnplannedShutdownRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configEligibilityThreshold">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="eligibilityThreshold"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let eligibilityThresholdRef = editForm.get('eligibilityThreshold')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="eligibilityThresholdRef.invalid && (eligibilityThresholdRef.dirty || eligibilityThresholdRef.touched)"
+                  >
+                    @if (eligibilityThresholdRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (eligibilityThresholdRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configTolerance">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="tolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let toleranceRef = editForm.get('tolerance')!;
+                  <ng-container ngProjectAs="mat-error" *ngIf="toleranceRef.invalid && (toleranceRef.dirty || toleranceRef.touched)">
+                    @if (toleranceRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (toleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configEvaluationType">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType"></mat-label>
+                  <mat-select formControlName="evaluationType" canSelectNullableOptions>
+                    <mat-option [value]="nullOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let evaluationTypeOption of evaluationTypeOptions" [value]="evaluationTypeOption.value">
+                      {{ evaluationTypeOption.text | translate | uppercase }}
+                    </mat-option>
+                  </mat-select>
+                  @let evaluationTypeRef = editForm.get('evaluationType')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="evaluationTypeRef.invalid && (evaluationTypeRef.dirty || evaluationTypeRef.touched)"
+                  >
+                    @if (evaluationTypeRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configAverageTimeLimit">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="averageTimeLimit"
+                    mask="separator.2"
+                    thousandSeparator="."
+                    decimalMarker=","
+                    [leadZero]="true"
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.millisecond' | translate }}</span>
+                  @let averageTimeLimitRef = editForm.get('averageTimeLimit')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="averageTimeLimitRef.invalid && (averageTimeLimitRef.dirty || averageTimeLimitRef.touched)"
+                  >
+                    @if (averageTimeLimitRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (averageTimeLimitRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="d-flex justify-content-end align-items-center w-100">
+              <div class="pe-1">
+                <button
+                  type="button"
+                  id="cancel-save"
+                  mat-raised-button
+                  (click)="previousState()"
+                  [title]="['entity.action.cancel' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">cancel</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+              </div>
+              <div class="pe-1">
+                <button
+                  type="submit"
+                  id="save-save"
+                  mat-flat-button
+                  color="primary"
+                  *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
+                  [disabled]="editForm.invalid || isSaving"
+                  [title]="['entity.action.save' | translate]"
+                >
+                  <mat-icon fontSet="material-symbols-outlined">save</mat-icon>&nbsp;
+                  <span jhiTranslate="entity.action.save">Save</span>
+                </button>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
+  </div>
+</div>

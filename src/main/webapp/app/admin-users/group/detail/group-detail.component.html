@@ -9,6 +9,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.GROUP_MANAGEMENT"
         [routerLink]="['/admin-users/groups', group.id, 'edit']"
         [title]="['pagopaCruscottoApp.authGroup.detail.modify.title' | translate]"
       >

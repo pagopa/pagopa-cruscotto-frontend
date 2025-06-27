@@ -32,6 +32,7 @@ import { UserManagementGroupViewComponent } from '../shared/user-management-grou
 import { UserManagementStateViewComponent } from '../shared/user-management-state-view.component';
 import { AuthenticationType } from '../../../shared/model/authentication-type.model';
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
+import { Authority } from 'app/config/authority.constants';
 
 /* eslint-disable no-console */
 
@@ -98,6 +99,8 @@ export default class UserManagementComponent implements OnInit, OnDestroy {
   confirmResetSubscriber?: Subscription;
 
   searchForm;
+
+  protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
   protected readonly filter = inject(GroupFilter);
@@ -181,7 +184,6 @@ export default class UserManagementComponent implements OnInit, OnDestroy {
     this.userManagementService.query(params).subscribe({
       next: (res: HttpResponse<IUser[]>) => {
         const data = res.body ?? [];
-        console.log(data);
         this.onSuccess(data, res.headers);
       },
       error: () => this.onError(),

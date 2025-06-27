@@ -1,0 +1,45 @@
+{
+  "pagopaCruscottoApp": {
+    "instanceModule": {
+      "home": {
+        "title": "Modulo Istanza",
+        "description": "Descrizione Modulo"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il modulo con identificativo <br> {{ id }}?"
+      },
+      "updateStatus": {
+        "question": "Sei sicuro di voler aggiornare il modulo con identificativo <br> {{ id }} in {{ status }}?"
+      },
+      "list": {
+        "createLabel": "Nuovo Modulo",
+        "action": {
+          "updateInPlanned.label": "Aggiorna In Pianificata",
+          "updateInDraft.label": "Aggiorna In Bozza"
+        }
+      },
+      "detail": {
+        "title": "Dettaglio Modulo",
+        "modify.title": "Modifica Modulo",
+        "moduleIdentification": "Identificazione Modulo",
+        "partner": "Partner",
+        "partnerName": "Nome Partner",
+        "predictedDateAnalysis": "Data Prevista per l'Analisi",
+        "applicationDate": "Data della Richiesta",
+        "assignedTo": "Esaminatore",
+        "analysisPeriodStartDate": "Inizio Periodo di Analisi",
+        "analysisPeriodEndDate": "Fine Periodo di Analisi",
+        "status": "Stato",
+        "analysisType": "Tipologia Analisi",
+        "lastAnalysisDate": "Ultima Data di Analisi",
+        "moduleCode": "Codice Modulo",
+        "automaticOutcomeDate": "Data Risultato Automatico",
+        "automaticOutcome": "Risultato Automatico",
+        "allowManualOutcome": "Consenti Risultato Manuale",
+        "manualOutcome": "Risultato Manuale",
+        "manualOutcomeDate": "Data Risultato Manuale",
+        "updateLabel": "Modifica"
+      }
+    }
+  }
+}

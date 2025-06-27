@@ -25,6 +25,7 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { FunctionFilter } from './function.filter';
 import { FunctionService } from '../service/function.service';
 import { IFunction } from '../function.model';
+import { Authority } from 'app/config/authority.constants';
 
 @Component({
   selector: 'jhi-auth-function',
@@ -64,6 +65,8 @@ export class FunctionComponent implements OnInit, OnDestroy {
 
   searchForm;
 
+  protected readonly Authority = Authority;
+
   protected readonly router = inject(Router);
   protected readonly filter = inject(FunctionFilter);
   private readonly spinner = inject(NgxSpinnerService);
@@ -75,8 +78,8 @@ export class FunctionComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.searchForm = this.fb.group({
-      nome: [null, [Validators.maxLength(100)]],
-      descrizione: [null, [Validators.maxLength(50)]],
+      nome: [null, [Validators.maxLength(50)]],
+      descrizione: [null, [Validators.maxLength(200)]],
     });
 
     if (!this.locationHelper.getIsBack()) {
@@ -180,14 +183,9 @@ export class FunctionComponent implements OnInit, OnDestroy {
 
   delete(row: IFunction): void {
     this.selectedRowId = row.id;
-    const confirmOptions = new ConfirmModalOptions(
-      'entity.delete.title',
-      'pagopaCruscottoApp.authFunction.delete.question',
-      undefined,
-      {
-        id: row.id,
-      },
-    );
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.authFunction.delete.question', undefined, {
+      id: row.id,
+    });
 
     this.confirmSubscriber = this.confirmModalService
       .delete({ width: '500px', hasBackdrop: true }, confirmOptions)

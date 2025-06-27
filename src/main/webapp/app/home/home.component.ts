@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { Router, RouterModule } from '@angular/router';
@@ -8,6 +8,9 @@ import dayjs from 'dayjs/esm';
 import { Authority } from 'app/config/authority.constants';
 import SharedModule from '../shared/shared.module';
 import { PasswordResetInitOutcomeService } from '../account/password-reset/init/password-reset-init-service.service';
+import { EventManager } from '../core/util/event-manager.service';
+import { HttpResponse } from '@angular/common/http';
+import { IGroup } from '../admin-users/group/group.model';
 
 @Component({
   standalone: true,
@@ -26,10 +29,19 @@ export default class HomeComponent implements OnInit, OnDestroy {
   private readonly accountService = inject(AccountService);
   private readonly router = inject(Router);
   private readonly passwordResetInitOutcomeService = inject(PasswordResetInitOutcomeService);
+  private readonly eventManager = inject(EventManager);
 
   constructor() {
-    this.passwordResetInitSubscription = this.passwordResetInitOutcomeService.getSuccess().subscribe((value: boolean) => {
-      this.passwordResetRequestSuccess = value;
+    this.passwordResetInitSubscription = this.passwordResetInitOutcomeService.getSuccess().subscribe({
+      next: (value: boolean) => {
+        this.passwordResetRequestSuccess = value;
+
+        if (value) {
+          setTimeout(() => {
+            this.passwordResetInitOutcomeService.sendSuccess(false);
+          }, 9000);
+        }
+      },
     });
   }
 
@@ -65,11 +77,11 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.authSubscription) {
-      this.authSubscription.unsubscribe();
+      this.eventManager.destroy(this.authSubscription);
     }
 
     if (this.passwordResetInitSubscription) {
-      this.passwordResetInitSubscription.unsubscribe();
+      this.eventManager.destroy(this.passwordResetInitSubscription);
     }
   }
 }

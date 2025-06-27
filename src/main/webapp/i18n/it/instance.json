@@ -1,0 +1,153 @@
+{
+  "pagopaCruscottoApp": {
+    "instance": {
+      "home": {
+        "title": "Istanze"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare l'istanza con identificativo <br> {{ id }}?"
+      },
+      "updateStatus": {
+        "question": "Sei sicuro di voler aggiornare l'istanza con identificativo <br> {{ id }} in {{ status }}?"
+      },
+      "list": {
+        "createLabel": "Nuova Istanza",
+        "action": {
+          "updateInPlanned.label": "Aggiorna In Pianificata",
+          "updateInDraft.label": "Aggiorna In Bozza"
+        }
+      },
+      "detail": {
+        "title": "Dettaglio Istanza",
+        "modify.title": "Modifica Istanza",
+        "instanceIdentification": "Identificazione Istanza",
+        "partner": "Partner",
+        "partnerName": "Nome Partner",
+        "partnerFiscalCode": "CF Partner",
+        "predictedDateAnalysis": "Data Prevista per l'Analisi",
+        "applicationDate": "Data Istanza",
+        "assignedTo": "Esaminatore",
+        "analysisPeriodStartDate": "Inizio Periodo di Analisi",
+        "analysisPeriodEndDate": "Fine Periodo di Analisi",
+        "status": "Stato",
+        "lastAnalysisDate": "Data Analisi",
+        "lastAnalysisOutcome": "Esito Analisi",
+        "updateLabel": "Modifica"
+      },
+      "update": {
+        "create.title": "Creazione Istanza",
+        "modify.title": "Modifica Istanza",
+        "analysisPeriodStartDate": {
+          "validation": {
+            "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'"
+          }
+        },
+        "analysisPeriodEndDate": {
+          "validation": {
+            "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'"
+          }
+        },
+        "predictedDateAnalysis": {
+          "validation": {
+            "dateAfterTodayOrAnalysisPeriod": "Il campo 'Data Prevista Analisi' deve essere una data successiva ad oggi o a 'Data Periodo Analisi'"
+          }
+        }
+      },
+      "predictedAnalysisStartDate": {
+        "validation": {
+          "required": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
+          "date": "Il campo 'Data Inizio Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'",
+          "dateLoeThanEndDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale a 'Data Fine Periodo Analisi'",
+          "dateLessThanPredictedDateAnalysis": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'."
+        }
+      },
+      "predictedAnalysisEndDate": {
+        "validation": {
+          "required": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
+          "date": "Il campo 'Data Fine Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'",
+          "dateGoeThanStartDate": "Il campo 'Data Fine Periodo Analisi' deve essere una data successiva o uguale a 'Data Inizio Periodo Analisi'",
+          "dateLessThanPredictedDateAnalysis": "Il campo 'Data Fine Periodo Analisi' deve essere una data precedente a 'Data Prevista Analisi'"
+        }
+      },
+      "partner": "Partner",
+      "partnerFiscalCode": "CF Partner",
+      "instanceIdentification": "Identificativo Istanza",
+      "predictedDateAnalysis": "Data Prevista Analisi",
+      "applicationDate": "Data Istanza",
+      "assignedUser": "Esaminatore",
+      "analysisPeriod": "Periodo di Analisi",
+      "analysisPeriodDate": "Data Periodo Analisi",
+      "analysisPeriodStartDate": "Data Inizio Periodo Analisi",
+      "analysisPeriodEndDate": "Data Fine Periodo Analisi",
+      "status": "Stato",
+      "lastAnalysisDate": "Data Analisi",
+      "lastAnalysisOutcome": "Esito Analisi"
+    }
+  },
+  "error": {
+    "instance": {
+      "notExists": "Istanza non presente",
+      "cannotBeUpdated": "L' istanza non pu\u00F2 essere modificata",
+      "cannotBeDeleted": "L' istanza non pu\u00F2 essere cancellata",
+      "partnerNotExists": "Partner non presente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "instance": {
+      "created": "\u00C8 stata creata una nuova istanza con identificativo {{ param }}",
+      "updated": "\u00C8 stata aggiornata l'istanza con identificativo {{ param }}",
+      "deleted": "\u00C8 stato eliminata l'istanza con identificativo {{ param }}"
+    },
+    "instanceRequestBean": {
+      "partnerId": {
+        "NotBlank": "Il campo 'Partner' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Partner' deve essere un numero intero positivo"
+      },
+      "predictedDateAnalysis": {
+        "NotBlank": "Il campo 'Data Prevista Analisi' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Data Prevista Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'",
+        "FutureOrPresent": "Il campo 'Data Prevista Analisi' deve essere una data successiva ad oggi"
+      },
+      "analysisPeriodStartDate": {
+        "NotBlank": "Il campo 'Data Inizio Periodo Analisi' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Data Inizio Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "analysisPeriodEndDate": {
+        "NotBlank": "Il campo 'Data Fine Periodo Analisi' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Data Fine Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "analysisPeriodStartDateEndDate": {
+        "ValidRangeDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale al campo 'Data Fine Periodo Analisi'"
+      },
+      "analysisPeriodStartDatePredictedDateAnalysis": {
+        "ValidRangeDate": "Il campo 'Data Prevista Analisi' deve essere una data successiva al campo 'Data Inizio Periodo Analisi'"
+      },
+      "analysisPeriodEndDatePredictedDateAnalysis": {
+        "ValidRangeDate": "Il campo 'Data Prevista Analisi' deve essere una data successiva al campo 'Data Fine Periodo Analisi'"
+      }
+    },
+    "instanceFilter": {
+      "partnerId": {
+        "Pattern": "Il campo 'Partner' deve essere un numero intero positivo"
+      },
+      "predictedAnalysisStartDate": {
+        "Pattern": "Il campo 'Data Prevista Analisi Da' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisEndDate": {
+        "Pattern": "Il campo 'Data Prevista Analisi A' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "analysisStartDate": {
+        "Pattern": "Il campo 'Data Inizio Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "analysisEndDate": {
+        "Pattern": "Il campo 'Data Fine Periodo Analisi' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisStartDateEndDate": {
+        "ValidRangeDate": "Il campo 'Data Prevista Analisi Da' deve essere una data precedente o uguale al campo 'Data Prevista Analisi A'"
+      },
+      "analysisStartDateEndDate": {
+        "ValidRangeDate": "Il campo 'Data Inizio Periodo Analisi' deve essere una data precedente o uguale al campo 'Data Fine Periodo Analisi'"
+      }
+    }
+  }
+}

@@ -6,16 +6,23 @@ import { GroupMoreDetailsRoutingResolve, GroupRoutingResolve } from './route/gro
 import { GroupUpdateComponent } from './update/group-update.component';
 import { GroupManageFunctionsComponent } from './manage-functions/group.manage-functions.component';
 import { GroupVisibilityManagementComponent } from './visibility-management/group.visibility-management.component';
+import { Authority } from 'app/config/authority.constants';
 
 const groupRoutes: Routes = [
   {
     path: '',
     component: GroupComponent,
+    data: {
+      authorities: [Authority.GROUP_INQUIRY],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: GroupDetailComponent,
+    data: {
+      authorities: [Authority.GROUP_INQUIRY],
+    },
     resolve: {
       authGroup: GroupMoreDetailsRoutingResolve,
     },
@@ -24,6 +31,9 @@ const groupRoutes: Routes = [
   {
     path: 'new',
     component: GroupUpdateComponent,
+    data: {
+      authorities: [Authority.GROUP_MANAGEMENT],
+    },
     resolve: {
       authGroup: GroupRoutingResolve,
     },
@@ -32,6 +42,9 @@ const groupRoutes: Routes = [
   {
     path: ':id/edit',
     component: GroupUpdateComponent,
+    data: {
+      authorities: [Authority.GROUP_MANAGEMENT],
+    },
     resolve: {
       authGroup: GroupRoutingResolve,
     },
@@ -40,6 +53,9 @@ const groupRoutes: Routes = [
   {
     path: ':id/manage-functions',
     component: GroupManageFunctionsComponent,
+    data: {
+      authorities: [Authority.GROUP_MANAGEMENT],
+    },
     resolve: {
       authGroup: GroupRoutingResolve,
     },
@@ -48,6 +64,9 @@ const groupRoutes: Routes = [
   {
     path: 'visibility-management',
     component: GroupVisibilityManagementComponent,
+    data: {
+      authorities: [Authority.GROUP_MANAGEMENT],
+    },
     canActivate: [UserRouteAccessService],
   },
 ];

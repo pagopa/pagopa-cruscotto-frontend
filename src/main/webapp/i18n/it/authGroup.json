@@ -4,9 +4,6 @@
       "home": {
         "title": "Gruppi"
       },
-      "created": "\u00C8 stato creato un nuovo gruppo con identificatore {{ param }}",
-      "updated": "\u00C8 stato aggiornato il gruppo con identificatore {{ param }}",
-      "deleted": "\u00C8 stato eliminato il gruppo con identificatore {{ param }}",
       "delete": {
         "question": "Sei sicuro di volere eliminare il gruppo con identificatore  {{ id }}?"
       },
@@ -14,6 +11,7 @@
       "description": "Descrizione",
       "functions": "Funzioni",
       "visibilityLevel": "Livello di visibilit\u00E0",
+      "group": "Gruppo",
       "lista": {
         "createLabel": "Nuovo Gruppo",
         "orderLabel": "Ordinamento Gruppi",
@@ -54,11 +52,6 @@
             "message": "Sei sicuro di voler associare le funzioni selezionate?"
           }
         }
-      },
-      "message": {
-        "associaFunzioni.created": "Funzioni associate",
-        "dissociaFunzione.created": "Associazione funzione rimossa",
-        "aggiornamentoLivelloVisibilita.updated": "Livello di visibilit\u00E0 gruppi aggiornato"
       }
     }
   },
@@ -72,6 +65,36 @@
         "funzioneNotExists": "Funzione da dissociare inesistente"
       },
       "notExists": "Gruppo inesistente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authGroup": {
+      "created": "\u00C8 stato creato un nuovo gruppo con identificatore {{ param }}",
+      "updated": "\u00C8 stato aggiornato il gruppo con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminato il gruppo con identificatore {{ param }}",
+      "message": {
+        "associaFunzioni.created": "Funzioni associate",
+        "dissociaFunzione.created": "Associazione funzione rimossa",
+        "aggiornamentoLivelloVisibilita.updated": "Livello di visibilit\u00E0 gruppi aggiornato"
+      }
+    },
+    "authGroupUpdateRequestBean": {
+      "id": {
+        "NotEmpty": "Il campo 'Id' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Id' deve essere un numero intero positivo"
+      },
+      "livelloVisibilita": {
+        "NotEmpty": "Il campo 'Livello di Visibilita' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Livello di Visibilita' deve essere un numero intero positivo"
+      }
+    },
+    "authGroupFilter": {
+      "nome": {
+        "Size": "Il campo 'Nome' deve contenere al massimo 50 caratteri"
+      },
+      "descrizione": {
+        "Size": "Il campo 'Descrizione' deve contenere al massimo 200 caratteri"
+      }
     }
   }
 }

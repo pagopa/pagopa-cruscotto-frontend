@@ -1,0 +1,48 @@
+{
+  "pagopaCruscottoApp": {
+    "kpiConfiguration": {
+      "home": {
+        "title": "Configurazioni Kpi"
+      },
+      "list": {
+        "createLabel": "Nuova Configurazione Kpi"
+      },
+      "detail": {
+        "title": "Dettaglio Configurazione Kpi",
+        "modify.title": "Modifica Configurazione Kpi"
+      },
+      "update": {
+        "create.title": "Creazione Configurazione Kpi",
+        "modify.title": "Modifica Configurazione Kpi",
+        "evaluationType.month": "mese",
+        "evaluationType.whole": "totale"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare la configurazione kpi con identificativo <br> {{ id }}?"
+      },
+      "moduleCode": "Modulo",
+      "moduleName": "Nome Modulo",
+      "excludePlannedShutdown": "Escludi Fermi Programmati",
+      "excludeUnplannedShutdown": "Escludi Fermi Non Programmati",
+      "eligibilityThreshold": "Soglia",
+      "tolerance": "Tolleranza",
+      "averageTimeLimit": "Limite Tempo Medio",
+      "evaluationType": "Tipo Valutazione"
+    }
+  },
+  "error": {
+    "kpiConfiguration": {
+      "notExists": "Configurazione non presente",
+      "moduleNotExists": "Modulo non presente",
+      "cannotBeUpdated": "La configurazione non può essere modificata",
+      "cannotBeDeleted": "La configurazione non può essere cancellata"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "kpiConfiguration": {
+      "created": "\u00C8 stata creata una nuova configurazione con identificativo {{ param }}",
+      "updated": "\u00C8 stata aggiornata la configurazione con identificativo {{ param }}",
+      "deleted": "\u00C8 stato eliminata la configurazione con identificativo {{ param }}"
+    }
+  }
+}

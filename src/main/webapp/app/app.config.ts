@@ -29,16 +29,20 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatPaginatorI18nService } from './shared/pagination/mat-paginator-i18n.service';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { provideNgxMask } from 'ngx-mask';
 
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
     dateInput: ['DD/MM/YYYY'],
+    timeInput: 'HH:mm',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
+    timeInput: 'HH:mm',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'DD/MM/YYYY',
     monthYearA11yLabel: 'MM YYYY',
+    timeOptionLabel: 'HH:mm',
   },
 };
 
@@ -114,6 +118,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(ToastrModule.forRoot()),
     importProvidersFrom(BrowserAnimationsModule),
     provideHttpClient(withInterceptorsFromDi()),
+    provideNgxMask(),
     Title,
     { provide: LOCALE_ID, useValue: 'it' },
     httpInterceptorProviders,
