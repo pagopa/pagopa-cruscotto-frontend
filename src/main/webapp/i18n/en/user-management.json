@@ -10,107 +10,105 @@
     "delete": {
       "question": "Are you sure you want to delete the user {{ login }}?"
     },
+    "login": "Login",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "group": "Group",
+    "state": "Status",
+    "langKey": "Language",
+    "groupName": "Group",
+    "createdDate": "Created Date",
+    "createdBy": "Created By",
+    "lastModifiedBy": "Last Modified By",
+    "lastModifiedDate": "Last Modified Date",
+    "isBlocked": "User Blocked",
+    "isDeleted": "User Deleted",
+    "authenticationType": "Authentication Type",
     "detail": {
-      "title": "User",
-      "login": "Login",
-      "firstName": "Name",
-      "lastName": "Surname",
-      "stato": "State",
-      "email": "Email",
-      "langKey": "Language",
-      "createdBy": "Created by",
-      "createdDate": "Created on",
-      "lastModifiedBy": "Modified by",
-      "lastModifiedDate": "Modified on",
-      "gruppo": "Group"
+      "title": "User Detail",
+      "updateLabel": "Update User"
     },
     "lista": {
-      "createLabel": "New User",
-      "azione": "",
-      "id": "Id",
-      "login": "Login",
-      "email": "Email",
-      "stato": "State",
-      "langKey": "Language",
-      "groupName": "Group",
-      "createdDate": "Created on",
-      "lastModifiedBy": "Modified by",
-      "lastModifiedDate": "Modified on",
-      "blocked": "Blocked user",
-      "authenticationType": "Tipo Accesso",
-      "action": {
-        "associaClienti": "Customer association"
-      }
-    },
-    "state": {
-      "activated": "Active",
-      "deactivated": "Inactive",
-      "deleted": "Deleted"
+      "createLabel": "New User"
     },
     "update": {
-      "create.title": "New user creation",
-      "modify.title": "User modification",
-      "login": "Login",
-      "firstName": "Name",
-      "lastName": "Surname",
-      "email": "Email",
-      "langKey": "Language",
-      "associaClienti": "Customer association"
+      "create.title": "Create User",
+      "modify.title": "Modify User"
     },
     "resetPassword": {
       "title": "Confirm reset password",
       "question": "Are you sure you want to send the password reset link for user {{ login }}?"
     },
-    "blocked": {
-      "yes": "Yes",
-      "no": "No"
-    },
-    "associaClienti": {
-      "title": "Customers-to-user association",
-      "nome": "Name",
-      "descrizione": "Description",
-      "dataCreazione": "Creation date",
-      "created": "Associated customers",
-      "clientiAssociati": {
-        "title": "Associated customers",
-        "ragioneSociale": "Business Name",
-        "nome": "Name",
-        "azione": "",
-        "action": {
-          "delete": "Remove association"
-        },
-        "delete": {
-          "question": "Are you sure you want to delete the association with the customer {{ cliente }}?"
-        }
-      },
-      "clientiAssociabili": {
-        "title": "Associable customers",
-        "action": {
-          "associa": "Save"
-        }
+    "changeState": {
+      "question": {
+        "title": "Change Status",
+        "message": "Are you sure you want to change the user status?"
       }
-    }
-  },
-  "easymonitorApp": {
-    "userManagement": {
-      "associaClienti.created": "Associated customers",
-      "dissociaCliente.created": "Customer association removed"
     }
   },
   "error": {
     "userManagement": {
-      "associaClienti": {
-        "clienteAlreadyAssociated": "Customer already associated with the user",
-        "clientiDaAssociare.notEmpty": "Select at least one customer to associate with the user"
-      },
-      "dissociaCliente": {
-        "clienteNotExists": "Customer to dissociate non-existent"
-      },
       "notExists": "Non-existent user",
       "userAlreadyExist": "Utente esistente",
       "isTheSameLoggedUser": "The selected user coincides with the logged user: operation not allowed",
-      "statoNotValid": "User state incompatible with the requested operation",
+      "statoNotValid": "User status incompatible with the requested operation",
       "permissionDenied": "Permission denied for user selected"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authUserCreateRequestBean": {
+      "login": {
+        "NotBlank": "The 'Login' field is required",
+        "Pattern": "The 'Login' field can only contain letters, digits, and email addresses",
+        "Size": "The 'Login' field cannot contain more than 50 characters"
+      },
+      "firstName": {
+        "NotBlank": "The 'First Name' field is required",
+        "Size": "The 'First Name' field cannot contain more than 50 characters"
+      },
+      "lastName": {
+        "NotBlank": "The 'Last Name' field is required",
+        "Size": "The 'Last Name' field cannot contain more than 50 characters"
+      },
+      "email": {
+        "Email": "The 'Email' field must be a valid email address",
+        "Size": "The 'Email' field must contain a minimum of 5 characters and a maximum of 254 characters"
+      },
+      "langKey": {
+        "Size": "The 'Language' field must contain a minimum of 2 characters and a maximum of 10 characters"
+      },
+      "groupId": {
+        "NotNull": "The 'Group' field is required",
+        "Digits": "The 'Group' field must be a positive integer",
+        "ValidAuthGroup": "The 'Login' Group must be an existing group"
+      }
+    },
+    "AuthUserUpdateRequestBean": {
+      "id": {
+        "NotNull": "The 'Id' field is required",
+        "Digits": "The 'Id' field must be a positive integer"
+      },
+      "firstName": {
+        "NotBlank": "The 'First Name' field is required",
+        "Size": "The 'First Name' field cannot contain more than 50 characters"
+      },
+      "lastName": {
+        "NotBlank": "The 'Last Name' field is required",
+        "Size": "The 'Last Name' field cannot contain more than 50 characters"
+      },
+      "email": {
+        "Email": "The 'Email' field must be a valid email address",
+        "Size": "The 'Email' field must contain a minimum of 5 characters and a maximum of 254 characters"
+      },
+      "langKey": {
+        "Size": "The 'Language' field must contain a minimum of 2 characters and a maximum of 10 characters"
+      },
+      "groupId": {
+        "NotNull": "The 'Group' field is required",
+        "Digits": "The 'Group' field must be a positive integer",
+        "ValidAuthGroup": "The 'Login' Group must be an existing group"
+      }
     }
   }
 }

@@ -30,6 +30,10 @@ const routes: Routes = [
         loadChildren: () => import('./admin-users/admin-users.routes'),
       },
       {
+        path: 'entity',
+        loadChildren: () => import('./entity/entity.routes'),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',

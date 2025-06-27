@@ -1,0 +1,80 @@
+@if (kpiConfiguration) {
+  <div>
+    <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+      <div class="h2">
+        <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.detail.title">Kpi Configuration Detail</span> [<strong>{{
+          kpiConfiguration.moduleCode
+        }}</strong
+        >]
+      </div>
+      <div>
+        <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+          <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
+          [routerLink]="['/entity/kpi-configurations', kpiConfiguration.moduleCode, 'edit']"
+          [title]="['pagopaCruscottoApp.kpiConfiguration.detail.modify.title' | translate]"
+        >
+          <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+          <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.detail.modify.title">Update</span>
+        </button>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-md-12">
+        <mat-card class="mat-elevation-z8">
+          <mat-card-content>
+            <div class="row custom-row p-2">
+              <div class="col-lg-2">
+                <span jhiTranslate="global.field.id">Id</span>
+                <p class="p-2 bg-light">{{ kpiConfiguration.id }}</p>
+              </div>
+              <div class="col-lg-2">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.moduleName">Module Name</span>
+                <p class="p-2 bg-light">{{ kpiConfiguration.moduleName }}</p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configExcludePlannedShutdown">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludePlannedShutdown">Exclude Planned Shutdown</span>
+                <p class="p-2 bg-light"><jhi-yes-or-no-view [yesOrNo]="kpiConfiguration.excludePlannedShutdown"></jhi-yes-or-no-view></p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configExcludeUnplannedShutdown">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.excludeUnplannedShutdown">Exclude Unplanned Shutdown</span>
+                <p class="p-2 bg-light"><jhi-yes-or-no-view [yesOrNo]="kpiConfiguration.excludeUnplannedShutdown"></jhi-yes-or-no-view></p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configEligibilityThreshold">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold">Eligibility Threshold</span>
+                <p class="p-2 bg-light">
+                  {{ kpiConfiguration.eligibilityThreshold | number: '1.2-2' }}
+                  <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                </p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configTolerance">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.tolerance">Tolerance</span>
+                <p class="p-2 bg-light text-truncate">
+                  {{ kpiConfiguration.tolerance | number: '1.2-2' }}
+                  <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                </p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configAverageTimeLimit">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.averageTimeLimit">Average Time Limit</span>
+                <p class="p-2 bg-light">
+                  {{ kpiConfiguration.averageTimeLimit | number: '1.2-2' }}
+                  <span class="fw-bold">{{ 'abbr.millisecond' | translate }}</span>
+                </p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configEvaluationType">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.evaluationType">Evaluation Type</span>
+                <p class="p-2 bg-light">{{ kpiConfiguration.evaluationType }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #notAllowed> ************** </ng-template>
+}

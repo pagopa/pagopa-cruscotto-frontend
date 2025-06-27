@@ -254,6 +254,10 @@ export class DayjsDateAdapter extends DateAdapter<dayjs.Dayjs> {
     return this.dayJs(null);
   }
 
+  setTime(target: dayjs.Dayjs, hours: number, minutes: number, seconds: number): dayjs.Dayjs {
+    return this.clone(target).set('hour', hours).set('minute', minutes).set('second', seconds).set('millisecond', 0);
+  }
+
   private dayJs(input?: any, format?: string | string[], locale?: string, keepLocalTime?: boolean): dayjs.Dayjs {
     const { useUtc }: DayJsDateAdapterOptions = this.options ?? {};
 
@@ -261,6 +265,26 @@ export class DayjsDateAdapter extends DateAdapter<dayjs.Dayjs> {
       input instanceof Date || typeof input === 'number' || !format ? dayjs(input, undefined, locale) : dayjs(input, format, locale);
 
     return useUtc ? result.utc(keepLocalTime) : result;
+  }
+
+  override getHours(date: dayjs.Dayjs): number {
+    return date.hour();
+  }
+
+  override getMinutes(date: dayjs.Dayjs): number {
+    return date.minute();
+  }
+
+  override getSeconds(date: dayjs.Dayjs): number {
+    return date.second();
+  }
+
+  override parseTime(value: unknown, parseFormat: string | string[]): dayjs.Dayjs | null {
+    return this.parse(value, parseFormat);
+  }
+
+  override addSeconds(date: dayjs.Dayjs, amount: number): dayjs.Dayjs {
+    return date.add(amount, 'second');
   }
 
   private initializeParser(dateLocale: string): LocaleData {

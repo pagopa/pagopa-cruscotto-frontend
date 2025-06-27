@@ -6,6 +6,11 @@ import { Login } from 'app/login/login.model';
 import { ApplicationConfigService } from '../config/application-config.service';
 import { StateStorageService } from './state-storage.service';
 import { Logout } from '../../login/logout.model';
+import { map } from 'rxjs/operators';
+
+type JwtToken = {
+  id_token: string;
+};
 
 @Injectable({ providedIn: 'root' })
 export class AuthServerProvider {
@@ -18,10 +23,19 @@ export class AuthServerProvider {
   }
 
   login(credentials: Login): Observable<void> {
-    return this.http.post<void>(this.applicationConfigService.getEndpointFor('api/authenticate'), credentials);
+    return this.http
+      .post<JwtToken>(this.applicationConfigService.getEndpointFor('api/authenticate'), credentials)
+      .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe)));
   }
 
-  logout(): Observable<Logout> {
-    return this.http.post<Logout>(SERVER_API_URL + 'api/logout', {});
+  logout(): Observable<void> {
+    return new Observable(observer => {
+      this.stateStorageService.clearAuthenticationToken();
+      observer.complete();
+    });
+  }
+
+  private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
+    this.stateStorageService.storeAuthenticationToken(response.id_token, rememberMe);
   }
 }

@@ -1,0 +1,60 @@
+/* Column Widths */
+
+.mat-column-fireInstanceId,
+.mat-column-triggerName,
+.mat-column-triggerGroup,
+.mat-column-initFiredTime,
+.mat-column-endFiredTime,
+.mat-column-scheduledTime,
+.mat-column-state {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-expand {
+  width: 50px;
+  text-align: center;
+}
+
+.mat-column-expandedDetail {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.element-row {
+  cursor: pointer;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.element-detail-wrapper {
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 0fr;
+  grid-template-columns: 100%;
+  transition: grid-template-rows 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.element-detail-wrapper-expanded {
+  grid-template-rows: 1fr;
+}
+
+.element-detail {
+  display: flex;
+  min-height: 0;
+  padding-left: 50px;
+  color: #bd1b24;
+}
+
+.toggle-button {
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-button-expanded {
+  transform: rotate(180deg);
+}

@@ -6,7 +6,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { createRequestOption } from 'app/core/request/request-util';
 import { Pagination } from 'app/core/request/request.model';
 import { IUser } from '../user-management.model';
-import { DATE_TIME_FORMAT } from '../../../config/input.constants';
+import { DATE_TIME_FORMAT_ISO } from '../../../config/input.constants';
 import dayjs from 'dayjs/esm';
 
 type UserRestOf<T extends IUser> = Omit<T, 'createdDate' | 'lastModifiedDate' | 'deletedDate'> & {
@@ -70,9 +70,9 @@ export class UserManagementService {
   protected convertUserFromServer(restUser: RestUser): IUser {
     return {
       ...restUser,
-      createdDate: restUser.createdDate ? dayjs(restUser.createdDate, DATE_TIME_FORMAT) : undefined,
-      lastModifiedDate: restUser.lastModifiedDate ? dayjs(restUser.lastModifiedDate, DATE_TIME_FORMAT) : undefined,
-      deletedDate: restUser.deletedDate ? dayjs(restUser.deletedDate, DATE_TIME_FORMAT) : undefined,
+      createdDate: restUser.createdDate ? dayjs(restUser.createdDate, DATE_TIME_FORMAT_ISO) : undefined,
+      lastModifiedDate: restUser.lastModifiedDate ? dayjs(restUser.lastModifiedDate, DATE_TIME_FORMAT_ISO) : undefined,
+      deletedDate: restUser.deletedDate ? dayjs(restUser.deletedDate, DATE_TIME_FORMAT_ISO) : undefined,
     };
   }
 }

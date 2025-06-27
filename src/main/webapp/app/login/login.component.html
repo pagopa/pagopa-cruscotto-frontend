@@ -22,27 +22,27 @@
                 </div>
               </div>
               <div class="offset-md-2 col-md-8">
-                <mat-form-field class="d-block">
+                @let usernameRef = loginForm.get('username')!;
+                <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="login.form.username">Username</mat-label>
                   <input matInput autocomplete="off" formControlName="username" #username type="text" />
-                  <ng-container
-                    ngProjectAs="mat-error"
-                    *ngIf="loginForm.get('username')!.invalid && (loginForm.get('username')!.dirty || loginForm.get('username')!.touched)"
-                  >
-                    @if (loginForm.get('username')?.hasError('required')) {
-                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  <ng-container ngProjectAs="mat-error" *ngIf="usernameRef.invalid && (usernameRef.dirty || usernameRef.touched)">
+                    @if (usernameRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
                     }
                   </ng-container>
                 </mat-form-field>
-                <mat-form-field class="d-block">
+                @let passwordRef = loginForm.get('password')!;
+                <mat-form-field class="d-block mb-2">
                   <mat-label jhiTranslate="login.form.password">Password</mat-label>
                   <input matInput autocomplete="off" type="password" formControlName="password" />
-                  <ng-container
-                    ngProjectAs="mat-error"
-                    *ngIf="loginForm.get('password')!.invalid && (loginForm.get('password')!.dirty || loginForm.get('password')!.touched)"
-                  >
-                    @if (loginForm.get('password')?.hasError('required')) {
-                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  <ng-container ngProjectAs="mat-error" *ngIf="passwordRef.invalid && (passwordRef.dirty || passwordRef.touched)">
+                    @if (passwordRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        This field is required.
+                      </mat-error>
                     }
                   </ng-container>
                 </mat-form-field>

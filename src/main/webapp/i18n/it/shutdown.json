@@ -1,0 +1,121 @@
+{
+  "pagopaCruscottoApp": {
+    "shutdown": {
+      "home": {
+        "title": "Fermi"
+      },
+      "delete": {
+        "question": "Sei sicuro di volere eliminare il fermo con identificatore {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "Nuovo Fermo"
+      },
+      "detail": {
+        "title": "Dettaglio Fermo",
+        "modify.title": "Modifica Fermo"
+      },
+      "update": {
+        "create.title": "Creazione Nuovo Fermo",
+        "modify.title": "Modifica Fermo",
+        "shutdownStartDate": {
+          "validation": {
+            "required": "La 'Data Inizio Fermo' \u00E8 obbligatoria",
+            "date": "La 'Data Inizio Fermo'  dovrebbe essere una data valida",
+            "dateLoeThanEndDate": "La 'Data Inizio Fermo' deve essere una data precedente o uguale a 'Data Fine Fermo'"
+          }
+        },
+        "shutdownStartTime": {
+          "label": "Orario Inizio Fermo",
+          "validation": {
+            "timeLoeThanEndTime": "L'ora di Inizio deve essere precedente all'ora di Fine"
+          }
+        },
+        "shutdownEndDate": {
+          "validation": {
+            "required": "La 'Data Fine Fermo' è richiesta",
+            "date": "La 'Data Fine Fermo' deve essere una data valida",
+            "dateGoeThanStartDate": "La 'Data Fine Fermo' deve essere una data successiva o uguale a 'Data Inizio Fermo'"
+          }
+        },
+        "shutdownEndTime": {
+          "label": "Orario Fine Fermo",
+          "validation": {
+            "timeGoeThanStartTime": "L'ora di Fine deve essere successiva all'ora di Inizio"
+          }
+        }
+      },
+      "shutdownId": "Identificativo Fermo",
+      "partner": "Partner",
+      "partnerFiscalCode": "Codice Fiscale Partner",
+      "partnerName": "Nome Partner",
+      "typePlanned": "Tipo Fermo",
+      "typePlanned.PROGRAMMATO": "PROGRAMMATO",
+      "typePlanned.NON_PROGRAMMATO": "NON PROGRAMMATO",
+      "shutdownIdentification": "Identificativo Fermo",
+      "shutdownPeriod": "Periodo di Fermo",
+      "shutdownRangeDate": "Data Fermo",
+      "shutdownStartDate": "Data Inizio Fermo",
+      "shutdownEndDate": "Data Fine Fermo",
+      "stationId": "Identificativo Stazione",
+      "stationName": "Nome Stazione",
+      "year": "Anno"
+    }
+  },
+  "error": {
+    "shutdown": {
+      "notExists": "Fermo non presente",
+      "cannotBeUpdated": "Il fermo non può essere modificato",
+      "cannotBeDeleted": "Il fermo non può essere rimosso",
+      "partnerNotExists": "Partner  non presente",
+      "stationNotExists": "Stazione  non presente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "shutdown": {
+      "created": "Un nuovo fermo con identificativo {{ param }} è stato creato",
+      "updated": "Il fermo con identificativo {{ param }} è stato modificato",
+      "deleted": "Il fermo con identificativo {{ param }} è stato cancellato"
+    },
+    "shutdownRequestBean": {
+      "partnerId": {
+        "NotBlank": "Il campo 'Partner' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Partner' deve essere un numero intero positivo"
+      },
+      "stationId": {
+        "NotBlank": "Il campo 'Stazione' \u00E8 obbligatorio",
+        "Digits": "Il campo 'Stazione' deve essere un numero intero positivo"
+      },
+      "shutdownStartDate": {
+        "NotBlank": "Il campo composto da 'Data Inizio Fermo' e 'Orario Inizio Fermo' \u00E8 obbligatorio",
+        "Pattern": "Il campo composto da 'Data Inizio Fermo' e 'Orario Inizio Fermo' deve essere una data valida nel formato 'dd/MM/yyyy HH:mm'"
+      },
+      "shutdownEndDate": {
+        "NotBlank": "Il campo composto da 'Data Fine Fermo' e 'Orario Fine Fermo' \u00E8 obbligatorio",
+        "Pattern": "Il campo composto da 'Data Fine Fermo' e 'Orario Fine Fermo' deve essere una data valida nel formato 'dd/MM/yyyy HH:mm'"
+      },
+      "shutdownPeriodStartDateEndDate": {
+        "ValidRangeDate": "Il campo composto da 'Data Inizio Fermo' e 'Orario Inizio Fermo' deve essere una data precedente o uguale al campo composto da 'Data Fine Fermo' e 'Orario Fine Fermo'"
+      }
+    },
+    "anagPlannedShutdownFilter": {
+      "partnerId": {
+        "Pattern": "Il campo 'Partner' deve essere un numero intero positivo"
+      },
+      "typePlanned": {
+        "ValidEnum": "Il campo 'Tipo Fermo' contiene un valore non valido"
+      },
+      "year": {
+        "NotNull": "Il campo 'Anno' \u00E8 obbligatorio"
+      },
+      "shutdownStartDate": {
+        "Pattern": "Il campo 'Data Inizio Fermo' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "shutdownEndDate": {
+        "Pattern": "Il campo 'Data Fine Fermo' deve essere una data valida nel formato 'dd/MM/yyyy'"
+      },
+      "shutdownStartDateEndDate": {
+        "Pattern": "Il campo 'Data Inizio Fermo' deve essere una data precedente o uguale al campo'Data Fine Fermo'"
+      }
+    }
+  }
+}

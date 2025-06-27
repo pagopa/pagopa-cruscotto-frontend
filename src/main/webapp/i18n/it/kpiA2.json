@@ -1,0 +1,44 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "A.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "evaluationStartDate": "Inizio Periodo",
+            "evaluationEndDate": "Fine Periodo",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Versamenti Errati",
+            "errorPercentage": "Percentuale Errati",
+            "outcome": "Risultato",
+            "kpiA2ResultId": "ID KPI A.2 Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID Istanza",
+            "instanceModuleId": "ID Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "evaluationDate": "Periodo",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Versamenti Errati",
+            "kpiA2DetailResultId": "ID Dettaglio KPI A.2"
+          }
+        }
+      }
+    }
+  }
+}

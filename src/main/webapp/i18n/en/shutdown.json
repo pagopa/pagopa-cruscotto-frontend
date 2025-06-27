@@ -1,0 +1,121 @@
+{
+  "pagopaCruscottoApp": {
+    "shutdown": {
+      "home": {
+        "title": "Shutdowns"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the shutdown with identifier {{ id }}?"
+      },
+      "lista": {
+        "createLabel": "New Shutdown"
+      },
+      "detail": {
+        "title": "Detail Shutdown",
+        "modify.title": "Shutdown Modification"
+      },
+      "update": {
+        "create.title": "New Shutdown Creation",
+        "modify.title": "Shutdown Modification",
+        "shutdownStartDate": {
+          "validation": {
+            "required": "The 'Shutdown Start Date' field is required",
+            "date": "The 'Shutdown Start Date' field should be a valid date",
+            "dateLoeThanEndDate": "The 'Shutdown Start Date' field must be a date before or equal to 'Shutdown End Date'"
+          }
+        },
+        "shutdownStartTime": {
+          "label": "Shutdown Start Time",
+          "validation": {
+            "timeLoeThanEndTime": "The 'Shutdown Start Time' field must be a time before or equal to 'Shutdown End Time'"
+          }
+        },
+        "shutdownEndDate": {
+          "validation": {
+            "required": "The 'Shutdown End Date' field is required",
+            "date": "The 'Shutdown End Date' field should be a valid date",
+            "dateGoeThanStartDate": "The 'Shutdown End Date' field must be a date after or equal to 'Shutdown Start Date'"
+          }
+        },
+        "shutdownEndTime": {
+          "label": "Shutdown End Time",
+          "validation": {
+            "timeGoeThanStartTime": "The 'Shutdown End Time' field must be a time after or equal to 'Shutdown Start Time'"
+          }
+        }
+      },
+      "shutdownId": "Shutdown identifier",
+      "partner": "Partner",
+      "partnerFiscalCode": "Codice Fiscale Partner",
+      "partnerName": "Nome Partner",
+      "typePlanned": "Shutdown Type",
+      "typePlanned.PROGRAMMATO": "PLANNED",
+      "typePlanned.NON_PROGRAMMATO": "NOT PLANNED",
+      "shutdownIdentification": "Shutdown Identification",
+      "shutdownPeriod": "Shutdown Period",
+      "shutdownRangeDate": "Shutdown Range Date",
+      "shutdownStartDate": "Shutdown Start Date",
+      "shutdownEndDate": "Shutdown End Date",
+      "stationId": "Station Identifier",
+      "stationName": "Station Name",
+      "year": "Year"
+    }
+  },
+  "error": {
+    "shutdown": {
+      "notExists": "Shutdown not present",
+      "cannotBeUpdated": "Shutdown cannot be updated",
+      "cannotBeDeleted": "Shutdown cannot be deleted",
+      "partnerNotExists": "Partner not present",
+      "stationNotExists": "Station not present"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "shutdown": {
+      "created": "A new shutdown with identifier {{ param }} has been created",
+      "updated": "The shutdown with identifier {{ param }} has been updated",
+      "deleted": "the shutdown with identifier {{ param }} has been deleted"
+    },
+    "shutdownRequestBean": {
+      "partnerId": {
+        "NotBlank": "The 'Partner' field is required",
+        "Digits": "The 'Partner' field must be a positive integer"
+      },
+      "stationId": {
+        "NotBlank": "The 'Station' field is required",
+        "Digits": "The 'Station' field must be a positive integer"
+      },
+      "shutdownStartDate": {
+        "NotBlank": "The field composed of 'Shutdown Start Date' and 'Shutdown Start Time' is required",
+        "Pattern": "The field composed of 'Shutdown Start Date' and 'Shutdown Start Time' must be a valid date in the format 'dd/MM/yyyy HH:mm'"
+      },
+      "shutdownEndDate": {
+        "NotBlank": "The field composed of 'Shutdown End Date' and 'Shutdown End Time' is required",
+        "Pattern": "The field composed of 'Shutdown End Date' and 'Shutdown End Time' must be a valid date in the format 'dd/MM/yyyy HH:mm'"
+      },
+      "shutdownPeriodStartDateEndDate": {
+        "ValidRangeDate": "The field composed of 'Shutdown Start Date' and 'Shutdown Start Time' must be a date earlier than or equal to the field composed of 'Shutdown End Date' and 'Shutdown End Time'"
+      }
+    },
+    "anagPlannedShutdownFilter": {
+      "partnerId": {
+        "Pattern": "The 'Partner' field must be a positive integer"
+      },
+      "typePlanned": {
+        "ValidEnum": "The 'Shutdown Type' field contains an invalid value"
+      },
+      "year": {
+        "NotNull": "The 'Year' field is required"
+      },
+      "shutdownStartDate": {
+        "Pattern": "The 'Shutdown Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "shutdownEndDate": {
+        "Pattern": "The 'Shutdown End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "shutdownStartDateEndDate": {
+        "Pattern": "The 'Shutdown Start Date' field must be a date before or equal to the 'Shutdown End Date' field"
+      }
+    }
+  }
+}

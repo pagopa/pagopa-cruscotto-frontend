@@ -9,22 +9,24 @@
         <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
           <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
         </button>
-        <button
-          id="jh-create-entity"
-          mat-raised-button
-          color="primary"
-          *ngIf="
-            !userRef!.deleted &&
-            currentAccount() &&
-            currentAccount()?.login !== userRef!.login &&
-            userRef?.authenticationType === authenticationTypeFormLogin
-          "
-          [routerLink]="['/admin-users/user-management', userRef.id, 'edit']"
-          [title]="['userManagement.detail.updateLabel' | translate]"
-        >
-          <mat-icon fontSet="material-symbols-outlined">edit</mat-icon
-          ><span jhiTranslate="userManagement.detail.updateLabel">Update Permission</span>
-        </button>
+        <span *jhiHasAnyAuthority="Authority.USER_MANAGEMENT">
+          <button
+            id="jh-create-entity"
+            mat-raised-button
+            color="primary"
+            *ngIf="
+              !userRef!.deleted &&
+              currentAccount() &&
+              currentAccount()?.login !== userRef!.login &&
+              userRef?.authenticationType === authenticationTypeFormLogin
+            "
+            [routerLink]="['/admin-users/user-management', userRef.id, 'edit']"
+            [title]="['userManagement.detail.updateLabel' | translate]"
+          >
+            <mat-icon fontSet="material-symbols-outlined">edit</mat-icon>
+            <span jhiTranslate="userManagement.detail.updateLabel">Update Permission</span>
+          </button>
+        </span>
       </div>
     </div>
     <div class="row mb-2">

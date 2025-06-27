@@ -4,9 +4,6 @@
       "home": {
         "title": "Funzioni"
       },
-      "created": "\u00C8 stata creata una nuova funzione con identificatore {{ param }}",
-      "updated": "\u00C8 stata aggiornata la funzione con identificatore {{ param }}",
-      "deleted": "\u00C8 stato eliminata la funzione con identificatore {{ param }}",
       "delete": {
         "question": "Sei sicuro di volere eliminare la funzione con identificatore {{ id }}?"
       },
@@ -50,10 +47,6 @@
             "message": "Sei sicuro di voler associare i permessi selezionati?"
           }
         }
-      },
-      "message": {
-        "associaPermessi.created": "Permessi associati",
-        "dissociaPermesso.created": "Associazione permesso rimossa"
       }
     }
   },
@@ -64,9 +57,28 @@
         "permessiDaAssociare.notEmpty": "Selezionare almeno un permesso da associare alla funzione"
       },
       "dissociaPermesso": {
-        "permessoNotExists": "Permesso da dissociare inesistente"
+        "permessoNotExists": "Permesso da dissociare non presente"
       },
-      "notExists": "Funzione inesistente"
+      "notExists": "Funzione non presente"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authFunction": {
+      "created": "\u00C8 stata creata una nuova funzione con identificatore {{ param }}",
+      "updated": "\u00C8 stata aggiornata la funzione con identificatore {{ param }}",
+      "deleted": "\u00C8 stato eliminata la funzione con identificatore {{ param }}",
+      "message": {
+        "associaPermessi.created": "Permessi associati",
+        "dissociaPermesso.created": "Associazione permesso rimossa"
+      }
+    },
+    "authFunctionFilter": {
+      "nome": {
+        "Size": "Il campo 'Nome' deve contenere al massimo 50 caratteri"
+      },
+      "descrizione": {
+        "Size": "Il campo 'Descrizione' deve contenere al massimo 200 caratteri"
+      }
     }
   }
 }

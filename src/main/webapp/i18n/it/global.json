@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "PagoPa Cruscotto",
+    "title": "Cruscotto PagoPA",
     "browsehappy": "Stai utilizzando un browser <strong> non aggiornato </ strong> <a href=\"http://browsehappy.com/?locale=it\"> Aggiorna il tuo browser per </a> migliorare la tua esperienza",
     "menu": {
       "home": "Home",
@@ -12,15 +12,30 @@
         "customerType": "Cliente Tipo",
         "bankConfig": "Banca Config"
       },
+      "instance": {
+        "main": "Istanze"
+      },
       "institution": {
         "main": "Ente",
-        "institution": "Ente",
-        "ipa": "Ipa",
-        "ipaConfigSiope": "Configurazione Siope Ipa"
+        "institution": "Ente"
+      },
+      "registry": {
+        "main": "Anagrafica",
+        "shutdown": "Fermi",
+        "taxonomy": "Tassonomia",
+        "partners": "Partner",
+        "stations": "Stazioni",
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"
+      },
+      "configuration": {
+        "main": "Configurazioni",
+        "kpiConfiguration": "Configurazioni Kpi",
+        "module": "Moduli"
       },
       "systemAdministration": {
         "main": "Amministrazione",
-        "gateway": "Gateway",
         "userManagement": "Gestione Utenti",
         "tracker": "Tracciamento utente",
         "metrics": "Metriche",
@@ -28,13 +43,14 @@
         "configuration": "Configurazione",
         "logSystem": "Log Applicativo",
         "apiDocs": "API",
-        "database": "Database"
+        "database": "Database",
+        "jobs": "Jobs"
       },
       "language": {
         "italiano": "Italiano",
-        "english": "English",
+        "english": "Inglese",
         "it": "Italiano",
-        "en": "English"
+        "en": "Inglese"
       },
       "cookie": "Cookie",
       "account": {
@@ -51,28 +67,6 @@
         "functionManagement": "Funzioni",
         "permissionManagement": "Permessi",
         "users": "Utenti"
-      },
-      "flowMonitoring": {
-        "main": "Monitoraggio Flussi",
-        "opiFlow": "Flussi Opi",
-        "serviceReceipt": "Ricevute di Servizio",
-        "mergedApplicationReceipt": "Ricevute Applicative Accorpate",
-        "applicationReceipt": "Ricevute Applicative",
-        "cashJournal": "Giornali di Cassa",
-        "documentVersion": "Versioni Ordinativi",
-        "cash": "Disponibilit\u00E0 Liquide",
-        "conservation": "Distinte Conservazione"
-      },
-      "flowMonitoringTreasureBank": {
-        "main": "Banca Tesoriera",
-        "opiFlow": "Flussi Opi",
-        "documentVersion": "Versioni Ordinativi",
-        "wrongAck": "Ack Errati",
-        "report": "Repot Tabulati"
-      },
-      "flowMonitoringAuditBkit": {
-        "main": "Main",
-        "audit": "Audit"
       }
     },
     "form": {
@@ -82,8 +76,10 @@
       "confirmpassword": "Conferma Nuova Password",
       "email": "Email",
       "select": {
-        "notfound": "Nessun dato trovato per '{{ search }}'",
+        "search": "Ricerca",
+        "notFound": "Nessun dato trovato per '{{ search }}'",
         "all": "Tutti",
+        "singleValue": "Seleziona Valore",
         "bank.label": "Banca",
         "bankingGroup.label": "Gruppo Bancario",
         "bankingConfig.label": "Configurazione",
@@ -93,8 +89,7 @@
         "client.label": "Cliente",
         "ente.label": "Ente",
         "userType.label": "Tipologia Utente",
-        "group.label": "Gruppo",
-        "ipa.label": "IPA"
+        "group.label": "Gruppo"
       },
       "checkbox": {
         "all": "Seleziona Tutti"
@@ -200,16 +195,11 @@
       "search": "Cerca",
       "detail": "Dettaglio",
       "confirm": "Conferma",
-      "show": "Show {{otherEntity}}",
+      "show": "Mostra {{otherEntity}}",
       "download": "Scarica",
       "source": "Sorgente",
       "downloadZip": "Download Zip",
       "downloadXml": "Download Xml",
-      "downloadXmlFlow": "Download Xml Flusso",
-      "downloadDenormalizedFlow": "Download Flusso Denormalizzato",
-      "preservationDetail": "Dettaglio Archiviazione",
-      "signature": "Firmatari",
-      "legislation": "Normativa",
       "graphic": "Grafico",
       "resetPassword": "Reset password"
     },
@@ -222,6 +212,9 @@
     },
     "resetPassword": {
       "title": "Conferma operazione di reset password"
+    },
+    "updateStatus": {
+      "title": "Conferma operazione di cambio stato"
     },
     "validation": {
       "required": "Questo campo \u00E8 obbligatorio",
@@ -236,6 +229,8 @@
       "datetimelocal": "Questo campo dovrebbe essere data e ora",
       "patternLogin": "Questo campo pu\u00F2 contenere solo lettere, cifre e indirizzi e-mail",
       "email": "Questo campo dovrebbe essere una e-mail valida",
+      "date": "Questo campo dovrebbe essere una data valida",
+      "time": "Questo campo dovrebbe essere un orario valido",
       "fromDate": "Questo campo dovrebbe essere una data valida di inizio",
       "toDate": "Questo campo dovrebbe essere una data valida di fine",
       "institutionCode": "Questo campo dovrebbe essere un numerico di 7 cifre",
@@ -243,11 +238,12 @@
       "fiscalCodeUser": "Questo campo dovrebbe essere di 16 caratteri",
       "istatCode": "Questo campo dovrebbe essere di 9 o 15 caratteri",
       "username": "Questo campo dovrebbe essere uno username valido",
-      "a2a": "Questo campo dovrebbe essere un formato A2A valido",
       "minCharLength": "La stringa deve contenere un numero di lettere maggiore o uguale a {{ minCharLength }}",
       "dontMatch": "La password e la sua conferma non corrispondono!",
       "dateMax": "Questo campo deve essere una data precedente o uguale a {{ max }}",
       "dateMin": "Questo campo deve essere una data successiva o uguale a {{ min }}",
+      "dateRange": "Questo campo dovrebbe essere un range valido di date",
+      "dateAfterToday": "Questo campo deve essere una data successiva ad oggi",
       "timeMax": "Questo campo deve essere un orario precedente o uguale a {{ max }}",
       "timeMin": "Questo campo deve essere un orario successiva o uguale a {{ min }}",
       "timeCurrent": "Questo campo deve essere un orario precedente a quello corrente",
@@ -294,7 +290,13 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "Pi\u00F9 di pagina",
+  "footer": {
+    "version": "Versione"
+  },
+  "abbr": {
+    "millisecond": "ms",
+    "percent": "%"
+  },
   "cookie": {
     "header": "Cookie utilizzati sul sito Web!",
     "message": "Il nostro sito web utilizza i cookie per assicurarti una migliore esperienza di navigazione",

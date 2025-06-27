@@ -4,39 +4,40 @@
       "home": {
         "title": "Back-end permissions"
       },
-      "created": "A new permission with identifier {{ param }} has been created",
-      "updated": "The permission with identifier {{ param }} has been updated",
-      "deleted": "The permission with identifier {{ param }} has been deleted",
       "delete": {
         "question": "Are you sure you want to delete the permission with identifier {{ id }}?"
       },
       "lista": {
-        "createLabel": "New Permission",
-        "azione": "",
-        "id": "Id",
-        "nome": "Name",
-        "modulo": "Module",
-        "finder": {
-          "nome": "Name",
-          "modulo": "Module"
-        }
+        "createLabel": "New Permission"
       },
       "update": {
         "create.title": "New Permission Creation",
-        "modify.title": "Permission Modification",
-        "nome": "Name",
-        "modulo": "Module"
+        "modify.title": "Permission Modification"
       },
       "detail": {
         "title": "Permission Detail",
-        "nome": "Name",
-        "modulo": "Module"
+        "updateLabel": "Permission Modification"
       },
       "azione": "",
       "id": "Id",
       "nome": "Name",
       "modulo": "Module",
       "authFunction": "Function"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "authPermission": {
+      "created": "A new permission with identifier {{ param }} has been created",
+      "updated": "The permission with identifier {{ param }} has been updated",
+      "deleted": "The permission with identifier {{ param }} has been deleted"
+    },
+    "authPermissionFilter": {
+      "nome": {
+        "Size": "The 'Name' field must contain a maximum of 100 characters"
+      },
+      "descrizione": {
+        "Size": "The 'Module' field must contain a maximum of 50 characters"
+      }
     }
   }
 }

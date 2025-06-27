@@ -8,7 +8,7 @@ const settingsRoutes: Route = {
   path: 'settings',
   component: SettingsComponent,
   data: {
-    authorities: [Authority.FUNZIONI_BASE],
+    authorities: [Authority.BASIC_FUNCTIONS],
   },
   title: 'global.menu.account.settings',
   canActivate: [UserRouteAccessService],

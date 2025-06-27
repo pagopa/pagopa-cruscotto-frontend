@@ -1,6 +1,6 @@
 {
   "global": {
-    "title": "PagoPa Cruscotto",
+    "title": "PagoPA Dashboard",
     "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
     "menu": {
       "home": "Home",
@@ -12,26 +12,44 @@
         "customerType": "Customer Type",
         "bankConfig": "Bank Config"
       },
+      "instance": {
+        "main": "Instances"
+      },
       "institution": {
         "main": "Institution",
         "institution": "Institution"
       },
-      "administration": {
+      "registry": {
+        "main": "Registry",
+        "shutdown": "Shutdowns",
+        "taxonomy": "Taxonomies",
+        "partners": "Partners",
+        "stations": "Stations",
+        "pagoPaPaymentReceipt": "Receipt",
+        "pagoPaRecordedTimeout": "Request",
+        "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
+      },
+      "configuration": {
+        "main": "Configuration",
+        "kpiConfiguration": "Kpi Configuration",
+        "module": "Modules"
+      },
+      "systemAdministration": {
         "main": "Administration",
-        "gateway": "Gateway",
         "userManagement": "User Management",
         "tracker": "User tracker",
         "metrics": "Metrics",
         "health": "Health",
         "configuration": "Configuration",
         "logSystem": "System Log",
-        "apidocs": "API",
-        "database": "Database"
+        "apiDocs": "API",
+        "database": "Database",
+        "jobs": "Jobs"
       },
       "language": {
-        "italiano": "Italiano",
+        "italiano": "Italian",
         "english": "English",
-        "it": "Italiano",
+        "it": "Italian",
         "en": "English"
       },
       "cookie": "Cookie",
@@ -45,23 +63,25 @@
       },
       "usersAdministration": {
         "main": "Users Administration",
-        "tracker": "Trackers",
-        "function": "Function",
-        "group": "Group",
-        "user": "Physical User"
+        "groupManagement": "Groups",
+        "functionManagement": "Functions",
+        "permissionManagement": "Permissions",
+        "users": "Users"
       }
     },
     "form": {
-      "username.label": "Username",
-      "currentpassword.label": "Current password",
-      "newpassword.label": "New password",
-      "confirmpassword.label": "New password confirmation",
-      "email.label": "Email",
+      "username": "Username",
+      "currentPassword": "Current password",
+      "newpassword": "New password",
+      "confirmpassword": "New password confirmation",
+      "email": "Email",
       "select": {
-        "notfound": "No data found for '{{ search }}'",
+        "search": "Search",
+        "notFound": "No data found for '{{ search }}'",
         "all": "All",
+        "singleValue": "Select Value",
         "bank.label": "ABI BT Code",
-        "bankingGroup.label": "Gruppo Bancario",
+        "bankingGroup.label": "Banking Group",
         "bankingConfig.label": "Configuration",
         "bankingConfigSiope.label": "Siope Configuration",
         "bankingConfigMq.label": "Mq Configuration",
@@ -111,7 +131,9 @@
       }
     },
     "field": {
-      "id": "ID"
+      "id": "Id",
+      "startDate": "Start Date",
+      "endDate": "End Date"
     },
     "ribbon": {
       "dev": "Development"
@@ -147,6 +169,7 @@
     },
     "list": {
       "noResult": "No record found",
+      "filter": "To view the results perform a search",
       "column": {
         "actions": {
           "label": "Actions",
@@ -160,16 +183,25 @@
       "addblob": "Add blob",
       "addimage": "Add image",
       "back": "Back",
+      "close": "Close",
       "cancel": "Cancel",
       "delete": "Delete",
+      "remove": "Remove",
       "edit": "Edit",
       "open": "Open",
       "save": "Save",
       "view": "View",
       "clear": "Clear",
       "search": "Search",
+      "detail": "Detail",
+      "confirm": "Confirm",
       "show": "Show {{otherEntity}}",
-      "download": "Download"
+      "download": "Download",
+      "source": "Source",
+      "downloadZip": "Download Zip",
+      "downloadXml": "Download Xml",
+      "graphic": "Graphic",
+      "resetPassword": "Reset password"
     },
     "detail": {
       "field": "Field",
@@ -177,6 +209,12 @@
     },
     "delete": {
       "title": "Confirm delete operation"
+    },
+    "resetPassword": {
+      "title": "Confirm password reset operation"
+    },
+    "updateStatus": {
+      "title": "Confirm status update operation"
     },
     "validation": {
       "required": "This field is required",
@@ -191,15 +229,27 @@
       "datetimelocal": "This field should be a date and time",
       "patternLogin": "This field can only contain letters, digits and e-mail addresses",
       "email": "This field should be a valid e-mail",
-      "fromDate": "This field should be a valida from date",
-      "toDate": "This field should be a valida to date",
+      "date": "This field should be a valid date",
+      "time": "This field should be a valid time",
+      "fromDate": "This field should be a valid from date",
+      "toDate": "This field should be a valid to date",
       "institutionCode": "The field should be a number with 7 digit",
       "fiscalCode": "The field should be 11 or 16 characters",
       "fiscalCodeUser": "The field should be 16 characters",
       "istatCode": "The field should be 9 or 15 characters",
       "username": "The field should be a valid username",
       "minCharLength": "The string should contains a number of alphabet letters greater than or equal to {{ minCharLength }}",
-      "dontMatch": "The password and its confirmation do not match!"
+      "dontMatch": "The password and its confirmation do not match!",
+      "dateMax": "This field must be a date before or equal to {{ max }}",
+      "dateMin": "This field must be a date later than or equal to {{ min }}",
+      "dateRange": "This field should be a valid range of date",
+      "dateAfterToday": "This field must be a date after today",
+      "timeMax": "This field must be a time before or equal to {{ max }}",
+      "timeMin": "This field must be a time later than or equal to {{ min }}",
+      "timeCurrent": "This field must be a time before the current time",
+      "lessThanEqualTo": "This field should be greater than or equal to {{ min }}",
+      "greaterThanEqualTo": "This field should be less than or equal to {{ max }}",
+      "dataRange": "Reduce the interval. Maximum {{ days }} days allowed"
     },
     "filters": {
       "set": "Following filters are set",
@@ -240,7 +290,13 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "This is your footer",
+  "footer": {
+    "version": "Version"
+  },
+  "abbr": {
+    "millisecond": "msec",
+    "percent": "%"
+  },
   "cookie": {
     "header": "Cookies used on the website!",
     "message": "This website uses cookies to ensure you get the best experience on our website",

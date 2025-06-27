@@ -1,0 +1,153 @@
+{
+  "pagopaCruscottoApp": {
+    "instance": {
+      "home": {
+        "title": "Instance"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the instance with identifier <br> {{ id }}?"
+      },
+      "updateStatus": {
+        "question": "Are you sure you want to update the instance with identifier <br> {{ id }} in {{ status }}?"
+      },
+      "list": {
+        "createLabel": "New Instance",
+        "action": {
+          "updateInPlanned.label": "Update In Planned",
+          "updateInDraft.label": "Update In Draft"
+        }
+      },
+      "detail": {
+        "title": "Instance Detail",
+        "modify.title": "Edit Instance",
+        "instanceIdentification": "Instance Identification",
+        "partner": "Partner",
+        "partnerName": "Partner Name",
+        "partnerFiscalCode": "Partner FC",
+        "predictedDateAnalysis": "Predicted Date for Analysis",
+        "applicationDate": "Instance Date",
+        "assignedTo": "Examiner",
+        "analysisPeriodStartDate": "Analysis Period Start Date",
+        "analysisPeriodEndDate": "Analysis Period End Date",
+        "status": "Status",
+        "lastAnalysisDate": "Analysis Date",
+        "lastAnalysisOutcome": "Analysis Outcome",
+        "updateLabel": "Edit"
+      },
+      "update": {
+        "create.title": "New Instance Creation",
+        "modify.title": "Instance Modification",
+        "analysisPeriodStartDate": {
+          "validation": {
+            "dateLoeThanEndDate": "The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Period End Date'"
+          }
+        },
+        "analysisPeriodEndDate": {
+          "validation": {
+            "dateGoeThanStartDate": "The 'Analysis Period End Date' field must be a date after or equal to 'Analysis Period Start Date'"
+          }
+        },
+        "predictedDateAnalysis": {
+          "validation": {
+            "dateAfterTodayOrAnalysisPeriod": "The 'Predicted Date for Analysis' field must be a date after today or after 'Analysis Period Date'"
+          }
+        }
+      },
+      "predictedAnalysisStartDate": {
+        "validation": {
+          "required": "The 'Analysis Period Start Date' field is required",
+          "date": "The 'Analysis Period Start Date' field should be a valid date",
+          "dateLoeThanEndDate": "The 'Analysis Period Start Date' field must be a date before or equal to 'Analysis Period End Date'",
+          "dateLessThanPredictedDateAnalysis": "The 'Analysis Period Start Date' field must be a date before 'Predicted Date Analysis'"
+        }
+      },
+      "predictedAnalysisEndDate": {
+        "validation": {
+          "required": "The 'Analysis Period End Date' field is required",
+          "date": "The 'Analysis Period End Date' field should be a valid date",
+          "dateGoeThanStartDate": "The 'Analysis Period End Date' field must be a date after or equal to 'Analysis Period Start Date'",
+          "dateLessThanPredictedDateAnalysis": "The 'Analysis Period End Date' field must be a date before 'Predicted Date Analysis'"
+        }
+      },
+      "partner": "Partner",
+      "instanceIdentification": "Instance Identification",
+      "predictedDateAnalysis": "Predicted Date Analysis",
+      "partnerFiscalCode": "Partner FC",
+      "applicationDate": "Instance Date",
+      "assignedUser": "Examiner",
+      "analysisPeriod": "Analysis Period",
+      "analysisPeriodDate": "Analysis Period Date",
+      "analysisPeriodStartDate": "Analysis Period Start Date",
+      "analysisPeriodEndDate": "Analysis Period End Date",
+      "status": "State",
+      "lastAnalysisDate": "Last Performed Analysis Date",
+      "lastAnalysisOutcome": "Last Analysis Outcome"
+    }
+  },
+  "error": {
+    "instance": {
+      "notExists": "Instance not present",
+      "cannotBeUpdated": "Instance cannot be updated",
+      "cannotBeDeleted": "Instance cannot be deleted",
+      "partnerNotExists": "Partner not present"
+    }
+  },
+  "pagopaCruscottoBackendApp": {
+    "instance": {
+      "created": "A new instance with identifier {{ param }} has been created",
+      "updated": "The instance with identifier {{ param }} has been updated",
+      "deleted": "the instance with identifier {{ param }} has been deleted"
+    },
+    "instanceRequestBean": {
+      "partnerId": {
+        "NotBlank": "The 'Partner' field is required",
+        "Digits": "The 'Partner' field must be a positive integer"
+      },
+      "predictedDateAnalysis": {
+        "NotBlank": "The 'Predicted Date for Analysis' field is required",
+        "Pattern": "The 'Predicted Date for Analysis' field must be a valid date in the format 'dd/MM/yyyy'",
+        "FutureOrPresent": "The 'Predicted Date for Analysis' field must be a date after today"
+      },
+      "analysisPeriodStartDate": {
+        "NotBlank": "The 'Analysis Period Start Date' field is required",
+        "Pattern": "The 'Analysis Period Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisPeriodEndDate": {
+        "NotBlank": "The 'Analysis Period End Date' field is required",
+        "Pattern": "The 'Analysis Period End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisPeriodStartDateEndDate": {
+        "ValidRangeDate": "The 'Analysis Period Start Date' field must be a date before or equal to the 'Analysis Period End Date' field"
+      },
+      "analysisPeriodStartDatePredictedDateAnalysis": {
+        "ValidRangeDate": "The 'Predicted Date for Analysis' field must be a date after the 'Analysis Period Start Date' field"
+      },
+      "analysisPeriodEndDatePredictedDateAnalysis": {
+        "ValidRangeDate": "The 'Predicted Date for Analysis' field must be a date after the 'Analysis Period End Date' field"
+      }
+    },
+    "instanceFilter": {
+      "partnerId": {
+        "Pattern": "The 'Partner' field must be a positive integer"
+      },
+      "predictedAnalysisStartDate": {
+        "Pattern": "The 'Predicted Analysis Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisEndDate": {
+        "Pattern": "The 'Predicted Analysis End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisStartDate": {
+        "Pattern": "The 'Analysis Period Start Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "analysisEndDate": {
+        "Pattern": "The 'Analysis Period End Date' field must be a valid date in the format 'dd/MM/yyyy'"
+      },
+      "predictedAnalysisStartDateEndDate": {
+        "ValidRangeDate": "The 'Predicted Analysis Start Date' field must be a date earlier than or equal to the 'Predicted Analysis End Date' field"
+      },
+      "analysisStartDateEndDate": {
+        "ValidRangeDate": "The 'Analysis Period Start Date' field must be a date earlier than or equal to the 'Analysis Period End Date' field"
+      }
+    }
+  }
+}

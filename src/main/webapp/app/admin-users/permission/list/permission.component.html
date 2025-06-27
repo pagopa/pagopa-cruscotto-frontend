@@ -11,6 +11,7 @@
         id="jh-create-entity"
         mat-raised-button
         color="primary"
+        *jhiHasAnyAuthority="Authority.PERMISSION_MANAGEMENT"
         [routerLink]="['/admin-users/permissions/new']"
         [title]="['pagopaCruscottoApp.authPermission.lista.createLabel' | translate]"
       >
@@ -73,6 +74,7 @@
               id="search"
               mat-flat-button
               color="primary"
+              *jhiHasAnyAuthority="Authority.PERMISSION_INQUIRY"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="['entity.action.search' | translate]"
             >
@@ -156,6 +158,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.PERMISSION_INQUIRY"
                           matTooltip="{{ 'entity.action.view' | translate }}"
                           matTooltipPosition="above"
                           [attr.aria-label]="['entity.list.column.actions.view.ariaLabel' | translate]"
@@ -166,6 +169,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.PERMISSION_MANAGEMENT"
                           matTooltip="{{ 'entity.action.edit' | translate }}"
                           matTooltipPosition="above"
                           [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
@@ -176,6 +180,7 @@
                         <button
                           mat-icon-button
                           type="button"
+                          *jhiHasAnyAuthority="Authority.PERMISSION_MANAGEMENT"
                           matTooltip="{{ 'entity.action.delete' | translate }}"
                           matTooltipPosition="above"
                           (click)="delete(row)"

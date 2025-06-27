@@ -5,16 +5,23 @@ import { FunctionMoreDetailsRoutingResolve, FunctionRoutingResolve } from './rou
 import { FunctionDetailComponent } from './detail/function-detail.component';
 import { FunctionUpdateComponent } from './update/function-update.component';
 import { FunctionManagePermissionsComponent } from './manage-permissions/function.manage-permissions.component';
+import { Authority } from 'app/config/authority.constants';
 
 const functionRoutes: Routes = [
   {
     path: '',
     component: FunctionComponent,
+    data: {
+      authorities: [Authority.FUNCTION_INQUIRY],
+    },
     canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
     component: FunctionDetailComponent,
+    data: {
+      authorities: [Authority.FUNCTION_INQUIRY],
+    },
     resolve: {
       authFunction: FunctionMoreDetailsRoutingResolve,
     },
@@ -23,6 +30,9 @@ const functionRoutes: Routes = [
   {
     path: 'new',
     component: FunctionUpdateComponent,
+    data: {
+      authorities: [Authority.FUNCTION_MANAGEMENT],
+    },
     resolve: {
       authFunction: FunctionRoutingResolve,
     },
@@ -31,6 +41,9 @@ const functionRoutes: Routes = [
   {
     path: ':id/edit',
     component: FunctionUpdateComponent,
+    data: {
+      authorities: [Authority.FUNCTION_MANAGEMENT],
+    },
     resolve: {
       authFunction: FunctionRoutingResolve,
     },
@@ -39,6 +52,9 @@ const functionRoutes: Routes = [
   {
     path: ':id/manage-permissions',
     component: FunctionManagePermissionsComponent,
+    data: {
+      authorities: [Authority.FUNCTION_MANAGEMENT],
+    },
     resolve: {
       authFunction: FunctionRoutingResolve,
     },

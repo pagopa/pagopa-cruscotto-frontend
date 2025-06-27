@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
-import { GatewayRoutesService } from '../gateway/gateway-routes.service';
 import LogsComponent from './logs.component';
 import { LogsService } from './logs.service';
 import { Log, LoggersResponse } from './log.model';
@@ -16,7 +15,7 @@ describe('LogsComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [LogsComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting(), LogsService, GatewayRoutesService],
+      providers: [provideHttpClient(), provideHttpClientTesting(), LogsService],
     })
       .overrideTemplate(LogsComponent, '')
       .compileComponents();

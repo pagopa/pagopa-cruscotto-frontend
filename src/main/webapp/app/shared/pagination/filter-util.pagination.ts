@@ -3,6 +3,7 @@ import { IFilterPagination } from './filter.pagination';
 import { IParam, TypeData } from './filter.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT_ISO } from '../../config/input.constants';
+import { IPartner } from '../../entity/partner/partner.model';
 
 export const addToFilter = (pagination: IFilterPagination, data: AbstractControl | null, param: IParam): void => {
   if (data != null) {
@@ -97,8 +98,24 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
 
   if (filter) {
     switch (param.type) {
+      case TypeData.PARTNER: {
+        value = (filter as IPartner).id;
+        break;
+      }
+      case TypeData.PARTNER_FISCAL_CODE: {
+        value = (filter as IPartner).fiscalCode;
+        break;
+      }
       case TypeData.DATE: {
         value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
+        break;
+      }
+      case TypeData.START_DATE: {
+        value = (filter as dayjs.Dayjs).startOf('month').format(DATE_FORMAT_ISO);
+        break;
+      }
+      case TypeData.END_DATE: {
+        value = (filter as dayjs.Dayjs).endOf('month').format(DATE_FORMAT_ISO);
         break;
       }
       case TypeData.TIME: {
@@ -113,5 +130,19 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
     }
 
     return value;
+  }
+};
+
+export const addStringToReq = (filterValue: string | undefined | null, filterKey: string, req: any) => {
+  if (filterValue !== undefined && filterValue !== null && filterValue.trim() !== '') {
+    const reqFilter = { [filterKey]: filterValue };
+    Object.assign(req, reqFilter);
+  }
+};
+
+export const addNumericToReq = (filterValue: number | undefined | null, filterKey: string, req: any) => {
+  if (filterValue !== undefined && filterValue !== null) {
+    const reqFilter = { [filterKey]: filterValue };
+    Object.assign(req, reqFilter);
   }
 };

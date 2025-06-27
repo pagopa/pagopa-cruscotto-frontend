@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Fermi Programmati Esclusi",
+            "excludeUnplannedShutdown": "Fermi Non Programamti Esclusi",
+            "eligibilityThreshold": "Soglia",
+            "tolerance": "Tolleranza",
+            "averageTimeLimit": "Limite Tempo Medio (ms)",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "totalRequests": "Totale Richieste",
+            "averageTime": "Tempo Medio (ms)",
+            "overTimeLimit": "Sopra il Limite di Tempo",
+            "evaluationStartDate": "Inizio Periodo",
+            "evaluationEndDate": "Fine Periodo",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Stazione"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "ID dell'Istanza",
+            "instanceModuleId": "ID del Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "ID della Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Periodo",
+            "totReq": "Totale Richieste",
+            "reqOk": "Richieste Ok",
+            "reqTimeout": "Richieste in Timeout",
+            "avgTime": "Tempo Medio",
+            "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
+            "details": "Dettagli",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Stazione"
+          }
+        }
+      }
+    }
+  }
+}

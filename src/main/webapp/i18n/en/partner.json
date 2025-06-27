@@ -1,0 +1,20 @@
+{
+  "pagopaCruscottoApp": {
+    "partner": {
+      "home": {
+        "title": "Partner"
+      },
+      "detail": {
+        "title": "Partner Detail"
+      },
+      "partner": "Partner",
+      "fiscalCode": "Fiscal Code",
+      "name": "Name",
+      "status": "Status",
+      "status.ATTIVO": "Active",
+      "status.NON_ATTIVO": "Inactive",
+      "qualified": "Qualified",
+      "deactivationDate": "Deactivation Date"
+    }
+  }
+}

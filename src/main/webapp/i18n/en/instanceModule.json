@@ -1,0 +1,45 @@
+{
+  "pagopaCruscottoApp": {
+    "instanceModule": {
+      "home": {
+        "title": "Instance Module",
+        "description": "Description Module"
+      },
+      "delete": {
+        "question": "Are you sure you want to delete the module with identifier <br> {{ id }}?"
+      },
+      "updateStatus": {
+        "question": "Are you sure you want to update the module with identifier <br> {{ id }} to {{ status }}?"
+      },
+      "list": {
+        "createLabel": "New Module",
+        "action": {
+          "updateInPlanned.label": "Update To Planned",
+          "updateInDraft.label": "Update To Draft"
+        }
+      },
+      "detail": {
+        "title": "Module Details",
+        "modify.title": "Edit Module",
+        "moduleIdentification": "Module Identification",
+        "partner": "Partner",
+        "partnerName": "Partner Name",
+        "predictedDateAnalysis": "Expected Analysis Date",
+        "applicationDate": "Request Date",
+        "assignedTo": "Examiner",
+        "analysisPeriodStartDate": "Analysis Period Start Date",
+        "analysisPeriodEndDate": "Analysis Period End Date",
+        "status": "Status",
+        "analysisType": "Analysis Type",
+        "lastAnalysisDate": "Last Analysis Date",
+        "moduleCode": "Module Code",
+        "automaticOutcomeDate": "Automatic Outcome Date",
+        "automaticOutcome": "Automatic Outcome",
+        "allowManualOutcome": "Allow Manual Outcome",
+        "manualOutcome": "Manual Outcome",
+        "manualOutcomeDate": "Manual Outcome Date",
+        "updateLabel": "Edit"
+      }
+    }
+  }
+}

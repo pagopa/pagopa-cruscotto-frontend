@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "excludePlannedShutdown": "Planned Shutdowns Excluded",
+            "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "averageTimeLimit": "Average Time Limit (msec)",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Metodo",
+            "totalRequests": "Total Requests",
+            "averageTime": "Average time (msec)",
+            "overTimeLimit": "Over Time Limit",
+            "evaluationStartDate": "Start Period",
+            "evaluationEndDate": "End Period",
+            "evaluationType": "Type of Evaluation",
+            "outcome": "Result",
+            "details": "Details",
+            "showDetails": "Show detail",
+            "stationName": "Station"
+          },
+          "KpiAnalyticResults": {
+            "id": "ID",
+            "instanceId": "Instance ID",
+            "instanceModuleId": "Instance Module ID",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station ID",
+            "method": "Method",
+            "evaluationDate": "Period",
+            "totReq": "Total Requests",
+            "reqOk": "Requests Ok",
+            "reqTimeout": "Requests in Timeout",
+            "avgTime": "Average Time",
+            "kpiB2DetailResultId": "B2 Detail Result ID",
+            "details": "Details",
+            "showDetails": "Show Details",
+            "stationName": "Station"
+          }
+        }
+      }
+    }
+  }
+}
