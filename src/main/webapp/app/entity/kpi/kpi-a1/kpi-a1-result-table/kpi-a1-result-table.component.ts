@@ -152,7 +152,7 @@ export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnIn
           return compare(a.excludeUnplannedShutdown, b.excludeUnplannedShutdown, isAsc);
         case 'eligibilityThreshold':
           return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
-        case 'tollerance':
+        case 'tolerance':
           return compare(a.tolerance, b.tolerance, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);

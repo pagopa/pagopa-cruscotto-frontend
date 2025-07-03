@@ -139,7 +139,7 @@ export class InstanceUpdateComponent implements OnInit {
   };
 
   predictedDateAnalysisFilter = (date: dayjs.Dayjs | null): boolean => {
-    let referenceDate = dayjs();
+    let referenceDate = dayjs().hour(0).minute(0).second(0).millisecond(0);
     if (this.editForm.controls.analysisPeriodEndDate.value && referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value)) {
       referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
     } else if (
@@ -149,6 +149,6 @@ export class InstanceUpdateComponent implements OnInit {
       referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
     }
 
-    return date ? date.isAfter(referenceDate) : true;
+    return date ? date.isSameOrAfter(referenceDate) : true;
   };
 }

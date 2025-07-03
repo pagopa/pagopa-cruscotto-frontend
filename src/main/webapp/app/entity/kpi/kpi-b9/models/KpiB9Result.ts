@@ -1,39 +1,39 @@
 import dayjs from 'dayjs/esm';
 
 export class KpiB9Result {
-  coId: number | null;
-  coInstanceId: number | null;
-  coInstanceModuleId: number | null;
-  dtAnalisysDate: dayjs.Dayjs | null;
-  flExcludePlannedShutdown: boolean | null;
-  flExcludeUnplannedShutdown: boolean | null;
-  coEligibilityThreshold: number | null;
-  coTolerance: number | null;
-  teEvaluationType: EvaluationType | null;
-  teOutcome: OutcomeStatus | null;
+  id: number | null;
+  instanceId: number | null;
+  instanceModuleId: number | null;
+  analysisDate: dayjs.Dayjs | null;
+  excludePlannedShutdown: boolean | null;
+  excludeUnplannedShutdown: boolean | null;
+  eligibilityThreshold: number | null;
+  tolerance: number | null;
+  evaluationType: EvaluationType | null;
+  outcome: OutcomeStatus | null;
 
   constructor(
-    coId: number | null = null,
-    coInstanceId: number | null = null,
-    coInstanceModuleId: number | null = null,
-    dtAnalisysDate: dayjs.Dayjs | null = null,
-    flExcludePlannedShutdown: boolean | null = null,
-    flExcludeUnplannedShutdown: boolean | null = null,
-    coEligibilityThreshold: number | null = null,
-    coTolerance: number | null = null,
-    teEvaluationType: EvaluationType | null = null,
-    teOutcome: OutcomeStatus | null = null,
+    id: number | null = null,
+    instanceId: number | null = null,
+    instanceModuleId: number | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
+    excludePlannedShutdown: boolean | null = null,
+    excludeUnplannedShutdown: boolean | null = null,
+    eligibilityThreshold: number | null = null,
+    tolerance: number | null = null,
+    evaluationType: EvaluationType | null = null,
+    outcome: OutcomeStatus | null = null,
   ) {
-    this.coId = coId;
-    this.coInstanceId = coInstanceId;
-    this.coInstanceModuleId = coInstanceModuleId;
-    this.dtAnalisysDate = dtAnalisysDate;
-    this.flExcludePlannedShutdown = flExcludePlannedShutdown;
-    this.flExcludeUnplannedShutdown = flExcludeUnplannedShutdown;
-    this.coEligibilityThreshold = coEligibilityThreshold;
-    this.coTolerance = coTolerance;
-    this.teEvaluationType = teEvaluationType;
-    this.teOutcome = teOutcome;
+    this.id = id;
+    this.instanceId = instanceId;
+    this.instanceModuleId = instanceModuleId;
+    this.analysisDate = analysisDate;
+    this.excludePlannedShutdown = excludePlannedShutdown;
+    this.excludeUnplannedShutdown = excludeUnplannedShutdown;
+    this.eligibilityThreshold = eligibilityThreshold;
+    this.tolerance = tolerance;
+    this.evaluationType = evaluationType;
+    this.outcome = outcome;
   }
 }
 

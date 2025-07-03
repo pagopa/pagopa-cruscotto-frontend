@@ -7,7 +7,7 @@
             "id": "ID",
             "analysisDate": "Data Analisi",
             "excludePlannedShutdown": "Fermi Programmati Esclusi",
-            "excludeUnplannedShutdown": "Fermi Non Programamti Esclusi",
+            "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
             "eligibilityThreshold": "Soglia",
             "tolerance": "Tolleranza",
             "evaluationType": "Tipo di Valutazione",
