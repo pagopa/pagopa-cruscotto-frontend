@@ -139,7 +139,7 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
           return compare(a.instanceModule?.id, b.instanceModule?.id, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'tollerance':
+        case 'tolerance':
           return compare(a.tolerance, b.tolerance, isAsc);
         case 'outcome':
           return compare(a.outcome, b.outcome, isAsc);
