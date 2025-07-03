@@ -66,7 +66,7 @@ export class KpiB9ResultService {
   update(kpiB9Result: KpiB9Result): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(kpiB9Result);
     return this.http
-      .put<RestKpiB9Result>(`${this.resourceUrl}/${kpiB9Result.coId}`, copy, { observe: 'response' })
+      .put<RestKpiB9Result>(`${this.resourceUrl}/${kpiB9Result.id}`, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
@@ -83,7 +83,7 @@ export class KpiB9ResultService {
   protected convertDateFromClient<T extends KpiB9Result>(kpiB9Result: T): KpiB9ResultRestOf<T> {
     return {
       ...kpiB9Result,
-      dtAnalisysDate: kpiB9Result.dtAnalisysDate?.toISOString() ?? null,
+      analysisDate: kpiB9Result.analysisDate?.toISOString() ?? null,
     };
   }
 
@@ -111,7 +111,7 @@ export class KpiB9ResultService {
   protected convertKpiB9ResultFromServer(restKpiB9Result: RestKpiB9Result): KpiB9Result {
     return {
       ...restKpiB9Result,
-      dtAnalisysDate: restKpiB9Result.dtAnalisysDate ? dayjs(restKpiB9Result.dtAnalisysDate, DATE_FORMAT) : null,
+      analysisDate: restKpiB9Result.analysisDate ? dayjs(restKpiB9Result.analysisDate, DATE_FORMAT) : null,
     };
   }
 }

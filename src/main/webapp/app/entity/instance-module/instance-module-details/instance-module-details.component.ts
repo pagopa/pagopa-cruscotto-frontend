@@ -16,6 +16,9 @@ import { KpiA2DetailResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-detail-
 import { KpiA2AnalyticResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-result-table/kpi-a2-analytic-result-table.component';
 import { KpiA1DetailResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-detail-result-table/kpi-a1-detail-result-table.component';
 import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analytic-result-table/kpi-a1-analytic-result-table.component';
+import { KpiB9ResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-result-table/kpi-b9-result-table.component';
+import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-result-table/kpi-b9-detail-result-table.component';
+import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -35,6 +38,9 @@ import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analy
     KpiA2AnalyticResultTableComponent,
     KpiA1DetailResultTableComponent,
     KpiA1AnalyticResultTableComponent,
+    KpiB9ResultTableComponent,
+    KpiB9DetailResultTableComponent,
+    KpiB9AnalyticResultTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -52,6 +58,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiA2DetailResultIdForAnalytics: number | null = null;
   selectedKpiA1ResultIdForDetailsResults: number | null = null;
   selectedKpiA1DetailResultIdForAnalytics: number | null = null;
+  selectedKpiB9ResultIdForDetailsResults: number | null = null;
+  selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
   isLoadingResults = false;
   locale: string;
@@ -143,6 +151,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
     this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
+  onShowDetailsB9(kpiB9ResultId: number): void {
+    this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
 
   /**
    * Metodo che viene richiamato quando si clicca il pulsante "Show Analytic Details"
@@ -160,6 +172,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
   }
 
+  onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
+    this.selectedKpiB9DetailResultIdForAnalytics =
+      this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+  }
+
   /**
    * Metodo per resettare tutte le variabili legate ad analytics
    */
@@ -167,6 +184,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
     this.selectedKpiA1DetailResultIdForAnalytics = null;
+    this.selectedKpiB9DetailResultIdForAnalytics = null;
   }
 
   /**
@@ -176,9 +194,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB2ResultIdForDetailsResults = null;
     this.selectedKpiA2ResultIdForDetailsResults = null;
     this.selectedKpiA1ResultIdForDetailsResults = null;
+    this.selectedKpiB9ResultIdForDetailsResults = null;
     this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
     this.selectedKpiA1DetailResultIdForAnalytics = null;
+    this.selectedKpiB9DetailResultIdForAnalytics = null;
   }
 }
 
