@@ -1,7 +1,7 @@
 {
   "pagopaCruscottoApp": {
     "module": {
-      "B.2": {
+      "B.9": {
         "tableLabels": {
           "KpiResults": {
             "id": "ID",
@@ -10,7 +10,6 @@
             "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
             "eligibilityThreshold": "Soglia",
             "tolerance": "Tolleranza",
-            "averageTimeLimit": "Limite Tempo Medio (ms)",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Risultato",
             "details": "Dettagli Risultato",
