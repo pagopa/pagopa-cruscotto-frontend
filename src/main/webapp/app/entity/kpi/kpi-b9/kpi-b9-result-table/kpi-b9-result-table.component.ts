@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB9ResultService } from '../service/kpi-b9-result.service';
@@ -28,10 +28,20 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     MatButton,
     FormatDatePipe,
     YesOrNoViewComponent,
+    DecimalPipe,
   ],
 })
 export class KpiB9ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'excludePlanned', 'excludeUnplanned', 'tolerance', 'outcome', 'details'];
+  displayedColumns: string[] = [
+    'analysisDate',
+    'excludePlannedShutdown',
+    'excludeUnplannedShutdown',
+    'eligibilityThreshold',
+    'tolerance',
+    'evaluationType',
+    'outcome',
+    'details',
+  ];
 
   dataSource = new MatTableDataSource<KpiB9Result>([]);
 
@@ -135,17 +145,21 @@ export class KpiB9ResultTableComponent implements AfterViewInit, OnChanges, OnIn
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'id':
-          return compare(a.coId, b.coId, isAsc);
+          return compare(a.id, b.id, isAsc);
         case 'analysisDate':
-          return compare(a.dtAnalisysDate?.toISOString(), b.dtAnalisysDate?.toISOString(), isAsc);
-        case 'excludePlanned':
-          return compare(a.flExcludePlannedShutdown, b.flExcludePlannedShutdown, isAsc);
-        case 'excludeUnplanned':
-          return compare(a.flExcludeUnplannedShutdown, b.flExcludeUnplannedShutdown, isAsc);
+          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
+        case 'excludePlannedShutdown':
+          return compare(a.excludePlannedShutdown, b.excludePlannedShutdown, isAsc);
+        case 'excludeUnplannedShutdown':
+          return compare(a.excludeUnplannedShutdown, b.excludeUnplannedShutdown, isAsc);
+        case 'eligibilityThreshold':
+          return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
+        case 'evaluationType':
+          return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'tolerance':
-          return compare(a.coTolerance, b.coTolerance, isAsc);
+          return compare(a.tolerance, b.tolerance, isAsc);
         case 'outcome':
-          return compare(a.teOutcome, b.teOutcome, isAsc);
+          return compare(a.outcome, b.outcome, isAsc);
         default:
           return 0;
       }
