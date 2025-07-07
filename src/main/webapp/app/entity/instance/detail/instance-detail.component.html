@@ -82,6 +82,12 @@
                 {{ 'pagopaCruscottoApp.instanceState.' + istanceRef?.status | translate }}
               </p>
             </div>
+            <div class="col-lg-2">
+              <span jhiTranslate="pagopaCruscottoApp.instance.detail.changePartnerQualified">Validity for qualification (YES/NO)</span>
+              <p class="p-2 bg-light">
+                <jhi-yes-or-no-view [yesOrNo]="istanceRef?.changePartnerQualified"></jhi-yes-or-no-view>
+              </p>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>

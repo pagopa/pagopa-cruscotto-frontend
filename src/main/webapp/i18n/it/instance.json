@@ -32,7 +32,8 @@
         "status": "Stato",
         "lastAnalysisDate": "Data Analisi",
         "lastAnalysisOutcome": "Esito Analisi",
-        "updateLabel": "Modifica"
+        "updateLabel": "Modifica",
+        "changePartnerQualified": "Valida per la qualifica (SI/NO)"
       },
       "update": {
         "create.title": "Creazione Istanza",
@@ -81,7 +82,8 @@
       "analysisPeriodEndDate": "Data Fine Periodo Analisi",
       "status": "Stato",
       "lastAnalysisDate": "Data Analisi",
-      "lastAnalysisOutcome": "Esito Analisi"
+      "lastAnalysisOutcome": "Esito Analisi",
+      "changePartnerQualified": "Valida per la qualifica (SI/NO)"
     }
   },
   "error": {
@@ -124,6 +126,10 @@
       },
       "analysisPeriodEndDatePredictedDateAnalysis": {
         "ValidRangeDate": "Il campo 'Data Prevista Analisi' deve essere una data successiva al campo 'Data Fine Periodo Analisi'"
+      },
+      "changePartnerQualified": {
+        "NotBlank": "Il campo 'Valida per la qualifica' \u00E8 obbligatorio",
+        "Pattern": "Il campo 'Valida per la qualifica' deve essere un valore valido"
       }
     },
     "instanceFilter": {
