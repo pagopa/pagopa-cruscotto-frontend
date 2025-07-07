@@ -20,6 +20,7 @@ import { InstanceFormGroup, InstanceFormService } from './instance-form.service'
 import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Authority } from 'app/config/authority.constants';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 /* eslint-disable no-console */
 
@@ -39,6 +40,7 @@ import { Authority } from 'app/config/authority.constants';
     RouterModule,
     MatDatepickerModule,
     PartnerSelectComponent,
+    MatSlideToggle,
   ],
 })
 export class InstanceUpdateComponent implements OnInit {
@@ -140,15 +142,17 @@ export class InstanceUpdateComponent implements OnInit {
 
   predictedDateAnalysisFilter = (date: dayjs.Dayjs | null): boolean => {
     let referenceDate = dayjs().hour(0).minute(0).second(0).millisecond(0);
+    let isSameOrAfter = true;
     if (this.editForm.controls.analysisPeriodEndDate.value && referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value)) {
       referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
+      isSameOrAfter = false;
     } else if (
       this.editForm.controls.analysisPeriodStartDate.value &&
       referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value)
     ) {
       referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
+      isSameOrAfter = false;
     }
-
-    return date ? date.isSameOrAfter(referenceDate) : true;
+    return date ? (isSameOrAfter ? date.isSameOrAfter(referenceDate) : date.isAfter(referenceDate)) : true;
   };
 }

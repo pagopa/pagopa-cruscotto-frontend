@@ -19,6 +19,7 @@ export interface IInstance {
   lastAnalysisDate?: dayjs.Dayjs | null;
   instanceModules?: IInstanceModule[] | null;
   lastAnalysisOutcome?: AnalysisOutcome | null;
+  changePartnerQualified?: boolean | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };
@@ -48,5 +49,6 @@ export class Instance implements IInstance {
     public lastAnalysisDate?: dayjs.Dayjs | null,
     public lastAnalysisOutcome?: AnalysisOutcome | null,
     public instanceModules?: IInstanceModule[] | null,
+    public changePartnerQualified?: boolean | null,
   ) {}
 }
