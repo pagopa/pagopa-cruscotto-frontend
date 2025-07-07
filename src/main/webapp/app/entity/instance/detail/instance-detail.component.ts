@@ -12,6 +12,7 @@ import { InstanceModuleDetailsComponent } from '../../instance-module/instance-m
 import { MatTooltip } from '@angular/material/tooltip';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { Authority } from 'app/config/authority.constants';
+import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.component';
 
 @Component({
   selector: 'jhi-instance-detail',
@@ -28,6 +29,7 @@ import { Authority } from 'app/config/authority.constants';
     MatTabLink,
     MatTooltip,
     FormatDatePipe,
+    YesOrNoViewComponent,
   ],
   templateUrl: './instance-detail.component.html',
   styleUrl: './instance-detail.component.scss',
