@@ -143,16 +143,20 @@ export class InstanceUpdateComponent implements OnInit {
   predictedDateAnalysisFilter = (date: dayjs.Dayjs | null): boolean => {
     let referenceDate = dayjs().hour(0).minute(0).second(0).millisecond(0);
     let isSameOrAfter = true;
-    if (this.editForm.controls.analysisPeriodEndDate.value && referenceDate.isBefore(this.editForm.controls.analysisPeriodEndDate.value)) {
+    if (
+      this.editForm.controls.analysisPeriodEndDate.value &&
+      referenceDate.isSameOrBefore(this.editForm.controls.analysisPeriodEndDate.value)
+    ) {
       referenceDate = this.editForm.controls.analysisPeriodEndDate.value;
       isSameOrAfter = false;
     } else if (
       this.editForm.controls.analysisPeriodStartDate.value &&
-      referenceDate.isBefore(this.editForm.controls.analysisPeriodStartDate.value)
+      referenceDate.isSameOrBefore(this.editForm.controls.analysisPeriodStartDate.value)
     ) {
       referenceDate = this.editForm.controls.analysisPeriodStartDate.value;
       isSameOrAfter = false;
     }
+
     return date ? (isSameOrAfter ? date.isSameOrAfter(referenceDate) : date.isAfter(referenceDate)) : true;
   };
 }
