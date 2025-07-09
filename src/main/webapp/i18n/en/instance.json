@@ -32,7 +32,8 @@
         "status": "Status",
         "lastAnalysisDate": "Analysis Date",
         "lastAnalysisOutcome": "Analysis Outcome",
-        "updateLabel": "Edit"
+        "updateLabel": "Edit",
+        "changePartnerQualified": "Validity for qualification (YES/NO)"
       },
       "update": {
         "create.title": "New Instance Creation",
@@ -81,7 +82,8 @@
       "analysisPeriodEndDate": "Analysis Period End Date",
       "status": "State",
       "lastAnalysisDate": "Last Performed Analysis Date",
-      "lastAnalysisOutcome": "Last Analysis Outcome"
+      "lastAnalysisOutcome": "Last Analysis Outcome",
+      "changePartnerQualified": "Validity for qualification (YES/NO)"
     }
   },
   "error": {
@@ -124,6 +126,10 @@
       },
       "analysisPeriodEndDatePredictedDateAnalysis": {
         "ValidRangeDate": "The 'Predicted Date for Analysis' field must be a date after the 'Analysis Period End Date' field"
+      },
+      "changePartnerQualified": {
+        "NotBlank": "The 'Validity for qualification' field is required",
+        "Pattern": "The 'Validity for qualification' field must be a valid value"
       }
     },
     "instanceFilter": {

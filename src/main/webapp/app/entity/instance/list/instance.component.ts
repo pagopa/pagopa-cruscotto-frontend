@@ -35,6 +35,7 @@ import dayjs from '../../../config/dayjs';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import { OutcomeStatus } from '../../kpi/kpi-b2/models/KpiB2Result';
 import { Authority } from 'app/config/authority.constants';
+import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.component';
 
 @Component({
   selector: 'jhi-instance',
@@ -61,6 +62,7 @@ import { Authority } from 'app/config/authority.constants';
     PartnerSelectComponent,
     MatSelectModule,
     MatDatepickerModule,
+    YesOrNoViewComponent,
   ],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
@@ -70,6 +72,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     'partner',
     'predictedDateAnalysis',
     'applicationDate',
+    'changePartnerQualified',
     'assignedUser',
     'analysisPeriodStartDate',
     'analysisPeriodEndDate',
