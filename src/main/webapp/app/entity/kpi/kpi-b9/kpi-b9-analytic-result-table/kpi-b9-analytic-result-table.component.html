@@ -1,72 +1,75 @@
 <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB9AnalyticResultTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonna Analysis Date -->
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.dtAnalisysDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
 
-<div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
-    <!-- Colonna Analysis Date -->
-    <ng-container matColumnDef="analysisDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.dtAnalisysDate | formatDate: 'L' : locale }}</td>
-    </ng-container>
+        <!-- Colonna Station ID -->
+        <ng-container matColumnDef="stationId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.stationId' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.coStationId }}</td>
+        </ng-container>
 
-    <!-- Colonna Station ID -->
-    <ng-container matColumnDef="stationId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.stationId' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.coStationId }}</td>
-    </ng-container>
+        <!-- Colonna Evaluation Date -->
+        <ng-container matColumnDef="evaluationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.dtEvaluationDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
 
-    <!-- Colonna Evaluation Date -->
-    <ng-container matColumnDef="evaluationDate">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.dtEvaluationDate | formatDate: 'L' : locale }}</td>
-    </ng-container>
+        <!-- Colonna Total Results -->
+        <ng-container matColumnDef="totRes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.totRes' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.coTotRes }}</td>
+        </ng-container>
 
-    <!-- Colonna Total Results -->
-    <ng-container matColumnDef="totRes">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.totRes' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.coTotRes }}</td>
-    </ng-container>
+        <!-- Colonna Results OK -->
+        <ng-container matColumnDef="resOk">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resOk' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.coResOk }}</td>
+        </ng-container>
 
-    <!-- Colonna Results OK -->
-    <ng-container matColumnDef="resOk">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resOk' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.coResOk }}</td>
-    </ng-container>
+        <!-- Colonna Results KO Real -->
+        <ng-container matColumnDef="resKoReal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resKoReal' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.coResKoReal }}</td>
+        </ng-container>
 
-    <!-- Colonna Results KO Real -->
-    <ng-container matColumnDef="resKoReal">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resKoReal' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.coResKoReal }}</td>
-    </ng-container>
+        <!-- Colonna Results KO Valid -->
+        <ng-container matColumnDef="resKoValid">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resKoValid' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.coResKoValid }}</td>
+        </ng-container>
 
-    <!-- Colonna Results KO Valid -->
-    <ng-container matColumnDef="resKoValid">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.resKoValid' | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">{{ element.coResKoValid }}</td>
-    </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
 </div>
-
-<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
-
-<ng-template #noDataTemplate>
-  <span>{{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.notExists' | translate }}</span>
-</ng-template>

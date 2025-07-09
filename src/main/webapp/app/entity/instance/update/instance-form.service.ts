@@ -25,13 +25,14 @@ type InstanceFormGroupContent = {
   predictedDateAnalysis: FormControl<IInstance['predictedDateAnalysis']>;
   analysisPeriodStartDate: FormControl<IInstance['analysisPeriodStartDate']>;
   analysisPeriodEndDate: FormControl<IInstance['analysisPeriodEndDate']>;
+  changePartnerQualified: FormControl<IInstance['changePartnerQualified']>;
 };
 
 export type InstanceFormGroup = FormGroup<InstanceFormGroupContent>;
 
 @Injectable({ providedIn: 'root' })
 export class InstanceFormService {
-  createInstanceFormGroup(instance: InstanceFormGroupInput = { id: null }): InstanceFormGroup {
+  createInstanceFormGroup(instance: InstanceFormGroupInput = { id: null, changePartnerQualified: true }): InstanceFormGroup {
     const instanceRawValue = {
       ...this.getFormDefaults(),
       ...instance,
@@ -62,6 +63,10 @@ export class InstanceFormService {
         }),
         analysisPeriodEndDate: new FormControl(instanceRawValue.analysisPeriodEndDate, {
           validators: [Validators.required],
+          nonNullable: true,
+        }),
+        changePartnerQualified: new FormControl(instanceRawValue.changePartnerQualified, {
+          validators: [],
           nonNullable: true,
         }),
       },
