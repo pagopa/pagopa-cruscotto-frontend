@@ -25,7 +25,114 @@
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
-
+        <div class="row">
+          <div class="col-lg-4">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"> </jhi-partner-select>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.partner.analyzed">Analizzati</mat-label>
+              <mat-select formControlName="analized">
+                <mat-option value="" selected>{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let option of statusOptions" [value]="option">
+                  {{ 'values.' + option | translate | uppercase }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.partner.qualified">Qualificati</mat-label>
+              <mat-select formControlName="qualified">
+                <mat-option value="" selected>{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let option of statusOptions" [value]="option">
+                  {{ 'values.' + option | translate | uppercase }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            @let lastAnalysisDateRef = searchForm.get('lastAnalysisDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.partner.lastAnalysisDate">Last Analysis date Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="lastAnalysisDatePicker"
+                formControlName="lastAnalysisDate"
+                [matDatepickerFilter]="endFilter"
+              />
+              <mat-datepicker-toggle matIconSuffix *ngIf="lastAnalysisDateRef.value" (click)="clearFields('lastAnalysisDate')">
+                <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                  close_small
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix [for]="lastAnalysisDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #lastAnalysisDatePicker></mat-datepicker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="lastAnalysisDateRef.invalid && (lastAnalysisDateRef.dirty || lastAnalysisDateRef.touched)"
+              >
+                @if (lastAnalysisDateRef?.errors?.matDatepickerParse) {
+                  <mat-error class="form-text text-danger" jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                }
+                @if (lastAnalysisDateRef?.errors?.matDatepickerFilter) {
+                  <mat-error
+                    class="form-text text-danger"
+                    jhiTranslate="pagopaCruscottoApp.instance.update.analysisPeriodEndDate.validation.dateGoeThanStartDate"
+                  >
+                    The 'Analysis Period End Date' field must be a date before or equal to 'Analysis Period Start Date'
+                  </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            @let analysisPeriodStartDateRef = searchForm.get('analysisPeriodStartDate')!;
+            @let analysisPeriodEndDateRef = searchForm.get('analysisPeriodEndDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.partner.analysisPeriod"></mat-label>
+              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="predictedAnalysisDatePicker">
+                <input matStartDate formControlName="analysisPeriodStartDate" />
+                <input matEndDate formControlName="analysisPeriodEndDate" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matIconSuffix
+                *ngIf="analysisPeriodStartDateRef.value || analysisPeriodEndDateRef.value"
+                (click)="clearFields('analysisPeriodStartDate', 'analysisPeriodEndDate')"
+              >
+                <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                  close_small
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix [for]="predictedAnalysisDatePicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #predictedAnalysisDatePicker></mat-date-range-picker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="
+                  (analysisPeriodStartDateRef.invalid && (analysisPeriodStartDateRef.dirty || analysisPeriodStartDateRef.touched)) ||
+                  (analysisPeriodEndDateRef.invalid && (analysisPeriodEndDateRef.dirty || analysisPeriodEndDateRef.touched))
+                "
+              >
+                @if (analysisPeriodStartDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.fromDate"> Invalid start date </mat-error>
+                } @else if (analysisPeriodEndDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.toDate"> Invalid end date </mat-error>
+                } @else if (
+                  analysisPeriodEndDateRef?.errors?.matEndDateInvalid || analysisPeriodStartDateRef?.errors?.matStartDateInvalid
+                ) {
+                  <mat-error jhiTranslate="entity.validation.dateRange"> This field should be a valid range of date </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4 mt-2">
+            <mat-checkbox formControlName="showNotActive">
+              {{ 'pagopaCruscottoApp.partner.showNotActive' | translate }}
+            </mat-checkbox>
+          </div>
+        </div>
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
             <button
@@ -73,7 +180,6 @@
             [length]="resultsLength"
             (page)="changePage($event)"
             showFirstLastButtons
-            aria-label="Select page of periodic elements"
           >
           </mat-paginator>
           <div class="table-responsive">
@@ -102,12 +208,16 @@
                   <td mat-cell *matCellDef="let row">{{ row.name }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <!-- <ng-container matColumnDef="status">
+                  <th mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header>
                     {{ 'pagopaCruscottoApp.partner.status' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ 'pagopaCruscottoApp.partner.status.' + row.status | translate | uppercase }}</td>
-                </ng-container>
+                  <td mat-cell
+                      *matCellDef="let row">{{ 'pagopaCruscottoApp.partner.status.' + row.status | translate | uppercase
+                    }}</td>
+                </ng-container> -->
 
                 <ng-container matColumnDef="qualified">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -118,11 +228,44 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="deactivationDate">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <!-- <ng-container matColumnDef="deactivationDate">
+                  <th mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header>
                     {{ 'pagopaCruscottoApp.partner.deactivationDate' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.deactivationDate | formatDate: 'L' : locale }}</td>
+                  <td mat-cell
+                      *matCellDef="let row">{{ row.deactivationDate | formatDate: 'L' : locale }}</td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="lastAnalysisDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.partner.lastAnalysisDate' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.lastAnalysisDate | formatDate: 'L' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="analysisPeriod">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.partner.analysisPeriod' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.lastAnalysisDate | formatDate: 'L' : locale }} - {{ row.lastAnalysisDate | formatDate: 'L' : locale }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="stations">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.partner.stations' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.stations }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="entities">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.partner.entities' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.entities }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -140,6 +283,41 @@
                             [routerLink]="['/entity/partners', row.id, 'view']"
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">visibility</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
+                            matTooltip="{{ 'pagopaCruscottoApp.partner.stations' | translate }}"
+                            matTooltipPosition="above"
+                            (click)="navigate('/entity/stations', { partner: row })"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_tree</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
+                            matTooltip="{{ 'pagopaCruscottoApp.partner.entities' | translate }}"
+                            matTooltipPosition="above"
+                            [routerLink]="['/entity/partners', row.id, 'view']"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_balance</mat-icon>
+                          </button> </span
+                        ><span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
+                            matTooltip="{{ 'pagopaCruscottoApp.partner.instances' | translate }}"
+                            matTooltipPosition="above"
+                            [routerLink]="['/entity/instances', row.id, 'view']"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">assignment</mat-icon>
                           </button>
                         </span>
                       </div>
