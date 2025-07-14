@@ -12,3 +12,8 @@ export interface IPartner {
   lastModifiedBy?: string;
   lastModifiedDate?: dayjs.Dayjs | null;
 }
+
+export enum StatusOptions {
+  yes = 'yes',
+  no = 'no',
+}

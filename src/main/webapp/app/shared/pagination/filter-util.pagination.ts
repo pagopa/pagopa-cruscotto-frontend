@@ -4,6 +4,7 @@ import { IParam, TypeData } from './filter.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT_ISO } from '../../config/input.constants';
 import { IPartner } from '../../entity/partner/partner.model';
+import { IStation } from 'app/entity/station/station.model';
 
 export const addToFilter = (pagination: IFilterPagination, data: AbstractControl | null, param: IParam): void => {
   if (data != null) {
@@ -106,6 +107,10 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         value = (filter as IPartner).fiscalCode;
         break;
       }
+      case TypeData.STATION: {
+        value = (filter as IStation).id;
+        break;
+      }
       case TypeData.DATE: {
         value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
         break;
@@ -123,6 +128,7 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         value = day.getHours().toString().padStart(2, '0').concat(':').concat(day.getMinutes().toString().padStart(2, '0'));
         break;
       }
+      case TypeData.BOOLEAN:
       case TypeData.NUMERIC:
       case TypeData.STRING:
         value = filter;
