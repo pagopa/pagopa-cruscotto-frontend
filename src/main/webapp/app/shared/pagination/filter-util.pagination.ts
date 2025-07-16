@@ -100,11 +100,11 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
   if (filter) {
     switch (param.type) {
       case TypeData.PARTNER: {
-        value = (filter as IPartner).id;
+        value = (filter as IPartner).partnerIdentification.id;
         break;
       }
       case TypeData.PARTNER_FISCAL_CODE: {
-        value = (filter as IPartner).fiscalCode;
+        value = (filter as IPartner).partnerIdentification.fiscalCode;
         break;
       }
       case TypeData.STATION: {

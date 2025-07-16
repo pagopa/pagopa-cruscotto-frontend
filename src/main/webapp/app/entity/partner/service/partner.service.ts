@@ -22,7 +22,7 @@ type EntityArrayResponseType = HttpResponse<IPartner[]>;
 export class PartnerService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/partners');
+  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-partners');
 
   private subject = new Subject<{ partnerId: string | null; reset: boolean; change: boolean }>();
 

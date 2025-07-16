@@ -198,14 +198,14 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.partner.fiscalCode' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.fiscalCode }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.partnerIdentification.fiscalCode }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="name">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.partner.name' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.partnerIdentification.name }}</td>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="status">
@@ -315,7 +315,11 @@
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.instances' | translate }}"
                             matTooltipPosition="above"
-                            [routerLink]="['/entity/instances', row.id, 'view']"
+                            (click)="
+                              row.analyzed
+                                ? navigate('/entity/instances', { partner: row })
+                                : navigate('/entity/instances/${row.id}/view', { partner: row })
+                            "
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">assignment</mat-icon>
                           </button>
