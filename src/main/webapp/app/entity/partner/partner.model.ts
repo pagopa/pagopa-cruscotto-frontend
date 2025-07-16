@@ -1,9 +1,7 @@
 import dayjs from 'dayjs/esm';
 
 export interface IPartner {
-  id: number;
-  fiscalCode?: string | null;
-  name?: string;
+  partnerIdentification: IPartnerIdentification;
   status?: string;
   qualified: boolean;
   deactivationDate?: dayjs.Dayjs | null;
@@ -11,6 +9,12 @@ export interface IPartner {
   createdDate?: dayjs.Dayjs | null;
   lastModifiedBy?: string;
   lastModifiedDate?: dayjs.Dayjs | null;
+}
+
+export interface IPartnerIdentification {
+  id: number;
+  fiscalCode?: string | null;
+  name?: string;
 }
 
 export enum StatusOptions {

@@ -119,12 +119,12 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selectPartner) {
-              this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
+              this.partnerService.sendPartnerId(String(this.selectPartner?.partnerIdentification.id), false, false);
               const foundIntoNewPartners = newPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.partnerIdentification.id),
               );
               const foundIntoAllPartners = allPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.partnerIdentification.id),
               );
               if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
                 allPartners.splice(foundIntoAllPartners, 1);
@@ -181,7 +181,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   }
 
   compareFn(obj1: IExtendPartner, obj2: IExtendPartner) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+    return obj1 && obj2 ? obj1.partnerIdentification.id === obj2.partnerIdentification.id : obj1 === obj2;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {

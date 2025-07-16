@@ -150,13 +150,18 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   private callService(search: string, pageRequired: number): Observable<IStation[]> {
     this.loading = true;
-    if (this._partner !== null && this._partner !== undefined && this._partner.id !== undefined && this._partner.id !== null) {
+    if (
+      this._partner !== null &&
+      this._partner !== undefined &&
+      this._partner.partnerIdentification.id !== undefined &&
+      this._partner.partnerIdentification.id !== null
+    ) {
       const req: any = {
         page: pageRequired,
         size: ITEMS_PER_PAGE,
         sort: ['name,asc'],
       };
-      addNumericToReq(this._partner.id, 'partnerId', req);
+      addNumericToReq(this._partner.partnerIdentification.id, 'partnerId', req);
       return this.stationService.query(req).pipe(
         map((value: HttpResponse<IStation[]>) => {
           const stations = value.body || [];

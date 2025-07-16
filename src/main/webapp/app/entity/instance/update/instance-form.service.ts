@@ -42,9 +42,11 @@ export class InstanceFormService {
         partner: new FormControl(
           instanceRawValue.partnerId
             ? <IPartner>{
-                id: instanceRawValue.partnerId,
-                name: instanceRawValue.partnerName,
-                fiscalCode: instanceRawValue.partnerFiscalCode,
+                partnerIdentification: {
+                  id: instanceRawValue.partnerId,
+                  name: instanceRawValue.partnerName,
+                  fiscalCode: instanceRawValue.partnerFiscalCode,
+                },
               }
             : null,
           {
@@ -74,7 +76,7 @@ export class InstanceFormService {
   getInstance(form: InstanceFormGroup): IInstance | NewInstance {
     const instance = form.getRawValue();
 
-    return { ..._.omit(instance, 'partner'), partnerId: instance.partner?.id } as IInstance | NewInstance;
+    return { ..._.omit(instance, 'partner'), partnerId: instance.partner?.partnerIdentification.id } as IInstance | NewInstance;
   }
 
   resetForm(form: InstanceFormGroup, instance: InstanceFormGroupInput): void {

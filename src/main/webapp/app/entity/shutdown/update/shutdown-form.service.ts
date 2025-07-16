@@ -42,10 +42,13 @@ export class ShutdownFormService {
     return new FormGroup<ShutdownFormGroupContent>(
       {
         id: new FormControl({ value: shutdownRawValue.id, disabled: true }, { validators: [Validators.required], nonNullable: true }),
-        partner: new FormControl(shutdownRawValue.partnerId ? <IPartner>{ id: shutdownRawValue.partnerId } : null, {
-          validators: [Validators.required],
-          nonNullable: true,
-        }),
+        partner: new FormControl(
+          shutdownRawValue.partnerId ? <IPartner>{ partnerIdentification: { id: shutdownRawValue.partnerId } } : null,
+          {
+            validators: [Validators.required],
+            nonNullable: true,
+          },
+        ),
         station: new FormControl(shutdownRawValue.stationId ? <IStation>{ id: Number(shutdownRawValue.stationId) } : null, {
           validators: [Validators.required],
           nonNullable: true,
@@ -78,7 +81,7 @@ export class ShutdownFormService {
 
     return {
       ..._.omit(shutdown, 'partner', 'station', 'station'),
-      partnerId: shutdown.partner?.id,
+      partnerId: shutdown.partner?.partnerIdentification.id,
       stationId: String(shutdown.station?.id),
     } as IShutdown | NewShutdown;
   }
