@@ -7,8 +7,8 @@ import { IParam, ISortField, TypeData } from '../../../shared/pagination/filter.
 })
 export class PartnerFilter extends IFilterPagination {
   static PARTNER: IParam = { name: 'partner', req: 'partnerId', type: TypeData.PARTNER, defaultValue: '' };
-  static ANALIZED: IParam = { name: 'analysisStatus', req: 'analysisStatus', type: TypeData.BOOLEAN, defaultValue: '' };
-  static QUALIFIED: IParam = { name: 'qualified', req: 'qualified', type: TypeData.BOOLEAN, defaultValue: '' };
+  static ANALIZED: IParam = { name: 'analyzed', req: 'analyzed', type: TypeData.STRING, defaultValue: '' };
+  static QUALIFIED: IParam = { name: 'qualified', req: 'qualified', type: TypeData.STRING, defaultValue: '' };
   static LAST_ANALYSIS_DATE: IParam = {
     name: 'lastAnalysisDate',
     req: 'lastAnalysisDate',
