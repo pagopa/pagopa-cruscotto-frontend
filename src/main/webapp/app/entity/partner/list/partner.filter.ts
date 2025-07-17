@@ -18,13 +18,13 @@ export class PartnerFilter extends IFilterPagination {
   static ANALYSIS_PERIOD_START_DATE: IParam = {
     name: 'analysisPeriodStartDate',
     req: 'analysisPeriodStartDate',
-    type: TypeData.DATE,
+    type: TypeData.START_DATE,
     defaultValue: null,
   };
   static ANALYSIS_PERIOD_END_DATE: IParam = {
     name: 'analysisPeriodEndDate',
     req: 'analysisPeriodEndDate',
-    type: TypeData.DATE,
+    type: TypeData.END_DATE,
     defaultValue: null,
   };
   static SHOW_NOT_ACTIVE: IParam = {

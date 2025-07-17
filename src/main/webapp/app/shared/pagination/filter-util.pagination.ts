@@ -2,7 +2,7 @@ import { AbstractControl } from '@angular/forms';
 import { IFilterPagination } from './filter.pagination';
 import { IParam, TypeData } from './filter.model';
 import dayjs from 'dayjs/esm';
-import { DATE_FORMAT_ISO } from '../../config/input.constants';
+import { DATE_FORMAT, DATE_FORMAT_ISO } from '../../config/input.constants';
 import { IPartner, IPartnerIdentification } from '../../entity/partner/partner.model';
 import { IStation } from 'app/entity/station/station.model';
 
@@ -112,7 +112,7 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         break;
       }
       case TypeData.DATE: {
-        value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
+        value = (filter as dayjs.Dayjs).format(DATE_FORMAT);
         break;
       }
       case TypeData.START_DATE: {
