@@ -25,11 +25,12 @@ import { MatSelectInfiniteScrollDirective } from '../../../../shared/directives/
 import { ITEMS_PER_PAGE } from '../../../../config/pagination.constants';
 import { HttpResponse } from '@angular/common/http';
 import { PartnerService } from '../../service/partner.service';
-import { IPartner } from '../../partner.model';
+import { IPartner, IPartnerIdentification } from '../../partner.model';
 import { addFilterToRequest, addStringToReq, addToFilter } from '../../../../shared/pagination/filter-util.pagination';
 import { InstanceFilter } from '../../../instance/list/instance.filter';
+import { PartnerSelectService } from './partner-select.service';
 
-interface IExtendPartner extends Omit<IPartner, ''> {
+interface IExtendPartner extends Omit<IPartnerIdentification, ''> {
   order: number;
   orderForSort: number;
 }
@@ -119,12 +120,12 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selectPartner) {
-              this.partnerService.sendPartnerId(String(this.selectPartner?.partnerIdentification.id), false, false);
+              this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
               const foundIntoNewPartners = newPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.partnerIdentification.id),
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
               );
               const foundIntoAllPartners = allPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.partnerIdentification.id),
+                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
               );
               if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
                 allPartners.splice(foundIntoAllPartners, 1);
@@ -142,7 +143,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   /** Number of items added per batch */
   batchSize = 20;
   private incrementBatchOffset$: Subject<void> = new Subject<void>();
-  private readonly partnerService = inject(PartnerService);
+  private readonly partnerService = inject(PartnerSelectService);
   private destroy$: Subject<void> = new Subject<void>();
 
   ngOnDestroy() {
@@ -150,11 +151,11 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getList(value: any, page: number): Observable<IPartner[]> {
+  getList(value: any, page: number): Observable<IPartnerIdentification[]> {
     return this.callService(value, page);
   }
 
-  private callService(search: string, pageRequired: number): Observable<IPartner[]> {
+  private callService(search: string, pageRequired: number): Observable<IPartnerIdentification[]> {
     this.loading = true;
     const req = {
       page: pageRequired,
@@ -166,7 +167,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     addStringToReq(search, 'fiscalCode', req);
 
     return this.partnerService.query(req).pipe(
-      map((value: HttpResponse<IPartner[]>) => {
+      map((value: HttpResponse<IPartnerIdentification[]>) => {
         const partners = value.body || [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return partners;
@@ -181,7 +182,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   }
 
   compareFn(obj1: IExtendPartner, obj2: IExtendPartner) {
-    return obj1 && obj2 ? obj1.partnerIdentification.id === obj2.partnerIdentification.id : obj1 === obj2;
+    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { IInstance, NewInstance } from '../models/instance.model';
-import { IPartner } from '../../partner/partner.model';
+import { IPartner, IPartnerIdentification } from '../../partner/partner.model';
 import _ from 'lodash';
 import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 
@@ -21,7 +21,7 @@ type InstanceFormDefaults = Pick<NewInstance, 'id'>;
 
 type InstanceFormGroupContent = {
   id: FormControl<IInstance['id'] | NewInstance['id']>;
-  partner: FormControl<IPartner | null>;
+  partner: FormControl<IPartnerIdentification | null>;
   predictedDateAnalysis: FormControl<IInstance['predictedDateAnalysis']>;
   analysisPeriodStartDate: FormControl<IInstance['analysisPeriodStartDate']>;
   analysisPeriodEndDate: FormControl<IInstance['analysisPeriodEndDate']>;
@@ -41,12 +41,10 @@ export class InstanceFormService {
         id: new FormControl({ value: instanceRawValue.id, disabled: true }, { validators: [Validators.required], nonNullable: true }),
         partner: new FormControl(
           instanceRawValue.partnerId
-            ? <IPartner>{
-                partnerIdentification: {
-                  id: instanceRawValue.partnerId,
-                  name: instanceRawValue.partnerName,
-                  fiscalCode: instanceRawValue.partnerFiscalCode,
-                },
+            ? <IPartnerIdentification>{
+                id: instanceRawValue.partnerId,
+                name: instanceRawValue.partnerName,
+                fiscalCode: instanceRawValue.partnerFiscalCode,
               }
             : null,
           {
@@ -76,7 +74,7 @@ export class InstanceFormService {
   getInstance(form: InstanceFormGroup): IInstance | NewInstance {
     const instance = form.getRawValue();
 
-    return { ..._.omit(instance, 'partner'), partnerId: instance.partner?.partnerIdentification.id } as IInstance | NewInstance;
+    return { ..._.omit(instance, 'partner'), partnerId: instance.partner?.id } as IInstance | NewInstance;
   }
 
   resetForm(form: InstanceFormGroup, instance: InstanceFormGroupInput): void {
