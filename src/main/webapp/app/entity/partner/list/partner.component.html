@@ -250,7 +250,8 @@
                     {{ 'pagopaCruscottoApp.partner.analysisPeriod' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">
-                    {{ row.lastAnalysisDate | formatDate: 'L' : locale }} - {{ row.lastAnalysisDate | formatDate: 'L' : locale }}
+                    {{ row.analysisPeriodStartDate | formatDate: 'L' : locale }} -
+                    {{ row.analysisPeriodEndDate | formatDate: 'L' : locale }}
                   </td>
                 </ng-container>
 

@@ -8,9 +8,15 @@ import { IPartner } from '../partner.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 
-type PartnerRestOf<T extends IPartner> = Omit<T, 'createdDate' | 'lastModifiedDate'> & {
+type PartnerRestOf<T extends IPartner> = Omit<
+  T,
+  'createdDate' | 'lastModifiedDate' | 'lastAnalysisDate' | 'analysisPeriodStartDate' | 'analysisPeriodEndDate'
+> & {
   createdDate?: string | null;
   lastModifiedDate?: string | null;
+  lastAnalysisDate?: string | null;
+  analysisPeriodStartDate?: string | null;
+  analysisPeriodEndDate?: string | null;
 };
 
 export type RestPartner = PartnerRestOf<IPartner>;
@@ -65,6 +71,9 @@ export class PartnerService {
       deactivationDate: restPartner.deactivationDate ? dayjs(restPartner.deactivationDate, DATE_FORMAT) : undefined,
       createdDate: restPartner.createdDate ? dayjs(restPartner.createdDate, DATE_TIME_FORMAT_ISO) : undefined,
       lastModifiedDate: restPartner.lastModifiedDate ? dayjs(restPartner.lastModifiedDate, DATE_TIME_FORMAT_ISO) : undefined,
+      analysisPeriodEndDate: restPartner.analysisPeriodEndDate ? dayjs(restPartner.analysisPeriodEndDate, DATE_FORMAT) : undefined,
+      analysisPeriodStartDate: restPartner.analysisPeriodStartDate ? dayjs(restPartner.analysisPeriodStartDate, DATE_FORMAT) : undefined,
+      lastAnalysisDate: restPartner.lastAnalysisDate ? dayjs(restPartner.lastAnalysisDate, DATE_FORMAT) : undefined,
     };
   }
 }

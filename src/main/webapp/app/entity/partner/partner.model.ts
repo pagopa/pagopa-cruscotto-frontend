@@ -9,6 +9,9 @@ export interface IPartner {
   createdDate?: dayjs.Dayjs | null;
   lastModifiedBy?: string;
   lastModifiedDate?: dayjs.Dayjs | null;
+  analysisPeriodStartDate?: dayjs.Dayjs | null;
+  analysisPeriodEndDate?: dayjs.Dayjs | null;
+  lastAnalysisDate?: dayjs.Dayjs | null;
 }
 
 export interface IPartnerIdentification {
