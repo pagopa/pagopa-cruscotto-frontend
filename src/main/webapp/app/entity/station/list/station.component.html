@@ -25,7 +25,19 @@
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
-
+        <div class="row">
+          <div class="col-lg-4">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"> </jhi-partner-select>
+          </div>
+          <div class="col-lg-4">
+            <jhi-station-select [parentForm]="searchForm" formInnerControlName="station" partnerControlName="partner"></jhi-station-select>
+          </div>
+          <div class="col-lg-4 mt-2">
+            <mat-checkbox formControlName="showNotActive">
+              {{ 'pagopaCruscottoApp.partner.showNotActive' | translate }}
+            </mat-checkbox>
+          </div>
+        </div>
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
             <button
