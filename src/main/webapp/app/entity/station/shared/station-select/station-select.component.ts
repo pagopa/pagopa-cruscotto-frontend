@@ -150,33 +150,25 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   private callService(search: string, pageRequired: number): Observable<IStation[]> {
     this.loading = true;
-    if (this._partner !== null && this._partner !== undefined && this._partner.id !== undefined && this._partner.id !== null) {
-      const req: any = {
-        page: pageRequired,
-        size: ITEMS_PER_PAGE,
-        sort: ['name,asc'],
-      };
-      addNumericToReq(this._partner.id, 'partnerId', req);
-      return this.stationService.query(req).pipe(
-        map((value: HttpResponse<IStation[]>) => {
-          const stations = value.body || [];
-          this.totalItems = Number(value.headers.get('X-Total-Count'));
-          return stations;
-        }),
-        catchError(() => {
-          return [];
-        }),
-        finalize(() => {
-          this.loading = false;
-        }),
-      );
-    } else {
-      return of([]).pipe(
-        finalize(() => {
-          this.loading = false;
-        }),
-      );
-    }
+    const req: any = {
+      page: pageRequired,
+      size: ITEMS_PER_PAGE,
+      sort: ['name,asc'],
+    };
+    if (this._partner?.partnerIdentification?.id) addNumericToReq(this._partner.partnerIdentification.id, 'partnerId', req);
+    return this.stationService.query(req).pipe(
+      map((value: HttpResponse<IStation[]>) => {
+        const stations = value.body || [];
+        this.totalItems = Number(value.headers.get('X-Total-Count'));
+        return stations;
+      }),
+      catchError(() => {
+        return [];
+      }),
+      finalize(() => {
+        this.loading = false;
+      }),
+    );
   }
 
   compareFn(obj1: IExtendedStation, obj2: IExtendedStation) {

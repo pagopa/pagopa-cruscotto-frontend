@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 export class LocaltionHelper {
   protected isBack = false;
 
+  public data: any = null;
+
   getIsBack(): boolean {
     return this.isBack;
   }

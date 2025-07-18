@@ -15,6 +15,8 @@ export const enum TypeData {
   NUMERIC = 'NUMERIC',
   PARTNER = 'PARTNER',
   PARTNER_FISCAL_CODE = 'PARTNER_FISCAL_CODE',
+  STATION = 'STATION',
+  BOOLEAN = 'BOOLEAN',
 }
 
 export interface ISortField {

@@ -26,6 +26,10 @@ import { IStation } from '../station.model';
 import { StationFilter } from './station.filter';
 import { StationService } from '../service/station.service';
 import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.component';
+import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
+import { StationSelectComponent } from '../shared/station-select/station-select.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { addFilterToRequest, addToFilter, getFilterValue } from 'app/shared/pagination/filter-util.pagination';
 
 @Component({
   selector: 'jhi-station',
@@ -49,6 +53,9 @@ import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.compon
     RouterModule,
     FormatDatePipe,
     YesOrNoViewComponent,
+    PartnerSelectComponent,
+    StationSelectComponent,
+    MatCheckboxModule,
   ],
 })
 export class StationComponent implements OnInit, OnDestroy {
@@ -60,9 +67,9 @@ export class StationComponent implements OnInit, OnDestroy {
     'typeConnection',
     'primitiveVersion',
     'paymentOption',
-    'associatedInstitutes',
     'status',
     'deactivationDate',
+    'associatedInstitutes',
     'action',
   ];
 
@@ -95,11 +102,17 @@ export class StationComponent implements OnInit, OnDestroy {
   constructor() {
     this.searchForm = this.fb.group({
       takingsIdentifier: [null, [Validators.maxLength(12)]],
+      partner: [''],
+      station: [''],
+      showNotActive: [''],
     });
 
     this.locale = this.translateService.currentLang;
     if (!this.locationHelper.getIsBack()) {
       this.filter.clear();
+    }
+    if (this.locationHelper.data) {
+      this.filter.filters = this.locationHelper.data;
     }
   }
 
@@ -109,6 +122,10 @@ export class StationComponent implements OnInit, OnDestroy {
     if (this.locationHelper.getIsBack()) {
       this.loadPage(this.filter.page, true);
     }
+    if (this.locationHelper.data) {
+      this.loadPage(this.filter.page, true);
+      this.locationHelper.data = null;
+    }
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.locale = event.lang;
@@ -116,7 +133,11 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, StationFilter.PARTNER),
+      station: getFilterValue(this.filter, StationFilter.STATION),
+      showNotActive: getFilterValue(this.filter, StationFilter.SHOW_NOT_ACTIVE),
+    });
     this.page = this.filter.page;
   }
 
@@ -182,10 +203,17 @@ export class StationComponent implements OnInit, OnDestroy {
     }
   }
 
-  private populateRequest(req: any): any {}
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, StationFilter.PARTNER, req);
+    addFilterToRequest(this.filter, StationFilter.STATION, req);
+    addFilterToRequest(this.filter, StationFilter.SHOW_NOT_ACTIVE, req);
+  }
 
   private populateFilter(): void {
     this.filter.page = this.page;
+    addToFilter(this.filter, this.searchForm.get('partner'), StationFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('station'), StationFilter.STATION);
+    addToFilter(this.filter, this.searchForm.get('showNotActive'), StationFilter.SHOW_NOT_ACTIVE);
   }
 
   previousState(): void {
