@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import SharedModule from '../../../shared/shared.module';
@@ -30,6 +30,7 @@ import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select
 import { StationSelectComponent } from '../shared/station-select/station-select.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { addFilterToRequest, addToFilter, getFilterValue } from 'app/shared/pagination/filter-util.pagination';
+import { IPartner } from 'app/entity/partner/partner.model';
 
 @Component({
   selector: 'jhi-station',
@@ -99,10 +100,14 @@ export class StationComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly translateService = inject(TranslateService);
 
+  @ViewChild(PartnerSelectComponent, { static: true }) partnerSelect!: PartnerSelectComponent;
+
   constructor() {
+    const partner = this.locationHelper.data?.partner ?? null;
     this.searchForm = this.fb.group({
       takingsIdentifier: [null, [Validators.maxLength(12)]],
       partner: [''],
+      // partner: [partner ? `${partner.partnerIdentification.fiscalCode} - ${partner.partnerIdentification.name}` : ''],
       station: [''],
       showNotActive: [''],
     });
@@ -112,7 +117,9 @@ export class StationComponent implements OnInit, OnDestroy {
       this.filter.clear();
     }
     if (this.locationHelper.data) {
-      this.filter.filters = this.locationHelper.data;
+      const partner = this.locationHelper.data.partner;
+      this.filter.filters = { partnerId: partner.id };
+      // this.searchForm.get('partner')?.setValue(`${partner.fiscalCode} - ${partner.name}`)
     }
   }
 

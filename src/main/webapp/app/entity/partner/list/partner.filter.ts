@@ -12,19 +12,19 @@ export class PartnerFilter extends IFilterPagination {
   static LAST_ANALYSIS_DATE: IParam = {
     name: 'lastAnalysisDate',
     req: 'lastAnalysisDate',
-    type: TypeData.DATE,
+    type: TypeData.DATE_ISO,
     defaultValue: null,
   };
   static ANALYSIS_PERIOD_START_DATE: IParam = {
     name: 'analysisPeriodStartDate',
     req: 'analysisPeriodStartDate',
-    type: TypeData.START_DATE,
+    type: TypeData.START_DATE_ISO,
     defaultValue: null,
   };
   static ANALYSIS_PERIOD_END_DATE: IParam = {
     name: 'analysisPeriodEndDate',
     req: 'analysisPeriodEndDate',
-    type: TypeData.END_DATE,
+    type: TypeData.END_DATE_ISO,
     defaultValue: null,
   };
   static SHOW_NOT_ACTIVE: IParam = {

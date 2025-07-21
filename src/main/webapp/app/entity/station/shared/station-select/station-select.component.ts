@@ -26,7 +26,7 @@ import { HttpResponse } from '@angular/common/http';
 import { StationService } from '../../service/station.service';
 import { IStation } from '../../station.model';
 import { PartnerService } from 'app/entity/partner/service/partner.service';
-import { IPartner } from '../../../partner/partner.model';
+import { IPartner, IPartnerIdentification } from '../../../partner/partner.model';
 import { addNumericToReq, addStringToReq } from '../../../../shared/pagination/filter-util.pagination';
 
 interface IExtendedStation extends Omit<IStation, ''> {
@@ -57,7 +57,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   @Input() formInnerControlName!: string;
   @Input() partnerControlName!: string;
 
-  _partner: IPartner | null = null;
+  _partner: IPartnerIdentification | null = null;
 
   first: boolean = true;
   filteredData$: Observable<IExtendedStation[]> = of([]);
@@ -150,25 +150,33 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   private callService(search: string, pageRequired: number): Observable<IStation[]> {
     this.loading = true;
-    const req: any = {
-      page: pageRequired,
-      size: ITEMS_PER_PAGE,
-      sort: ['name,asc'],
-    };
-    if (this._partner?.partnerIdentification?.id) addNumericToReq(this._partner.partnerIdentification.id, 'partnerId', req);
-    return this.stationService.query(req).pipe(
-      map((value: HttpResponse<IStation[]>) => {
-        const stations = value.body || [];
-        this.totalItems = Number(value.headers.get('X-Total-Count'));
-        return stations;
-      }),
-      catchError(() => {
-        return [];
-      }),
-      finalize(() => {
-        this.loading = false;
-      }),
-    );
+    if (this._partner !== null && this._partner !== undefined && this._partner.id !== undefined && this._partner.id !== null) {
+      const req: any = {
+        page: pageRequired,
+        size: ITEMS_PER_PAGE,
+        sort: ['name,asc'],
+      };
+      addNumericToReq(this._partner.id, 'partnerId', req);
+      return this.stationService.query(req).pipe(
+        map((value: HttpResponse<IStation[]>) => {
+          const stations = value.body || [];
+          this.totalItems = Number(value.headers.get('X-Total-Count'));
+          return stations;
+        }),
+        catchError(() => {
+          return [];
+        }),
+        finalize(() => {
+          this.loading = false;
+        }),
+      );
+    } else {
+      return of([]).pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      );
+    }
   }
 
   compareFn(obj1: IExtendedStation, obj2: IExtendedStation) {
