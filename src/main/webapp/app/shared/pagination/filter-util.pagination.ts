@@ -116,10 +116,22 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         break;
       }
       case TypeData.START_DATE: {
-        value = (filter as dayjs.Dayjs).startOf('month').format(DATE_FORMAT_ISO);
+        value = (filter as dayjs.Dayjs).startOf('month').format(DATE_FORMAT);
         break;
       }
       case TypeData.END_DATE: {
+        value = (filter as dayjs.Dayjs).endOf('month').format(DATE_FORMAT);
+        break;
+      }
+      case TypeData.DATE_ISO: {
+        value = (filter as dayjs.Dayjs).format(DATE_FORMAT_ISO);
+        break;
+      }
+      case TypeData.START_DATE_ISO: {
+        value = (filter as dayjs.Dayjs).startOf('month').format(DATE_FORMAT_ISO);
+        break;
+      }
+      case TypeData.END_DATE_ISO: {
         value = (filter as dayjs.Dayjs).endOf('month').format(DATE_FORMAT_ISO);
         break;
       }
