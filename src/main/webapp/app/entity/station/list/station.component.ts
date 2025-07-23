@@ -103,11 +103,9 @@ export class StationComponent implements OnInit, OnDestroy {
   @ViewChild(PartnerSelectComponent, { static: true }) partnerSelect!: PartnerSelectComponent;
 
   constructor() {
-    const partner = this.locationHelper.data?.partner ?? null;
     this.searchForm = this.fb.group({
       takingsIdentifier: [null, [Validators.maxLength(12)]],
       partner: [''],
-      // partner: [partner ? `${partner.partnerIdentification.fiscalCode} - ${partner.partnerIdentification.name}` : ''],
       station: [''],
       showNotActive: [''],
     });
@@ -117,19 +115,14 @@ export class StationComponent implements OnInit, OnDestroy {
       this.filter.clear();
     }
     if (this.locationHelper.data) {
-      const partner = this.locationHelper.data.partner;
-      this.filter.filters = { partnerId: partner.id };
-      // this.searchForm.get('partner')?.setValue(`${partner.fiscalCode} - ${partner.name}`)
+      this.filter.filters = this.locationHelper.data;
     }
   }
 
   ngOnInit(): void {
     this.updateForm();
 
-    if (this.locationHelper.getIsBack()) {
-      this.loadPage(this.filter.page, true);
-    }
-    if (this.locationHelper.data) {
+    if (this.locationHelper.getIsBack() || this.locationHelper.data) {
       this.loadPage(this.filter.page, true);
       this.locationHelper.data = null;
     }
