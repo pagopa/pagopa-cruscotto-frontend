@@ -293,7 +293,7 @@
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.stations' | translate }}"
                             matTooltipPosition="above"
-                            (click)="navigate('/entity/stations', { partner: row })"
+                            (click)="navigate('/entity/stations', { partner: row.partnerIdentification })"
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_tree</mat-icon>
                           </button>
