@@ -23,7 +23,7 @@ export class StationService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
 
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/stations');
+  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-stations');
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
