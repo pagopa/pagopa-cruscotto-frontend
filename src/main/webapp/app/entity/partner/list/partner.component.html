@@ -281,7 +281,7 @@
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'entity.action.detail' | translate }}"
                             matTooltipPosition="above"
-                            [routerLink]="['/entity/partners', row.id, 'view']"
+                            [routerLink]="['/entity/partners', row.partnerIdentification.id, 'view']"
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">visibility</mat-icon>
                           </button>
