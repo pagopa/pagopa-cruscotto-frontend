@@ -32,7 +32,7 @@ import { DecimalPipe } from '@angular/common';
 export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'analysisDate',
-    'stationId',
+    'stationName',
     'evaluationType',
     'evaluationStartDate',
     'evaluationEndDate',
@@ -147,8 +147,8 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
           return compare(a.id, b.id, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'evaluationStartDate':

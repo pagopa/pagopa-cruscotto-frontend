@@ -4,7 +4,7 @@
       "B.9": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Analysis Date",
             "excludePlannedShutdown": "Planned Shutdowns Excluded",
             "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
@@ -16,36 +16,32 @@
             "showDetails": "Show Details"
           },
           "KpiDetailResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station ID",
-            "method": "Metodo",
-            "totalRequests": "Total Requests",
-            "averageTime": "Average time (msec)",
-            "overTimeLimit": "Over Time Limit",
+            "stationId": "Station Id",
             "evaluationStartDate": "Start Period",
             "evaluationEndDate": "End Period",
-            "evaluationType": "Type of Evaluation",
+            "evaluationType": "Evaluation Type",
             "outcome": "Result",
             "details": "Details",
             "showDetails": "Show detail",
             "stationName": "Station",
-            "totRes": "Responses Number",
+            "totRes": "Total Responses",
             "resKo": "Responses KO",
             "resKoPercentage": "Percentage KO"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "Instance ID",
-            "instanceModuleId": "Instance Module ID",
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station ID",
-            "method": "Method",
+            "stationId": "Station Id",
             "evaluationDate": "Period",
-            "totRes": "Responses Number",
+            "totRes": "Total Responses",
             "resOk": "Responses OK",
-            "resKoReal": "Responses KO",
-            "resKoValid": "Response KO except in shutdown"
+            "resKoReal": "Real Responses KO",
+            "resKoValid": "Valid Response KO",
+            "stationName": "Station"
           }
         }
       }

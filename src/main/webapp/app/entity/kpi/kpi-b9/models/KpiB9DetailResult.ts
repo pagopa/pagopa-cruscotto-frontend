@@ -14,6 +14,7 @@ export class KpiB9DetailResult {
   resKoPercentage: number | null;
   outcome: OutcomeStatus | null;
   kpiB9ResultId: number | null;
+  stationName: string | null;
 
   constructor(
     id: number | null = null,
@@ -29,6 +30,7 @@ export class KpiB9DetailResult {
     resKoPercentage: number | null = null,
     outcome: OutcomeStatus | null = null,
     kpiB9ResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -43,6 +45,7 @@ export class KpiB9DetailResult {
     this.resKoPercentage = resKoPercentage;
     this.outcome = outcome;
     this.kpiB9ResultId = kpiB9ResultId;
+    this.stationName = stationName;
   }
 }
 

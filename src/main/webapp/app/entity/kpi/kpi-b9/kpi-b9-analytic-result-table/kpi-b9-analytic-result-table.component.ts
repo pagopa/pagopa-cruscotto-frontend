@@ -28,7 +28,7 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationId', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid'];
+  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
@@ -129,8 +129,8 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
       switch (sort.active) {
         case 'id':
           return compare(a.id, b.id, isAsc);
-        case 'stationId':
-          return compare(a.stationId, b.stationId, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'evaluationDate':
