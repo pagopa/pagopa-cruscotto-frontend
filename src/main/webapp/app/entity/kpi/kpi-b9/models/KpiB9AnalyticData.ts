@@ -12,6 +12,7 @@ export class KpiB9AnalyticData {
   resKoReal: number | null;
   resKoValid: number | null;
   kpiB9DetailResultId: number | null;
+  stationName: string | null;
 
   constructor(
     id: number | null = null,
@@ -25,6 +26,7 @@ export class KpiB9AnalyticData {
     resKoReal: number | null = null,
     resKoValid: number | null = null,
     kpiB9DetailResultId: number | null = null,
+    stationName: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -37,5 +39,6 @@ export class KpiB9AnalyticData {
     this.resKoReal = resKoReal;
     this.resKoValid = resKoValid;
     this.kpiB9DetailResultId = kpiB9DetailResultId;
+    this.stationName = stationName;
   }
 }

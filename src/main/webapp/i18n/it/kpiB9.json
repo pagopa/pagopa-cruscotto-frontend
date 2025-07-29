@@ -4,7 +4,7 @@
       "B.9": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
             "excludePlannedShutdown": "Fermi Programmati Esclusi",
             "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
@@ -16,13 +16,9 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
-            "stationId": "ID della Stazione",
-            "method": "Metodo",
-            "totalRequests": "Totale Richieste",
-            "averageTime": "Tempo Medio (ms)",
-            "overTimeLimit": "Sopra il Limite di Tempo",
+            "stationId": "Id Stazione",
             "evaluationStartDate": "Inizio Periodo",
             "evaluationEndDate": "Fine Periodo",
             "evaluationType": "Tipo di Valutazione",
@@ -30,22 +26,22 @@
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
             "stationName": "Stazione",
-            "totRes": "Numero Risposte",
+            "totRes": "Totale Risposte",
             "resKo": "Risposte KO",
             "resKoPercentage": "Percentuale KO"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "ID dell'Istanza",
-            "instanceModuleId": "ID del Modulo dell'Istanza",
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo dell'Istanza",
             "analysisDate": "Data Analisi",
-            "stationId": "ID della Stazione",
-            "method": "Metodo",
+            "stationId": "Id Stazione",
             "evaluationDate": "Periodo",
-            "totRes": "Numero Risposte",
+            "totRes": "Totale Risposte",
             "resOk": "Risposte OK",
-            "resKoReal": "Risposte KO",
-            "resKoValid": "Response KO tranne in fermi"
+            "resKoReal": "Risposte KO Reali",
+            "resKoValid": "Response KO Valide",
+            "stationName": "Stazione"
           }
         }
       }

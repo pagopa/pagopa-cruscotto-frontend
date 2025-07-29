@@ -4,7 +4,7 @@
       "B.2": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Analysis Date",
             "excludePlannedShutdown": "Planned Shutdowns Excluded",
             "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
@@ -17,9 +17,9 @@
             "showDetails": "Show Details"
           },
           "KpiDetailResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station ID",
+            "stationId": "Station Id",
             "method": "Metodo",
             "totalRequests": "Total Requests",
             "averageTime": "Average time (msec)",
@@ -33,18 +33,18 @@
             "stationName": "Station"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "Instance ID",
-            "instanceModuleId": "Instance Module ID",
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station ID",
+            "stationId": "Station Id",
             "method": "Method",
             "evaluationDate": "Period",
             "totReq": "Total Requests",
-            "reqOk": "Requests Ok",
+            "reqOk": "Requests OK",
             "reqTimeout": "Requests in Timeout",
             "avgTime": "Average Time",
-            "kpiB2DetailResultId": "B2 Detail Result ID",
+            "kpiB2DetailResultId": "B2 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
             "stationName": "Station"
