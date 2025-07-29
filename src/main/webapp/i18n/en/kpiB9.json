@@ -29,7 +29,10 @@
             "outcome": "Result",
             "details": "Details",
             "showDetails": "Show detail",
-            "stationName": "Station"
+            "stationName": "Station",
+            "totRes": "Responses Number",
+            "resKo": "Responses KO",
+            "resKoPercentage": "Percentage KO"
           },
           "KpiAnalyticResults": {
             "id": "ID",
@@ -39,14 +42,10 @@
             "stationId": "Station ID",
             "method": "Method",
             "evaluationDate": "Period",
-            "totReq": "Total Requests",
-            "reqOk": "Requests Ok",
-            "reqTimeout": "Requests in Timeout",
-            "avgTime": "Average Time",
-            "kpiB2DetailResultId": "B2 Detail Result ID",
-            "details": "Details",
-            "showDetails": "Show Details",
-            "stationName": "Station"
+            "totRes": "Responses Number",
+            "resOk": "Responses OK",
+            "resKoReal": "Responses KO",
+            "resKoValid": "Response KO except in shutdown"
           }
         }
       }
