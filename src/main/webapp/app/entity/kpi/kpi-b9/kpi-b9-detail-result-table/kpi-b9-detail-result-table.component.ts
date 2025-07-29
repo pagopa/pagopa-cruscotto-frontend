@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { KpiB9DetailResult } from '../models/KpiB9DetailResult';
+import { EvaluationType, KpiB9DetailResult } from '../models/KpiB9DetailResult';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -10,7 +10,7 @@ import { CommonModule, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { OutcomeStatus } from '../models/KpiB9Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-kpi-b9-detail-result-table',
@@ -24,7 +24,7 @@ import { AverageFormatPipe } from '../../../../shared/pipes/average-format.pipe'
     MatSortModule,
     NgxSpinnerModule,
     CommonModule,
-    AverageFormatPipe,
+    DecimalPipe,
   ],
   templateUrl: './kpi-b9-detail-result-table.component.html',
   styleUrl: './kpi-b9-detail-result-table.component.scss',
@@ -56,6 +56,7 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
   private readonly kpiB9DetailResultService = inject(KpiB9DetailResultService);
+  protected readonly EvaluationType = EvaluationType;
 
   locale: string;
 
@@ -143,25 +144,25 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'id':
-          return compare(a.coId, b.coId, isAsc);
+          return compare(a.id, b.id, isAsc);
         case 'analysisDate':
-          return compare(a.dtAnalisysDate?.toISOString(), b.dtAnalisysDate?.toISOString(), isAsc);
+          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'stationId':
-          return compare(a.coStationId, b.coStationId, isAsc);
+          return compare(a.stationId, b.stationId, isAsc);
         case 'evaluationType':
-          return compare(a.teEvaluationType, b.teEvaluationType, isAsc);
+          return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'evaluationStartDate':
-          return compare(a.dtEvaluationStartDate?.toISOString(), b.dtEvaluationStartDate?.toISOString(), isAsc);
+          return compare(a.evaluationStartDate?.toISOString(), b.evaluationStartDate?.toISOString(), isAsc);
         case 'evaluationEndDate':
-          return compare(a.dtEvaluationEndDate?.toISOString(), b.dtEvaluationEndDate?.toISOString(), isAsc);
+          return compare(a.evaluationEndDate?.toISOString(), b.evaluationEndDate?.toISOString(), isAsc);
         case 'totRes':
-          return compare(a.coTotRes, b.coTotRes, isAsc);
+          return compare(a.totRes, b.totRes, isAsc);
         case 'resKo':
-          return compare(a.coResKo, b.coResKo, isAsc);
+          return compare(a.resKo, b.resKo, isAsc);
         case 'resKoPercentage':
-          return compare(a.coResKoPercentage, b.coResKoPercentage, isAsc);
+          return compare(a.resKoPercentage, b.resKoPercentage, isAsc);
         case 'outcome':
-          return compare(a.teOutcome, b.teOutcome, isAsc);
+          return compare(a.outcome, b.outcome, isAsc);
         default:
           return 0;
       }
