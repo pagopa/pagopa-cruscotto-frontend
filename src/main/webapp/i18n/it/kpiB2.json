@@ -4,7 +4,7 @@
       "B.2": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
             "excludePlannedShutdown": "Fermi Programmati Esclusi",
             "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
@@ -17,9 +17,9 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
-            "stationId": "ID della Stazione",
+            "stationId": "Id della Stazione",
             "method": "Metodo",
             "totalRequests": "Totale Richieste",
             "averageTime": "Tempo Medio (ms)",
@@ -33,18 +33,18 @@
             "stationName": "Stazione"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "ID dell'Istanza",
-            "instanceModuleId": "ID del Modulo dell'Istanza",
+            "id": "Id",
+            "instanceId": "Id dell'Istanza",
+            "instanceModuleId": "Id del Modulo dell'Istanza",
             "analysisDate": "Data Analisi",
-            "stationId": "ID della Stazione",
+            "stationId": "Id della Stazione",
             "method": "Metodo",
             "evaluationDate": "Periodo",
             "totReq": "Totale Richieste",
-            "reqOk": "Richieste Ok",
+            "reqOk": "Richieste OK",
             "reqTimeout": "Richieste in Timeout",
             "avgTime": "Tempo Medio",
-            "kpiB2DetailResultId": "ID Risultato Dettaglio B2",
+            "kpiB2DetailResultId": "Id Risultato Dettaglio B2",
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
             "stationName": "Stazione"

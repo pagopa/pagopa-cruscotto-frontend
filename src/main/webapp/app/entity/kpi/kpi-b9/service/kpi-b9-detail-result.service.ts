@@ -8,9 +8,9 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 
 type RestKpiB9DetailResult = Omit<KpiB9DetailResult, 'dtAnalisysDate' | 'dtEvaluationStartDate' | 'dtEvaluationEndDate'> & {
-  dtAnalisysDate?: string | null;
-  dtEvaluationStartDate?: string | null;
-  dtEvaluationEndDate?: string | null;
+  analisysDate?: string | null;
+  ealuationStartDate?: string | null;
+  evaluationEndDate?: string | null;
 };
 
 @Injectable({
@@ -44,11 +44,9 @@ export class KpiB9DetailResultService {
   private convertFromServer(restKpiB9DetailResult: RestKpiB9DetailResult): KpiB9DetailResult {
     return {
       ...restKpiB9DetailResult,
-      dtAnalisysDate: restKpiB9DetailResult.dtAnalisysDate ? dayjs(restKpiB9DetailResult.dtAnalisysDate, DATE_FORMAT) : null,
-      dtEvaluationStartDate: restKpiB9DetailResult.dtEvaluationStartDate
-        ? dayjs(restKpiB9DetailResult.dtEvaluationStartDate, DATE_FORMAT)
-        : null,
-      dtEvaluationEndDate: restKpiB9DetailResult.dtEvaluationEndDate ? dayjs(restKpiB9DetailResult.dtEvaluationEndDate, DATE_FORMAT) : null,
+      analysisDate: restKpiB9DetailResult.analysisDate ? dayjs(restKpiB9DetailResult.analysisDate, DATE_FORMAT) : null,
+      evaluationStartDate: restKpiB9DetailResult.evaluationStartDate ? dayjs(restKpiB9DetailResult.evaluationStartDate, DATE_FORMAT) : null,
+      evaluationEndDate: restKpiB9DetailResult.evaluationEndDate ? dayjs(restKpiB9DetailResult.evaluationEndDate, DATE_FORMAT) : null,
     };
   }
 }
