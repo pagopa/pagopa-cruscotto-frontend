@@ -1,0 +1,19 @@
+.mat-column-id,
+.mat-column-analysisDate,
+.mat-column-stationName,
+.mat-column-evaluationType,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
+.mat-column-evaluationType,
+.mat-column-outcome,
+.mat-column-details {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-totRes,
+.mat-column-resKo,
+.mat-column-resKoPercentage {
+  width: 150px;
+  text-align: right;
+}

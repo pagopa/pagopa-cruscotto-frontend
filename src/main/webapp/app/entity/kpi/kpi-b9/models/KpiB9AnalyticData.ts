@@ -1,41 +1,44 @@
 import dayjs from 'dayjs/esm';
 
 export class KpiB9AnalyticData {
-  coId: number | null;
-  coInstanceId: number | null;
-  coInstanceModuleId: number | null;
-  dtAnalisysDate: dayjs.Dayjs | null;
-  coStationId: number | null;
-  dtEvaluationDate: dayjs.Dayjs | null;
-  coTotRes: number | null;
-  coResOk: number | null;
-  coResKoReal: number | null;
-  coResKoValid: number | null;
-  coKpiB9DetailResultId: number | null;
+  id: number | null;
+  instanceId: number | null;
+  instanceModuleId: number | null;
+  analysisDate: dayjs.Dayjs | null;
+  stationId: number | null;
+  evaluationDate: dayjs.Dayjs | null;
+  totRes: number | null;
+  resOk: number | null;
+  resKoReal: number | null;
+  resKoValid: number | null;
+  kpiB9DetailResultId: number | null;
+  stationName: string | null;
 
   constructor(
-    coId: number | null = null,
-    coInstanceId: number | null = null,
-    coInstanceModuleId: number | null = null,
-    dtAnalisysDate: dayjs.Dayjs | null = null,
-    coStationId: number | null = null,
-    dtEvaluationDate: dayjs.Dayjs | null = null,
-    coTotRes: number | null = null,
-    coResOk: number | null = null,
-    coResKoReal: number | null = null,
-    coResKoValid: number | null = null,
-    coKpiB9DetailResultId: number | null = null,
+    id: number | null = null,
+    instanceId: number | null = null,
+    instanceModuleId: number | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
+    stationId: number | null = null,
+    evaluationDate: dayjs.Dayjs | null = null,
+    totRes: number | null = null,
+    resOk: number | null = null,
+    resKoReal: number | null = null,
+    resKoValid: number | null = null,
+    kpiB9DetailResultId: number | null = null,
+    stationName: string | null = null,
   ) {
-    this.coId = coId;
-    this.coInstanceId = coInstanceId;
-    this.coInstanceModuleId = coInstanceModuleId;
-    this.dtAnalisysDate = dtAnalisysDate;
-    this.coStationId = coStationId;
-    this.dtEvaluationDate = dtEvaluationDate;
-    this.coTotRes = coTotRes;
-    this.coResOk = coResOk;
-    this.coResKoReal = coResKoReal;
-    this.coResKoValid = coResKoValid;
-    this.coKpiB9DetailResultId = coKpiB9DetailResultId;
+    this.id = id;
+    this.instanceId = instanceId;
+    this.instanceModuleId = instanceModuleId;
+    this.analysisDate = analysisDate;
+    this.stationId = stationId;
+    this.evaluationDate = evaluationDate;
+    this.totRes = totRes;
+    this.resOk = resOk;
+    this.resKoReal = resKoReal;
+    this.resKoValid = resKoValid;
+    this.kpiB9DetailResultId = kpiB9DetailResultId;
+    this.stationName = stationName;
   }
 }
