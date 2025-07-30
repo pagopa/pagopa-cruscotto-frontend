@@ -1,48 +1,51 @@
 import dayjs from 'dayjs/esm';
 
 export class KpiB9DetailResult {
-  coId: number | null;
-  coInstanceId: number | null;
-  coInstanceModuleId: number | null;
-  dtAnalisysDate: dayjs.Dayjs | null;
-  coStationId: number | null;
-  teEvaluationType: EvaluationType | null;
-  dtEvaluationStartDate: dayjs.Dayjs | null;
-  dtEvaluationEndDate: dayjs.Dayjs | null;
-  coTotRes: number | null;
-  coResKo: number | null;
-  coResKoPercentage: number | null;
-  teOutcome: OutcomeStatus | null;
-  coKpiB9ResultId: number | null;
+  id: number | null;
+  instanceId: number | null;
+  instanceModuleId: number | null;
+  analysisDate: dayjs.Dayjs | null;
+  stationId: number | null;
+  evaluationType: EvaluationType | null;
+  evaluationStartDate: dayjs.Dayjs | null;
+  evaluationEndDate: dayjs.Dayjs | null;
+  totRes: number | null;
+  resKo: number | null;
+  resKoPercentage: number | null;
+  outcome: OutcomeStatus | null;
+  kpiB9ResultId: number | null;
+  stationName: string | null;
 
   constructor(
-    coId: number | null = null,
-    coInstanceId: number | null = null,
-    coInstanceModuleId: number | null = null,
-    dtAnalisysDate: dayjs.Dayjs | null = null,
-    coStationId: number | null = null,
-    teEvaluationType: EvaluationType | null = null,
-    dtEvaluationStartDate: dayjs.Dayjs | null = null,
-    dtEvaluationEndDate: dayjs.Dayjs | null = null,
-    coTotRes: number | null = null,
-    coResKo: number | null = null,
-    coResKoPercentage: number | null = null,
-    teOutcome: OutcomeStatus | null = null,
-    coKpiB9ResultId: number | null = null,
+    id: number | null = null,
+    instanceId: number | null = null,
+    instanceModuleId: number | null = null,
+    analysisDate: dayjs.Dayjs | null = null,
+    stationId: number | null = null,
+    evaluationType: EvaluationType | null = null,
+    evaluationStartDate: dayjs.Dayjs | null = null,
+    evaluationEndDate: dayjs.Dayjs | null = null,
+    totRes: number | null = null,
+    resKo: number | null = null,
+    resKoPercentage: number | null = null,
+    outcome: OutcomeStatus | null = null,
+    kpiB9ResultId: number | null = null,
+    stationName: string | null = null,
   ) {
-    this.coId = coId;
-    this.coInstanceId = coInstanceId;
-    this.coInstanceModuleId = coInstanceModuleId;
-    this.dtAnalisysDate = dtAnalisysDate;
-    this.coStationId = coStationId;
-    this.teEvaluationType = teEvaluationType;
-    this.dtEvaluationStartDate = dtEvaluationStartDate;
-    this.dtEvaluationEndDate = dtEvaluationEndDate;
-    this.coTotRes = coTotRes;
-    this.coResKo = coResKo;
-    this.coResKoPercentage = coResKoPercentage;
-    this.teOutcome = teOutcome;
-    this.coKpiB9ResultId = coKpiB9ResultId;
+    this.id = id;
+    this.instanceId = instanceId;
+    this.instanceModuleId = instanceModuleId;
+    this.analysisDate = analysisDate;
+    this.stationId = stationId;
+    this.evaluationType = evaluationType;
+    this.evaluationStartDate = evaluationStartDate;
+    this.evaluationEndDate = evaluationEndDate;
+    this.totRes = totRes;
+    this.resKo = resKo;
+    this.resKoPercentage = resKoPercentage;
+    this.outcome = outcome;
+    this.kpiB9ResultId = kpiB9ResultId;
+    this.stationName = stationName;
   }
 }
 

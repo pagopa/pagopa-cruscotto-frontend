@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { NgIf } from '@angular/common';
+import { DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB9AnalyticDataService } from '../service/kpi-b9-analytic-data.service';
@@ -15,10 +15,20 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
   selector: 'jhi-kpi-b9-analytic-result-table',
   templateUrl: './kpi-b9-analytic-result-table.component.html',
   styleUrls: ['./kpi-b9-analytic-result-table.component.scss'],
-  imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
+  imports: [
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NgxSpinnerModule,
+    TranslateModule,
+    NgIf,
+    MatButtonModule,
+    FormatDatePipe,
+    DecimalPipe,
+  ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationId', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid'];
+  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
@@ -118,21 +128,21 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'id':
-          return compare(a.coId, b.coId, isAsc);
-        case 'stationId':
-          return compare(a.coStationId, b.coStationId, isAsc);
+          return compare(a.id, b.id, isAsc);
+        case 'stationName':
+          return compare(a.stationName, b.stationName, isAsc);
         case 'analysisDate':
-          return compare(a.dtAnalisysDate?.toISOString(), b.dtAnalisysDate?.toISOString(), isAsc);
+          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
         case 'evaluationDate':
-          return compare(a.dtEvaluationDate?.toISOString(), b.dtEvaluationDate?.toISOString(), isAsc);
+          return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
         case 'totRes':
-          return compare(a.coTotRes, b.coTotRes, isAsc);
+          return compare(a.totRes, b.totRes, isAsc);
         case 'resOk':
-          return compare(a.coResOk, b.coResOk, isAsc);
+          return compare(a.resOk, b.resOk, isAsc);
         case 'resKoReal':
-          return compare(a.coResKoReal, b.coResKoReal, isAsc);
+          return compare(a.resKoReal, b.resKoReal, isAsc);
         case 'resKoValid':
-          return compare(a.coResKoValid, b.coResKoValid, isAsc);
+          return compare(a.resKoValid, b.resKoValid, isAsc);
         default:
           return 0;
       }

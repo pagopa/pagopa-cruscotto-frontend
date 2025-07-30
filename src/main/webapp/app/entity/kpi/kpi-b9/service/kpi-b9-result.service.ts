@@ -8,7 +8,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
 type KpiB9ResultRestOf<T extends KpiB9Result> = Omit<T, 'dtAnalisysDate'> & {
-  dtAnalisysDate?: string | null;
+  analysisDate?: string | null;
 };
 
 export type RestKpiB9Result = KpiB9ResultRestOf<KpiB9Result>;

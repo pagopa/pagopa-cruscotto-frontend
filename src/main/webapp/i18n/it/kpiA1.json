@@ -4,7 +4,7 @@
       "A.1": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
             "excludePlannedShutdown": "Fermi Programmati Esclusi",
             "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
@@ -16,11 +16,11 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
-            "id": "ID",
-            "instanceId": "ID Istanza",
-            "instanceModuleId": "ID Modulo Istanza",
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
             "analysisDate": "Data Analisi",
-            "stationId": "ID Stazione",
+            "stationId": "Id Stazione",
             "method": "Metodo",
             "evaluationType": "Tipo di Valutazione",
             "evaluationStartDate": "Inizio Periodo",
@@ -29,24 +29,24 @@
             "reqTimeout": "Richieste In Timeout",
             "timeoutPercentage": "Percentuale In Timeout",
             "outcome": "Risultato",
-            "kpiA1ResultId": "ID KPI A.1 Risultato",
+            "kpiA1ResultId": "Id KPI A.1 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
             "stationName": "Stazione"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "ID Istanza",
-            "instanceModuleId": "ID Modulo Istanza",
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
             "analysisDate": "Data Analisi",
-            "stationId": "ID Stazione",
+            "stationId": "Id Stazione",
             "method": "Metodo",
             "evaluationDate": "Periodo",
             "totalRequests": "Totale Richieste",
             "reqOk": "Richieste OK",
             "reqTimeoutReal": "Richieste Timeout Reali",
             "reqTimeoutValid": "Timeout Validi",
-            "kpiA1DetailResultId": "ID Dettaglio KPI A.1",
+            "kpiA1DetailResultId": "Id Dettaglio KPI A.1",
             "stationName": "  Stazione"
           }
         }
