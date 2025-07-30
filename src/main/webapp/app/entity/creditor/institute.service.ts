@@ -4,21 +4,21 @@ import { map, Observable, Subject } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 import { DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { ICreditor } from './creditor.model';
+import { IInstitute } from './institute.model';
 import dayjs from 'dayjs/esm';
 
-type CreditorRestOf<T extends ICreditor> = Omit<T, 'activationDate' | 'deactivationDate'> & {
+type CreditorRestOf<T extends IInstitute> = Omit<T, 'activationDate' | 'deactivationDate'> & {
   activationDate?: string | null;
   deactivationDate?: string | null;
 };
 
-export type RestCreditor = CreditorRestOf<ICreditor>;
+export type RestCreditor = CreditorRestOf<IInstitute>;
 
-type EntityResponseType = HttpResponse<ICreditor>;
-type EntityArrayResponseType = HttpResponse<ICreditor[]>;
+type EntityResponseType = HttpResponse<IInstitute>;
+type EntityArrayResponseType = HttpResponse<IInstitute[]>;
 
 @Injectable({ providedIn: 'root' })
-export class CreditorService {
+export class InstituteService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/partners');
@@ -46,19 +46,19 @@ export class CreditorService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  protected convertResponseFromServer(res: HttpResponse<RestCreditor>): HttpResponse<ICreditor> {
+  protected convertResponseFromServer(res: HttpResponse<RestCreditor>): HttpResponse<IInstitute> {
     return res.clone({
       body: res.body ? this.convertPartnerFromServer(res.body) : null,
     });
   }
 
-  protected convertPartnerResponseArrayFromServer(res: HttpResponse<RestCreditor[]>): HttpResponse<ICreditor[]> {
+  protected convertPartnerResponseArrayFromServer(res: HttpResponse<RestCreditor[]>): HttpResponse<IInstitute[]> {
     return res.clone({
       body: res.body ? res.body.map(item => this.convertPartnerFromServer(item)) : null,
     });
   }
 
-  protected convertPartnerFromServer(restCreditor: RestCreditor): ICreditor {
+  protected convertPartnerFromServer(restCreditor: RestCreditor): IInstitute {
     return {
       ...restCreditor,
       activationDate: restCreditor.activationDate ? dayjs(restCreditor.activationDate, DATE_TIME_FORMAT_ISO) : undefined,
