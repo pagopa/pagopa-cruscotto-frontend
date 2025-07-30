@@ -4,7 +4,7 @@
       "A.2": {
         "tableLabels": {
           "KpiResults": {
-            "id": "ID",
+            "id": "Id",
             "analysisDate": "Data Analisi",
             "tolerance": "Tolleranza",
             "evaluationType": "Tipo di Valutazione",
@@ -13,9 +13,9 @@
             "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
-            "id": "ID",
-            "instanceId": "ID Istanza",
-            "instanceModuleId": "ID Modulo Istanza",
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
             "analysisDate": "Data Analisi",
             "evaluationStartDate": "Inizio Periodo",
             "evaluationEndDate": "Fine Periodo",
@@ -23,19 +23,19 @@
             "totIncorrectPayments": "Versamenti Errati",
             "errorPercentage": "Percentuale Errati",
             "outcome": "Risultato",
-            "kpiA2ResultId": "ID KPI A.2 Risultato",
+            "kpiA2ResultId": "Id KPI A.2 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
           "KpiAnalyticResults": {
-            "id": "ID",
-            "instanceId": "ID Istanza",
-            "instanceModuleId": "ID Modulo Istanza",
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
             "analysisDate": "Data Analisi",
             "evaluationDate": "Periodo",
             "totPayments": "Totale Versamenti",
             "totIncorrectPayments": "Versamenti Errati",
-            "kpiA2DetailResultId": "ID Dettaglio KPI A.2"
+            "kpiA2DetailResultId": "Id Dettaglio KPI A.2"
           }
         }
       }

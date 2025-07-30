@@ -1,0 +1,15 @@
+.mat-column-id,
+.mat-column-stationName,
+.mat-column-analysisDate,
+.mat-column-evaluationDate {
+  width: 150px;
+  text-align: center;
+}
+
+.mat-column-totRes,
+.mat-column-resOk,
+.mat-column-resKoReal,
+.mat-column-resKoValid {
+  width: 150px;
+  text-align: right;
+}
