@@ -17,20 +17,20 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { PartnerFilter } from './creditor.filter';
+import { PartnerFilter } from './institute.filter';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { Authority } from 'app/config/authority.constants';
 import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.component';
-import { ICreditor } from '../creditor.model';
-import { CreditorService } from '../creditor.service';
+import { IInstitute } from '../institute.model';
+import { InstituteService } from '../institute.service';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
-import { CreditorSelectComponent } from '../shared/creditor-select/creditor-select.component';
+import { InstituteSelectComponent } from '../shared/partner-select/institute-select.component';
 
 @Component({
   selector: 'jhi-creditor',
-  templateUrl: './creditor.component.html',
-  styleUrls: ['./creditor.component.scss'],
+  templateUrl: './institute.component.html',
+  styleUrls: ['./institute.component.scss'],
   imports: [
     SharedModule,
     MatIconModule,
@@ -51,10 +51,10 @@ import { CreditorSelectComponent } from '../shared/creditor-select/creditor-sele
     YesOrNoViewComponent,
     PartnerSelectComponent,
     StationSelectComponent,
-    CreditorSelectComponent,
+    InstituteSelectComponent,
   ],
 })
-export class PartnerComponent implements OnInit {
+export class InstituteComponent implements OnInit {
   displayedColumns: string[] = [
     'fiscalCode',
     'name',
@@ -68,7 +68,7 @@ export class PartnerComponent implements OnInit {
     'action',
   ];
 
-  data: ICreditor[] = [];
+  data: IInstitute[] = [];
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -86,7 +86,7 @@ export class PartnerComponent implements OnInit {
   protected readonly router = inject(Router);
   protected readonly filter = inject(PartnerFilter);
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly service = inject(CreditorService);
+  private readonly service = inject(InstituteService);
   private readonly locationHelper = inject(LocaltionHelper);
   private readonly fb = inject(FormBuilder);
   private readonly translateService = inject(TranslateService);
@@ -160,7 +160,7 @@ export class PartnerComponent implements OnInit {
     this.populateRequest(params);
 
     this.service.query(params).subscribe({
-      next: (res: HttpResponse<ICreditor[]>) => {
+      next: (res: HttpResponse<IInstitute[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
       },
@@ -184,7 +184,7 @@ export class PartnerComponent implements OnInit {
     window.history.back();
   }
 
-  protected onSuccess(data: ICreditor[], headers: HttpHeaders): void {
+  protected onSuccess(data: IInstitute[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
     this.spinner.hide('isLoadingResults').then(() => {

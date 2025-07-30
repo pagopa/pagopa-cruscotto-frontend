@@ -1,6 +1,6 @@
 import dayjs from 'dayjs/esm';
 
-export interface ICreditor {
+export interface IInstitute {
   id: number;
   fiscalCode?: string | null;
   name?: string;
