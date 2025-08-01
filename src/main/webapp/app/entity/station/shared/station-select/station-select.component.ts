@@ -26,7 +26,7 @@ import { HttpResponse } from '@angular/common/http';
 import { StationService } from '../../service/station.service';
 import { IStation } from '../../station.model';
 import { PartnerService } from 'app/entity/partner/service/partner.service';
-import { IPartner } from '../../../partner/partner.model';
+import { IPartner, IPartnerIdentification } from '../../../partner/partner.model';
 import { addNumericToReq, addStringToReq } from '../../../../shared/pagination/filter-util.pagination';
 
 interface IExtendedStation extends Omit<IStation, ''> {
@@ -57,7 +57,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   @Input() formInnerControlName!: string;
   @Input() partnerControlName!: string;
 
-  _partner: IPartner | null = null;
+  _partner: IPartnerIdentification | null = null;
 
   first: boolean = true;
   filteredData$: Observable<IExtendedStation[]> = of([]);

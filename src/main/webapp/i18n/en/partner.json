@@ -7,6 +7,13 @@
       "detail": {
         "title": "Partner Detail"
       },
+      "lastAnalysisDate": "Last Analysis date",
+      "analysisPeriod": "Analyzed period",
+      "showNotActive": "Show not active",
+      "partnerStatus": {
+        "Yes": "Yes",
+        "No": "No"
+      },
       "partner": "Partner",
       "fiscalCode": "Fiscal Code",
       "name": "Name",
@@ -14,7 +21,11 @@
       "status.ATTIVO": "Active",
       "status.NON_ATTIVO": "Inactive",
       "qualified": "Qualified",
-      "deactivationDate": "Deactivation Date"
+      "analyzed": "Analyzed",
+      "deactivationDate": "Deactivation Date",
+      "stations": "Stazioni",
+      "entities": "Enti",
+      "instances": "Istanze di analisi"
     }
   }
 }
