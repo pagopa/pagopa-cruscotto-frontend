@@ -21,7 +21,7 @@
       >
         <mat-option>
           <ngx-mat-select-search
-            [formControl]="partnerFilteringCtrl"
+            [formControl]="filteringCtrl"
             [searching]="searching"
             placeholderLabel="{{ 'global.form.select.search' | translate }}"
           >
@@ -42,8 +42,8 @@
           >
         </mat-option>
         <mat-option value="" *ngIf="!searchTerm">{{ 'global.form.select.all' | translate }}</mat-option>
-        <mat-option *ngFor="let partner of filteredData$ | async" [value]="partner">
-          {{ partner.fiscalCode }} - {{ partner.name }}
+        <mat-option *ngFor="let institute of filteredData$ | async" [value]="institute">
+          {{ institute.fiscalCode }} - {{ institute.name }}
         </mat-option>
       </mat-select>
       <ng-container

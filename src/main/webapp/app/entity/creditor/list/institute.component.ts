@@ -17,7 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { PartnerFilter } from './institute.filter';
+import { InstituteFilter } from './institute.filter';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { Authority } from 'app/config/authority.constants';
 import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.component';
@@ -26,6 +26,8 @@ import { InstituteService } from '../institute.service';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
 import { InstituteSelectComponent } from '../shared/partner-select/institute-select.component';
+import { getFilterValue } from 'app/shared/pagination/filter-util.pagination';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'jhi-creditor',
@@ -46,6 +48,7 @@ import { InstituteSelectComponent } from '../shared/partner-select/institute-sel
     MatTableModule,
     MatSortModule,
     MatTooltipModule,
+    MatCheckboxModule,
     RouterModule,
     FormatDatePipe,
     YesOrNoViewComponent,
@@ -84,7 +87,7 @@ export class InstituteComponent implements OnInit {
   protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
-  protected readonly filter = inject(PartnerFilter);
+  protected readonly filter = inject(InstituteFilter);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly service = inject(InstituteService);
   private readonly locationHelper = inject(LocaltionHelper);
@@ -96,6 +99,7 @@ export class InstituteComponent implements OnInit {
       partner: [''],
       station: [''],
       institute: [''],
+      showNotActive: [''],
     });
 
     this.locale = this.translateService.currentLang;
@@ -118,7 +122,12 @@ export class InstituteComponent implements OnInit {
   }
 
   updateForm(): void {
-    this.searchForm.patchValue({});
+    this.searchForm.patchValue({
+      partner: getFilterValue(this.filter, InstituteFilter.PARTNER),
+      station: getFilterValue(this.filter, InstituteFilter.STATION),
+      institute: getFilterValue(this.filter, InstituteFilter.INSTITUTE),
+      showNotActive: getFilterValue(this.filter, InstituteFilter.SHOW_NOT_ACTIVE),
+    });
     this.page = this.filter.page;
   }
 
@@ -134,7 +143,7 @@ export class InstituteComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/partners']);
+    void this.router.navigate(['/entity/institutions']);
   }
 
   changePage(event: PageEvent): void {
