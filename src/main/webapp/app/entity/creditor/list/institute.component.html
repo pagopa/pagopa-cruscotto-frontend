@@ -1,0 +1,187 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.institute.title"></span>
+    </div>
+    <div>
+      <button type="submit" mat-flat-button (click)="previousState()" [title]="['entity.action.back' | translate]">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm" autocomplete="off">
+    <mat-accordion>
+      <mat-expansion-panel class="criteri-ricerca mb-4" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-start align-content-center">
+              <div class="p-2">
+                <mat-icon fontSet="material-symbols-outlined" color="primary">search</mat-icon>
+              </div>
+              <div class="p-2">
+                <span jhiTranslate="entity.search.title" class="h6">Filtri di ricerca</span>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div class="col-lg-4">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
+          </div>
+          <div class="col-lg-4">
+            <jhi-station-select [parentForm]="searchForm" formInnerControlName="station" partnerControlName="partner"></jhi-station-select>
+          </div>
+          <div class="col-lg-4">
+            <jhi-institute-select [parentForm]="searchForm" formInnerControlName="institute"></jhi-institute-select>
+          </div>
+        </div>
+        <mat-action-row class="d-block">
+          <div class="d-flex justify-content-end align-items-center">
+            <button
+              type="submit"
+              id="search"
+              mat-flat-button
+              color="primary"
+              *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
+              [disabled]="searchForm.invalid || isLoadingResults"
+              [title]="['entity.action.search' | translate]"
+            >
+              <mat-icon fontSet="material-symbols-outlined">search</mat-icon><span jhiTranslate="entity.action.search">Search</span>
+            </button>
+            <button type="button" mat-raised-button (click)="clear()" [title]="['entity.action.clear' | translate]">
+              <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon><span jhiTranslate="entity.action.clear">Clear</span>
+            </button>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="mat-elevation-z8" *ngIf="!_search">
+        <mat-card-content>
+          <div class="d-flex align-items-center justify-content-center w-100 m-4">
+            <div class="h6 font-weight-bold">
+              {{ 'entity.list.filter' | translate }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mat-elevation-z8" *ngIf="_search">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+          <mat-paginator
+            *ngIf="resultsLength > 0"
+            [pageSize]="itemsPerPage"
+            [pageIndex]="page - 1"
+            [disabled]="isLoadingResults"
+            [length]="resultsLength"
+            (page)="changePage($event)"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements"
+          >
+          </mat-paginator>
+          <div class="table-responsive">
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="data"
+                class="w-100"
+                (matSortChange)="sortData($event)"
+                [matSortActive]="filter.sort.field"
+                [matSortDirection]="filter.sort.direction"
+                matSort
+                matSortDisableClear
+              >
+                <ng-container matColumnDef="fiscalCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.fiscalCode' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.fiscalCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.name' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="partnerFiscalCode">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.partnerFiscalCode' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.partnerFiscalCode }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="station">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.qualified' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.stationName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="activationDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.activationDate' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.activationDate | formatDate: 'L' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="aca">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.aca' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <jhi-yes-or-no-view [yesOrNo]="row.aca"></jhi-yes-or-no-view>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="standIn">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.standIn' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <jhi-yes-or-no-view [yesOrNo]="row.standIn"></jhi-yes-or-no-view>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="deactivationDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.deactivationDate' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.deactivationDate | formatDate: 'L' : locale }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.institute.status' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ highlightTableColor: selectedRowId == row.id }"
+                ></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell font-weight-bold text-center" colspan="6">{{ 'entity.list.noResult' | translate }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
