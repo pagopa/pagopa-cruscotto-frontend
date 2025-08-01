@@ -65,7 +65,7 @@ export class InstituteComponent implements OnInit {
     'aca',
     'standIn',
     'deactivationDate',
-    'action',
+    'status',
   ];
 
   data: IInstitute[] = [];
