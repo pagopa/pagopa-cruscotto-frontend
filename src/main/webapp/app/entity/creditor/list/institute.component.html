@@ -26,6 +26,17 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
+        <div class="row">
+          <div class="col-lg-4">
+            <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
+          </div>
+          <div class="col-lg-4">
+            <jhi-station-select [parentForm]="searchForm" formInnerControlName="station" partnerControlName="partner"></jhi-station-select>
+          </div>
+          <div class="col-lg-4">
+            <jhi-institute-select [parentForm]="searchForm" formInnerControlName="institute"></jhi-institute-select>
+          </div>
+        </div>
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">
             <button
@@ -55,18 +66,6 @@
           <div class="d-flex align-items-center justify-content-center w-100 m-4">
             <div class="h6 font-weight-bold">
               {{ 'entity.list.filter' | translate }}
-            </div>
-
-            <div class="row">
-              <div class="col-lg-4">
-                <jhi-partner-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-partner-select>
-              </div>
-              <div class="col-lg-4">
-                <jhi-station-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-station-select>
-              </div>
-              <div class="col-lg-4">
-                <jhi-institute-select [parentForm]="searchForm" formInnerControlName="partner"></jhi-institute-select>
-              </div>
             </div>
           </div>
         </mat-card-content>

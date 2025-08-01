@@ -7,12 +7,12 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { IInstitute } from './institute.model';
 import dayjs from 'dayjs/esm';
 
-type CreditorRestOf<T extends IInstitute> = Omit<T, 'activationDate' | 'deactivationDate'> & {
+type InstituteRestOf<T extends IInstitute> = Omit<T, 'activationDate' | 'deactivationDate'> & {
   activationDate?: string | null;
   deactivationDate?: string | null;
 };
 
-export type RestCreditor = CreditorRestOf<IInstitute>;
+export type RestInstitute = InstituteRestOf<IInstitute>;
 
 type EntityResponseType = HttpResponse<IInstitute>;
 type EntityArrayResponseType = HttpResponse<IInstitute[]>;
@@ -21,44 +21,44 @@ type EntityArrayResponseType = HttpResponse<IInstitute[]>;
 export class InstituteService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/partners');
+  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-institutions');
 
-  private subject = new Subject<{ partnerId: string | null; reset: boolean; change: boolean }>();
+  private subject = new Subject<{ instituteId: string | null; reset: boolean; change: boolean }>();
 
   sendPartnerId(arg1: string | null, arg2: boolean, arg3: boolean): void {
-    this.subject.next({ partnerId: arg1, reset: arg2, change: arg3 });
+    this.subject.next({ instituteId: arg1, reset: arg2, change: arg3 });
   }
 
-  getPartnerId(): Observable<{ partnerId: string | null; reset: boolean; change: boolean }> {
+  getPartnerId(): Observable<{ instituteId: string | null; reset: boolean; change: boolean }> {
     return this.subject.asObservable();
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
-      .get<RestCreditor[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .get<RestInstitute[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map(res => this.convertPartnerResponseArrayFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<RestCreditor>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<RestInstitute>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  protected convertResponseFromServer(res: HttpResponse<RestCreditor>): HttpResponse<IInstitute> {
+  protected convertResponseFromServer(res: HttpResponse<RestInstitute>): HttpResponse<IInstitute> {
     return res.clone({
       body: res.body ? this.convertPartnerFromServer(res.body) : null,
     });
   }
 
-  protected convertPartnerResponseArrayFromServer(res: HttpResponse<RestCreditor[]>): HttpResponse<IInstitute[]> {
+  protected convertPartnerResponseArrayFromServer(res: HttpResponse<RestInstitute[]>): HttpResponse<IInstitute[]> {
     return res.clone({
       body: res.body ? res.body.map(item => this.convertPartnerFromServer(item)) : null,
     });
   }
 
-  protected convertPartnerFromServer(restCreditor: RestCreditor): IInstitute {
+  protected convertPartnerFromServer(restCreditor: RestInstitute): IInstitute {
     return {
       ...restCreditor,
       activationDate: restCreditor.activationDate ? dayjs(restCreditor.activationDate, DATE_TIME_FORMAT_ISO) : undefined,

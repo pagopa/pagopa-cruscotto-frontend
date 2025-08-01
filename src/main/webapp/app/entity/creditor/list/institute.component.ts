@@ -92,7 +92,11 @@ export class InstituteComponent implements OnInit {
   private readonly translateService = inject(TranslateService);
 
   constructor() {
-    this.searchForm = this.fb.group({});
+    this.searchForm = this.fb.group({
+      partner: [''],
+      station: [''],
+      institute: [''],
+    });
 
     this.locale = this.translateService.currentLang;
 
