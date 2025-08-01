@@ -11,10 +11,15 @@ export const enum TypeData {
   DATE = 'DATE',
   START_DATE = 'START_DATE',
   END_DATE = 'END_DATE',
+  DATE_ISO = 'DATE_ISO',
+  START_DATE_ISO = 'START_DATE_ISO',
+  END_DATE_ISO = 'END_DATE_ISO',
   TIME = 'TIME',
   NUMERIC = 'NUMERIC',
   PARTNER = 'PARTNER',
   PARTNER_FISCAL_CODE = 'PARTNER_FISCAL_CODE',
+  STATION = 'STATION',
+  BOOLEAN = 'BOOLEAN',
 }
 
 export interface ISortField {

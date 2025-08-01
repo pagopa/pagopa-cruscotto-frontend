@@ -7,14 +7,25 @@
       "detail": {
         "title": "Dettaglio Partner"
       },
+      "lastAnalysisDate": "Data ultima analisi",
+      "analysisPeriod": "Periodo Analizzato",
+      "showNotActive": "Visualizza non attivi",
+      "partnerStatus": {
+        "Yes": "Si",
+        "No": "No"
+      },
       "partner": "Partner",
       "fiscalCode": "Codice Fiscale",
       "name": "Nome",
       "status": "Stato",
       "status.ATTIVO": "Attivo",
       "status.NON_ATTIVO": "Non Attivo",
-      "qualified": "qualificato",
-      "deactivationDate": "Data Disattivazione"
+      "qualified": "Qualificato",
+      "analyzed": "Analizzato",
+      "deactivationDate": "Data Disattivazione",
+      "stations": "Stazioni",
+      "entities": "Enti",
+      "instances": "Istanze di analisi"
     }
   }
 }
