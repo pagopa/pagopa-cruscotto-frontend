@@ -25,6 +25,7 @@
         "taxonomy": "Taxonomies",
         "partners": "Partners",
         "stations": "Stations",
+        "institutions": "Institutions",
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
         "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
