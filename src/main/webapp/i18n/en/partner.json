@@ -23,9 +23,9 @@
       "qualified": "Qualified",
       "analyzed": "Analyzed",
       "deactivationDate": "Deactivation Date",
-      "stations": "Stazioni",
-      "entities": "Enti",
-      "instances": "Istanze di analisi"
+      "stations": "Stations",
+      "entities": "Institutes",
+      "instances": "Instances"
     }
   }
 }

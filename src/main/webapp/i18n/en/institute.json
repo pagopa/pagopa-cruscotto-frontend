@@ -11,7 +11,8 @@
       "aca": "ACA",
       "standIn": "Stand in",
       "deactivationDate": "Deactivation date",
-      "State": "State"
+      "state": "State",
+      "showNotActive": "Show not active"
     }
   }
 }
