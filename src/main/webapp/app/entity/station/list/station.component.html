@@ -32,8 +32,8 @@
           <div class="col-lg-4">
             <jhi-station-select [parentForm]="searchForm" formInnerControlName="station" partnerControlName="partner"></jhi-station-select>
           </div>
-          <div class="col-lg-4 mt-2">
-            <mat-checkbox formControlName="showNotActive">
+          <div class="col-lg-4 d-flex mt-2">
+            <mat-checkbox formControlName="showNotActive" class="ms-auto">
               {{ 'pagopaCruscottoApp.partner.showNotActive' | translate }}
             </mat-checkbox>
           </div>
@@ -187,6 +187,18 @@
                             [routerLink]="['/entity/stations', row.id, 'view']"
                           >
                             <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">visibility</mat-icon>
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            mat-icon-button
+                            type="button"
+                            *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
+                            matTooltip="{{ 'pagopaCruscottoApp.partner.entities' | translate }}"
+                            matTooltipPosition="above"
+                            (click)="navigate('/entity/institutions', { station: row, partner: { id: row.partnerId } })"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_balance</mat-icon>
                           </button>
                         </span>
                       </div>

@@ -140,6 +140,10 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
         value = day.getHours().toString().padStart(2, '0').concat(':').concat(day.getMinutes().toString().padStart(2, '0'));
         break;
       }
+      case TypeData.ID: {
+        value = filter.id;
+        break;
+      }
       case TypeData.BOOLEAN:
       case TypeData.NUMERIC:
       case TypeData.STRING:
