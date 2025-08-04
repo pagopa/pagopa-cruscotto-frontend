@@ -21,6 +21,7 @@ import dayjs from 'dayjs/esm';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Authority } from 'app/config/authority.constants';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { LocaltionHelper } from 'app/core/location/location.helper';
 
 /* eslint-disable no-console */
 
@@ -55,11 +56,18 @@ export class InstanceUpdateComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
+  private readonly lh = inject(LocaltionHelper);
 
   editForm: InstanceFormGroup = this.instanceFormService.createInstanceFormGroup();
 
   constructor() {
     this.locale = this.translateService.currentLang;
+
+    if (this.lh.data) {
+      // if user navigated here from partner table set partner value
+      this.editForm.patchValue({ partner: this.lh.data.partner });
+      this.lh.data = null;
+    }
   }
 
   ngOnInit(): void {

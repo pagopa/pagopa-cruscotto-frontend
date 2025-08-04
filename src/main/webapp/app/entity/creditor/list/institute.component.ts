@@ -26,7 +26,7 @@ import { InstituteService } from '../institute.service';
 import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select/partner-select.component';
 import { StationSelectComponent } from 'app/entity/station/shared/station-select/station-select.component';
 import { InstituteSelectComponent } from '../shared/partner-select/institute-select.component';
-import { getFilterValue } from 'app/shared/pagination/filter-util.pagination';
+import { addFilterToRequest, addToFilter, getFilterValue } from 'app/shared/pagination/filter-util.pagination';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
@@ -50,7 +50,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatTooltipModule,
     MatCheckboxModule,
     RouterModule,
-    FormatDatePipe,
     YesOrNoViewComponent,
     PartnerSelectComponent,
     StationSelectComponent,
@@ -58,18 +57,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
 })
 export class InstituteComponent implements OnInit {
-  displayedColumns: string[] = [
-    'fiscalCode',
-    'name',
-    'partnerFiscalCode',
-    'partnerName',
-    'stationName',
-    'activationDate',
-    'aca',
-    'standIn',
-    'deactivationDate',
-    'status',
-  ];
+  displayedColumns: string[] = ['fiscalCode', 'name', 'partnerFiscalCode', 'partnerName', 'station', 'aca', 'standIn', 'status'];
 
   data: IInstitute[] = [];
   resultsLength = 0;
@@ -107,13 +95,18 @@ export class InstituteComponent implements OnInit {
     if (!this.locationHelper.getIsBack()) {
       this.filter.clear();
     }
+
+    if (this.locationHelper.data) {
+      this.filter.filters = this.locationHelper.data;
+    }
   }
 
   ngOnInit(): void {
     this.updateForm();
 
-    if (this.locationHelper.getIsBack()) {
+    if (this.locationHelper.getIsBack() || this.locationHelper.data) {
       this.loadPage(this.filter.page, true);
+      this.locationHelper.data = null;
     }
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -181,10 +174,19 @@ export class InstituteComponent implements OnInit {
     });
   }
 
-  private populateRequest(req: any): any {}
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, InstituteFilter.PARTNER, req);
+    addFilterToRequest(this.filter, InstituteFilter.STATION, req);
+    addFilterToRequest(this.filter, InstituteFilter.INSTITUTE, req);
+    addFilterToRequest(this.filter, InstituteFilter.SHOW_NOT_ACTIVE, req);
+  }
 
   private populateFilter(): void {
     this.filter.page = this.page;
+    addToFilter(this.filter, this.searchForm.get('partner'), InstituteFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('station'), InstituteFilter.STATION);
+    addToFilter(this.filter, this.searchForm.get('institute'), InstituteFilter.INSTITUTE);
+    addToFilter(this.filter, this.searchForm.get('showNotActive'), InstituteFilter.SHOW_NOT_ACTIVE);
   }
 
   sortData(sort: Sort): void {

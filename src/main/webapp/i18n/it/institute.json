@@ -1,0 +1,21 @@
+{
+  "pagopaCruscottoApp": {
+    "institute": {
+      "title": "Enti",
+      "institute": "Institute",
+      "fiscalCode": "CF Ente",
+      "name": "Nome Ente",
+      "partnerFiscalCode": "CF Partner",
+      "partnerName": "Nome Partner",
+      "station": "Stazione",
+      "activationDate": "Data attivazione",
+      "aca": "ACA",
+      "standIn": "Stand in",
+      "deactivationDate": "Data disattivazione",
+      "status": "Stato",
+      "showNotActive": "Visualizza non attivi",
+      "active": "Attivo",
+      "inactive": "Non Attivo"
+    }
+  }
+}
