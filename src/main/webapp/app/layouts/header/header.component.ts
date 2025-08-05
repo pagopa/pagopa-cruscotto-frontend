@@ -103,7 +103,7 @@ export default class HeaderComponent implements OnInit, OnDestroy {
         {
           label: 'global.menu.registry.institutions',
           route: '/entity/institutions',
-          permission: Authority.STATION_INQUIRY,
+          permission: Authority.INSTITUTION_INQUIRY,
           xSmall: true,
           small: true,
           medium: true,
