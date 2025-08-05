@@ -64,12 +64,10 @@ export class StationComponent implements OnInit, OnDestroy {
     'partnerFiscalCode',
     'partnerName',
     'name',
-    'activationDate',
     'typeConnection',
     'primitiveVersion',
     'paymentOption',
     'status',
-    'deactivationDate',
     'associatedInstitutes',
     'action',
   ];
