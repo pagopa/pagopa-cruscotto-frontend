@@ -160,6 +160,11 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
     addStringToReq(search, 'name', req);
     addStringToReq(search, 'fiscalCode', req);
 
+    // check showNotActive option (in institute search form)
+    if (this.parentForm.get('showNotActive')?.value) {
+      addStringToReq('true', 'showNotEnabled', req);
+    }
+
     return this.service.query(req).pipe(
       map((value: HttpResponse<IInstituteIdentification[]>) => {
         const partners = value.body || [];

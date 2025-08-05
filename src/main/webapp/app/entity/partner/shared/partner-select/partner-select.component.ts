@@ -166,6 +166,11 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     addStringToReq(search, 'name', req);
     addStringToReq(search, 'fiscalCode', req);
 
+    // check showNotActive option (in partners, stations and institutes search forms)
+    if (this.parentForm.get('showNotActive')?.value) {
+      addStringToReq('true', 'showNotActive', req);
+    }
+
     return this.partnerService.query(req).pipe(
       map((value: HttpResponse<IPartnerIdentification[]>) => {
         const partners = value.body || [];

@@ -22,6 +22,7 @@ export class InstituteService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-institutions');
+  private readonly resourceDetailUrl = this.applicationConfigService.getEndpointFor('api/institutions');
 
   private subject = new Subject<{ instituteId: string | null; reset: boolean; change: boolean }>();
 
@@ -42,7 +43,7 @@ export class InstituteService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<RestInstitute>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<RestInstitute>(`${this.resourceDetailUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
