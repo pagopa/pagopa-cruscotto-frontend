@@ -31,7 +31,7 @@ const entityRoutes: Routes = [
   },
   {
     path: 'institutions',
-    loadChildren: () => import('./creditor/institute.routes'),
+    loadChildren: () => import('./institute/institute.routes'),
   },
   {
     path: 'pago-pa/payment-receipt',
