@@ -1,0 +1,59 @@
+<div class="row" [formGroup]="parentForm">
+  <div class="col-12">
+    @let formInnerControlNameRef = parentForm.get(formInnerControlName)!;
+    <mat-form-field class="d-block mb-2">
+      <mat-label jhiTranslate="pagopaCruscottoApp.institute.institute">Partner</mat-label>
+      <div matTextSuffix class="d-block">
+        <div class="ng-select-custom-loading-ellipsis" *ngIf="loading">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+      <mat-select
+        #jhiSelectInfiniteScroll
+        jhiInfiniteScroll
+        (infiniteScroll)="getNextBatch()"
+        (selectionChange)="selectionChange($event)"
+        [compareWith]="compareFn"
+        [formControlName]="formInnerControlName"
+      >
+        <mat-option>
+          <ngx-mat-select-search
+            [formControl]="filteringCtrl"
+            [searching]="searching"
+            placeholderLabel="{{ 'global.form.select.search' | translate }}"
+          >
+            <mat-icon ngxMatSelectSearchClear fontSet="material-symbols-outlined" color="accent" aria-hidden="false">close_small</mat-icon>
+          </ngx-mat-select-search>
+        </mat-option>
+        <mat-option disabled *ngIf="currentPage > 0 && countSelect > 0">
+          <small
+            class="form-text"
+            jhiTranslate="global.ng-select-item-count"
+            [translateValues]="{ current: countSelect, total: totalItems }"
+            >Mostra 0 di 0</small
+          >
+        </mat-option>
+        <mat-option disabled *ngIf="searchTerm && currentPage > 0 && countSelect == 0 && !this.loading">
+          <small class="form-text" jhiTranslate="global.form.select.notFound" [translateValues]="{ search: searchTerm }"
+            >No data found for "{{ searchTerm }}"</small
+          >
+        </mat-option>
+        <mat-option value="" *ngIf="!searchTerm">{{ 'global.form.select.all' | translate }}</mat-option>
+        <mat-option *ngFor="let institute of filteredData$ | async" [value]="institute">
+          {{ institute.fiscalCode }} - {{ institute.name }}
+        </mat-option>
+      </mat-select>
+      <ng-container
+        ngProjectAs="mat-error"
+        *ngIf="formInnerControlNameRef.invalid && (formInnerControlNameRef.dirty || formInnerControlNameRef.touched)"
+      >
+        @if (formInnerControlNameRef?.errors?.required) {
+          <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+        }
+      </ng-container>
+    </mat-form-field>
+  </div>
+</div>

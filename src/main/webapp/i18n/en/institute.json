@@ -1,0 +1,21 @@
+{
+  "pagopaCruscottoApp": {
+    "institute": {
+      "title": "Institutes",
+      "institute": "Institute",
+      "fiscalCode": "Institute FC",
+      "name": "Institute Name",
+      "partnerFiscalCode": "Partner FC",
+      "partnerName": "Partner Name",
+      "station": "Station",
+      "activationDate": "Activation date",
+      "aca": "ACA",
+      "standIn": "Stand in",
+      "deactivationDate": "Deactivation date",
+      "status": "Status",
+      "showNotActive": "Show not active",
+      "active": "Active",
+      "inactive": "Not Active"
+    }
+  }
+}
