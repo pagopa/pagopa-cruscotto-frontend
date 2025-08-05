@@ -22,8 +22,8 @@ type EntityArrayResponseType = HttpResponse<IStation[]>;
 export class StationService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
-
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-stations');
+  private readonly resourceDetailUrl = this.applicationConfigService.getEndpointFor('api/stations');
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
@@ -34,7 +34,7 @@ export class StationService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<RestStation>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<RestStation>(`${this.resourceDetailUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 

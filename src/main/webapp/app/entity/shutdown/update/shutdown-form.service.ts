@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { IPartner } from '../../partner/partner.model';
+import { IPartner, IPartnerIdentification } from '../../partner/partner.model';
 import _ from 'lodash';
 import { timeValidatorFn } from 'app/shared/util/validator-util';
 import { IShutdown, NewShutdown } from '../shutdown.model';
@@ -22,7 +22,7 @@ type ShutdownFormDefaults = Pick<NewShutdown, 'id'>;
 
 type ShutdownFormGroupContent = {
   id: FormControl<IShutdown['id'] | NewShutdown['id']>;
-  partner: FormControl<IPartner | null>;
+  partner: FormControl<IPartnerIdentification | null>;
   station: FormControl<IStation | null>;
   shutdownStartDate: FormControl<IShutdown['shutdownStartDate']>;
   shutdownEndDate: FormControl<IShutdown['shutdownEndDate']>;
@@ -42,13 +42,10 @@ export class ShutdownFormService {
     return new FormGroup<ShutdownFormGroupContent>(
       {
         id: new FormControl({ value: shutdownRawValue.id, disabled: true }, { validators: [Validators.required], nonNullable: true }),
-        partner: new FormControl(
-          shutdownRawValue.partnerId ? <IPartner>{ partnerIdentification: { id: shutdownRawValue.partnerId } } : null,
-          {
-            validators: [Validators.required],
-            nonNullable: true,
-          },
-        ),
+        partner: new FormControl(shutdownRawValue.partnerId ? <IPartnerIdentification>{ id: shutdownRawValue.partnerId } : null, {
+          validators: [Validators.required],
+          nonNullable: true,
+        }),
         station: new FormControl(shutdownRawValue.stationId ? <IStation>{ id: Number(shutdownRawValue.stationId) } : null, {
           validators: [Validators.required],
           nonNullable: true,
@@ -81,7 +78,7 @@ export class ShutdownFormService {
 
     return {
       ..._.omit(shutdown, 'partner', 'station', 'station'),
-      partnerId: shutdown.partner?.partnerIdentification.id,
+      partnerId: shutdown.partner?.id,
       stationId: String(shutdown.station?.id),
     } as IShutdown | NewShutdown;
   }
