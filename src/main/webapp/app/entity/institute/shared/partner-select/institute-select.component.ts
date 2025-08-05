@@ -24,20 +24,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectInfiniteScrollDirective } from '../../../../shared/directives/mat-select-infinite-scroll.directive';
 import { ITEMS_PER_PAGE } from '../../../../config/pagination.constants';
 import { HttpResponse } from '@angular/common/http';
-import { PartnerService } from '../../service/partner.service';
-import { IPartner, IPartnerIdentification } from '../../partner.model';
-import { addFilterToRequest, addStringToReq, addToFilter } from '../../../../shared/pagination/filter-util.pagination';
-import { InstanceFilter } from '../../../instance/list/instance.filter';
-import { PartnerSelectService } from './partner-select.service';
+import { IInstituteIdentification } from '../../institute.model';
+import { addStringToReq } from 'app/shared/pagination/filter-util.pagination';
+import { InstituteSelectService } from './institute-select.service';
 
-interface IExtendPartner extends Omit<IPartnerIdentification, ''> {
+interface IExtendInstitute extends Omit<IInstituteIdentification, ''> {
   order: number;
   orderForSort: number;
 }
 
 @Component({
-  selector: 'jhi-partner-select',
-  templateUrl: './partner-select.component.html',
+  selector: 'jhi-institute-select',
+  templateUrl: './institute-select.component.html',
   standalone: true,
   imports: [
     SharedModule,
@@ -50,36 +48,38 @@ interface IExtendPartner extends Omit<IPartnerIdentification, ''> {
     MatSelectInfiniteScrollDirective,
   ],
 })
-export class PartnerSelectComponent implements OnInit, OnDestroy {
+export class InstituteSelectComponent implements OnInit, OnDestroy {
   @ViewChild('jhiSelectInfiniteScroll', { static: true })
   infiniteScrollSelect!: MatSelect;
 
   @Input() parentForm!: FormGroup;
   @Input() formInnerControlName!: string;
 
-  public partnerFilteringCtrl: FormControl<string | null> = new FormControl<string>('');
+  public filteringCtrl: FormControl<string | null> = new FormControl<string>('');
+  public filteredData$: Observable<IExtendInstitute[]> = of([]);
 
   public searching = false;
+  public loading = false;
 
-  protected partner: IExtendPartner[] = [];
-
-  filteredData$: Observable<IExtendPartner[]> = of([]);
-  selectPartner: IExtendPartner | null = null;
-  loading = false;
+  selected: IExtendInstitute | null = null;
   totalItems: any;
   searchTerm = null;
   countSelect = 0;
   currentPage = 0;
   i = 0;
+  batchSize = 20;
+  private incrementBatchOffset$: Subject<void> = new Subject<void>();
+  private readonly service = inject(InstituteSelectService);
+  private destroy$: Subject<void> = new Subject<void>();
 
   ngOnInit() {
-    this.selectPartner = this.parentForm.get(this.formInnerControlName)?.value ?? null;
-    if (this.selectPartner) {
-      this.selectPartner.order = this.i++;
-      this.selectPartner.orderForSort = -1;
+    this.selected = this.parentForm.get(this.formInnerControlName)?.value ?? null;
+    if (this.selected) {
+      this.selected.order = this.i++;
+      this.selected.orderForSort = -1;
     }
 
-    const filter$ = this.partnerFilteringCtrl.valueChanges.pipe(
+    const filter$ = this.filteringCtrl.valueChanges.pipe(
       startWith(''),
       debounceTime(200),
       filter(q => typeof q === 'string' || q === null),
@@ -119,18 +119,18 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
               partner.orderForSort = partner.order;
             });
 
-            if (this.selectPartner) {
-              this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
+            if (this.selected) {
+              this.service.sendId(String(this.selected?.id), false, false);
               const foundIntoNewPartners = newPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
+                (partner: { id: any }) => partner.id === (this.selected && this.selected.id),
               );
               const foundIntoAllPartners = allPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
+                (partner: { id: any }) => partner.id === (this.selected && this.selected.id),
               );
               if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
                 allPartners.splice(foundIntoAllPartners, 1);
               } else if (foundIntoNewPartners === -1 && foundIntoAllPartners === -1) {
-                newPartners.push(this.selectPartner);
+                newPartners.push(this.selected);
               }
             }
             return allPartners.concat(newPartners);
@@ -140,22 +140,16 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** Number of items added per batch */
-  batchSize = 20;
-  private incrementBatchOffset$: Subject<void> = new Subject<void>();
-  private readonly partnerService = inject(PartnerSelectService);
-  private destroy$: Subject<void> = new Subject<void>();
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  getList(value: any, page: number): Observable<IPartnerIdentification[]> {
+  getList(value: any, page: number): Observable<IInstituteIdentification[]> {
     return this.callService(value, page);
   }
 
-  private callService(search: string, pageRequired: number): Observable<IPartnerIdentification[]> {
+  private callService(search: string, pageRequired: number): Observable<IInstituteIdentification[]> {
     this.loading = true;
     const req = {
       page: pageRequired,
@@ -166,13 +160,13 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     addStringToReq(search, 'name', req);
     addStringToReq(search, 'fiscalCode', req);
 
-    // check showNotActive option (in partners, stations and institutes search forms)
+    // check showNotActive option (in institute search form)
     if (this.parentForm.get('showNotActive')?.value) {
-      addStringToReq('true', 'showNotActive', req);
+      addStringToReq('true', 'showNotEnabled', req);
     }
 
-    return this.partnerService.query(req).pipe(
-      map((value: HttpResponse<IPartnerIdentification[]>) => {
+    return this.service.query(req).pipe(
+      map((value: HttpResponse<IInstituteIdentification[]>) => {
         const partners = value.body || [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return partners;
@@ -186,13 +180,13 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     );
   }
 
-  compareFn(obj1: IExtendPartner, obj2: IExtendPartner) {
+  compareFn(obj1: IExtendInstitute, obj2: IExtendInstitute) {
     return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {
-    this.selectPartner = matSelectChange.value as IExtendPartner;
-    this.partnerService.sendPartnerId(String(matSelectChange.value.id), false, false); // Emit the selected partner's ID
+    this.selected = matSelectChange.value as IExtendInstitute;
+    this.service.sendId(String(matSelectChange.value.id), false, false); // Emit the selected partner's ID
   }
 
   getNextBatch(): void {
