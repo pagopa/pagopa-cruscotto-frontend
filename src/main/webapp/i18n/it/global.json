@@ -25,6 +25,7 @@
         "taxonomy": "Tassonomia",
         "partners": "Partner",
         "stations": "Stazioni",
+        "institutions": "Enti",
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
         "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"

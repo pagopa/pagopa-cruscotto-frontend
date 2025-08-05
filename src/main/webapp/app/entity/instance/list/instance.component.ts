@@ -134,13 +134,18 @@ export class InstanceComponent implements OnInit, OnDestroy {
     if (!this.locationHelper.getIsBack()) {
       this.filter.clear();
     }
+
+    if (this.locationHelper.data) {
+      this.filter.filters = this.locationHelper.data;
+    }
   }
 
   ngOnInit(): void {
     this.updateForm();
 
-    if (this.locationHelper.getIsBack()) {
+    if (this.locationHelper.getIsBack() || this.locationHelper.data) {
       this.loadPage(this.filter.page, true);
+      this.locationHelper.data = null;
     }
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {

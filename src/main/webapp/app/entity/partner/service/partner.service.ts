@@ -29,6 +29,7 @@ export class PartnerService {
   private readonly http = inject(HttpClient);
   private readonly applicationConfigService = inject(ApplicationConfigService);
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/anag-partners');
+  private readonly resourceDetailUrl = this.applicationConfigService.getEndpointFor('api/partners');
 
   private subject = new Subject<{ partnerId: string | null; reset: boolean; change: boolean }>();
 
@@ -49,7 +50,7 @@ export class PartnerService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<RestPartner>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<RestPartner>(`${this.resourceDetailUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
