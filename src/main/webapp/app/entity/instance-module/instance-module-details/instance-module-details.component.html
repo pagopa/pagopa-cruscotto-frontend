@@ -31,9 +31,21 @@
           <div class="col-lg-3">
             <span
               ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
-            >
-            <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p>
+            ><br />
+            <!-- <span><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span>
+            <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p> -->
+            <mat-form-field class="d-flex">
+              <mat-select
+                [disabled]="moduleDetails.automaticOutcomeDate"
+                [value]="moduleDetails.status"
+                (selectionChange)="setModuleStatus($event)"
+              >
+                <mat-option value="ATTIVO">ATTIVO</mat-option>
+                <mat-option value="NON ATTIVO">NON ATTIVO</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
+
           <div class="col-lg-3">
             <span
               ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</strong></span
@@ -72,7 +84,17 @@
             <span
               ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
             >
-            <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
+            <!-- <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p> -->
+            <mat-form-field class="d-flex">
+              <mat-select
+                [disabled]="isManualOutcomeAllowed(moduleDetails)"
+                [value]="moduleDetails.status"
+                (selectionChange)="setModuleManualOutcome($event)"
+              >
+                <mat-option value="OK">OK</mat-option>
+                <mat-option value="KO">KO</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
           <div class="col-lg-3">
             <span

@@ -19,6 +19,7 @@ import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analy
 import { KpiB9ResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-result-table/kpi-b9-result-table.component';
 import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-result-table/kpi-b9-detail-result-table.component';
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -28,6 +29,7 @@ import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analy
     MatCardContent,
     TranslatePipe,
     FormatDatePipe,
+    MatSelectModule,
     KpiB2ResultTableComponent,
     NgxSpinnerComponent,
     KpiA2ResultTableComponent,
@@ -200,6 +202,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiA1DetailResultIdForAnalytics = null;
     this.selectedKpiB9DetailResultIdForAnalytics = null;
   }
+
+  isManualOutcomeAllowed(moduleDetails: IInstanceModule): boolean {
+    if (moduleDetails.analysisType == 'AUTOMATICA') return !(moduleDetails.automaticOutcomeDate && moduleDetails.allowManualOutcome);
+    else return true;
+  }
+
+  setModuleManualOutcome(event: MatSelectChange): void {}
+
+  setModuleStatus(event: MatSelectChange): void {}
 }
 
 type DetailComponentMappingDynamic = {
