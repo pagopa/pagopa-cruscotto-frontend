@@ -65,7 +65,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
 })
 export class PartnerComponent implements OnInit {
-  displayedColumns: string[] = ['fiscalCode', 'name', 'qualified', 'lastAnalysisDate', 'analysisPeriod', 'stations', 'entities', 'action'];
+  displayedColumns: string[] = [
+    'fiscalCode',
+    'name',
+    'qualified',
+    'lastAnalysisDate',
+    'analysisPeriod',
+    'stationsCount',
+    'associatedInstitutes',
+    'action',
+  ];
 
   data: IPartner[] = [];
   resultsLength = 0;
