@@ -28,6 +28,13 @@ export class StationService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
+      .get<RestStation[]>(this.resourceDetailUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertStationResponseArrayFromServer(res)));
+  }
+
+  queryLookup(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
       .get<RestStation[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map(res => this.convertStationResponseArrayFromServer(res)));
   }
