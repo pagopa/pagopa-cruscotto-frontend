@@ -155,10 +155,10 @@ export class StationSelectComponent implements OnInit, OnDestroy {
         page: pageRequired,
         size: ITEMS_PER_PAGE,
         sort: ['name,asc'],
-        showNotActive: true,
+        // showNotActive: true,
       };
       addNumericToReq(this._partner.id, 'partnerId', req);
-      return this.stationService.query(req).pipe(
+      return this.stationService.queryLookup(req).pipe(
         map((value: HttpResponse<IStation[]>) => {
           const stations = value.body || [];
           this.totalItems = Number(value.headers.get('X-Total-Count'));
