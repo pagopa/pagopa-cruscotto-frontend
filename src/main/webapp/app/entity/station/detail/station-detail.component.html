@@ -16,11 +16,11 @@
         <mat-card class="mat-elevation-z8">
           <mat-card-content>
             <div class="row custom-row p-2">
-              <div class="col-lg-2">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.activationDate">Activation Date</span>
                 <p class="p-2 bg-light">{{ station.activationDate | formatDate: 'L' : locale }}</p>
               </div>
-              <div class="col-lg-2">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.deactivationDate">Deactivation Date</span>
                 <p class="p-2 bg-light">
                   {{ station.deactivationDate | formatDate: 'L' : locale }}
@@ -34,19 +34,21 @@
                 <span jhiTranslate="pagopaCruscottoApp.station.partnerName">Partner Name</span>
                 <p class="p-2 bg-light">{{ station.partnerFiscalCode }} - {{ station.partnerName }}</p>
               </div>
-              <div class="col-lg-1">
+            </div>
+            <div class="row custom-row p-2">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.typeConnection">Connection Type</span>
                 <p class="p-2 bg-light">{{ station.typeConnection }}</p>
               </div>
-              <div class="col-lg-1">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.primitiveVersion">Primitive Version</span>
                 <p class="p-2 bg-light">{{ station.primitiveVersion }}</p>
               </div>
-              <div class="col-lg-1">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.paymentOption">Payment Option</span>
                 <p class="p-2 bg-light"><jhi-yes-or-no-view [yesOrNo]="station.paymentOption"></jhi-yes-or-no-view></p>
               </div>
-              <div class="col-lg-1">
+              <div class="col-lg-3">
                 <span jhiTranslate="pagopaCruscottoApp.station.associatedInstitutes">Associated Institutes</span>
                 <p class="p-2 bg-light">{{ station.associatedInstitutes }}</p>
               </div>
