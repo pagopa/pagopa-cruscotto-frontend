@@ -208,7 +208,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     else return true;
   }
 
-  setModuleManualOutcome(event: MatSelectChange): void {}
+  setModuleManualOutcome(event: MatSelectChange): void {
+    const details = structuredClone(this.moduleDetails!);
+    details.manualOutcome = event.value;
+    this.instanceModuleService.update(details);
+  }
 
   setModuleStatus(event: MatSelectChange): void {}
 }
