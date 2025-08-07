@@ -155,6 +155,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
         page: pageRequired,
         size: ITEMS_PER_PAGE,
         sort: ['name,asc'],
+        showNotActive: true,
       };
       addNumericToReq(this._partner.id, 'partnerId', req);
       return this.stationService.query(req).pipe(
