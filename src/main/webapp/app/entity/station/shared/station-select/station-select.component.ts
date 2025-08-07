@@ -195,6 +195,6 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   private clear(): void {
     this.countSelect = 0;
     this.selectStation = null;
-    this.parentForm.get(this.formInnerControlName)!.setValue(null);
+    this.parentForm.get(this.formInnerControlName)!.setValue('');
   }
 }

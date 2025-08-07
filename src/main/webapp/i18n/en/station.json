@@ -20,7 +20,8 @@
       "status": "Status",
       "status.ATTIVA": "Active",
       "status.NON_ATTIVA": "Inactive",
-      "deactivationDate": "Deactivation Date"
+      "deactivationDate": "Deactivation Date",
+      "all": "All"
     }
   },
   "pagopaCruscottoBackendApp": {
