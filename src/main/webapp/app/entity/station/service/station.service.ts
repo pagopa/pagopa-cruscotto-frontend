@@ -32,6 +32,13 @@ export class StationService {
       .pipe(map(res => this.convertStationResponseArrayFromServer(res)));
   }
 
+  queryLookup(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http
+      .get<RestStation[]>(this.resourceDetailUrl, { params: options, observe: 'response' })
+      .pipe(map(res => this.convertStationResponseArrayFromServer(res)));
+  }
+
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<RestStation>(`${this.resourceDetailUrl}/${id}`, { observe: 'response' })
