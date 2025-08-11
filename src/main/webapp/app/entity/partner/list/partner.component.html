@@ -255,18 +255,18 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="stations">
+                <ng-container matColumnDef="stationsCount">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.partner.stations' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.stationsCount }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="entities">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <ng-container matColumnDef="associatedInstitutes">
+                  <th mat-header-cell *matHeaderCellDef>
                     {{ 'pagopaCruscottoApp.partner.entities' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.entities }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.associatedInstitutes }}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="action">
@@ -289,25 +289,37 @@
                         <span>
                           <button
                             mat-icon-button
+                            [disabled]="!row.stationsCount"
                             type="button"
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.stations' | translate }}"
                             matTooltipPosition="above"
                             (click)="navigate('/entity/stations', { partner: row.partnerIdentification })"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_tree</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.stationsCount ? 'primary' : 'neutral'"
+                              aria-hidden="false"
+                              >account_tree</mat-icon
+                            >
                           </button>
                         </span>
                         <span>
                           <button
                             mat-icon-button
+                            [disabled]="!row.associatedInstitutes"
                             type="button"
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.entities' | translate }}"
                             matTooltipPosition="above"
                             (click)="navigate('/entity/institutions', { partner: row.partnerIdentification })"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_balance</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.associatedInstitutes ? 'primary' : 'neutral'"
+                              aria-hidden="false"
+                              >account_balance</mat-icon
+                            >
                           </button> </span
                         ><span>
                           <button

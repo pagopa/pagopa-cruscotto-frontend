@@ -8,19 +8,20 @@
         "title": "Dettaglio Stazione"
       },
       "station": "Stazione",
-      "name": "Nome",
+      "name": "Stazione",
       "partnerId": "Id Partner",
       "activationDate": "Data Attivazione",
       "partnerFiscalCode": "CF Partner",
       "partnerName": "Partner",
       "typeConnection": "Tipo connessione",
-      "primitiveVersion": "Prima Versione",
-      "paymentOption": "Opzione Pagamento",
-      "associatedInstitutes": "Istituti Associati",
+      "primitiveVersion": "Versione primitive",
+      "paymentOption": "Opzioni di Pagamento",
+      "associatedInstitutes": "Enti Associati",
       "status": "Stato",
       "status.ATTIVA": "Attiva",
       "status.NON_ATTIVA": "Non Attiva",
-      "deactivationDate": "Data Disattivazione"
+      "deactivationDate": "Data Disattivazione",
+      "all": "Tutte"
     }
   },
   "pagopaCruscottoBackendApp": {

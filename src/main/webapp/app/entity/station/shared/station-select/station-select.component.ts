@@ -155,9 +155,10 @@ export class StationSelectComponent implements OnInit, OnDestroy {
         page: pageRequired,
         size: ITEMS_PER_PAGE,
         sort: ['name,asc'],
+        // showNotActive: true,
       };
       addNumericToReq(this._partner.id, 'partnerId', req);
-      return this.stationService.query(req).pipe(
+      return this.stationService.queryLookup(req).pipe(
         map((value: HttpResponse<IStation[]>) => {
           const stations = value.body || [];
           this.totalItems = Number(value.headers.get('X-Total-Count'));
@@ -194,6 +195,6 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   private clear(): void {
     this.countSelect = 0;
     this.selectStation = null;
-    this.parentForm.get(this.formInnerControlName)!.setValue(null);
+    this.parentForm.get(this.formInnerControlName)!.setValue('');
   }
 }

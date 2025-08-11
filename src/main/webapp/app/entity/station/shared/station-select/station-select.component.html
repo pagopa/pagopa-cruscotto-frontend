@@ -19,6 +19,7 @@
         [compareWith]="compareFn"
         [formControlName]="formInnerControlName"
       >
+        <mat-option value="">{{ 'pagopaCruscottoApp.station.all' | translate }}</mat-option>
         <mat-option *ngFor="let station of filteredData$ | async" [value]="station">
           {{ station.name }}
         </mat-option>

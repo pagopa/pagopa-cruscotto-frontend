@@ -12,6 +12,8 @@ export interface IPartner {
   analysisPeriodStartDate?: dayjs.Dayjs | null;
   analysisPeriodEndDate?: dayjs.Dayjs | null;
   lastAnalysisDate?: dayjs.Dayjs | null;
+  stationsCount?: number | null;
+  associatedInstitutes?: number | null;
 }
 
 export interface IPartnerIdentification {
