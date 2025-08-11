@@ -192,13 +192,19 @@
                         <span>
                           <button
                             mat-icon-button
+                            [disabled]="!row.associatedInstitutes"
                             type="button"
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.entities' | translate }}"
                             matTooltipPosition="above"
                             (click)="navigate('/entity/institutions', { station: row, partner: { id: row.partnerId } })"
                           >
-                            <mat-icon fontSet="material-symbols-outlined" color="primary" aria-hidden="false">account_balance</mat-icon>
+                            <mat-icon
+                              fontSet="material-symbols-outlined"
+                              [color]="row.associatedInstitutes ? 'primary' : 'neutral'"
+                              aria-hidden="false"
+                              >account_balance</mat-icon
+                            >
                           </button>
                         </span>
                       </div>

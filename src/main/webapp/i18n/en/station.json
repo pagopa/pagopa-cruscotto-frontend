@@ -8,19 +8,20 @@
         "title": "Station Detail"
       },
       "station": "Station",
-      "name": "Name",
+      "name": "Station",
       "partnerId": "Partner ID",
       "activationDate": "Activation Date",
       "partnerFiscalCode": "Partner FC",
       "partnerName": "Partner",
       "typeConnection": "Connection Type",
-      "primitiveVersion": "primitive Version",
+      "primitiveVersion": "Primitive Version",
       "paymentOption": "Payment Option",
       "associatedInstitutes": "Associated Institutes",
       "status": "Status",
       "status.ATTIVA": "Active",
       "status.NON_ATTIVA": "Inactive",
-      "deactivationDate": "Deactivation Date"
+      "deactivationDate": "Deactivation Date",
+      "all": "All"
     }
   },
   "pagopaCruscottoBackendApp": {
