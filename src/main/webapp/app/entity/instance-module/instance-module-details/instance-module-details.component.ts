@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, computed, inject, Input, OnChanges, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IInstanceModule } from '../models/instance-module.model';
@@ -23,6 +23,8 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { EventManager } from 'app/core/util/event-manager.service';
 import { Alert, AlertType } from 'app/core/util/alert.service';
 import { ToastrService } from 'ngx-toastr';
+import { Authority } from 'app/config/authority.constants';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -67,12 +69,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
   isLoadingResults = false;
+  hasPermission;
   locale: string;
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly eventManager = inject(EventManager);
   private readonly toastrService = inject(ToastrService);
+  private readonly accountService = inject(AccountService);
   protected readonly AnalysisType = AnalysisType;
+  protected readonly Authority = Authority;
 
   detailComponentMapping: DetailComponentMappingDynamic = {
     'B.2': {
@@ -83,6 +88,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
 
   constructor(private instanceModuleService: InstanceModuleService) {
     this.locale = this.translateService.currentLang;
+
+    const currentAccount = this.accountService.trackCurrentAccount();
+    this.hasPermission = computed(
+      () => currentAccount()?.authorities && this.accountService.hasAnyAuthority(Authority.INSTANCE_MANAGEMENT),
+    );
   }
 
   ngOnInit(): void {
@@ -227,6 +237,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
           name: 'pagopaCruscottoApp.alert',
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeSet' },
         });
+        this.loadModuleDetails(this.moduleDetails!.id!);
       },
     });
   }
