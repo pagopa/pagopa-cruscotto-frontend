@@ -209,12 +209,16 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   setModuleManualOutcome(event: MatSelectChange): void {
-    const details = structuredClone(this.moduleDetails!);
-    details.manualOutcome = event.value;
-    this.instanceModuleService.update(details);
+    const copy = this.moduleDetails!;
+    copy.manualOutcome = event.value;
+    this.instanceModuleService.patch(copy).subscribe();
   }
 
-  setModuleStatus(event: MatSelectChange): void {}
+  setModuleStatus(event: MatSelectChange): void {
+    const copy = structuredClone(this.moduleDetails!);
+    copy.status = event.value;
+    this.instanceModuleService.patch(copy).subscribe();
+  }
 }
 
 type DetailComponentMappingDynamic = {

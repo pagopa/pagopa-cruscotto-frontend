@@ -38,7 +38,9 @@
         "allowManualOutcome": "Allow Manual Outcome",
         "manualOutcome": "Manual Outcome",
         "manualOutcomeDate": "Manual Outcome Date",
-        "updateLabel": "Edit"
+        "updateLabel": "Edit",
+        "status.ATTIVO": "ACTIVE",
+        "status.NON_ATTIVO": "NOT ACTIVE"
       }
     }
   }

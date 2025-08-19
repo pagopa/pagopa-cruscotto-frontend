@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { IInstanceModule } from '../models/instance-module.model';
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
 import { DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { createRequestOption } from '../../../core/request/request-util';
+import { ModuleStatus } from '../models/module-status.model';
+import { AnalysisOutcome } from '../models/analysis-outcome.model';
+import { Dayjs } from 'dayjs';
 
 type InstanceModuleRestOf<T extends IInstanceModule> = Omit<T, 'automaticOutcomeDate' | 'manualOutcomeDate'> & {
   automaticOutcomeDate?: string | null;
@@ -53,6 +56,17 @@ export class InstanceModuleService {
   }
 
   /**
+   * Aggiorna i dati di un modulo, usato per cambiare status e risultato manuale.
+   */
+  patch(instanceModule: IInstanceModule): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(instanceModule);
+    return this.http.patch<RestInstanceModule>(`${this.resourceUrl}`, copy, { observe: 'response' }).pipe(
+      first(),
+      map(res => this.convertResponseFromServer(res)),
+    );
+  }
+
+  /**
    * Ottiene l'elenco di tutti i moduli. Supporta parametri di query.
    */
   query(req?: any): Observable<EntityArrayResponseType> {
@@ -75,7 +89,7 @@ export class InstanceModuleService {
   protected convertDateFromClient<T extends IInstanceModule>(instanceModule: T): InstanceModuleRestOf<T> {
     return {
       ...instanceModule,
-      automaticOutcomeDate: instanceModule.automaticOutcomeDate?.toISOString() ?? null,
+      automaticOutcomeDate: (instanceModule.automaticOutcomeDate as Dayjs)?.toISOString() ?? null,
       manualOutcomeDate: instanceModule.manualOutcomeDate?.toISOString() ?? null,
     };
   }

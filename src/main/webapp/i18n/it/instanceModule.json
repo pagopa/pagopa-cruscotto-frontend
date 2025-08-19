@@ -38,7 +38,9 @@
         "allowManualOutcome": "Consenti Risultato Manuale",
         "manualOutcome": "Risultato Manuale",
         "manualOutcomeDate": "Data Risultato Manuale",
-        "updateLabel": "Modifica"
+        "updateLabel": "Modifica",
+        "status.ATTIVO": "ATTIVO",
+        "status.NON_ATTIVO": "NON ATTIVO"
       }
     }
   }
