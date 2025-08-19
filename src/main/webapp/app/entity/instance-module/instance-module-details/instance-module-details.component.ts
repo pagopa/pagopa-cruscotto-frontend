@@ -20,6 +20,9 @@ import { KpiB9ResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-result-table/
 import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-result-table/kpi-b9-detail-result-table.component';
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { EventManager } from 'app/core/util/event-manager.service';
+import { Alert, AlertType } from 'app/core/util/alert.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -67,6 +70,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   locale: string;
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
+  private readonly eventManager = inject(EventManager);
+  private readonly toastrService = inject(ToastrService);
   protected readonly AnalysisType = AnalysisType;
 
   detailComponentMapping: DetailComponentMappingDynamic = {
@@ -211,13 +216,37 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   setModuleManualOutcome(event: MatSelectChange): void {
     const copy = this.moduleDetails!;
     copy.manualOutcome = event.value;
-    this.instanceModuleService.patch(copy).subscribe();
+    this.eventManager.broadcast({
+      name: 'pagopaCruscottoApp.alert',
+      content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instanceModule.detail.settingManualOutcome' },
+    });
+    this.instanceModuleService.patch(copy).subscribe({
+      next: _ => {
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeSet' },
+        });
+      },
+    });
   }
 
   setModuleStatus(event: MatSelectChange): void {
     const copy = structuredClone(this.moduleDetails!);
     copy.status = event.value;
-    this.instanceModuleService.patch(copy).subscribe();
+    this.eventManager.broadcast({
+      name: 'pagopaCruscottoApp.alert',
+      content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instanceModule.detail.settingModuleStatus' },
+    });
+    this.instanceModuleService.patch(copy).subscribe({
+      next: _ => {
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.moduleStatusSet' },
+        });
+      },
+    });
   }
 }
 

@@ -40,7 +40,11 @@
         "manualOutcomeDate": "Data Risultato Manuale",
         "updateLabel": "Modifica",
         "status.ATTIVO": "ATTIVO",
-        "status.NON_ATTIVO": "NON ATTIVO"
+        "status.NON_ATTIVO": "NON ATTIVO",
+        "settingManualOutcome": "Cambio del risultato manuale in corso, prego attendere...",
+        "manualOutcomeSet": "Risultato manuale del modulo cambiato con successo",
+        "settingModuleStatus": "Cambio dello stato del modulo in corso, prego attendere...",
+        "moduleStatusSet": "Stato del modulo cambiato con successo"
       }
     }
   }
