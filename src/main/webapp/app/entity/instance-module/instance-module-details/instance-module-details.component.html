@@ -32,18 +32,20 @@
             <span
               ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
             ><br />
-            <!-- <span><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span>
-            <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p> -->
-            <mat-form-field class="d-flex custom-form-select">
-              <mat-select
-                [disabled]="moduleDetails.automaticOutcomeDate"
-                [value]="moduleDetails.status"
-                (selectionChange)="setModuleStatus($event)"
-              >
-                <mat-option value="ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.ATTIVO' | translate }}</mat-option>
-                <mat-option value="NON_ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.NON_ATTIVO' | translate }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+            @if (hasPermission()) {
+              <mat-form-field class="d-flex custom-form-select">
+                <mat-select
+                  [disabled]="moduleDetails.automaticOutcomeDate"
+                  [value]="moduleDetails.status"
+                  (selectionChange)="setModuleStatus($event)"
+                >
+                  <mat-option value="ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.ATTIVO' | translate }}</mat-option>
+                  <mat-option value="NON_ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.NON_ATTIVO' | translate }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            } @else {
+              <p class="p-2 bg-light">{{ moduleDetails.status || 'N/A' }}</p>
+            }
           </div>
 
           <div class="col-lg-3">
@@ -84,17 +86,20 @@
             <span
               ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
             >
-            <!-- <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p> -->
-            <mat-form-field class="d-flex">
-              <mat-select
-                [disabled]="isManualOutcomeAllowed(moduleDetails)"
-                [value]="moduleDetails.manualOutcome"
-                (selectionChange)="setModuleManualOutcome($event)"
-              >
-                <mat-option value="OK">OK</mat-option>
-                <mat-option value="KO">KO</mat-option>
-              </mat-select>
-            </mat-form-field>
+            @if (hasPermission()) {
+              <mat-form-field class="d-flex custom-form-select">
+                <mat-select
+                  [disabled]="isManualOutcomeAllowed(moduleDetails)"
+                  [value]="moduleDetails.manualOutcome"
+                  (selectionChange)="setModuleManualOutcome($event)"
+                >
+                  <mat-option value="OK">OK</mat-option>
+                  <mat-option value="KO">KO</mat-option>
+                </mat-select>
+              </mat-form-field>
+            } @else {
+              <p class="p-2 bg-light">{{ moduleDetails.manualOutcome || 'N/A' }}</p>
+            }
           </div>
           <div class="col-lg-3">
             <span
