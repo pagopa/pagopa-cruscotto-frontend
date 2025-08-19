@@ -89,7 +89,7 @@ export class InstanceModuleService {
   protected convertDateFromClient<T extends IInstanceModule>(instanceModule: T): InstanceModuleRestOf<T> {
     return {
       ...instanceModule,
-      automaticOutcomeDate: (instanceModule.automaticOutcomeDate as Dayjs)?.toISOString() ?? null,
+      automaticOutcomeDate: instanceModule.automaticOutcomeDate?.toISOString() ?? null,
       manualOutcomeDate: instanceModule.manualOutcomeDate?.toISOString() ?? null,
     };
   }
