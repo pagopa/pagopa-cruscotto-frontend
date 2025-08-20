@@ -263,6 +263,19 @@ mat-icon {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+mat-form-field.custom-form-select.mat-form-field-disabled .mat-mdc-text-field-wrapper {
+  background-color: #e7e0eb !important;
+
+  mat-select.mat-mdc-select-disabled .mat-mdc-select-min-line {
+    font-weight: 400 !important;
+  }
+
+  .mat-mdc-select-arrow-wrapper {
+    display: none;
+  }
+}
+
 /* Stile per outcome OK - verde */
 .outcome-ok {
   color: green;
