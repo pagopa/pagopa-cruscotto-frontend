@@ -38,7 +38,13 @@
         "allowManualOutcome": "Allow Manual Outcome",
         "manualOutcome": "Manual Outcome",
         "manualOutcomeDate": "Manual Outcome Date",
-        "updateLabel": "Edit"
+        "updateLabel": "Edit",
+        "status.ATTIVO": "ACTIVE",
+        "status.NON_ATTIVO": "NOT ACTIVE",
+        "settingManualOutcome": "Setting module manual outcome, please wait...",
+        "manualOutcomeSet": "Module manual outcome successfully set",
+        "settingModuleStatus": "Setting module status, please wait...",
+        "moduleStatusSet": "Module status successfully set"
       }
     }
   }
