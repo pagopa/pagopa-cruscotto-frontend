@@ -16,6 +16,10 @@ import { KpiA2DetailResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-detail-
 import { KpiA2AnalyticResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-result-table/kpi-a2-analytic-result-table.component';
 import { KpiA1DetailResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-detail-result-table/kpi-a1-detail-result-table.component';
 import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analytic-result-table/kpi-a1-analytic-result-table.component';
+import { KpiA2WrongTaxCodesService } from '../../kpi/kpi-a2/service/kpi-a2-wrong-tax-codes.service';
+import { KpiA2AnalyticData } from 'app/entity/kpi/kpi-a2/models/KpiA2AnalyticData';
+import { ActivatedRoute } from '@angular/router';
+import { DATE_FORMAT } from 'app/config/input.constants';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -53,10 +57,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiA1ResultIdForDetailsResults: number | null = null;
   selectedKpiA1DetailResultIdForAnalytics: number | null = null;
 
+  partnerFiscalCode: string | null = null;
+  taxService = inject(KpiA2WrongTaxCodesService);
+  selectedWrongTaxCodesSet: number | null = null; //TODO make cf - date
+
   isLoadingResults = false;
   locale: string;
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
+  private readonly route = inject(ActivatedRoute);
   protected readonly AnalysisType = AnalysisType;
 
   detailComponentMapping: DetailComponentMappingDynamic = {
@@ -68,6 +77,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
 
   constructor(private instanceModuleService: InstanceModuleService) {
     this.locale = this.translateService.currentLang;
+    this.route.data.subscribe(_ => {
+      this.partnerFiscalCode = _.instance.partnerFiscalCode;
+      console.log(this.partnerFiscalCode);
+    });
   }
 
   ngOnInit(): void {
@@ -158,6 +171,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsA1(kpiA1DetailResultId: number): void {
     this.selectedKpiA1DetailResultIdForAnalytics =
       this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
+  }
+
+  /**
+   * Metodo che viene richiamato quando si clicca il pulsante "Show Wrong Tax Codes"
+   */
+  onShowWrongTaxCodes(data: KpiA2AnalyticData): void {
+    this.selectedWrongTaxCodesSet = 1;
+    if (this.partnerFiscalCode && data.evaluationDate)
+      this.taxService.queryWrongTaxCodes(this.partnerFiscalCode, data.evaluationDate).subscribe();
   }
 
   /**

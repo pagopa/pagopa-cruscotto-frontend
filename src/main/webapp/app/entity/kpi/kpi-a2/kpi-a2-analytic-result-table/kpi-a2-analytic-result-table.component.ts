@@ -27,14 +27,14 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   ],
 })
 export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments'];
+  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'details'];
   dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
   @Input() kpiA2DetailResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<number>();
+  @Output() showDetails = new EventEmitter<KpiA2AnalyticData>();
 
   isLoadingResults = false;
   locale: string;
@@ -149,8 +149,8 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiA2DetailResultId: number): void {
-    this.showDetails.emit(kpiA2DetailResultId);
+  emitShowDetails(kpiA2AnalyticResult: KpiA2AnalyticData): void {
+    this.showDetails.emit(kpiA2AnalyticResult);
   }
 }
 
