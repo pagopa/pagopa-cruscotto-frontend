@@ -35,7 +35,11 @@
             "evaluationDate": "Periodo",
             "totPayments": "Totale Versamenti",
             "totIncorrectPayments": "Versamenti Errati",
-            "kpiA2DetailResultId": "ID Dettaglio KPI A.2"
+            "kpiA2DetailResultId": "ID Dettaglio KPI A.2",
+            "fromHour": "Da ora",
+            "endHour": "A ora",
+            "transferCategory": "Categoria versamenti",
+            "total": "Totale errati"
           }
         }
       }
