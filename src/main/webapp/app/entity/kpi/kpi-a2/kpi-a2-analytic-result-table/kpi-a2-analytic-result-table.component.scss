@@ -1,12 +1,57 @@
 .mat-column-id,
 .mat-column-analysisDate,
-.mat-column-evaluationDate {
-  width: 150px;
+.mat-column-evaluationDate,
+.mat-column-totPayments,
+.mat-column-totIncorrectPayments {
   text-align: center;
 }
 
-.mat-column-totPayments,
-.mat-column-totIncorrectPayments {
-  width: 150px;
-  text-align: right;
+.mat-column-expand {
+  width: 60px;
+}
+
+.mat-column-fromHour,
+.mat-column-endHour,
+.mat-column-transferCategory,
+.mat-column-total {
+  text-align: center;
+}
+
+tr.not-expanded-row {
+  height: 0;
+}
+
+tr.expandable-row:hover {
+  cursor: pointer;
+  background: #efefef;
+}
+
+.detail-row td {
+  border-bottom-width: 0;
+}
+
+.detail-wrapper {
+  overflow: hidden;
+  display: none;
+  grid-template-rows: 0fr;
+  grid-template-columns: 100%;
+  transition: grid-template-rows 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.detail-wrapper-expanded {
+  grid-template-rows: 1fr;
+  display: grid;
+  margin: 0px 48px 32px 24px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+}
+
+.toggle-button {
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: inherit;
+  border: none;
+}
+
+.toggle-button-expanded {
+  transform: rotate(180deg);
 }
