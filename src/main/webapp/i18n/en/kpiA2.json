@@ -35,7 +35,7 @@
             "evaluationDate": "Period",
             "totPayments": "Total Payments",
             "totIncorrectPayments": "Incorrect Payments",
-            "kpiA2DetailResultId": "KPI A.2 Detail ID",
+            "kpiA2DetailResultId": "KPI A.2 Detail Id",
             "fromHour": "From hour",
             "endHour": "To hour",
             "transferCategory": "Transfer category",
