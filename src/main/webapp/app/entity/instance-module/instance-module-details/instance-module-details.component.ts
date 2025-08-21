@@ -16,10 +16,6 @@ import { KpiA2DetailResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-detail-
 import { KpiA2AnalyticResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-result-table/kpi-a2-analytic-result-table.component';
 import { KpiA1DetailResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-detail-result-table/kpi-a1-detail-result-table.component';
 import { KpiA1AnalyticResultTableComponent } from '../../kpi/kpi-a1/kpi-a1-analytic-result-table/kpi-a1-analytic-result-table.component';
-import { KpiA2WrongTaxCodesService } from '../../kpi/kpi-a2/service/kpi-a2-wrong-tax-codes.service';
-import { KpiA2AnalyticData } from 'app/entity/kpi/kpi-a2/models/KpiA2AnalyticData';
-import { ActivatedRoute } from '@angular/router';
-import { DATE_FORMAT } from 'app/config/input.constants';
 
 @Component({
   selector: 'jhi-instance-module-details',
