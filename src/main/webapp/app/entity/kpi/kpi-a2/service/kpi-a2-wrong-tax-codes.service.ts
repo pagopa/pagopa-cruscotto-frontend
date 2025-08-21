@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
 import dayjs from 'dayjs/esm';
@@ -46,8 +46,8 @@ export class KpiA2WrongTaxCodesService {
   private convertFromServer(restWrongTaxCode: RestWrongTaxCode): IWrongTaxCode {
     return {
       ...restWrongTaxCode,
-      fromHour: restWrongTaxCode ? dayjs(restWrongTaxCode.fromHour, DATE_FORMAT) : null,
-      endHour: restWrongTaxCode ? dayjs(restWrongTaxCode.fromHour, DATE_FORMAT) : null,
+      fromHour: restWrongTaxCode ? dayjs(restWrongTaxCode.fromHour, DATE_TIME_FORMAT_ISO) : null,
+      endHour: restWrongTaxCode ? dayjs(restWrongTaxCode.endHour, DATE_TIME_FORMAT_ISO) : null,
     };
   }
 }
