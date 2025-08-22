@@ -2,13 +2,19 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { DatePipe, DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA2AnalyticDataService } from '../service/kpi-a2-analytic-data.service';
 import { KpiA2AnalyticData } from '../models/KpiA2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { KpiA2WrongTaxCodesService } from '../service/kpi-a2-wrong-tax-codes.service';
+import { BehaviorSubject } from 'rxjs';
+import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
 
 @Component({
   selector: 'jhi-kpi-a2-analytic-result-table',
@@ -18,33 +24,41 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatIconModule,
     NgxSpinnerModule,
     TranslateModule,
     NgIf,
     MatButtonModule,
+    DatePipe,
     FormatDatePipe,
     DecimalPipe,
   ],
 })
 export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments'];
+  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'expand'];
   dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
   @Input() kpiA2DetailResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<number>();
+  @Output() showDetails = new EventEmitter<KpiA2AnalyticData>();
 
+  partnerFiscalCode: string | null = null;
+  expandedElement: KpiA2AnalyticData | null = null;
+  wrongTaxonomyCodes: BehaviorSubject<IWrongTaxCode[]> = new BehaviorSubject<IWrongTaxCode[]>([]);
   isLoadingResults = false;
   locale: string;
-  private readonly translateService = inject(TranslateService);
 
+  private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA2AnalyticDataService = inject(KpiA2AnalyticDataService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly taxService = inject(KpiA2WrongTaxCodesService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
+    this.route.data.pipe(takeUntilDestroyed()).subscribe(_ => (this.partnerFiscalCode = _.instance.partnerFiscalCode));
   }
 
   ngOnInit(): void {
@@ -146,11 +160,21 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
     });
   }
 
-  /**
-   * Emit selected module ID for more details
-   */
-  emitShowDetails(kpiA2DetailResultId: number): void {
-    this.showDetails.emit(kpiA2DetailResultId);
+  isExpanded(element: KpiA2AnalyticData) {
+    return this.expandedElement === element;
+  }
+
+  /** Toggles the expanded state of an element. */
+  toggle(element: KpiA2AnalyticData) {
+    this.expandedElement = this.isExpanded(element) ? null : element;
+    if (this.expandedElement) {
+      if (this.partnerFiscalCode && element.analysisDate)
+        this.taxService
+          .queryWrongTaxCodes(this.partnerFiscalCode, element.analysisDate)
+          .subscribe(res => this.wrongTaxonomyCodes.next(res));
+    } else {
+      this.wrongTaxonomyCodes.next([]);
+    }
   }
 }
 
