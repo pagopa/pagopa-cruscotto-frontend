@@ -57,7 +57,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   ],
 })
 export class InstituteComponent implements OnInit {
-  displayedColumns: string[] = ['fiscalCode', 'name', 'partnerFiscalCode', 'partnerName', 'station', 'aca', 'standIn', 'enabled'];
+  displayedColumns: string[] = ['fiscalCode', 'name', 'partnerFiscalCode', 'partnerName', 'stationName', 'aca', 'standIn', 'enabled'];
 
   data: IInstitute[] = [];
   resultsLength = 0;
