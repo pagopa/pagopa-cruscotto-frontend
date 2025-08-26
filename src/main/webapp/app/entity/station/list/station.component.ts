@@ -30,7 +30,6 @@ import { PartnerSelectComponent } from 'app/entity/partner/shared/partner-select
 import { StationSelectComponent } from '../shared/station-select/station-select.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { addFilterToRequest, addToFilter, getFilterValue } from 'app/shared/pagination/filter-util.pagination';
-import { IPartner } from 'app/entity/partner/partner.model';
 
 @Component({
   selector: 'jhi-station',
@@ -175,7 +174,7 @@ export class StationComponent implements OnInit, OnDestroy {
     const params = {
       page: this.page - 1,
       size: this.itemsPerPage,
-      sort: [this.filter.sort.field + ',' + this.filter.sort.direction],
+      sort: [this.filter.sort.field + ',' + this.filter.sort.direction, 'name,asc'],
     };
 
     this.populateRequest(params);
@@ -205,6 +204,7 @@ export class StationComponent implements OnInit, OnDestroy {
     addFilterToRequest(this.filter, StationFilter.PARTNER, req);
     addFilterToRequest(this.filter, StationFilter.STATION, req);
     addFilterToRequest(this.filter, StationFilter.SHOW_NOT_ACTIVE, req);
+    // if (this.filter.filters.partner && !(this.filter.sort.field == 'name')) req.sort = { field: 'name', direction: 'desc' };
   }
 
   private populateFilter(): void {
