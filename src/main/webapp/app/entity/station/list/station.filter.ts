@@ -10,5 +10,5 @@ export class StationFilter extends IFilterPagination {
   static STATION: IParam = { name: 'station', req: 'stationId', type: TypeData.STATION, defaultValue: '' };
   static SHOW_NOT_ACTIVE: IParam = { name: 'showNotActive', req: 'showNotActive', type: TypeData.BOOLEAN, defaultValue: null };
   sort: ISortField = { field: 'id', direction: 'desc' };
-  sortDefault: ISortField = { field: 'id', direction: 'desc' };
+  sortDefault: ISortField = { field: 'partnerName', direction: 'asc' };
 }
