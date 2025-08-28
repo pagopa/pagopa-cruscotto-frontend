@@ -10,6 +10,6 @@ export class InstituteFilter extends IFilterPagination {
   static STATION: IParam = { name: 'station', req: 'stationId', type: TypeData.STATION, defaultValue: '' };
   static INSTITUTE: IParam = { name: 'institute', req: 'institutionId', type: TypeData.ID, defaultValue: '' };
   static SHOW_NOT_ACTIVE: IParam = { name: 'showNotActive', req: 'showNotEnabled', type: TypeData.BOOLEAN, defaultValue: null };
-  sort: ISortField = { field: 'id', direction: 'desc' };
-  sortDefault: ISortField = { field: 'id', direction: 'desc' };
+  sort: ISortField = { field: 'name', direction: 'asc' };
+  sortDefault: ISortField = { field: 'name', direction: 'asc' };
 }
