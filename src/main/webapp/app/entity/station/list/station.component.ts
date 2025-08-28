@@ -234,7 +234,6 @@ export class StationComponent implements OnInit, OnDestroy {
   }
 
   navigate(url: string, data: any): void {
-    console.log(data);
     this.locationHelper.data = data;
     this.router.navigateByUrl(url);
   }
