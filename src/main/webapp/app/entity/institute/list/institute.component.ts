@@ -160,7 +160,7 @@ export class InstituteComponent implements OnInit {
     const params = {
       page: this.page - 1,
       size: this.itemsPerPage,
-      sort: [this.filter.sort.field + ',' + this.filter.sort.direction],
+      sort: [this.filter.sort.field + ',' + this.filter.sort.direction, 'partnerName,asc', 'stationName,asc'],
     };
 
     this.populateRequest(params);
