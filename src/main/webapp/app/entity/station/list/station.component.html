@@ -197,7 +197,12 @@
                             *jhiHasAnyAuthority="Authority.PARTNER_INQUIRY"
                             matTooltip="{{ 'pagopaCruscottoApp.partner.entities' | translate }}"
                             matTooltipPosition="above"
-                            (click)="navigate('/entity/institutions', { station: row, partner: { id: row.partnerId } })"
+                            (click)="
+                              navigate('/entity/institutions', {
+                                station: row,
+                                partner: { id: row.partnerId, fiscalCode: row.partnerFiscalCode, name: row.partnerName },
+                              })
+                            "
                           >
                             <mat-icon
                               fontSet="material-symbols-outlined"
