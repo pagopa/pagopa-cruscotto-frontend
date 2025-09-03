@@ -36,7 +36,7 @@
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
                   [disabled]="moduleDetails.automaticOutcomeDate"
-                  [value]="moduleDetails.status"
+                  [(value)]="moduleDetails.status"
                   (selectionChange)="setModuleStatus($event)"
                 >
                   <mat-option value="ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.ATTIVO' | translate }}</mat-option>
@@ -90,7 +90,7 @@
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
                   [disabled]="isManualOutcomeAllowed(moduleDetails)"
-                  [value]="moduleDetails.manualOutcome"
+                  [(value)]="moduleDetails.manualOutcome"
                   (selectionChange)="setModuleManualOutcome($event)"
                 >
                   <mat-option value="OK">OK</mat-option>
