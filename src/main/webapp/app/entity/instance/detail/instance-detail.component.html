@@ -116,7 +116,7 @@
             <mat-tab-nav-panel #tabPanel>
               <ng-container *ngIf="selectedModule; else noModuleSelected">
                 <!-- Caricamento del componente che mostra i dettagli -->
-                <jhi-instance-module-details [moduleId]="selectedModule.id"></jhi-instance-module-details>
+                <jhi-instance-module-details [moduleId]="selectedModule.id" [instance]="instance()!"></jhi-instance-module-details>
               </ng-container>
             </mat-tab-nav-panel>
           </div>
