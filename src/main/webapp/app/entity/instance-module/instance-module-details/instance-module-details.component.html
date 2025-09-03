@@ -35,7 +35,7 @@
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
-                  [disabled]="moduleDetails.automaticOutcomeDate"
+                  [disabled]="instance?.status != 'BOZZA'"
                   [(value)]="moduleDetails.status"
                   (selectionChange)="setModuleStatus($event)"
                 >
@@ -89,7 +89,7 @@
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
-                  [disabled]="isManualOutcomeAllowed(moduleDetails)"
+                  [disabled]="!isManualOutcomeAllowed()"
                   [(value)]="moduleDetails.manualOutcome"
                   (selectionChange)="setModuleManualOutcome($event)"
                 >
