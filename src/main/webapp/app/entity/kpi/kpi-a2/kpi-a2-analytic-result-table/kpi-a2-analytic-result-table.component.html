@@ -104,10 +104,8 @@
           *matRowDef="let element; columns: displayedColumns"
           class="detail-row"
           [class.expandable-row]="element.totIncorrectPayments"
-          (click)="toggle(element)"
-        >
-          >
-        </tr>
+          (click)="element.totIncorrectPayments ?? toggle(element)"
+        ></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="not-expanded-row"></tr>
       </table>
     </div>
