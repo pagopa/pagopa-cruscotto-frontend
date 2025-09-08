@@ -35,8 +35,8 @@
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
-                  [disabled]="moduleDetails.automaticOutcomeDate"
-                  [value]="moduleDetails.status"
+                  [disabled]="instance?.status != 'BOZZA'"
+                  [(value)]="moduleDetails.status"
                   (selectionChange)="setModuleStatus($event)"
                 >
                   <mat-option value="ATTIVO">{{ 'pagopaCruscottoApp.instanceModule.detail.status.ATTIVO' | translate }}</mat-option>
@@ -89,8 +89,8 @@
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
-                  [disabled]="isManualOutcomeAllowed(moduleDetails)"
-                  [value]="moduleDetails.manualOutcome"
+                  [disabled]="!isManualOutcomeAllowed()"
+                  [(value)]="moduleDetails.manualOutcome"
                   (selectionChange)="setModuleManualOutcome($event)"
                 >
                   <mat-option value="OK">OK</mat-option>
