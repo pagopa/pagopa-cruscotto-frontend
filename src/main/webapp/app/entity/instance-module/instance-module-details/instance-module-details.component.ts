@@ -1,4 +1,4 @@
-import { Component, computed, inject, Input, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, computed, inject, Input, input, OnChanges, OnInit, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IInstanceModule } from '../models/instance-module.model';
@@ -21,10 +21,10 @@ import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { EventManager } from 'app/core/util/event-manager.service';
-import { Alert, AlertType } from 'app/core/util/alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { Authority } from 'app/config/authority.constants';
 import { AccountService } from 'app/core/auth/account.service';
+import { IInstance, InstanceStatus } from 'app/entity/instance/models/instance.model';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -54,6 +54,7 @@ import { AccountService } from 'app/core/auth/account.service';
 })
 export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   @Input() moduleId?: number;
+  @Input() instance?: IInstance;
   moduleDetails?: IInstanceModule;
 
   selectedKpiResultIdForDetailsResults: number | null = null;
@@ -218,9 +219,12 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB9DetailResultIdForAnalytics = null;
   }
 
-  isManualOutcomeAllowed(moduleDetails: IInstanceModule): boolean {
-    if (moduleDetails.analysisType == 'AUTOMATICA') return !(moduleDetails.automaticOutcomeDate && moduleDetails.allowManualOutcome);
-    else return true;
+  isManualOutcomeAllowed(): boolean {
+    return (
+      !!this.moduleDetails?.allowManualOutcome &&
+      (this.moduleDetails?.analysisType == 'MANUALE' ||
+        (this.moduleDetails?.analysisType == 'AUTOMATICA' && this.instance?.status == 'ESEGUITA'))
+    );
   }
 
   setModuleManualOutcome(event: MatSelectChange): void {

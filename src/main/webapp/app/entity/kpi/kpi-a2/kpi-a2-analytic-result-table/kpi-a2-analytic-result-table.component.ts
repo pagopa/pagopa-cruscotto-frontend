@@ -169,9 +169,7 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.expandedElement = this.isExpanded(element) ? null : element;
     if (this.expandedElement) {
       if (this.partnerFiscalCode && element.analysisDate)
-        this.taxService
-          .queryWrongTaxCodes(this.partnerFiscalCode, element.analysisDate)
-          .subscribe(res => this.wrongTaxonomyCodes.next(res));
+        this.taxService.queryWrongTaxCodes(element.id!).subscribe(res => this.wrongTaxonomyCodes.next(res));
     } else {
       this.wrongTaxonomyCodes.next([]);
     }
