@@ -1,4 +1,4 @@
-import { Component, computed, inject, Input, input, OnChanges, OnInit, Type } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, input, OnChanges, OnInit, Output, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { IInstanceModule } from '../models/instance-module.model';
@@ -25,6 +25,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Authority } from 'app/config/authority.constants';
 import { AccountService } from 'app/core/auth/account.service';
 import { IInstance, InstanceStatus } from 'app/entity/instance/models/instance.model';
+import { switchMap } from 'rxjs';
+import { InstanceService } from 'app/entity/instance/service/instance.service';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -77,6 +79,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   private readonly eventManager = inject(EventManager);
   private readonly toastrService = inject(ToastrService);
   private readonly accountService = inject(AccountService);
+  private readonly instanceModuleService = inject(InstanceModuleService);
+  private readonly instanceService = inject(InstanceService);
   protected readonly AnalysisType = AnalysisType;
   protected readonly Authority = Authority;
 
@@ -87,7 +91,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     },
   };
 
-  constructor(private instanceModuleService: InstanceModuleService) {
+  constructor() {
     this.locale = this.translateService.currentLang;
 
     const currentAccount = this.accountService.trackCurrentAccount();
@@ -234,16 +238,20 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       name: 'pagopaCruscottoApp.alert',
       content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instanceModule.detail.settingManualOutcome' },
     });
-    this.instanceModuleService.patch(copy).subscribe({
-      next: _ => {
-        this.toastrService.clear();
-        this.eventManager.broadcast({
-          name: 'pagopaCruscottoApp.alert',
-          content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeSet' },
-        });
-        this.loadModuleDetails(this.moduleDetails!.id!);
-      },
-    });
+    this.instanceModuleService
+      .patch(copy)
+      .pipe(switchMap(_ => this.instanceService.find(this.instance!.id)))
+      .subscribe({
+        next: _ => {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeSet' },
+          });
+          // this.loadModuleDetails(this.moduleDetails!.id!);
+          if (this.instance) this.instance.lastAnalysisOutcome = _.body?.lastAnalysisOutcome;
+        },
+      });
   }
 
   setModuleStatus(event: MatSelectChange): void {
