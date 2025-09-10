@@ -225,11 +225,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   isManualOutcomeAllowed(): boolean {
-    if (!this.moduleDetails?.allowManualOutcome) return false;
+    if (!this.moduleDetails?.allowManualOutcome || this.moduleDetails.status == ModuleStatus.NON_ATTIVO) return false;
     else
       switch (this.moduleDetails.analysisType) {
         case AnalysisType.MANUALE:
-          return this.moduleDetails.status != ModuleStatus.NON_ATTIVO;
+          return true;
         case AnalysisType.AUTOMATICA:
           return this.instance?.status == InstanceStatus.Eseguita;
       }
