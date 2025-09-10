@@ -363,13 +363,13 @@
                             *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             matTooltip="{{ 'entity.action.edit' | translate }}"
                             matTooltipPosition="above"
-                            [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
+                            [disabled]="row.status !== status.Bozza"
                             [attr.aria-label]="['entity.list.column.actions.edit.ariaLabel' | translate]"
                             [routerLink]="['/entity/instances', row.id, 'edit']"
                           >
                             <mat-icon
                               fontSet="material-symbols-outlined"
-                              [color]="row.status !== status.Bozza && row.status !== status.Pianificata ? '' : 'primary'"
+                              [color]="row.status !== status.Bozza ? '' : 'primary'"
                               aria-hidden="false"
                               >edit</mat-icon
                             >
