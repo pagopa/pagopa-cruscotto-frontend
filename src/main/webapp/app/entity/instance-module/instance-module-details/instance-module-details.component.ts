@@ -27,6 +27,7 @@ import { AccountService } from 'app/core/auth/account.service';
 import { IInstance, InstanceStatus } from 'app/entity/instance/models/instance.model';
 import { switchMap } from 'rxjs';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
+import { ModuleStatus } from '../models/module-status.model';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -224,11 +225,15 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   isManualOutcomeAllowed(): boolean {
-    return (
-      !!this.moduleDetails?.allowManualOutcome &&
-      (this.moduleDetails?.analysisType == 'MANUALE' ||
-        (this.moduleDetails?.analysisType == 'AUTOMATICA' && this.instance?.status == 'ESEGUITA'))
-    );
+    if (!this.moduleDetails?.allowManualOutcome) return false;
+    else
+      switch (this.moduleDetails.analysisType) {
+        case AnalysisType.MANUALE:
+          return this.moduleDetails.status != ModuleStatus.NON_ATTIVO;
+        case AnalysisType.AUTOMATICA:
+          return this.instance?.status == InstanceStatus.Eseguita;
+      }
+    return false;
   }
 
   setModuleManualOutcome(event: MatSelectChange): void {
@@ -249,7 +254,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
             content: { type: 'success', translationKey: 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeSet' },
           });
           // this.loadModuleDetails(this.moduleDetails!.id!);
-          if (this.instance) this.instance.lastAnalysisOutcome = _.body?.lastAnalysisOutcome;
+          if (this.instance) {
+            this.instance.lastAnalysisOutcome = _.body?.lastAnalysisOutcome;
+            this.instance.status = _.body?.status;
+          }
         },
       });
   }
