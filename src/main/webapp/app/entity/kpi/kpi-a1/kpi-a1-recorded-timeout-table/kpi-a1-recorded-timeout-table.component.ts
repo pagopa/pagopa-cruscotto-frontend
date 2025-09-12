@@ -5,15 +5,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { KpiA1AnalyticDataService } from '../service/kpi-a1-analytic-data.service';
+import { KpiA1RecordedTimeoutService } from '../service/kpi-a1-recorded-timeout.service';
 import { KpiA1AnalyticData } from '../models/KpiA1AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { KpiA1RecordedTimeout, KpiA1RecordedTimeoutRequest } from '../models/KpiA1RecordedTimeout';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'jhi-kpi-a1-analytic-result-table',
-  templateUrl: './kpi-a1-analytic-result-table.component.html',
-  styleUrls: ['./kpi-a1-analytic-result-table.component.scss'],
+  selector: 'jhi-kpi-a1-recorded-timeout-table',
+  templateUrl: './kpi-a1-recorded-timeout-table.component.html',
+  styleUrls: ['./kpi-a1-recorded-timeout-table.component.scss'],
   imports: [
     MatPaginatorModule,
     MatSortModule,
@@ -26,21 +29,11 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     DecimalPipe,
   ],
 })
-export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'analysisDate',
-    'stationName',
-    'method',
-    'evaluationDate',
-    'totReq',
-    'reqOk',
-    'reqTimeoutReal',
-    'reqTimeoutValid',
-    'details',
-  ];
-  dataSource = new MatTableDataSource<KpiA1AnalyticData>([]);
+export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
+  displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
+  dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
-  @Input() kpiA1DetailResultId: number | undefined;
+  @Input() kpiA1RecordedTimeoutRequest: KpiA1AnalyticData | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -48,13 +41,15 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   isLoadingResults = false;
   locale: string;
+  partnerFiscalCode: string = '';
   private readonly translateService = inject(TranslateService);
-
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly kpiA1AnalyticDataService = inject(KpiA1AnalyticDataService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly kpiA1RecordedTimeoutService = inject(KpiA1RecordedTimeoutService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
+    this.route.data.pipe(takeUntilDestroyed()).subscribe(_ => (this.partnerFiscalCode = _.instance.partnerFiscalCode));
   }
 
   ngOnInit(): void {
@@ -64,8 +59,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngOnChanges(): void {
-    if (this.kpiA1DetailResultId) {
-      this.fetchKpiA1AnalyticData(this.kpiA1DetailResultId);
+    if (this.kpiA1RecordedTimeoutRequest) {
+      this.fetchKpiA1AnalyticData(this.kpiA1RecordedTimeoutRequest);
     }
   }
 
@@ -81,11 +76,16 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Fetch KPI A1 Analytic Data by kpiA1DetailResultId
    */
-  fetchKpiA1AnalyticData(detailResultId: number): void {
+  fetchKpiA1AnalyticData(data: KpiA1AnalyticData): void {
     this.spinner.show('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiA1AnalyticDataService.findByDetailResultId(detailResultId).subscribe({
-        next: (data: KpiA1AnalyticData[]) => this.onSuccess(data),
+      const req: KpiA1RecordedTimeoutRequest = {
+        cfPartner: parseInt(this.partnerFiscalCode),
+        station: data.stationName!,
+        method: data.method!,
+      };
+      this.kpiA1RecordedTimeoutService.find(req).subscribe({
+        next: (data: KpiA1RecordedTimeout[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
     });
@@ -94,7 +94,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Handle successful data retrieval
    */
-  protected onSuccess(data: KpiA1AnalyticData[]): void {
+  protected onSuccess(data: KpiA1RecordedTimeout[]): void {
     this.spinner.hide('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
@@ -136,24 +136,16 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'analysisDate':
-          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationName':
-          return compare(a.stationName, b.stationName, isAsc);
-        case 'method':
-          return compare(a.method, b.method, isAsc);
-        case 'evaluationDate':
-          return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
+        case 'startDate':
+          return compare(a.startDate?.toISOString(), b.startDate?.toISOString(), isAsc);
+        case 'endDate':
+          return compare(a.endDate?.toISOString(), b.endDate?.toISOString(), isAsc);
         case 'totReq':
           return compare(a.totReq, b.totReq, isAsc);
         case 'reqOk':
           return compare(a.reqOk, b.reqOk, isAsc);
-        case 'reqTimeoutReal':
-          return compare(a.reqTimeoutReal, b.reqTimeoutReal, isAsc);
-        case 'reqTimeoutValid':
-          return compare(a.reqTimeoutValid, b.reqTimeoutValid, isAsc);
-        case 'kpiA1DetailResultId':
-          return compare(a.kpiA1DetailResultId, b.kpiA1DetailResultId, isAsc);
+        case 'reqTimeout':
+          return compare(a.reqTimeout, b.reqTimeout, isAsc);
         default:
           return 0;
       }
@@ -163,8 +155,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiA1DetailResultElement: KpiA1AnalyticData): void {
-    this.showDetails.emit(kpiA1DetailResultElement);
+  emitShowDetails(kpiA1DetailResultId: KpiA1AnalyticData): void {
+    this.showDetails.emit(kpiA1DetailResultId);
   }
 }
 
