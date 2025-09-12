@@ -30,16 +30,12 @@ import { EvaluationType, OutcomeStatus } from '../models/KpiA1Result';
 })
 export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'analysisDate',
-    'stationName',
-    'method',
+    'evaluationStartDate',
+    'evaluationEndDate',
     'totalRequests',
     'reqTimeout',
     'timeoutPercentage',
-    'evaluationStartDate',
-    'evaluationEndDate',
     'evaluationType',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiA1DetailResult>([]);

@@ -28,10 +28,9 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'analysisDate',
+    'evaluationDate',
     'stationName',
     'method',
-    'evaluationDate',
     'totReq',
     'reqOk',
     'reqTimeoutReal',
