@@ -28,6 +28,7 @@ import { IInstance, InstanceStatus } from 'app/entity/instance/models/instance.m
 import { switchMap } from 'rxjs';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ModuleStatus } from '../models/module-status.model';
+import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -51,6 +52,7 @@ import { ModuleStatus } from '../models/module-status.model';
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
     KpiB9AnalyticResultTableComponent,
+    KpiB2RecordedTimeoutTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -71,6 +73,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiA1DetailResultIdForAnalytics: number | null = null;
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
+
+  selectedKpiB2RecordedTimeoutQuery: any;
 
   isLoadingResults = false;
   hasPermission;
