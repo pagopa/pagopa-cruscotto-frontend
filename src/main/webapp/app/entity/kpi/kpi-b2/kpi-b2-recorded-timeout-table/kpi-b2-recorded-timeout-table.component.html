@@ -1,0 +1,59 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiA1AnalyticResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonna startDate -->
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.startDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.startDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna endDate -->
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.endDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.endDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna totReq -->
+        <ng-container matColumnDef="totReq">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.totReq' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.totReq }}</td>
+        </ng-container>
+
+        <!-- Colonna reqOk -->
+        <ng-container matColumnDef="reqOk">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.reqOk' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.reqOk }}</td>
+        </ng-container>
+
+        <!-- Colonna reqTimeout -->
+        <ng-container matColumnDef="reqTimeout">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.reqTimeout' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">{{ element.reqTimeout | number }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>
