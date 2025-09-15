@@ -29,6 +29,7 @@ import { switchMap } from 'rxjs';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ModuleStatus } from '../models/module-status.model';
 import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
+import { KpiB2AnalyticData } from 'app/entity/kpi/kpi-b2/models/KpiB2AnalyticData';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -202,6 +203,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
     this.selectedKpiB9DetailResultIdForAnalytics =
       this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+  }
+
+  onRecordedTimeoutB2Query(kpiB2AnalyticData: KpiB2AnalyticData): void {
+    this.selectedKpiB2RecordedTimeoutQuery = this.selectedKpiB2RecordedTimeoutQuery?.id === kpiB2AnalyticData.id ? null : kpiB2AnalyticData;
   }
 
   /**
