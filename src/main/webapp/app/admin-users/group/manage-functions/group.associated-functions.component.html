@@ -84,7 +84,12 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: selectedRowId == row.id }"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell font-weight-bold text-center" colspan="5">{{ 'entity.list.noResult' | translate }}</td>
+            <td *ngIf="!isLoadingResults" class="mat-cell font-weight-bold" colspan="5">
+              <div class="no-data-row">
+                <mat-icon svgIcon="no-data" aria-hidden="false" aria-label="No data"></mat-icon>
+                <span>{{ 'entity.list.noResult' | translate }}</span>
+              </div>
+            </td>
           </tr>
         </table>
       </div>

@@ -75,8 +75,12 @@ mat-toolbar.mat-primary {
   border-radius: 4px;
 }
 
-button.mat-raised-button mat-icon svg {
-  vertical-align: unset;
+button.mat-mdc-outlined-button {
+  background-color: white;
+  border-color: var(--brand-color) !important;
+  mat-icon svg {
+    vertical-align: unset;
+  }
 }
 
 .mat-expansion-panel-body > .row > [class^='col-'],
@@ -263,12 +267,16 @@ mat-icon {
 .custom-row p,
 .custom-row span.link {
   line-height: 36px;
-  background-color: #e7e0eb !important;
+  // background-color: #e7e0eb !important;
   color: #1c1b1e;
   font-weight: 400;
   min-height: 53px;
   padding-left: 4px;
-  border-bottom: 1px solid #1c1b1e;
+  // border-bottom: 1px solid #1c1b1e;
+
+  border-radius: 4px;
+  border: 1px solid #1c1b1e;
+  background-color: inherit !important;
 }
 
 .toast-error {
@@ -330,16 +338,16 @@ mat-form-field.custom-form-select.mat-form-field-disabled .mat-mdc-text-field-wr
   font-weight: bold;
 }
 
-// placeholder per le tabelle senza dati
 .no-data-row {
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: 250px;
+  height: 180px;
 
   mat-icon {
     height: 60px !important;
     width: 60px !important;
+    padding-bottom: 8px;
   }
 }
