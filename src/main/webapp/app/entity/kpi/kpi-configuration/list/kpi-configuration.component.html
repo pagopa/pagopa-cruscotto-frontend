@@ -9,7 +9,7 @@
       </button>
       <button
         id="jh-create-entity"
-        mat-raised-button
+        mat-stroked-button
         color="primary"
         *jhiHasAnyAuthority="Authority.KPI_CONFIGURATION_MANAGEMENT"
         [routerLink]="['/entity/kpi-configurations/new']"
@@ -50,7 +50,7 @@
             >
               <mat-icon fontSet="material-symbols-outlined">search</mat-icon><span jhiTranslate="entity.action.search">Search</span>
             </button>
-            <button type="button" mat-raised-button (click)="clear()" [title]="['entity.action.clear' | translate]">
+            <button type="button" mat-stroked-button (click)="clear()" [title]="['entity.action.clear' | translate]">
               <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon><span jhiTranslate="entity.action.clear">Clear</span>
             </button>
           </div>
@@ -237,7 +237,12 @@
                 ></tr>
 
                 <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell font-weight-bold text-center" colspan="9">{{ 'entity.list.noResult' | translate }}</td>
+                  <td *ngIf="!isLoadingResults" class="mat-cell" colspan="9">
+                    <div class="no-data-row">
+                      <mat-icon svgIcon="no-data" aria-hidden="false" aria-label="No data"></mat-icon>
+                      <span>{{ 'entity.list.noResult' | translate }}</span>
+                    </div>
+                  </td>
                 </tr>
               </table>
             </div>

@@ -3,7 +3,7 @@
   <p [innerHTML]="body"></p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button type="button" mat-raised-button [title]="['entity.action.cancel' | translate]" (click)="cancel()">
+  <button type="button" mat-stroked-button [title]="['entity.action.cancel' | translate]" (click)="cancel()">
     <mat-icon fontSet="material-symbols-outlined" aria-hidden="false">cancel</mat-icon>
     &nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
   </button>

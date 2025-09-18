@@ -10,7 +10,7 @@
           <mat-icon fontSet="material-symbols-outlined">undo</mat-icon><span jhiTranslate="entity.action.back">Back</span>
         </button>
         <button
-          mat-raised-button
+          mat-stroked-button
           color="primary"
           *jhiHasAnyAuthority="Authority.MODULE_MANAGEMENT"
           [routerLink]="['/entity/modules', module.id, 'edit']"

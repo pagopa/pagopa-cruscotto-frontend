@@ -9,7 +9,7 @@
       </button>
       <button
         id="jh-create-entity"
-        mat-raised-button
+        mat-stroked-button
         color="primary"
         *jhiHasAnyAuthority="Authority.JOB_INQUIRY"
         (click)="loadPage()"
@@ -186,7 +186,12 @@
                 ></tr>
 
                 <tr class="mat-row" *matNoDataRow>
-                  <td class="mat-cell font-weight-bold text-center" colspan="9">{{ 'entity.list.noResult' | translate }}</td>
+                  <td class="mat-cell" colspan="9">
+                    <div class="no-data-row">
+                      <mat-icon svgIcon="no-data" aria-hidden="false" aria-label="No data"></mat-icon>
+                      <span>{{ 'entity.list.noResult' | translate }}</span>
+                    </div>
+                  </td>
                 </tr>
               </table>
             </div>

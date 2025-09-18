@@ -29,8 +29,7 @@
         <!-- Seconda riga: Stato, Tipologia Analisi, Utente Assegnato, Consenti Risultato Manuale -->
         <div class="row custom-row p-2">
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</span
             ><br />
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
@@ -49,21 +48,15 @@
           </div>
 
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.assignedUserFirstName || '' }} {{ moduleDetails.assignedUserLastName || '' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
           </div>
         </div>
@@ -71,21 +64,15 @@
         <!-- Terza riga: Risultato Automatico, Data Risultato Automatico, Risultato Manuale, Data Risultato Manuale -->
         <div class="row custom-row p-2">
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | formatDate: 'L LTS' : locale }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</span>
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
@@ -102,9 +89,7 @@
             }
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | formatDate: 'L LTS' : locale }}</p>
           </div>
         </div>
