@@ -43,7 +43,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<KpiA1AnalyticData>();
+  @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
   locale: string;
@@ -162,8 +162,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiA1DetailResultElement: KpiA1AnalyticData): void {
-    this.showDetails.emit(kpiA1DetailResultElement);
+  emitShowDetails(kpiA1analyticDataId: number): void {
+    this.showDetails.emit(kpiA1analyticDataId);
   }
 }
 

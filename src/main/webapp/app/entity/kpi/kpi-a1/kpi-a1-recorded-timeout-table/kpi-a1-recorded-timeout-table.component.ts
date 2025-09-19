@@ -33,7 +33,7 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
-  @Input() kpiA1RecordedTimeoutRequest: KpiA1AnalyticData | undefined;
+  @Input() kpiA1analyticDataId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -59,8 +59,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   }
 
   ngOnChanges(): void {
-    if (this.kpiA1RecordedTimeoutRequest) {
-      this.fetchKpiA1AnalyticData(this.kpiA1RecordedTimeoutRequest);
+    if (this.kpiA1analyticDataId) {
+      this.fetchKpiA1AnalyticData(this.kpiA1analyticDataId);
     }
   }
 
@@ -76,15 +76,10 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   /**
    * Fetch KPI A1 Analytic Data by kpiA1DetailResultId
    */
-  fetchKpiA1AnalyticData(data: KpiA1AnalyticData): void {
+  fetchKpiA1AnalyticData(id: number): void {
     this.spinner.show('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      const req: KpiA1RecordedTimeoutRequest = {
-        cfPartner: parseInt(this.partnerFiscalCode),
-        station: data.stationName!,
-        method: data.method!,
-      };
-      this.kpiA1RecordedTimeoutService.find(req).subscribe({
+      this.kpiA1RecordedTimeoutService.find(id).subscribe({
         next: (data: KpiA1RecordedTimeout[]) => this.onSuccess(data),
         error: () => this.onError(),
       });

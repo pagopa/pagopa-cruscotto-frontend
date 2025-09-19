@@ -40,7 +40,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
   ];
   dataSource = new MatTableDataSource<KpiA1DetailResult>([]);
 
-  @Input() kpiA1ResultId: number | undefined;
+  @Input() kpiA1ResultId: number | null = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
