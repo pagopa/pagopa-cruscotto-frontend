@@ -28,14 +28,15 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid'];
+  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<number>();
+  // @Output() showDetails = new EventEmitter<number>();
+  @Output() showDetails = new EventEmitter<KpiB9AnalyticData>();
 
   isLoadingResults = false;
   locale: string;
@@ -149,11 +150,9 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
     });
   }
 
-  /**
-   * Emit selected detail ID for more details
-   */
-  emitShowDetails(kpiB9DetailResultId: number): void {
-    this.showDetails.emit(kpiB9DetailResultId);
+  onShowDetails(row: KpiB9AnalyticData) {
+    console.log('[B9] click showDetails, id=', row);
+      this.showDetails.emit(row);
   }
 }
 
