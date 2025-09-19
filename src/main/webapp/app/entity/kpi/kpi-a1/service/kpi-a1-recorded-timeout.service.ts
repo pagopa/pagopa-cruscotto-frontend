@@ -24,17 +24,18 @@ export class KpiA1RecordedTimeoutService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/pago-pa/recorded-timeout');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-a1-analytic-drilldown');
   }
 
   /**
-   * recupera i dati sulle richieste aggregati per partner, stazione e metodo
-   * @param req insieme dei parametri della query
+   * Recupera i versamenti con codice tassonomico errato per il periodo relativo al dato analitico.
+   *
+   * @param detailResultId ID del modulo.
+   * @returns Observable con l'array dei risultati di tipo KpiA1RecordedTimeout.
    */
-  find(req: KpiA1RecordedTimeoutRequest): Observable<KpiA1RecordedTimeout[]> {
-    const options = createRequestOption(req);
+  find(analyticDataId: number): Observable<KpiA1RecordedTimeout[]> {
     return this.http
-      .get<RestKpiA1RecordedTimeout[]>(this.resourceUrl, { params: options })
+      .get<RestKpiA1RecordedTimeout[]>(`${this.resourceUrl}/${analyticDataId}`)
       .pipe(map(res => res.map(item => this.convertFromServer(item))));
   }
 

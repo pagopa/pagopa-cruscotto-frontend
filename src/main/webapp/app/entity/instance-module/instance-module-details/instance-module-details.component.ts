@@ -76,7 +76,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
-  selectedKpiA1RecordedTimeoutQuery: KpiA1AnalyticData | null = null;
+  selectedKpiA1analyticDataId: number | null = null;
 
   isLoadingResults = false;
   hasPermission;
@@ -207,8 +207,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   // Metodi per la visualizzazione del quarto drilldown
-  onRecordedTimeoutQuery(kpiA1AnalyticData: KpiA1AnalyticData): void {
-    this.selectedKpiA1RecordedTimeoutQuery = this.selectedKpiA1RecordedTimeoutQuery?.id === kpiA1AnalyticData.id ? null : kpiA1AnalyticData;
+  onRecordedTimeoutQuery(kpiA1analyticDataId: number): void {
+    this.selectedKpiA1analyticDataId = this.selectedKpiA1analyticDataId === kpiA1analyticDataId ? null : kpiA1analyticDataId;
   }
 
   /**
