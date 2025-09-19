@@ -48,6 +48,7 @@
         },
         "KpiAnalyticResults": {
           "title": "Dati analitici",
+          "detailsTitle": "Dettaglio codici tassonomici errati: {{ module }}",
           "notExists": "Nessun dato analitico disponibile"
         }
       },

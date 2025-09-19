@@ -22,22 +22,16 @@ export class KpiA2WrongTaxCodesService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/pago-pa/taxonomy-aggregate-position/drilldown');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-a2-analytic-incorrect-taxonomy-data');
   }
 
   /**
-   * Recupera i dettagli dei KPI A2 per un dato modulo.
-   *
-   * @param cfPartner Codice fiscale del partner
-   * @param day Giornata di riferimento (formato: yyyy-MM-dd)
-   * @returns le righe presenti per la giornata selezionata che hanno un codice tassonomico errato
+   * NUOVO: recupera i record di drilldown per l'analyticDataId selezionato
    */
-  queryWrongTaxCodes(cfPartner: string, day: dayjs.Dayjs): Observable<IWrongTaxCode[]> {
-    const params = new HttpParams().set('cfPartner', cfPartner).set('day', day.format(DATE_FORMAT));
-    return this.http.get<RestWrongTaxCode[]>(this.resourceUrl, { params }).pipe(
-      first(),
-      map(res => res.map(item => this.convertFromServer(item))),
-    );
+  findByAnalyticDataId(analyticDataId: number): Observable<IWrongTaxCode[]> {
+    return this.http
+      .get<RestWrongTaxCode[]>(`${this.resourceUrl}/${analyticDataId}`)
+      .pipe(first(), map(res => res.map(item => this.convertFromServer(item))));
   }
 
   /**
