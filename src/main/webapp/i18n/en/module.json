@@ -48,6 +48,7 @@
         },
         "KpiAnalyticResults": {
           "title": "Analytical Data",
+          "detailsTitle": "Incorrect taxonomy codes drill-down: {{ module }}",
           "notExists": "No analytical data available"
         }
       },

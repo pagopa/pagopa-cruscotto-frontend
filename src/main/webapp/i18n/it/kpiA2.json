@@ -39,7 +39,9 @@
             "fromHour": "Da ora",
             "endHour": "A ora",
             "transferCategory": "Categoria versamenti",
-            "total": "Totale errati"
+            "total": "Totale errati",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           }
         }
       }
