@@ -1,15 +1,62 @@
-.mat-column-id,
-.mat-column-stationName,
-.mat-column-analysisDate,
-.mat-column-evaluationDate {
-  width: 150px;
-  text-align: center;
+/* Tabella analitici B.9 */
+.full-width-table { width: 100%; }
+
+/* contenitore scrollabile e header sticky */
+.table-container {
+  max-height: 56vh;
+  overflow: auto;
+  border-radius: 8px;
+}
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
 }
 
-.mat-column-totRes,
-.mat-column-resOk,
-.mat-column-resKoReal,
-.mat-column-resKoValid {
-  width: 150px;
+/* spaziatura e no-wrap negli header */
+.mat-header-cell, .mat-cell { padding: 10px 16px; }
+.mat-header-cell { white-space: nowrap; }
+
+/* ---- LARGHEZZE UNIFORMI ----
+   8 colonne => 12.5% ciascuna.  */
+.analytic-table .mat-column-analysisDate,
+.analytic-table .mat-column-stationName,
+.analytic-table .mat-column-evaluationDate,
+.analytic-table .mat-column-totRes,
+.analytic-table .mat-column-resOk,
+.analytic-table .mat-column-resKoReal,
+.analytic-table .mat-column-resKoValid,
+.analytic-table .mat-column-details {
+  width: 12.5%;
+}
+
+/* allineamenti */
+.analytic-table .mat-column-analysisDate,
+.analytic-table .mat-column-evaluationDate { text-align: center; }
+
+.analytic-table .mat-column-totRes,
+.analytic-table .mat-column-resOk,
+.analytic-table .mat-column-resKoReal,
+.analytic-table .mat-column-resKoValid,
+.num {
   text-align: right;
+}
+
+.analytic-table .mat-column-details, .details-cell { text-align: center; }
+
+/* tronca il testo troppo lungo (stazione) */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+/* zebra rows leggere */
+.mat-row:nth-child(even) { background: rgba(0,0,0,.02); }
+
+/* su schermi piccoli lascia scorrere orizzontalmente */
+@media (max-width: 900px) {
+  .full-width-table { min-width: 980px; }
 }

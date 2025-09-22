@@ -48,6 +48,8 @@
         },
         "KpiAnalyticResults": {
           "title": "Dati analitici",
+          "detailsTitle": "Dettaglio codici tassonomici errati: {{ module }}",
+          "drilldownTitleB9": "Dettaglio ricevute per fascia oraria: {{ module }}",
           "notExists": "Nessun dato analitico disponibile"
         }
       },
