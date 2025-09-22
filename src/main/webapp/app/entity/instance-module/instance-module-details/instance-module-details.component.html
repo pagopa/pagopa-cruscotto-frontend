@@ -210,6 +210,7 @@
         <jhi-kpi-b2-analytic-result-table
           *ngIf="selectedKpiB2DetailResultIdForAnalytics"
           [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
+          (showDetails)="onRecordedTimeoutShowDetailB2($event)"
         ></jhi-kpi-b2-analytic-result-table>
         <jhi-kpi-a2-analytic-result-table
           *ngIf="selectedKpiA2DetailResultIdForAnalytics"
@@ -218,6 +219,7 @@
         <jhi-kpi-a1-analytic-result-table
           *ngIf="selectedKpiA1DetailResultIdForAnalytics"
           [kpiA1DetailResultId]="selectedKpiA1DetailResultIdForAnalytics"
+          (showDetails)="onRecordedTimeoutQuery($event)"
         ></jhi-kpi-a1-analytic-result-table>
         <jhi-kpi-b9-analytic-result-table
           *ngIf="selectedKpiB9DetailResultIdForAnalytics"
@@ -229,38 +231,35 @@
   </div>
 </div>
 
-<!-- Quinto card: drilldown Analytic A.2 -->
-<!-- <div class="row mt-3" *ngIf="selectedKpiA2AnalyticIdForDrilldown">
+<!-- Quinta card contenente eventuali ulteriori drilldown -->
+<div
+  class="row mt-3"
+  *ngIf="
+    selectedKpiA2DetailResultIdForAnalytics ||
+    selectedKpiA1DetailResultIdForAnalytics ||
+    selectedKpiB2AnalyticId ||
+    (b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate)
+  "
+>
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
         <h3>
-          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.detailsTitle' | translate : { module: moduleDetails?.moduleCode } }}
+          <h3>
+            {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
+            {{ moduleDetails?.moduleCode }}
+          </h3>
         </h3>
-
-        <jhi-kpi-a2-analytic-drilldown-table
-          [analyticDataId]="selectedKpiA2AnalyticIdForDrilldown"
-          [locale]="locale">
-        </jhi-kpi-a2-analytic-drilldown-table>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div> -->
-
-<!-- CARD drilldown B.9 -->
-<div class="row mt-3" *ngIf="b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate">
-  <div class="col-md-12">
-    <mat-card class="mat-elevation-z8">
-      <mat-card-content>
-        <h3>
-          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.drilldownTitleB9' | translate : { module: moduleDetails?.moduleCode } }}
-        </h3>
-
+        <jhi-kpi-a1-recorded-timeout-table *ngIf="selectedKpiA1analyticDataId" [kpiA1analyticDataId]="selectedKpiA1analyticDataId">
+        </jhi-kpi-a1-recorded-timeout-table>
+        <jhi-kpi-b2-recorded-timeout-table *ngIf="selectedKpiB2AnalyticId" [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticId">
+        </jhi-kpi-b2-recorded-timeout-table>
         <jhi-kpi-b9-analytic-drilldown-table
           [instanceId]="b9DrillInstanceId!"
           [stationId]="b9DrillStationId!"
           [evaluationDate]="b9DrillEvaluationDate!"
-          [locale]="locale">
+          [locale]="locale"
+        >
         </jhi-kpi-b9-analytic-drilldown-table>
       </mat-card-content>
     </mat-card>
