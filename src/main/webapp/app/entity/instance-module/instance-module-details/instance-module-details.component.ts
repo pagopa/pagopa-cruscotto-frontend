@@ -31,6 +31,8 @@ import { ModuleStatus } from '../models/module-status.model';
 import { KpiA1RecordedTimeoutRequest } from 'app/entity/kpi/kpi-a1/models/KpiA1RecordedTimeout';
 import { KpiA1RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-a1/kpi-a1-recorded-timeout-table/kpi-a1-recorded-timeout-table.component';
 import { KpiA1AnalyticData } from 'app/entity/kpi/kpi-a1/models/KpiA1AnalyticData';
+import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
+import { KpiB2AnalyticData } from 'app/entity/kpi/kpi-b2/models/KpiB2AnalyticData';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -55,6 +57,7 @@ import { KpiA1AnalyticData } from 'app/entity/kpi/kpi-a1/models/KpiA1AnalyticDat
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
     KpiB9AnalyticResultTableComponent,
+    KpiB2RecordedTimeoutTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -77,6 +80,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
   selectedKpiA1analyticDataId: number | null = null;
+  selectedKpiB2AnalyticId: number | null = null;
 
   isLoadingResults = false;
   hasPermission;
@@ -209,6 +213,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   // Metodi per la visualizzazione del quarto drilldown
   onRecordedTimeoutQuery(kpiA1analyticDataId: number): void {
     this.selectedKpiA1analyticDataId = this.selectedKpiA1analyticDataId === kpiA1analyticDataId ? null : kpiA1analyticDataId;
+  }
+
+  onRecordedTimeoutShowDetailB2(kpiB2AnalyticDataId: number): void {
+    this.selectedKpiB2AnalyticId = this.selectedKpiB2AnalyticId === kpiB2AnalyticDataId ? null : kpiB2AnalyticDataId;
   }
 
   /**
