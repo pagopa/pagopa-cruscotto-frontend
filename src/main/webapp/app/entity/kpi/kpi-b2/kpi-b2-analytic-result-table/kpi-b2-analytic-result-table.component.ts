@@ -34,7 +34,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<KpiB2AnalyticData>();
+  @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
   locale: string;
@@ -159,7 +159,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiB2DetailResult: KpiB2AnalyticData): void {
+  emitShowDetails(kpiB2DetailResult: number): void {
     this.showDetails.emit(kpiB2DetailResult);
   }
 }

@@ -210,7 +210,7 @@
         <jhi-kpi-b2-analytic-result-table
           *ngIf="selectedKpiB2DetailResultIdForAnalytics"
           [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
-          (showDetails)="onRecordedTimeoutB2Query($event)"
+          (showDetails)="onRecordedTimeoutShowDetailB2($event)"
         ></jhi-kpi-b2-analytic-result-table>
         <jhi-kpi-a2-analytic-result-table
           *ngIf="selectedKpiA2DetailResultIdForAnalytics"
@@ -230,7 +230,7 @@
 </div>
 
 <!-- Quinta card contenente eventuali ulteriori drilldown -->
-<div class="row mt-3" *ngIf="selectedKpiB2RecordedTimeoutQuery">
+<div class="row mt-3" *ngIf="selectedKpiB2AnalyticId">
   <div class="col-md-12">
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
@@ -240,10 +240,7 @@
             {{ moduleDetails?.moduleCode }}
           </h3>
         </h3>
-        <jhi-kpi-b2-recorded-timeout-table
-          *ngIf="selectedKpiB2RecordedTimeoutQuery"
-          [kpiB2RecordedTimeoutRequest]="selectedKpiB2RecordedTimeoutQuery"
-        >
+        <jhi-kpi-b2-recorded-timeout-table *ngIf="selectedKpiB2AnalyticId" [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticId">
         </jhi-kpi-b2-recorded-timeout-table>
       </mat-card-content>
     </mat-card>

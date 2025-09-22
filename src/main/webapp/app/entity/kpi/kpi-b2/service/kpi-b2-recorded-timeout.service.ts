@@ -7,6 +7,7 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 import { DATE_FORMAT } from '../../../../config/input.constants';
 import { createRequestOption } from 'app/core/request/request-util';
 import { KpiB2RecordedTimeout, KpiB2RecordedTimeoutRequest } from '../models/KpiB2RecordedTimeout';
+import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
 
 type RestKpiB2RecordedTimeout = Omit<KpiB2RecordedTimeout, 'startDate' | 'endDate'> & {
   startDate?: string | null;
@@ -23,17 +24,16 @@ export class KpiB2RecordedTimeoutService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/pago-pa/recorded-timeout');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-b2-analytic-drilldown');
   }
 
   /**
    * recupera i dati sulle richieste aggregati per partner, stazione e metodo
-   * @param req insieme dei parametri della query
+   * @param kpiB2AnalyticDataId id del dato analitico di riferimento
    */
-  find(req: KpiB2RecordedTimeoutRequest): Observable<KpiB2RecordedTimeout[]> {
-    const options = createRequestOption(req);
+  find(kpiB2AnalyticDataId: number): Observable<KpiB2RecordedTimeout[]> {
     return this.http
-      .get<RestKpiB2RecordedTimeout[]>(this.resourceUrl, { params: options })
+      .get<RestKpiB2RecordedTimeout[]>(`${this.resourceUrl}/${kpiB2AnalyticDataId}`)
       .pipe(map(res => res.map(item => this.convertFromServer(item))));
   }
 
