@@ -28,6 +28,9 @@ import { IInstance, InstanceStatus } from 'app/entity/instance/models/instance.m
 import { switchMap } from 'rxjs';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ModuleStatus } from '../models/module-status.model';
+import { KpiA1RecordedTimeoutRequest } from 'app/entity/kpi/kpi-a1/models/KpiA1RecordedTimeout';
+import { KpiA1RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-a1/kpi-a1-recorded-timeout-table/kpi-a1-recorded-timeout-table.component';
+import { KpiA1AnalyticData } from 'app/entity/kpi/kpi-a1/models/KpiA1AnalyticData';
 import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
 import { KpiB2AnalyticData } from 'app/entity/kpi/kpi-b2/models/KpiB2AnalyticData';
 
@@ -40,16 +43,17 @@ import { KpiB2AnalyticData } from 'app/entity/kpi/kpi-b2/models/KpiB2AnalyticDat
     TranslatePipe,
     FormatDatePipe,
     MatSelectModule,
-    KpiB2ResultTableComponent,
     NgxSpinnerComponent,
-    KpiA2ResultTableComponent,
     KpiA1ResultTableComponent,
-    KpiB2DetailResultTableComponent,
-    KpiB2AnalyticResultTableComponent,
-    KpiA2DetailResultTableComponent,
-    KpiA2AnalyticResultTableComponent,
     KpiA1DetailResultTableComponent,
     KpiA1AnalyticResultTableComponent,
+    KpiA1RecordedTimeoutTableComponent,
+    KpiA2ResultTableComponent,
+    KpiA2AnalyticResultTableComponent,
+    KpiA2DetailResultTableComponent,
+    KpiB2DetailResultTableComponent,
+    KpiB2ResultTableComponent,
+    KpiB2AnalyticResultTableComponent,
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
     KpiB9AnalyticResultTableComponent,
@@ -75,6 +79,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
+  selectedKpiA1analyticDataId: number | null = null;
   selectedKpiB2AnalyticId: number | null = null;
 
   isLoadingResults = false;
@@ -203,6 +208,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
     this.selectedKpiB9DetailResultIdForAnalytics =
       this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+  }
+
+  // Metodi per la visualizzazione del quarto drilldown
+  onRecordedTimeoutQuery(kpiA1analyticDataId: number): void {
+    this.selectedKpiA1analyticDataId = this.selectedKpiA1analyticDataId === kpiA1analyticDataId ? null : kpiA1analyticDataId;
   }
 
   onRecordedTimeoutShowDetailB2(kpiB2AnalyticDataId: number): void {
