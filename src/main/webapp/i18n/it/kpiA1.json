@@ -48,6 +48,13 @@
             "reqTimeoutValid": "Timeout Validi",
             "kpiA1DetailResultId": "Id Dettaglio KPI A.1",
             "stationName": "  Stazione"
+          },
+          "KpiRecordedTimeout": {
+            "startDate": "Da ora",
+            "endDate": "A ora",
+            "totReq": "Totale richieste",
+            "reqOk": "rek ok",
+            "reqTimeout": "Richieste In Timeout"
           }
         }
       }
