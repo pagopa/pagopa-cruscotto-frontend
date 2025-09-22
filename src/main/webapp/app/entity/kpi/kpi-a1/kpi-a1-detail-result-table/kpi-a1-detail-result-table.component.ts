@@ -30,21 +30,17 @@ import { EvaluationType, OutcomeStatus } from '../models/KpiA1Result';
 })
 export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'analysisDate',
-    'stationName',
-    'method',
+    'evaluationStartDate',
+    'evaluationEndDate',
     'totalRequests',
     'reqTimeout',
     'timeoutPercentage',
-    'evaluationStartDate',
-    'evaluationEndDate',
     'evaluationType',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiA1DetailResult>([]);
 
-  @Input() kpiA1ResultId: number | undefined;
+  @Input() kpiA1ResultId: number | null = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
