@@ -33,7 +33,7 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiB2RecordedTimeout>([]);
 
-  @Input() kpiB2RecordedTimeoutRequest: KpiB2AnalyticData | undefined;
+  @Input() selectedKpiB2RecordedTimeoutId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -41,15 +41,12 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
 
   isLoadingResults = false;
   locale: string;
-  partnerFiscalCode: string = '';
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly route = inject(ActivatedRoute);
   private readonly kpiB2RecordedTimeoutService = inject(KpiB2RecordedTimeoutService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
-    this.route.data.pipe(takeUntilDestroyed()).subscribe(_ => (this.partnerFiscalCode = _.instance.partnerFiscalCode));
   }
 
   ngOnInit(): void {
@@ -59,8 +56,8 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   }
 
   ngOnChanges(): void {
-    if (this.kpiB2RecordedTimeoutRequest) {
-      this.fetchKpiB2AnalyticData(this.kpiB2RecordedTimeoutRequest);
+    if (this.selectedKpiB2RecordedTimeoutId) {
+      this.fetchKpiB2AnalyticData(this.selectedKpiB2RecordedTimeoutId);
     }
   }
 
@@ -76,15 +73,10 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   /**
    * Fetch KPI B2 Analytic Data by kpiB2DetailResultId
    */
-  fetchKpiB2AnalyticData(data: KpiB2AnalyticData): void {
+  fetchKpiB2AnalyticData(selectedKpiB2RecordedTimeoutId: number): void {
     this.spinner.show('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      const req: KpiB2RecordedTimeoutRequest = {
-        cfPartner: parseInt(this.partnerFiscalCode),
-        station: data.stationName!,
-        method: data.method!,
-      };
-      this.kpiB2RecordedTimeoutService.find(req).subscribe({
+      this.kpiB2RecordedTimeoutService.find(selectedKpiB2RecordedTimeoutId).subscribe({
         next: (data: KpiB2RecordedTimeout[]) => this.onSuccess(data),
         error: () => this.onError(),
       });

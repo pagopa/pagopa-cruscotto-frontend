@@ -75,7 +75,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
-  selectedKpiB2RecordedTimeoutQuery: any;
+  selectedKpiB2AnalyticId: number | null = null;
 
   isLoadingResults = false;
   hasPermission;
@@ -205,8 +205,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
   }
 
-  onRecordedTimeoutB2Query(kpiB2AnalyticData: KpiB2AnalyticData): void {
-    this.selectedKpiB2RecordedTimeoutQuery = this.selectedKpiB2RecordedTimeoutQuery?.id === kpiB2AnalyticData.id ? null : kpiB2AnalyticData;
+  onRecordedTimeoutShowDetailB2(kpiB2AnalyticDataId: number): void {
+    this.selectedKpiB2AnalyticId = this.selectedKpiB2AnalyticId === kpiB2AnalyticDataId ? null : kpiB2AnalyticDataId;
   }
 
   /**
