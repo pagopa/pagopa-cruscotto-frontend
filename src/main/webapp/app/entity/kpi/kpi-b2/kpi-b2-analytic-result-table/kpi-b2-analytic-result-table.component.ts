@@ -27,7 +27,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   ],
 })
 export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime'];
+  displayedColumns: string[] = ['stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime', 'details'];
   dataSource = new MatTableDataSource<KpiB2AnalyticData>([]);
 
   @Input() kpiB2DetailResultId: number | undefined;
@@ -159,8 +159,8 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Emit selected module ID for more details
    */
-  emitShowDetails(kpiB2DetailResultId: number): void {
-    this.showDetails.emit(kpiB2DetailResultId);
+  emitShowDetails(kpiB2DetailResult: number): void {
+    this.showDetails.emit(kpiB2DetailResult);
   }
 }
 

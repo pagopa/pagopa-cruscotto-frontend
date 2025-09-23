@@ -41,7 +41,15 @@
             "resOk": "Risposte OK",
             "resKoReal": "Risposte KO Reali",
             "resKoValid": "Response KO Valide",
-            "stationName": "Stazione"
+            "stationName": "Stazione",
+            "showDetails": "Mostra dettagli",
+            "details": "Dettagli Risultato"
+          },
+          "KpiAnalyticDrilldown": {
+            "startTime": "Da ora",
+            "endTime": "A ora",
+            "totRes": "Totale response",
+            "resKo": "Response KO"
           }
         }
       }
