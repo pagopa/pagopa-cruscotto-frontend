@@ -29,8 +29,7 @@
         <!-- Seconda riga: Stato, Tipologia Analisi, Utente Assegnato, Consenti Risultato Manuale -->
         <div class="row custom-row p-2">
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</strong></span
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.status' | translate }}</span
             ><br />
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
@@ -49,21 +48,15 @@
           </div>
 
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.analysisType' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.analysisType || 'N/A' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.assignedTo' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.assignedUserFirstName || '' }} {{ moduleDetails.assignedUserLastName || '' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
           </div>
         </div>
@@ -71,21 +64,15 @@
         <!-- Terza riga: Risultato Automatico, Data Risultato Automatico, Risultato Manuale, Data Risultato Manuale -->
         <div class="row custom-row p-2">
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcome' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.automaticOutcome || 'N/A' }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.automaticOutcomeDate' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.automaticOutcomeDate | formatDate: 'L LTS' : locale }}</p>
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcome' | translate }}</span>
             @if (hasPermission()) {
               <mat-form-field class="d-flex custom-form-select">
                 <mat-select
@@ -102,9 +89,7 @@
             }
           </div>
           <div class="col-lg-3">
-            <span
-              ><strong>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</strong></span
-            >
+            <span>{{ 'pagopaCruscottoApp.instanceModule.detail.manualOutcomeDate' | translate }}</span>
             <p class="p-2 bg-light">{{ moduleDetails.manualOutcomeDate | formatDate: 'L LTS' : locale }}</p>
           </div>
         </div>
@@ -202,11 +187,10 @@
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
         <h3>
-          <h3>
-            {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
-            {{ moduleDetails?.moduleCode }}
-          </h3>
+          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
+          {{ moduleDetails?.moduleCode }}
         </h3>
+
         <jhi-kpi-b2-analytic-result-table
           *ngIf="selectedKpiB2DetailResultIdForAnalytics"
           [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
@@ -215,6 +199,7 @@
         <jhi-kpi-a2-analytic-result-table
           *ngIf="selectedKpiA2DetailResultIdForAnalytics"
           [kpiA2DetailResultId]="selectedKpiA2DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsA2($event)"
         ></jhi-kpi-a2-analytic-result-table>
         <jhi-kpi-a1-analytic-result-table
           *ngIf="selectedKpiA1DetailResultIdForAnalytics"
@@ -235,8 +220,8 @@
 <div
   class="row mt-3"
   *ngIf="
-    selectedKpiA2DetailResultIdForAnalytics ||
-    selectedKpiA1DetailResultIdForAnalytics ||
+    selectedKpiA1analyticDataId ||
+    selectedKpiA2AnalyticIdForDrilldown ||
     selectedKpiB2AnalyticId ||
     (b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate)
   "
@@ -245,16 +230,25 @@
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
         <h3>
-          <h3>
-            {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
-            {{ moduleDetails?.moduleCode }}
-          </h3>
+          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticResults.title' | translate }}:
+          {{ moduleDetails?.moduleCode }}
         </h3>
+
         <jhi-kpi-a1-recorded-timeout-table *ngIf="selectedKpiA1analyticDataId" [kpiA1analyticDataId]="selectedKpiA1analyticDataId">
         </jhi-kpi-a1-recorded-timeout-table>
+
+        <jhi-kpi-a2-analytic-drilldown-table
+          *ngIf="selectedKpiA2AnalyticIdForDrilldown"
+          [analyticDataId]="selectedKpiA2AnalyticIdForDrilldown"
+          [locale]="locale"
+        >
+        </jhi-kpi-a2-analytic-drilldown-table>
+
         <jhi-kpi-b2-recorded-timeout-table *ngIf="selectedKpiB2AnalyticId" [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticId">
         </jhi-kpi-b2-recorded-timeout-table>
+
         <jhi-kpi-b9-analytic-drilldown-table
+          *ngIf="b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate"
           [instanceId]="b9DrillInstanceId!"
           [stationId]="b9DrillStationId!"
           [evaluationDate]="b9DrillEvaluationDate!"

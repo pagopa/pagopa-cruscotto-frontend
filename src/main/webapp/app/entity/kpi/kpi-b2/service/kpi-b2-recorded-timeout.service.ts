@@ -5,9 +5,7 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { DATE_FORMAT } from '../../../../config/input.constants';
-import { createRequestOption } from 'app/core/request/request-util';
-import { KpiB2RecordedTimeout, KpiB2RecordedTimeoutRequest } from '../models/KpiB2RecordedTimeout';
-import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
+import { KpiB2RecordedTimeout } from '../models/KpiB2RecordedTimeout';
 
 type RestKpiB2RecordedTimeout = Omit<KpiB2RecordedTimeout, 'startDate' | 'endDate'> & {
   startDate?: string | null;
@@ -24,7 +22,7 @@ export class KpiB2RecordedTimeoutService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-b2-analytic-drilldown');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-b2-analytic-drilldown');
   }
 
   /**
