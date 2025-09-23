@@ -24,7 +24,7 @@
             "evaluationType": "Evaluation Type",
             "outcome": "Result",
             "details": "Details",
-            "showDetails": "Show detail",
+            "showDetails": "Show details",
             "stationName": "Station",
             "totRes": "Total Responses",
             "resKo": "Responses KO",
@@ -41,7 +41,15 @@
             "resOk": "Responses OK",
             "resKoReal": "Real Responses KO",
             "resKoValid": "Valid Response KO",
-            "stationName": "Station"
+            "stationName": "Station",
+            "showDetails": "Show details",
+            "details": "Results Detail"
+          },
+          "KpiAnalyticDrilldown": {
+            "startTime": "Start time",
+            "endTime": "End time",
+            "totRes": "Total Responses",
+            "resKo": "Responses KO"
           }
         }
       }

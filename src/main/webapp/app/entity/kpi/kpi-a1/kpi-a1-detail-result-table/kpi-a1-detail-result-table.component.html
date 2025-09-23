@@ -5,7 +5,53 @@
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
-        <ng-container matColumnDef="analysisDate">
+        <ng-container matColumnDef="evaluationStartDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.evaluationStartDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationStartDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="evaluationEndDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.evaluationEndDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationEndDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalRequests">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.totalRequests' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">
+            {{ element.totReq | number }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="reqTimeout">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.reqTimeout' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">{{ element.reqTimeout | number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeoutPercentage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.timeoutPercentage' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">
+            {{ element.timeoutPercentage | number: '1.5-5' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="evaluationType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.evaluationType' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.analysisDate' | translate }}
           </th>
@@ -83,7 +129,7 @@
           >
             {{ element.outcome }}
           </td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Colonna Details -->
         <ng-container matColumnDef="details">

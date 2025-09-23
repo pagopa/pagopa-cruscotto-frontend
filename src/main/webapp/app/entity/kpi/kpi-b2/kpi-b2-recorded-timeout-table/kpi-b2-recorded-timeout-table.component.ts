@@ -5,16 +5,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { KpiB9AnalyticDataService } from '../service/kpi-b9-analytic-data.service';
-
+import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { KpiB2RecordedTimeout, KpiB2RecordedTimeoutRequest } from '../models/KpiB2RecordedTimeout';
+import { KpiB2RecordedTimeoutService } from '../service/kpi-b2-recorded-timeout.service';
 
 @Component({
-  selector: 'jhi-kpi-b9-analytic-result-table',
-  templateUrl: './kpi-b9-analytic-result-table.component.html',
-  styleUrls: ['./kpi-b9-analytic-result-table.component.scss'],
+  selector: 'jhi-kpi-b2-recorded-timeout-table',
+  templateUrl: './kpi-b2-recorded-timeout-table.component.html',
+  styleUrls: ['./kpi-b2-recorded-timeout-table.component.scss'],
   imports: [
     MatPaginatorModule,
     MatSortModule,
@@ -27,23 +29,21 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
     DecimalPipe,
   ],
 })
-export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
-  dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
+export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
+  displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
+  dataSource = new MatTableDataSource<KpiB2RecordedTimeout>([]);
 
-  @Input() kpiB9DetailResultId: number | undefined;
+  @Input() selectedKpiB2RecordedTimeoutId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  // @Output() showDetails = new EventEmitter<number>();
-  @Output() showDetails = new EventEmitter<KpiB9AnalyticData>();
+  @Output() showDetails = new EventEmitter<KpiB2AnalyticData>();
 
   isLoadingResults = false;
   locale: string;
   private readonly translateService = inject(TranslateService);
-
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly kpiB9AnalyticDataService = inject(KpiB9AnalyticDataService);
+  private readonly kpiB2RecordedTimeoutService = inject(KpiB2RecordedTimeoutService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -56,8 +56,8 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngOnChanges(): void {
-    if (this.kpiB9DetailResultId) {
-      this.fetchKpiB9AnalyticData(this.kpiB9DetailResultId);
+    if (this.selectedKpiB2RecordedTimeoutId) {
+      this.fetchKpiB2AnalyticData(this.selectedKpiB2RecordedTimeoutId);
     }
   }
 
@@ -71,13 +71,13 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   /**
-   * Fetch KPI B9 Analytic Data by kpiB9DetailResultId
+   * Fetch KPI B2 Analytic Data by kpiB2DetailResultId
    */
-  fetchKpiB9AnalyticData(detailResultId: number): void {
-    this.spinner.show('isLoadingResultsKpiB9AnalyticResultTable').then(() => {
+  fetchKpiB2AnalyticData(selectedKpiB2RecordedTimeoutId: number): void {
+    this.spinner.show('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.kpiB9AnalyticDataService.findByDetailResultId(detailResultId).subscribe({
-        next: (data: KpiB9AnalyticData[]) => this.onSuccess(data),
+      this.kpiB2RecordedTimeoutService.find(selectedKpiB2RecordedTimeoutId).subscribe({
+        next: (data: KpiB2RecordedTimeout[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
     });
@@ -86,8 +86,8 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
   /**
    * Handle successful data retrieval
    */
-  protected onSuccess(data: KpiB9AnalyticData[]): void {
-    this.spinner.hide('isLoadingResultsKpiB9AnalyticResultTable').then(() => {
+  protected onSuccess(data: KpiB2RecordedTimeout[]): void {
+    this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
@@ -100,10 +100,10 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
    * Handle errors during data retrieval
    */
   protected onError(): void {
-    this.spinner.hide('isLoadingResultsKpiB9AnalyticResultTable').then(() => {
+    this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = [];
-      console.error('Errore durante il recupero dei dati analitici KPI B9');
+      console.error('Error retrieving KPI B2 Analytic Data');
     });
   }
 
@@ -128,31 +128,27 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'id':
-          return compare(a.id, b.id, isAsc);
-        case 'stationName':
-          return compare(a.stationName, b.stationName, isAsc);
-        case 'analysisDate':
-          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'evaluationDate':
-          return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
-        case 'totRes':
-          return compare(a.totRes, b.totRes, isAsc);
-        case 'resOk':
-          return compare(a.resOk, b.resOk, isAsc);
-        case 'resKoReal':
-          return compare(a.resKoReal, b.resKoReal, isAsc);
-        case 'resKoValid':
-          return compare(a.resKoValid, b.resKoValid, isAsc);
+        case 'startDate':
+          return compare(a.startDate?.toISOString(), b.startDate?.toISOString(), isAsc);
+        case 'endDate':
+          return compare(a.endDate?.toISOString(), b.endDate?.toISOString(), isAsc);
+        case 'totReq':
+          return compare(a.totReq, b.totReq, isAsc);
+        case 'reqOk':
+          return compare(a.reqOk, b.reqOk, isAsc);
+        case 'reqTimeout':
+          return compare(a.reqTimeout, b.reqTimeout, isAsc);
         default:
           return 0;
       }
     });
   }
 
-  onShowDetails(row: KpiB9AnalyticData) {
-    console.log('[B9] click showDetails, id=', row);
-      this.showDetails.emit(row);
+  /**
+   * Emit selected module ID for more details
+   */
+  emitShowDetails(kpiB2DetailResultId: KpiB2AnalyticData): void {
+    this.showDetails.emit(kpiB2DetailResultId);
   }
 }
 
