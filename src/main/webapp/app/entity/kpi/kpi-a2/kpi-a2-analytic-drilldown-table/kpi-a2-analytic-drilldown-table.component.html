@@ -1,0 +1,49 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="small" color="#ffffff"
+             name="isLoadingResultsKpiA2AnalyticDrilldown">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
+        <ng-container matColumnDef="fromHour">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.fromHour' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e">{{ e.fromHour | date:'HH:mm' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endHour">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.endHour' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e">{{ e.endHour | date:'HH:mm' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="transferCategory">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.transferCategory' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e">{{ e.transferCategory }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.total' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e" class="text-start">{{ e.total }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>

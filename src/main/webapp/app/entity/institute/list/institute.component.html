@@ -176,12 +176,7 @@
                 </ng-container> -->
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-
-                <tr
-                  mat-row
-                  *matRowDef="let row; columns: displayedColumns"
-                  [ngClass]="{ highlightTableColor: selectedRowId == row.id }"
-                ></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
                 <tr class="mat-row" *matNoDataRow>
                   <td class="mat-cell font-weight-bold text-center" colspan="6">{{ 'entity.list.noResult' | translate }}</td>
