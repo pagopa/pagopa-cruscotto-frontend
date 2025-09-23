@@ -63,7 +63,7 @@ mat-card.user-card {
   margin-right: 0.6em;
   margin-left: 0.6em;
   box-shadow: none !important;
-  background-color: #2d32aa;
+  background-color: var(--brand-color);
 
   button.mat-button mat-icon {
     vertical-align: baseline !important;

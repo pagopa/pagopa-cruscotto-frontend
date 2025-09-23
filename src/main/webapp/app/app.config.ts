@@ -137,7 +137,7 @@ export const appConfig: ApplicationConfig = {
     MatIconRegistry,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' },
+      useValue: { appearance: 'outline' },
     },
   ],
 };

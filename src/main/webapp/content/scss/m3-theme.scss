@@ -9,9 +9,12 @@ $_palettes: (
     20: #0001ac,
     25: #0001cd,
     30: #0000ef,
-    35: #1a21ff,
-    40: #343dff,
-    50: #5a64ff,
+    35: #0062c3,
+    //1a21ff,
+    40: #0073e6,
+    //343dff,
+    50: #2185e9,
+    //5a64ff,
     60: #7c84ff,
     70: #9da3ff,
     80: #bec2ff,
@@ -138,6 +141,9 @@ $light-theme: mat.define-theme(
       theme-type: light,
       primary: $_primary,
       tertiary: $_tertiary,
+    ),
+    typography: (
+      plain-family: Titillium Web,
     ),
   )
 );

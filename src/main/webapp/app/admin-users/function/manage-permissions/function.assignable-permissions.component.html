@@ -13,7 +13,7 @@
       <div>
         <button
           type="button"
-          mat-raised-button
+          mat-stroked-button
           size="small"
           color="primary"
           *jhiHasAnyAuthority="Authority.FUNCTION_MANAGEMENT"
@@ -127,7 +127,12 @@
           <tr mat-footer-row *matFooterRowDef="['filter']; sticky: true"></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell font-weight-bold text-center" colspan="4">{{ 'entity.list.noResult' | translate }}</td>
+            <td *ngIf="!isLoadingResults" class="mat-cell font-weight-bold" colspan="4">
+              <div class="no-data-row">
+                <mat-icon svgIcon="no-data" aria-hidden="false" aria-label="No data"></mat-icon>
+                <span>{{ 'entity.list.noResult' | translate }}</span>
+              </div>
+            </td>
           </tr>
         </table>
       </div>

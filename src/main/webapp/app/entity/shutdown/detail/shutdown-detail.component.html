@@ -12,7 +12,7 @@
         <span *jhiHasAnyAuthority="Authority.SHUTDOWN_MANAGEMENT">
           <button
             id="jh-create-entity"
-            mat-raised-button
+            mat-stroked-button
             color="primary"
             *ngIf="shutdown.typePlanned === planned"
             [routerLink]="['/entity/shutdowns', shutdown.id, 'edit']"
