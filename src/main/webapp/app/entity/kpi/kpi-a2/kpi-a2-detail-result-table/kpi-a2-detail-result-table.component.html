@@ -73,7 +73,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiDetailResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="primary" (click)="emitShowDetails(element.id)">
+            <button mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiDetailResults.showDetails' | translate }}
             </button>
           </td>

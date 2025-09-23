@@ -21,7 +21,7 @@ export default class AppComponent {
   private readonly iconLibrary = inject(FaIconLibrary);
   private readonly languageService = inject(LanguageService);
   private readonly matIconRegistry = inject(MatIconRegistry);
-  private readonly domSanitizer = inject(DomSanitizer);
+  private readonly sanitizer = inject(DomSanitizer);
 
   constructor() {
     this.applicationConfigService.setEndpointPrefix(SERVER_API_URL);
@@ -29,5 +29,6 @@ export default class AppComponent {
     registerLocaleData(locale);
     this.iconLibrary.addIcons(...fontAwesomeIcons);
     this.matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
+    this.matIconRegistry.addSvgIcon('no-data', this.sanitizer.bypassSecurityTrustResourceUrl('../content/svg/no_data.svg'));
   }
 }
