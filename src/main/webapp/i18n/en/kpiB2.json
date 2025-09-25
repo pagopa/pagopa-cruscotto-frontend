@@ -48,6 +48,13 @@
             "details": "Details",
             "showDetails": "Show Details",
             "stationName": "Station"
+          },
+          "KpiRecordedTimeout": {
+            "fromHour": "From hour",
+            "endHour": "To hour",
+            "okRequests": "OK requests",
+            "totalRequests": "Total Requests",
+            "averageTimeMs": "Average time (ms)"
           }
         }
       }

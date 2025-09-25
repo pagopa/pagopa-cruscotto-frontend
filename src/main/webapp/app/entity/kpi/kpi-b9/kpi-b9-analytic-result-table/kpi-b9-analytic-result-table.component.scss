@@ -1,5 +1,7 @@
 /* Tabella analitici B.9 */
-.full-width-table { width: 100%; }
+.full-width-table {
+  width: 100%;
+}
 
 /* contenitore scrollabile e header sticky */
 .table-container {
@@ -15,8 +17,13 @@
 }
 
 /* spaziatura e no-wrap negli header */
-.mat-header-cell, .mat-cell { padding: 10px 16px; }
-.mat-header-cell { white-space: nowrap; }
+.mat-header-cell,
+.mat-cell {
+  padding: 10px 16px;
+}
+.mat-header-cell {
+  white-space: nowrap;
+}
 
 /* ---- LARGHEZZE UNIFORMI ----
    8 colonne => 12.5% ciascuna.  */
@@ -33,7 +40,9 @@
 
 /* allineamenti */
 .analytic-table .mat-column-analysisDate,
-.analytic-table .mat-column-evaluationDate { text-align: center; }
+.analytic-table .mat-column-evaluationDate {
+  text-align: center;
+}
 
 .analytic-table .mat-column-totRes,
 .analytic-table .mat-column-resOk,
@@ -43,7 +52,14 @@
   text-align: right;
 }
 
-.analytic-table .mat-column-details, .details-cell { text-align: center; }
+.mat-column-details {
+  text-align: center;
+}
+
+.analytic-table .mat-column-details,
+.details-cell {
+  text-align: center;
+}
 
 /* tronca il testo troppo lungo (stazione) */
 .truncate {
@@ -54,9 +70,13 @@
 }
 
 /* zebra rows leggere */
-.mat-row:nth-child(even) { background: rgba(0,0,0,.02); }
+.mat-row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
 
 /* su schermi piccoli lascia scorrere orizzontalmente */
 @media (max-width: 900px) {
-  .full-width-table { min-width: 980px; }
+  .full-width-table {
+    min-width: 980px;
+  }
 }
