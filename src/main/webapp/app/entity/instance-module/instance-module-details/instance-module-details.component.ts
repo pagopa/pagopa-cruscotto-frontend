@@ -212,6 +212,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.b9DrillStationId = row.stationId!;
       this.b9DrillEvaluationDate = row.evaluationDate!;
     }
+    this.resetAnalyticsVariables();
   }
   onShowDetailsA1(kpiA1ResultId: number): void {
     this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
@@ -258,10 +259,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo per resettare tutte le variabili legate ad analytics
    */
   resetAnalyticsVariables(): void {
+    this.selectedKpiA1DetailResultIdForAnalytics = null;
+
     this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
     this.selectedKpiA2AnalyticIdForDrilldown = null;
-    this.selectedKpiA1DetailResultIdForAnalytics = null;
     this.selectedKpiB9DetailResultIdForAnalytics = null;
     this.selectedKpiB9AnalyticIdForDrilldown = null;
     this.b9DrillInstanceId = this.b9DrillStationId = null;
@@ -272,10 +274,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    * Metodo per resettare tutte le variabili legate ad analytics
    */
   resetAllVariables(): void {
+    this.selectedKpiA1ResultIdForDetailsResults = null;
+
     this.selectedKpiB2ResultIdForDetailsResults = null;
     this.selectedKpiA2ResultIdForDetailsResults = null;
     this.selectedKpiA2AnalyticIdForDrilldown = null;
-    this.selectedKpiA1ResultIdForDetailsResults = null;
     this.selectedKpiB9ResultIdForDetailsResults = null;
     this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
