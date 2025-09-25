@@ -5,24 +5,41 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort [matSortActive]="'startTime'" [matSortDirection]="'asc'" matSortDisableClear class="full-width-table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        [matSortActive]="'startTime'"
+        [matSortDirection]="'asc'"
+        (matSortChange)="sortData($event)"
+        matSortDisableClear
+        class="full-width-table"
+      >
         <ng-container matColumnDef="startTime">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.startTime' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.startTime' | translate }}
+          </th>
           <td mat-cell *matCellDef="let r">{{ r.startTime | date: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="endTime">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.endTime' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.endTime' | translate }}
+          </th>
           <td mat-cell *matCellDef="let r">{{ r.endTime | date: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="totRes">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.totRes' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.totRes' | translate }}
+          </th>
           <td mat-cell *matCellDef="let r">{{ r.totRes | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="resKo">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.resKo' | translate }}</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticDrilldown.resKo' | translate }}
+          </th>
           <td mat-cell *matCellDef="let r">{{ r.resKo | number }}</td>
         </ng-container>
 
@@ -31,7 +48,7 @@
       </table>
     </div>
 
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35,50,100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

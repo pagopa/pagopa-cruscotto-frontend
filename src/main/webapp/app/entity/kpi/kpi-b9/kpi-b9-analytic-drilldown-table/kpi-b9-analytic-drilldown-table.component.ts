@@ -4,7 +4,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB9PaymentReceiptDrilldownService, B9DrilldownRow } from '../service/kpi-b9-payment-receipt-drilldown.service';
 import dayjs, { Dayjs } from 'dayjs/esm';
 
@@ -65,8 +65,8 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.svc.find(this.instanceId, this.stationId, d).subscribe({
         next: (rows: B9DrilldownRow[]) => {
           this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => {
-            const preset = [...(rows ?? [])].sort((a, b) => (a.startTime?.valueOf() ?? 0) - (b.startTime?.valueOf() ?? 0));
-            this.dataSource.data = preset;
+            // const preset = [...(rows ?? [])].sort((a, b) => (a.startTime?.valueOf() ?? 0) - (b.startTime?.valueOf() ?? 0));
+            this.dataSource.data = rows;
 
             this.dataSource.sort = this.sort;
             this.paginator?.firstPage();
@@ -76,4 +76,39 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       });
     });
   }
+
+  sortData(sort: Sort): void {
+    const data = this.dataSource.data.slice();
+
+    if (!sort.active || sort.direction === '') {
+      this.dataSource.data = data;
+      return;
+    }
+
+    this.dataSource.data = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'startTime':
+          return compare(a.startTime?.toISOString(), b.startTime?.toISOString(), isAsc);
+        case 'endTime':
+          return compare(a.endTime?.toISOString(), b.endTime?.toISOString(), isAsc);
+        case 'totRes':
+          return compare(a.totRes, b.totRes, isAsc);
+        case 'resKo':
+          return compare(a.resKo, b.resKo, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+}
+
+/**
+ * Funzione generica di confronto
+ */
+function compare(a: any, b: any, isAsc: boolean): number {
+  if (a == null && b == null) return 0;
+  if (a == null) return isAsc ? -1 : 1;
+  if (b == null) return isAsc ? 1 : -1;
+  return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
 }
