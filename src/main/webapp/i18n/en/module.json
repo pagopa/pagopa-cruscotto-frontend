@@ -50,6 +50,9 @@
           "title": "Analytical Data",
           "detailsTitle": "Incorrect taxonomy codes drill-down: {{ module }}",
           "notExists": "No analytical data available"
+        },
+        "KpiAnalyticDetail": {
+          "title": "Analytical Data Detail"
         }
       },
       "A.1": {

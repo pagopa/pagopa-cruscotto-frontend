@@ -8,9 +8,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB2AnalyticData } from '../models/KpiB2AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { ActivatedRoute } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { KpiB2RecordedTimeout, KpiB2RecordedTimeoutRequest } from '../models/KpiB2RecordedTimeout';
+import { KpiB2RecordedTimeout } from '../models/KpiB2RecordedTimeout';
 import { KpiB2RecordedTimeoutService } from '../service/kpi-b2-recorded-timeout.service';
 
 @Component({
@@ -30,7 +28,7 @@ import { KpiB2RecordedTimeoutService } from '../service/kpi-b2-recorded-timeout.
   ],
 })
 export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
+  displayedColumns: string[] = ['fromHour', 'endHour', 'totalRequests', 'okRequests', 'averageTimeMs'];
   dataSource = new MatTableDataSource<KpiB2RecordedTimeout>([]);
 
   @Input() selectedKpiB2RecordedTimeoutId: number | undefined;
@@ -128,16 +126,16 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'startDate':
-          return compare(a.startDate?.toISOString(), b.startDate?.toISOString(), isAsc);
-        case 'endDate':
-          return compare(a.endDate?.toISOString(), b.endDate?.toISOString(), isAsc);
-        case 'totReq':
-          return compare(a.totReq, b.totReq, isAsc);
-        case 'reqOk':
-          return compare(a.reqOk, b.reqOk, isAsc);
-        case 'reqTimeout':
-          return compare(a.reqTimeout, b.reqTimeout, isAsc);
+        case 'fromHour':
+          return compare(a.fromHour?.toISOString(), b.fromHour?.toISOString(), isAsc);
+        case 'endHour':
+          return compare(a.endHour?.toISOString(), b.endHour?.toISOString(), isAsc);
+        case 'totalRequests':
+          return compare(a.totalRequests, b.totalRequests, isAsc);
+        case 'okRequests':
+          return compare(a.okRequests, b.okRequests, isAsc);
+        case 'averageTimeMs':
+          return compare(a.averageTimeMs, b.averageTimeMs, isAsc);
         default:
           return 0;
       }
