@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DatePipe, DecimalPipe, NgClass, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA2AnalyticDataService } from '../service/kpi-a2-analytic-data.service';
@@ -12,7 +12,6 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { KpiA2WrongTaxCodesService } from '../service/kpi-a2-wrong-tax-codes.service';
 import { BehaviorSubject } from 'rxjs';
 import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
 
@@ -43,7 +42,7 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  @Output() showDetails = new EventEmitter<KpiA2AnalyticData>();
+  @Output() showDetails = new EventEmitter<number>();
   @Input() selectedElementId?: number | KpiA2AnalyticData | null = null;
 
   partnerFiscalCode: string | null = null;
@@ -162,7 +161,7 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   onShowDetails(row: KpiA2AnalyticData) {
     this.selectedElementId = row.id ?? null;
-    this.showDetails.emit(row); // no id
+    this.showDetails.emit(row.id!);
   }
 }
 
