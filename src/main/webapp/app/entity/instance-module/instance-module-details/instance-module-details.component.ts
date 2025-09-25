@@ -71,22 +71,20 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   @Input() instance?: IInstance;
   moduleDetails?: IInstanceModule;
 
-  selectedKpiResultIdForDetailsResults: number | null = null;
-  selectedKpiDetailResultIdForAnalytics: number | null = null;
-
-  selectedKpiB2ResultIdForDetailsResults: number | null = null;
-  selectedKpiB2DetailResultIdForAnalytics: number | null = null;
-  selectedKpiA2ResultIdForDetailsResults: number | null = null;
-  selectedKpiA2DetailResultIdForAnalytics: number | null = null;
-  selectedKpiA2AnalyticIdForDrilldown: number | null = null;
-  selectedKpiA2AnalyticAnalysisDateForDrilldown: Date | string | dayjs.Dayjs | null = null;
   selectedKpiA1ResultIdForDetailsResults: number | null = null;
-  selectedKpiA1DetailResultIdForAnalytics: number | null = null;
+  selectedKpiB2ResultIdForDetailsResults: number | null = null;
+  selectedKpiA2ResultIdForDetailsResults: number | null = null;
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
+
+  selectedKpiA1DetailResultIdForAnalytics: number | null = null;
+  selectedKpiA2DetailResultIdForAnalytics: number | null = null;
+  selectedKpiB2DetailResultIdForAnalytics: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
-  selectedKpiA1analyticDataId: number | null = null;
-  selectedKpiB2AnalyticId: number | null = null;
+  selectedKpiA1AnalyticIdForDrilldown: number | null = null;
+  selectedKpiA2AnalyticIdForDrilldown: number | null = null;
+  selectedKpiA2AnalyticAnalysisDateForDrilldown: Date | string | dayjs.Dayjs | null = null;
+  selectedKpiB2AnalyticIdForDrilldown: number | null = null;
   selectedKpiB9AnalyticIdForDrilldown: number | null = null;
   b9DrillInstanceId: number | null = null;
   b9DrillStationId: number | null = null;
@@ -180,7 +178,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella kpiB2results
+   * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella Results
    */
   onShowDetailsB2(kpiB2ResultId: number): void {
     this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
@@ -190,10 +188,54 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiA2ResultIdForDetailsResults = this.selectedKpiA2ResultIdForDetailsResults === kpiA2ResultId ? null : kpiA2ResultId;
     this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
-  onAnalyticDrilldownShowDetailsA2(row: KpiA2AnalyticData): void {
-    const same = this.selectedKpiA2AnalyticIdForDrilldown === row.id;
-    this.selectedKpiA2AnalyticIdForDrilldown = same ? null : row.id!;
-    this.selectedKpiA2AnalyticAnalysisDateForDrilldown = same ? null : (row.analysisDate ?? null);
+  onShowDetailsA1(kpiA1ResultId: number): void {
+    this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+  onShowDetailsB9(kpiB9ResultId: number): void {
+    this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+
+  /**
+   * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella dati di riscontro
+   */
+  onAnalyticsShowDetailsB2(kpiB2DetailResultId: number): void {
+    this.selectedKpiB2DetailResultIdForAnalytics =
+      this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
+    this.resetDrilldownVariables();
+  }
+  onAnalyticsShowDetailsA2(kpiA2DetailResultId: number): void {
+    this.selectedKpiA2DetailResultIdForAnalytics =
+      this.selectedKpiA2DetailResultIdForAnalytics === kpiA2DetailResultId ? null : kpiA2DetailResultId;
+    this.resetDrilldownVariables();
+  }
+  onAnalyticsShowDetailsA1(kpiA1DetailResultId: number): void {
+    this.selectedKpiA1DetailResultIdForAnalytics =
+      this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
+    this.resetDrilldownVariables();
+  }
+
+  onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
+    this.selectedKpiB9DetailResultIdForAnalytics =
+      this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+    this.resetDrilldownVariables();
+  }
+
+  // Metodi per la visualizzazione del quarto drilldown
+  onAnalyticDrilldownShowDetailsA1(kpiA1analyticDataId: number): void {
+    this.selectedKpiA2AnalyticIdForDrilldown =
+      this.selectedKpiA2AnalyticIdForDrilldown === kpiA1analyticDataId ? null : kpiA1analyticDataId;
+  }
+
+  onAnalyticDrilldownShowDetailsA2(kpiA2analyticDataId: number): void {
+    this.selectedKpiA2AnalyticIdForDrilldown =
+      this.selectedKpiA2AnalyticIdForDrilldown === kpiA2analyticDataId ? null : kpiA2analyticDataId;
+  }
+
+  onAnalyticDrilldownShowDetailsB2(kpiB2AnalyticDataId: number): void {
+    this.selectedKpiB2AnalyticIdForDrilldown =
+      this.selectedKpiB2AnalyticIdForDrilldown === kpiB2AnalyticDataId ? null : kpiB2AnalyticDataId;
   }
 
   onAnalyticDrilldownShowDetailsB9(row: KpiB9AnalyticData): void {
@@ -212,82 +254,34 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.b9DrillStationId = row.stationId!;
       this.b9DrillEvaluationDate = row.evaluationDate!;
     }
-    this.resetAnalyticsVariables();
-  }
-  onShowDetailsA1(kpiA1ResultId: number): void {
-    this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
-  }
-  onShowDetailsB9(kpiB9ResultId: number): void {
-    this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
 
   /**
-   * Metodo che viene richiamato quando si clicca il pulsante "Show Analytic Details"
+   * Metodi per resettare le variabili all'apertura di un diverso dettaglio
    */
-  onAnalyticsShowDetailsB2(kpiB2DetailResultId: number): void {
-    this.selectedKpiB2DetailResultIdForAnalytics =
-      this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
-  }
-  onAnalyticsShowDetailsA2(kpiA2DetailResultId: number): void {
-    this.selectedKpiA2DetailResultIdForAnalytics =
-      this.selectedKpiA2DetailResultIdForAnalytics === kpiA2DetailResultId ? null : kpiA2DetailResultId;
-
+  resetDrilldownVariables(): void {
+    this.selectedKpiA1AnalyticIdForDrilldown = null;
     this.selectedKpiA2AnalyticIdForDrilldown = null;
-  }
-  onAnalyticsShowDetailsA1(kpiA1DetailResultId: number): void {
-    this.selectedKpiA1DetailResultIdForAnalytics =
-      this.selectedKpiA1DetailResultIdForAnalytics === kpiA1DetailResultId ? null : kpiA1DetailResultId;
-  }
-
-  onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
-    this.selectedKpiB9DetailResultIdForAnalytics =
-      this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+    this.selectedKpiB2AnalyticIdForDrilldown = null;
+    this.selectedKpiB9AnalyticIdForDrilldown = null;
+    this.b9DrillInstanceId = this.b9DrillStationId = null;
+    this.b9DrillEvaluationDate = null;
   }
 
-  // Metodi per la visualizzazione del quarto drilldown
-  onRecordedTimeoutQuery(kpiA1analyticDataId: number): void {
-    this.selectedKpiA1analyticDataId = this.selectedKpiA1analyticDataId === kpiA1analyticDataId ? null : kpiA1analyticDataId;
-  }
-
-  onRecordedTimeoutShowDetailB2(kpiB2AnalyticDataId: number): void {
-    this.selectedKpiB2AnalyticId = this.selectedKpiB2AnalyticId === kpiB2AnalyticDataId ? null : kpiB2AnalyticDataId;
-  }
-
-  /**
-   * Metodo per resettare tutte le variabili legate ad analytics
-   */
   resetAnalyticsVariables(): void {
     this.selectedKpiA1DetailResultIdForAnalytics = null;
-
-    this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
-    this.selectedKpiA2AnalyticIdForDrilldown = null;
+    this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiB9DetailResultIdForAnalytics = null;
-    this.selectedKpiB9AnalyticIdForDrilldown = null;
-    this.b9DrillInstanceId = this.b9DrillStationId = null;
-    this.b9DrillEvaluationDate = null;
+    this.resetDrilldownVariables();
   }
 
-  /**
-   * Metodo per resettare tutte le variabili legate ad analytics
-   */
   resetAllVariables(): void {
     this.selectedKpiA1ResultIdForDetailsResults = null;
-
     this.selectedKpiB2ResultIdForDetailsResults = null;
     this.selectedKpiA2ResultIdForDetailsResults = null;
-    this.selectedKpiA2AnalyticIdForDrilldown = null;
     this.selectedKpiB9ResultIdForDetailsResults = null;
-    this.selectedKpiB2DetailResultIdForAnalytics = null;
-    this.selectedKpiA2DetailResultIdForAnalytics = null;
-    this.selectedKpiA2AnalyticIdForDrilldown = null;
-    this.selectedKpiA1DetailResultIdForAnalytics = null;
-    this.selectedKpiB9DetailResultIdForAnalytics = null;
-    this.selectedKpiB9AnalyticIdForDrilldown = null;
-    this.b9DrillInstanceId = this.b9DrillStationId = null;
-    this.b9DrillEvaluationDate = null;
+    this.resetAnalyticsVariables();
   }
 
   isManualOutcomeAllowed(): boolean {
