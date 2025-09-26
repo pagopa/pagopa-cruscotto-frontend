@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1AnalyticDataService } from '../service/kpi-a1-analytic-data.service';
@@ -24,6 +24,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
+    NgClass,
   ],
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -47,6 +48,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   isLoadingResults = false;
   locale: string;
+  selectedElementId: number | null = null;
   private readonly translateService = inject(TranslateService);
 
   private readonly spinner = inject(NgxSpinnerService);
@@ -159,11 +161,13 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     });
   }
 
-  /**
-   * Emit selected module ID for more details
-   */
-  emitShowDetails(kpiA1analyticDataId: number): void {
-    this.showDetails.emit(kpiA1analyticDataId);
+  emitShowDetails(kpiA1DetailResultId: number): void {
+    if (this.selectedElementId === kpiA1DetailResultId) {
+      this.selectedElementId = null;
+    } else {
+      this.selectedElementId = kpiA1DetailResultId;
+    }
+    this.showDetails.emit(kpiA1DetailResultId);
   }
 }
 
