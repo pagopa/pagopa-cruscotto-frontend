@@ -10,7 +10,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiRecordedTimeout.fromHour' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.fromHour | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.fromHour | formatDate: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <!-- Colonna endHour -->
@@ -18,7 +18,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiRecordedTimeout.endHour' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.endHour | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.endHour | formatDate: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <!-- Colonna totalRequests -->

@@ -22,16 +22,17 @@ export class KpiA2WrongTaxCodesService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-a2-analytic-incorrect-taxonomy-data');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-a2-analytic-incorrect-taxonomy-data');
   }
 
   /**
    * NUOVO: recupera i record di drilldown per l'analyticDataId selezionato
    */
   findByAnalyticDataId(analyticDataId: number): Observable<IWrongTaxCode[]> {
-    return this.http
-      .get<RestWrongTaxCode[]>(`${this.resourceUrl}/${analyticDataId}`)
-      .pipe(first(), map(res => res.map(item => this.convertFromServer(item))));
+    return this.http.get<RestWrongTaxCode[]>(`${this.resourceUrl}/${analyticDataId}`).pipe(
+      first(),
+      map(res => res.map(item => this.convertFromServer(item))),
+    );
   }
 
   /**
