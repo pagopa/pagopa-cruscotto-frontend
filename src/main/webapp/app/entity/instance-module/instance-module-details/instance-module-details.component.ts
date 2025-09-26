@@ -224,8 +224,8 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
 
   // Metodi per la visualizzazione del quarto drilldown
   onAnalyticDrilldownShowDetailsA1(kpiA1analyticDataId: number): void {
-    this.selectedKpiA2AnalyticIdForDrilldown =
-      this.selectedKpiA2AnalyticIdForDrilldown === kpiA1analyticDataId ? null : kpiA1analyticDataId;
+    this.selectedKpiA1AnalyticIdForDrilldown =
+      this.selectedKpiA1AnalyticIdForDrilldown === kpiA1analyticDataId ? null : kpiA1analyticDataId;
   }
 
   onAnalyticDrilldownShowDetailsA2(kpiA2analyticDataId: number): void {
