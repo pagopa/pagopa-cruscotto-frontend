@@ -4,7 +4,14 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table analytic-table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table analytic-table"
+      >
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -18,7 +25,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.stationName' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element"><span class="truncate">{{ element.stationName }}</span></td>
+          <td mat-cell *matCellDef="let element">
+            <span class="truncate">{{ element.stationName }}</span>
+          </td>
         </ng-container>
 
         <!-- Colonna Evaluation Date -->
@@ -67,7 +76,7 @@
             {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.details' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="primary" (click)="onShowDetails(element); $event.stopPropagation()" [disabled]="!element?.totRes">
+            <button mat-stroked-button color="primary" *ngIf="element?.totRes" (click)="onShowDetails(element); $event.stopPropagation()">
               {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiAnalyticResults.showDetails' | translate }}
             </button>
           </td>
