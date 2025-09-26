@@ -3,15 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
-import { KpiA1AnalyticData } from '../models/KpiA1AnalyticData';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { DATE_FORMAT } from '../../../../config/input.constants';
-import { KpiA1RecordedTimeout, KpiA1RecordedTimeoutRequest } from '../models/KpiA1RecordedTimeout';
-import { createRequestOption } from 'app/core/request/request-util';
+import { DATE_TIME_FORMAT_ISO } from '../../../../config/input.constants';
+import { KpiA1RecordedTimeout } from '../models/KpiA1RecordedTimeout';
 
-type RestKpiA1RecordedTimeout = Omit<KpiA1RecordedTimeout, 'startDate' | 'endDate'> & {
-  startDate?: string | null;
-  endDate?: string | null;
+type RestKpiA1RecordedTimeout = Omit<KpiA1RecordedTimeout, 'fromHour' | 'toHour'> & {
+  fromHour?: string | null;
+  toHour?: string | null;
 };
 
 @Injectable({
@@ -45,8 +43,8 @@ export class KpiA1RecordedTimeoutService {
   private convertFromServer(restKpiA1AnalyticData: RestKpiA1RecordedTimeout): KpiA1RecordedTimeout {
     return {
       ...restKpiA1AnalyticData,
-      startDate: restKpiA1AnalyticData.startDate ? dayjs(restKpiA1AnalyticData.startDate, DATE_FORMAT) : null,
-      endDate: restKpiA1AnalyticData.endDate ? dayjs(restKpiA1AnalyticData.endDate, DATE_FORMAT) : null,
+      fromHour: restKpiA1AnalyticData.fromHour ? dayjs(restKpiA1AnalyticData.fromHour, DATE_TIME_FORMAT_ISO) : null,
+      toHour: restKpiA1AnalyticData.toHour ? dayjs(restKpiA1AnalyticData.toHour, DATE_TIME_FORMAT_ISO) : null,
     };
   }
 }
