@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { DATE_FORMAT } from '../../../../config/input.constants';
+import { DATE_TIME_FORMAT_ISO } from '../../../../config/input.constants';
 import { KpiB2RecordedTimeout } from '../models/KpiB2RecordedTimeout';
 
 type RestKpiB2RecordedTimeout = Omit<KpiB2RecordedTimeout, 'fromHour' | 'endHour'> & {
@@ -41,8 +41,8 @@ export class KpiB2RecordedTimeoutService {
   private convertFromServer(restKpiB2AnalyticData: RestKpiB2RecordedTimeout): KpiB2RecordedTimeout {
     return {
       ...restKpiB2AnalyticData,
-      fromHour: restKpiB2AnalyticData.fromHour ? dayjs(restKpiB2AnalyticData.fromHour, DATE_FORMAT) : null,
-      endHour: restKpiB2AnalyticData.endHour ? dayjs(restKpiB2AnalyticData.endHour, DATE_FORMAT) : null,
+      fromHour: restKpiB2AnalyticData.fromHour ? dayjs(restKpiB2AnalyticData.fromHour, DATE_TIME_FORMAT_ISO) : null,
+      endHour: restKpiB2AnalyticData.endHour ? dayjs(restKpiB2AnalyticData.endHour, DATE_TIME_FORMAT_ISO) : null,
     };
   }
 }
