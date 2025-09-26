@@ -159,9 +159,9 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
     });
   }
 
-  onShowDetails(row: KpiA2AnalyticData) {
-    this.selectedElementId = row.id ?? null;
-    this.showDetails.emit(row.id!);
+  onShowDetails(id: number) {
+    this.selectedElementId = id ?? null;
+    this.showDetails.emit(id);
   }
 }
 
