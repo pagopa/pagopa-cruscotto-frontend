@@ -9,7 +9,7 @@ import { KpiA1RecordedTimeoutService } from '../service/kpi-a1-recorded-timeout.
 import { KpiA1AnalyticData } from '../models/KpiA1AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { KpiA1RecordedTimeout, KpiA1RecordedTimeoutRequest } from '../models/KpiA1RecordedTimeout';
+import { KpiA1RecordedTimeout } from '../models/KpiA1RecordedTimeout';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -30,7 +30,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['startDate', 'endDate', 'totReq', 'reqOk', 'reqTimeout'];
+  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'totalRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;
@@ -131,14 +131,14 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
     this.dataSource.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'startDate':
-          return compare(a.startDate?.toISOString(), b.startDate?.toISOString(), isAsc);
-        case 'endDate':
-          return compare(a.endDate?.toISOString(), b.endDate?.toISOString(), isAsc);
-        case 'totReq':
-          return compare(a.totReq, b.totReq, isAsc);
-        case 'reqOk':
-          return compare(a.reqOk, b.reqOk, isAsc);
+        case 'fromHour':
+          return compare(a.fromHour?.toISOString(), b.fromHour?.toISOString(), isAsc);
+        case 'toHour':
+          return compare(a.toHour?.toISOString(), b.toHour?.toISOString(), isAsc);
+        case 'totalRequests':
+          return compare(a.totalRequests, b.totalRequests, isAsc);
+        case 'totalRequests':
+          return compare(a.totalRequests, b.totalRequests, isAsc);
         case 'reqTimeout':
           return compare(a.reqTimeout, b.reqTimeout, isAsc);
         default:
