@@ -34,7 +34,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.totReq' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element" class="text-end">{{ element.totReq | number }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.totReq | number }}</td>
         </ng-container>
 
         <!-- Colonna Requests OK -->
@@ -42,7 +42,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.reqOk' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element" class="text-end">{{ element.reqOk | number }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.reqOk | number }}</td>
         </ng-container>
 
         <!-- Colonna Requests Timeout -->
@@ -50,7 +50,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.reqTimeout' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element" class="text-end">{{ element.reqTimeout | number }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.reqTimeout | number }}</td>
         </ng-container>
 
         <!-- Colonna Average Time -->
@@ -58,7 +58,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiAnalyticResults.avgTime' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element" class="text-end">
+          <td mat-cell *matCellDef="let element">
             {{ element.avgTime | number: '1.5-5' }} <span class="fw-bold">{{ 'abbr.millisecond' | translate }}</span>
           </td>
         </ng-container>
