@@ -50,6 +50,9 @@
           "title": "Dati analitici",
           "detailsTitle": "Dettaglio codici tassonomici errati: {{ module }}",
           "notExists": "Nessun dato analitico disponibile"
+        },
+        "KpiAnalyticDetail": {
+          "title": "Dettaglio dato analitico"
         }
       },
       "A.1": {

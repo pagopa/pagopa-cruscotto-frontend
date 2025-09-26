@@ -30,14 +30,11 @@ import { OutcomeStatus } from '../models/KpiB2Result';
 })
 export class KpiB2DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'analysisDate',
-    'stationName',
-    'method',
+    'evaluationStartDate',
+    'evaluationEndDate',
     'totalRequests',
     'averageTime',
     'overTimeLimit',
-    'evaluationStartDate',
-    'evaluationEndDate',
     'evaluationType',
     'outcome',
     'details',

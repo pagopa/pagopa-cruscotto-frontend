@@ -36,6 +36,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
     'reqTimeout',
     'timeoutPercentage',
     'evaluationType',
+    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiA1DetailResult>([]);

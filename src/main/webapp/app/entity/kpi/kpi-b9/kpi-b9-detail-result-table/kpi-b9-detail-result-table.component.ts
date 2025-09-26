@@ -31,14 +31,13 @@ import { DecimalPipe } from '@angular/common';
 })
 export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'analysisDate',
-    'stationName',
-    'evaluationType',
     'evaluationStartDate',
     'evaluationEndDate',
     'totRes',
     'resKo',
     'resKoPercentage',
+    'analysisDate',
+    'evaluationType',
     'outcome',
     'details',
   ];

@@ -1,17 +1,4 @@
-.mat-column-id,
-.mat-column-instanceId,
-.mat-column-analysisDate,
-.mat-column-stationName,
-.mat-column-method,
-.mat-column-evaluationDate {
+.mat-column-details {
   width: 150px;
   text-align: center;
-}
-
-.mat-column-totReq,
-.mat-column-reqOk,
-.mat-column-reqTimeoutReal,
-.mat-column-reqTimeoutValid {
-  width: 150px;
-  text-align: right;
 }
