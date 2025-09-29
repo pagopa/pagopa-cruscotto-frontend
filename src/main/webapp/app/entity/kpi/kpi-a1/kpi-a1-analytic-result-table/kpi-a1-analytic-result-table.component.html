@@ -5,6 +5,13 @@
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- distribuzione uniforme -->
+        <colgroup>
+          @for (c of displayedColumns; track $index) {
+            <col [style.width.%]="100 / displayedColumns.length" />
+          }
+        </colgroup>
+
         <!-- Colonna Periodo -->
         <ng-container matColumnDef="evaluationDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
