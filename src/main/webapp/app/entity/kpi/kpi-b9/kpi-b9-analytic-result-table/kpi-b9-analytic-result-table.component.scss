@@ -41,7 +41,7 @@
 /* allineamenti */
 .analytic-table .mat-column-analysisDate,
 .analytic-table .mat-column-evaluationDate {
-  text-align: center;
+  text-align: left!important;
 }
 
 .analytic-table .mat-column-totRes,
@@ -49,11 +49,12 @@
 .analytic-table .mat-column-resKoReal,
 .analytic-table .mat-column-resKoValid,
 .num {
-  text-align: right;
+  text-align: left!important;
 }
 
 .mat-column-details {
-  text-align: center;
+  width: 180px;
+  text-align: center!important;
 }
 
 .analytic-table .mat-column-details,

@@ -1,22 +1,29 @@
 .mat-column-id,
 .mat-column-code,
-.mat-column-action,
 .mat-column-analysisType,
 .mat-column-allowManualOutcome,
 .mat-column-status {
   width: 150px;
   min-width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
+}
+
+.mat-column-action {
+  width: 150px;
+  min-width: 150px;
+  text-align: center!important;
+  white-space: nowrap;
 }
 
 .mat-column-name {
   width: 200px;
   min-width: 200px;
-  text-align: center;
+  text-align: left!important;
 }
 
 .mat-column-description {
   width: 600px;
   min-width: 400px;
-  text-align: center;
+  text-align: left!important;
 }

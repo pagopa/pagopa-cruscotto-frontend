@@ -3,14 +3,19 @@
 .mat-column-excludePlannedShutdown,
 .mat-column-excludeUnplannedShutdown,
 .mat-column-evaluationType,
-.mat-column-outcome,
-.mat-column-details {
+.mat-column-outcome {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
+}
+.mat-column-details {
+  width: 180px;
+  text-align: center!important;
 }
 
 .mat-column-eligibilityThreshold,
 .mat-column-tolerance {
   width: 150px;
-  text-align: right;
+  text-align: left!important;
+  white-space: nowrap;
 }

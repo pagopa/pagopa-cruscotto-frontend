@@ -19,14 +19,14 @@
 .drilldown-table .mat-column-totRes,
 .drilldown-table .mat-column-resKo {
   width: 160px;
-  text-align: center;
+  text-align: left!important;
 }
 .drilldown-table .mat-column-totRes .mat-header-cell,
 .drilldown-table .mat-column-resKo  .mat-header-cell,
 .drilldown-table .mat-column-totRes .mat-cell,
 .drilldown-table .mat-column-resKo  .mat-cell {
-  text-align: center;
+  text-align: left!important;
 }
 .mat-column-startTime, .mat-column-endTime { width: 120px; }
-.mat-column-totRes, .mat-column-resKo { text-align: center; }
+.mat-column-totRes, .mat-column-resKo { text-align: left!important; }
 td.text-end { text-align: right; }

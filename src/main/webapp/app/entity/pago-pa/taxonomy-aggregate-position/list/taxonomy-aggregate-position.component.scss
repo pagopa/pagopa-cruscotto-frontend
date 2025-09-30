@@ -4,10 +4,11 @@
 .mat-column-startDate,
 .mat-column-endDate {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
 }
 
 .mat-column-total {
   width: 150px;
-  text-align: right;
+  text-align: left!important;
 }
