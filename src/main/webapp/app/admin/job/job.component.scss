@@ -5,14 +5,21 @@
 .mat-column-scheduleTime,
 .mat-column-lastFiredTime,
 .mat-column-nextFireTime,
-.mat-column-jobStatus,
 .mat-column-cron {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
+}
+
+.mat-column-jobStatus {
+  width: 150px;
+  text-align: center!important;
+  white-space: nowrap;
 }
 
 .mat-column-action {
-  width: 200px;
+  width: 300px;
   min-width: 200px;
-  text-align: center;
+  text-align: center!important;
+  white-space: nowrap;
 }

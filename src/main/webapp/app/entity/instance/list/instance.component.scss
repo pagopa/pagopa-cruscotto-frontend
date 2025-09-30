@@ -1,9 +1,10 @@
 /* Column Widths */
 .mat-column-assignedUser,
 .mat-column-action {
-  width: 200px;
+  width: 300px!important;
   min-width: 200px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .mat-column-id,
@@ -17,13 +18,15 @@
 .mat-column-status,
 .mat-column-lastAnalysisDate,
 .mat-column-lastAnalysisOutcome,
+.mat-column-assignedUser,
 .mat-column-changePartnerQualified {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
 }
 
 .mat-column-action {
-  width: 200px;
+  width: 300px;
   min-width: 200px;
   text-align: center;
 }
