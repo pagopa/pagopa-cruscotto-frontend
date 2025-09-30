@@ -22,7 +22,9 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   dataSource = new MatTableDataSource<IWrongTaxCode>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly taxService = inject(KpiA2WrongTaxCodesService);
@@ -33,7 +35,20 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.dataSource.sortingDataAccessor = (row, column) => {
+      switch (column) {
+        case 'fromHour':
+          return row.fromHour ? row.fromHour.valueOf() : -1;
+        case 'endHour':
+          return row.endHour ? row.endHour.valueOf() : -1;
+        case 'transferCategory':
+          return row.transferCategory ?? -1;
+        case 'total':
+          return row.total ?? -1;
+        default:
+          return 0;
+      }
+    };
   }
 
   ngOnChanges(): void {
