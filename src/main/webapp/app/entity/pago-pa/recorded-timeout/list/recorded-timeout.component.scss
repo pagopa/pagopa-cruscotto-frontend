@@ -4,7 +4,8 @@
 .mat-column-startDate,
 .mat-column-endDate {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
 }
 
 .mat-column-totReq,
@@ -12,5 +13,6 @@
 .mat-column-reqTimeout,
 .mat-column-avgTime {
   width: 150px;
-  text-align: right;
+  text-align: left!important;
+  white-space: nowrap;
 }
