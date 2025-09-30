@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB9AnalyticDataService } from '../service/kpi-b9-analytic-data.service';
@@ -25,10 +25,11 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
+    NgClass,
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
+  displayedColumns: string[] = ['evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
@@ -40,6 +41,7 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   isLoadingResults = false;
   locale: string;
+  selectedElementId?: number | null = null;
   private readonly translateService = inject(TranslateService);
 
   private readonly spinner = inject(NgxSpinnerService);
@@ -152,7 +154,8 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   onShowDetails(row: KpiB9AnalyticData) {
     console.log('[B9] click showDetails, id=', row);
-      this.showDetails.emit(row);
+    this.selectedElementId = row.id ?? null;
+    this.showDetails.emit(row);
   }
 }
 
