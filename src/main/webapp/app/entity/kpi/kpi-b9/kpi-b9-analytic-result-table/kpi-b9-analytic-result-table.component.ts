@@ -28,7 +28,7 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationName', 'evaluationDate', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
+  displayedColumns: string[] = ['evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
@@ -152,7 +152,7 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   onShowDetails(row: KpiB9AnalyticData) {
     console.log('[B9] click showDetails, id=', row);
-      this.showDetails.emit(row);
+    this.showDetails.emit(row);
   }
 }
 
