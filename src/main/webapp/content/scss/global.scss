@@ -351,4 +351,11 @@ mat-form-field.custom-form-select.mat-form-field-disabled .mat-mdc-text-field-wr
   }
 }
 
-.full-width-table { table-layout: fixed; width: 100%; }
+.full-width-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+mat-datepicker-content {
+  padding-bottom: 8px;
+}
