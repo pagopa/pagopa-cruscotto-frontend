@@ -12,12 +12,6 @@
   <div class="table-container">
     <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
-        <!-- distribuzione uniforme -->
-        <colgroup>
-          @for (c of displayedColumns; track $index) {
-            <col [style.width.%]="100 / displayedColumns.length" />
-          }
-        </colgroup>
         <!-- Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
