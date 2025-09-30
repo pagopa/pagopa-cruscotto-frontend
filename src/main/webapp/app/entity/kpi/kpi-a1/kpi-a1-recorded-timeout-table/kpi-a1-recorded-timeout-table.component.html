@@ -29,6 +29,14 @@
           <td mat-cell *matCellDef="let element">{{ element.totalRequests }}</td>
         </ng-container>
 
+        <!-- Colonna okRequests -->
+        <ng-container matColumnDef="okRequests">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiRecordedTimeout.okRequests' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.okRequests }}</td>
+        </ng-container>
+
         <!-- Colonna reqTimeout -->
         <ng-container matColumnDef="reqTimeout">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
