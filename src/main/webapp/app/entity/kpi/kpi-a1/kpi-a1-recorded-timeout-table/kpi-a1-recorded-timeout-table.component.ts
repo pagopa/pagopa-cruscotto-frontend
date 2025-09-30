@@ -137,8 +137,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
           return compare(a.toHour?.toISOString(), b.toHour?.toISOString(), isAsc);
         case 'totalRequests':
           return compare(a.totalRequests, b.totalRequests, isAsc);
-        case 'totalRequests':
-          return compare(a.totalRequests, b.totalRequests, isAsc);
+        case 'okRequests':
+          return compare(a.okRequests, b.okRequests, isAsc);
         case 'reqTimeout':
           return compare(a.reqTimeout, b.reqTimeout, isAsc);
         default:
