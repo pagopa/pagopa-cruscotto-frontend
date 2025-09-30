@@ -30,7 +30,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'totalRequests', 'reqTimeout'];
+  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;
