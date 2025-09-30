@@ -8,11 +8,12 @@
 .mat-column-partnerName,
 .mat-column-stationName {
   width: 150px;
-  text-align: center;
+  text-align: left!important;
 }
 
 .mat-column-action {
   width: 200px;
   min-width: 200px;
   text-align: center;
+  white-space: nowrap;
 }

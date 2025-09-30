@@ -4,5 +4,6 @@
 .mat-column-status,
 .mat-column-qualified,
 .mat-column-deactivationDate {
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
 }
