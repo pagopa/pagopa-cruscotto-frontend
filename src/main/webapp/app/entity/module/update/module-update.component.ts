@@ -24,6 +24,7 @@ import { IModule, IModuleConfiguration, ModuleConfiguration } from '../module.mo
 import { ModuleService } from '../service/module.service';
 import { ModuleFormGroup, ModuleFormService } from './module-form.service';
 import { Authority } from 'app/config/authority.constants';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /* eslint-disable no-console */
 
@@ -92,6 +93,18 @@ export class ModuleUpdateComponent implements OnInit {
 
   constructor() {
     this.locale = this.translateService.currentLang;
+    this.editForm
+      .get('analysisType')!
+      .valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(_ => {
+        if (_ == 'MANUALE') {
+          this.editForm.get('allowManualOutcome')!.disable();
+          this.editForm.get('allowManualOutcome')!.setValue(true);
+        } else {
+          this.editForm.get('allowManualOutcome')!.enable();
+        }
+        console.log(_);
+      });
   }
 
   ngOnInit(): void {
