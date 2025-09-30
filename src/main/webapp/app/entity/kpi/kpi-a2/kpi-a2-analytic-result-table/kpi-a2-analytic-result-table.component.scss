@@ -3,7 +3,7 @@
 .mat-column-evaluationDate,
 .mat-column-totPayments,
 .mat-column-totIncorrectPayments {
-  text-align: center;
+  text-align: left!important;
 }
 
 .mat-column-expand {
@@ -14,12 +14,13 @@
 .mat-column-endHour,
 .mat-column-transferCategory,
 .mat-column-total {
-  text-align: center;
+  text-align: left!important;
+  white-space: nowrap;
 }
 
 .mat-column-details {
-  width: 150px;
-  text-align: center;
+  width: 180px;
+  text-align: center!important;
 }
 
 tr.not-expanded-row {
