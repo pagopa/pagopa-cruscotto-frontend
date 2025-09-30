@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB2AnalyticDataService } from '../service/kpi-b2-analytic-data.service';
@@ -24,10 +24,11 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
+    NgClass,
   ],
 })
 export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['stationName', 'method', 'evaluationDate', 'totReq', 'reqOk', 'reqTimeout', 'avgTime', 'details'];
+  displayedColumns: string[] = ['evaluationDate', 'stationName', 'method', 'totReq', 'reqOk', 'reqTimeout', 'avgTime', 'details'];
   dataSource = new MatTableDataSource<KpiB2AnalyticData>([]);
 
   @Input() kpiB2DetailResultId: number | undefined;
@@ -38,6 +39,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   isLoadingResults = false;
   locale: string;
+  selectedElementId?: number | null = null;
   private readonly translateService = inject(TranslateService);
 
   private readonly spinner = inject(NgxSpinnerService);
@@ -161,6 +163,7 @@ export class KpiB2AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   emitShowDetails(kpiB2DetailResult: number): void {
     this.showDetails.emit(kpiB2DetailResult);
+    this.selectedElementId = kpiB2DetailResult ?? null;
   }
 }
 

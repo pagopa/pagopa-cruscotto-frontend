@@ -30,7 +30,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'totalRequests', 'reqTimeout'];
+  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;
@@ -137,8 +137,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
           return compare(a.toHour?.toISOString(), b.toHour?.toISOString(), isAsc);
         case 'totalRequests':
           return compare(a.totalRequests, b.totalRequests, isAsc);
-        case 'totalRequests':
-          return compare(a.totalRequests, b.totalRequests, isAsc);
+        case 'okRequests':
+          return compare(a.okRequests, b.okRequests, isAsc);
         case 'reqTimeout':
           return compare(a.reqTimeout, b.reqTimeout, isAsc);
         default:
