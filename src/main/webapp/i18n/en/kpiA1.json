@@ -53,6 +53,7 @@
             "fromHour": "From hour",
             "toHour": "To hour",
             "totalRequests": "Total Requests",
+            "okRequests": "OK Requests",
             "reqTimeout": "Timed out Requests"
           }
         }

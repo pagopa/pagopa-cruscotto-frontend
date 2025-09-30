@@ -53,6 +53,7 @@
             "fromHour": "Da ora",
             "toHour": "A ora",
             "totalRequests": "Totale Richieste",
+            "okRequests": "Richieste OK",
             "reqTimeout": "Richieste In Timeout"
           }
         }
