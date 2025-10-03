@@ -14,19 +14,19 @@
         </ng-container>        
 
         <!-- Colonna Evaluation Date -->
-        <ng-container matColumnDef="evaluationDate">
+        <ng-container matColumnDef="eventTimestamp">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticResults.eventTimestamp' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationDate | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.eventTimestamp | formatDate: 'L' : locale }}</td>
         </ng-container>
 
-        <!-- Colonna Station Name -->
-        <ng-container matColumnDef="stationName">
+        <!-- Colonna Station Fiscal Code -->
+        <ng-container matColumnDef="stationFiscalCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticResults.stationName' | translate }}
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticResults.stationFiscalCode' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.stationName }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.stationFiscalCode }}</td>
         </ng-container>
 
         <!-- Colonna StandInCount -->

@@ -32,19 +32,19 @@
             "instanceModuleId": "Id del Modulo dell'Istanza",
             "analysisDate": "Data Analisi",
             "stationId": "Id della Stazione",
-            "evaluationDate": "Periodo",
+            "eventTimestamp": "Periodo",
             "kpiB3DetailResultId": "Id Risultato Dettaglio B3",
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
-            "stationName": "Stazione",
+            "stationFiscalCode": "Stazione",
             "standInCount": "Numero StandIn"
           },
-          "KpiRecordedTimeout": {
-            "fromHour": "Da ora",
-            "endHour": "A ora",
-            "okRequests": "Richieste OK",
-            "totalRequests": "Totale Richieste",
-            "averageTimeMs": "Tempo medio (ms)"
+          "KpiAnalyticDrillDown": {
+            "partnerFiscalCode": "Partner",
+            "intervalStart": "Inizio Periodo",
+            "intervalEnd": "Fine Periodo",
+            "stationCode": "Stazione",
+            "standInCount": "Numbero StandIn"
           }
         }
       }

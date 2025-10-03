@@ -28,7 +28,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   ],
 })
 export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'stationName', 'standInCount', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
   dataSource = new MatTableDataSource<KpiB3AnalyticData>([]);
 
   @Input() kpiB3DetailResultId: number | undefined;
@@ -136,10 +136,10 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationName':
-          return compare(a.stationName, b.stationName, isAsc);
-        case 'evaluationDate':
-          return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
+        case 'stationFiscalCode':
+          return compare(a.stationFiscalCode, b.stationFiscalCode, isAsc);
+        case 'eventTimestamp':
+          return compare(a.eventTimestamp?.toISOString(), b.eventTimestamp?.toISOString(), isAsc);
         case 'standInCount':
           return compare(a.standInCount, b.standInCount, isAsc);
         case 'kpiB3DetailResultId':

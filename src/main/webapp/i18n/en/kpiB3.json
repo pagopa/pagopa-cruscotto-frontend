@@ -32,19 +32,19 @@
             "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
             "stationId": "Station Id",
-            "evaluationDate": "Period",
+            "eventTimestamp": "Period",
             "kpiB3DetailResultId": "B3 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
-            "stationName": "Station",
+            "stationFiscalCode": "Station",
             "standInCount": "StandIn Number"
           },
-          "KpiRecordedTimeout": {
-            "fromHour": "From hour",
-            "endHour": "To hour",
-            "okRequests": "OK requests",
-            "totalRequests": "Total Requests",
-            "averageTimeMs": "Average time (ms)"
+          "KpiAnalyticDrillDown": {
+            "partnerFiscalCode": "Partner",
+            "intervalStart": "Start date",
+            "intervalEnd": "End date",
+            "stationCode": "Station",
+            "standInCount": "StandIn Number"
           }
         }
       }
