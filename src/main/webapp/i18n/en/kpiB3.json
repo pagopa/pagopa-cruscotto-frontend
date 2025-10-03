@@ -1,0 +1,53 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.3": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "excludePlannedShutdown": "Planned Shutdowns Excluded",
+            "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Type of Evaluation",
+            "evaluationStartDate": "Start Period",
+            "evaluationEndDate": "End Period",
+            "totalStandIn": "Total StandIn",
+            "outcome": "Result",
+            "details": "Details",
+            "showDetails": "Show detail"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station Id",
+            "eventTimestamp": "Period",
+            "kpiB3DetailResultId": "B3 Detail Result Id",
+            "details": "Details",
+            "showDetails": "Show Details",
+            "stationFiscalCode": "Station",
+            "standInCount": "StandIn Number"
+          },
+          "KpiAnalyticDrillDown": {
+            "partnerFiscalCode": "Partner",
+            "intervalStart": "Start date",
+            "intervalEnd": "End date",
+            "stationCode": "Station",
+            "standInCount": "StandIn Number"
+          }
+        }
+      }
+    }
+  }
+}
