@@ -204,21 +204,26 @@
           {{ moduleDetails?.moduleCode }}
         </h3>
 
-        <jhi-kpi-b2-analytic-result-table
-          *ngIf="selectedKpiB2DetailResultIdForAnalytics"
-          [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
-          (showDetails)="onAnalyticDrilldownShowDetailsB2($event)"
-        ></jhi-kpi-b2-analytic-result-table>
+         <jhi-kpi-a1-analytic-result-table
+          *ngIf="selectedKpiA1DetailResultIdForAnalytics"
+          [kpiA1DetailResultId]="selectedKpiA1DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsA1($event)"
+        ></jhi-kpi-a1-analytic-result-table>
         <jhi-kpi-a2-analytic-result-table
           *ngIf="selectedKpiA2DetailResultIdForAnalytics"
           [kpiA2DetailResultId]="selectedKpiA2DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsA2($event)"
         ></jhi-kpi-a2-analytic-result-table>
-        <jhi-kpi-a1-analytic-result-table
-          *ngIf="selectedKpiA1DetailResultIdForAnalytics"
-          [kpiA1DetailResultId]="selectedKpiA1DetailResultIdForAnalytics"
-          (showDetails)="onAnalyticDrilldownShowDetailsA1($event)"
-        ></jhi-kpi-a1-analytic-result-table>
+        <jhi-kpi-b2-analytic-result-table
+          *ngIf="selectedKpiB2DetailResultIdForAnalytics"
+          [kpiB2DetailResultId]="selectedKpiB2DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB2($event)"
+        ></jhi-kpi-b2-analytic-result-table>
+        <jhi-kpi-b3-analytic-result-table
+          *ngIf="selectedKpiB3DetailResultIdForAnalytics"
+          [kpiB3DetailResultId]="selectedKpiB3DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB3($event)"
+        ></jhi-kpi-b3-analytic-result-table>
         <jhi-kpi-b9-analytic-result-table
           *ngIf="selectedKpiB9DetailResultIdForAnalytics"
           [kpiB9DetailResultId]="selectedKpiB9DetailResultIdForAnalytics"
@@ -244,7 +249,7 @@
     <mat-card class="mat-elevation-z8">
       <mat-card-content>
         <h3>
-          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticDetail.title' | translate }}:
+          {{ 'pagopaCruscottoApp.module.tables.KpiAnalyticDetail.detailsTitle' | translate }}:
           {{ moduleDetails?.moduleCode }}
         </h3>
 

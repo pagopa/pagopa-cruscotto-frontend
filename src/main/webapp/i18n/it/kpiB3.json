@@ -32,15 +32,12 @@
             "instanceModuleId": "Id del Modulo dell'Istanza",
             "analysisDate": "Data Analisi",
             "stationId": "Id della Stazione",
-            "method": "Metodo",
             "evaluationDate": "Periodo",
-            "totReq": "Totale Richieste",
-            "reqOk": "Richieste OK",
-            "reqTimeout": "Richieste in Timeout",
             "kpiB3DetailResultId": "Id Risultato Dettaglio B3",
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
-            "stationName": "Stazione"
+            "stationName": "Stazione",
+            "standInCount": "Numero StandIn"
           },
           "KpiRecordedTimeout": {
             "fromHour": "Da ora",

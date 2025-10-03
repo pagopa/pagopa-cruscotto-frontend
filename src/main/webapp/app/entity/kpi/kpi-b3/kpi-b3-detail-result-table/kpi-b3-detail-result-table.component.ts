@@ -25,6 +25,7 @@ import { OutcomeStatus } from '../models/KpiB3Result';
     MatButtonModule,
     FormatDatePipe,
     NgClass,
+    DecimalPipe,
   ],
 })
 export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {

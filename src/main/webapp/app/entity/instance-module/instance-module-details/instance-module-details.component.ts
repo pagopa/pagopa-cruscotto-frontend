@@ -20,6 +20,7 @@ import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analy
 import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
 import { KpiB3ResultTableComponent } from '../../kpi/kpi-b3/kpi-b3-result-table/kpi-b3-result-table.component';
 import { KpiB3DetailResultTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-detail-result-table/kpi-b3-detail-result-table.component';
+import  { KpiB3AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-analytic-result-table/kpi-b3-analytic-result-table.component';
 import { KpiB9ResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-result-table/kpi-b9-result-table.component';
 import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-result-table/kpi-b9-detail-result-table.component';
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
@@ -62,6 +63,7 @@ import dayjs, { Dayjs } from 'dayjs/esm';
     KpiB2RecordedTimeoutTableComponent,
     KpiB3ResultTableComponent,
     KpiB3DetailResultTableComponent,
+    KpiB3AnalyticResultTableComponent,
     KpiB9AnalyticResultTableComponent,
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
