@@ -20,7 +20,9 @@ import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analy
 import { KpiB2RecordedTimeoutTableComponent } from 'app/entity/kpi/kpi-b2/kpi-b2-recorded-timeout-table/kpi-b2-recorded-timeout-table.component';
 import { KpiB3ResultTableComponent } from '../../kpi/kpi-b3/kpi-b3-result-table/kpi-b3-result-table.component';
 import { KpiB3DetailResultTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-detail-result-table/kpi-b3-detail-result-table.component';
-import  { KpiB3AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-analytic-result-table/kpi-b3-analytic-result-table.component';
+import { KpiB3AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-analytic-result-table/kpi-b3-analytic-result-table.component';
+import { KpiB3AnalyticData } from 'app/entity/kpi/kpi-b3/models/KpiB3AnalyticData';
+import { KpiB3AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b3/kpi-b3-analytic-drilldown-table/kpi-b3-analytic-drilldown-table.component';
 import { KpiB9ResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-result-table/kpi-b9-result-table.component';
 import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-result-table/kpi-b9-detail-result-table.component';
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
@@ -64,6 +66,7 @@ import dayjs, { Dayjs } from 'dayjs/esm';
     KpiB3ResultTableComponent,
     KpiB3DetailResultTableComponent,
     KpiB3AnalyticResultTableComponent,
+    KpiB3AnalyticDrilldownTableComponent,
     KpiB9AnalyticResultTableComponent,
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
@@ -259,6 +262,24 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB3AnalyticIdForDrilldown =
       this.selectedKpiB3AnalyticIdForDrilldown === kpiB3AnalyticDataId ? null : kpiB3AnalyticDataId;
   }
+
+  // onAnalyticDrilldownShowDetailsB3(row: KpiB3AnalyticData): void {
+  //   if (!row?.instanceId || !row?.stationId || !row?.eventTimestamp) return;
+
+  //   const same =
+  //     this.b3DrillInstanceId === row.instanceId &&
+  //     this.b3DrillStationId === row.stationId &&
+  //     (this.b3DrillEvaluationDate?.isSame(row.eventTimestamp, 'day') ?? false);
+
+  //   if (same) {
+  //     this.b3DrillInstanceId = this.b3DrillStationId = null;
+  //     this.b3DrillEvaluationDate = null;
+  //   } else {
+  //     this.b3DrillInstanceId = row.instanceId!;
+  //     this.b3DrillStationId = row.stationId!;
+  //     this.b3DrillEvaluationDate = row.eventTimestamp!;
+  //   }
+  // }
 
   onAnalyticDrilldownShowDetailsB9(row: KpiB9AnalyticData): void {
     if (!row?.instanceId || !row?.stationId || !row?.evaluationDate) return;

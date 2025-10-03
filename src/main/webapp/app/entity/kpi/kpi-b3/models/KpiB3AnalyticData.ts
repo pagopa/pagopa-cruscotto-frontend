@@ -6,10 +6,10 @@ export class KpiB3AnalyticData {
   instanceModuleId: number | null;
   analysisDate: dayjs.Dayjs | null; // ISO string format
   stationId: number | null;
-  evaluationDate: dayjs.Dayjs | null; // ISO string format
+  eventTimestamp: dayjs.Dayjs | null; // ISO string format
   standInCount: number | null = null;
   kpiB3DetailResultId: number | null;
-  stationName: string | null;
+  stationFiscalCode: string | null;
 
   // Costruttore
   constructor(
@@ -18,19 +18,19 @@ export class KpiB3AnalyticData {
     instanceModuleId: number | null = null,
     analysisDate: dayjs.Dayjs | null = null,
     stationId: number | null = null,
-    evaluationDate: dayjs.Dayjs | null = null,
+    eventTimestamp: dayjs.Dayjs | null = null,
     standInCount: number | null = null,
     kpiB3DetailResultId: number | null = null,
-    stationName: string | null = null,
+    stationFiscalCode: string | null = null,
   ) {
     this.id = id;
     this.instanceId = instanceId;
     this.instanceModuleId = instanceModuleId;
     this.analysisDate = analysisDate;
     this.stationId = stationId;
-    this.evaluationDate = evaluationDate;
+    this.eventTimestamp = eventTimestamp;
     this.standInCount = standInCount;
     this.kpiB3DetailResultId = kpiB3DetailResultId;
-    this.stationName = stationName;
+    this.stationFiscalCode = stationFiscalCode;
   }
 }

@@ -154,7 +154,7 @@
           {{ 'pagopaCruscottoApp.module.tables.KpiDetailResults.title' | translate }}:
           {{ moduleDetails?.moduleCode }}
         </h3>
-        
+
         <jhi-kpi-a1-detail-result-table
           *ngIf="selectedKpiA1ResultIdForDetailsResults"
           [kpiA1ResultId]="selectedKpiA1ResultIdForDetailsResults"
@@ -204,7 +204,7 @@
           {{ moduleDetails?.moduleCode }}
         </h3>
 
-         <jhi-kpi-a1-analytic-result-table
+        <jhi-kpi-a1-analytic-result-table
           *ngIf="selectedKpiA1DetailResultIdForAnalytics"
           [kpiA1DetailResultId]="selectedKpiA1DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsA1($event)"
@@ -265,11 +265,18 @@
           [locale]="locale"
         >
         </jhi-kpi-a2-analytic-drilldown-table>
+
         <jhi-kpi-b2-recorded-timeout-table
           *ngIf="selectedKpiB2AnalyticIdForDrilldown"
           [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticIdForDrilldown"
         >
         </jhi-kpi-b2-recorded-timeout-table>
+
+        <jhi-kpi-b3-analytic-drilldown-table
+          *ngIf="selectedKpiB3AnalyticIdForDrilldown"
+          [selectedKpiB3AnalyticResultId]="selectedKpiB3AnalyticIdForDrilldown"
+        >
+        </jhi-kpi-b3-analytic-drilldown-table>
 
         <jhi-kpi-b9-analytic-drilldown-table
           *ngIf="b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate"
