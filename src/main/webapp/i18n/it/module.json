@@ -52,7 +52,8 @@
           "notExists": "Nessun dato analitico disponibile"
         },
         "KpiAnalyticDetail": {
-          "title": "Dettaglio dato analitico"
+          "title": "Dettaglio dato analitico",
+          "detailsTitle": "Pagopa Dati"
         }
       },
       "A.1": {
