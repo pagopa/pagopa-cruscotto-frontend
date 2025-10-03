@@ -1,7 +1,9 @@
 .mat-column-id,
 .mat-column-analysisDate,
-.mat-column-excludePlannedShutdown,
-.mat-column-excludeUnplannedShutdown,
+.mat-column-stationName,
+.mat-column-method,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
 .mat-column-evaluationType,
 .mat-column-outcome {
   width: 150px;
@@ -14,9 +16,9 @@
   text-align: center!important;
 }
 
-.mat-column-eligibilityThreshold,
-.mat-column-tolerance,
-.mat-column-averageTimeLimit {
+.mat-column-totalRequests,
+.mat-column-averageTime,
+.mat-column-overTimeLimit {
   width: 150px;
   text-align: left!important;
   white-space: nowrap;

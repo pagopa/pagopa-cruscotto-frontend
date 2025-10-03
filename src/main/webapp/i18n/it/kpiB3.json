@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.3": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "excludePlannedShutdown": "Fermi Programmati Esclusi",
+            "excludeUnplannedShutdown": "Fermi Non Programmati Esclusi",
+            "eligibilityThreshold": "Indice Soglia",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Valutazione",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Inizio Periodo",
+            "evaluationEndDate": "Fine Periodo",
+            "totalStandIn": "Totale StandIn",
+            "outcome": "Risultato",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Id dell'Istanza",
+            "instanceModuleId": "Id del Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "Id della Stazione",
+            "method": "Metodo",
+            "evaluationDate": "Periodo",
+            "totReq": "Totale Richieste",
+            "reqOk": "Richieste OK",
+            "reqTimeout": "Richieste in Timeout",
+            "kpiB3DetailResultId": "Id Risultato Dettaglio B3",
+            "details": "Dettagli",
+            "showDetails": "Mostra dettagli",
+            "stationName": "Stazione"
+          },
+          "KpiRecordedTimeout": {
+            "fromHour": "Da ora",
+            "endHour": "A ora",
+            "okRequests": "Richieste OK",
+            "totalRequests": "Totale Richieste",
+            "averageTimeMs": "Tempo medio (ms)"
+          }
+        }
+      }
+    }
+  }
+}
