@@ -42,7 +42,7 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
     'evaluationType',
-    'tolerance',
+    // 'tolerance',
     'outcome',
     'details',
   ];
@@ -157,8 +157,8 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
           return compare(a.excludeUnplannedShutdown, b.excludeUnplannedShutdown, isAsc);
         case 'eligibilityThreshold':
           return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
-        case 'tolerance':
-          return compare(a.tolerance, b.tolerance, isAsc);
+        // case 'tolerance':
+        //   return compare(a.tolerance, b.tolerance, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':

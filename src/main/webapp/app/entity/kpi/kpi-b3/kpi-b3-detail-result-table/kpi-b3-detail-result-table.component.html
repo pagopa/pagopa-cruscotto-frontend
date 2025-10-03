@@ -39,7 +39,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiDetailResults.totalStandIn' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalStandIn | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.totalStandIn | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="outcome">
