@@ -1,0 +1,82 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB5DetailResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonna Analysis Date -->
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna Station Present -->
+        <ng-container matColumnDef="stationsPresent">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.stationsPresent' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">{{ element.stationsPresent | number }}</td>
+        </ng-container>
+
+        <!-- Colonna Stations Without Spontaneous -->
+        <ng-container matColumnDef="stationsWithoutSpontaneous">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.stationsWithoutSpontaneous' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">{{ element.stationsWithoutSpontaneous | number }}</td>
+        </ng-container>
+
+        <!-- Colonna Percentage No Spontaneous -->
+        <ng-container matColumnDef="percentageNoSpontaneous">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.percentageNoSpontaneous' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-end">
+            {{ element.percentageNoSpontaneous | number: '1.5-5' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Colonna Outcome -->
+        <ng-container matColumnDef="outcome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.outcome' | translate }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+          >
+            {{ element.outcome }}
+          </td>
+        </ng-container>
+
+        <!-- Colonna Details -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.details' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              *ngIf="element.outcome === OutcomeStatus.KO"
+              mat-stroked-button
+              color="primary"
+              (click)="emitShowDetails(element.id)"
+            >
+              {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.showDetails' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>

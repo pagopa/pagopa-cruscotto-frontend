@@ -1,0 +1,48 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.5": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station Id",
+            "outcome": "Result",
+            "details": "Details",
+            "showDetails": "Show details",
+            "stationsPresent": "Present Stations",
+            "stationsWithoutSpontaneous": "Stations without spontaneous payments",
+            "percentageNoSpontaneous": "% not spontaneous"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station Id",
+            "stationsPresent": "Present Stations",
+            "stationsWithoutSpontaneous": "Stations without spontaneous payments",
+            "percentageNoSpontaneous": "% not spontaneous",
+            "outcome": "Result",
+            "showDetails": "Show details",
+            "details": "Results Detail"
+          },
+          "KpiAnalyticDrilldown": {
+            "partnerFiscalCode": "Partner",
+            "stationCode": "Station",
+            "spontaneousPayments": "Spontaneous payments"
+          }
+        }
+      }
+    }
+  }
+}
