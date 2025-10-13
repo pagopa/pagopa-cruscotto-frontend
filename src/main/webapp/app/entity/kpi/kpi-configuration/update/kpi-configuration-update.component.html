@@ -179,6 +179,113 @@
                 </mat-form-field>
               </div>
             </div>
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstituteCount">
+              <mat-form-field class="d-block mb-2">
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstituteCount"></mat-label>
+                <input matInput autocomplete="off" formControlName="instituteCount" mask="999" class="text-end" />
+                @let instituteCountRef = editForm.get('instituteCount')!;
+                <ng-container
+                  ngProjectAs="mat-error"
+                  *ngIf="instituteCountRef.invalid && (instituteCountRef.dirty || instituteCountRef.touched)"
+                >
+                  @if (instituteCountRef?.errors?.matStringNumeric) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                      {{ 'validation.number' | translate }}
+                    </mat-error>
+                  }
+                  @if (instituteCountRef?.errors?.required) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  }
+                </ng-container>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configTransactionCount">
+              <mat-form-field class="d-block mb-2">
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionCount"></mat-label>
+                <input
+                  matInput
+                  autocomplete="off"
+                  formControlName="transactionCount"
+                  mask="999999999"
+                  [leadZero]="true"
+                  decimalMarker=","
+                  class="text-end"
+                />
+                <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                @let transactionCountRef = editForm.get('transactionCount')!;
+                <ng-container
+                  ngProjectAs="mat-error"
+                  *ngIf="transactionCountRef.invalid && (transactionCountRef.dirty || transactionCountRef.touched)"
+                >
+                  @if (transactionCountRef?.errors?.matStringNumeric) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                      {{ 'validation.number' | translate }}
+                    </mat-error>
+                  }
+                  @if (transactionCountRef?.errors?.required) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  }
+                </ng-container>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstituteTolerance">
+              <mat-form-field class="d-block mb-2">
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstituteTolerance"></mat-label>
+                <input
+                  matInput
+                  autocomplete="off"
+                  formControlName="instituteTolerance"
+                  mask="separator.2"
+                  [leadZero]="true"
+                  decimalMarker=","
+                  class="text-end"
+                />
+                <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                @let instituteToleranceRef = editForm.get('instituteTolerance')!;
+                <ng-container
+                  ngProjectAs="mat-error"
+                  *ngIf="instituteToleranceRef.invalid && (instituteToleranceRef.dirty || instituteToleranceRef.touched)"
+                >
+                  @if (instituteToleranceRef?.errors?.matStringNumeric) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                      {{ 'validation.number' | translate }}
+                    </mat-error>
+                  }
+                  @if (instituteToleranceRef?.errors?.required) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  }
+                </ng-container>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configTransactionTolerance">
+              <mat-form-field class="d-block mb-2">
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionTolerance"></mat-label>
+                <input
+                  matInput
+                  autocomplete="off"
+                  formControlName="transactionTolerance"
+                  mask="separator.2"
+                  [leadZero]="true"
+                  decimalMarker=","
+                  class="text-end"
+                />
+                <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                @let transactionToleranceRef = editForm.get('transactionTolerance')!;
+                <ng-container
+                  ngProjectAs="mat-error"
+                  *ngIf="transactionToleranceRef.invalid && (transactionToleranceRef.dirty || transactionToleranceRef.touched)"
+                >
+                  @if (transactionToleranceRef?.errors?.matStringNumeric) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                      {{ 'validation.number' | translate }}
+                    </mat-error>
+                  }
+                  @if (transactionToleranceRef?.errors?.required) {
+                    <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                  }
+                </ng-container>
+              </mat-form-field>
+            </div>
           </mat-card-content>
           <mat-card-actions>
             <div class="d-flex justify-content-end align-items-center w-100">
