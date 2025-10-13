@@ -22,7 +22,7 @@
             "evaluationStartDate": "Start Period",
             "evaluationEndDate": "End Period",
             "totalStandIn": "Total StandIn",
-            "outcome": "Result",
+            "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show detail"
           },
@@ -32,7 +32,7 @@
             "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
             "stationId": "Station Id",
-            "eventTimestamp": "Period",
+            "eventTimestamp": "Date",
             "kpiB3DetailResultId": "B3 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
