@@ -15,18 +15,18 @@
         matSortDisableClear
         class="full-width-table"
       >
+        <ng-container matColumnDef="dataDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticDrillDown.dataDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.dataDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="partnerFiscalCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticDrillDown.partnerFiscalCode' | translate }}
           </th>
           <td mat-cell *matCellDef="let e">{{ e.partnerFiscalCode }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="dataDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticDrillDown.dataDate' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let r">{{ r.dataDate | date:'yyyy-MM-dd' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="stationCode">
