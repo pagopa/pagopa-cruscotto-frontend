@@ -23,6 +23,10 @@ export interface IModuleConfiguration {
   configTolerance?: boolean | null;
   configAverageTimeLimit?: boolean | null;
   configEvaluationType?: boolean | null;
+  configInstituteCount?: boolean | null;
+  configTransactionCount?: boolean | null;
+  configInstituteTolerance?: boolean | null;
+  configTransactionTolerance?: boolean | null;
 }
 
 export class ModuleConfiguration implements IModuleConfiguration {
