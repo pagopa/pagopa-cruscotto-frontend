@@ -27,7 +27,7 @@
             "evaluationStartDate": "Start Period",
             "evaluationEndDate": "End Period",
             "evaluationType": "Type of Evaluation",
-            "outcome": "Result",
+            "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show detail",
             "stationName": "Station"
