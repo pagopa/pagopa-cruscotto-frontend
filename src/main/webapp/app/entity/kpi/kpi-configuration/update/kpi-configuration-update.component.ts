@@ -151,6 +151,10 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     setControlValidator('averageTimeLimit', moduleConfiguration.configAverageTimeLimit);
     setControlValidator('eligibilityThreshold', moduleConfiguration.configEligibilityThreshold);
     setControlValidator('evaluationType', moduleConfiguration.configEvaluationType);
+    setControlValidator('institutionCount', moduleConfiguration.configInstitutionCount);
+    setControlValidator('transactionCount', moduleConfiguration.configTransactionCount);
+    setControlValidator('institutionTolerance', moduleConfiguration.configInstitutionTolerance);
+    setControlValidator('transactionTolerance', moduleConfiguration.configTransactionTolerance);
 
     this.editForm.updateValueAndValidity();
   }
