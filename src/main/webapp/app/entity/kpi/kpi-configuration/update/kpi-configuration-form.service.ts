@@ -37,9 +37,9 @@ type KpiConfigurationFormGroupContent = {
   tolerance: FormControl<IKpiConfiguration['tolerance'] | NewKpiConfiguration['tolerance']>;
   evaluationType: FormControl<IKpiConfiguration['evaluationType'] | NewKpiConfiguration['evaluationType']>;
   averageTimeLimit: FormControl<IKpiConfiguration['averageTimeLimit'] | NewKpiConfiguration['averageTimeLimit']>;
-  instituteCount: FormControl<IKpiConfiguration['instituteCount'] | NewKpiConfiguration['instituteCount']>;
+  institutionCount: FormControl<IKpiConfiguration['institutionCount'] | NewKpiConfiguration['institutionCount']>;
   transactionCount: FormControl<IKpiConfiguration['transactionCount'] | NewKpiConfiguration['transactionCount']>;
-  instituteTolerance: FormControl<IKpiConfiguration['instituteTolerance'] | NewKpiConfiguration['instituteTolerance']>;
+  institutionTolerance: FormControl<IKpiConfiguration['institutionTolerance'] | NewKpiConfiguration['institutionTolerance']>;
   transactionTolerance: FormControl<IKpiConfiguration['transactionTolerance'] | NewKpiConfiguration['transactionTolerance']>;
 };
 
@@ -80,9 +80,9 @@ export class KpiConfigurationFormService {
         tolerance: new FormControl(kpiConfigurationRawValue.tolerance),
         evaluationType: new FormControl(kpiConfigurationRawValue.evaluationType),
         averageTimeLimit: new FormControl(kpiConfigurationRawValue.averageTimeLimit),
-        instituteCount: new FormControl(kpiConfigurationRawValue.instituteCount),
+        institutionCount: new FormControl(kpiConfigurationRawValue.institutionCount),
         transactionCount: new FormControl(kpiConfigurationRawValue.transactionCount),
-        instituteTolerance: new FormControl(kpiConfigurationRawValue.instituteTolerance),
+        institutionTolerance: new FormControl(kpiConfigurationRawValue.institutionTolerance),
         transactionTolerance: new FormControl(kpiConfigurationRawValue.transactionTolerance),
       },
       {
@@ -91,9 +91,9 @@ export class KpiConfigurationFormService {
             'eligibilityThreshold',
             'tolerance',
             'averageTimeLimit',
-            'instituteCount',
+            'institutionCount',
             'transactionCount',
-            'instituteTolerance',
+            'institutionTolerance',
             'transactionTolerance',
           ),
         ],
@@ -125,9 +125,9 @@ export class KpiConfigurationFormService {
       eligibilityThreshold: kpiConfiguration.eligibilityThreshold != null ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
       tolerance: kpiConfiguration.tolerance != null ? kpiConfiguration.tolerance.toFixed(2) : null,
       averageTimeLimit: kpiConfiguration.averageTimeLimit != null ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
-      instituteCount: kpiConfiguration.instituteCount != null ? kpiConfiguration.instituteCount : null,
+      institutionCount: kpiConfiguration.institutionCount != null ? kpiConfiguration.institutionCount : null,
       transactionCount: kpiConfiguration.transactionCount != null ? kpiConfiguration.transactionCount : null,
-      instituteTolerance: kpiConfiguration.instituteTolerance != null ? kpiConfiguration.instituteTolerance.toFixed(2) : null,
+      institutionTolerance: kpiConfiguration.institutionTolerance != null ? kpiConfiguration.institutionTolerance.toFixed(2) : null,
       transactionTolerance: kpiConfiguration.transactionTolerance != null ? kpiConfiguration.transactionTolerance.toFixed(2) : null,
     };
     form.reset(

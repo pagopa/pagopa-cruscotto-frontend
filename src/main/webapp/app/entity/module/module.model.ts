@@ -12,6 +12,10 @@ export interface IModule {
   configExcludePlannedShutdown?: boolean | null;
   configExcludeUnplannedShutdown?: boolean | null;
   configTolerance?: boolean | null;
+  configInstitutionCount?: boolean | null;
+  configTransactionCount?: boolean | null;
+  configInstitutionTolerance?: boolean | null;
+  configTransactionTolerance?: boolean | null;
 }
 
 export type NewModule = Omit<IModule, 'id'> & { id: null };
@@ -23,9 +27,9 @@ export interface IModuleConfiguration {
   configTolerance?: boolean | null;
   configAverageTimeLimit?: boolean | null;
   configEvaluationType?: boolean | null;
-  configInstituteCount?: boolean | null;
+  configInstitutionCount?: boolean | null;
   configTransactionCount?: boolean | null;
-  configInstituteTolerance?: boolean | null;
+  configInstitutionTolerance?: boolean | null;
   configTransactionTolerance?: boolean | null;
 }
 

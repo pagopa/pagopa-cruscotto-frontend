@@ -11,9 +11,9 @@ export interface IKpiConfiguration extends IModuleConfiguration {
   tolerance?: number | null;
   averageTimeLimit?: number | null;
   evaluationType?: string | null;
-  instituteCount?: number | null;
+  institutionCount?: number | null;
   transactionCount?: number | null;
-  instituteTolerance?: number | null;
+  institutionTolerance?: number | null;
   transactionTolerance?: number | null;
 }
 

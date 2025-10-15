@@ -35,6 +35,10 @@ import dayjs, { Dayjs } from 'dayjs/esm';
 import { KpiB9AnalyticData } from 'app/entity/kpi/kpi-b9/models/KpiB9AnalyticData';
 import { KpiB9AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b9/kpi-b9-analytic-drilldown-table/kpi-b9-analytic-drilldown-table.component';
 import { KpiA2AnalyticData } from 'app/entity/kpi/kpi-a2/models/KpiA2AnalyticData';
+import { KpiB1ResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-result-table/kpi-b1-result-table.component';
+import { KpiB1DetailResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-detail-result-table/kpi-b1-detail-result-table.component';
+import { KpiB1AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-result-table/kpi-b1-analytic-result-table.component';
+import { KpiB1AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-drilldown-table/kpi-b1-analytic-drilldown-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -54,6 +58,10 @@ import { KpiA2AnalyticData } from 'app/entity/kpi/kpi-a2/models/KpiA2AnalyticDat
     KpiA2AnalyticResultTableComponent,
     KpiA2DetailResultTableComponent,
     KpiA2AnalyticDrilldownTableComponent,
+    KpiB1ResultTableComponent,
+    KpiB1DetailResultTableComponent,
+    KpiB1AnalyticResultTableComponent,
+    KpiB1AnalyticDrilldownTableComponent,
     KpiB2DetailResultTableComponent,
     KpiB2ResultTableComponent,
     KpiB2AnalyticResultTableComponent,
@@ -72,18 +80,21 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   moduleDetails?: IInstanceModule;
 
   selectedKpiA1ResultIdForDetailsResults: number | null = null;
+  selectedKpiB1ResultIdForDetailsResults: number | null = null;
   selectedKpiB2ResultIdForDetailsResults: number | null = null;
   selectedKpiA2ResultIdForDetailsResults: number | null = null;
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
 
   selectedKpiA1DetailResultIdForAnalytics: number | null = null;
   selectedKpiA2DetailResultIdForAnalytics: number | null = null;
+  selectedKpiB1DetailResultIdForAnalytics: number | null = null;
   selectedKpiB2DetailResultIdForAnalytics: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
 
   selectedKpiA1AnalyticIdForDrilldown: number | null = null;
   selectedKpiA2AnalyticIdForDrilldown: number | null = null;
   selectedKpiA2AnalyticAnalysisDateForDrilldown: Date | string | dayjs.Dayjs | null = null;
+  selectedKpiB1AnalyticIdForDrilldown: number | null = null;
   selectedKpiB2AnalyticIdForDrilldown: number | null = null;
   selectedKpiB9AnalyticIdForDrilldown: number | null = null;
   b9DrillInstanceId: number | null = null;
@@ -180,16 +191,21 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   /**
    * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella Results
    */
-  onShowDetailsB2(kpiB2ResultId: number): void {
-    this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
-  }
+
   onShowDetailsA2(kpiA2ResultId: number): void {
     this.selectedKpiA2ResultIdForDetailsResults = this.selectedKpiA2ResultIdForDetailsResults === kpiA2ResultId ? null : kpiA2ResultId;
     this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
   onShowDetailsA1(kpiA1ResultId: number): void {
     this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+  onShowDetailsB1(kpiB1ResultId: number): void {
+    this.selectedKpiB1ResultIdForDetailsResults = this.selectedKpiB1ResultIdForDetailsResults === kpiB1ResultId ? null : kpiB1ResultId;
+    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+  }
+  onShowDetailsB2(kpiB2ResultId: number): void {
+    this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
     this.resetAnalyticsVariables(); // Reset delle variabili analytics
   }
   onShowDetailsB9(kpiB9ResultId: number): void {
@@ -203,6 +219,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB2(kpiB2DetailResultId: number): void {
     this.selectedKpiB2DetailResultIdForAnalytics =
       this.selectedKpiB2DetailResultIdForAnalytics === kpiB2DetailResultId ? null : kpiB2DetailResultId;
+    this.resetDrilldownVariables();
+  }
+  onAnalyticsShowDetailsB1(kpiB1DetailResultId: number): void {
+    this.selectedKpiB1DetailResultIdForAnalytics =
+      this.selectedKpiB1DetailResultIdForAnalytics === kpiB1DetailResultId ? null : kpiB1DetailResultId;
     this.resetDrilldownVariables();
   }
   onAnalyticsShowDetailsA2(kpiA2DetailResultId: number): void {
@@ -238,6 +259,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.selectedKpiB2AnalyticIdForDrilldown === kpiB2AnalyticDataId ? null : kpiB2AnalyticDataId;
   }
 
+  onAnalyticDrilldownShowDetailsB1(kpiB1AnalyticDataId: number): void {
+    this.selectedKpiB1AnalyticIdForDrilldown =
+      this.selectedKpiB1AnalyticIdForDrilldown === kpiB1AnalyticDataId ? null : kpiB1AnalyticDataId;
+  }
+
   onAnalyticDrilldownShowDetailsB9(row: KpiB9AnalyticData): void {
     if (!row?.instanceId || !row?.stationId || !row?.evaluationDate) return;
 
@@ -262,6 +288,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   resetDrilldownVariables(): void {
     this.selectedKpiA1AnalyticIdForDrilldown = null;
     this.selectedKpiA2AnalyticIdForDrilldown = null;
+    this.selectedKpiB1AnalyticIdForDrilldown = null;
     this.selectedKpiB2AnalyticIdForDrilldown = null;
     this.selectedKpiB9AnalyticIdForDrilldown = null;
     this.b9DrillInstanceId = this.b9DrillStationId = null;
@@ -271,6 +298,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   resetAnalyticsVariables(): void {
     this.selectedKpiA1DetailResultIdForAnalytics = null;
     this.selectedKpiA2DetailResultIdForAnalytics = null;
+    this.selectedKpiB1DetailResultIdForAnalytics = null;
     this.selectedKpiB2DetailResultIdForAnalytics = null;
     this.selectedKpiB9DetailResultIdForAnalytics = null;
     this.resetDrilldownVariables();
@@ -278,6 +306,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
 
   resetAllVariables(): void {
     this.selectedKpiA1ResultIdForDetailsResults = null;
+    this.selectedKpiB1ResultIdForDetailsResults = null;
     this.selectedKpiB2ResultIdForDetailsResults = null;
     this.selectedKpiA2ResultIdForDetailsResults = null;
     this.selectedKpiB9ResultIdForDetailsResults = null;

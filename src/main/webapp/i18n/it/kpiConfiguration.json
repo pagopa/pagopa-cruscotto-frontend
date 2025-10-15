@@ -28,9 +28,9 @@
       "tolerance": "Tolleranza",
       "averageTimeLimit": "Limite Tempo Medio",
       "evaluationType": "Tipo Valutazione",
-      "instituteCount": "Numero Enti",
+      "institutionCount": "Numero Enti",
       "transactionCount": "Numero Transazioni",
-      "instituteTolerance": "Tolleranza Enti",
+      "institutionTolerance": "Tolleranza Enti",
       "transactionTolerance": "Tolleranza Transazioni"
     }
   },

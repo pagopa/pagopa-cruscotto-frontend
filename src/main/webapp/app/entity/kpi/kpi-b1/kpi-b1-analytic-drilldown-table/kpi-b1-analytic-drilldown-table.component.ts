@@ -11,7 +11,7 @@ import { KpiB1AnalyticDrilldown } from '../models/KpiB1AnalyticDrilldown';
 import { KpiB1AnalyticDrilldownService } from '../service/kpi-b1-analytic-drilldown.service';
 
 @Component({
-  selector: 'jhi-kpi-kpi-b1-analytic-drilldown-table',
+  selector: 'jhi-kpi-b1-analytic-drilldown-table',
   templateUrl: './kpi-b1-analytic-drilldown-table.component.html',
   styleUrls: ['./kpi-b1-analytic-drilldown-table.component.scss'],
   imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
@@ -20,7 +20,7 @@ export class KpiB1AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   displayedColumns: string[] = ['partnerName', 'dataDate', 'stationCode', 'fiscalCode', 'transactionCount'];
   dataSource = new MatTableDataSource<KpiB1AnalyticDrilldown>([]);
 
-  @Input() selectedKpiB1AnalyticDataId: number | undefined;
+  @Input() kpiB1analyticDataId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
@@ -43,8 +43,8 @@ export class KpiB1AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   }
 
   ngOnChanges(): void {
-    if (this.selectedKpiB1AnalyticDataId) {
-      this.fetchKpiB1AnalyticData(this.selectedKpiB1AnalyticDataId);
+    if (this.kpiB1analyticDataId) {
+      this.fetchKpiB1AnalyticData(this.kpiB1analyticDataId);
     }
   }
 
@@ -60,10 +60,10 @@ export class KpiB1AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   /**
    * Fetch KPI B1 Analytic Data by kpiB1DetailResultId
    */
-  fetchKpiB1AnalyticData(selectedKpiB1AnalyticDataId: number): void {
+  fetchKpiB1AnalyticData(kpiB1analyticDataId: number): void {
     this.spinner.show('isLoadingResultsKpiB1AnalyticResultTable').then(() => {
       this.isLoadingResults = true;
-      this.KpiB1AnalyticDrilldownService.find(selectedKpiB1AnalyticDataId).subscribe({
+      this.KpiB1AnalyticDrilldownService.find(kpiB1analyticDataId).subscribe({
         next: (data: KpiB1AnalyticDrilldown[]) => this.onSuccess(data),
         error: () => this.onError(),
       });
