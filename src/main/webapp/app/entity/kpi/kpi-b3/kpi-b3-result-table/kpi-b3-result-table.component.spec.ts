@@ -8,9 +8,8 @@ describe('KpiB3ResultTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [KpiB3ResultTableComponent]
-    })
-    .compileComponents();
+      imports: [KpiB3ResultTableComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(KpiB3ResultTableComponent);
     component = fixture.componentInstance;
