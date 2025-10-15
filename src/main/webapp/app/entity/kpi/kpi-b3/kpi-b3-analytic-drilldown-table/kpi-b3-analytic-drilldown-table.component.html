@@ -1,0 +1,64 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="small" color="#ffffff" name="isLoadingResultsKpiB3AnalyticDrilldown">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        [matSortActive]="'intervalStart'"
+        [matSortDirection]="'asc'"
+        (matSortChange)="sortData($event)"
+        matSortDisableClear
+        class="full-width-table"
+      >
+        <ng-container matColumnDef="intervalStart">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.intervalStart' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.intervalStart | date: 'HH:mm' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="intervalEnd">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.intervalEnd' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.intervalEnd | date: 'HH:mm' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="partnerFiscalCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.partnerFiscalCode' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e">{{ e.partnerFiscalCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="stationCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.stationCode' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.stationCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="standInCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.standInCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.standInCount | number }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>
