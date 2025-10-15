@@ -1,7 +1,7 @@
 {
   "pagopaCruscottoApp": {
     "module": {
-      "A.1": {
+      "B.1": {
         "tableLabels": {
           "KpiResults": {
             "id": "Id",
@@ -20,6 +20,9 @@
             "instanceId": "Id Istanza",
             "instanceModuleId": "Id Modulo Istanza",
             "analysisDate": "Data Analisi",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data inizio Valutazione",
+            "evaluationEndDate": "Data fine Valutazione",
             "totalInstitutions": "Totale Enti",
             "institutionDifference": "Differenza Enti",
             "institutionDifferencePercentageEC": "Differenza % EC",

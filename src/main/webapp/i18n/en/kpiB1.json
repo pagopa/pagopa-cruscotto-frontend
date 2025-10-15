@@ -20,6 +20,7 @@
             "instanceId": "Instance Id",
             "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation Type",
             "evaluationStartDate": "Evaluation Start Date",
             "evaluationEndDate": "Evaluation End Date",
             "totalInstitutions": "Total Institutions",

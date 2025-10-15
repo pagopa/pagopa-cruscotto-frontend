@@ -179,21 +179,21 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstituteCount">
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstitutionCount">
               <mat-form-field class="d-block mb-2">
-                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstituteCount"></mat-label>
-                <input matInput autocomplete="off" formControlName="instituteCount" mask="999" class="text-end" />
-                @let instituteCountRef = editForm.get('instituteCount')!;
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstitutionCount"></mat-label>
+                <input matInput autocomplete="off" formControlName="institutionCount" mask="999" class="text-end" />
+                @let institutionCountRef = editForm.get('institutionCount')!;
                 <ng-container
                   ngProjectAs="mat-error"
-                  *ngIf="instituteCountRef.invalid && (instituteCountRef.dirty || instituteCountRef.touched)"
+                  *ngIf="institutionCountRef.invalid && (institutionCountRef.dirty || institutionCountRef.touched)"
                 >
-                  @if (instituteCountRef?.errors?.matStringNumeric) {
+                  @if (institutionCountRef?.errors?.matStringNumeric) {
                     <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
                       {{ 'validation.number' | translate }}
                     </mat-error>
                   }
-                  @if (instituteCountRef?.errors?.required) {
+                  @if (institutionCountRef?.errors?.required) {
                     <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
                   }
                 </ng-container>
@@ -228,30 +228,30 @@
                 </ng-container>
               </mat-form-field>
             </div>
-            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstituteTolerance">
+            <div class="col-lg-3" *ngIf="moduleConfiguration.configInstitutionTolerance">
               <mat-form-field class="d-block mb-2">
-                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstituteTolerance"></mat-label>
+                <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstitutionTolerance"></mat-label>
                 <input
                   matInput
                   autocomplete="off"
-                  formControlName="instituteTolerance"
+                  formControlName="institutionTolerance"
                   mask="separator.2"
                   [leadZero]="true"
                   decimalMarker=","
                   class="text-end"
                 />
                 <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
-                @let instituteToleranceRef = editForm.get('instituteTolerance')!;
+                @let institutionToleranceRef = editForm.get('institutionTolerance')!;
                 <ng-container
                   ngProjectAs="mat-error"
-                  *ngIf="instituteToleranceRef.invalid && (instituteToleranceRef.dirty || instituteToleranceRef.touched)"
+                  *ngIf="institutionToleranceRef.invalid && (institutionToleranceRef.dirty || institutionToleranceRef.touched)"
                 >
-                  @if (instituteToleranceRef?.errors?.matStringNumeric) {
+                  @if (institutionToleranceRef?.errors?.matStringNumeric) {
                     <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
                       {{ 'validation.number' | translate }}
                     </mat-error>
                   }
-                  @if (instituteToleranceRef?.errors?.required) {
+                  @if (institutionToleranceRef?.errors?.required) {
                     <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
                   }
                 </ng-container>
