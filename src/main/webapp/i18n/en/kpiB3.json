@@ -1,7 +1,7 @@
 {
   "pagopaCruscottoApp": {
     "module": {
-      "B.2": {
+      "B.3": {
         "tableLabels": {
           "KpiResults": {
             "id": "Id",
@@ -10,7 +10,6 @@
             "excludeUnplannedShutdown": "Unplanned Shutdowns Excluded",
             "eligibilityThreshold": "Threshold",
             "tolerance": "Tolerance",
-            "averageTimeLimit": "Average Time Limit (msec)",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
@@ -19,18 +18,13 @@
           "KpiDetailResults": {
             "id": "Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station Id",
-            "method": "Metodo",
-            "totalRequests": "Total Requests",
-            "averageTime": "Average time (msec)",
-            "overTimeLimit": "Over Time Limit",
+            "evaluationType": "Type of Evaluation",
             "evaluationStartDate": "Start Period",
             "evaluationEndDate": "End Period",
-            "evaluationType": "Type of Evaluation",
+            "totalStandIn": "Total StandIn",
             "outcome": "Outcome",
             "details": "Details",
-            "showDetails": "Show detail",
-            "stationName": "Station"
+            "showDetails": "Show detail"
           },
           "KpiAnalyticResults": {
             "id": "Id",
@@ -38,23 +32,19 @@
             "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
             "stationId": "Station Id",
-            "method": "Method",
-            "evaluationDate": "Period",
-            "totReq": "Total Requests",
-            "reqOk": "Requests OK",
-            "reqTimeout": "Requests in Timeout",
-            "avgTime": "Average Time",
-            "kpiB2DetailResultId": "B2 Detail Result Id",
+            "eventTimestamp": "Date",
+            "kpiB3DetailResultId": "B3 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
-            "stationName": "Station"
+            "stationFiscalCode": "Station",
+            "standInCount": "StandIn Number"
           },
-          "KpiRecordedTimeout": {
-            "fromHour": "From hour",
-            "endHour": "To hour",
-            "okRequests": "OK requests",
-            "totalRequests": "Total Requests",
-            "averageTimeMs": "Average time (ms)"
+          "KpiAnalyticDrillDown": {
+            "partnerFiscalCode": "Partner",
+            "intervalStart": "Start date",
+            "intervalEnd": "End date",
+            "stationCode": "Station",
+            "standInCount": "StandIn Number"
           }
         }
       }

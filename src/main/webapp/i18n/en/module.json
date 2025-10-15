@@ -56,7 +56,8 @@
           "notExists": "No analytical data available"
         },
         "KpiAnalyticDetail": {
-          "title": "Analytical Data Detail"
+          "title": "Analytical Data Detail",
+          "detailsTitle": "Pagopa Data"
         }
       },
       "A.1": {
