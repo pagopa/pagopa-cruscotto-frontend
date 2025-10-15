@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 
 import _ from 'lodash';
 import { IKpiConfiguration, NewKpiConfiguration } from '../kpi-configuration.model';
@@ -37,6 +37,10 @@ type KpiConfigurationFormGroupContent = {
   tolerance: FormControl<IKpiConfiguration['tolerance'] | NewKpiConfiguration['tolerance']>;
   evaluationType: FormControl<IKpiConfiguration['evaluationType'] | NewKpiConfiguration['evaluationType']>;
   averageTimeLimit: FormControl<IKpiConfiguration['averageTimeLimit'] | NewKpiConfiguration['averageTimeLimit']>;
+  institutionCount: FormControl<IKpiConfiguration['institutionCount'] | NewKpiConfiguration['institutionCount']>;
+  transactionCount: FormControl<IKpiConfiguration['transactionCount'] | NewKpiConfiguration['transactionCount']>;
+  institutionTolerance: FormControl<IKpiConfiguration['institutionTolerance'] | NewKpiConfiguration['institutionTolerance']>;
+  transactionTolerance: FormControl<IKpiConfiguration['transactionTolerance'] | NewKpiConfiguration['transactionTolerance']>;
 };
 
 export type KpiConfigurationFormGroup = FormGroup<KpiConfigurationFormGroupContent>;
@@ -76,9 +80,23 @@ export class KpiConfigurationFormService {
         tolerance: new FormControl(kpiConfigurationRawValue.tolerance),
         evaluationType: new FormControl(kpiConfigurationRawValue.evaluationType),
         averageTimeLimit: new FormControl(kpiConfigurationRawValue.averageTimeLimit),
+        institutionCount: new FormControl(kpiConfigurationRawValue.institutionCount),
+        transactionCount: new FormControl(kpiConfigurationRawValue.transactionCount),
+        institutionTolerance: new FormControl(kpiConfigurationRawValue.institutionTolerance),
+        transactionTolerance: new FormControl(kpiConfigurationRawValue.transactionTolerance),
       },
       {
-        validators: [stringNumericValidatorFn('eligibilityThreshold', 'tolerance', 'averageTimeLimit')],
+        validators: [
+          stringNumericValidatorFn(
+            'eligibilityThreshold',
+            'tolerance',
+            'averageTimeLimit',
+            'institutionCount',
+            'transactionCount',
+            'institutionTolerance',
+            'transactionTolerance',
+          ),
+        ],
       },
     );
   }
@@ -107,6 +125,10 @@ export class KpiConfigurationFormService {
       eligibilityThreshold: kpiConfiguration.eligibilityThreshold != null ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
       tolerance: kpiConfiguration.tolerance != null ? kpiConfiguration.tolerance.toFixed(2) : null,
       averageTimeLimit: kpiConfiguration.averageTimeLimit != null ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
+      institutionCount: kpiConfiguration.institutionCount != null ? kpiConfiguration.institutionCount : null,
+      transactionCount: kpiConfiguration.transactionCount != null ? kpiConfiguration.transactionCount : null,
+      institutionTolerance: kpiConfiguration.institutionTolerance != null ? kpiConfiguration.institutionTolerance.toFixed(2) : null,
+      transactionTolerance: kpiConfiguration.transactionTolerance != null ? kpiConfiguration.transactionTolerance.toFixed(2) : null,
     };
     form.reset(
       {
