@@ -63,7 +63,6 @@ export class KpiB3AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     }
   }
 
-  
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB3AnalyticDrilldown').then(() => {
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB3AnalyticResultId).subscribe({
