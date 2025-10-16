@@ -13,6 +13,10 @@ const CONFIG_FIELD_MAPPINGS = {
   configEvaluationType: 'evaluationType',
   configExcludePlannedShutdown: 'excludePlannedShutdown',
   configExcludeUnplannedShutdown: 'excludeUnplannedShutdown',
+  configTransactionCount: 'configTransactionCount',
+  configInstitutionTolerance: 'configInstitutionTolerance',
+  configInstitutionCount: 'configInstitutionCount',
+  configTransactionTolerance: 'configTransactionTolerance',
 } as const;
 
 /**
