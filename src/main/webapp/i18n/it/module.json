@@ -37,6 +37,10 @@
       "configExcludePlannedShutdown": "Escludi Fermi Pianificati",
       "configExcludeUnplannedShutdown": "Escludi Fermi Non Pianificati",
       "configTolerance": "Tolleranza",
+      "configInstitutionCount": "Numero Enti",
+      "configTransactionCount": "Numero Transazioni",
+      "configInstitutionTolerance": "Tolleranza Enti",
+      "configTransactionTolerance": "Tolleranza Transazioni",
       "tables": {
         "KpiResults": {
           "title": "Risultati",

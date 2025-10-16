@@ -38,7 +38,6 @@ export class KpiB3Result {
   }
 }
 
-
 export enum EvaluationType {
   MESE = 'MESE',
   TOTALE = 'TOTALE',
