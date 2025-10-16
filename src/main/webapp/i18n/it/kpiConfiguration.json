@@ -28,10 +28,10 @@
       "tolerance": "Tolleranza",
       "averageTimeLimit": "Limite Tempo Medio",
       "evaluationType": "Tipo Valutazione",
-      "institutionCount": "Numero Enti",
-      "transactionCount": "Numero Transazioni",
-      "institutionTolerance": "Tolleranza Enti",
-      "transactionTolerance": "Tolleranza Transazioni"
+      "configTransactionCount": "Numero Transazioni",
+      "configInstitutionTolerance": "Tolleranza Enti",
+      "configInstitutionCount": "Numero Enti",
+      "configTransactionTolerance": "Tolleranza Transazioni"
     }
   },
   "error": {

@@ -40,6 +40,10 @@ export class ModuleConfiguration implements IModuleConfiguration {
   configTolerance = false;
   configAverageTimeLimit = false;
   configEvaluationType = false;
+  configInstitutionCount = false;
+  configTransactionCount = false;
+  configInstitutionTolerance = false;
+  configTransactionTolerance = false;
 
   constructor(configuration?: IModuleConfiguration) {
     if (configuration) {
@@ -49,6 +53,10 @@ export class ModuleConfiguration implements IModuleConfiguration {
       this.configTolerance = configuration.configTolerance ?? false;
       this.configAverageTimeLimit = configuration.configAverageTimeLimit ?? false;
       this.configEvaluationType = configuration.configEvaluationType ?? false;
+      this.configInstitutionCount = configuration.configInstitutionCount ?? false;
+      this.configTransactionCount = configuration.configTransactionCount ?? false;
+      this.configInstitutionTolerance = configuration.configInstitutionTolerance ?? false;
+      this.configTransactionTolerance = configuration.configTransactionTolerance ?? false;
     }
   }
 }
