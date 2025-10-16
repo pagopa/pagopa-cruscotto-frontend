@@ -11,7 +11,7 @@
             "institutionTolerance": "Indice di tolleranza",
             "transactionTolerance": "Tolleranza transazioni",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
