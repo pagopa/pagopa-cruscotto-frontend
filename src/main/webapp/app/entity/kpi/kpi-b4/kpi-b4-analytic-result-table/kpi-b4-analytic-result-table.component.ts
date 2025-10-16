@@ -9,6 +9,7 @@ import { KpiB4AnalyticDataService } from '../service/kpi-b4-analytic-data.servic
 import { KpiB4AnalyticData } from '../models/KpiB4AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-kpi-b4-analytic-result-table',
@@ -68,6 +69,15 @@ export class KpiB4AnalyticResultTableComponent implements AfterViewInit, OnChang
     if (this.sort) {
       this.dataSource.sort = this.sort;
     }
+
+    // Ordina di default i dati per dataDate (dal più vecchio al più recente)
+    if (this.dataSource.data?.length) {
+      this.dataSource.data = this.dataSource.data.sort((a, b) => {
+        const aTime = toTimestamp(a.dataDate);
+        const bTime = toTimestamp(b.dataDate);
+        return aTime - bTime; // crescente = dal più vecchio al più recente
+      });
+    }
   }
 
   /**
@@ -89,7 +99,15 @@ export class KpiB4AnalyticResultTableComponent implements AfterViewInit, OnChang
   protected onSuccess(data: KpiB4AnalyticData[]): void {
     this.spinner.hide('isLoadingResultsKpiB4AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
-      this.dataSource.data = data;
+
+      const sortedData = data.sort((a, b) => {
+        const aTime = toTimestamp(a.dataDate);
+        const bTime = toTimestamp(b.dataDate);
+        return aTime - bTime; // dal più vecchio al più recente
+      });
+
+      this.dataSource.data = sortedData;
+
       if (this.paginator) {
         this.paginator.firstPage();
       }
@@ -169,4 +187,11 @@ function compare(a: any, b: any, isAsc: boolean): number {
   if (a == null) return isAsc ? -1 : 1;
   if (b == null) return isAsc ? 1 : -1;
   return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
+}
+
+function toTimestamp(value: any): number {
+  if (!value) return 0;
+  if (dayjs.isDayjs(value)) return value.valueOf();
+  const d = dayjs(value);
+  return d.isValid() ? d.valueOf() : 0;
 }
