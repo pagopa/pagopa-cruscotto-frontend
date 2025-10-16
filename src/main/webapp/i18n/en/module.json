@@ -37,6 +37,10 @@
       "configExcludePlannedShutdown": "Planned Shutdowns Exclusion",
       "configExcludeUnplannedShutdown": "Unplanned Shutdowns Exclusion",
       "configTolerance": "Tolerance",
+      "configInstitutionCount": "Institute Count",
+      "configTransactionCount": "Transaction Count",
+      "configInstitutionTolerance": "Institute Tolerance",
+      "configTransactionTolerance": "Transaction Tolerance",
       "tables": {
         "KpiResults": {
           "title": "Results",

@@ -256,6 +256,100 @@
                   </ng-container>
                 </mat-form-field>
               </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configInstitutionCount"></mat-label>
+                  <mat-select formControlName="configInstitutionCount">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configInstitutionCountRef = editForm.get('configInstitutionCount')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configInstitutionCountRef.invalid && (configInstitutionCountRef.dirty || configInstitutionCountRef.touched)"
+                  >
+                    @if (configInstitutionCountRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configTransactionCount"></mat-label>
+                  <mat-select formControlName="configTransactionCount">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configTransactionCountRef = editForm.get('configTransactionCount')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="configTransactionCountRef.invalid && (configTransactionCountRef.dirty || configTransactionCountRef.touched)"
+                  >
+                    @if (configTransactionCountRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configInstitutionTolerance"></mat-label>
+                  <mat-select formControlName="configInstitutionTolerance">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configInstitutionToleranceRef = editForm.get('configInstitutionTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configInstitutionToleranceRef.invalid &&
+                      (configInstitutionToleranceRef.dirty || configInstitutionToleranceRef.touched)
+                    "
+                  >
+                    @if (configInstitutionToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.module.configTransactionTolerance"></mat-label>
+                  <mat-select formControlName="configTransactionTolerance">
+                    <mat-option [value]="emptyOption">{{ 'global.form.select.singleValue' | translate }}</mat-option>
+                    <mat-option *ngFor="let option of booleanOptions" [value]="option.value">
+                      {{ option.text | translate }}
+                    </mat-option>
+                  </mat-select>
+                  @let configTransactionToleranceRef = editForm.get('configTransactionTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="
+                      configTransactionToleranceRef.invalid &&
+                      (configTransactionToleranceRef.dirty || configTransactionToleranceRef.touched)
+                    "
+                  >
+                    @if (configTransactionToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">
+                        {{ 'entity.validation.required' | translate }}
+                      </mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
               <div class="col-md-12">
                 <mat-form-field class="d-block mb-2 h-100">
                   <mat-label jhiTranslate="pagopaCruscottoApp.module.description"></mat-label>
