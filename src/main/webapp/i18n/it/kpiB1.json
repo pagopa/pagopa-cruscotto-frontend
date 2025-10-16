@@ -1,0 +1,58 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "institutionCount": "Numero enti",
+            "transactionCount": "Numero transazioni",
+            "institutionTolerance": "Indice di tolleranza",
+            "transactionTolerance": "Tolleranza transazioni",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data inizio Valutazione",
+            "evaluationEndDate": "Data fine Valutazione",
+            "totalInstitutions": "Totale Enti",
+            "institutionDifference": "Differenza Enti",
+            "institutionDifferencePercentageEC": "Differenza % EC",
+            "institutionOutcome": "Esito Enti",
+            "totalTransactions": "Totale Transazioni",
+            "transactionDifference": "Differenza Transazioni",
+            "transactionDifferencePercentage": "Differenza % Transazioni",
+            "transactionOutcome": "Esito Transazioni",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo Istanza",
+            "analysisDate": "Data Analisi",
+            "dataDate": "Data",
+            "institutionCount": "Numero enti",
+            "transactionCount": "Numero transazioni",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticDrilldown": {
+            "partnerName": "Partner",
+            "dataDate": "Data",
+            "stationCode": "Stazione",
+            "fiscalCode": "Ente",
+            "transactionCount": "Numero transazioni"
+          }
+        }
+      }
+    }
+  }
+}
