@@ -22,7 +22,7 @@ export class KpiB1AnalyticDrilldownService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-b1-pagopa-data/');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-b1-pagopa-data');
   }
 
   /**
