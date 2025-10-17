@@ -36,7 +36,7 @@ export class KpiB1DetailResultTableComponent implements AfterViewInit, OnChanges
     'evaluationEndDate',
     'totalInstitutions',
     'institutionDifference',
-    'institutionDifferencePercentageEC',
+    'institutionDifferencePercentage',
     'institutionOutcome',
     'totalTransactions',
     'transactionDifference',
