@@ -10,7 +10,7 @@ export interface KpiB1DetailResult {
   evaluationEndDate: dayjs.Dayjs | null; // ISO string format
   totalInstitutions: number | null;
   institutionDifference: number | null;
-  institutionDifferencePercentageEC: number | null;
+  institutionDifferencePercentage: number | null;
   totalTransactions: number | null;
   transactionDifference: number | null;
   transactionDifferencePercentage: number | null;
