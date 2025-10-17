@@ -112,7 +112,10 @@
           <td
             mat-cell
             *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+            [ngClass]="{
+              'outcome-ok': element.transactionOutcome === OutcomeStatus.OK,
+              'outcome-ko': element.transactionOutcome === OutcomeStatus.KO,
+            }"
           >
             {{ element.transactionOutcome }}
           </td>
