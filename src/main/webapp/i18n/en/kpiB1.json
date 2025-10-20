@@ -48,7 +48,7 @@
             "partnerName": "Partner",
             "dataDate": "Date",
             "stationCode": "Station",
-            "fiscalCode": "Institute",
+            "institutionFiscalCode": "Institute",
             "transactionCount": "Transaction Count"
           }
         }
