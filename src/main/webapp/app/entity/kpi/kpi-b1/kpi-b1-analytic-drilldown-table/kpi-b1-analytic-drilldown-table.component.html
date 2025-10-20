@@ -5,11 +5,11 @@
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
-        <ng-container matColumnDef="partnerName">
+        <ng-container matColumnDef="partnerFiscalCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.1.tableLabels.KpiAnalyticDrilldown.partnerName' | translate }}
+            {{ 'pagopaCruscottoApp.module.B.1.tableLabels.KpiAnalyticDrilldown.partnerFiscalCode' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.partnerName }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.partnerFiscalCode }}</td>
         </ng-container>
 
         <ng-container matColumnDef="dataDate">
