@@ -1,0 +1,26 @@
+.full-width-table { width: 100%; min-width: 560px;  }
+.table-container {
+    max-height: 56vh;
+    overflow: auto;
+    border-radius: 8px;
+}
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+}
+.mat-header-cell, .mat-cell { padding: 10px 16px; }
+.drilldown-table .mat-column-analysisDate {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.drilldown-table .mat-column-dataDate .mat-header-cell,
+.drilldown-table .mat-column-institutionFiscalCode .mat-header-cell,
+.drilldown-table .mat-column-positionsCount .mat-header-cell,
+.drilldown-table .mat-column-messagesCount .mat-header-cell,
+.drilldown-table .mat-column-percentageMessages .mat-header-cell
+{
+  text-align: left!important;
+}
