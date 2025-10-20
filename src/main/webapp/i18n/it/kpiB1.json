@@ -25,7 +25,7 @@
             "evaluationEndDate": "Data fine Valutazione",
             "totalInstitutions": "Totale Enti",
             "institutionDifference": "Differenza Enti",
-            "institutionDifferencePercentageEC": "Differenza % EC",
+            "institutionDifferencePercentage": "Differenza % EC",
             "institutionOutcome": "Esito Enti",
             "totalTransactions": "Totale Transazioni",
             "transactionDifference": "Differenza Transazioni",
@@ -48,7 +48,7 @@
             "partnerName": "Partner",
             "dataDate": "Data",
             "stationCode": "Stazione",
-            "fiscalCode": "Ente",
+            "institutionFiscalCode": "Ente",
             "transactionCount": "Numero transazioni"
           }
         }

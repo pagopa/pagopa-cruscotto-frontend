@@ -17,7 +17,7 @@ import { KpiB1AnalyticDrilldownService } from '../service/kpi-b1-analytic-drilld
   imports: [MatPaginatorModule, MatSortModule, MatTableModule, NgxSpinnerModule, TranslateModule, NgIf, MatButtonModule, FormatDatePipe],
 })
 export class KpiB1AnalyticDrilldownTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['partnerName', 'dataDate', 'stationCode', 'fiscalCode', 'transactionCount'];
+  displayedColumns: string[] = ['dataDate', 'stationCode', 'institutionFiscalCode', 'transactionCount'];
   dataSource = new MatTableDataSource<KpiB1AnalyticDrilldown>([]);
 
   @Input() kpiB1analyticDataId: number | undefined;
