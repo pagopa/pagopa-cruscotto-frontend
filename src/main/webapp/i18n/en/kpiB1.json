@@ -25,7 +25,7 @@
             "evaluationEndDate": "Evaluation End Date",
             "totalInstitutions": "Total Institutions",
             "institutionDifference": "Institutions difference",
-            "institutionDifferencePercentageEC": "Difference % EC",
+            "institutionDifferencePercentage": "Difference % EC",
             "institutionOutcome": "Institutions outcome",
             "totalTransactions": "Total Transactions",
             "transactionDifference": "Transaction Difference",
@@ -48,7 +48,7 @@
             "partnerName": "Partner",
             "dataDate": "Date",
             "stationCode": "Station",
-            "fiscalCode": "Institute",
+            "institutionFiscalCode": "Institute",
             "transactionCount": "Transaction Count"
           }
         }

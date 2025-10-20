@@ -6,7 +6,7 @@ export interface KpiB1AnalyticDrilldown {
   loadTimestamp: dayjs.Dayjs | null;
   partnerId: number | null;
   partnerName: string | null;
-  fiscalCode: string | null;
+  institutionFiscalCode: string | null;
   partnerFiscalCode: string | null;
   transactionCount: number | null;
   stationCode: number | null;

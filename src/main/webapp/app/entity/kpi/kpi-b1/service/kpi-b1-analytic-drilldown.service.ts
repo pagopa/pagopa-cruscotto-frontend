@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { DATE_TIME_FORMAT_ISO } from '../../../../config/input.constants';
+import { DATE_FORMAT, DATE_TIME_FORMAT_ISO } from '../../../../config/input.constants';
 import { KpiB1AnalyticDrilldown } from '../models/KpiB1AnalyticDrilldown';
 
-type RestKpiB1AnalyticDrilldown = Omit<KpiB1AnalyticDrilldown, 'loadTimestamp' | 'dataDate'> & {
+type RestKpiB1AnalyticDrilldown = Omit<KpiB1AnalyticDrilldown, 'dataDate'> & {
   loadTimestamp?: string | null;
   dataDate?: string | null;
 };
@@ -22,7 +22,7 @@ export class KpiB1AnalyticDrilldownService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-b1-pagopa-data/');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-b1-pagopa-data');
   }
 
   /**
@@ -41,8 +41,7 @@ export class KpiB1AnalyticDrilldownService {
   private convertFromServer(restKpiB1AnalyticData: RestKpiB1AnalyticDrilldown): KpiB1AnalyticDrilldown {
     return {
       ...restKpiB1AnalyticData,
-      loadTimestamp: restKpiB1AnalyticData.loadTimestamp ? dayjs(restKpiB1AnalyticData.loadTimestamp, DATE_TIME_FORMAT_ISO) : null,
-      dataDate: restKpiB1AnalyticData.dataDate ? dayjs(restKpiB1AnalyticData.dataDate, DATE_TIME_FORMAT_ISO) : null,
+      dataDate: restKpiB1AnalyticData.dataDate ? dayjs(restKpiB1AnalyticData.dataDate, DATE_FORMAT) : null,
     };
   }
 }
