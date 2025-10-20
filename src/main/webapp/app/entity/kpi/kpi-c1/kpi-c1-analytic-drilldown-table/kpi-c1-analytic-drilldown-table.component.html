@@ -1,0 +1,71 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="small" color="#ffffff" name="isLoadingResultsKpiC1AnalyticDrilldown">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        [matSortActive]="'analysisDate'"
+        [matSortDirection]="'asc'"
+        (matSortChange)="sortData($event)"
+        matSortDisableClear
+        class="full-width-table"
+      >
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.dataDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.dataDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="institutionFiscalCode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.institutionFiscalCode' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e">{{ e.institutionFiscalCode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="positionsCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.positionsCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.positionsCount | number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="messagesCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.messagesCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.messagesCount | number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="percentageMessages">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.percentageMessages' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.percentageMessages | number }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>

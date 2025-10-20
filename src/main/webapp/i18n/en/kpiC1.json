@@ -1,0 +1,53 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "C.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation",
+            "evaluationStartDate": "Start Period",
+            "evaluationEndDate": "End Period",
+            "totalInstitutions": "Total Institutions",
+            "okTotalInstitutions": "OK Total Institutions",
+            "percentageOkInstitutions": "% OK Institutions",
+            "outcome": "Outcome",
+            "details": "Details",
+            "showDetails": "Show detail"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Date",
+            "kpiC1DetailResultId": "C1 Detail Result Id",
+            "details": "Details",
+            "showDetails": "Show Details",
+            "institutionCount": "Institution Number",
+            "koInstitutionCount": "KO Institution Number"
+          },
+          "KpiAnalyticDrillDown": {
+            "analysisDate": "Analysis Date",
+            "dataDate": "Date",
+            "institutionFiscalCode": "Institution Fiscal Code",
+            "positionsCount": "Positions Number",
+            "messagesCount": "Messages Number",
+            "percentageMessages": "% Messages"
+          }
+        }
+      }
+    }
+  }
+}
