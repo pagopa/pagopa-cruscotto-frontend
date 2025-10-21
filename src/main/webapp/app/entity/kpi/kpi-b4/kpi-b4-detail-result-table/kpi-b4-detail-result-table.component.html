@@ -74,7 +74,7 @@
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiDetailResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <button
-              *ngIf="element.evaluationType === EvaluationType.MESE"
+              *ngIf="element.evaluationType === EvaluationType.MESE && element.percentageCP > 0"
               mat-stroked-button
               color="primary"
               (click)="emitShowDetails(element.id)"
