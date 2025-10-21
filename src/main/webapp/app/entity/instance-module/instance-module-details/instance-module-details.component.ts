@@ -14,6 +14,10 @@ import { KpiA2ResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-result-table/
 import { KpiA2DetailResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-detail-result-table/kpi-a2-detail-result-table.component';
 import { KpiA2AnalyticResultTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-result-table/kpi-a2-analytic-result-table.component';
 import { KpiA2AnalyticDrilldownTableComponent } from '../../kpi/kpi-a2/kpi-a2-analytic-drilldown-table/kpi-a2-analytic-drilldown-table.component';
+import { KpiB1ResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-result-table/kpi-b1-result-table.component';
+import { KpiB1DetailResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-detail-result-table/kpi-b1-detail-result-table.component';
+import { KpiB1AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-result-table/kpi-b1-analytic-result-table.component';
+import { KpiB1AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-drilldown-table/kpi-b1-analytic-drilldown-table.component';
 import { KpiB2ResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-result-table/kpi-b2-result-table.component';
 import { KpiB2DetailResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-detail-result-table/kpi-b2-detail-result-table.component';
 import { KpiB2AnalyticResultTableComponent } from '../../kpi/kpi-b2/kpi-b2-analytic-result-table/kpi-b2-analytic-result-table.component';
@@ -32,6 +36,10 @@ import { KpiB9DetailResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-detail-
 import { KpiB9AnalyticResultTableComponent } from '../../kpi/kpi-b9/kpi-b9-analytic-result-table/kpi-b9-analytic-result-table.component';
 import { KpiB9AnalyticData } from 'app/entity/kpi/kpi-b9/models/KpiB9AnalyticData';
 import { KpiB9AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b9/kpi-b9-analytic-drilldown-table/kpi-b9-analytic-drilldown-table.component';
+import { KpiC1ResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-result-table/kpi-c1-result-table.component';
+import { KpiC1DetailResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-detail-result-table/kpi-c1-detail-result-table.component';
+import { KpiC1AnalyticResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-analytic-result-table/kpi-c1-analytic-result-table.component';
+import { KpiC1AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-analytic-drilldown-table/kpi-c1-analytic-drilldown-table.component';
 import { AnalysisType } from '../models/analysis-type.model';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { EventManager } from 'app/core/util/event-manager.service';
@@ -44,15 +52,6 @@ import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ModuleStatus } from '../models/module-status.model';
 
 import dayjs, { Dayjs } from 'dayjs/esm';
-import { KpiB1ResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-result-table/kpi-b1-result-table.component';
-import { KpiB1DetailResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-detail-result-table/kpi-b1-detail-result-table.component';
-import { KpiB1AnalyticResultTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-result-table/kpi-b1-analytic-result-table.component';
-import { KpiB1AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-b1/kpi-b1-analytic-drilldown-table/kpi-b1-analytic-drilldown-table.component';
-import { KpiC1ResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-result-table/kpi-c1-result-table.component';
-import { KpiC1DetailResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-detail-result-table/kpi-c1-detail-result-table.component';
-import { KpiC1AnalyticResultTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-analytic-result-table/kpi-c1-analytic-result-table.component';
-import { KpiC1AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-c1/kpi-c1-analytic-drilldown-table/kpi-c1-analytic-drilldown-table.component';
-
 
 @Component({
   selector: 'jhi-instance-module-details',
