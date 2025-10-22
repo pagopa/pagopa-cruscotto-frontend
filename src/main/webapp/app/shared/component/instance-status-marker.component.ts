@@ -24,7 +24,7 @@ import { IInstanceModule } from 'app/entity/instance-module/models/instance-modu
       // &:after { font-size: 24px; display: block; transform: translate(-5px, -7px)}
     }
     .status-unactive {
-      background-color: white !important;
+      display: none;
     }
     .status-standby {
       background-color: orange;
