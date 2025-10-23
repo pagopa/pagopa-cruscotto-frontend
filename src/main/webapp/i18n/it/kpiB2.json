@@ -12,7 +12,7 @@
             "tolerance": "Tolleranza",
             "averageTimeLimit": "Limite Tempo Medio (ms)",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
@@ -27,7 +27,7 @@
             "evaluationStartDate": "Inizio Periodo",
             "evaluationEndDate": "Fine Periodo",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
             "stationName": "Stazione"

@@ -11,7 +11,7 @@
             "eligibilityThreshold": "Soglia",
             "tolerance": "Tolleranza",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
@@ -28,7 +28,7 @@
             "totalRequests": "Totale Richieste",
             "reqTimeout": "Richieste In Timeout",
             "timeoutPercentage": "Percentuale In Timeout",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "kpiA1ResultId": "Id KPI A.1 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",

@@ -16,7 +16,7 @@
             "id": "Id",
             "analysisDate": "Analysis Date",
             "stationId": "Station Id",
-            "outcome": "Result",
+            "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show details",
             "stationsPresent": "Present Stations",
@@ -32,7 +32,7 @@
             "stationsPresent": "Present Stations",
             "stationsWithoutSpontaneous": "Stations without spontaneous payments",
             "percentageNoSpontaneous": "% not spontaneous",
-            "outcome": "Result",
+            "outcome": "Outcome",
             "showDetails": "Show details",
             "details": "Results Detail"
           },
