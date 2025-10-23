@@ -1,0 +1,34 @@
+.full-width-table {
+  width: 100%;
+  min-width: 560px;
+}
+.table-container {
+  max-height: 56vh;
+  overflow: auto;
+  border-radius: 8px;
+}
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+}
+.mat-header-cell,
+.mat-cell {
+  padding: 10px 16px;
+}
+.drilldown-table .mat-column-intervalStart,
+.drilldown-table .mat-column-intervalEnd {
+  width: 110px;
+  white-space: nowrap;
+}
+
+.drilldown-table .mat-column-stationCode .mat-header-cell,
+.drilldown-table .mat-column-partnerFiscalCode .mat-header-cell,
+.drilldown-table .mat-column-standInCount .mat-header-cell {
+  text-align: left !important;
+}
+.mat-column-startTime,
+.mat-column-endTime {
+  width: 120px;
+}
