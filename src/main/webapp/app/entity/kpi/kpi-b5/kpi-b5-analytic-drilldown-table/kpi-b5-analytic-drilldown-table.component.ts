@@ -49,6 +49,10 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     };
+
+    this.sort.active = 'stationCode';
+    this.sort.direction = 'asc';
+    this.sort.sortChange.emit({ active: 'stationCode', direction: 'asc' });
   }
 
   ngOnChanges(): void {
@@ -59,7 +63,6 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     }
   }
 
-  
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId).subscribe({
@@ -67,10 +70,17 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           this.spinner.hide('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
             this.dataSource.data = res ?? [];
             this.paginator?.firstPage();
+            
+            setTimeout(() => {
+              this.dataSource.sort = this.sort;
+              this.sort.active = 'stationCode';
+              this.sort.direction = 'asc';
+              this.sort.sortChange.emit({ active: 'stationCode', direction: 'asc' });
+            });
           });
         },
         error: err => {
-          console.error('Failed to load B.3 drilldown', err);
+          console.error('Failed to load B.5 drilldown', err);
           this.spinner.hide('isLoadingResultsKpiB2AnalyticDrilldown').then(() => {
             this.dataSource.data = [];
           });

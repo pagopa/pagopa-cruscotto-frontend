@@ -27,7 +27,7 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     NgClass,
     MatButton,
     FormatDatePipe,
-    YesOrNoViewComponent,
+    // YesOrNoViewComponent,
     DecimalPipe,
   ],
 })
