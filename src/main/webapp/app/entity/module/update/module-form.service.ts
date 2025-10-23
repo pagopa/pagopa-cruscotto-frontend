@@ -39,7 +39,11 @@ type ModuleFormGroupContent = {
   configEvaluationType: FormControl<IModule['configEvaluationType'] | NewModule['configEvaluationType'] | ''>;
   configExcludePlannedShutdown: FormControl<IModule['configExcludePlannedShutdown'] | NewModule['configExcludePlannedShutdown'] | ''>;
   configExcludeUnplannedShutdown: FormControl<IModule['configExcludeUnplannedShutdown'] | NewModule['configExcludeUnplannedShutdown'] | ''>;
-  configTolerance: FormControl<IModule['configAverageTimeLimit'] | NewModule['configAverageTimeLimit'] | ''>;
+  configTolerance: FormControl<IModule['configTolerance'] | NewModule['configTolerance'] | ''>;
+  configInstitutionCount: FormControl<IModule['configInstitutionCount'] | NewModule['configInstitutionCount'] | ''>;
+  configTransactionCount: FormControl<IModule['configTransactionCount'] | NewModule['configTransactionCount'] | ''>;
+  configInstitutionTolerance: FormControl<IModule['configInstitutionTolerance'] | NewModule['configInstitutionTolerance'] | ''>;
+  configTransactionTolerance: FormControl<IModule['configTransactionTolerance'] | NewModule['configTransactionTolerance'] | ''>;
 };
 
 export type ModuleFormGroup = FormGroup<ModuleFormGroupContent>;
@@ -92,6 +96,22 @@ export class ModuleFormService {
         { value: moduleRawValue.configTolerance, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
+      configInstitutionCount: new FormControl(
+        { value: moduleRawValue.configInstitutionCount, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configTransactionCount: new FormControl(
+        { value: moduleRawValue.configTransactionCount, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configInstitutionTolerance: new FormControl(
+        { value: moduleRawValue.configInstitutionTolerance, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
+      configTransactionTolerance: new FormControl(
+        { value: moduleRawValue.configTransactionTolerance, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
     });
   }
 
@@ -107,6 +127,10 @@ export class ModuleFormService {
       configExcludePlannedShutdown: !!rawValue.configExcludePlannedShutdown,
       configExcludeUnplannedShutdown: !!rawValue.configExcludeUnplannedShutdown,
       configTolerance: !!rawValue.configTolerance,
+      configInstitutionCount: !!rawValue.configInstitutionCount,
+      configTransactionCount: !!rawValue.configTransactionCount,
+      configInstitutionTolerance: !!rawValue.configInstitutionTolerance,
+      configTransactionTolerance: !!rawValue.configTransactionTolerance,
       status: String(rawValue.status),
     };
   }

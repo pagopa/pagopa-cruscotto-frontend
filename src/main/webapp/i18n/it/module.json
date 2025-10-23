@@ -37,6 +37,10 @@
       "configExcludePlannedShutdown": "Escludi Fermi Pianificati",
       "configExcludeUnplannedShutdown": "Escludi Fermi Non Pianificati",
       "configTolerance": "Tolleranza",
+      "configInstitutionCount": "Numero Enti",
+      "configTransactionCount": "Numero Transazioni",
+      "configInstitutionTolerance": "Tolleranza Enti",
+      "configTransactionTolerance": "Tolleranza Transazioni",
       "tables": {
         "KpiResults": {
           "title": "Risultati",
@@ -52,7 +56,8 @@
           "notExists": "Nessun dato analitico disponibile"
         },
         "KpiAnalyticDetail": {
-          "title": "Dettaglio dato analitico"
+          "title": "Dettaglio dato analitico",
+          "detailsTitle": "Pagopa Dati"
         }
       },
       "A.1": {
