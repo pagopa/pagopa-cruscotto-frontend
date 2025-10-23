@@ -8,7 +8,7 @@
             "analysisDate": "Data Analisi",
             "tolerance": "Tolleranza",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
@@ -22,7 +22,7 @@
             "totPayments": "Totale Versamenti",
             "totIncorrectPayments": "Versamenti Errati",
             "errorPercentage": "Percentuale Errati",
-            "outcome": "Risultato",
+            "outcome": "Esito",
             "kpiA2ResultId": "Id KPI A.2 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"

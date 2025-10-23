@@ -22,7 +22,7 @@
             "totalRequests": "Total Requests",
             "koRequests": "Requests KO",
             "percentageKoRequests": "% KO Req",
-            "outcome": "Result",
+            "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show detail"
           },
