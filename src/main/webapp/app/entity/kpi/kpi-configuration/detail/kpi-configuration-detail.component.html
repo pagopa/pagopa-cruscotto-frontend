@@ -48,7 +48,7 @@
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold">Eligibility Threshold</span>
                 <p class="p-2 bg-light">
                   {{ kpiConfiguration.eligibilityThreshold | number: '1.2-2' }}
-                  <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                  <span *ngIf="kpiConfiguration?.moduleCode !== 'B.3'" class="fw-bold">{{ 'abbr.percent' | translate }}</span>
                 </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configTolerance">
