@@ -1,7 +1,17 @@
-.mat-column-transactionTolerance,
-.mat-column-institutionTolerance {
-  text-align: right;
+.mat-column-analysisDate,
+.mat-column-institutionCount,
+.mat-column-transactionCount,
+.mat-column-evaluationType,
+.mat-column-outcome {
+  width: 150px;
 }
+
+td.mat-column-transactionTolerance,
+td.mat-column-institutionTolerance {
+  text-align: right;
+  width: 150px;
+}
+
 .mat-column-details {
   text-align: center;
 }
