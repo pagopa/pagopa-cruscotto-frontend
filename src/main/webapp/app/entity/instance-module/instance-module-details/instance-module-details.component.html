@@ -57,7 +57,9 @@
           </div>
           <div class="col-lg-3">
             <span>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</span>
-            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
+            <p class="p-2 bg-light">
+              {{ (moduleDetails.allowManualOutcome ? 'values.yes' : 'values.no') | translate }}
+            </p>
           </div>
         </div>
 
