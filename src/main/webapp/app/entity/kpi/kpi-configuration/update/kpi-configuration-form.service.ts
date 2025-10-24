@@ -129,8 +129,8 @@ export class KpiConfigurationFormService {
       eligibilityThreshold: kpiConfiguration.eligibilityThreshold != null ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null,
       tolerance: kpiConfiguration.tolerance != null ? kpiConfiguration.tolerance.toFixed(2) : null,
       averageTimeLimit: kpiConfiguration.averageTimeLimit != null ? kpiConfiguration.averageTimeLimit.toFixed(2) : null,
-      institutionCount: kpiConfiguration.institutionCount != null ? kpiConfiguration.institutionCount : null,
-      transactionCount: kpiConfiguration.transactionCount != null ? kpiConfiguration.transactionCount : null,
+      institutionCount: kpiConfiguration.institutionCount != null ? kpiConfiguration.institutionCount.toFixed(2) : null,
+      transactionCount: kpiConfiguration.transactionCount != null ? kpiConfiguration.transactionCount.toFixed(2) : null,
       institutionTolerance: kpiConfiguration.institutionTolerance != null ? kpiConfiguration.institutionTolerance.toFixed(2) : null,
       transactionTolerance: kpiConfiguration.transactionTolerance != null ? kpiConfiguration.transactionTolerance.toFixed(2) : null,
     };
