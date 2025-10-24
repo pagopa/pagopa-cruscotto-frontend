@@ -8,9 +8,9 @@ export class KpiB8DetailResult {
   evaluationType: string | null; // Assuming it's a string or enum
   evaluationStartDate: dayjs.Dayjs | null; // ISO string format
   evaluationEndDate: dayjs.Dayjs | null; // ISO string format
-  totalRequests: number | null;
-  koRequests: number | null;
-  percentageKoRequests: number | null;
+  totReq: number | null;
+  reqKO: number | null;
+  perKO: number | null;
   outcome: string | null; // Assuming it's an enum or string
   kpiB8ResultId: number | null;
 
@@ -23,9 +23,9 @@ export class KpiB8DetailResult {
     evaluationType: EvaluationType | null = null,
     evaluationStartDate: dayjs.Dayjs | null = null,
     evaluationEndDate: dayjs.Dayjs | null = null,
-    totalRequests: number | null = null,
-    koRequests: number | null = null,
-    percentageKoRequests: number | null = null,
+    totReq: number | null = null,
+    reqKO: number | null = null,
+    perKO: number | null = null,
     outcome: OutcomeStatus | null = null,
     kpiB8ResultId: number | null = null,
   ) {
@@ -36,9 +36,9 @@ export class KpiB8DetailResult {
     this.evaluationType = evaluationType;
     this.evaluationStartDate = evaluationStartDate;
     this.evaluationEndDate = evaluationEndDate;
-    this.totalRequests = totalRequests;
-    this.koRequests = koRequests;
-    this.percentageKoRequests = percentageKoRequests;
+    this.totReq = totReq;
+    this.reqKO = reqKO;
+    this.perKO = perKO;
     this.outcome = outcome;
     this.kpiB8ResultId = kpiB8ResultId;
   }

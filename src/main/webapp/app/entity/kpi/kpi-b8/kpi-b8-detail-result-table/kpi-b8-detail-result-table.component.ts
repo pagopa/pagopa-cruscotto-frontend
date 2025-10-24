@@ -34,9 +34,9 @@ export class KpiB8DetailResultTableComponent implements AfterViewInit, OnChanges
     'evaluationType',
     'evaluationStartDate',
     'evaluationEndDate',
-    'totalRequests',
-    'koRequests',
-    'percentageKoRequests',
+    'totReq',
+    'reqKO',
+    'perKO',
     'outcome',
     'details',
   ];
@@ -153,12 +153,12 @@ export class KpiB8DetailResultTableComponent implements AfterViewInit, OnChanges
           return compare(a.evaluationStartDate?.toISOString(), b.evaluationStartDate?.toISOString(), isAsc);
         case 'evaluationEndDate':
           return compare(a.evaluationEndDate?.toISOString(), b.evaluationEndDate?.toISOString(), isAsc);
-        case 'totalRequests':
-          return compare(a.totalRequests, b.totalRequests, isAsc);
-        case 'koRequests':
-          return compare(a.koRequests, b.koRequests, isAsc);
-        case 'percentageKoRequests':
-          return compare(a.percentageKoRequests, b.percentageKoRequests, isAsc);
+        case 'totReq':
+          return compare(a.totReq, b.totReq, isAsc);
+        case 'reqKO':
+          return compare(a.reqKO, b.reqKO, isAsc);
+        case 'perKO':
+          return compare(a.perKO, b.perKO, isAsc);
         case 'outcome':
           return compare(a.outcome, b.outcome, isAsc);
         default:

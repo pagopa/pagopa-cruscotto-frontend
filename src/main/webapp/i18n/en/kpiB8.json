@@ -19,9 +19,9 @@
             "evaluationType": "Evaluation",
             "evaluationStartDate": "Start Period",
             "evaluationEndDate": "End Period",
-            "totalRequests": "Total Requests",
-            "koRequests": "Requests KO",
-            "percentageKoRequests": "% KO Req",
+            "totReq": "Total Requests",
+            "reqKO": "Requests KO",
+            "perKO": "% KO Req",
             "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show detail"
@@ -32,13 +32,13 @@
             "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
             "stationId": "Station Id",
-            "dataDate": "Date",
+            "evaluationDate": "Date",
             "kpiB8DetailResultId": "B8 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
             "stationFiscalCode": "Station",
-            "totalRequests": "Total Requests",
-            "koRequests": "KO Requests"
+            "totReq": "Total Requests",
+            "reqKO": "KO Requests"
           },
           "KpiAnalyticDrillDown": {
             "partnerFiscalCode": "Partner",
