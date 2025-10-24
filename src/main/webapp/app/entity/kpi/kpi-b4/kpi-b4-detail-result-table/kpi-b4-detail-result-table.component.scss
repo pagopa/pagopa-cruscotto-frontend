@@ -6,8 +6,8 @@
 .mat-column-outcome,
 .mat-column-totalGPD,
 .mat-column-totalCP {
+  width: 150px;
   text-align: left !important;
-  white-space: nowrap;
 }
 
 .mat-column-details {
@@ -15,6 +15,7 @@
   text-align: center !important;
 }
 
-.mat-column-percentageCP {
+td.mat-column-percentageCP {
+  width: 150px;
   text-align: right;
 }
