@@ -28,7 +28,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
   ],
 })
 export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'dataDate', 'totalRequests', 'koRequests', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
   dataSource = new MatTableDataSource<KpiB8AnalyticData>([]);
 
   @Input() kpiB8DetailResultId: number | undefined;
@@ -67,6 +67,9 @@ export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChang
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
+
+      this.sort.active = 'evaluationDate';
+      this.sort.direction = 'asc';
     }
   }
 
@@ -93,6 +96,14 @@ export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChang
       if (this.paginator) {
         this.paginator.firstPage();
       }
+
+      setTimeout(() => {
+        if (this.sort) {
+          this.sort.active = 'evaluationDate';
+          this.sort.direction = 'asc';
+          this.sort.sortChange.emit({ active: 'evaluationDate', direction: 'asc' });
+        }
+      });
     });
   }
 
@@ -136,12 +147,12 @@ export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'dataDate':
-          return compare(a.dataDate?.toISOString(), b.dataDate?.toISOString(), isAsc);
-        case 'totalRequests':
-          return compare(a.totalRequests, b.totalRequests, isAsc);
-        case 'koRequests':
-          return compare(a.koRequests, b.koRequests, isAsc);
+        case 'evaluationDate':
+          return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
+        case 'totReq':
+          return compare(a.totReq, b.totReq, isAsc);
+        case 'reqKO':
+          return compare(a.reqKO, b.reqKO, isAsc);
         case 'kpiB8DetailResultId':
           return compare(a.kpiB8DetailResultId, b.kpiB8DetailResultId, isAsc);
         default:

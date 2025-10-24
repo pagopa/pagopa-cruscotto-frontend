@@ -7,12 +7,11 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB8PagopaDataDrilldownService } from '../service/kpi-b8-pagopa-data-drilldown.service';
 import { IB8PagoPaDrilldown } from '../models/KpiB8AnalyticDrilldown';
-import FormatDatePipe from 'app/shared/date/format-date.pipe';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule, FormatDatePipe],
+  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
   templateUrl: './kpi-b8-analytic-drilldown-table.component.html',
 })
 export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -59,6 +58,8 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         default:
           return 0;
       }
+
+
     };
   }
 

@@ -7,9 +7,9 @@ import { KpiB8AnalyticData } from '../models/KpiB8AnalyticData';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { DATE_FORMAT } from '../../../../config/input.constants';
 
-type RestKpiB8AnalyticData = Omit<KpiB8AnalyticData, 'analysisDate' | 'dataDate'> & {
+type RestKpiB8AnalyticData = Omit<KpiB8AnalyticData, 'analysisDate' | 'evaluationDate'> & {
   analysisDate?: dayjs.Dayjs | null;
-  dataDate?: dayjs.Dayjs | null;
+  evaluationDate?: dayjs.Dayjs | null;
 };
 
 @Injectable({
@@ -44,7 +44,7 @@ export class KpiB8AnalyticDataService {
     return {
       ...restKpiB8AnalyticData,
       analysisDate: restKpiB8AnalyticData.analysisDate ? dayjs(restKpiB8AnalyticData.analysisDate, DATE_FORMAT) : null,
-      dataDate: restKpiB8AnalyticData.dataDate ? dayjs(restKpiB8AnalyticData.dataDate, DATE_FORMAT) : null,
+      evaluationDate: restKpiB8AnalyticData.evaluationDate ? dayjs(restKpiB8AnalyticData.evaluationDate, DATE_FORMAT) : null,
     };
   }
 }
