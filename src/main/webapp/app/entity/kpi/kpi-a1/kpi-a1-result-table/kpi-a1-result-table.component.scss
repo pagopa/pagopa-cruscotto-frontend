@@ -5,17 +5,16 @@
 .mat-column-evaluationType,
 .mat-column-outcome {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
 }
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
 }
 
 .mat-column-eligibilityThreshold,
 .mat-column-tolerance {
   width: 150px;
-  text-align: left!important;
-  white-space: nowrap;
+  text-align: right;
 }
