@@ -55,12 +55,12 @@ export class KpiConfigurationComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'moduleCode',
     'moduleName',
-    'excludePlannedShutdown',
-    'excludeUnplannedShutdown',
-    'eligibilityThreshold',
-    'tolerance',
-    'averageTimeLimit',
-    'evaluationType',
+    // 'excludePlannedShutdown',
+    // 'excludeUnplannedShutdown',
+    // 'eligibilityThreshold',
+    // 'tolerance',
+    // 'averageTimeLimit',
+    // 'evaluationType',
     'action',
   ];
 
