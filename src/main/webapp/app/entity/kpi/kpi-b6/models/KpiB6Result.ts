@@ -1,12 +1,25 @@
 import dayjs from 'dayjs/esm';
 
 export interface KpiB6Result {
-  id: number; // int64
-  instanceId: number; // int64
-  instanceModuleId: number; // int64
-  analysisDate: string; // date
-  tolerance: number; // double
-  outcome: 'OK' | 'KO'; // enum
+  id: number | null;
+  moduleCode: string | null;
+  instanceId: number | null;
+  instanceModuleId: number | null;
+  analysisDate: dayjs.Dayjs | null;
+  outcome: OutcomeStatus | null;
+  additionalData: AdditionalData | null;
+  createdBy: string | null;
+  createdDate: string | null;
+  lastModifiedBy: string | null;
+  lastModifiedDate: string | null;
+}
+
+export interface AdditionalData {
+  totalActiveStations: number;
+  stationsWithPaymentOptions: number;
+  paymentOptionsPercentage: number;
+  toleranceThreshold: number;
+  evaluationType: string;
 }
 
 // Enum di EvaluationType

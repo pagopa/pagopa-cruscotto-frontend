@@ -9,7 +9,6 @@ import { DATE_FORMAT } from '../../../../config/input.constants';
 
 type RestKpiB6AnalyticData = Omit<KpiB6AnalyticData, 'analysisDate' | 'dataDate'> & {
   analysisDate?: dayjs.Dayjs | null;
-  dataDate?: dayjs.Dayjs | null;
 };
 
 @Injectable({
@@ -44,7 +43,6 @@ export class KpiB6AnalyticDataService {
     return {
       ...restKpiB6AnalyticData,
       analysisDate: restKpiB6AnalyticData.analysisDate ? dayjs(restKpiB6AnalyticData.analysisDate, DATE_FORMAT) : null,
-      dataDate: restKpiB6AnalyticData.dataDate ? dayjs(restKpiB6AnalyticData.dataDate, DATE_FORMAT) : null,
     };
   }
 }

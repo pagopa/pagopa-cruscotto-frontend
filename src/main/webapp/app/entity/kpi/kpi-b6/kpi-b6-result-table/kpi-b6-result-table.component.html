@@ -14,32 +14,14 @@
           <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
         </ng-container>
 
-        <!-- Colonna Eligibility Threshold -->
-        <ng-container matColumnDef="eligibilityThreshold">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiResults.eligibilityThreshold' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.eligibilityThreshold | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-          </td>
-        </ng-container>
-
         <!-- Colonna Tolerance -->
         <ng-container matColumnDef="tolerance">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <th mat-header-cell *matHeaderCellDef>
             {{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiResults.tolerance' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.tolerance | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+            {{ element.additionalData.toleranceThreshold | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
           </td>
-        </ng-container>
-
-        <!-- Colonna Evaluation Type -->
-        <ng-container matColumnDef="evaluationType">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiResults.evaluationType' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
         </ng-container>
 
         <!-- Colonna Outcome -->

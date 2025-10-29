@@ -9,8 +9,8 @@ import { ApplicationConfigService } from 'app/core/config/application-config.ser
 
 type RestKpiB6DetailResult = Omit<KpiB6DetailResult, 'analysisDate' | 'evaluationStartDate' | 'evaluationEndDate'> & {
   analysisDate?: string | null;
-  evaluationStartDate?: string | null;
-  evaluationEndDate?: string | null;
+  // evaluationStartDate?: string | null;
+  // evaluationEndDate?: string | null;
 };
 
 @Injectable({
@@ -45,8 +45,8 @@ export class KpiB6DetailResultService {
     return {
       ...restKpiB6DetailResult,
       analysisDate: restKpiB6DetailResult.analysisDate ? dayjs(restKpiB6DetailResult.analysisDate, DATE_FORMAT) : null,
-      evaluationStartDate: restKpiB6DetailResult.evaluationStartDate ? dayjs(restKpiB6DetailResult.evaluationStartDate, DATE_FORMAT) : null,
-      evaluationEndDate: restKpiB6DetailResult.evaluationEndDate ? dayjs(restKpiB6DetailResult.evaluationEndDate, DATE_FORMAT) : null,
+      // evaluationStartDate: restKpiB6DetailResult.evaluationStartDate ? dayjs(restKpiB6DetailResult.evaluationStartDate, DATE_FORMAT) : null,
+      // evaluationEndDate: restKpiB6DetailResult.evaluationEndDate ? dayjs(restKpiB6DetailResult.evaluationEndDate, DATE_FORMAT) : null,
     };
   }
 }

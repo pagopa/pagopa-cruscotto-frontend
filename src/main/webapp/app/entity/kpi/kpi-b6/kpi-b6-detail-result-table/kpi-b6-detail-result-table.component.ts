@@ -30,17 +30,13 @@ import { OutcomeStatus } from '../models/KpiB6Result';
 })
 export class KpiB6DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'id',
-    'instanceId',
-    'instanceModuleId',
-    'anagStationId',
-    'kpiB6ResultId',
     'analysisDate',
     'totalStations',
     'stationsWithPaymentOptions',
     'difference',
     'percentageDifference',
     'outcome',
+    'details',
   ];
   dataSource = new MatTableDataSource<KpiB6DetailResult>([]);
 

@@ -38,7 +38,7 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
   ],
 })
 export class KpiB6ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['id', 'instanceId', 'instanceModuleId', 'analysisDate', 'tolerance', 'outcome'];
+  displayedColumns: string[] = ['analysisDate', 'tolerance', 'outcome', 'details'];
 
   dataSource = new MatTableDataSource<KpiB6Result>([]);
   locale: string;

@@ -24,23 +24,11 @@ import dayjs from 'dayjs/esm';
     NgIf,
     MatButtonModule,
     FormatDatePipe,
-    DecimalPipe,
     NgClass,
   ],
 })
 export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'id',
-    'instanceId',
-    'instanceModuleId',
-    'anagStationId',
-    'kpiB6DetailResultId',
-    'eventId',
-    'eventType',
-    'analysisDate',
-    'stationCode',
-    'paymentOption',
-  ];
+  displayedColumns: string[] = ['analysisDate', 'stationCode', 'paymentOption'];
   dataSource = new MatTableDataSource<KpiB6AnalyticData>([]);
 
   @Input() kpiB6DetailResultId: number | undefined;
@@ -80,15 +68,6 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
     if (this.sort) {
       this.dataSource.sort = this.sort;
     }
-
-    // Ordina di default i dati per dataDate (dal più vecchio al più recente)
-    // if (this.dataSource.data?.length) {
-    //   this.dataSource.data = this.dataSource.data.sort((a, b) => {
-    //     const aTime = toTimestamp(a.dataDate);
-    //     const bTime = toTimestamp(b.dataDate);
-    //     return aTime - bTime; // crescente = dal più vecchio al più recente
-    //   });
-    // }
   }
 
   /**
