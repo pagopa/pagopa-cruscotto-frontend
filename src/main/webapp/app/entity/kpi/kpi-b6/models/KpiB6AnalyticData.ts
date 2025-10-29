@@ -8,7 +8,7 @@ export interface KpiB6AnalyticData {
   kpiB6DetailResultId: number; // int64
   eventId: string; // string
   eventType: string; // string
-  analysisDate: string; // date
+  analysisDate: dayjs.Dayjs | null; // date
   stationCode: number; // int32
   paymentOption: 'SI' | 'NO'; // enum
 }

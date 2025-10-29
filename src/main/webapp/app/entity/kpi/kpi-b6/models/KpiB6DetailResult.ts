@@ -6,12 +6,12 @@ export interface KpiB6DetailResult {
   instanceModuleId: number; // int64
   anagStationId: number; // int64
   kpiB6ResultId: number; // int64
-  analysisDate: string; // date
+  analysisDate: dayjs.Dayjs | null; // date
   totalStations: number; // int32
   stationsWithPaymentOptions: number; // int32
   difference: number; // int32
   percentageDifference: number; // double
-  outcome: 'OK' | 'KO'; // enum
+  outcome: OutcomeStatus;
 }
 
 // Enum di OutcomeStatus

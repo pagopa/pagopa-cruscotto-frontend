@@ -7,11 +7,10 @@ import { KpiB6Result } from '../models/KpiB6Result';
 import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from '../../../../core/config/application-config.service';
 
-type KpiB6ResultRestOf<T extends KpiB6Result> = Omit<T, 'analysisDate'> & {
+type RestKpiB6Result = Omit<KpiB6Result, 'analysisDate | additionalData'> & {
   analysisDate?: string | null;
+  additionalData?: string | null;
 };
-
-export type RestKpiB6Result = KpiB6ResultRestOf<KpiB6Result>;
 
 type EntityResponseType = HttpResponse<KpiB6Result>;
 type EntityArrayResponseType = HttpResponse<KpiB6Result[]>;
@@ -55,8 +54,8 @@ export class KpiB6ResultService {
   /**
    * Crea un nuovo Kpi B6.
    */
-  create(kpiB6Result: KpiB6Result): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(kpiB6Result);
+  create(kpiB6Result: RestKpiB6Result): Observable<EntityResponseType> {
+    const copy = this.convertDataFromClient(kpiB6Result);
     return this.http
       .post<RestKpiB6Result>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
@@ -65,8 +64,8 @@ export class KpiB6ResultService {
   /**
    * Aggiorna un risultato KPI B6 esistente.
    */
-  update(kpiB6Result: KpiB6Result): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(kpiB6Result);
+  update(kpiB6Result: RestKpiB6Result): Observable<EntityResponseType> {
+    const copy = this.convertDataFromClient(kpiB6Result);
     return this.http
       .put<RestKpiB6Result>(`${this.resourceUrl}/${kpiB6Result.id}`, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
@@ -82,10 +81,11 @@ export class KpiB6ResultService {
   /**
    * Converte una data dal client nel formato richiesto dal server.
    */
-  protected convertDateFromClient<T extends KpiB6Result>(kpiB6Result: T): KpiB6ResultRestOf<T> {
+  protected convertDataFromClient(kpiB6Result: RestKpiB6Result): KpiB6Result {
     return {
       ...kpiB6Result,
-      analysisDate: kpiB6Result.analysisDate?.toISOString() ?? null,
+      analysisDate: kpiB6Result.analysisDate ? dayjs(kpiB6Result.analysisDate, DATE_FORMAT) : null,
+      additionalData: kpiB6Result.additionalData ? JSON.parse(kpiB6Result.additionalData) : null,
     };
   }
 
@@ -114,6 +114,7 @@ export class KpiB6ResultService {
     return {
       ...restKpiB6Result,
       analysisDate: restKpiB6Result.analysisDate ? dayjs(restKpiB6Result.analysisDate, DATE_FORMAT) : null,
+      additionalData: restKpiB6Result.additionalData ? JSON.parse(restKpiB6Result.additionalData) : null,
     };
   }
 }
