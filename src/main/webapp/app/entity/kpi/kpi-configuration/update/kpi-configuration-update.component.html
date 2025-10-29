@@ -80,12 +80,12 @@
                     matInput
                     autocomplete="off"
                     formControlName="eligibilityThreshold"
-                    mask="separator.2"
-                    [leadZero]="true"
-                    decimalMarker=","
+                    [mask]="kpiConfiguration?.moduleCode != 'B.3' ? 'separator.2' : '99'"
                     class="text-end"
                   />
-                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  <span matTextSuffix *ngIf="kpiConfiguration?.moduleCode != 'B.3'" class="fs-5 fw-bold"
+                    >&nbsp;{{ 'abbr.percent' | translate }}</span
+                  >
                   @let eligibilityThresholdRef = editForm.get('eligibilityThreshold')!;
                   <ng-container
                     ngProjectAs="mat-error"
