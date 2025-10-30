@@ -21,7 +21,7 @@ export class KpiB6AnalyticDataService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-analytic-data/b4/module');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-analytic-data/b6/module');
   }
 
   /**
