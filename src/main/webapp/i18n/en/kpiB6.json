@@ -16,39 +16,18 @@
           "KpiDetailResults": {
             "id": "Id",
             "analysisDate": "Analysis Date",
-            "evaluationType": "Evaluation",
-            "evaluationStartDate": "Start Period",
-            "evaluationEndDate": "End Period",
-            "totalGPD": "Total GPD",
-            "totalCP": "Total CP",
-            "percentageCP": "% CP",
+            "totalStations": "Total Stations",
+            "stationsWithPaymentOptions": "Stations with payment options",
+            "difference": "Difference",
+            "percentageDifference": "Difference %",
             "outcome": "Outcome",
             "details": "Details",
             "showDetails": "Show detail"
           },
           "KpiAnalyticResults": {
-            "id": "Id",
-            "instanceId": "Instance Id",
-            "instanceModuleId": "Instance Module Id",
             "analysisDate": "Analysis Date",
-            "stationId": "Station Id",
-            "dataDate": "Date",
-            "kpiB4DetailResultId": "B4 Detail Result Id",
-            "details": "Details",
-            "showDetails": "Show Details",
-            "stationFiscalCode": "Station",
-            "totalGPD": "Total GPD",
-            "totalCP": "Total CP"
-          },
-          "KpiAnalyticDrillDown": {
-            "partnerFiscalCode": "Partner",
-            "dataDate": "Date",
-            "fiscalCode": "Institution",
-            "stationCode": "Station",
-            "api": "API",
-            "totalRequests": "Total Requests",
-            "okRequests": "OK Requests",
-            "koRequests": "KO Requests"
+            "stationCode": "Station Code",
+            "paymentOption": "Payment Option"
           }
         }
       }
