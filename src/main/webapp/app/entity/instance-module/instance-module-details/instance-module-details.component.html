@@ -141,6 +141,11 @@
           [moduleId]="moduleDetails.id"
           (showDetails)="onShowDetailsB5($event)"
         ></jhi-kpi-b5-result-table>
+        <jhi-kpi-b6-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.6'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB6($event)"
+        ></jhi-kpi-b6-result-table>
         <jhi-kpi-b9-result-table
           *ngIf="moduleDetails?.moduleCode === 'B.9'"
           [moduleId]="moduleDetails.id"
@@ -162,6 +167,7 @@
     selectedKpiB3ResultIdForDetailsResults ||
     selectedKpiB4ResultIdForDetailsResults ||
     selectedKpiB5ResultIdForDetailsResults ||
+    selectedKpiB6ResultIdForDetailsResults ||
     selectedKpiB9ResultIdForDetailsResults
   "
 >
@@ -208,6 +214,11 @@
           [kpiB5ResultId]="selectedKpiB5ResultIdForDetailsResults"
           (showDetails)="onAnalyticsShowDetailsB5($event)"
         ></jhi-kpi-b5-detail-result-table>
+        <jhi-kpi-b6-detail-result-table
+          *ngIf="selectedKpiB6ResultIdForDetailsResults"
+          [kpiB6ResultId]="selectedKpiB6ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB6($event)"
+        ></jhi-kpi-b6-detail-result-table>
         <jhi-kpi-b9-detail-result-table
           *ngIf="selectedKpiB9ResultIdForDetailsResults"
           [kpiB9ResultId]="selectedKpiB9ResultIdForDetailsResults"
@@ -229,6 +240,7 @@
     selectedKpiB3DetailResultIdForAnalytics ||
     selectedKpiB4DetailResultIdForAnalytics ||
     selectedKpiB5DetailResultIdForAnalytics ||
+    selectedKpiB6DetailResultIdForAnalytics ||
     selectedKpiB9DetailResultIdForAnalytics
   "
 >
@@ -275,6 +287,10 @@
           [kpiB5DetailResultId]="selectedKpiB5DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsB5($event)"
         ></jhi-kpi-b5-analytic-result-table>
+        <jhi-kpi-b6-analytic-result-table
+          *ngIf="selectedKpiB6DetailResultIdForAnalytics"
+          [kpiB6DetailResultId]="selectedKpiB6DetailResultIdForAnalytics"
+        ></jhi-kpi-b6-analytic-result-table>
         <jhi-kpi-b9-analytic-result-table
           *ngIf="selectedKpiB9DetailResultIdForAnalytics"
           [kpiB9DetailResultId]="selectedKpiB9DetailResultIdForAnalytics"
