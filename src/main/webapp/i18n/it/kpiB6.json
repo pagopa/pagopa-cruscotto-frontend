@@ -1,0 +1,35 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.6": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "eligibilityThreshold": "Soglia",
+            "tolerance": "Tolleranza",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "totalStations": "Totale Stazioni",
+            "stationsWithPaymentOptions": "Stazioni con opzioni di pagamento",
+            "difference": "Differenza",
+            "percentageDifference": "Differenza %",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "analysisDate": "Data Analisi",
+            "stationCode": "Codice Stazione",
+            "paymentOption": "Opzioni di pagamento"
+          }
+        }
+      }
+    }
+  }
+}
