@@ -1,0 +1,57 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.8": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation",
+            "evaluationStartDate": "Start Period",
+            "evaluationEndDate": "End Period",
+            "totReq": "Total Requests",
+            "reqKO": "Requests KO",
+            "perKO": "% KO Req",
+            "outcome": "Outcome",
+            "details": "Details",
+            "showDetails": "Show detail"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "stationId": "Station Id",
+            "evaluationDate": "Date",
+            "kpiB8DetailResultId": "B8 Detail Result Id",
+            "details": "Details",
+            "showDetails": "Show Details",
+            "stationFiscalCode": "Station",
+            "totReq": "Total Requests",
+            "reqKO": "KO Requests"
+          },
+          "KpiAnalyticDrillDown": {
+            "partnerFiscalCode": "Partner",
+            "dataDate": "Date",
+            "fiscalCode": "Institution",
+            "stationCode": "Station",
+            "api": "API",
+            "totalRequests": "Total Requests",
+            "okRequests": "OK Requests",
+            "koRequests": "KO Requests"
+          }
+        }
+      }
+    }
+  }
+}
