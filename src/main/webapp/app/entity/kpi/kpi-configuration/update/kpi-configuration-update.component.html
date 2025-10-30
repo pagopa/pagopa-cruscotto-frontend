@@ -178,6 +178,111 @@
                   </ng-container>
                 </mat-form-field>
               </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configInstitutionCount">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstitutionCount"></mat-label>
+                  <input matInput autocomplete="off" formControlName="institutionCount" mask="999" class="text-end" />
+                  @let institutionCountRef = editForm.get('institutionCount')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="institutionCountRef.invalid && (institutionCountRef.dirty || institutionCountRef.touched)"
+                  >
+                    @if (institutionCountRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (institutionCountRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configTransactionCount">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionCount"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="transactionCount"
+                    mask="999999999"
+                    [leadZero]="true"
+                    class="text-end"
+                  />
+                  @let transactionCountRef = editForm.get('transactionCount')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="transactionCountRef.invalid && (transactionCountRef.dirty || transactionCountRef.touched)"
+                  >
+                    @if (transactionCountRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (transactionCountRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configInstitutionTolerance">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstitutionTolerance"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="institutionTolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let institutionToleranceRef = editForm.get('institutionTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="institutionToleranceRef.invalid && (institutionToleranceRef.dirty || institutionToleranceRef.touched)"
+                  >
+                    @if (institutionToleranceRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (institutionToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configTransactionTolerance">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionTolerance"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="transactionTolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let transactionToleranceRef = editForm.get('transactionTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="transactionToleranceRef.invalid && (transactionToleranceRef.dirty || transactionToleranceRef.touched)"
+                  >
+                    @if (transactionToleranceRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (transactionToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
             </div>
           </mat-card-content>
           <mat-card-actions>

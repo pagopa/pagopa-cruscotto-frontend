@@ -27,7 +27,11 @@
       "eligibilityThreshold": "Threshold",
       "tolerance": "Tolerance",
       "averageTimeLimit": "Average Time Limit",
-      "evaluationType": "Evaluation Type"
+      "evaluationType": "Evaluation Type",
+      "configTransactionCount": "Transaction Count",
+      "configInstitutionTolerance": "Institution Tolerance",
+      "configInstitutionCount": "Institution Count",
+      "configTransactionTolerance": "Transaction Tolerance"
     }
   },
   "error": {
