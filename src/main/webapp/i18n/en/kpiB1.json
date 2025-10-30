@@ -1,0 +1,58 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation Type",
+            "institutionCount": "Institution Count",
+            "transactionCount": "Transaction Count",
+            "institutionTolerance": "Institution Tolerance",
+            "transactionTolerance": "Transaction Tolerance",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation Type",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totalInstitutions": "Total Institutions",
+            "institutionDifference": "Institutions difference",
+            "institutionDifferencePercentage": "Difference % EC",
+            "institutionOutcome": "Institutions outcome",
+            "totalTransactions": "Total Transactions",
+            "transactionDifference": "Transaction Difference",
+            "transactionDifferencePercentage": "Difference % Transactions",
+            "transactionOutcome": "Transaction Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Instance Id",
+            "instanceModuleId": "Instance Module Id",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Date",
+            "institutionCount": "Institution Count",
+            "transactionCount": "Transaction Count",
+            "showDetails": "Show Details"
+          },
+          "KpiAnalyticDrilldown": {
+            "partnerName": "Partner",
+            "dataDate": "Date",
+            "stationCode": "Station",
+            "institutionFiscalCode": "Institute",
+            "transactionCount": "Transaction Count"
+          }
+        }
+      }
+    }
+  }
+}

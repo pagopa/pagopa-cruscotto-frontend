@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, ViewChild, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, formatDate } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -7,11 +7,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB4PagopaDataDrilldownService } from '../service/kpi-b4-pagopa-data-drilldown.service';
 import { IB4PagoPaDrilldown } from '../models/KpiB4AnalyticDrilldown';
+import { FormatDatePipe } from 'app/shared/date';
 
 @Component({
   selector: 'jhi-kpi-b4-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule, FormatDatePipe],
   templateUrl: './kpi-b4-analytic-drilldown-table.component.html',
 })
 export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {

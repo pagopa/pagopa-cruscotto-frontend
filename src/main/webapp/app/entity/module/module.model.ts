@@ -12,6 +12,10 @@ export interface IModule {
   configExcludePlannedShutdown?: boolean | null;
   configExcludeUnplannedShutdown?: boolean | null;
   configTolerance?: boolean | null;
+  configInstitutionCount?: boolean | null;
+  configTransactionCount?: boolean | null;
+  configInstitutionTolerance?: boolean | null;
+  configTransactionTolerance?: boolean | null;
 }
 
 export type NewModule = Omit<IModule, 'id'> & { id: null };
@@ -23,6 +27,10 @@ export interface IModuleConfiguration {
   configTolerance?: boolean | null;
   configAverageTimeLimit?: boolean | null;
   configEvaluationType?: boolean | null;
+  configInstitutionCount?: boolean | null;
+  configTransactionCount?: boolean | null;
+  configInstitutionTolerance?: boolean | null;
+  configTransactionTolerance?: boolean | null;
 }
 
 export class ModuleConfiguration implements IModuleConfiguration {
@@ -32,6 +40,10 @@ export class ModuleConfiguration implements IModuleConfiguration {
   configTolerance = false;
   configAverageTimeLimit = false;
   configEvaluationType = false;
+  configInstitutionCount = false;
+  configTransactionCount = false;
+  configInstitutionTolerance = false;
+  configTransactionTolerance = false;
 
   constructor(configuration?: IModuleConfiguration) {
     if (configuration) {
@@ -41,6 +53,10 @@ export class ModuleConfiguration implements IModuleConfiguration {
       this.configTolerance = configuration.configTolerance ?? false;
       this.configAverageTimeLimit = configuration.configAverageTimeLimit ?? false;
       this.configEvaluationType = configuration.configEvaluationType ?? false;
+      this.configInstitutionCount = configuration.configInstitutionCount ?? false;
+      this.configTransactionCount = configuration.configTransactionCount ?? false;
+      this.configInstitutionTolerance = configuration.configInstitutionTolerance ?? false;
+      this.configTransactionTolerance = configuration.configTransactionTolerance ?? false;
     }
   }
 }

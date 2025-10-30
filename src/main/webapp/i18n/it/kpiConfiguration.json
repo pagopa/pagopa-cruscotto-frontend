@@ -27,7 +27,11 @@
       "eligibilityThreshold": "Soglia",
       "tolerance": "Tolleranza",
       "averageTimeLimit": "Limite Tempo Medio",
-      "evaluationType": "Tipo Valutazione"
+      "evaluationType": "Tipo Valutazione",
+      "configTransactionCount": "Numero Transazioni",
+      "configInstitutionTolerance": "Tolleranza Enti",
+      "configInstitutionCount": "Numero Enti",
+      "configTransactionTolerance": "Tolleranza Transazioni"
     }
   },
   "error": {
