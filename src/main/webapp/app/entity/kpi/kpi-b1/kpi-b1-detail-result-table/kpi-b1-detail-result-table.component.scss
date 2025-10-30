@@ -1,3 +1,8 @@
 .mat-column-details {
   text-align: center;
 }
+
+td.mat-column-institutionDifferencePercentage,
+td.mat-column-transactionDifferencePercentage {
+  text-align: right;
+}
