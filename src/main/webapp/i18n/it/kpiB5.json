@@ -1,0 +1,48 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.5": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "eligibilityThreshold": "Soglia",
+            "tolerance": "Tolleranza",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "stationId": "Id Stazione",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli",
+            "stationsPresent": "Stazioni presenti",
+            "stationsWithoutSpontaneous": "Stazioni senza pagamenti spontanei",
+            "percentageNoSpontaneous": "% no spontanei"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Id Istanza",
+            "instanceModuleId": "Id Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "Id Stazione",
+            "outcome": "Esito",
+            "stationsPresent": "Stazioni presenti",
+            "stationsWithoutSpontaneous": "Stazioni senza pagamenti spontanei",
+            "percentageNoSpontaneous": "% no spontanei",
+            "showDetails": "Mostra dettagli",
+            "details": "Dettagli Risultato"
+          },
+          "KpiAnalyticDrilldown": {
+            "partnerFiscalCode": "Partner",
+            "stationCode": "Stazione",
+            "spontaneousPayments": "Pagamenti spontanei"
+          }
+        }
+      }
+    }
+  }
+}
