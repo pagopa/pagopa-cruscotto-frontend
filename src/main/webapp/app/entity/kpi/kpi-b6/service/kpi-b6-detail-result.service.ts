@@ -23,7 +23,7 @@ export class KpiB6DetailResultService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-detail-results/B6/module');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-detail-results/b6/module');
   }
 
   /**
