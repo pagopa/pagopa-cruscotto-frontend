@@ -4,7 +4,16 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSortActive="eventTimestamp"
+        matSortDirection="desc"
+        matSort
+        matSortDisableClear
+        class="full-width-table"
+      >
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
