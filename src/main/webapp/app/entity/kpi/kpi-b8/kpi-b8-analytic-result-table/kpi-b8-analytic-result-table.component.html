@@ -1,0 +1,65 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB8AnalyticResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonna Analysis Date -->
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>        
+
+        <!-- Colonna evaluationDate -->
+        <ng-container matColumnDef="evaluationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna Total Requests -->
+        <ng-container matColumnDef="totReq">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticResults.totReq' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.totReq | number }}</td>
+        </ng-container>
+
+        <!-- Colonna KO Requests -->
+        <ng-container matColumnDef="reqKO">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiAnalyticResults.reqKO' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.reqKO | number }}</td>
+        </ng-container>
+
+        <!-- Colonna Details -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiResults.details' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button 
+            *ngIf="element.reqKO > 0"
+            mat-stroked-button 
+            color="primary" 
+            (click)="emitShowDetails(element.id)">
+              {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiResults.showDetails' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>
