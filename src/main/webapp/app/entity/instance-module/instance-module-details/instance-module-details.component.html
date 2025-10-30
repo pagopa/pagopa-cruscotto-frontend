@@ -138,6 +138,21 @@
           [moduleId]="moduleDetails.id"
           (showDetails)="onShowDetailsB4($event)"
         ></jhi-kpi-b4-result-table>
+        <jhi-kpi-b5-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.5'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB5($event)"
+        ></jhi-kpi-b5-result-table>
+        <jhi-kpi-b6-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.6'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB6($event)"
+        ></jhi-kpi-b6-result-table>
+        <jhi-kpi-b8-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.8'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB8($event)"
+        ></jhi-kpi-b8-result-table>
         <jhi-kpi-b9-result-table
           *ngIf="moduleDetails?.moduleCode === 'B.9'"
           [moduleId]="moduleDetails.id"
@@ -158,6 +173,9 @@
     selectedKpiB2ResultIdForDetailsResults ||
     selectedKpiB3ResultIdForDetailsResults ||
     selectedKpiB4ResultIdForDetailsResults ||
+    selectedKpiB5ResultIdForDetailsResults ||
+    selectedKpiB6ResultIdForDetailsResults ||
+    selectedKpiB8ResultIdForDetailsResults ||
     selectedKpiB9ResultIdForDetailsResults
   "
 >
@@ -168,7 +186,7 @@
           {{ 'pagopaCruscottoApp.module.tables.KpiDetailResults.title' | translate }}:
           {{ moduleDetails?.moduleCode }}
         </h3>
-
+        
         <jhi-kpi-a1-detail-result-table
           *ngIf="selectedKpiA1ResultIdForDetailsResults"
           [kpiA1ResultId]="selectedKpiA1ResultIdForDetailsResults"
@@ -199,6 +217,21 @@
           [kpiB4ResultId]="selectedKpiB4ResultIdForDetailsResults"
           (showDetails)="onAnalyticsShowDetailsB4($event)"
         ></jhi-kpi-b4-detail-result-table>
+        <jhi-kpi-b5-detail-result-table
+          *ngIf="selectedKpiB5ResultIdForDetailsResults"
+          [kpiB5ResultId]="selectedKpiB5ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB5($event)"
+        ></jhi-kpi-b5-detail-result-table>
+        <jhi-kpi-b6-detail-result-table
+          *ngIf="selectedKpiB6ResultIdForDetailsResults"
+          [kpiB6ResultId]="selectedKpiB6ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB6($event)"
+        ></jhi-kpi-b6-detail-result-table>
+        <jhi-kpi-b8-detail-result-table
+          *ngIf="selectedKpiB8ResultIdForDetailsResults"
+          [kpiB8ResultId]="selectedKpiB8ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB8($event)"
+        ></jhi-kpi-b8-detail-result-table>
         <jhi-kpi-b9-detail-result-table
           *ngIf="selectedKpiB9ResultIdForDetailsResults"
           [kpiB9ResultId]="selectedKpiB9ResultIdForDetailsResults"
@@ -219,6 +252,9 @@
     selectedKpiB2DetailResultIdForAnalytics ||
     selectedKpiB3DetailResultIdForAnalytics ||
     selectedKpiB4DetailResultIdForAnalytics ||
+    selectedKpiB5DetailResultIdForAnalytics ||
+    selectedKpiB6DetailResultIdForAnalytics ||
+    selectedKpiB8DetailResultIdForAnalytics ||
     selectedKpiB9DetailResultIdForAnalytics
   "
 >
@@ -260,6 +296,20 @@
           [kpiB4DetailResultId]="selectedKpiB4DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsB4($event)"
         ></jhi-kpi-b4-analytic-result-table>
+        <jhi-kpi-b5-analytic-result-table
+          *ngIf="selectedKpiB5DetailResultIdForAnalytics"
+          [kpiB5DetailResultId]="selectedKpiB5DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB5($event)"
+        ></jhi-kpi-b5-analytic-result-table>
+        <jhi-kpi-b6-analytic-result-table
+          *ngIf="selectedKpiB6DetailResultIdForAnalytics"
+          [kpiB6DetailResultId]="selectedKpiB6DetailResultIdForAnalytics"
+        ></jhi-kpi-b6-analytic-result-table>
+        <jhi-kpi-b8-analytic-result-table
+          *ngIf="selectedKpiB8DetailResultIdForAnalytics"
+          [kpiB8DetailResultId]="selectedKpiB8DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB8($event)"
+        ></jhi-kpi-b8-analytic-result-table>
         <jhi-kpi-b9-analytic-result-table
           *ngIf="selectedKpiB9DetailResultIdForAnalytics"
           [kpiB9DetailResultId]="selectedKpiB9DetailResultIdForAnalytics"
@@ -280,6 +330,8 @@
     selectedKpiB2AnalyticIdForDrilldown ||
     selectedKpiB3AnalyticIdForDrilldown ||
     selectedKpiB4AnalyticIdForDrilldown ||
+    selectedKpiB5AnalyticIdForDrilldown ||
+    selectedKpiB8AnalyticIdForDrilldown ||
     (b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate)
   "
 >
@@ -296,6 +348,7 @@
           [kpiA1analyticDataId]="selectedKpiA1AnalyticIdForDrilldown"
         >
         </jhi-kpi-a1-recorded-timeout-table>
+
         <jhi-kpi-a2-analytic-drilldown-table
           *ngIf="selectedKpiA2AnalyticIdForDrilldown"
           [analyticDataId]="selectedKpiA2AnalyticIdForDrilldown"
@@ -308,6 +361,7 @@
           [kpiB1analyticDataId]="selectedKpiB1AnalyticIdForDrilldown"
         >
         </jhi-kpi-b1-analytic-drilldown-table>
+
         <jhi-kpi-b2-recorded-timeout-table
           *ngIf="selectedKpiB2AnalyticIdForDrilldown"
           [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticIdForDrilldown"
@@ -325,6 +379,19 @@
           [selectedKpiB4AnalyticResultId]="selectedKpiB4AnalyticIdForDrilldown"
         >
         </jhi-kpi-b4-analytic-drilldown-table>
+
+        <jhi-kpi-b5-analytic-drilldown-table
+          *ngIf="selectedKpiB5AnalyticIdForDrilldown"
+          [selectedKpiB5AnalyticResultId]="selectedKpiB5AnalyticIdForDrilldown"
+          [locale]="locale"
+        >
+        </jhi-kpi-b5-analytic-drilldown-table>
+
+        <jhi-kpi-b8-analytic-drilldown-table
+          *ngIf="selectedKpiB8AnalyticIdForDrilldown"
+          [selectedKpiB8AnalyticResultId]="selectedKpiB8AnalyticIdForDrilldown"
+        >
+        </jhi-kpi-b8-analytic-drilldown-table>
 
         <jhi-kpi-b9-analytic-drilldown-table
           *ngIf="b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate"

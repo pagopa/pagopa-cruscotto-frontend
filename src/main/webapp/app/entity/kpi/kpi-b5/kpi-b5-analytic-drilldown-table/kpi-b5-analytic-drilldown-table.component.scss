@@ -1,0 +1,20 @@
+.full-width-table { width: 100%; min-width: 560px;  }
+.table-container {
+    max-height: 56vh;
+    overflow: auto;
+    border-radius: 8px;
+}
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #fff;
+}
+.mat-header-cell, .mat-cell { padding: 10px 16px; }
+
+.drilldown-table .mat-column-stationCode .mat-header-cell,
+.drilldown-table .mat-column-partnerFiscalCode  .mat-header-cell,
+.drilldown-table .mat-column-spontaneousPayments .mat-header-cell {
+  width: 200px;
+  text-align: left!important;
+}
