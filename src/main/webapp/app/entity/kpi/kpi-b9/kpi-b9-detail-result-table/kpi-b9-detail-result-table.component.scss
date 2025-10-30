@@ -5,21 +5,20 @@
 .mat-column-evaluationStartDate,
 .mat-column-evaluationEndDate,
 .mat-column-evaluationType,
+.mat-column-totRes,
+.mat-column-resKo,
 .mat-column-outcome {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
 }
 
-.mat-column-totRes,
-.mat-column-resKo,
-.mat-column-resKoPercentage {
+td.mat-column-resKoPercentage {
   width: 150px;
-  text-align: left!important;
-  white-space: nowrap;
+  text-align: right;
 }

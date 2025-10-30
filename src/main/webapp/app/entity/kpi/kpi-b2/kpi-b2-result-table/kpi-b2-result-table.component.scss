@@ -3,6 +3,7 @@
 .mat-column-excludePlannedShutdown,
 .mat-column-excludeUnplannedShutdown,
 .mat-column-evaluationType,
+.mat-column-averageTimeLimit,
 .mat-column-outcome {
   width: 150px;
   text-align: left !important;
@@ -14,10 +15,8 @@
   text-align: center !important;
 }
 
-.mat-column-eligibilityThreshold,
-.mat-column-tolerance,
-.mat-column-averageTimeLimit {
+td.mat-column-eligibilityThreshold,
+td.mat-column-tolerance {
   width: 150px;
-  text-align: left !important;
-  white-space: nowrap;
+  text-align: right;
 }
