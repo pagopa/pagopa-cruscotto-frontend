@@ -7,6 +7,7 @@
 .mat-column-evaluationType,
 .mat-column-totRes,
 .mat-column-resKo,
+.mat-column-resKoPercentage,
 .mat-column-outcome {
   width: 150px;
   text-align: left !important;
@@ -16,9 +17,4 @@
 .mat-column-details {
   width: 180px;
   text-align: center !important;
-}
-
-td.mat-column-resKoPercentage {
-  width: 150px;
-  text-align: right;
 }
