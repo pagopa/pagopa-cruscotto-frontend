@@ -90,13 +90,7 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiB6AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
 
-      // const sortedData = data.sort((a, b) => {
-      //   const aTime = toTimestamp(a.dataDate);
-      //   const bTime = toTimestamp(b.dataDate);
-      //   return aTime - bTime; // dal più vecchio al più recente
-      // });
-
-      // this.dataSource.data = sortedData;
+      this.dataSource.data = data;
 
       if (this.paginator) {
         this.paginator.firstPage();
