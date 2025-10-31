@@ -245,41 +245,41 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
    */
   onShowDetailsA1(kpiA1ResultId: number): void {
     this.selectedKpiA1ResultIdForDetailsResults = this.selectedKpiA1ResultIdForDetailsResults === kpiA1ResultId ? null : kpiA1ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsA2(kpiA2ResultId: number): void {
     this.selectedKpiA2ResultIdForDetailsResults = this.selectedKpiA2ResultIdForDetailsResults === kpiA2ResultId ? null : kpiA2ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB1(kpiB1ResultId: number): void {
     this.selectedKpiB1ResultIdForDetailsResults = this.selectedKpiB1ResultIdForDetailsResults === kpiB1ResultId ? null : kpiB1ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB2(kpiB2ResultId: number): void {
     this.selectedKpiB2ResultIdForDetailsResults = this.selectedKpiB2ResultIdForDetailsResults === kpiB2ResultId ? null : kpiB2ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB3(kpiB3ResultId: number): void {
     this.selectedKpiB3ResultIdForDetailsResults = this.selectedKpiB3ResultIdForDetailsResults === kpiB3ResultId ? null : kpiB3ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB4(kpiB4ResultId: number): void {
     this.selectedKpiB4ResultIdForDetailsResults = this.selectedKpiB4ResultIdForDetailsResults === kpiB4ResultId ? null : kpiB4ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB5(kpiB5ResultId: number): void {
     this.selectedKpiB5ResultIdForDetailsResults = this.selectedKpiB5ResultIdForDetailsResults === kpiB5ResultId ? null : kpiB5ResultId;
   }
   onShowDetailsB6(kpiB6ResultId: number): void {
     this.selectedKpiB6ResultIdForDetailsResults = this.selectedKpiB6ResultIdForDetailsResults === kpiB6ResultId ? null : kpiB6ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB8(kpiB8ResultId: number): void {
     this.selectedKpiB8ResultIdForDetailsResults = this.selectedKpiB8ResultIdForDetailsResults === kpiB8ResultId ? null : kpiB8ResultId;
   }
   onShowDetailsB9(kpiB9ResultId: number): void {
     this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
-    this.resetAnalyticsVariables(); // Reset delle variabili analytics
+    this.resetAnalyticsVariables();
   }
 
   /**
