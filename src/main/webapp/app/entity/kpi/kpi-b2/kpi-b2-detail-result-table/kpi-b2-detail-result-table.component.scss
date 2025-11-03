@@ -7,6 +7,7 @@
 .mat-column-evaluationType,
 .mat-column-totalRequests,
 .mat-column-averageTime,
+.mat-column-overTimeLimit,
 .mat-column-outcome {
   width: 150px;
   text-align: left !important;
@@ -16,9 +17,4 @@
 .mat-column-details {
   width: 180px;
   text-align: center !important;
-}
-
-td.mat-column-overTimeLimit {
-  width: 150px;
-  text-align: right;
 }
