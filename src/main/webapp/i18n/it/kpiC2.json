@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.2": {
+        "tableLabels": {
+          "KpiC2Result": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "analysisDate": "Data di Analisi",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Esito"
+          },
+          "KpiC2DetailResult": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "analysisDate": "Data di Analisi",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data di Inizio Valutazione",
+            "evaluationEndDate": "Data di Fine Valutazione",
+            "totalInstitutions": "Totale Istituzioni",
+            "sendTotalInstitutions": "Totale Istituzioni Inviate",
+            "percentageSendInstitutions": "Percentuale di Istituzioni Inviate",
+            "totalPayments": "Totale Pagamenti",
+            "totalNotifications": "Totale Notifiche",
+            "percentageOkInstitutions": "Percentuale di Istituzioni OK",
+            "outcome": "Esito"
+          },
+          "KpiC2AnalyticData": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "stationId": "Identificativo Stazione",
+            "analysisDate": "Data di Analisi",
+            "dataDate": "Data dei Dati",
+            "institutionCount": "Conteggio Istituzioni",
+            "sendInstitutionCount": "Conteggio Istituzioni Inviate",
+            "percentageSendInstitutions": "Percentuale di Istituzioni Inviate",
+            "totalPayments": "Totale Pagamenti",
+            "totalNotifications": "Totale Notifiche",
+            "percentageNotifications": "Percentuale di Notifiche"
+          },
+          "KpiC2AnalyticDrillDown": {
+            "instanceId": "Identificativo Istanza",
+            "analysisDate": "Data di Analisi",
+            "dataDate": "Data dei Dati",
+            "institutionFiscalCode": "Codice Fiscale Istituzione",
+            "totalPayments": "Totale Pagamenti",
+            "totalNotifications": "Totale Notifiche",
+            "percentageNotifications": "Percentuale di Notifiche"
+          }
+        }
+      }
+    }
+  }
+}
