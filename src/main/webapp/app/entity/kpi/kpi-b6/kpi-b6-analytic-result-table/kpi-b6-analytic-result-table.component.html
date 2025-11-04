@@ -7,13 +7,14 @@
       <table
         mat-table
         [dataSource]="dataSource"
-        [matSortActive]="'dataDate'"
+        [matSortActive]="'analysisDate'"
         [matSortDirection]="'asc'"
-        (matSortChange)="sortData($event)"
         matSort
         matSortDisableClear
         class="full-width-table"
       >
+        <!-- (matSortChange)="sortData($event)" -->
+
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
