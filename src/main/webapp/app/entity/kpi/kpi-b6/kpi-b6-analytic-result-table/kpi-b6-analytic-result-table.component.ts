@@ -92,9 +92,12 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
 
       this.dataSource.data = data;
 
-      if (this.paginator) {
-        this.paginator.firstPage();
-      }
+      if (this.sort) this.dataSource.sort = this.sort;
+      if (this.paginator) this.dataSource.paginator = this.paginator;
+
+      // if (this.paginator) {
+      //   this.paginator.firstPage();
+      // }
     });
   }
 
