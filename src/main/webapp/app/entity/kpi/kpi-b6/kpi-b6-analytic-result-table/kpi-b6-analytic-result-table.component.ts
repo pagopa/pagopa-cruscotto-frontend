@@ -27,7 +27,7 @@ import dayjs from 'dayjs/esm';
     NgClass,
   ],
 })
-export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
+export class KpiB6AnalyticResultTableComponent implements OnChanges, OnInit {
   displayedColumns: string[] = ['analysisDate', 'stationCode', 'paymentOption'];
   dataSource = new MatTableDataSource<KpiB6AnalyticData>([]);
 
@@ -36,6 +36,24 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
+
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator | null) {
+    this.paginator = paginator;
+    if (paginator) {
+      this.dataSource.paginator = paginator;
+    }
+  }
+
+  @ViewChild(MatSort)
+  set matSort(sort: MatSort | null) {
+    this.sort = sort;
+    if (sort) {
+      this.dataSource.sort = sort;
+      this.sort!.active = 'analysisDate';
+      this.sort!.direction = 'asc';
+    }
+  }
 
   isLoadingResults = false;
   locale: string;
@@ -61,15 +79,6 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
-  }
-
   /**
    * Fetch KPI B6 Analytic Data by kpiB6DetailResultId
    */
@@ -89,15 +98,18 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
   protected onSuccess(data: KpiB6AnalyticData[]): void {
     this.spinner.hide('isLoadingResultsKpiB6AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
-
       this.dataSource.data = data;
 
-      if (this.sort) this.dataSource.sort = this.sort;
-      if (this.paginator) this.dataSource.paginator = this.paginator;
-
-      // if (this.paginator) {
-      //   this.paginator.firstPage();
-      // }
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'analysisDate':
+            return dayjs(item.analysisDate).valueOf();
+          case 'paymentOption':
+            return item.paymentOption?.toUpperCase() === 'SI' ? 1 : 0;
+          default:
+            return (item as any)[property];
+        }
+      };
     });
   }
 
@@ -129,32 +141,6 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
       this.dataSource.data = data;
       return;
     }
-
-    // this.dataSource.data = data.sort((a, b) => {
-    //   const isAsc = sort.direction === 'asc';
-    //   switch (sort.active) {
-    //     case 'id':
-    //       return compare(a.id, b.id, isAsc);
-    //     case 'instanceId':
-    //       return compare(a.instanceId, b.instanceId, isAsc);
-    //     case 'instanceModuleId':
-    //       return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
-    //     case 'analysisDate':
-    //       return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-    //     case 'dataDate':
-    //       return compare(a.dataDate?.toISOString(), b.dataDate?.toISOString(), isAsc);
-    //     case 'eventTimestamp':
-    //       return compare(a.eventTimestamp?.toISOString(), b.eventTimestamp?.toISOString(), isAsc);
-    //     case 'totalGPD':
-    //       return compare(a.totalGPD, b.totalGPD, isAsc);
-    //     case 'totalCP':
-    //       return compare(a.totalCP, b.totalCP, isAsc);
-    //     case 'kpiB6DetailResultId':
-    //       return compare(a.kpiB6DetailResultId, b.kpiB6DetailResultId, isAsc);
-    //     default:
-    //       return 0;
-    //   }
-    // });
   }
 
   /**
@@ -164,21 +150,4 @@ export class KpiB6AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.showDetails.emit(kpiB6DetailResult);
     this.selectedElementId = kpiB6DetailResult ?? null;
   }
-}
-
-/**
- * Generic comparison function
- */
-function compare(a: any, b: any, isAsc: boolean): number {
-  if (a == null && b == null) return 0;
-  if (a == null) return isAsc ? -1 : 1;
-  if (b == null) return isAsc ? 1 : -1;
-  return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
-}
-
-function toTimestamp(value: any): number {
-  if (!value) return 0;
-  if (dayjs.isDayjs(value)) return value.valueOf();
-  const d = dayjs(value);
-  return d.isValid() ? d.valueOf() : 0;
 }
