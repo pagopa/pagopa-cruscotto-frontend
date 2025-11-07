@@ -126,7 +126,7 @@ export class KpiB1AnalyticResultTableComponent implements AfterViewInit, OnChang
     }
 
     this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
+      const isAsc = sort.direction === 'desc';
       switch (sort.active) {
         case 'id':
           return compare(a.id, b.id, isAsc);
@@ -136,6 +136,8 @@ export class KpiB1AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
         case 'analysisDate':
           return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
+        case 'dataDate':
+          return compare(a.dataDate?.toISOString(), b.dataDate?.toISOString(), isAsc);
         case 'kpiB1DetailResultId':
           return compare(a.kpiB1DetailResultId, b.kpiB1DetailResultId, isAsc);
         default:
