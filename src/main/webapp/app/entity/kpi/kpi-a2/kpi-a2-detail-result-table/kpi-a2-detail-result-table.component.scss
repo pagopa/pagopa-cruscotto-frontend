@@ -4,6 +4,7 @@
 .mat-column-evaluationEndDate,
 .mat-column-totPayments,
 .mat-column-totIncorrectPayments,
+.mat-column-errorPercentage,
 .mat-column-outcome {
   width: 150px;
   text-align: left !important;
@@ -13,9 +14,4 @@
 .mat-column-details {
   width: 180px;
   text-align: center !important;
-}
-
-.mat-column-errorPercentage {
-  width: 150px;
-  text-align: right;
 }
