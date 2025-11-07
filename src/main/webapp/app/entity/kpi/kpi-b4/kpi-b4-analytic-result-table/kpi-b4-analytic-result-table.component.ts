@@ -103,7 +103,7 @@ export class KpiB4AnalyticResultTableComponent implements AfterViewInit, OnChang
       const sortedData = data.sort((a, b) => {
         const aTime = toTimestamp(a.dataDate);
         const bTime = toTimestamp(b.dataDate);
-        return bTime - aTime; // dal più vecchio al più recente
+        return aTime - bTime; // dal più vecchio al più recente
       });
 
       this.dataSource.data = sortedData;
