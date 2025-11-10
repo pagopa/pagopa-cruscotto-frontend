@@ -16,6 +16,7 @@ export interface IModule {
   configTransactionCount?: boolean | null;
   configInstitutionTolerance?: boolean | null;
   configTransactionTolerance?: boolean | null;
+  configNotificationTolerance?: boolean | null;
 }
 
 export type NewModule = Omit<IModule, 'id'> & { id: null };
@@ -31,6 +32,7 @@ export interface IModuleConfiguration {
   configTransactionCount?: boolean | null;
   configInstitutionTolerance?: boolean | null;
   configTransactionTolerance?: boolean | null;
+  configNotificationTolerance?: boolean | null;
 }
 
 export class ModuleConfiguration implements IModuleConfiguration {
@@ -44,6 +46,7 @@ export class ModuleConfiguration implements IModuleConfiguration {
   configTransactionCount = false;
   configInstitutionTolerance = false;
   configTransactionTolerance = false;
+  configNotificationTolerance = false;
 
   constructor(configuration?: IModuleConfiguration) {
     if (configuration) {
@@ -57,6 +60,7 @@ export class ModuleConfiguration implements IModuleConfiguration {
       this.configTransactionCount = configuration.configTransactionCount ?? false;
       this.configInstitutionTolerance = configuration.configInstitutionTolerance ?? false;
       this.configTransactionTolerance = configuration.configTransactionTolerance ?? false;
+      this.configNotificationTolerance = configuration.configNotificationTolerance ?? false;
     }
   }
 }

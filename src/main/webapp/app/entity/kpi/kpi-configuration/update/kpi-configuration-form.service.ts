@@ -17,6 +17,7 @@ const CONFIG_FIELD_MAPPINGS = {
   configInstitutionTolerance: 'configInstitutionTolerance',
   configInstitutionCount: 'configInstitutionCount',
   configTransactionTolerance: 'configTransactionTolerance',
+  configNotificationTolerance: 'configNotificationTolerance',
 } as const;
 
 /**
@@ -45,6 +46,7 @@ type KpiConfigurationFormGroupContent = {
   transactionCount: FormControl<IKpiConfiguration['transactionCount'] | NewKpiConfiguration['transactionCount']>;
   institutionTolerance: FormControl<IKpiConfiguration['institutionTolerance'] | NewKpiConfiguration['institutionTolerance']>;
   transactionTolerance: FormControl<IKpiConfiguration['transactionTolerance'] | NewKpiConfiguration['transactionTolerance']>;
+  notificationTolerance: FormControl<IKpiConfiguration['notificationTolerance'] | NewKpiConfiguration['notificationTolerance']>;
 };
 
 export type KpiConfigurationFormGroup = FormGroup<KpiConfigurationFormGroupContent>;
@@ -88,6 +90,7 @@ export class KpiConfigurationFormService {
         transactionCount: new FormControl(kpiConfigurationRawValue.transactionCount),
         institutionTolerance: new FormControl(kpiConfigurationRawValue.institutionTolerance),
         transactionTolerance: new FormControl(kpiConfigurationRawValue.transactionTolerance),
+        notificationTolerance: new FormControl(kpiConfigurationRawValue.notificationTolerance),
       },
       {
         validators: [
@@ -99,6 +102,7 @@ export class KpiConfigurationFormService {
             'transactionCount',
             'institutionTolerance',
             'transactionTolerance',
+            'notificationTolerance',
           ),
         ],
       },
@@ -133,6 +137,7 @@ export class KpiConfigurationFormService {
       transactionCount: kpiConfiguration.transactionCount != null ? kpiConfiguration.transactionCount.toFixed(0) : null,
       institutionTolerance: kpiConfiguration.institutionTolerance != null ? kpiConfiguration.institutionTolerance.toFixed(2) : null,
       transactionTolerance: kpiConfiguration.transactionTolerance != null ? kpiConfiguration.transactionTolerance.toFixed(2) : null,
+      notificationTolerance: kpiConfiguration.notificationTolerance != null ? kpiConfiguration.notificationTolerance.toFixed(2) : null,
     };
     form.reset(
       {
