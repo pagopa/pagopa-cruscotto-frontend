@@ -155,6 +155,7 @@ export class KpiConfigurationUpdateComponent implements OnInit {
     setControlValidator('transactionCount', moduleConfiguration.configTransactionCount);
     setControlValidator('institutionTolerance', moduleConfiguration.configInstitutionTolerance);
     setControlValidator('transactionTolerance', moduleConfiguration.configTransactionTolerance);
+    setControlValidator('notificationTolerance', moduleConfiguration.configNotificationTolerance);
 
     this.editForm.updateValueAndValidity();
   }
