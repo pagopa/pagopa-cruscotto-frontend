@@ -44,6 +44,7 @@ type ModuleFormGroupContent = {
   configTransactionCount: FormControl<IModule['configTransactionCount'] | NewModule['configTransactionCount'] | ''>;
   configInstitutionTolerance: FormControl<IModule['configInstitutionTolerance'] | NewModule['configInstitutionTolerance'] | ''>;
   configTransactionTolerance: FormControl<IModule['configTransactionTolerance'] | NewModule['configTransactionTolerance'] | ''>;
+  configNotificationTolerance: FormControl<IModule['configNotificationTolerance'] | NewModule['configNotificationTolerance'] | ''>;
 };
 
 export type ModuleFormGroup = FormGroup<ModuleFormGroupContent>;
@@ -112,6 +113,10 @@ export class ModuleFormService {
         { value: moduleRawValue.configTransactionTolerance, disabled: false },
         { validators: [Validators.required], nonNullable: true },
       ),
+      configNotificationTolerance: new FormControl(
+        { value: moduleRawValue.configNotificationTolerance, disabled: false },
+        { validators: [Validators.required], nonNullable: true },
+      ),
     });
   }
 
@@ -131,6 +136,7 @@ export class ModuleFormService {
       configTransactionCount: !!rawValue.configTransactionCount,
       configInstitutionTolerance: !!rawValue.configInstitutionTolerance,
       configTransactionTolerance: !!rawValue.configTransactionTolerance,
+      configNotificationTolerance: !!rawValue.configNotificationTolerance,
       status: String(rawValue.status),
     };
   }
