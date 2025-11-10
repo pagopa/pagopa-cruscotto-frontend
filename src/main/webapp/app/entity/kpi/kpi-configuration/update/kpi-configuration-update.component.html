@@ -286,6 +286,35 @@
                   </ng-container>
                 </mat-form-field>
               </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configNotificationTolerance">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configNotificationTolerance"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="notificationTolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let notificationToleranceRef = editForm.get('notificationTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="notificationToleranceRef.invalid && (notificationToleranceRef.dirty || notificationToleranceRef.touched)"
+                  >
+                    @if (notificationToleranceRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (notificationToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
             </div>
           </mat-card-content>
           <mat-card-actions>
