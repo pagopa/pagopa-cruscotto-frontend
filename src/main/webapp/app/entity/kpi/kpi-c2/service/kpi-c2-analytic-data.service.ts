@@ -22,7 +22,7 @@ export class KpiC2AnalyticDataService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('/api/kpi-C2/analytic-data');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-analytic-data/c2/module');
   }
 
   /**
