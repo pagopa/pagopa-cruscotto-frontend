@@ -20,7 +20,7 @@ export class KpiC2AnalyticDrillDownService {
   private readonly resourceUrl: string;
 
   constructor() {
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-c2-analytic-drilldown');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-c2-pagopa-data');
   }
 
   /**
