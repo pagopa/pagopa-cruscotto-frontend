@@ -1,0 +1,56 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "C.2": {
+        "tableLabels": {
+          "KpiResult": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Eligibility Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome"
+          },
+          "KpiDetailResult": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation Type",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totalInstitutions": "Total Institutions",
+            "sendTotalInstitutions": "Sent Total Institutions",
+            "percentageSendInstitutions": "Percentage of Sent Institutions",
+            "totalPayments": "Total Payments",
+            "totalNotifications": "Total Notifications",
+            "percentageOkInstitutions": "Percentage of OK Institutions",
+            "outcome": "Outcome"
+          },
+          "KpiAnalyticData": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "stationId": "Station Identifier",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Data Date",
+            "institutionCount": "Institution Count",
+            "sendInstitutionCount": "Sent Institution Count",
+            "percentageSendInstitutions": "Percentage of Sent Institutions",
+            "totalPayments": "Total Payments",
+            "totalNotifications": "Total Notifications",
+            "percentageNotifications": "Percentage of Notifications"
+          },
+          "KpiAnalyticDrillDown": {
+            "instanceId": "Instance Identifier",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Data Date",
+            "institutionFiscalCode": "Institution Fiscal Code",
+            "totalPayments": "Total Payments",
+            "totalNotifications": "Total Notifications",
+            "percentageNotifications": "Percentage of Notifications"
+          }
+        }
+      }
+    }
+  }
+}

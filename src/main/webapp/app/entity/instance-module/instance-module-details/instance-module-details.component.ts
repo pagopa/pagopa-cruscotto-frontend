@@ -58,6 +58,10 @@ import { switchMap } from 'rxjs';
 import { InstanceService } from 'app/entity/instance/service/instance.service';
 import { ModuleStatus } from '../models/module-status.model';
 import dayjs, { Dayjs } from 'dayjs/esm';
+import { KpiC2ResultTableComponent } from 'app/entity/kpi/kpi-c2/kpi-c2-result-table/kpi-c2-result-table.component';
+import { KpiC2DetailResultTableComponent } from 'app/entity/kpi/kpi-c2/kpi-c2-detail-result-table/kpi-c2-detail-result-table.component';
+import { KpiC2AnalyticResultTableComponent } from 'app/entity/kpi/kpi-c2/kpi-c2-analytic-result-table/kpi-c2-analytic-result-table.component';
+import { KpiC2AnalyticDrilldownTableComponent } from 'app/entity/kpi/kpi-c2/kpi-c2-analytic-drilldown-table/kpi-c2-analytic-drilldown-table.component';
 
 @Component({
   selector: 'jhi-instance-module-details',
@@ -108,6 +112,10 @@ import dayjs, { Dayjs } from 'dayjs/esm';
     KpiB9ResultTableComponent,
     KpiB9DetailResultTableComponent,
     KpiB9AnalyticDrilldownTableComponent,
+    KpiC2ResultTableComponent,
+    KpiC2DetailResultTableComponent,
+    KpiC2AnalyticResultTableComponent,
+    KpiC2AnalyticDrilldownTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -127,6 +135,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB6ResultIdForDetailsResults: number | null = null;
   selectedKpiB8ResultIdForDetailsResults: number | null = null;
   selectedKpiB9ResultIdForDetailsResults: number | null = null;
+  selectedKpiC2ResultIdForDetailsResults: number | null = null;
 
   selectedKpiA1DetailResultIdForAnalytics: number | null = null;
   selectedKpiA2DetailResultIdForAnalytics: number | null = null;
@@ -138,6 +147,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB6DetailResultIdForAnalytics: number | null = null;
   selectedKpiB8DetailResultIdForAnalytics: number | null = null;
   selectedKpiB9DetailResultIdForAnalytics: number | null = null;
+  selectedKpiC2DetailResultIdForAnalytics: number | null = null;
 
   selectedKpiA1AnalyticIdForDrilldown: number | null = null;
   selectedKpiA2AnalyticIdForDrilldown: number | null = null;
@@ -149,6 +159,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   selectedKpiB5AnalyticIdForDrilldown: number | null = null;
   selectedKpiB8AnalyticIdForDrilldown: number | null = null;
   selectedKpiB9AnalyticIdForDrilldown: number | null = null;
+  selectedKpiC2AnalyticIdForDrilldown: number | null = null;
   b9DrillInstanceId: number | null = null;
   b9DrillStationId: number | null = null;
   b9DrillEvaluationDate: Dayjs | null = null;
@@ -281,6 +292,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
     this.resetAnalyticsVariables();
   }
+  onShowDetailsC2(kpiC2ResultId: number): void {
+    this.selectedKpiC2ResultIdForDetailsResults = this.selectedKpiC2ResultIdForDetailsResults === kpiC2ResultId ? null : kpiC2ResultId;
+    this.resetAnalyticsVariables();
+  }
 
   /**
    * Metodo che viene richiamato quando si clicca il pulsante "Show Details" sulla tabella dati di riscontro
@@ -331,6 +346,11 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
     this.selectedKpiB9DetailResultIdForAnalytics =
       this.selectedKpiB9DetailResultIdForAnalytics === kpiB9DetailResultId ? null : kpiB9DetailResultId;
+    this.resetDrilldownVariables();
+  }
+  onAnalyticsShowDetailsC2(kpiC2DetailResultId: number): void {
+    this.selectedKpiC2DetailResultIdForAnalytics =
+      this.selectedKpiC2DetailResultIdForAnalytics === kpiC2DetailResultId ? null : kpiC2DetailResultId;
     this.resetDrilldownVariables();
   }
 
@@ -392,6 +412,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.b9DrillEvaluationDate = row.evaluationDate!;
     }
   }
+  onAnalyticDrilldownShowDetailsC2(kpiC2AnalyticDataId: number): void {
+    this.selectedKpiC2AnalyticIdForDrilldown =
+      this.selectedKpiC2AnalyticIdForDrilldown === kpiC2AnalyticDataId ? null : kpiC2AnalyticDataId;
+  }
 
   /**
    * Metodi per resettare le variabili all'apertura di un diverso dettaglio
@@ -408,6 +432,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB9AnalyticIdForDrilldown = null;
     this.b9DrillInstanceId = this.b9DrillStationId = null;
     this.b9DrillEvaluationDate = null;
+    this.selectedKpiC2AnalyticIdForDrilldown = null;
   }
 
   resetAnalyticsVariables(): void {
@@ -421,6 +446,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB6DetailResultIdForAnalytics = null;
     this.selectedKpiB8DetailResultIdForAnalytics = null;
     this.selectedKpiB9DetailResultIdForAnalytics = null;
+    this.selectedKpiC2DetailResultIdForAnalytics = null;
     this.resetDrilldownVariables();
   }
 
@@ -436,6 +462,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.selectedKpiB6ResultIdForDetailsResults = null;
     this.selectedKpiB8ResultIdForDetailsResults = null;
     this.selectedKpiB9ResultIdForDetailsResults = null;
+    this.selectedKpiC2ResultIdForDetailsResults = null;
     this.resetAnalyticsVariables();
   }
 
