@@ -3,16 +3,18 @@
     "module": {
       "C.2": {
         "tableLabels": {
-          "KpiResult": {
+          "KpiResults": {
             "instanceId": "Instance Identifier",
             "instanceModuleId": "Instance Module Identifier",
             "analysisDate": "Analysis Date",
             "eligibilityThreshold": "Eligibility Threshold",
             "tolerance": "Tolerance",
+            "institutionTolerance": "Tolerance",
+            "notificationTolerance": "Eligibility Threshold",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome"
           },
-          "KpiDetailResult": {
+          "KpiDetailResults": {
             "instanceId": "Instance Identifier",
             "instanceModuleId": "Instance Module Identifier",
             "analysisDate": "Analysis Date",
