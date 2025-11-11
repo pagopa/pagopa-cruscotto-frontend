@@ -3,16 +3,18 @@
     "module": {
       "B.2": {
         "tableLabels": {
-          "KpiC2Result": {
+          "KpiResults": {
             "instanceId": "Identificativo Istanza",
             "instanceModuleId": "Identificativo Modulo Istanza",
             "analysisDate": "Data di Analisi",
             "eligibilityThreshold": "Soglia di Idoneità",
             "tolerance": "Tolleranza",
+            "institutionTolerance": "Indice Tolleranza",
+            "notificationTolerance": "Indice Soglia",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Esito"
           },
-          "KpiC2DetailResult": {
+          "KpiDetailResults": {
             "instanceId": "Identificativo Istanza",
             "instanceModuleId": "Identificativo Modulo Istanza",
             "analysisDate": "Data di Analisi",
@@ -27,7 +29,7 @@
             "percentageOkInstitutions": "Percentuale di Istituzioni OK",
             "outcome": "Esito"
           },
-          "KpiC2AnalyticData": {
+          "KpiAnalyticData": {
             "instanceId": "Identificativo Istanza",
             "instanceModuleId": "Identificativo Modulo Istanza",
             "stationId": "Identificativo Stazione",
@@ -40,7 +42,7 @@
             "totalNotifications": "Totale Notifiche",
             "percentageNotifications": "Percentuale di Notifiche"
           },
-          "KpiC2AnalyticDrillDown": {
+          "KpiAnalyticDrillDown": {
             "instanceId": "Identificativo Istanza",
             "analysisDate": "Data di Analisi",
             "dataDate": "Data dei Dati",
