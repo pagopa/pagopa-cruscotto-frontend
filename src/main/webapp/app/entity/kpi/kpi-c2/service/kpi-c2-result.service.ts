@@ -28,7 +28,7 @@ export class KpiC2ResultService {
   constructor(http: HttpClient, applicationConfigService: ApplicationConfigService) {
     this.http = http;
     this.applicationConfigService = applicationConfigService;
-    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-results/c2/module');
+    this.resourceUrl = this.applicationConfigService.getEndpointFor('api/kpi-c2/results');
   }
 
   /**
