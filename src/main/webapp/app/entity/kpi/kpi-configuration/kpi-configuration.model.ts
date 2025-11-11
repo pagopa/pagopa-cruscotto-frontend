@@ -15,6 +15,7 @@ export interface IKpiConfiguration extends IModuleConfiguration {
   transactionCount?: number | null;
   institutionTolerance?: number | null;
   transactionTolerance?: number | null;
+  notificationTolerance?: number | null;
 }
 
 export type NewKpiConfiguration = Omit<IKpiConfiguration, 'id'> & { id: null };

@@ -31,7 +31,8 @@
       "configTransactionCount": "Transaction Count",
       "configInstitutionTolerance": "Institution Tolerance",
       "configInstitutionCount": "Institution Count",
-      "configTransactionTolerance": "Transaction Tolerance"
+      "configTransactionTolerance": "Transaction Tolerance",
+      "configNotificationTolerance": "Notification Tolerance"
     }
   },
   "error": {
