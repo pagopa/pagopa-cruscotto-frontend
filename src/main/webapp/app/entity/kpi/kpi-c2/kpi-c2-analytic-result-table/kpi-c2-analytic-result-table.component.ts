@@ -31,12 +31,13 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   displayedColumns: string[] = [
     'analysisDate',
     'dataDate',
-    'institutionCount',
-    'sendInstitutionCount',
-    'percentageSendInstitutions',
-    'totalPayments',
-    'totalNotifications',
-    'percentageNotifications',
+    'numInstitution',
+    'numInstitutionSend',
+    'perInstitutionSend',
+    'numPayments',
+    'numNotification',
+    'perNotification',
+    'details',
   ];
   dataSource = new MatTableDataSource<KpiC2AnalyticData>([]);
 
