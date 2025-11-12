@@ -53,10 +53,10 @@ export interface KpiC2AnalyticDrillDown {
   kpiC2AnalyticDataId?: number | null;
   analysisDate: dayjs.Dayjs | null;
   dataDate: dayjs.Dayjs | null;
-  institutionFiscalCode: string | null;
-  totalPayments: number | null;
-  totalNotifications: number | null;
-  percentageNotifications: number | null;
+  partnerCf: string | null;
+  numPayment: number | null;
+  numNotification: number | null;
+  percentNotification: number | null;
 }
 
 // Enum di OutcomeStatus
