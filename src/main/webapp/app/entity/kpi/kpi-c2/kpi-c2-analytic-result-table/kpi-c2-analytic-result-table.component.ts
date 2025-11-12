@@ -33,7 +33,7 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
     'numInstitution',
     'numInstitutionSend',
     'perInstitutionSend',
-    'numPayments',
+    'numPayment',
     'numNotification',
     'perNotification',
     'details',
