@@ -9,6 +9,7 @@ import { KpiB3AnalyticDataService } from '../service/kpi-b3-analytic-data.servic
 import { KpiB3AnalyticData } from '../models/KpiB3AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-kpi-b3-analytic-result-table',
@@ -27,7 +28,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     NgClass,
   ],
 })
-export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
+export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
   displayedColumns: string[] = ['analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
   dataSource = new MatTableDataSource<KpiB3AnalyticData>([]);
 
@@ -36,6 +37,24 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
+
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator | null) {
+    this.paginator = paginator;
+    if (paginator) {
+      this.dataSource.paginator = paginator;
+    }
+  }
+
+  @ViewChild(MatSort)
+  set matSort(sort: MatSort | null) {
+    this.sort = sort;
+    if (sort) {
+      this.dataSource.sort = sort;
+      this.sort!.active = 'eventTimestamp';
+      this.sort!.direction = 'asc';
+    }
+  }
 
   isLoadingResults = false;
   locale: string;
@@ -61,15 +80,6 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
-  }
-
   /**
    * Fetch KPI B3 Analytic Data by kpiB3DetailResultId
    */
@@ -90,9 +100,17 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiB3AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
-      }
+
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'analysisDate':
+            return dayjs(item.analysisDate).valueOf();
+          case 'eventTimestamp':
+            return dayjs(item.eventTimestamp).valueOf();
+          default:
+            return (item as any)[property];
+        }
+      };
     });
   }
 

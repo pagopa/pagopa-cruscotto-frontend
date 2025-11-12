@@ -57,7 +57,9 @@
           </div>
           <div class="col-lg-3">
             <span>{{ 'pagopaCruscottoApp.instanceModule.detail.allowManualOutcome' | translate }}</span>
-            <p class="p-2 bg-light">{{ moduleDetails.allowManualOutcome ? 'Yes' : 'No' }}</p>
+            <p class="p-2 bg-light">
+              {{ (moduleDetails.allowManualOutcome ? 'values.yes' : 'values.no') | translate }}
+            </p>
           </div>
         </div>
 
@@ -136,6 +138,21 @@
           [moduleId]="moduleDetails.id"
           (showDetails)="onShowDetailsB4($event)"
         ></jhi-kpi-b4-result-table>
+        <jhi-kpi-b5-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.5'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB5($event)"
+        ></jhi-kpi-b5-result-table>
+        <jhi-kpi-b6-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.6'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB6($event)"
+        ></jhi-kpi-b6-result-table>
+        <jhi-kpi-b8-result-table
+          *ngIf="moduleDetails?.moduleCode === 'B.8'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsB8($event)"
+        ></jhi-kpi-b8-result-table>
         <jhi-kpi-b9-result-table
           *ngIf="moduleDetails?.moduleCode === 'B.9'"
           [moduleId]="moduleDetails.id"
@@ -146,6 +163,11 @@
           [moduleId]="moduleDetails.id"
           (showDetails)="onShowDetailsC1($event)"
         ></jhi-kpi-c1-result-table>
+        <jhi-kpi-c2-result-table
+          *ngIf="moduleDetails?.moduleCode === 'C.2'"
+          [moduleId]="moduleDetails.id"
+          (showDetails)="onShowDetailsC2($event)"
+        ></jhi-kpi-c2-result-table>
       </mat-card-content>
     </mat-card>
   </div>
@@ -161,8 +183,12 @@
     selectedKpiB2ResultIdForDetailsResults ||
     selectedKpiB3ResultIdForDetailsResults ||
     selectedKpiB4ResultIdForDetailsResults ||
+    selectedKpiB5ResultIdForDetailsResults ||
+    selectedKpiB6ResultIdForDetailsResults ||
+    selectedKpiB8ResultIdForDetailsResults ||
     selectedKpiB9ResultIdForDetailsResults ||
-    selectedKpiC1ResultIdForDetailsResults
+    selectedKpiC1ResultIdForDetailsResults ||
+    selectedKpiC2ResultIdForDetailsResults
   "
 >
   <div class="col-md-12">
@@ -203,6 +229,21 @@
           [kpiB4ResultId]="selectedKpiB4ResultIdForDetailsResults"
           (showDetails)="onAnalyticsShowDetailsB4($event)"
         ></jhi-kpi-b4-detail-result-table>
+        <jhi-kpi-b5-detail-result-table
+          *ngIf="selectedKpiB5ResultIdForDetailsResults"
+          [kpiB5ResultId]="selectedKpiB5ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB5($event)"
+        ></jhi-kpi-b5-detail-result-table>
+        <jhi-kpi-b6-detail-result-table
+          *ngIf="selectedKpiB6ResultIdForDetailsResults"
+          [kpiB6ResultId]="selectedKpiB6ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB6($event)"
+        ></jhi-kpi-b6-detail-result-table>
+        <jhi-kpi-b8-detail-result-table
+          *ngIf="selectedKpiB8ResultIdForDetailsResults"
+          [kpiB8ResultId]="selectedKpiB8ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsB8($event)"
+        ></jhi-kpi-b8-detail-result-table>
         <jhi-kpi-b9-detail-result-table
           *ngIf="selectedKpiB9ResultIdForDetailsResults"
           [kpiB9ResultId]="selectedKpiB9ResultIdForDetailsResults"
@@ -213,6 +254,11 @@
           [kpiC1ResultId]="selectedKpiC1ResultIdForDetailsResults"
           (showDetails)="onAnalyticsShowDetailsC1($event)"
         ></jhi-kpi-c1-detail-result-table>
+        <jhi-kpi-c2-detail-result-table
+          *ngIf="selectedKpiC2ResultIdForDetailsResults"
+          [kpiC2ResultId]="selectedKpiC2ResultIdForDetailsResults"
+          (showDetails)="onAnalyticsShowDetailsC2($event)"
+        ></jhi-kpi-c2-detail-result-table>
       </mat-card-content>
     </mat-card>
   </div>
@@ -228,8 +274,12 @@
     selectedKpiB2DetailResultIdForAnalytics ||
     selectedKpiB3DetailResultIdForAnalytics ||
     selectedKpiB4DetailResultIdForAnalytics ||
+    selectedKpiB5DetailResultIdForAnalytics ||
+    selectedKpiB6DetailResultIdForAnalytics ||
+    selectedKpiB8DetailResultIdForAnalytics ||
     selectedKpiB9DetailResultIdForAnalytics ||
-    selectedKpiC1DetailResultIdForAnalytics
+    selectedKpiC1DetailResultIdForAnalytics ||
+    selectedKpiC2DetailResultIdForAnalytics
   "
 >
   <div class="col-md-12">
@@ -270,6 +320,20 @@
           [kpiB4DetailResultId]="selectedKpiB4DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsB4($event)"
         ></jhi-kpi-b4-analytic-result-table>
+        <jhi-kpi-b5-analytic-result-table
+          *ngIf="selectedKpiB5DetailResultIdForAnalytics"
+          [kpiB5DetailResultId]="selectedKpiB5DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB5($event)"
+        ></jhi-kpi-b5-analytic-result-table>
+        <jhi-kpi-b6-analytic-result-table
+          *ngIf="selectedKpiB6DetailResultIdForAnalytics"
+          [kpiB6DetailResultId]="selectedKpiB6DetailResultIdForAnalytics"
+        ></jhi-kpi-b6-analytic-result-table>
+        <jhi-kpi-b8-analytic-result-table
+          *ngIf="selectedKpiB8DetailResultIdForAnalytics"
+          [kpiB8DetailResultId]="selectedKpiB8DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsB8($event)"
+        ></jhi-kpi-b8-analytic-result-table>
         <jhi-kpi-b9-analytic-result-table
           *ngIf="selectedKpiB9DetailResultIdForAnalytics"
           [kpiB9DetailResultId]="selectedKpiB9DetailResultIdForAnalytics"
@@ -280,6 +344,11 @@
           [kpiC1DetailResultId]="selectedKpiC1DetailResultIdForAnalytics"
           (showDetails)="onAnalyticDrilldownShowDetailsC1($event)"
         ></jhi-kpi-c1-analytic-result-table>
+        <jhi-kpi-c2-analytic-result-table
+          *ngIf="selectedKpiC2DetailResultIdForAnalytics"
+          [kpiC2DetailResultId]="selectedKpiC2DetailResultIdForAnalytics"
+          (showDetails)="onAnalyticDrilldownShowDetailsC2($event)"
+        ></jhi-kpi-c2-analytic-result-table>
       </mat-card-content>
     </mat-card>
   </div>
@@ -295,8 +364,11 @@
     selectedKpiB2AnalyticIdForDrilldown ||
     selectedKpiB3AnalyticIdForDrilldown ||
     selectedKpiB4AnalyticIdForDrilldown ||
+    selectedKpiB5AnalyticIdForDrilldown ||
+    selectedKpiB8AnalyticIdForDrilldown ||
     (b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate) ||
-    selectedKpiC1AnalyticIdForDrilldown
+    selectedKpiC1AnalyticIdForDrilldown ||
+    selectedKpiC2AnalyticIdForDrilldown
   "
 >
   <div class="col-md-12">
@@ -312,6 +384,7 @@
           [kpiA1analyticDataId]="selectedKpiA1AnalyticIdForDrilldown"
         >
         </jhi-kpi-a1-recorded-timeout-table>
+
         <jhi-kpi-a2-analytic-drilldown-table
           *ngIf="selectedKpiA2AnalyticIdForDrilldown"
           [analyticDataId]="selectedKpiA2AnalyticIdForDrilldown"
@@ -324,6 +397,7 @@
           [kpiB1analyticDataId]="selectedKpiB1AnalyticIdForDrilldown"
         >
         </jhi-kpi-b1-analytic-drilldown-table>
+
         <jhi-kpi-b2-recorded-timeout-table
           *ngIf="selectedKpiB2AnalyticIdForDrilldown"
           [selectedKpiB2RecordedTimeoutId]="selectedKpiB2AnalyticIdForDrilldown"
@@ -342,6 +416,19 @@
         >
         </jhi-kpi-b4-analytic-drilldown-table>
 
+        <jhi-kpi-b5-analytic-drilldown-table
+          *ngIf="selectedKpiB5AnalyticIdForDrilldown"
+          [selectedKpiB5AnalyticResultId]="selectedKpiB5AnalyticIdForDrilldown"
+          [locale]="locale"
+        >
+        </jhi-kpi-b5-analytic-drilldown-table>
+
+        <jhi-kpi-b8-analytic-drilldown-table
+          *ngIf="selectedKpiB8AnalyticIdForDrilldown"
+          [selectedKpiB8AnalyticResultId]="selectedKpiB8AnalyticIdForDrilldown"
+        >
+        </jhi-kpi-b8-analytic-drilldown-table>
+
         <jhi-kpi-b9-analytic-drilldown-table
           *ngIf="b9DrillInstanceId && b9DrillStationId && b9DrillEvaluationDate"
           [instanceId]="b9DrillInstanceId!"
@@ -356,6 +443,11 @@
           [selectedKpiC1AnalyticResultId]="selectedKpiC1AnalyticIdForDrilldown"
         >
         </jhi-kpi-c1-analytic-drilldown-table>
+        <jhi-kpi-c2-analytic-drilldown-table
+          *ngIf="selectedKpiC2AnalyticIdForDrilldown"
+          [selectedKpiC2AnalyticDrilldownId]="selectedKpiC2AnalyticIdForDrilldown"
+        >
+        </jhi-kpi-c2-analytic-drilldown-table>
       </mat-card-content>
     </mat-card>
   </div>

@@ -1,0 +1,65 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "C.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Eligibility Threshold",
+            "institutionTolerance": "Institutions Tolerance",
+            "notificationTolerance": "Notification Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "analysisDate": "Analysis Date",
+            "evaluationType": "Evaluation Type",
+            "evaluationStartDate": "Evaluation Start Date",
+            "evaluationEndDate": "Evaluation End Date",
+            "totalInstitution": "Total Institutions",
+            "totalInstitutionSend": "Sent Total Institutions",
+            "percentInstitutionSend": "Percentage of Sent Institutions",
+            "totalPayment": "Total Payments",
+            "totalNotification": "Total Notifications",
+            "percentEntiOk": "Percentage of OK Institutions",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiAnalyticResults": {
+            "instanceId": "Instance Identifier",
+            "instanceModuleId": "Instance Module Identifier",
+            "stationId": "Station Identifier",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Data Date",
+            "numInstitution": "Institution Count",
+            "numInstitutionSend": "SEND Institution Count",
+            "perInstitutionSend": "Percentage of SEND Institutions",
+            "numPayment": "Total Payments",
+            "numNotification": "Total Notifications",
+            "perNotification": "Percentage of Notifications",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiAnalyticDrillDown": {
+            "instanceId": "Instance Identifier",
+            "analysisDate": "Analysis Date",
+            "dataDate": "Data Date",
+            "partnerCf": "Institution Fiscal Code",
+            "numPayment": "Total Payments",
+            "numNotification": "Total Notifications",
+            "percentNotification": "Percentage of Notifications",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          }
+        }
+      }
+    }
+  }
+}

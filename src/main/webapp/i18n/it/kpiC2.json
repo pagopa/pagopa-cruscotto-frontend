@@ -1,0 +1,66 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "C.2": {
+        "tableLabels": {
+          "KpiResults": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "analysisDate": "Data di Analisi",
+            "eligibilityThreshold": "Soglia di Idoneità",
+            "tolerance": "Tolleranza",
+            "institutionTolerance": "Tolleranza Enti",
+            "notificationTolerance": "Tolleranza Notifiche",
+            "evaluationType": "Tipo di Valutazione",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "analysisDate": "Data di Analisi",
+            "evaluationType": "Tipo di Valutazione",
+            "evaluationStartDate": "Data di Inizio Valutazione",
+            "evaluationEndDate": "Data di Fine Valutazione",
+            "totalInstitution": "Totale Enti",
+            "totalInstitutionSend": "Totale Enti Inviate",
+            "percentInstitutionSend": "Percentuale di Enti Inviate",
+            "totalPayment": "Totale Pagamenti",
+            "totalNotification": "Totale Notifiche",
+            "percentEntiOk": "Percentuale di Enti OK",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "instanceId": "Identificativo Istanza",
+            "instanceModuleId": "Identificativo Modulo Istanza",
+            "stationId": "Identificativo Stazione",
+            "analysisDate": "Data di Analisi",
+            "dataDate": "Data",
+            "numInstitution": "Conteggio Enti",
+            "numInstitutionSend": "Conteggio Enti SEND",
+            "perInstitutionSend": "Percentuale di Enti SEND",
+            "numPayment": "Totale Pagamenti",
+            "numNotification": "Totale Notifiche",
+            "perNotification": "Percentuale di Notifiche",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticDrillDown": {
+            "instanceId": "Identificativo Istanza",
+            "analysisDate": "Data di Analisi",
+            "dataDate": "Data dei Dati",
+            "partnerCf": "Codice Fiscale Istituzione",
+            "numPayment": "Totale Pagamenti",
+            "numNotification": "Totale Notifiche",
+            "percentNotification": "Percentuale di Notifiche",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          }
+        }
+      }
+    }
+  }
+}
