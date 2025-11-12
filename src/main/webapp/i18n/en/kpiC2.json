@@ -41,7 +41,7 @@
             "numInstitution": "Institution Count",
             "numInstitutionSend": "SEND Institution Count",
             "perInstitutionSend": "Percentage of SEND Institutions",
-            "numPayments": "Total Payments",
+            "numPayment": "Total Payments",
             "numNotification": "Total Notifications",
             "perNotification": "Percentage of Notifications",
             "details": "Results Detail",
