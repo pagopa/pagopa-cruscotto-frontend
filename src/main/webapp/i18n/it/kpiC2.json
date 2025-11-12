@@ -42,7 +42,7 @@
             "numInstitution": "Conteggio Enti",
             "numInstitutionSend": "Conteggio Enti SEND",
             "perInstitutionSend": "Percentuale di Enti SEND",
-            "numPayments": "Totale Pagamenti",
+            "numPayment": "Totale Pagamenti",
             "numNotification": "Totale Notifiche",
             "perNotification": "Percentuale di Notifiche",
             "details": "Dettagli Risultato",
