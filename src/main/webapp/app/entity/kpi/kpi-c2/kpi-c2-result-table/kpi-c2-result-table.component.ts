@@ -45,7 +45,9 @@ export class KpiC2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   @Output() showDetails = new EventEmitter<number>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   isLoadingResults = false;
   selectedElementId: number | null = null;
@@ -74,9 +76,6 @@ export class KpiC2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
     }
   }
 
