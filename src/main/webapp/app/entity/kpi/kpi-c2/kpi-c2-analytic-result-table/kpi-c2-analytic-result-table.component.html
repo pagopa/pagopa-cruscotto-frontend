@@ -19,49 +19,49 @@
           <td mat-cell *matCellDef="let element">{{ element.dataDate | formatDate: 'L' : locale }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="institutionCount">
+        <ng-container matColumnDef="numInstitution">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.institutionCount' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.numInstitution' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.institutionCount }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numInstitution }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="sendInstitutionCount">
+        <ng-container matColumnDef="numInstitutionSend">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.sendInstitutionCount' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.numInstitutionSend' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.sendInstitutionCount }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numInstitutionSend }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="percentageSendInstitutions">
+        <ng-container matColumnDef="perInstitutionSend">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.percentageSendInstitutions' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.perInstitutionSend' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.percentageSendInstitutions | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+            {{ element.perInstitutionSend | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="totalPayments">
+        <ng-container matColumnDef="numPayments">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.totalPayments' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.numPayments' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalPayments }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numPayments }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="totalNotifications">
+        <ng-container matColumnDef="numNotification">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.totalNotifications' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.numNotification' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalNotifications }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numNotification }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="percentageNotifications">
+        <ng-container matColumnDef="perNotification">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.percentageNotifications' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.perNotification' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.percentageNotifications | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+            {{ element.perNotification | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
           </td>
         </ng-container>
 

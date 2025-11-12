@@ -35,7 +35,7 @@ import { NgIf, NgClass, DecimalPipe } from '@angular/common';
   ],
 })
 export class KpiC2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'outcome', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'institutionTolerance', 'notificationTolerance', 'evaluationType', 'outcome', 'details'];
   dataSource = new MatTableDataSource<KpiC2Result>([]);
   locale: string;
 
