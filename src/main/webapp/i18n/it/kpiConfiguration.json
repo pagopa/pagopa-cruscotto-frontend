@@ -31,7 +31,8 @@
       "configTransactionCount": "Numero Transazioni",
       "configInstitutionTolerance": "Tolleranza Enti",
       "configInstitutionCount": "Numero Enti",
-      "configTransactionTolerance": "Tolleranza Transazioni"
+      "configTransactionTolerance": "Tolleranza Transazioni",
+      "configNotificationTolerance": "Tolleranza Notifiche"
     }
   },
   "error": {

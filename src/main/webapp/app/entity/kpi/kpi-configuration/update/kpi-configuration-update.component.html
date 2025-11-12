@@ -80,12 +80,12 @@
                     matInput
                     autocomplete="off"
                     formControlName="eligibilityThreshold"
-                    mask="separator.2"
-                    [leadZero]="true"
-                    decimalMarker=","
+                    [mask]="kpiConfiguration?.moduleCode != 'B.3' ? 'separator.2' : '99'"
                     class="text-end"
                   />
-                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  <span matTextSuffix *ngIf="kpiConfiguration?.moduleCode != 'B.3'" class="fs-5 fw-bold"
+                    >&nbsp;{{ 'abbr.percent' | translate }}</span
+                  >
                   @let eligibilityThresholdRef = editForm.get('eligibilityThreshold')!;
                   <ng-container
                     ngProjectAs="mat-error"
@@ -114,7 +114,10 @@
                     decimalMarker=","
                     class="text-end"
                   />
-                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  <span *ngIf="kpiConfiguration?.moduleCode !== 'B.3'" matTextSuffix class="fs-5 fw-bold"
+                    >&nbsp;{{ 'abbr.percent' | translate }}</span
+                  >
+
                   @let toleranceRef = editForm.get('tolerance')!;
                   <ng-container ngProjectAs="mat-error" *ngIf="toleranceRef.invalid && (toleranceRef.dirty || toleranceRef.touched)">
                     @if (toleranceRef?.errors?.matStringNumeric) {
@@ -278,6 +281,35 @@
                       </mat-error>
                     }
                     @if (transactionToleranceRef?.errors?.required) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-lg-3" *ngIf="moduleConfiguration.configNotificationTolerance">
+                <mat-form-field class="d-block mb-2">
+                  <mat-label jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configNotificationTolerance"></mat-label>
+                  <input
+                    matInput
+                    autocomplete="off"
+                    formControlName="notificationTolerance"
+                    mask="separator.2"
+                    [leadZero]="true"
+                    decimalMarker=","
+                    class="text-end"
+                  />
+                  <span matTextSuffix class="fs-5 fw-bold">&nbsp;{{ 'abbr.percent' | translate }}</span>
+                  @let notificationToleranceRef = editForm.get('notificationTolerance')!;
+                  <ng-container
+                    ngProjectAs="mat-error"
+                    *ngIf="notificationToleranceRef.invalid && (notificationToleranceRef.dirty || notificationToleranceRef.touched)"
+                  >
+                    @if (notificationToleranceRef?.errors?.matStringNumeric) {
+                      <mat-error class="form-text text-danger" jhiTranslate="entity.validation.number">
+                        {{ 'validation.number' | translate }}
+                      </mat-error>
+                    }
+                    @if (notificationToleranceRef?.errors?.required) {
                       <mat-error class="form-text text-danger" jhiTranslate="entity.validation.required">This field is required.</mat-error>
                     }
                   </ng-container>

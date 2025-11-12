@@ -41,6 +41,7 @@
       "configTransactionCount": "Transaction Count",
       "configInstitutionTolerance": "Institute Tolerance",
       "configTransactionTolerance": "Transaction Tolerance",
+      "configNotificationTolerance": "Notification Tolerance",
       "tables": {
         "KpiResults": {
           "title": "Results",

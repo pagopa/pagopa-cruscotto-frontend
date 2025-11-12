@@ -1,0 +1,18 @@
+.mat-column-id,
+.mat-column-analysisDate,
+.mat-column-evaluationStartDate,
+.mat-column-evaluationEndDate,
+.mat-column-evaluationType,
+.mat-column-outcome,
+.mat-column-totReq,
+.mat-column-reqKO,
+.mat-column-perKO {
+  width: 150px;
+  text-align: left !important;
+  white-space: nowrap;
+}
+
+.mat-column-details {
+  width: 180px;
+  text-align: center !important;
+}
