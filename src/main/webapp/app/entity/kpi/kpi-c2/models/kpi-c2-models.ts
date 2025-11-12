@@ -9,6 +9,8 @@ export interface KpiC2Result {
   tolerance: number | null;
   evaluationType: EvaluationType | null;
   outcome: OutcomeStatus | null;
+  institutionTolerance: number | null;
+  notificationTolerance: number | null;
 }
 
 export interface KpiC2DetailResult {
@@ -20,12 +22,12 @@ export interface KpiC2DetailResult {
   evaluationType: EvaluationType | null;
   evaluationStartDate: dayjs.Dayjs | null;
   evaluationEndDate: dayjs.Dayjs | null;
-  totalInstitutions: number | null;
-  sendTotalInstitutions: number | null;
-  percentageSendInstitutions: number | null;
-  totalPayments: number | null;
-  totalNotifications: number | null;
-  percentageOkInstitutions: number | null;
+  totalInstitution: number | null;
+  totalInstitutionSend: number | null;
+  percentInstitutionSend: number | null;
+  totalPayment: number | null;
+  totalNotification: number | null;
+  percentEntiOk: number | null;
   outcome: OutcomeStatus | null;
 }
 
@@ -37,12 +39,12 @@ export interface KpiC2AnalyticData {
   kpiC2DetailResultId: number | null;
   analysisDate: dayjs.Dayjs | null;
   dataDate: dayjs.Dayjs | null;
-  institutionCount: number | null;
-  sendInstitutionCount: number | null;
-  percentageSendInstitutions: number | null;
-  totalPayments: number | null;
-  totalNotifications: number | null;
-  percentageNotifications: number | null;
+  numInstitution: number | null;
+  numInstitutionSend: number | null;
+  perInstitutionSend: number | null;
+  numPayment: number | null;
+  numNotification: number | null;
+  perNotification: number | null;
 }
 
 export interface KpiC2AnalyticDrillDown {
@@ -51,10 +53,10 @@ export interface KpiC2AnalyticDrillDown {
   kpiC2AnalyticDataId?: number | null;
   analysisDate: dayjs.Dayjs | null;
   dataDate: dayjs.Dayjs | null;
-  institutionFiscalCode: string | null;
-  totalPayments: number | null;
-  totalNotifications: number | null;
-  percentageNotifications: number | null;
+  partnerCf: string | null;
+  numPayment: number | null;
+  numNotification: number | null;
+  percentNotification: number | null;
 }
 
 // Enum di OutcomeStatus
