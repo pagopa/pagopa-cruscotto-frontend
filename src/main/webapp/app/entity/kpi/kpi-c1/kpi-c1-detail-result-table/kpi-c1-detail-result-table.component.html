@@ -53,7 +53,14 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiDetailResults.percentageOkInstitutions' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.percentageOkInstitutions | number }}</td>
+          <td mat-cell *matCellDef="let element">
+            <!-- @if (element.percentageOkInstitutions) { -->
+            {{ element.percentageOkInstitutions | number: '1.2-2' }}
+            <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+            <!-- } @else {
+              
+            } -->
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="outcome">

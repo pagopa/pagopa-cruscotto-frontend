@@ -40,12 +40,12 @@
             "koInstitutionCount": "Numbero Enti KO"
           },
           "KpiAnalyticDrillDown": {
-            "analysisDate": "Data Analisi",
+            "referenceDate": "Data Analisi",
             "dataDate": "Data",
-            "institutionFiscalCode": "CF Ente",
+            "cfInstitution": "CF Ente",
             "positionsCount": "Numero Posizioni",
             "messagesCount": "Numero Messaggi",
-            "percentageMessages": "% Messaggi"
+            "percentage": "% Messaggi"
           }
         }
       }
