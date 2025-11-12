@@ -70,7 +70,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           this.spinner.hide('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
             this.dataSource.data = res ?? [];
             this.paginator?.firstPage();
-            
+
             setTimeout(() => {
               this.dataSource.sort = this.sort;
               this.sort.active = 'stationCode';
