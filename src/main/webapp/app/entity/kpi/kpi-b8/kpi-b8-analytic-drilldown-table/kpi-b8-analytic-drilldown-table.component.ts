@@ -20,7 +20,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests',  'okRequests', 'koRequests'];
+  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests', 'okRequests', 'koRequests'];
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -58,8 +58,6 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         default:
           return 0;
       }
-
-
     };
   }
 
@@ -71,7 +69,6 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     }
   }
 
-  
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB8AnalyticResultId).subscribe({

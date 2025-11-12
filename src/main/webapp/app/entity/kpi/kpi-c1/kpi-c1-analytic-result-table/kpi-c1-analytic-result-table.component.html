@@ -1,0 +1,70 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC1AnalyticResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        [matSortActive]="'dataDate'"
+        [matSortDirection]="'asc'"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table"
+      >
+        <!-- Colonna Analysis Date -->
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna Data Date -->
+        <ng-container matColumnDef="dataDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.dataDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.dataDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna Institution Count -->
+        <ng-container matColumnDef="institutionCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.institutionCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.institutionCount | number }}</td>
+        </ng-container>
+
+        <!-- Colonna KO Institution Count -->
+        <ng-container matColumnDef="koInstitutionCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.koInstitutionCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.koInstitutionCount | number }}</td>
+        </ng-container>
+
+        <!-- Colonna Details -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.details' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button *ngIf="element.koInstitutionCount != 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+              {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.showDetails' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
+
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>
