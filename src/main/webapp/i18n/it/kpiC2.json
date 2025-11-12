@@ -1,7 +1,7 @@
 {
   "pagopaCruscottoApp": {
     "module": {
-      "B.2": {
+      "C.2": {
         "tableLabels": {
           "KpiResults": {
             "instanceId": "Identificativo Istanza",
@@ -12,7 +12,9 @@
             "institutionTolerance": "Indice Tolleranza",
             "notificationTolerance": "Indice Soglia",
             "evaluationType": "Tipo di Valutazione",
-            "outcome": "Esito"
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           },
           "KpiDetailResults": {
             "instanceId": "Identificativo Istanza",
@@ -21,35 +23,41 @@
             "evaluationType": "Tipo di Valutazione",
             "evaluationStartDate": "Data di Inizio Valutazione",
             "evaluationEndDate": "Data di Fine Valutazione",
-            "totalInstitutions": "Totale Istituzioni",
-            "sendTotalInstitutions": "Totale Istituzioni Inviate",
-            "percentageSendInstitutions": "Percentuale di Istituzioni Inviate",
-            "totalPayments": "Totale Pagamenti",
-            "totalNotifications": "Totale Notifiche",
-            "percentageOkInstitutions": "Percentuale di Istituzioni OK",
-            "outcome": "Esito"
+            "totalInstitution": "Totale Enti",
+            "totalInstitutionSend": "Totale Enti Inviate",
+            "percentInstitutionSend": "Percentuale di Enti Inviate",
+            "totalPayment": "Totale Pagamenti",
+            "totalNotification": "Totale Notifiche",
+            "percentEntiOk": "Percentuale di Enti OK",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           },
-          "KpiAnalyticData": {
+          "KpiAnalyticResults": {
             "instanceId": "Identificativo Istanza",
             "instanceModuleId": "Identificativo Modulo Istanza",
             "stationId": "Identificativo Stazione",
             "analysisDate": "Data di Analisi",
-            "dataDate": "Data dei Dati",
-            "institutionCount": "Conteggio Istituzioni",
-            "sendInstitutionCount": "Conteggio Istituzioni Inviate",
-            "percentageSendInstitutions": "Percentuale di Istituzioni Inviate",
-            "totalPayments": "Totale Pagamenti",
-            "totalNotifications": "Totale Notifiche",
-            "percentageNotifications": "Percentuale di Notifiche"
+            "dataDate": "Data",
+            "numInstitution": "Conteggio Enti",
+            "numInstitutionSend": "Conteggio Enti SEND",
+            "perInstitutionSend": "Percentuale di Enti SEND",
+            "numPayments": "Totale Pagamenti",
+            "numNotification": "Totale Notifiche",
+            "perNotification": "Percentuale di Notifiche",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           },
           "KpiAnalyticDrillDown": {
             "instanceId": "Identificativo Istanza",
             "analysisDate": "Data di Analisi",
             "dataDate": "Data dei Dati",
-            "institutionFiscalCode": "Codice Fiscale Istituzione",
-            "totalPayments": "Totale Pagamenti",
-            "totalNotifications": "Totale Notifiche",
-            "percentageNotifications": "Percentuale di Notifiche"
+            "partnerCf": "Codice Fiscale Istituzione",
+            "numPayment": "Totale Pagamenti",
+            "numNotification": "Totale Notifiche",
+            "percentNotification": "Percentuale di Notifiche",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
           }
         }
       }
