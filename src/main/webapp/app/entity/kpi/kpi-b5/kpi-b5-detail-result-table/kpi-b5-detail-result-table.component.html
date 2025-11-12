@@ -57,12 +57,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button
-              *ngIf="element.outcome === OutcomeStatus.KO"
-              mat-stroked-button
-              color="primary"
-              (click)="emitShowDetails(element.id)"
-            >
+            <button *ngIf="element.outcome === OutcomeStatus.KO" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.showDetails' | translate }}
             </button>
           </td>

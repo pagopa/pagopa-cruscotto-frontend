@@ -41,11 +41,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button
-            *ngIf="element.percentageNoSpontaneous > 0"
-            mat-stroked-button 
-            color="primary" 
-            (click)="emitShowDetails(element.id)">
+            <button *ngIf="element.percentageNoSpontaneous > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>

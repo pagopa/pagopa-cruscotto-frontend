@@ -6,7 +6,8 @@
       "PIANIFICATA": "Pianificata",
       "ESEGUITA": "Eseguita",
       "IN_ESECUZIONE": "In Esecuzione",
-      "CANCELLATA": "Cancellata"
+      "CANCELLATA": "Cancellata",
+      "ERRORE": "Errore"
     }
   }
 }
