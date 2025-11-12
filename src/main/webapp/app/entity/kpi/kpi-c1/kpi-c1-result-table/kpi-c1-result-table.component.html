@@ -1,0 +1,80 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC1ResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonna Analysis Date -->
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <!-- Colonna Eligibility Threshold -->
+        <ng-container matColumnDef="eligibilityThreshold">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.eligibilityThreshold' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.eligibilityThreshold | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Colonna Tolerance -->
+        <ng-container matColumnDef="tolerance">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.tolerance' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.tolerance | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Colonna Evaluation Type -->
+        <ng-container matColumnDef="evaluationType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.evaluationType' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
+        </ng-container>
+
+        <!-- Colonna Outcome -->
+        <ng-container matColumnDef="outcome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.outcome' | translate }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+          >
+            {{ element.outcome }}
+          </td>
+        </ng-container>
+
+        <!-- Colonna Details -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.details' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+              {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.showDetails' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header e Righe -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
+    <ng-template #noDataTemplate>
+      <p>{{ 'entity.list.noResult' | translate }}</p>
+    </ng-template>
+  </div>
+</div>

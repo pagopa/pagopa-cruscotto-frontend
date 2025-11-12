@@ -1,8 +1,11 @@
-.full-width-table { width: 100%; min-width: 560px;  }
+.full-width-table {
+  width: 100%;
+  min-width: 560px;
+}
 .table-container {
-    max-height: 56vh;
-    overflow: auto;
-    border-radius: 8px;
+  max-height: 56vh;
+  overflow: auto;
+  border-radius: 8px;
 }
 .mat-header-row {
   position: sticky;
@@ -10,7 +13,10 @@
   z-index: 1;
   background: #fff;
 }
-.mat-header-cell, .mat-cell { padding: 10px 16px; }
+.mat-header-cell,
+.mat-cell {
+  padding: 10px 16px;
+}
 .drilldown-table .mat-column-dataDate {
   width: 110px;
   white-space: nowrap;
@@ -22,7 +28,6 @@
 .drilldown-table .mat-column-api .mat-header-cell,
 .drilldown-table .mat-column-totalRequests .mat-header-cell,
 .drilldown-table .mat-column-okRequests .mat-header-cell,
-.drilldown-table .mat-column-koRequests .mat-header-cell
-{
-  text-align: left!important;
+.drilldown-table .mat-column-koRequests .mat-header-cell {
+  text-align: left !important;
 }
