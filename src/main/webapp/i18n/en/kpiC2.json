@@ -12,7 +12,9 @@
             "institutionTolerance": "Tolerance",
             "notificationTolerance": "Eligibility Threshold",
             "evaluationType": "Evaluation Type",
-            "outcome": "Outcome"
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
           },
           "KpiDetailResults": {
             "instanceId": "Instance Identifier",
@@ -21,35 +23,41 @@
             "evaluationType": "Evaluation Type",
             "evaluationStartDate": "Evaluation Start Date",
             "evaluationEndDate": "Evaluation End Date",
-            "totalInstitutions": "Total Institutions",
-            "sendTotalInstitutions": "Sent Total Institutions",
-            "percentageSendInstitutions": "Percentage of Sent Institutions",
-            "totalPayments": "Total Payments",
-            "totalNotifications": "Total Notifications",
-            "percentageOkInstitutions": "Percentage of OK Institutions",
-            "outcome": "Outcome"
+            "totalInstitution": "Total Institutions",
+            "totalInstitutionSend": "Sent Total Institutions",
+            "percentInstitutionSend": "Percentage of Sent Institutions",
+            "totalPayment": "Total Payments",
+            "totalNotification": "Total Notifications",
+            "percentEntiOk": "Percentage of OK Institutions",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
           },
-          "KpiAnalyticData": {
+          "KpiAnalyticResults": {
             "instanceId": "Instance Identifier",
             "instanceModuleId": "Instance Module Identifier",
             "stationId": "Station Identifier",
             "analysisDate": "Analysis Date",
             "dataDate": "Data Date",
-            "institutionCount": "Institution Count",
-            "sendInstitutionCount": "Sent Institution Count",
-            "percentageSendInstitutions": "Percentage of Sent Institutions",
-            "totalPayments": "Total Payments",
-            "totalNotifications": "Total Notifications",
-            "percentageNotifications": "Percentage of Notifications"
+            "numInstitution": "Institution Count",
+            "numInstitutionSend": "SEND Institution Count",
+            "perInstitutionSend": "Percentage of SEND Institutions",
+            "numPayments": "Total Payments",
+            "numNotification": "Total Notifications",
+            "perNotification": "Percentage of Notifications",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
           },
           "KpiAnalyticDrillDown": {
             "instanceId": "Instance Identifier",
             "analysisDate": "Analysis Date",
             "dataDate": "Data Date",
-            "institutionFiscalCode": "Institution Fiscal Code",
-            "totalPayments": "Total Payments",
-            "totalNotifications": "Total Notifications",
-            "percentageNotifications": "Percentage of Notifications"
+            "partnerCf": "Institution Fiscal Code",
+            "numPayment": "Total Payments",
+            "numNotification": "Total Notifications",
+            "percentNotification": "Percentage of Notifications",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
           }
         }
       }
