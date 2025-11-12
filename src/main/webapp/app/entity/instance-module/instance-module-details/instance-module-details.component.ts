@@ -94,7 +94,7 @@ import dayjs, { Dayjs } from 'dayjs/esm';
     KpiC1ResultTableComponent,
     KpiC1DetailResultTableComponent,
     KpiC1AnalyticResultTableComponent,
-    KpiC1AnalyticDrilldownTableComponent
+    KpiC1AnalyticDrilldownTableComponent,
   ],
   templateUrl: './instance-module-details.component.html',
   styleUrl: './instance-module-details.component.scss',
@@ -297,8 +297,14 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
     this.resetDrilldownVariables();
   }
   onAnalyticsShowDetailsC1(kpiC1DetailResultId: number): void {
+    console.log('%c[DEBUG] Evento showDetails ricevuto dal child', 'color: #ffcc00');
+    console.log('→ ID ricevuto:', kpiC1DetailResultId);
+
     this.selectedKpiC1DetailResultIdForAnalytics =
       this.selectedKpiC1DetailResultIdForAnalytics === kpiC1DetailResultId ? null : kpiC1DetailResultId;
+
+    console.log('→ Nuovo selectedKpiC1DetailResultIdForAnalytics:', this.selectedKpiC1DetailResultIdForAnalytics);
+
     this.resetDrilldownVariables();
   }
 
@@ -352,8 +358,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   onAnalyticDrilldownShowDetailsC1(kpiC1AnalyticDataId: number): void {
+    console.log('[DEBUG] Clic su dettaglio C.1 con ID:', kpiC1AnalyticDataId);
     this.selectedKpiC1AnalyticIdForDrilldown =
       this.selectedKpiC1AnalyticIdForDrilldown === kpiC1AnalyticDataId ? null : kpiC1AnalyticDataId;
+    console.log('[DEBUG] Clic su dettaglio C.1 con  selectedKpiC1AnalyticIdForDrilldown:', this.selectedKpiC1AnalyticIdForDrilldown);
   }
 
   /**

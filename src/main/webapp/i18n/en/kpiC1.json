@@ -39,12 +39,12 @@
             "koInstitutionCount": "KO Institution Number"
           },
           "KpiAnalyticDrillDown": {
-            "analysisDate": "Analysis Date",
+            "referenceDate": "Analysis Date",
             "dataDate": "Date",
-            "institutionFiscalCode": "Institution Fiscal Code",
+            "cfInstitution": "Institution Fiscal Code",
             "positionsCount": "Positions Number",
             "messagesCount": "Messages Number",
-            "percentageMessages": "% Messages"
+            "percentage": "% Messages"
           }
         }
       }

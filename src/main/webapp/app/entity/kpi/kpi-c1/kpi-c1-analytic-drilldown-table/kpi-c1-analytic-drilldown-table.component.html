@@ -9,17 +9,17 @@
         mat-table
         [dataSource]="dataSource"
         matSort
-        [matSortActive]="'analysisDate'"
+        [matSortActive]="'referenceDate'"
         [matSortDirection]="'asc'"
         (matSortChange)="sortData($event)"
         matSortDisableClear
         class="full-width-table"
       >
-        <ng-container matColumnDef="analysisDate">
+        <ng-container matColumnDef="referenceDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.analysisDate' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.referenceDate' | translate }}
           </th>
-          <td mat-cell *matCellDef="let r">{{ r.analysisDate | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let r">{{ r.referenceDate | formatDate: 'L' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="dataDate">
@@ -29,11 +29,11 @@
           <td mat-cell *matCellDef="let r">{{ r.dataDate | formatDate: 'L' : locale }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="institutionFiscalCode">
+        <ng-container matColumnDef="cfInstitution">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.institutionFiscalCode' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.cfInstitution' | translate }}
           </th>
-          <td mat-cell *matCellDef="let e">{{ e.institutionFiscalCode }}</td>
+          <td mat-cell *matCellDef="let e">{{ e.cfInstitution }}</td>
         </ng-container>
 
         <ng-container matColumnDef="positionsCount">
@@ -50,11 +50,18 @@
           <td mat-cell *matCellDef="let r">{{ r.messagesCount | number }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="percentageMessages">
+        <ng-container matColumnDef="percentage">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.percentageMessages' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticDrillDown.percentage' | translate }}
           </th>
-          <td mat-cell *matCellDef="let r">{{ r.percentageMessages | number }}</td>
+          <td mat-cell *matCellDef="let r">
+            <!-- @if (r.percentage) { -->
+            {{ r.percentage | number: '1.2-2' }}
+            <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+            <!-- } @else {
+              
+            } -->
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -29,7 +29,7 @@ export class KpiC1AnalyticData {
     this.analysisDate = analysisDate;
     this.dataDate = dataDate;
     this.stationId = stationId;
-    this.institutionCount= institutionCount;
+    this.institutionCount = institutionCount;
     this.koInstitutionCount = koInstitutionCount;
     this.kpiC1DetailResultId = kpiC1DetailResultId;
   }
