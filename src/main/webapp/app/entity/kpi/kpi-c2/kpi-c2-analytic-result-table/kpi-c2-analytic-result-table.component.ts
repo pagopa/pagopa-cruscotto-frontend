@@ -30,13 +30,13 @@ import { KpiC2AnalyticDataService } from '../service/kpi-c2-analytic-data.servic
 export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'analysisDate',
-    'dataDate',
-    'institutionCount',
-    'sendInstitutionCount',
-    'percentageSendInstitutions',
-    'totalPayments',
-    'totalNotifications',
-    'percentageNotifications',
+    'numInstitution',
+    'numInstitutionSend',
+    'perInstitutionSend',
+    'numPayment',
+    'numNotification',
+    'perNotification',
+    'details',
   ];
   dataSource = new MatTableDataSource<KpiC2AnalyticData>([]);
 
