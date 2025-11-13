@@ -6,8 +6,8 @@
           "KpiResults": {
             "id": "Id",
             "analysisDate": "Analysis Date",
-            "eligibilityThreshold": "Threshold",
-            "tolerance": "Tolerance",
+            "eligibilityThreshold": "Institutions Threshold",
+            "tolerance": "Messages Tolerance",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
             "details": "Results Detail",
