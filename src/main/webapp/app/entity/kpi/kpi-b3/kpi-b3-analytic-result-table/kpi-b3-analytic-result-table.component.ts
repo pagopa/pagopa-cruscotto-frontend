@@ -28,7 +28,7 @@ import dayjs from 'dayjs/esm';
     NgClass,
   ],
 })
-export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
+export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = ['analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
   dataSource = new MatTableDataSource<KpiB3AnalyticData>([]);
 
@@ -38,34 +38,27 @@ export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
 
-  @ViewChild(MatPaginator)
-  set matPaginator(paginator: MatPaginator | null) {
-    this.paginator = paginator;
-    if (paginator) {
-      this.dataSource.paginator = paginator;
-    }
-  }
-
-  @ViewChild(MatSort)
-  set matSort(sort: MatSort | null) {
-    this.sort = sort;
-    if (sort) {
-      this.dataSource.sort = sort;
-      this.sort!.active = 'eventTimestamp';
-      this.sort!.direction = 'asc';
-    }
-  }
-
   isLoadingResults = false;
   locale: string;
   selectedElementId?: number | null = null;
-  private readonly translateService = inject(TranslateService);
 
+  private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB3AnalyticDataService = inject(KpiB3AnalyticDataService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'analysisDate':
+          return dayjs(item.analysisDate).valueOf();
+        case 'eventTimestamp':
+          return dayjs(item.eventTimestamp).valueOf();
+        default:
+          return (item as any)[property];
+      }
+    };
   }
 
   ngOnInit(): void {
@@ -78,6 +71,11 @@ export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
     if (this.kpiB3DetailResultId) {
       this.fetchKpiB3AnalyticData(this.kpiB3DetailResultId);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -101,16 +99,17 @@ export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
       this.isLoadingResults = false;
       this.dataSource.data = data;
 
-      this.dataSource.sortingDataAccessor = (item, property) => {
-        switch (property) {
-          case 'analysisDate':
-            return dayjs(item.analysisDate).valueOf();
-          case 'eventTimestamp':
-            return dayjs(item.eventTimestamp).valueOf();
-          default:
-            return (item as any)[property];
+      setTimeout(() => {
+        if (this.sort) {
+          this.sort.active = 'eventTimestamp';
+          this.sort.direction = 'asc';
+          this.dataSource.sort = this.sort;
+          this.sort.sortChange.emit({
+            active: 'eventTimestamp',
+            direction: 'asc',
+          });
         }
-      };
+      });
     });
   }
 
@@ -133,56 +132,10 @@ export class KpiB3AnalyticResultTableComponent implements OnChanges, OnInit {
   }
 
   /**
-   * Client-side sorting functionality
-   */
-  sortData(sort: Sort): void {
-    const data = this.dataSource.data.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'id':
-          return compare(a.id, b.id, isAsc);
-        case 'instanceId':
-          return compare(a.instanceId, b.instanceId, isAsc);
-        case 'instanceModuleId':
-          return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
-        case 'analysisDate':
-          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationFiscalCode':
-          return compare(a.stationFiscalCode, b.stationFiscalCode, isAsc);
-        case 'eventTimestamp':
-          return compare(a.eventTimestamp?.toISOString(), b.eventTimestamp?.toISOString(), isAsc);
-        case 'standInCount':
-          return compare(a.standInCount, b.standInCount, isAsc);
-        case 'kpiB3DetailResultId':
-          return compare(a.kpiB3DetailResultId, b.kpiB3DetailResultId, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  /**
    * Emit selected module ID for more details
    */
   emitShowDetails(kpiB3DetailResult: number): void {
     this.showDetails.emit(kpiB3DetailResult);
     this.selectedElementId = kpiB3DetailResult ?? null;
   }
-}
-
-/**
- * Generic comparison function
- */
-function compare(a: any, b: any, isAsc: boolean): number {
-  if (a == null && b == null) return 0;
-  if (a == null) return isAsc ? -1 : 1;
-  if (b == null) return isAsc ? 1 : -1;
-  return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
 }
