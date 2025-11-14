@@ -53,7 +53,7 @@ export interface KpiC2AnalyticDrillDown {
   kpiC2AnalyticDataId?: number | null;
   analysisDate: dayjs.Dayjs | null;
   dataDate: dayjs.Dayjs | null;
-  partnerCf: string | null;
+  institutionCf: string | null;
   numPayment: number | null;
   numNotification: number | null;
   percentNotification: number | null;
