@@ -27,7 +27,7 @@
             "percentInstitutionSend": "Percentage of Sent Institutions",
             "totalPayment": "Total Payments",
             "totalNotification": "Total Notifications",
-            "percentEntiOk": "Percentage of OK Institutions",
+            "percentEntiOk": "Percentage of Notifications",
             "outcome": "Outcome",
             "details": "Results Detail",
             "showDetails": "Show Details"
@@ -51,7 +51,7 @@
             "instanceId": "Instance Identifier",
             "analysisDate": "Analysis Date",
             "dataDate": "Data Date",
-            "partnerCf": "Institution Fiscal Code",
+            "institutionCf": "Institution Fiscal Code",
             "numPayment": "Total Payments",
             "numNotification": "Total Notifications",
             "percentNotification": "Percentage of Notifications",
