@@ -27,7 +27,7 @@
             "percentInstitutionSend": "Percentage of Sent Institutions",
             "totalPayment": "Total Payments",
             "totalNotification": "Total Notifications",
-            "percentEntiOk": "Percentage of OK Institutions",
+            "percentEntiOk": "Percentage of Notifications",
             "outcome": "Outcome",
             "details": "Results Detail",
             "showDetails": "Show Details"
