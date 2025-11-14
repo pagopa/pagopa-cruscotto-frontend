@@ -52,7 +52,7 @@
             "instanceId": "Identificativo Istanza",
             "analysisDate": "Data di Analisi",
             "dataDate": "Data dei Dati",
-            "partnerCf": "Codice Fiscale Istituzione",
+            "institutionCf": "Codice Fiscale Istituzione",
             "numPayment": "Totale Pagamenti",
             "numNotification": "Totale Notifiche",
             "percentNotification": "Percentuale di Notifiche",

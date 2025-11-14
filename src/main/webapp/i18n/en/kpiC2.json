@@ -51,7 +51,7 @@
             "instanceId": "Instance Identifier",
             "analysisDate": "Analysis Date",
             "dataDate": "Data Date",
-            "partnerCf": "Institution Fiscal Code",
+            "institutionCf": "Institution Fiscal Code",
             "numPayment": "Total Payments",
             "numNotification": "Total Notifications",
             "percentNotification": "Percentage of Notifications",
