@@ -1,18 +1,13 @@
 .mat-column-id,
 .mat-column-analysisDate,
-.mat-column-outcome {
+.mat-column-outcome,
+.mat-column-tolerance {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
-}
-
-.mat-column-tolerance {
-  width: 150px;
-  text-align: left!important;
-  white-space: nowrap;
+  text-align: center !important;
 }

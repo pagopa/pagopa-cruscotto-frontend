@@ -1,0 +1,83 @@
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB6DetailResultTable">
+  <p class="ngx-spinner-loading">Loading...</p>
+</ngx-spinner>
+<div class="table-responsive">
+  <div class="table-container">
+    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <!-- Colonne -->
+
+        <ng-container matColumnDef="analysisDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.analysisDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalStations">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.totalStations' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.totalStations }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="stationsWithPaymentOptions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.stationsWithPaymentOptions' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.stationsWithPaymentOptions }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="difference">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.difference' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.difference }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="percentageDifference">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.percentageDifference' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.percentageDifference | number }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="outcome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.outcome' | translate }}
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+          >
+            {{ element.outcome }}
+          </td>
+        </ng-container>
+
+        <!-- Colonna Details -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.details' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+              {{ 'pagopaCruscottoApp.module.B.6.tableLabels.KpiDetailResults.showDetails' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
+
+    <ng-template #noDataTemplate>
+      @if (!isLoadingResults) {
+        <p>{{ 'entity.list.noResult' | translate }}</p>
+      }
+    </ng-template>
+  </div>
+</div>

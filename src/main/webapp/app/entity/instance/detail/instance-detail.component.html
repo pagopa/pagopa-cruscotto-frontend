@@ -110,7 +110,7 @@
                 [matTooltip]="'pagopaCruscottoApp.module.' + module.moduleCode + '.name' | translate"
               >
                 {{ module.moduleCode || 'N/A' }}
-                <jhi-status-marker [status]="module.manualOutcome ?? module.automaticOutcome"></jhi-status-marker>
+                <jhi-status-marker [module]="module"></jhi-status-marker>
               </a>
             </nav>
             <br />

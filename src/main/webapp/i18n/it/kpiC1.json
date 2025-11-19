@@ -1,0 +1,54 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "C.1": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "eligibilityThreshold": "Soglia Enti",
+            "tolerance": "Tolleranza Messaggi",
+            "evaluationType": "Valutazione",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Data Analisi",
+            "evaluationType": "Valutazione",
+            "evaluationStartDate": "Periodo Da",
+            "evaluationEndDate": "Periodo a",
+            "totalInstitutions": "Totale Enti",
+            "okTotalInstitutions": "Totale Enti OK",
+            "percentageOkInstitutions": "% Enti OK",
+            "outcome": "Esito",
+            "details": "Dettagli Risultato",
+            "showDetails": "Mostra dettagli"
+          },
+          "KpiAnalyticResults": {
+            "id": "Id",
+            "instanceId": "Id dell'Istanza",
+            "instanceModuleId": "Id del Modulo dell'Istanza",
+            "analysisDate": "Data Analisi",
+            "stationId": "Id della Stazione",
+            "dataDate": "Data",
+            "kpiC1DetailResultId": "Id Risultato Dettaglio C1",
+            "details": "Dettagli",
+            "showDetails": "Mostra dettagli",
+            "institutionCount": "Numero Enti",
+            "koInstitutionCount": "Numbero Enti KO"
+          },
+          "KpiAnalyticDrillDown": {
+            "referenceDate": "Data Analisi",
+            "dataDate": "Data",
+            "cfInstitution": "CF Ente",
+            "positionsCount": "Numero Posizioni",
+            "messagesCount": "Numero Messaggi",
+            "percentage": "% Messaggi"
+          }
+        }
+      }
+    }
+  }
+}

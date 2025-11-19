@@ -1,0 +1,36 @@
+{
+  "pagopaCruscottoApp": {
+    "module": {
+      "B.6": {
+        "tableLabels": {
+          "KpiResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "eligibilityThreshold": "Threshold",
+            "tolerance": "Tolerance",
+            "evaluationType": "Evaluation Type",
+            "outcome": "Outcome",
+            "details": "Results Detail",
+            "showDetails": "Show Details"
+          },
+          "KpiDetailResults": {
+            "id": "Id",
+            "analysisDate": "Analysis Date",
+            "totalStations": "Total Stations",
+            "stationsWithPaymentOptions": "Stations with payment options",
+            "difference": "Difference",
+            "percentageDifference": "Difference %",
+            "outcome": "Outcome",
+            "details": "Details",
+            "showDetails": "Show detail"
+          },
+          "KpiAnalyticResults": {
+            "analysisDate": "Analysis Date",
+            "stationCode": "Station Code",
+            "paymentOption": "Payment Option"
+          }
+        }
+      }
+    }
+  }
+}

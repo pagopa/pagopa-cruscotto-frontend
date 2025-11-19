@@ -9,6 +9,7 @@ import { KpiB3AnalyticDataService } from '../service/kpi-b3-analytic-data.servic
 import { KpiB3AnalyticData } from '../models/KpiB3AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import dayjs from 'dayjs/esm';
 
 @Component({
   selector: 'jhi-kpi-b3-analytic-result-table',
@@ -40,13 +41,24 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   isLoadingResults = false;
   locale: string;
   selectedElementId?: number | null = null;
-  private readonly translateService = inject(TranslateService);
 
+  private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB3AnalyticDataService = inject(KpiB3AnalyticDataService);
 
   constructor() {
     this.locale = this.translateService.currentLang;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'analysisDate':
+          return dayjs(item.analysisDate).valueOf();
+        case 'eventTimestamp':
+          return dayjs(item.eventTimestamp).valueOf();
+        default:
+          return (item as any)[property];
+      }
+    };
   }
 
   ngOnInit(): void {
@@ -62,12 +74,8 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   /**
@@ -90,9 +98,18 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiB3AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
-      }
+
+      setTimeout(() => {
+        if (this.sort) {
+          this.sort.active = 'eventTimestamp';
+          this.sort.direction = 'asc';
+          this.dataSource.sort = this.sort;
+          this.sort.sortChange.emit({
+            active: 'eventTimestamp',
+            direction: 'asc',
+          });
+        }
+      });
     });
   }
 
@@ -115,56 +132,10 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   /**
-   * Client-side sorting functionality
-   */
-  sortData(sort: Sort): void {
-    const data = this.dataSource.data.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    this.dataSource.data = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'id':
-          return compare(a.id, b.id, isAsc);
-        case 'instanceId':
-          return compare(a.instanceId, b.instanceId, isAsc);
-        case 'instanceModuleId':
-          return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
-        case 'analysisDate':
-          return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-        case 'stationFiscalCode':
-          return compare(a.stationFiscalCode, b.stationFiscalCode, isAsc);
-        case 'eventTimestamp':
-          return compare(a.eventTimestamp?.toISOString(), b.eventTimestamp?.toISOString(), isAsc);
-        case 'standInCount':
-          return compare(a.standInCount, b.standInCount, isAsc);
-        case 'kpiB3DetailResultId':
-          return compare(a.kpiB3DetailResultId, b.kpiB3DetailResultId, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  /**
    * Emit selected module ID for more details
    */
   emitShowDetails(kpiB3DetailResult: number): void {
     this.showDetails.emit(kpiB3DetailResult);
     this.selectedElementId = kpiB3DetailResult ?? null;
   }
-}
-
-/**
- * Generic comparison function
- */
-function compare(a: any, b: any, isAsc: boolean): number {
-  if (a == null && b == null) return 0;
-  if (a == null) return isAsc ? -1 : 1;
-  if (b == null) return isAsc ? 1 : -1;
-  return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
 }

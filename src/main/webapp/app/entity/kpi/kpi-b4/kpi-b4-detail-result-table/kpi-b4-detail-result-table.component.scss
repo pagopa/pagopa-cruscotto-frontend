@@ -5,14 +5,13 @@
 .mat-column-evaluationType,
 .mat-column-outcome,
 .mat-column-totalGPD,
-.mat-column-totalCP,
-.mat-column-percentageCP {
+.mat-column-percentageCP,
+.mat-column-totalCP {
   width: 150px;
-  text-align: left!important;
-  white-space: nowrap;
+  text-align: left !important;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
 }
