@@ -5,12 +5,21 @@
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+        <ng-container matColumnDef="indicator">
+          <th mat-header-cell *matHeaderCellDef class="indicator-header"></th>
+
+          <td mat-cell *matCellDef="let element" class="indicator-cell">
+            <span *ngIf="(element.reqTimeoutValid ?? 0) > 0" class="dot-red"></span>
+          </td>
+        </ng-container>
         <!-- Colonna Periodo -->
         <ng-container matColumnDef="evaluationDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.evaluationDate' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationDate | formatDate: 'L' : locale }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.evaluationDate | formatDate: 'L' : locale }}
+          </td>
         </ng-container>
 
         <!-- <ng-container matColumnDef="analysisDate">
@@ -70,21 +79,29 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.reqTimeoutValid' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.reqTimeoutValid | number }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.reqTimeoutValid | number }}
+          </td>
         </ng-container>
 
         <!-- Colonna Details  -->
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.totReq > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+            <button *ngIf="element.reqTimeoutValid > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{
+            highlightTableColor: row.id === selectedElementId,
+          }"
+        ></tr>
       </table>
     </div>
 

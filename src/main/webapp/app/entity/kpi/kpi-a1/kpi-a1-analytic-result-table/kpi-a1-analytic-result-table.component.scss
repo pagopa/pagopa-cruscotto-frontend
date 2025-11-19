@@ -1,4 +1,23 @@
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
+}
+
+/* Colonna indicator */
+.indicator-header {
+  width: 40px !important;
+}
+
+.indicator-cell {
+  width: 40px !important;
+  text-align: center !important;
+}
+
+/* Il pallino rosso */
+.dot-red {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b3b;
+  border-radius: 50%;
 }
