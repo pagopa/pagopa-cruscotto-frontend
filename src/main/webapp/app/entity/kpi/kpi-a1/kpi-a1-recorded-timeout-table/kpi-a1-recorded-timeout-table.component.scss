@@ -5,13 +5,13 @@
 .mat-column-method,
 .mat-column-evaluationDate {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
 }
 
 .mat-column-totReq,
@@ -19,6 +19,24 @@
 .mat-column-reqTimeoutReal,
 .mat-column-reqTimeoutValid {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
+}
+
+.indicator-header {
+  width: 40px !important;
+}
+
+.indicator-cell {
+  width: 40px !important;
+  text-align: center !important;
+}
+
+/* Il pallino rosso */
+.dot-red {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #ff3b3b;
+  border-radius: 50%;
 }

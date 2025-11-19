@@ -2,7 +2,8 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1RecordedTimeoutService } from '../service/kpi-a1-recorded-timeout.service';
@@ -12,6 +13,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiA1RecordedTimeout } from '../models/KpiA1RecordedTimeout';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'jhi-kpi-a1-recorded-timeout-table',
@@ -22,15 +24,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatSortModule,
     MatTableModule,
     NgxSpinnerModule,
+    FormsModule,
     TranslateModule,
+    MatSlideToggleModule,
     NgIf,
+    NgClass,
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
+  displayedColumns: string[] = ['indicator', 'fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;
@@ -40,8 +45,12 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   @Output() showDetails = new EventEmitter<KpiA1AnalyticData>();
 
   isLoadingResults = false;
+  showAllRows = false;
+
   locale: string;
   partnerFiscalCode: string = '';
+  originalData: KpiA1RecordedTimeout[] = [];
+
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly route = inject(ActivatedRoute);
@@ -92,7 +101,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   protected onSuccess(data: KpiA1RecordedTimeout[]): void {
     this.spinner.hide('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
-      this.dataSource.data = data;
+      this.originalData = data;
+      this.dataSource.data = data.filter(d => (d.reqTimeout ?? 0) > 0);
       if (this.paginator) {
         this.paginator.firstPage();
       }
@@ -152,6 +162,14 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   emitShowDetails(kpiA1DetailResultId: KpiA1AnalyticData): void {
     this.showDetails.emit(kpiA1DetailResultId);
+  }
+
+  applyFilter(): void {
+    if (this.showAllRows) {
+      this.dataSource.data = this.originalData; // tutte
+    } else {
+      this.dataSource.data = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0);
+    }
   }
 }
 
