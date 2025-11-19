@@ -5,21 +5,15 @@
 .mat-column-evaluationStartDate,
 .mat-column-evaluationEndDate,
 .mat-column-evaluationType,
-.mat-column-outcome{
-  width: 150px;
-  text-align: left!important;
+.mat-column-outcome,
+.mat-column-totalRequests,
+.mat-column-timeoutPercentage,
+.mat-column-reqTimeout {
+  text-align: left !important;
   white-space: nowrap;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
-}
-
-.mat-column-totalRequests,
-.mat-column-reqTimeout,
-.mat-column-timeoutPercentage {
-  width: 150px;
-  text-align: left!important;
-  white-space: nowrap;
+  text-align: center !important;
 }

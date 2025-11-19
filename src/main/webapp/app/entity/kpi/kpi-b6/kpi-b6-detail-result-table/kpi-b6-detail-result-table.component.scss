@@ -1,0 +1,15 @@
+.mat-column-analysisDate,
+.mat-column-totalStations,
+.mat-column-stationsWithPaymentOptions,
+.mat-column-difference,
+.mat-column-percentageDifference,
+.mat-column-outcome {
+  width: 150px;
+  text-align: left !important;
+  white-space: nowrap;
+}
+
+.mat-column-details {
+  width: 180px;
+  text-align: center !important;
+}

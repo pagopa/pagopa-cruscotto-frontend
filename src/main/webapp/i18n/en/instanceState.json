@@ -6,7 +6,8 @@
       "PIANIFICATA": "Planned",
       "ESEGUITA": "Performed",
       "IN_ESECUZIONE": "In Progress",
-      "CANCELLATA": "Deleted"
+      "CANCELLATA": "Deleted",
+      "ERRORE": "Error"
     }
   }
 }
