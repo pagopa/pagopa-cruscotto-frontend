@@ -366,6 +366,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsC1(kpiC1DetailResultId: number): void {
     this.selectedKpiC1DetailResultIdForAnalytics =
       this.selectedKpiC1DetailResultIdForAnalytics === kpiC1DetailResultId ? null : kpiC1DetailResultId;
+    this.resetDrilldownVariables();
   }
 
   onAnalyticsShowDetailsC2(kpiC2DetailResultId: number): void {
