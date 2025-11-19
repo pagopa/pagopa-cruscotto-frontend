@@ -27,7 +27,7 @@ import FormatDatePipe from 'app/shared/date/format-date.pipe';
   ],
 })
 export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'partnerCf', 'numPayment', 'numNotification', 'percentNotification'];
+  displayedColumns: string[] = ['analysisDate', 'institutionCf', 'numPayment', 'numNotification', 'percentNotification'];
 
   dataSource = new MatTableDataSource<KpiC2AnalyticDrillDown>([]);
 
