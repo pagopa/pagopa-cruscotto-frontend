@@ -68,49 +68,19 @@ export class KpiC1AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   }
 
   ngOnChanges(): void {
-    console.log('%c[DEBUG] ngOnChanges - DrilldownTable', 'color: #4caf50');
-    console.log('selectedKpiC1AnalyticResultId ricevuto:', this.selectedKpiC1AnalyticResultId);
-
     if (this.selectedKpiC1AnalyticResultId != null) {
-      console.log('[DEBUG] → Carico dati drilldown con ID:', this.selectedKpiC1AnalyticResultId);
       this.loadDrillDown();
     } else {
-      console.log('[DEBUG] → Nessun ID, azzero i dati drilldown.');
       this.dataSource.data = [];
     }
   }
 
-  // ngOnChanges(): void {
-  //   if (this.selectedKpiC1AnalyticResultId != null) {
-  //     this.loadDrillDown();
-  //   } else {
-  //     this.dataSource.data = [];
-  //   }
-  // }
-
   loadDrillDown(): void {
-    console.log('[DEBUG] Fetch drilldown for analyticDataId:', this.selectedKpiC1AnalyticResultId);
     this.spinner.show('isLoadingResultsKpiC1AnalyticDrilldown').then(() => {
       this.IOService.findByAnalyticDataId(this.selectedKpiC1AnalyticResultId).subscribe({
         next: res => {
-          console.log('[DEBUG] Drilldown raw response:', res);
-          console.table(
-            res.map(r => ({
-              id: r.id,
-              cfInstitution: r.cfInstitution,
-              positionsCount: r.positionsCount,
-              messagesCount: r.messagesCount,
-              percentage: r.percentage,
-            })),
-          );
-          res.forEach((item, i) => {
-            console.log(
-              `[${i}] analyticDataId=${item.analyticDataId}, cfInstitution=${item.cfInstitution}, referenceDate=${item.referenceDate}`,
-            );
-          });
           this.spinner.hide('isLoadingResultsKpiC1AnalyticDrilldown').then(() => {
             this.dataSource.data = res ?? [];
-            console.log('[DEBUG] Drilldown response:', res);
             this.paginator?.firstPage();
           });
         },

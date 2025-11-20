@@ -93,34 +93,7 @@ export class KpiC1AnalyticResultTableComponent implements AfterViewInit, OnChang
     });
   }
 
-  /**
-   * Handle successful data retrieval
-   */
-  // protected onSuccess(data: KpiC1AnalyticData[]): void {
-  //   this.spinner.hide('isLoadingResultsKpiC1AnalyticResultTable').then(() => {
-  //     this.isLoadingResults = false;
-
-  //     const sortedData = data.sort((a, b) => {
-  //       const aTime = toTimestamp(a.dataDate);
-  //       const bTime = toTimestamp(b.dataDate);
-  //       return aTime - bTime; // dal più vecchio al più recente
-  //     });
-
-  //     this.dataSource.data = sortedData;
-
-  //     if (this.paginator) {
-  //       this.paginator.firstPage();
-  //     }
-  //   });
-  // }
-
   protected onSuccess(data: KpiC1AnalyticData[]): void {
-    console.log('[DEBUG] Dati ricevuti da backend (KpiC1AnalyticData[]):', data);
-
-    data.forEach(d => {
-      console.log(`AnalyticData id=${d.id}, detailResultId=${d.kpiC1DetailResultId}, dataDate=${d.dataDate?.toString?.()}`);
-    });
-
     this.spinner.hide('isLoadingResultsKpiC1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
 
@@ -195,7 +168,6 @@ export class KpiC1AnalyticResultTableComponent implements AfterViewInit, OnChang
    * Emit selected module ID for more details
    */
   emitShowDetails(kpiC1DetailResult: number): void {
-    console.log('Emit Show Details Analytic Result Table - kpiC1DetailResult: ', kpiC1DetailResult);
     this.showDetails.emit(kpiC1DetailResult);
     this.selectedElementId = kpiC1DetailResult ?? null;
   }
