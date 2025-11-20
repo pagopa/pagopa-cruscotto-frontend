@@ -34,7 +34,9 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   @Input() selectedKpiC2AnalyticDrilldownId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
   @Output() showDetails = new EventEmitter<KpiC2AnalyticData>();
 
   isLoadingResults = false;
@@ -62,9 +64,6 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
     }
   }
 
