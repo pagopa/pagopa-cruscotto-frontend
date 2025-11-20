@@ -10,6 +10,7 @@ export class KpiC1AnalyticData {
   institutionCount: number | null = null;
   koInstitutionCount: number | null = null;
   kpiC1DetailResultId: number | null;
+  meetsTolerance: boolean = false;
 
   // Costruttore
   constructor(
@@ -22,6 +23,7 @@ export class KpiC1AnalyticData {
     institutionCount: number | null = null,
     koInstitutionCount: number | null = null,
     kpiC1DetailResultId: number | null = null,
+    meetsTolerance: boolean = false,
   ) {
     this.id = id;
     this.instanceId = instanceId;
@@ -32,5 +34,6 @@ export class KpiC1AnalyticData {
     this.institutionCount = institutionCount;
     this.koInstitutionCount = koInstitutionCount;
     this.kpiC1DetailResultId = kpiC1DetailResultId;
+    this.meetsTolerance = meetsTolerance;
   }
 }
