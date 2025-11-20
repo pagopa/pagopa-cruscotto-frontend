@@ -47,8 +47,10 @@ export class KpiC2DetailResultTableComponent implements AfterViewInit, OnChanges
   @Input() kpiC2ResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
-  // evento Output che emette l'ID per mostrare i dettagli
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
+
   @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
@@ -81,9 +83,6 @@ export class KpiC2DetailResultTableComponent implements AfterViewInit, OnChanges
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
     }
   }
 
