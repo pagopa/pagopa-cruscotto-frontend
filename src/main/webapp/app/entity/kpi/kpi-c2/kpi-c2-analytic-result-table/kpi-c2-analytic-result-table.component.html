@@ -1,10 +1,10 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB2AnalyticResultTable">
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC2AnalyticResultTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticResults.analysisDate' | translate }}
