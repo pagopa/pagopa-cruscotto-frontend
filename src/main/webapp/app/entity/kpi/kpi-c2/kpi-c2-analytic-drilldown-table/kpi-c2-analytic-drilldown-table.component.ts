@@ -84,7 +84,7 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
    * Handle successful data retrieval
    */
   protected onSuccess(data: KpiC2AnalyticDrillDown[]): void {
-    this.spinner.hide('isLoadingResultsKpiC2AnalyticResultTable').then(() => {
+    this.spinner.hide('isLoadingResultsKpiC2AnalyticDrilldownTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
