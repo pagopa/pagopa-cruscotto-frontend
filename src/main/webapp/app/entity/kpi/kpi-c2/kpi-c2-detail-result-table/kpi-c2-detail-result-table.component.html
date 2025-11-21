@@ -1,10 +1,10 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiB2DetailResultTable">
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC2DetailResultTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
         <!-- Colonne -->
 
         <ng-container matColumnDef="analysisDate">

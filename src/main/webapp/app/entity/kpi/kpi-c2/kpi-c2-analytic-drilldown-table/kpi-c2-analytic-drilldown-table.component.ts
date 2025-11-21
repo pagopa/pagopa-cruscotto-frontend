@@ -34,7 +34,9 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
   @Input() selectedKpiC2AnalyticDrilldownId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
   @Output() showDetails = new EventEmitter<KpiC2AnalyticData>();
 
   isLoadingResults = false;
@@ -63,16 +65,13 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    }
   }
 
   /**
    * Fetch KPI C2 Analytic Data by kpiC2DetailResultId
    */
   fetchKpiC2AnalyticData(selectedKpiC2AnalyticDrilldownId: number): void {
-    this.spinner.show('isLoadingResultsKpiC2AnalyticResultTable').then(() => {
+    this.spinner.show('isLoadingResultsKpiC2AnalyticDrilldownTable').then(() => {
       this.isLoadingResults = true;
       this.kpiC2AnalyticDrillDownService.find(selectedKpiC2AnalyticDrilldownId).subscribe({
         next: (data: KpiC2AnalyticDrillDown[]) => this.onSuccess(data),
@@ -85,7 +84,7 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
    * Handle successful data retrieval
    */
   protected onSuccess(data: KpiC2AnalyticDrillDown[]): void {
-    this.spinner.hide('isLoadingResultsKpiC2AnalyticResultTable').then(() => {
+    this.spinner.hide('isLoadingResultsKpiC2AnalyticDrilldownTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
       if (this.paginator) {
