@@ -50,12 +50,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button
-              *ngIf="element.koInstitutionCount != 0 && !element.meetsTolerance"
-              mat-stroked-button
-              color="primary"
-              (click)="emitShowDetails(element.id)"
-            >
+            <button *ngIf="element.koInstitutionCount != 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>
