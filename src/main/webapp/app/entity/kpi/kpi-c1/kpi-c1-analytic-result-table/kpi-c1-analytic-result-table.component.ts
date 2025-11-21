@@ -97,10 +97,7 @@ export class KpiC1AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiC1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
 
-      // Filter: show ONLY rows where meetsTolerance === false (i.e. negative evidences)
-      const filtered = data.filter(d => !d.meetsTolerance);
-
-      const sortedData = filtered.sort((a, b) => {
+      const sortedData = data.sort((a, b) => {
         const aTime = toTimestamp(a.dataDate);
         const bTime = toTimestamp(b.dataDate);
         return aTime - bTime;
