@@ -71,7 +71,7 @@ export class KpiC2AnalyticDrilldownTableComponent implements AfterViewInit, OnCh
    * Fetch KPI C2 Analytic Data by kpiC2DetailResultId
    */
   fetchKpiC2AnalyticData(selectedKpiC2AnalyticDrilldownId: number): void {
-    this.spinner.show('isLoadingResultsKpiC2AnalyticResultTable').then(() => {
+    this.spinner.show('isLoadingResultsKpiC2AnalyticDrilldownTable').then(() => {
       this.isLoadingResults = true;
       this.kpiC2AnalyticDrillDownService.find(selectedKpiC2AnalyticDrilldownId).subscribe({
         next: (data: KpiC2AnalyticDrillDown[]) => this.onSuccess(data),
