@@ -10,6 +10,7 @@ import { KpiA2Result } from '../models/KpiA2Result';
 import { MatButton } from '@angular/material/button';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { StatusMarkerComponent } from 'app/shared/component/instance-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-a2-result-table',
@@ -26,10 +27,11 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatButton,
     FormatDatePipe,
     DecimalPipe,
+    StatusMarkerComponent,
   ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'tolerance', 'outcome', 'details'];
+  displayedColumns: string[] = ['outcome', 'analysisDate', 'tolerance', 'details'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 
