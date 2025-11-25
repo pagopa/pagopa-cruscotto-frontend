@@ -30,6 +30,7 @@ import { KpiC2AnalyticDataService } from '../service/kpi-c2-analytic-data.servic
 export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
     'analysisDate',
+    'evaluationDate',
     'numInstitution',
     'numInstitutionSend',
     'perInstitutionSend',
@@ -43,7 +44,9 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   @Input() kpiC2DetailResultId: number | undefined;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
   @Output() showDetails = new EventEmitter<number>();
 
   isLoadingResults = false;
@@ -73,9 +76,6 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
-    }
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
     }
   }
 

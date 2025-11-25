@@ -120,7 +120,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     provideNgxMask(),
     Title,
-    { provide: LOCALE_ID, useValue: 'it' },
+    { provide: LOCALE_ID, useValue: 'it-IT' },
     httpInterceptorProviders,
     { provide: TitleStrategy, useClass: AppPageTitleStrategy },
     { provide: MAT_DAYJS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } },
