@@ -23,14 +23,14 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.numPayment' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.numPayment }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numPayment | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="numNotification">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.numNotification' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.numNotification }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numNotification | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="percentNotification">
