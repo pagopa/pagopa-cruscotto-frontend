@@ -37,7 +37,8 @@
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
             "institutionCount": "Numero Enti",
-            "koInstitutionCount": "Numero Enti KO"
+            "positionsCount": "Numero Posizioni",
+            "messagesCount": "Numero Messaggi"
           },
           "KpiAnalyticDrillDown": {
             "referenceDate": "Data Analisi",
