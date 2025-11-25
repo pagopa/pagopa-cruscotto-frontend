@@ -1,10 +1,10 @@
-<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiA1AnalyticResultTable">
+<ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC2AnalyticDrilldownTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.analysisDate' | translate }}
@@ -23,14 +23,14 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.numPayment' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.numPayment }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numPayment | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="numNotification">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.numNotification' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.numNotification }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.numNotification | number }}</td>
         </ng-container>
 
         <ng-container matColumnDef="percentNotification">
