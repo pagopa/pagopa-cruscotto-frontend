@@ -37,6 +37,7 @@
             "instanceModuleId": "Instance Module Identifier",
             "stationId": "Station Identifier",
             "analysisDate": "Analysis Date",
+            "evaluationDate": "Evaluation Date",
             "dataDate": "Data Date",
             "numInstitution": "Institution Count",
             "numInstitutionSend": "SEND Institution Count",
