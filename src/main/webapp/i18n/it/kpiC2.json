@@ -38,6 +38,7 @@
             "instanceModuleId": "Identificativo Modulo Istanza",
             "stationId": "Identificativo Stazione",
             "analysisDate": "Data di Analisi",
+            "evaluationDate": "Data Valutazione",
             "dataDate": "Data",
             "numInstitution": "Conteggio Enti",
             "numInstitutionSend": "Conteggio Enti SEND",
