@@ -14,6 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-a2-analytic-result-table',
@@ -32,10 +33,11 @@ import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'details'];
+  displayedColumns: string[] = ['indicator', 'analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'details'];
   dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
   @Input() kpiA2DetailResultId: number | undefined;

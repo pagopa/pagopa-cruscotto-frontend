@@ -4,32 +4,17 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <jhi-table-header-bar [sticky]="true">
-        <!-- SINISTRA: toggle + badge (opzionale) -->
-        <div table-header-left>
-          <mat-slide-toggle class="toggle-filter" [(ngModel)]="showAllRows" (change)="applyFilter()">
-            {{
-              showAllRows
-                ? ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate)
-                : ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate)
-            }}
-          </mat-slide-toggle>
-
-          <!-- Badge evidenze negative -->
-          <span
-            *ngIf="negativeCount > 0"
-            matBadge="{{ negativeCount }}"
-            matBadgeColor="warn"
-            matBadgeSize="medium"
-            matBadgeOverlap="false"
-            class="badge-counter"
-          >
-          </span>
-        </div>
-
-        <!-- DESTRA: paginator -->
-        <mat-paginator table-header-right [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData">
-        </mat-paginator>
+      <jhi-table-header-bar
+        [showToggle]="true"
+        [toggleValue]="showAllRows"
+        (toggleChange)="onToggleChanged($event)"
+        [toggleLabelOn]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate"
+        [toggleLabelOff]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+        <span toggle-badge *ngIf="negativeCount > 0" matBadge="{{ negativeCount }}" matBadgeOverlap="false" matBadgeColor="warn"> </span>
       </jhi-table-header-bar>
 
       <!-- TABELLA -->
