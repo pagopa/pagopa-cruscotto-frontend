@@ -38,19 +38,27 @@
           <td mat-cell *matCellDef="let element">{{ element.institutionCount | number }}</td>
         </ng-container>
 
-        <!-- Colonna KO Institution Count -->
-        <ng-container matColumnDef="koInstitutionCount">
+        <!-- Colonna Positions Count -->
+        <ng-container matColumnDef="positionsCount">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.koInstitutionCount' | translate }}
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.positionsCount' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.koInstitutionCount | number }}</td>
+          <td mat-cell *matCellDef="let r">{{ r.positionsCount | number }}</td>
+        </ng-container>
+
+        <!-- Colonna Messages Count -->
+        <ng-container matColumnDef="messagesCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiAnalyticResults.messagesCount' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let r">{{ r.messagesCount | number }}</td>
         </ng-container>
 
         <!-- Colonna Details -->
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.koInstitutionCount != 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+            <button mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>
