@@ -8,7 +8,8 @@ export class KpiC1AnalyticData {
   dataDate: dayjs.Dayjs | null; // ISO string format
   stationId: number | null;
   institutionCount: number | null = null;
-  koInstitutionCount: number | null = null;
+  positionsCount: number | null;
+  messagesCount: number | null;
   kpiC1DetailResultId: number | null;
 
   // Costruttore
@@ -20,7 +21,8 @@ export class KpiC1AnalyticData {
     dataDate: dayjs.Dayjs | null = null,
     stationId: number | null = null,
     institutionCount: number | null = null,
-    koInstitutionCount: number | null = null,
+    positionsCount: number | null = null,
+    messagesCount: number | null = null,
     kpiC1DetailResultId: number | null = null,
   ) {
     this.id = id;
@@ -30,7 +32,8 @@ export class KpiC1AnalyticData {
     this.dataDate = dataDate;
     this.stationId = stationId;
     this.institutionCount = institutionCount;
-    this.koInstitutionCount = koInstitutionCount;
+    this.positionsCount = positionsCount;
+    this.messagesCount = messagesCount;
     this.kpiC1DetailResultId = kpiC1DetailResultId;
   }
 }

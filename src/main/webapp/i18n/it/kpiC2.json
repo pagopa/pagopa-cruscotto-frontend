@@ -52,6 +52,7 @@
           "KpiAnalyticDrillDown": {
             "instanceId": "Identificativo Istanza",
             "analysisDate": "Data di Analisi",
+            "evaluationDate": "Data Valutazione",
             "dataDate": "Data dei Dati",
             "institutionCf": "Codice Fiscale Istituzione",
             "numPayment": "Totale Pagamenti",
