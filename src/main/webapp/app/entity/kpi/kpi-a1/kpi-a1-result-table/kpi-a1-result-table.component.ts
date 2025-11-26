@@ -11,6 +11,8 @@ import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a1-result-table',
@@ -28,17 +30,19 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     FormatDatePipe,
     YesOrNoViewComponent,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
     'tolerance',
     'evaluationType',
-    'outcome',
     'details',
   ];
 

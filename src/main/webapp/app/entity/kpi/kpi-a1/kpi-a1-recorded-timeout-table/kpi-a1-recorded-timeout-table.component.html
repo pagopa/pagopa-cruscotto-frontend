@@ -4,19 +4,40 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <!-- Toogle: se 'attivo' mostra di default 'evidenze negative' altrimenti tutto -->
-      <mat-slide-toggle color="#5EA7EF" [(ngModel)]="showAllRows" (change)="applyFilter()">
-        {{
-          showAllRows
-            ? ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate)
-            : ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate)
-        }}
-      </mat-slide-toggle>
+      <jhi-table-header-bar [sticky]="true">
+        <!-- SINISTRA: toggle + badge (opzionale) -->
+        <div table-header-left>
+          <mat-slide-toggle class="toggle-filter" [(ngModel)]="showAllRows" (change)="applyFilter()">
+            {{
+              showAllRows
+                ? ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate)
+                : ('pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate)
+            }}
+          </mat-slide-toggle>
+
+          <!-- Badge evidenze negative -->
+          <span
+            *ngIf="negativeCount > 0"
+            matBadge="{{ negativeCount }}"
+            matBadgeColor="warn"
+            matBadgeSize="medium"
+            matBadgeOverlap="false"
+            class="badge-counter"
+          >
+          </span>
+        </div>
+
+        <!-- DESTRA: paginator -->
+        <mat-paginator table-header-right [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData">
+        </mat-paginator>
+      </jhi-table-header-bar>
+
+      <!-- TABELLA -->
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
         <ng-container matColumnDef="indicator">
-          <th mat-header-cell *matHeaderCellDef class="indicator-header"></th>
-          <td mat-cell *matCellDef="let element" class="indicator-cell">
-            <span *ngIf="(element.reqTimeout ?? 0) > 0" class="dot-red"></span>
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="(element.reqTimeout ?? 0) > 0"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
@@ -70,8 +91,6 @@
         ></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

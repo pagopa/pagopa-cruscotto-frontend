@@ -26,9 +26,11 @@
 
         <!-- Outcome -->
         <ng-container matColumnDef="outcome">
-          <th mat-header-cell *matHeaderCellDef></th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiResults.outcome' | translate }}
+          </th>
           <td mat-cell *matCellDef="let element">
-            <jhi-status-marker [module]="element"></jhi-status-marker>
+            <jhi-detail-status-marker type="outcome" [outcome]="element.outcome"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
