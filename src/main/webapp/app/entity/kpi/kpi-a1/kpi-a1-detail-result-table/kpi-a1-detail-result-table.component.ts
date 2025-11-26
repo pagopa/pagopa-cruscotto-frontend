@@ -47,7 +47,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
 
   @Input() kpiA1ResultId: number | null = null;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  private headerPaginator?: MatPaginator;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   @Output() showDetails = new EventEmitter<number>();
@@ -78,8 +78,8 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -103,8 +103,8 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
     this.spinner.hide('isLoadingResultsKpiA1DetailResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -119,6 +119,12 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
 
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   sortData(sort: Sort): void {

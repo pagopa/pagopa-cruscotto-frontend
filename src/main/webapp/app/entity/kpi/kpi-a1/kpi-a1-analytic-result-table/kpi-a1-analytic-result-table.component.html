@@ -4,13 +4,24 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <jhi-table-header-bar>
-        <!-- DESTRA: paginator -->
-        <mat-paginator table-header-right [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData">
-        </mat-paginator>
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+        <!-- <span toggle-badge *ngIf="negativeCount > 0" matBadge="{{ negativeCount }}" matBadgeOverlap="false" matBadgeColor="warn"> </span> -->
       </jhi-table-header-bar>
 
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table
+        mat-sticky-header
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table"
+      >
         <ng-container matColumnDef="indicator">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
@@ -80,7 +91,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.reqTimeoutValid > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+            <button mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>

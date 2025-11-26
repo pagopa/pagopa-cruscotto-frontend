@@ -47,7 +47,7 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
 
   @Input() kpiA1analyticDataId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  // @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<KpiA1AnalyticData>();
 
@@ -63,6 +63,7 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   private readonly spinner = inject(NgxSpinnerService);
   private readonly route = inject(ActivatedRoute);
   private readonly kpiA1RecordedTimeoutService = inject(KpiA1RecordedTimeoutService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -82,8 +83,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -112,9 +113,9 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
       this.originalData = data;
       this.dataSource.data = data.filter(d => (d.reqTimeout ?? 0) > 0);
       this.negativeCount = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0).length;
-      if (this.paginator) {
-        this.dataSource.paginator = this.paginator;
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.dataSource.paginator = this.headerPaginator;
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -135,6 +136,12 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**
@@ -183,9 +190,14 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
 
     this.negativeCount = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0).length;
 
-    if (this.paginator) {
-      this.paginator.firstPage();
+    if (this.headerPaginator) {
+      this.headerPaginator.firstPage();
     }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

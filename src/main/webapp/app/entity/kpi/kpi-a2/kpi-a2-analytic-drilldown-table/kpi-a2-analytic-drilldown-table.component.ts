@@ -1,54 +1,65 @@
 import { AfterViewInit, Component, Input, OnChanges, ViewChild, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { KpiA2WrongTaxCodesService } from '../service/kpi-a2-wrong-tax-codes.service';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a2-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, DatePipe, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatSlideToggleModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    FormsModule,
+    MatBadgeModule,
+    DatePipe,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
+  ],
   templateUrl: './kpi-a2-analytic-drilldown-table.component.html',
 })
-export class KpiA2AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
+export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   @Input() analyticDataId!: number;
   @Input() locale: string = 'it';
 
-  displayedColumns = ['fromHour', 'endHour', 'transferCategory', 'total'];
+  displayedColumns = ['indicator', 'fromHour', 'endHour', 'transferCategory', 'total'];
   dataSource = new MatTableDataSource<IWrongTaxCode>([]);
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
-    this.dataSource.sort = sort;
-  }
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly taxService = inject(KpiA2WrongTaxCodesService);
+
+  private headerPaginator?: MatPaginator;
+
+  originalData: IWrongTaxCode[] = [];
+  showAllRows = false;
+  negativeCount = 0;
+
+  @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
 
   get hasData(): boolean {
     return this.dataSource?.data?.length > 0;
   }
 
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sortingDataAccessor = (row, column) => {
-      switch (column) {
-        case 'fromHour':
-          return row.fromHour ? row.fromHour.valueOf() : -1;
-        case 'endHour':
-          return row.endHour ? row.endHour.valueOf() : -1;
-        case 'transferCategory':
-          return row.transferCategory ?? -1;
-        case 'total':
-          return row.total ?? -1;
-        default:
-          return 0;
-      }
-    };
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   ngOnChanges(): void {
@@ -64,8 +75,15 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.taxService.findByAnalyticDataId(this.analyticDataId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiA2AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
-            this.paginator?.firstPage();
+            this.originalData = res;
+            this.dataSource.data = res.filter(d => (d.total ?? 0) > 0);
+            this.negativeCount = this.dataSource.data.length;
+
+            if (this.headerPaginator) {
+              this.dataSource.paginator = this.headerPaginator;
+              this.dataSource._updateChangeSubscription();
+              this.headerPaginator.firstPage();
+            }
           });
         },
         error: err => {
@@ -76,5 +94,22 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         },
       });
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.originalData : this.originalData.filter(d => (d.total ?? 0) > 0);
+
+    this.negativeCount = this.originalData.filter(d => (d.total ?? 0) > 0).length;
+
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
+      this.dataSource._updateChangeSubscription();
+      this.headerPaginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
