@@ -29,7 +29,7 @@ import dayjs from 'dayjs/esm';
   ],
 })
 export class KpiC1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'dataDate', 'institutionCount', 'koInstitutionCount', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'dataDate', 'institutionCount', 'positionsCount', 'messagesCount', 'details'];
   dataSource = new MatTableDataSource<KpiC1AnalyticData>([]);
 
   @Input() kpiC1DetailResultId: number | undefined;
@@ -154,8 +154,10 @@ export class KpiC1AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.dataDate?.toISOString(), b.dataDate?.toISOString(), isAsc);
         case 'institutionCount':
           return compare(a.institutionCount, b.institutionCount, isAsc);
-        case 'koInstitutionCount':
-          return compare(a.koInstitutionCount, b.koInstitutionCount, isAsc);
+        case 'positionsCount':
+          return compare(a.positionsCount, b.positionsCount, isAsc);
+        case 'messagesCount':
+          return compare(a.messagesCount, b.messagesCount, isAsc);
         case 'kpiC1DetailResultId':
           return compare(a.kpiC1DetailResultId, b.kpiC1DetailResultId, isAsc);
         default:
