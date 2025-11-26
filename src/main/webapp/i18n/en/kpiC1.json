@@ -36,7 +36,8 @@
             "details": "Details",
             "showDetails": "Show Details",
             "institutionCount": "Institution Number",
-            "koInstitutionCount": "KO Institution Number"
+            "positionsCount": "Positions Number",
+            "messagesCount": "Messages Number"
           },
           "KpiAnalyticDrillDown": {
             "referenceDate": "Analysis Date",
