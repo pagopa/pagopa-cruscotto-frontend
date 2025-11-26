@@ -22,21 +22,3 @@
   text-align: left !important;
   white-space: nowrap;
 }
-
-.indicator-header {
-  width: 40px !important;
-}
-
-.indicator-cell {
-  width: 40px !important;
-  text-align: center !important;
-}
-
-/* Il pallino rosso */
-.dot-red {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  background-color: #ff3b3b;
-  border-radius: 50%;
-}
