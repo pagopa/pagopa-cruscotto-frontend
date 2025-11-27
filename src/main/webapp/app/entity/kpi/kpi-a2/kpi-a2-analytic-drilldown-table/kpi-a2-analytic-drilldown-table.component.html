@@ -18,7 +18,7 @@
         <span toggle-badge *ngIf="negativeCount > 0" matBadge="{{ negativeCount }}" matBadgeOverlap="false" matBadgeColor="warn"> </span>
       </jhi-table-header-bar>
 
-      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
+      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table sticky-table-header">
         <ng-container matColumnDef="indicator">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">

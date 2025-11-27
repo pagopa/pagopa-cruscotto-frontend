@@ -18,7 +18,14 @@
       </jhi-table-header-bar>
 
       <!-- TABELLA -->
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table sticky-table-header"
+      >
         <ng-container matColumnDef="indicator">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">

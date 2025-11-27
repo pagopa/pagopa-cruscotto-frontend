@@ -9,25 +9,40 @@ type StatusMarkerType = 'outcome' | 'condition';
   selector: 'jhi-detail-status-marker',
   standalone: true,
   imports: [NgClass, NgIf],
-  template: `<span
-    *ngIf="show"
-    [ngClass]="{
-      'status-ko': status === 'ko',
-    }"
-  ></span>`,
+  template: `
+    <span *ngIf="type === 'condition' && condition" class="dot dot-ko"></span>
+
+    <span
+      *ngIf="type === 'outcome'"
+      [ngClass]="{
+        'outcome-ok': outcome === AnalysisOutcome.OK,
+        'outcome-ko': outcome === AnalysisOutcome.KO,
+      }"
+      class="outcome-text"
+    >
+      {{ outcome }}
+    </span>
+  `,
   styles: `
-    span {
+    .dot {
       border-radius: 50%;
       width: 12px;
       height: 12px;
-      margin-left: 8px;
-      display: block;
+      display: inline-block;
     }
-    // .status-ok {
-    //   background-color: green;
-    // }
-    .status-ko {
+    .dot-ko {
       background-color: red;
+    }
+    .outcome-text {
+      font-weight: 500;
+    }
+    .outcome-ok {
+      color: green;
+      font-weight: bold;
+    }
+    .outcome-ko {
+      color: red;
+      font-weight: bold;
     }
   `,
 })
@@ -37,21 +52,5 @@ export class DetailStatusMarkerComponent {
   @Input() outcome?: AnalysisOutcome;
   @Input() condition?: boolean;
 
-  get show(): boolean {
-    if (this.type === 'condition') {
-      return this.condition === true;
-    }
-    return this.outcome !== undefined;
-  }
-
-  // get status(): 'ok' | 'ko' | null {
-  get status(): 'ko' | null {
-    if (this.type === 'condition') {
-      return this.condition ? 'ko' : null;
-    }
-
-    // if (this.outcome === AnalysisOutcome.OK) return 'ok';
-    if (this.outcome === AnalysisOutcome.KO) return 'ko';
-    return null;
-  }
+  AnalysisOutcome = AnalysisOutcome;
 }
