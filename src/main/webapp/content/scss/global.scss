@@ -381,3 +381,10 @@ jhi-table-header-bar mat-paginator .mat-mdc-paginator-range-label {
   min-width: 70px;
   text-align: right;
 }
+
+.sticky-table-header .mat-mdc-header-row {
+  position: sticky !important;
+  top: 72px; /* offset per headerBar */
+  z-index: 9 !important;
+  background: #fff;
+}
