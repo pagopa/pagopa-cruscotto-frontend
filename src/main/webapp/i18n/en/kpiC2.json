@@ -37,7 +37,7 @@
             "instanceModuleId": "Instance Module Identifier",
             "stationId": "Station Identifier",
             "analysisDate": "Analysis Date",
-            "evaluationDate": "Evaluation Date",
+            "evaluationDate": "Date",
             "dataDate": "Data Date",
             "numInstitution": "Institution Count",
             "numInstitutionSend": "SEND Institution Count",
@@ -51,7 +51,7 @@
           "KpiAnalyticDrillDown": {
             "instanceId": "Instance Identifier",
             "analysisDate": "Analysis Date",
-            "evaluationDate": "Evaluation Date",
+            "evaluationDate": "Date",
             "dataDate": "Data Date",
             "institutionCf": "Institution Fiscal Code",
             "numPayment": "Total Payments",

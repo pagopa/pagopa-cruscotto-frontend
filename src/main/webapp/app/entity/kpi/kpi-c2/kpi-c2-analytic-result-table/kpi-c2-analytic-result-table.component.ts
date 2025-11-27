@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatSort, MatSortable, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -46,6 +46,7 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
+    this.dataSource.sort.sort({ id: 'evaluationDate', start: 'desc' } as MatSortable);
   }
   @Output() showDetails = new EventEmitter<number>();
 
