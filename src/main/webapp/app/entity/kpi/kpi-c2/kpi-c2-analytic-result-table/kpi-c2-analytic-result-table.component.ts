@@ -46,7 +46,7 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
-    this.dataSource.sort.sort({ id: 'evaluationDate', start: 'desc' } as MatSortable);
+    this.dataSource.sort.sort({ id: 'evaluationDate', start: 'asc' } as MatSortable);
   }
   @Output() showDetails = new EventEmitter<number>();
 
