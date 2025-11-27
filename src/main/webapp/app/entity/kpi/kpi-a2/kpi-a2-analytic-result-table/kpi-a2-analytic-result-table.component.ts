@@ -22,7 +22,6 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   templateUrl: './kpi-a2-analytic-result-table.component.html',
   styleUrls: ['./kpi-a2-analytic-result-table.component.scss'],
   imports: [
-    MatPaginator,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,

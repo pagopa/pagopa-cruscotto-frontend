@@ -41,7 +41,8 @@
             "transferCategory": "Transfer category",
             "total": "Total Incorrect",
             "details": "Results Detail",
-            "showDetails": "Show Details"
+            "showDetails": "Show Details",
+            "outcome": "Outcome"
           }
         }
       }

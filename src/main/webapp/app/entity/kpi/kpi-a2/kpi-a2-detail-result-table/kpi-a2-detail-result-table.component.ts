@@ -16,7 +16,6 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 @Component({
   selector: 'jhi-kpi-a2-detail-result-table',
   imports: [
-    MatPaginator,
     TranslateModule,
     NgClass,
     MatTableModule,
