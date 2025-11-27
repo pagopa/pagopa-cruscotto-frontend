@@ -41,7 +41,8 @@
             "transferCategory": "Categoria versamenti",
             "total": "Totale errati",
             "details": "Dettagli Risultato",
-            "showDetails": "Mostra dettagli"
+            "showDetails": "Mostra dettagli",
+            "outcome": "Esito"
           }
         }
       }
