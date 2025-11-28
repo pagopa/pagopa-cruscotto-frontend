@@ -8,6 +8,8 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB5PagopaDataDrilldownService } from '../service/kpi-b5-pagopa-data-drilldown.service';
 import { IB5PagoPaDrilldown } from '../models/KpiB5AnalyticDrilldown';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b5-analytic-drilldown-table',
@@ -21,6 +23,8 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     MatPaginatorModule,
     MatSortModule,
     DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
   ],
   templateUrl: './kpi-b5-analytic-drilldown-table.component.html',
 })
@@ -32,6 +36,8 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   displayedColumns = ['outcome', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
   dataSource = new MatTableDataSource<IB5PagoPaDrilldown>([]);
+  data: IB5PagoPaDrilldown[] = [];
+  koDataCount: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -97,6 +103,14 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         },
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(_ => _.spontaneousPayments != 'NON ATTIVI');
+    }
   }
 
   sortData(sort: Sort): void {
