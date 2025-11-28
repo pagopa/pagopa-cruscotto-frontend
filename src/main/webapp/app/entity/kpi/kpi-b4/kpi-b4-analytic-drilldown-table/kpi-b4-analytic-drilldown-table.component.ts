@@ -9,6 +9,8 @@ import { KpiB4PagopaDataDrilldownService } from '../service/kpi-b4-pagopa-data-d
 import { IB4PagoPaDrilldown } from '../models/KpiB4AnalyticDrilldown';
 import { FormatDatePipe } from 'app/shared/date';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b4-analytic-drilldown-table',
@@ -23,6 +25,8 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     MatSortModule,
     FormatDatePipe,
     DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
   ],
   templateUrl: './kpi-b4-analytic-drilldown-table.component.html',
 })
@@ -44,6 +48,8 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     'koRequests',
   ];
   dataSource = new MatTableDataSource<IB4PagoPaDrilldown>([]);
+  data: IB4PagoPaDrilldown[] = [];
+  koDataCount: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -108,6 +114,14 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         },
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(_ => _.koRequests > 0);
+    }
   }
 
   sortData(sort: Sort): void {

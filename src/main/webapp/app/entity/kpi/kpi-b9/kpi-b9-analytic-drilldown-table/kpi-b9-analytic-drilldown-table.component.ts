@@ -8,6 +8,8 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB9PaymentReceiptDrilldownService, B9DrilldownRow } from '../service/kpi-b9-payment-receipt-drilldown.service';
 import dayjs, { Dayjs } from 'dayjs/esm';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggle, MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b9-analytic-drilldown-table',
@@ -21,6 +23,8 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     MatPaginatorModule,
     MatSortModule,
     DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
   ],
   templateUrl: './kpi-b9-analytic-drilldown-table.component.html',
 })
@@ -32,6 +36,8 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   displayedColumns = ['outcome', 'startTime', 'endTime', 'totRes', 'resKo'];
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
+  data: B9DrilldownRow[] = [];
+  koDataCount: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -85,6 +91,14 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         error: () => this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => (this.dataSource.data = [])),
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(_ => _.resKo && _.resKo > 0);
+    }
   }
 
   sortData(sort: Sort): void {
