@@ -5,6 +5,14 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+      </jhi-table-header-bar>
+
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
         <!-- Analysis Date -->
         <ng-container matColumnDef="analysisDate">
@@ -40,16 +48,6 @@
           </td>
         </ng-container>
 
-        <!-- Colonna Tolerance -->
-        <!-- <ng-container matColumnDef="tolerance">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiResults.tolerance' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element" class="text-end">
-            {{ element.tolerance | number: '1.2-2' }} <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-          </td>
-        </ng-container> -->
-
         <!-- Colonna Evaluation Type -->
         <ng-container matColumnDef="evaluationType">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -63,12 +61,8 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiResults.outcome' | translate }}
           </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="outcome" [outcome]="element.outcome"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
@@ -87,8 +81,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

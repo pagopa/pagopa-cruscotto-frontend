@@ -50,8 +50,6 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
 
-  private headerPaginator?: MatPaginator;
-
   isLoadingResults = false;
   locale: string;
   selectedElementId: number | null = null;
@@ -59,6 +57,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA1AnalyticDataService = inject(KpiA1AnalyticDataService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;

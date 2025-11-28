@@ -47,7 +47,6 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
 
   @Input() kpiA1ResultId: number | null = null;
 
-  private headerPaginator?: MatPaginator;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   @Output() showDetails = new EventEmitter<number>();
@@ -57,6 +56,7 @@ export class KpiA1DetailResultTableComponent implements AfterViewInit, OnChanges
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA1DetailResultService = inject(KpiA1DetailResultService);
+  private headerPaginator?: MatPaginator;
 
   locale: string;
   private readonly translateService = inject(TranslateService);
