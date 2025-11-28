@@ -388,3 +388,9 @@ jhi-table-header-bar mat-paginator .mat-mdc-paginator-range-label {
   z-index: 9 !important;
   background: #fff;
 }
+
+.kpi-table-container {
+  width: 100%;
+  max-height: 500px;
+  overflow: auto;
+}
