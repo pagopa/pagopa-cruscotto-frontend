@@ -1,33 +1,6 @@
-/* Column Widths */
-.mat-column-assignedUser,
-.mat-column-action {
-  width: 300px !important;
-  min-width: 200px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.mat-column-id,
-.mat-column-instanceIdentification,
-.mat-column-partner,
-.mat-column-partnerFiscalCode,
-.mat-column-predictedDateAnalysis,
-.mat-column-applicationDate,
-.mat-column-analysisPeriodStartDate,
-.mat-column-analysisPeriodEndDate,
-.mat-column-lastAnalysisDate,
-.mat-column-assignedUser,
-.mat-column-changePartnerQualified {
-  width: 150px;
-  text-align: left !important;
-  white-space: nowrap;
-}
-
 .mat-column-status,
 .mat-column-action,
 .mat-column-lastAnalysisOutcome {
-  width: 300px;
-  min-width: 200px;
   text-align: center;
 }
 
