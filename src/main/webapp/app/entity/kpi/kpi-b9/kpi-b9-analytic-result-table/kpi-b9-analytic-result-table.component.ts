@@ -6,7 +6,7 @@ import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB9AnalyticDataService } from '../service/kpi-b9-analytic-data.service';
-
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
@@ -26,6 +26,7 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {

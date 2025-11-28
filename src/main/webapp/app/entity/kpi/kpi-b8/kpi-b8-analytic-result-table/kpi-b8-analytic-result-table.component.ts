@@ -9,6 +9,7 @@ import { KpiB8AnalyticDataService } from '../service/kpi-b8-analytic-data.servic
 import { KpiB8AnalyticData } from '../models/KpiB8AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-result-table',
@@ -25,10 +26,11 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
+  displayedColumns: string[] = ['outcome', 'analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
   dataSource = new MatTableDataSource<KpiB8AnalyticData>([]);
 
   @Input() kpiB8DetailResultId: number | undefined;

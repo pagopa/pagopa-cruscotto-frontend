@@ -9,6 +9,7 @@ import { KpiB5AnalyticDataService } from '../service/kpi-b5-analytic-data.servic
 import { KpiB5AnalyticData } from '../models/KpiB5AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b5-analytic-result-table',
@@ -25,10 +26,18 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB5AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'stationsPresent', 'stationsWithoutSpontaneous', 'percentageNoSpontaneous', 'details'];
+  displayedColumns: string[] = [
+    'outcome',
+    'analysisDate',
+    'stationsPresent',
+    'stationsWithoutSpontaneous',
+    'percentageNoSpontaneous',
+    'details',
+  ];
   dataSource = new MatTableDataSource<KpiB5AnalyticData>([]);
 
   @Input() kpiB5DetailResultId: number | undefined;

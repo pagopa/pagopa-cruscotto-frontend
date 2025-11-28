@@ -9,7 +9,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b4-result-table',
@@ -33,19 +33,12 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     MatButton,
     FormatDatePipe,
     NgClass,
-    // YesOrNoViewComponent,
     DecimalPipe,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB4ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'analysisDate',
-    'eligibilityThreshold',
-    'tolerance',
-    'evaluationType',
-    'outcome',
-    'details',
-  ];
+  displayedColumns: string[] = ['outcome', 'analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'details'];
   dataSource = new MatTableDataSource<KpiB4Result>([]);
   locale: string;
 

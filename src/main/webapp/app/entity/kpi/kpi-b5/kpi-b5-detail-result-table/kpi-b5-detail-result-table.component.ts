@@ -10,6 +10,7 @@ import { KpiB5DetailResult } from '../models/KpiB5DetailResult';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../models/KpiB5Result';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b5-detail-result-table',
@@ -26,15 +27,16 @@ import { OutcomeStatus } from '../models/KpiB5Result';
     FormatDatePipe,
     NgClass,
     DecimalPipe,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB5DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'analysisDate',
     'stationsPresent',
     'stationsWithoutSpontaneous',
     'percentageNoSpontaneous',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB5DetailResult>([]);

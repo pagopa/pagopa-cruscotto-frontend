@@ -10,6 +10,7 @@ import { EvaluationType, KpiB4DetailResult } from '../models/KpiB4DetailResult';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../models/KpiB4Result';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b4-detail-result-table',
@@ -26,10 +27,12 @@ import { OutcomeStatus } from '../models/KpiB4Result';
     FormatDatePipe,
     NgClass,
     DecimalPipe,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB4DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'analysisDate',
     'evaluationType',
     'evaluationStartDate',
@@ -37,7 +40,6 @@ export class KpiB4DetailResultTableComponent implements AfterViewInit, OnChanges
     'totalGPD',
     'totalCP',
     'percentageCP',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB4DetailResult>([]);

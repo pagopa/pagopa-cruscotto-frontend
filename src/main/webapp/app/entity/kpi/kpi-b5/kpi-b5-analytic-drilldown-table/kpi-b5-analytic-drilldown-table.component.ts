@@ -7,11 +7,21 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB5PagopaDataDrilldownService } from '../service/kpi-b5-pagopa-data-drilldown.service';
 import { IB5PagoPaDrilldown } from '../models/KpiB5AnalyticDrilldown';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b5-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+  ],
   templateUrl: './kpi-b5-analytic-drilldown-table.component.html',
 })
 export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,7 +30,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
+  displayedColumns = ['outcome', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
   dataSource = new MatTableDataSource<IB5PagoPaDrilldown>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
