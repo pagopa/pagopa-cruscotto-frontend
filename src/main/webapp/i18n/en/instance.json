@@ -29,6 +29,7 @@
         "assignedTo": "Examiner",
         "analysisPeriodStartDate": "Analysis Period Start Date",
         "analysisPeriodEndDate": "Analysis Period End Date",
+        "analysisPeriod": "Analysis Period",
         "status": "Status",
         "lastAnalysisDate": "Analysis Date",
         "lastAnalysisOutcome": "Analysis Outcome",

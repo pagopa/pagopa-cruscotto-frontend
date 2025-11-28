@@ -27,6 +27,7 @@
         "predictedDateAnalysis": "Data Prevista per l'Analisi",
         "applicationDate": "Data Istanza",
         "assignedTo": "Esaminatore",
+        "analysisPeriod": "Periodo di Analisi",
         "analysisPeriodStartDate": "Inizio Periodo di Analisi",
         "analysisPeriodEndDate": "Fine Periodo di Analisi",
         "status": "Stato",
