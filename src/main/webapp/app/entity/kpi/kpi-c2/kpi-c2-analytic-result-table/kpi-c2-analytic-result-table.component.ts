@@ -125,64 +125,10 @@ export class KpiC2AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   /**
-   * Client-side sorting functionality
-   */
-  sortData(sort: Sort): void {
-    const data = this.dataSource.data.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.dataSource.data = data;
-      return;
-    }
-
-    // this.dataSource.data = data.sort((a, b) => {
-    //   const isAsc = sort.direction === 'asc';
-    //   switch (sort.active) {
-    //     case 'id':
-    //       return compare(a.id, b.id, isAsc);
-    //     case 'instanceId':
-    //       return compare(a.instanceId, b.instanceId, isAsc);
-    //     case 'instanceModuleId':
-    //       return compare(a.instanceModuleId, b.instanceModuleId, isAsc);
-    //     case 'analysisDate':
-    //       return compare(a.analysisDate?.toISOString(), b.analysisDate?.toISOString(), isAsc);
-    //     case 'stationName':
-    //       return compare(a.stationName, b.stationName, isAsc);
-    //     case 'method':
-    //       return compare(a.method, b.method, isAsc);
-    //     case 'evaluationDate':
-    //       return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
-    //     case 'totReq':
-    //       return compare(a.totReq, b.totReq, isAsc);
-    //     case 'reqOk':
-    //       return compare(a.reqOk, b.reqOk, isAsc);
-    //     case 'reqTimeout':
-    //       return compare(a.reqTimeout, b.reqTimeout, isAsc);
-    //     case 'avgTime':
-    //       return compare(a.avgTime, b.avgTime, isAsc);
-    //     case 'kpiC2DetailResultId':
-    //       return compare(a.kpiC2DetailResultId, b.kpiC2DetailResultId, isAsc);
-    //     default:
-    //       return 0;
-    //   }
-    // });
-  }
-
-  /**
    * Emit selected module ID for more details
    */
   emitShowDetails(kpiC2DetailResult: number): void {
     this.showDetails.emit(kpiC2DetailResult);
     this.selectedElementId = kpiC2DetailResult ?? null;
   }
-}
-
-/**
- * Generic comparison function
- */
-function compare(a: any, b: any, isAsc: boolean): number {
-  if (a == null && b == null) return 0;
-  if (a == null) return isAsc ? -1 : 1;
-  if (b == null) return isAsc ? 1 : -1;
-  return (a > b ? 1 : a < b ? -1 : 0) * (isAsc ? 1 : -1);
 }

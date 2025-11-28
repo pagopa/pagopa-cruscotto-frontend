@@ -217,62 +217,70 @@
                 matSortDisableClear
               >
                 <ng-container matColumnDef="instanceIdentification">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-truncate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.instanceIdentification' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.instanceIdentification }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="partnerFiscalCode" class="text-truncate">
+                <ng-container matColumnDef="partnerFiscalCode">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.partnerFiscalCode' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.partnerFiscalCode }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="partner" class="text-truncate">
+                <ng-container matColumnDef="partner">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header="partnerName">
                     {{ 'pagopaCruscottoApp.instance.partner' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.partnerName }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="predictedDateAnalysis" class="text-truncate">
+                <ng-container matColumnDef="predictedDateAnalysis">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.predictedDateAnalysis' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.predictedDateAnalysis | formatDate: 'L' : locale }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="applicationDate" class="text-truncate">
+                <ng-container matColumnDef="applicationDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.applicationDate' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.applicationDate | formatDate: 'L' : locale }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="assignedUser" class="text-truncate">
+                <ng-container matColumnDef="assignedUser">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.assignedUser' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.assignedFirstName }} {{ row.assignedLastName }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="analysisPeriodStartDate" class="text-truncate">
+                <ng-container matColumnDef="analysisPeriodStartDate">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    {{ 'pagopaCruscottoApp.instance.analysisPeriod' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    {{ row.analysisPeriodStartDate | formatDate: 'L' : locale }} -
+                    {{ row.analysisPeriodEndDate | formatDate: 'L' : locale }}
+                  </td>
+                </ng-container>
+                <!-- <ng-container matColumnDef="analysisPeriodStartDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.analysisPeriodStartDate' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.analysisPeriodStartDate | formatDate: 'L' : locale }}</td>
                 </ng-container>
-
-                <ng-container matColumnDef="analysisPeriodEndDate" class="text-truncate">
+                <ng-container matColumnDef="analysisPeriodEndDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.analysisPeriodEndDate' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.analysisPeriodEndDate | formatDate: 'L' : locale }}</td>
-                </ng-container>
+                </ng-container> -->
 
-                <ng-container matColumnDef="status" class="text-truncate">
+                <ng-container matColumnDef="status">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.status' | translate }}
                   </th>
@@ -281,21 +289,21 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="lastAnalysisDate" class="text-truncate">
+                <ng-container matColumnDef="lastAnalysisDate">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.lastAnalysisDate' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row">{{ row.lastAnalysisDate | formatDate: 'L' : locale }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="changePartnerQualified" class="text-truncate">
+                <ng-container matColumnDef="changePartnerQualified">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.changePartnerQualified' | translate }}
                   </th>
                   <td mat-cell *matCellDef="let row"><jhi-yes-or-no-view [yesOrNo]="row.changePartnerQualified"></jhi-yes-or-no-view></td>
                 </ng-container>
 
-                <ng-container matColumnDef="lastAnalysisOutcome" class="text-truncate">
+                <ng-container matColumnDef="lastAnalysisOutcome">
                   <th mat-header-cell *matHeaderCellDef>
                     {{ 'pagopaCruscottoApp.instance.lastAnalysisOutcome' | translate }}
                   </th>
