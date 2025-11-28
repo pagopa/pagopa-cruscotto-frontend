@@ -10,6 +10,8 @@ import FormatDatePipe from 'app/shared/date/format-date.pipe';
 import { YesOrNoViewComponent } from 'app/shared/component/yes-or-no-view.component';
 import { KpiB3Result } from '../models/KpiB3Result';
 import { KpiB3ResultService } from '../service/kpi-b3-result.service';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 enum OutcomeStatus {
   OK = 'OK',
@@ -31,19 +33,20 @@ enum OutcomeStatus {
     YesOrNoViewComponent,
     NgClass,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
   templateUrl: './kpi-b3-result-table.component.html',
   styleUrl: './kpi-b3-result-table.component.scss',
 })
 export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
     'evaluationType',
-    // 'tolerance',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB3Result>([]);
@@ -53,7 +56,6 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
 
   @Output() showDetails = new EventEmitter<number>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
   protected readonly OutcomeStatus = OutcomeStatus;
@@ -64,6 +66,7 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB3ResultService = inject(KpiB3ResultService);
   private readonly translateService = inject(TranslateService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -82,8 +85,8 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -111,8 +114,8 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.hide('isLoadingResultsKpiB3ResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -131,6 +134,12 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   // Getter per verificare se ci sono dati
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**
@@ -157,8 +166,6 @@ export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnIn
           return compare(a.excludeUnplannedShutdown, b.excludeUnplannedShutdown, isAsc);
         case 'eligibilityThreshold':
           return compare(a.eligibilityThreshold, b.eligibilityThreshold, isAsc);
-        // case 'tolerance':
-        //   return compare(a.tolerance, b.tolerance, isAsc);
         case 'evaluationType':
           return compare(a.evaluationType, b.evaluationType, isAsc);
         case 'outcome':
