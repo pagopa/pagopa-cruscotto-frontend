@@ -37,14 +37,16 @@
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
             "stationFiscalCode": "Stazione",
-            "standInCount": "Numero StandIn"
+            "standInCount": "Numero StandIn",
+            "outcome": "Esito"
           },
           "KpiAnalyticDrillDown": {
             "partnerFiscalCode": "Partner",
             "intervalStart": "Inizio Periodo",
             "intervalEnd": "Fine Periodo",
             "stationCode": "Stazione",
-            "standInCount": "Numero StandIn"
+            "standInCount": "Numero StandIn",
+            "outcome": "Esito"
           }
         }
       }
