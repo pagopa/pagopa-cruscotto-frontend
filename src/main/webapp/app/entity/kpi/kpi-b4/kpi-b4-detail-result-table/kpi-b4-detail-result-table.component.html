@@ -7,6 +7,15 @@
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
         <!-- Colonne -->
 
+        <ng-container matColumnDef="outcome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiDetailResults.outcome' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="element.totalCP > 0"></jhi-detail-status-marker>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiDetailResults.analysisDate' | translate }}
@@ -55,19 +64,6 @@
           </th>
           <td mat-cell *matCellDef="let element">
             {{ element.percentageCP | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="outcome">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.4.tableLabels.KpiDetailResults.outcome' | translate }}
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
           </td>
         </ng-container>
 

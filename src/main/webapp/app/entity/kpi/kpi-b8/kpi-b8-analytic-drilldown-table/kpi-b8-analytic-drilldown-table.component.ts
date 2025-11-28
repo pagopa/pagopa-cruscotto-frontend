@@ -7,11 +7,21 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB8PagopaDataDrilldownService } from '../service/kpi-b8-pagopa-data-drilldown.service';
 import { IB8PagoPaDrilldown } from '../models/KpiB8AnalyticDrilldown';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+  ],
   templateUrl: './kpi-b8-analytic-drilldown-table.component.html',
 })
 export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,7 +30,17 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests', 'okRequests', 'koRequests'];
+  displayedColumns = [
+    'outcome',
+    'partnerFiscalCode',
+    'dataDate',
+    'stationCode',
+    'fiscalCode',
+    'api',
+    'totalRequests',
+    'okRequests',
+    'koRequests',
+  ];
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

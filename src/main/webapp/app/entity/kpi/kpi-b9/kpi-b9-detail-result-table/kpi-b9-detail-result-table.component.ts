@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { OutcomeStatus } from '../models/KpiB9Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { DecimalPipe } from '@angular/common';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b9-detail-result-table',
@@ -25,12 +26,14 @@ import { DecimalPipe } from '@angular/common';
     NgxSpinnerModule,
     CommonModule,
     DecimalPipe,
+    DetailStatusMarkerComponent,
   ],
   templateUrl: './kpi-b9-detail-result-table.component.html',
   styleUrl: './kpi-b9-detail-result-table.component.scss',
 })
 export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'evaluationStartDate',
     'evaluationEndDate',
     'totRes',
@@ -38,7 +41,6 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
     'resKoPercentage',
     'analysisDate',
     'evaluationType',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB9DetailResult>([]);

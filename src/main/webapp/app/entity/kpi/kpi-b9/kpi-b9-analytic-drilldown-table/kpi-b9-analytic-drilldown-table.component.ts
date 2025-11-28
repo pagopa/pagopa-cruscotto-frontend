@@ -7,11 +7,21 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB9PaymentReceiptDrilldownService, B9DrilldownRow } from '../service/kpi-b9-payment-receipt-drilldown.service';
 import dayjs, { Dayjs } from 'dayjs/esm';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b9-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+  ],
   templateUrl: './kpi-b9-analytic-drilldown-table.component.html',
 })
 export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,7 +30,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input({ required: true }) evaluationDate!: Dayjs | Date | string;
   @Input() locale = 'it';
 
-  displayedColumns = ['startTime', 'endTime', 'totRes', 'resKo'];
+  displayedColumns = ['outcome', 'startTime', 'endTime', 'totRes', 'resKo'];
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

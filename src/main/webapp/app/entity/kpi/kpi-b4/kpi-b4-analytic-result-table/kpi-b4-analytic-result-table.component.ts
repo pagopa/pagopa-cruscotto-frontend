@@ -10,6 +10,7 @@ import { KpiB4AnalyticData } from '../models/KpiB4AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import dayjs from 'dayjs/esm';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 
 @Component({
   selector: 'jhi-kpi-b4-analytic-result-table',
@@ -26,10 +27,11 @@ import dayjs from 'dayjs/esm';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
   ],
 })
 export class KpiB4AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'dataDate', 'totalGPD', 'totalCP', 'details'];
+  displayedColumns: string[] = ['outcome', 'analysisDate', 'dataDate', 'totalGPD', 'totalCP', 'details'];
   dataSource = new MatTableDataSource<KpiB4AnalyticData>([]);
 
   @Input() kpiB4DetailResultId: number | undefined;
