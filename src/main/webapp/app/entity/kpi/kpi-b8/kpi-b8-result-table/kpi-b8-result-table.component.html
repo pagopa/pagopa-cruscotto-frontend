@@ -4,6 +4,8 @@
 
 <div class="table-responsive">
   <div class="table-container">
+    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
+
     <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
         <ng-container matColumnDef="outcome">
@@ -61,13 +63,11 @@
           </td>
         </ng-container>
 
-        <!-- Header e Righe -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="position-sticky"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
       </table>
     </div>
 
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>
     </ng-template>
