@@ -1,7 +1,7 @@
 /* Column Widths */
 .mat-column-assignedUser,
 .mat-column-action {
-  width: 300px!important;
+  width: 300px !important;
   min-width: 200px;
   text-align: center;
   white-space: nowrap;
@@ -15,17 +15,17 @@
 .mat-column-applicationDate,
 .mat-column-analysisPeriodStartDate,
 .mat-column-analysisPeriodEndDate,
-.mat-column-status,
 .mat-column-lastAnalysisDate,
-.mat-column-lastAnalysisOutcome,
 .mat-column-assignedUser,
 .mat-column-changePartnerQualified {
   width: 150px;
-  text-align: left!important;
+  text-align: left !important;
   white-space: nowrap;
 }
 
-.mat-column-action {
+.mat-column-status,
+.mat-column-action,
+.mat-column-lastAnalysisOutcome {
   width: 300px;
   min-width: 200px;
   text-align: center;
