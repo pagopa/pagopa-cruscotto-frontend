@@ -38,7 +38,7 @@
             "instanceModuleId": "Identificativo Modulo Istanza",
             "stationId": "Identificativo Stazione",
             "analysisDate": "Data di Analisi",
-            "evaluationDate": "Data Valutazione",
+            "evaluationDate": "Data",
             "dataDate": "Data",
             "numInstitution": "Conteggio Enti",
             "numInstitutionSend": "Conteggio Enti SEND",
@@ -52,6 +52,7 @@
           "KpiAnalyticDrillDown": {
             "instanceId": "Identificativo Istanza",
             "analysisDate": "Data di Analisi",
+            "evaluationDate": "Data",
             "dataDate": "Data dei Dati",
             "institutionCf": "Codice Fiscale Istituzione",
             "numPayment": "Totale Pagamenti",

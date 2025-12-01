@@ -12,6 +12,13 @@
           <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="evaluationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.evaluationDate' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.evaluationDate | formatDate: 'L' : locale }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="institutionCf">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiAnalyticDrillDown.institutionCf' | translate }}
