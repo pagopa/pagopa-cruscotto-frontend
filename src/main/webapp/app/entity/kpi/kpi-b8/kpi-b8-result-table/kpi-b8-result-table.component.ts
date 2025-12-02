@@ -10,6 +10,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b8-result-table',
@@ -18,7 +19,6 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
   styleUrls: ['./kpi-b8-result-table.component.scss'],
   imports: [
     CommonModule,
-    MatPaginator,
     MatTableModule,
     MatColumnDef,
     MatHeaderCell,
@@ -35,6 +35,7 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     NgClass,
     DecimalPipe,
     DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB8ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -124,6 +125,12 @@ export class KpiB8ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   // Getter per verificare se ci sono dati
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

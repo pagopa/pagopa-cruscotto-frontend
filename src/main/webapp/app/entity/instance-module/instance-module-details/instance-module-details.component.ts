@@ -291,6 +291,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
   onShowDetailsB5(kpiB5ResultId: number): void {
     this.selectedKpiB5ResultIdForDetailsResults = this.selectedKpiB5ResultIdForDetailsResults === kpiB5ResultId ? null : kpiB5ResultId;
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB6(kpiB6ResultId: number): void {
     this.selectedKpiB6ResultIdForDetailsResults = this.selectedKpiB6ResultIdForDetailsResults === kpiB6ResultId ? null : kpiB6ResultId;
@@ -298,6 +299,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
   onShowDetailsB8(kpiB8ResultId: number): void {
     this.selectedKpiB8ResultIdForDetailsResults = this.selectedKpiB8ResultIdForDetailsResults === kpiB8ResultId ? null : kpiB8ResultId;
+    this.resetAnalyticsVariables();
   }
   onShowDetailsB9(kpiB9ResultId: number): void {
     this.selectedKpiB9ResultIdForDetailsResults = this.selectedKpiB9ResultIdForDetailsResults === kpiB9ResultId ? null : kpiB9ResultId;
@@ -348,6 +350,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB5(kpiB5DetailResultId: number): void {
     this.selectedKpiB5DetailResultIdForAnalytics =
       this.selectedKpiB5DetailResultIdForAnalytics === kpiB5DetailResultId ? null : kpiB5DetailResultId;
+    this.resetDrilldownVariables();
   }
   onAnalyticsShowDetailsB6(kpiB6DetailResultId: number): void {
     this.selectedKpiB6DetailResultIdForAnalytics =
@@ -357,6 +360,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   onAnalyticsShowDetailsB8(kpiB8DetailResultId: number): void {
     this.selectedKpiB8DetailResultIdForAnalytics =
       this.selectedKpiB8DetailResultIdForAnalytics === kpiB8DetailResultId ? null : kpiB8DetailResultId;
+    this.resetDrilldownVariables();
   }
   onAnalyticsShowDetailsB9(kpiB9DetailResultId: number): void {
     this.selectedKpiB9DetailResultIdForAnalytics =

@@ -32,6 +32,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input() selectedKpiB5AnalyticResultId!: number;
 
   isLoadingResults = false;
+  showAllRows = false;
   @Input() locale = 'it';
 
   displayedColumns = ['outcome', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
@@ -84,7 +85,15 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
+            this.data = res;
+            this.dataSource.data = res.filter(d => d.spontaneousPayments === 'NON ATTIVI');
+            this.koDataCount = this.dataSource.data.length;
+
+            // reset toggle
+            this.showAllRows = false;
+
+            this.applyFilter();
+
             this.paginator?.firstPage();
 
             setTimeout(() => {
@@ -103,14 +112,6 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         },
       });
     });
-  }
-
-  filterData(event: MatSlideToggleChange) {
-    if (event.checked) {
-      this.dataSource.data = this.data;
-    } else {
-      this.dataSource.data = this.data.filter(_ => _.spontaneousPayments != 'NON ATTIVI');
-    }
   }
 
   sortData(sort: Sort): void {
@@ -134,6 +135,23 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => d.spontaneousPayments === 'NON ATTIVI');
+
+    this.koDataCount = this.data.filter(d => d.spontaneousPayments === 'NON ATTIVI').length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

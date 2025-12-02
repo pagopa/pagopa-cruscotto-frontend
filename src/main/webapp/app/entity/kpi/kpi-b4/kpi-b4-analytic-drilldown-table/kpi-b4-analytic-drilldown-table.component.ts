@@ -34,6 +34,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input() selectedKpiB4AnalyticResultId!: number;
 
   isLoadingResults = false;
+  showAllRows = false;
   @Input() locale = 'it';
 
   displayedColumns = [
@@ -102,8 +103,17 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB4AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB4AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
-            this.paginator?.firstPage();
+            this.data = res ?? [];
+            this.koDataCount = this.data.filter(x => x.api === 'paCreate').length;
+
+            // Reset toggle
+            this.showAllRows = false;
+
+            this.applyFilter();
+
+            if (this.paginator) {
+              this.paginator?.firstPage();
+            }
           });
         },
         error: err => {
@@ -120,8 +130,11 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     if (event.checked) {
       this.dataSource.data = this.data;
     } else {
-      this.dataSource.data = this.data.filter(_ => _.koRequests > 0);
+      this.dataSource.data = this.data.filter(x => x.api === 'paCreate');
     }
+
+    this.dataSource.sort = this.sort;
+    this.paginator?.firstPage();
   }
 
   sortData(sort: Sort): void {
@@ -155,6 +168,23 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => d.api === 'paCreate');
+
+    this.koDataCount = this.data.filter(d => d.api === 'paCreate').length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

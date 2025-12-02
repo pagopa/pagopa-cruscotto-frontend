@@ -39,9 +39,16 @@
             "fromHour": "From hour",
             "endHour": "To hour",
             "transferCategory": "Transfer category",
-            "total": "Total Incorrect",
             "details": "Results Detail",
             "showDetails": "Show Details",
+            "outcome": "Outcome"
+          },
+          "KpiAnalyticDrilldown": {
+            "fromHour": "From hour",
+            "endHour": "To hour",
+            "transferCategory": "Transfer category",
+            "totPayments": "Total Payments",
+            "totIncorrectPayments": "Incorrect Payments",
             "outcome": "Outcome"
           }
         }

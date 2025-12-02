@@ -48,6 +48,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
   data: IB8PagoPaDrilldown[] = [];
   koDataCount: number = 0;
+  showAllRows = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -100,9 +101,15 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB8AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
-            this.dataSource.data = res.filter(_ => _.koRequests > 0) ?? [];
+            this.data = res;
+            this.dataSource.data = res.filter(d => (d.koRequests ?? 0) > 0);
             this.koDataCount = this.dataSource.data.length;
-            this.data = res ?? [];
+
+            // reset toggle
+            this.showAllRows = false;
+
+            this.applyFilter();
+
             this.paginator?.firstPage();
           });
         },
@@ -156,6 +163,23 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.koRequests ?? 0) > 0);
+
+    this.koDataCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 
