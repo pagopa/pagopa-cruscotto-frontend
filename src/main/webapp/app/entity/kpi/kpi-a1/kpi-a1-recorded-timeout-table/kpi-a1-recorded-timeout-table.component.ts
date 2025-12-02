@@ -111,6 +111,11 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
       this.originalData = data;
       this.dataSource.data = data.filter(d => (d.reqTimeout ?? 0) > 0);
       this.negativeCount = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0).length;
+
+      this.showAllRows = false;
+
+      this.applyFilter();
+
       if (this.headerPaginator) {
         this.dataSource.paginator = this.headerPaginator;
         this.headerPaginator.firstPage();

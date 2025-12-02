@@ -99,6 +99,11 @@ export class KpiB3AnalyticDrilldownTableComponent implements OnChanges, AfterVie
             this.originalData = res;
             this.dataSource.data = res.filter(d => (d.standInCount ?? 0) > 0);
             this.negativeCount = this.originalData.filter(d => (d.standInCount ?? 0) > 0).length;
+
+            this.showAllRows = false;
+
+            this.applyFilter();
+
             if (this.headerPaginator) {
               this.dataSource.paginator = this.headerPaginator;
               this.headerPaginator.firstPage();

@@ -12,6 +12,7 @@ import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b9-result-table',
@@ -31,6 +32,7 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     YesOrNoViewComponent,
     DecimalPipe,
     DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB9ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -130,6 +132,12 @@ export class KpiB9ResultTableComponent implements AfterViewInit, OnChanges, OnIn
    */
   get hasData(): boolean {
     return this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

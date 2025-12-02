@@ -2,10 +2,23 @@
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
 
-<mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
-
 <div *ngIf="hasData; else noDataTemplate" class="kpi-table-container mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear>
+  <jhi-table-header-bar
+    [showToggle]="false"
+    [showPaginator]="true"
+    [length]="dataSource.data.length"
+    (paginatorReady)="onHeaderPaginatorReady($event)"
+  >
+  </jhi-table-header-bar>
+
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    (matSortChange)="sortData($event)"
+    matSort
+    matSortDisableClear
+    class="full-width-table sticky-table-header"
+  >
     <ng-container matColumnDef="outcome">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiDetailResults.outcome' | translate }}

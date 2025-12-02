@@ -10,6 +10,7 @@ import { KpiB8AnalyticData } from '../models/KpiB8AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-result-table',
@@ -27,6 +28,7 @@ import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detai
     DecimalPipe,
     NgClass,
     DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -125,6 +127,12 @@ export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

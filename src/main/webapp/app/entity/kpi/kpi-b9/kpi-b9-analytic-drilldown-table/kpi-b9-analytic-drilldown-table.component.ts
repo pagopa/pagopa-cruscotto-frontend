@@ -38,6 +38,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
   data: B9DrilldownRow[] = [];
   koDataCount: number = 0;
+  showAllRows = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -81,10 +82,15 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.svc.find(this.instanceId, this.stationId, d).subscribe({
         next: (rows: B9DrilldownRow[]) => {
           this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => {
-            // const preset = [...(rows ?? [])].sort((a, b) => (a.startTime?.valueOf() ?? 0) - (b.startTime?.valueOf() ?? 0));
-            this.dataSource.data = rows;
+            this.data = rows;
+            this.dataSource.data = rows.filter(d => (d.resKo ?? 0) > 0);
+            this.koDataCount = this.dataSource.data.length;
 
-            this.dataSource.sort = this.sort;
+            this.showAllRows = false;
+
+            this.applyFilter();
+
+            // this.dataSource.sort = this.sort;
             this.paginator?.firstPage();
           });
         },
@@ -97,7 +103,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     if (event.checked) {
       this.dataSource.data = this.data;
     } else {
-      this.dataSource.data = this.data.filter(_ => _.resKo && _.resKo > 0);
+      this.dataSource.data = this.data.filter(x => x.resKo && x.resKo > 0);
     }
   }
 
@@ -124,6 +130,23 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.resKo ?? 0) > 0);
+
+    this.koDataCount = this.data.filter(d => (d.resKo ?? 0) > 0).length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

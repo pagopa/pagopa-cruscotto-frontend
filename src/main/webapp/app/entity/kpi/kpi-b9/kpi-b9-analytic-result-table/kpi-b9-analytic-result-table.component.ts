@@ -7,6 +7,7 @@ import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-transla
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiB9AnalyticDataService } from '../service/kpi-b9-analytic-data.service';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
@@ -27,10 +28,11 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
     DecimalPipe,
     NgClass,
     DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
+  displayedColumns: string[] = ['outcome', 'evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;
@@ -115,6 +117,12 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

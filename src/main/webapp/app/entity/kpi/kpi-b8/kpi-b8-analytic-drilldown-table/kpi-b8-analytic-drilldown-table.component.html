@@ -3,7 +3,7 @@
 </ngx-spinner>
 
 <div class="d-flex justify-content-between">
-  <mat-slide-toggle (change)="filterData($event)" class="toggle-with-badge">
+  <mat-slide-toggle [checked]="showAllRows" (change)="onToggleChanged($event.checked)" class="toggle-with-badge">
     <span *ngIf="koDataCount > 0" [matBadge]="koDataCount" matBadgeOverlap="false" matBadgeColor="warn">
       {{ 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate }}
     </span>

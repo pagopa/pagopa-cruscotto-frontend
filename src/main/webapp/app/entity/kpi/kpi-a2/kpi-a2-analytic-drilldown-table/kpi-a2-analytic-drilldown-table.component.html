@@ -21,39 +21,46 @@
       <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table sticky-table-header">
         <ng-container matColumnDef="indicator">
           <th mat-header-cell *matHeaderCellDef>
-            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.outcome' | translate }}
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.outcome' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            <jhi-detail-status-marker type="condition" [condition]="(element.total ?? 0) > 0"></jhi-detail-status-marker>
+            <jhi-detail-status-marker type="condition" [condition]="(element.totIncorrectPayments ?? 0) > 0"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="fromHour">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.fromHour' | translate }}
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.fromHour' | translate }}
           </th>
           <td mat-cell *matCellDef="let e">{{ e.fromHour | date: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="endHour">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.endHour' | translate }}
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.endHour' | translate }}
           </th>
           <td mat-cell *matCellDef="let e">{{ e.endHour | date: 'HH:mm' : locale }}</td>
         </ng-container>
 
         <ng-container matColumnDef="transferCategory">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.transferCategory' | translate }}
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.transferCategory' | translate }}
           </th>
           <td mat-cell *matCellDef="let e">{{ e.transferCategory }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="total">
+        <ng-container matColumnDef="totPayments">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.total' | translate }}
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.totPayments' | translate }}
           </th>
-          <td mat-cell *matCellDef="let e" class="text-start">{{ e.total }}</td>
+          <td mat-cell *matCellDef="let e" class="text-start">{{ e.totPayments }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totIncorrectPayments">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticDrilldown.totIncorrectPayments' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let e" class="text-start">{{ e.totIncorrectPayments }}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

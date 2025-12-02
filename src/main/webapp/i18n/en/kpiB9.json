@@ -43,9 +43,11 @@
             "resKoValid": "Valid Response KO",
             "stationName": "Station",
             "showDetails": "Show details",
-            "details": "Results Detail"
+            "details": "Results Detail",
+            "outcome": "Outcome"
           },
           "KpiAnalyticDrilldown": {
+            "outcome": "Outcome",
             "startTime": "Start time",
             "endTime": "End time",
             "totRes": "Total Responses",

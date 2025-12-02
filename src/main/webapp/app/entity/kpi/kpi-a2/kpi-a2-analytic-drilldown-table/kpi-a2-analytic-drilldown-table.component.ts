@@ -36,7 +36,7 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   @Input() analyticDataId!: number;
   @Input() locale: string = 'it';
 
-  displayedColumns = ['indicator', 'fromHour', 'endHour', 'transferCategory', 'total'];
+  displayedColumns = ['indicator', 'fromHour', 'endHour', 'transferCategory', 'totPayments', 'totIncorrectPayments'];
   dataSource = new MatTableDataSource<IWrongTaxCode>([]);
 
   private readonly spinner = inject(NgxSpinnerService);
@@ -76,8 +76,12 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
         next: res => {
           this.spinner.hide('isLoadingResultsKpiA2AnalyticDrilldown').then(() => {
             this.originalData = res;
-            this.dataSource.data = res.filter(d => (d.total ?? 0) > 0);
+            this.dataSource.data = res.filter(d => (d.totIncorrectPayments ?? 0) > 0);
             this.negativeCount = this.dataSource.data.length;
+
+            this.showAllRows = false;
+
+            this.applyFilter();
 
             if (this.headerPaginator) {
               this.dataSource.paginator = this.headerPaginator;
@@ -97,9 +101,9 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   }
 
   applyFilter(): void {
-    this.dataSource.data = this.showAllRows ? this.originalData : this.originalData.filter(d => (d.total ?? 0) > 0);
+    this.dataSource.data = this.showAllRows ? this.originalData : this.originalData.filter(d => (d.totIncorrectPayments ?? 0) > 0);
 
-    this.negativeCount = this.originalData.filter(d => (d.total ?? 0) > 0).length;
+    this.negativeCount = this.originalData.filter(d => (d.totIncorrectPayments ?? 0) > 0).length;
 
     if (this.headerPaginator) {
       this.dataSource.paginator = this.headerPaginator;
