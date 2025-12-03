@@ -8,21 +8,49 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB4PagopaDataDrilldownService } from '../service/kpi-b4-pagopa-data-drilldown.service';
 import { IB4PagoPaDrilldown } from '../models/KpiB4AnalyticDrilldown';
 import { FormatDatePipe } from 'app/shared/date';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b4-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule, FormatDatePipe],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    FormatDatePipe,
+    DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
+  ],
   templateUrl: './kpi-b4-analytic-drilldown-table.component.html',
 })
 export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
   @Input() selectedKpiB4AnalyticResultId!: number;
 
   isLoadingResults = false;
+  showAllRows = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests',  'okRequests', 'koRequests'];
+  displayedColumns = [
+    'outcome',
+    'partnerFiscalCode',
+    'dataDate',
+    'stationCode',
+    'fiscalCode',
+    'api',
+    'totalRequests',
+    'okRequests',
+    'koRequests',
+  ];
   dataSource = new MatTableDataSource<IB4PagoPaDrilldown>([]);
+  data: IB4PagoPaDrilldown[] = [];
+  koDataCount: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -70,14 +98,22 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     }
   }
 
-  
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB4AnalyticDrilldown').then(() => {
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB4AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB4AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
-            this.paginator?.firstPage();
+            this.data = res ?? [];
+            this.koDataCount = this.data.filter(x => x.api === 'paCreate').length;
+
+            // Reset toggle
+            this.showAllRows = false;
+
+            this.applyFilter();
+
+            if (this.paginator) {
+              this.paginator?.firstPage();
+            }
           });
         },
         error: err => {
@@ -88,6 +124,17 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         },
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(x => x.api === 'paCreate');
+    }
+
+    this.dataSource.sort = this.sort;
+    this.paginator?.firstPage();
   }
 
   sortData(sort: Sort): void {
@@ -121,6 +168,23 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => d.api === 'paCreate');
+
+    this.koDataCount = this.data.filter(d => d.api === 'paCreate').length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

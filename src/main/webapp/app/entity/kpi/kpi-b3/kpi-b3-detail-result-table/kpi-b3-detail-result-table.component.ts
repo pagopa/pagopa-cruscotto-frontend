@@ -10,6 +10,8 @@ import { EvaluationType, KpiB3DetailResult } from '../models/KpiB3DetailResult';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { OutcomeStatus } from '../models/KpiB3Result';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b3-detail-result-table',
@@ -26,23 +28,24 @@ import { OutcomeStatus } from '../models/KpiB3Result';
     FormatDatePipe,
     NgClass,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'analysisDate',
     'evaluationType',
     'evaluationStartDate',
     'evaluationEndDate',
     'totalStandIn',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB3DetailResult>([]);
 
   @Input() kpiB3ResultId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   // evento Output che emette l'ID per mostrare i dettagli
   @Output() showDetails = new EventEmitter<number>();
@@ -54,6 +57,8 @@ export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges
   protected readonly EvaluationType = EvaluationType;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB3DetailResultService = inject(KpiB3DetailResultService);
+
+  private headerPaginator?: MatPaginator;
 
   locale: string;
   private readonly translateService = inject(TranslateService);
@@ -75,8 +80,8 @@ export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -103,8 +108,8 @@ export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges
     this.spinner.hide('isLoadingResultsKpiB3DetailResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -125,6 +130,12 @@ export class KpiB3DetailResultTableComponent implements AfterViewInit, OnChanges
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

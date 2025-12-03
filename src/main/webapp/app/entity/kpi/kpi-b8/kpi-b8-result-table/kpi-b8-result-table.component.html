@@ -5,7 +5,31 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+      </jhi-table-header-bar>
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table sticky-table-header"
+      >
+        <ng-container matColumnDef="outcome">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiDetailResults.outcome' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="outcome" [outcome]="element.outcome"></jhi-detail-status-marker>
+          </td>
+        </ng-container>
+
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -42,20 +66,6 @@
           <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
         </ng-container>
 
-        <!-- Colonna Outcome -->
-        <ng-container matColumnDef="outcome">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiResults.outcome' | translate }}
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
-          </td>
-        </ng-container>
-
         <!-- Colonna Details -->
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.8.tableLabels.KpiResults.details' | translate }}</th>
@@ -66,13 +76,11 @@
           </td>
         </ng-container>
 
-        <!-- Header e Righe -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="position-sticky"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
       </table>
     </div>
 
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>
     </ng-template>

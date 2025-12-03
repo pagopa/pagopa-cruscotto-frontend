@@ -4,7 +4,21 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      ></jhi-table-header-bar>
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table sticky-table-header"
+      >
         <ng-container matColumnDef="evaluationStartDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.evaluationStartDate' | translate }}
@@ -56,12 +70,8 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiDetailResults.outcome' | translate }}
           </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="element.reqTimeout > 0"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
@@ -70,7 +80,7 @@
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiDetailResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <button
-              *ngIf="element.evaluationType === EvaluationType.MESE"
+              *ngIf="element.evaluationType === EvaluationType.MESE && element.reqTimeout > 0"
               mat-stroked-button
               color="primary"
               (click)="emitShowDetails(element.id)"
@@ -84,8 +94,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

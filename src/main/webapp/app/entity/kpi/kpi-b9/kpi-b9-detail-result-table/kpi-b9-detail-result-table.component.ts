@@ -11,11 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { OutcomeStatus } from '../models/KpiB9Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { DecimalPipe } from '@angular/common';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b9-detail-result-table',
   imports: [
-    MatPaginator,
     TranslateModule,
     NgClass,
     MatTableModule,
@@ -25,12 +26,15 @@ import { DecimalPipe } from '@angular/common';
     NgxSpinnerModule,
     CommonModule,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
   templateUrl: './kpi-b9-detail-result-table.component.html',
   styleUrl: './kpi-b9-detail-result-table.component.scss',
 })
 export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'outcome',
     'evaluationStartDate',
     'evaluationEndDate',
     'totRes',
@@ -38,7 +42,6 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
     'resKoPercentage',
     'analysisDate',
     'evaluationType',
-    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB9DetailResult>([]);
@@ -126,6 +129,12 @@ export class KpiB9DetailResultTableComponent implements AfterViewInit, OnChanges
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

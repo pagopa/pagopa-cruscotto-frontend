@@ -359,3 +359,38 @@ mat-form-field.custom-form-select.mat-form-field-disabled .mat-mdc-text-field-wr
 mat-datepicker-content {
   padding-bottom: 8px;
 }
+
+.badge-counter {
+  margin-left: 4px;
+}
+
+:root .mat-badge {
+  --mat-badge-background-color: #ff0000 !important;
+}
+
+.mdc-switch__track::after {
+  background: #0073e6 !important;
+}
+
+jhi-table-header-bar mat-paginator .mat-mdc-paginator-container {
+  padding: 0 8px !important;
+  height: 40px !important;
+}
+
+jhi-table-header-bar mat-paginator .mat-mdc-paginator-range-label {
+  min-width: 70px;
+  text-align: right;
+}
+
+.sticky-table-header .mat-mdc-header-row {
+  position: sticky !important;
+  top: 72px; /* offset per headerBar */
+  z-index: 9 !important;
+  background: #fff;
+}
+
+.kpi-table-container {
+  width: 100%;
+  max-height: 500px;
+  overflow: auto;
+}

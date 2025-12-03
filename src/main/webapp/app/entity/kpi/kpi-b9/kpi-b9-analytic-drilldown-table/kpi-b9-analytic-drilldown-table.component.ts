@@ -7,11 +7,25 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB9PaymentReceiptDrilldownService, B9DrilldownRow } from '../service/kpi-b9-payment-receipt-drilldown.service';
 import dayjs, { Dayjs } from 'dayjs/esm';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggle, MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b9-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
+  ],
   templateUrl: './kpi-b9-analytic-drilldown-table.component.html',
 })
 export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,8 +34,11 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input({ required: true }) evaluationDate!: Dayjs | Date | string;
   @Input() locale = 'it';
 
-  displayedColumns = ['startTime', 'endTime', 'totRes', 'resKo'];
+  displayedColumns = ['outcome', 'startTime', 'endTime', 'totRes', 'resKo'];
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
+  data: B9DrilldownRow[] = [];
+  koDataCount: number = 0;
+  showAllRows = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -65,16 +82,29 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.svc.find(this.instanceId, this.stationId, d).subscribe({
         next: (rows: B9DrilldownRow[]) => {
           this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => {
-            // const preset = [...(rows ?? [])].sort((a, b) => (a.startTime?.valueOf() ?? 0) - (b.startTime?.valueOf() ?? 0));
-            this.dataSource.data = rows;
+            this.data = rows;
+            this.dataSource.data = rows.filter(d => (d.resKo ?? 0) > 0);
+            this.koDataCount = this.dataSource.data.length;
 
-            this.dataSource.sort = this.sort;
+            this.showAllRows = false;
+
+            this.applyFilter();
+
+            // this.dataSource.sort = this.sort;
             this.paginator?.firstPage();
           });
         },
         error: () => this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => (this.dataSource.data = [])),
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(x => x.resKo && x.resKo > 0);
+    }
   }
 
   sortData(sort: Sort): void {
@@ -100,6 +130,23 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.resKo ?? 0) > 0);
+
+    this.koDataCount = this.data.filter(d => (d.resKo ?? 0) > 0).length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 
