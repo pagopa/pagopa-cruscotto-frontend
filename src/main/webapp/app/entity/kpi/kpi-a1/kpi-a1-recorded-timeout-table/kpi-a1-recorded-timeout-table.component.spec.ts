@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { KpiA1AnalyticResultTableComponent } from './kpi-a1-recorded-timeout-table.component';
+import { KpiA1RecordedTimeoutTableComponent } from './kpi-a1-recorded-timeout-table.component';
 
-describe('KpiA1AnalyticResultTableComponent', () => {
-  let component: KpiA1AnalyticResultTableComponent;
-  let fixture: ComponentFixture<KpiA1AnalyticResultTableComponent>;
+describe('KpiA1RecordedTimeoutTableComponent', () => {
+  let component: KpiA1RecordedTimeoutTableComponent;
+  let fixture: ComponentFixture<KpiA1RecordedTimeoutTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [KpiA1AnalyticResultTableComponent],
+      imports: [KpiA1RecordedTimeoutTableComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(KpiA1AnalyticResultTableComponent);
+    fixture = TestBed.createComponent(KpiA1RecordedTimeoutTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
