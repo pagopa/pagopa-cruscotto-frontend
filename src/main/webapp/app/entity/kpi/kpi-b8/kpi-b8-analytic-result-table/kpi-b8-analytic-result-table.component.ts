@@ -9,6 +9,8 @@ import { KpiB8AnalyticDataService } from '../service/kpi-b8-analytic-data.servic
 import { KpiB8AnalyticData } from '../models/KpiB8AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-result-table',
@@ -25,10 +27,12 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
+  displayedColumns: string[] = ['outcome', 'analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
   dataSource = new MatTableDataSource<KpiB8AnalyticData>([]);
 
   @Input() kpiB8DetailResultId: number | undefined;
@@ -123,6 +127,12 @@ export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

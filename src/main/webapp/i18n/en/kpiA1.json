@@ -47,14 +47,16 @@
             "reqTimeoutReal": "Real Timeout Requests",
             "reqTimeoutValid": "Valid Timeouts",
             "kpiA1DetailResultId": "KPI A.1 Detail Id",
-            "stationName": "Station"
+            "stationName": "Station",
+            "outcome": "Outcome"
           },
           "KpiRecordedTimeout": {
             "fromHour": "From hour",
             "toHour": "To hour",
             "totalRequests": "Total Requests",
             "okRequests": "OK Requests",
-            "reqTimeout": "Timed out Requests"
+            "reqTimeout": "Timed out Requests",
+            "outcome": "Outcome"
           }
         }
       }

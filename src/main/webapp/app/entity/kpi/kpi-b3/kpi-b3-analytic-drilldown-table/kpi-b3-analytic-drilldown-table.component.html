@@ -5,6 +5,19 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <jhi-table-header-bar
+        [showToggle]="true"
+        [toggleValue]="showAllRows"
+        (toggleChange)="onToggleChanged($event)"
+        [toggleLabelOn]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate"
+        [toggleLabelOff]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+        <span toggle-badge *ngIf="negativeCount > 0" matBadge="{{ negativeCount }}" matBadgeOverlap="false" matBadgeColor="warn"> </span>
+      </jhi-table-header-bar>
+
       <table
         mat-table
         [dataSource]="dataSource"
@@ -13,8 +26,17 @@
         [matSortDirection]="'asc'"
         (matSortChange)="sortData($event)"
         matSortDisableClear
-        class="full-width-table"
+        class="full-width-table sticky-table-header"
       >
+        <ng-container matColumnDef="indicator">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.outcome' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="element.standInCount > 0"></jhi-detail-status-marker>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="intervalStart">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.B.3.tableLabels.KpiAnalyticDrillDown.intervalStart' | translate }}
@@ -54,8 +76,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

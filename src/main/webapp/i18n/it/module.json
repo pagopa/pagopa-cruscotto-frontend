@@ -112,6 +112,10 @@
       "C.2": {
         "name": "Integrazione nativa con SEND",
         "description": "Verifica attivazione del servizio di attualizzazione delle spese di notifica SEND in modalità sincrona per tutti gli enti integrati, con garanzia di aggiornamento degli importi"
+      },
+      "toggleForAnalyticDataDetails": {
+        "showAll": "Mostra Tutte",
+        "showOnlyNegative": "Mostra solo Evidenze Negative"
       }
     }
   },

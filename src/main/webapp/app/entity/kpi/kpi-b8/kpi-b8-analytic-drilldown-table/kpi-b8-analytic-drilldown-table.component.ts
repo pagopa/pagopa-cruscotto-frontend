@@ -7,11 +7,25 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB8PagopaDataDrilldownService } from '../service/kpi-b8-pagopa-data-drilldown.service';
 import { IB8PagoPaDrilldown } from '../models/KpiB8AnalyticDrilldown';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
+  ],
   templateUrl: './kpi-b8-analytic-drilldown-table.component.html',
 })
 export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,8 +34,21 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests', 'okRequests', 'koRequests'];
+  displayedColumns = [
+    'outcome',
+    'partnerFiscalCode',
+    'dataDate',
+    'stationCode',
+    'fiscalCode',
+    'api',
+    'totalRequests',
+    'okRequests',
+    'koRequests',
+  ];
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
+  data: IB8PagoPaDrilldown[] = [];
+  koDataCount: number = 0;
+  showAllRows = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -74,7 +101,15 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB8AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
+            this.data = res;
+            this.dataSource.data = res.filter(d => (d.koRequests ?? 0) > 0);
+            this.koDataCount = this.dataSource.data.length;
+
+            // reset toggle
+            this.showAllRows = false;
+
+            this.applyFilter();
+
             this.paginator?.firstPage();
           });
         },
@@ -82,10 +117,19 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           console.error('Failed to load B.8 drilldown', err);
           this.spinner.hide('isLoadingResultsKpiB2AnalyticDrilldown').then(() => {
             this.dataSource.data = [];
+            this.data = [];
           });
         },
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(_ => _.koRequests > 0);
+    }
   }
 
   sortData(sort: Sort): void {
@@ -119,6 +163,23 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.koRequests ?? 0) > 0);
+
+    this.koDataCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

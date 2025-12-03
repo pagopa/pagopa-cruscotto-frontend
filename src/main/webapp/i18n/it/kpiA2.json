@@ -39,9 +39,17 @@
             "fromHour": "Da ora",
             "endHour": "A ora",
             "transferCategory": "Categoria versamenti",
-            "total": "Totale errati",
             "details": "Dettagli Risultato",
-            "showDetails": "Mostra dettagli"
+            "showDetails": "Mostra dettagli",
+            "outcome": "Esito"
+          },
+          "KpiAnalyticDrilldown": {
+            "fromHour": "Da ora",
+            "endHour": "A ora",
+            "transferCategory": "Categoria versamenti",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Totale Errati",
+            "outcome": "Esito"
           }
         }
       }
