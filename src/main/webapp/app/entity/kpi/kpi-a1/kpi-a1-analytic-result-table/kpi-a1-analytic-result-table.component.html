@@ -55,11 +55,11 @@
         </ng-container>
 
         <!-- Colonna Tot Requests -->
-        <ng-container matColumnDef="totReq">
+        <ng-container matColumnDef="totalRequests">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiAnalyticResults.totalRequests' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.totReq | number }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.totalRequests | number }}</td>
         </ng-container>
 
         <!-- Colonna Requests OK -->
@@ -92,7 +92,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.reqTimeoutValid > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+            <button *ngIf="element.totReq > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>

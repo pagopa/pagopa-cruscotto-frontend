@@ -12,7 +12,13 @@ import { FormsModule } from '@angular/forms';
     <div class="table-header-bar" [class.table-header-bar--sticky]="sticky">
       <!-- SINISTRA: toggle opzionale -->
       <div class="table-header-bar__left">
-        <mat-slide-toggle *ngIf="showToggle" [(ngModel)]="toggleValue" (change)="toggleChange.emit(toggleValue)" class="toggle-with-badge">
+        <mat-slide-toggle
+          *ngIf="showToggle"
+          [(ngModel)]="toggleValue"
+          (change)="toggleChange.emit(toggleValue)"
+          [disabled]="toggleDisabled"
+          class="toggle-with-badge"
+        >
           {{ toggleValue ? toggleLabelOn : toggleLabelOff }}
           <span class="toggle-badge-slot">
             <ng-content select="[toggle-badge]"></ng-content>
@@ -88,6 +94,7 @@ export class TableHeaderBarComponent implements AfterViewInit {
 
   /** Toggle (opzionale) */
   @Input() showToggle = false;
+  @Input() toggleDisabled = false;
   @Input() toggleValue = false;
   @Input() toggleLabelOn = '';
   @Input() toggleLabelOff = '';

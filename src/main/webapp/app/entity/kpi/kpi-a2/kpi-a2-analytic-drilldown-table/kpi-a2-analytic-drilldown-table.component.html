@@ -7,10 +7,11 @@
     <ng-container *ngIf="hasData; else noDataTemplate">
       <jhi-table-header-bar
         [showToggle]="true"
+        [toggleDisabled]="isToggleDisabled"
         [toggleValue]="showAllRows"
         (toggleChange)="onToggleChanged($event)"
-        [toggleLabelOn]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate"
-        [toggleLabelOff]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate"
+        [toggleLabelOn]="toggleLabel | translate"
+        [toggleLabelOff]="toggleLabel | translate"
         [showPaginator]="true"
         [length]="dataSource.data.length"
         (paginatorReady)="onHeaderPaginatorReady($event)"
