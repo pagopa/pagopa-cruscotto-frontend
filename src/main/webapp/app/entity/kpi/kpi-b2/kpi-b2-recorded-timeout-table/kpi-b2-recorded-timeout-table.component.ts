@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -10,6 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiB2RecordedTimeout } from '../models/KpiB2RecordedTimeout';
 import { KpiB2RecordedTimeoutService } from '../service/kpi-b2-recorded-timeout.service';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b2-recorded-timeout-table',
@@ -21,27 +24,35 @@ import { KpiB2RecordedTimeoutService } from '../service/kpi-b2-recorded-timeout.
     MatTableModule,
     NgxSpinnerModule,
     TranslateModule,
+    MatBadgeModule,
     NgIf,
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['fromHour', 'endHour', 'totalRequests', 'okRequests', 'averageTimeMs'];
+  displayedColumns: string[] = ['indicator', 'fromHour', 'endHour', 'totalRequests', 'okRequests', 'averageTimeMs'];
   dataSource = new MatTableDataSource<KpiB2RecordedTimeout>([]);
 
   @Input() selectedKpiB2RecordedTimeoutId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<KpiB2AnalyticData>();
 
   isLoadingResults = false;
+  showAllRows = false;
+
   locale: string;
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB2RecordedTimeoutService = inject(KpiB2RecordedTimeoutService);
+  originalData: KpiB2RecordedTimeout[] = [];
+
+  private headerPaginator?: MatPaginator;
+  negativeCount = 0;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -60,8 +71,8 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -87,9 +98,17 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   protected onSuccess(data: KpiB2RecordedTimeout[]): void {
     this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
-      this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      this.originalData = data;
+      this.dataSource.data = data.filter(d => (d.averageTimeMs ?? 0) > 2000);
+      this.negativeCount = this.originalData.filter(d => (d.averageTimeMs ?? 0) > 2000).length;
+
+      this.showAllRows = false;
+
+      this.applyFilter();
+
+      if (this.headerPaginator) {
+        this.dataSource.paginator = this.headerPaginator;
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -110,6 +129,12 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**
@@ -147,6 +172,25 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   emitShowDetails(kpiB2DetailResultId: KpiB2AnalyticData): void {
     this.showDetails.emit(kpiB2DetailResultId);
+  }
+
+  applyFilter(): void {
+    if (this.showAllRows) {
+      this.dataSource.data = this.originalData; // tutte
+    } else {
+      this.dataSource.data = this.originalData.filter(d => (d.averageTimeMs ?? 0) > 2000);
+    }
+
+    this.negativeCount = this.originalData.filter(d => (d.averageTimeMs ?? 0) > 2000).length;
+
+    if (this.headerPaginator) {
+      this.headerPaginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
   }
 }
 

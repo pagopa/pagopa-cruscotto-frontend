@@ -4,6 +4,13 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+      </jhi-table-header-bar>
       <table
         mat-table
         [dataSource]="dataSource"
@@ -11,8 +18,17 @@
         matSort
         matSortDisableClear
         multiTemplateDataRows
-        class="full-width-table"
+        class="full-width-table sticky-table-header"
       >
+        <ng-container matColumnDef="indicator">
+          <th mat-header-cell *matHeaderCellDef>
+            {{ 'pagopaCruscottoApp.module.A.2.tableLabels.KpiAnalyticResults.outcome' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="(element.totIncorrectPayments ?? 0) > 0"></jhi-detail-status-marker>
+          </td>
+        </ng-container>
+
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -64,8 +80,6 @@
         ></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

@@ -47,14 +47,16 @@
             "kpiB2DetailResultId": "Id Risultato Dettaglio B2",
             "details": "Dettagli",
             "showDetails": "Mostra dettagli",
-            "stationName": "Stazione"
+            "stationName": "Stazione",
+            "outcome": "Esito"
           },
           "KpiRecordedTimeout": {
             "fromHour": "Da ora",
             "endHour": "A ora",
             "okRequests": "Richieste OK",
             "totalRequests": "Totale Richieste",
-            "averageTimeMs": "Tempo medio (ms)"
+            "averageTimeMs": "Tempo medio (ms)",
+            "outcome": "Esito"
           }
         }
       }
