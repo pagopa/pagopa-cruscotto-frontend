@@ -37,7 +37,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     'evaluationDate',
     'stationName',
     'method',
-    'totReq',
+    'totalRequests',
     'reqOk',
     'reqTimeoutReal',
     'reqTimeoutValid',
@@ -156,8 +156,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.method, b.method, isAsc);
         case 'evaluationDate':
           return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
-        case 'totReq':
-          return compare(a.totReq, b.totReq, isAsc);
+        case 'totalRequests':
+          return compare(a.totalRequests, b.totalRequests, isAsc);
         case 'reqOk':
           return compare(a.reqOk, b.reqOk, isAsc);
         case 'reqTimeoutReal':
