@@ -6,10 +6,11 @@
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
       <jhi-table-header-bar
         [showToggle]="true"
+        [toggleDisabled]="isToggleDisabled"
         [toggleValue]="showAllRows"
         (toggleChange)="onToggleChanged($event)"
-        [toggleLabelOn]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showAll' | translate"
-        [toggleLabelOff]="'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.showOnlyNegative' | translate"
+        [toggleLabelOn]="toggleLabel | translate"
+        [toggleLabelOff]="toggleLabel | translate"
         [showPaginator]="true"
         [length]="dataSource.data.length"
         (paginatorReady)="onHeaderPaginatorReady($event)"
