@@ -8,6 +8,7 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB8PagopaDataDrilldownService } from '../service/kpi-b8-pagopa-data-drilldown.service';
 import { IB8PagoPaDrilldown } from '../models/KpiB8AnalyticDrilldown';
 import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 
@@ -19,12 +20,12 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTableModule,
     TranslateModule,
     NgxSpinnerModule,
-    MatPaginator,
     MatPaginatorModule,
     MatSortModule,
     DetailStatusMarkerComponent,
     MatSlideToggleModule,
     MatBadgeModule,
+    TableHeaderBarComponent,
   ],
   templateUrl: './kpi-b8-analytic-drilldown-table.component.html',
 })
@@ -47,8 +48,18 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   ];
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
   data: IB8PagoPaDrilldown[] = [];
-  koDataCount: number = 0;
+  negativeCount: number = 0;
   showAllRows = false;
+  isToggleDisabled = false;
+
+  toggleLabel = '';
+
+  private readonly TOGGLE_LABELS = {
+    onlyNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyNegative',
+    onlyPositive: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyPositive',
+    showNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showNegative',
+    showAll: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showAll',
+  } as const;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -58,6 +69,12 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   get hasData(): boolean {
     return !!this.dataSource?.data?.length;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   ngAfterViewInit(): void {
@@ -102,12 +119,12 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
             this.data = res;
-            this.dataSource.data = res.filter(d => (d.koRequests ?? 0) > 0);
-            this.koDataCount = this.dataSource.data.length;
+            const negatives = res.filter(d => (d.koRequests ?? 0) > 0);
+            const positives = res.filter(d => d.koRequests === 0);
 
-            // reset toggle
-            this.showAllRows = false;
-
+            this.negativeCount = negatives.length;
+            this.updateToggleState(negatives.length, positives.length);
+            this.dataSource.data = this.showAllRows ? res : negatives;
             this.applyFilter();
 
             this.paginator?.firstPage();
@@ -168,7 +185,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   applyFilter(): void {
     this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.koRequests ?? 0) > 0);
 
-    this.koDataCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
+    this.negativeCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
 
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
@@ -180,6 +197,34 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   onToggleChanged(value: boolean) {
     this.showAllRows = value;
     this.applyFilter();
+    this.updateLabelAfterToggle(value);
+  }
+
+  private updateToggleState(negatives: number, positives: number): void {
+    /** case 1: solo negativi */
+    if (negatives > 0 && positives === 0) {
+      this.showAllRows = false;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyNegative;
+      return;
+    }
+
+    /** case 2: solo positivi */
+    if (positives > 0 && negatives === 0) {
+      this.showAllRows = true;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyPositive;
+      return;
+    }
+
+    /** case 3: mix */
+    this.showAllRows = false;
+    this.isToggleDisabled = false;
+    this.toggleLabel = this.TOGGLE_LABELS.showNegative;
+  }
+
+  private updateLabelAfterToggle(value: boolean): void {
+    this.toggleLabel = value ? this.TOGGLE_LABELS.showAll : this.TOGGLE_LABELS.showNegative;
   }
 }
 
