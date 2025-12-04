@@ -10,8 +10,8 @@ type StatusMarkerType = 'outcome' | 'condition';
   standalone: true,
   imports: [NgClass, NgIf],
   template: `
-    <span *ngIf="type === 'condition' && condition" class="dot dot-ko" id="negativeEvidence"></span>
-
+    <span *ngIf="type === 'condition' && condition; else positiveEvidence" class="dot dot-ko" id="negativeEvidence"></span>
+    <ng-template #positiveEvidence id="positiveEvidence"></ng-template>
     <span
       *ngIf="type === 'outcome'"
       [ngClass]="{
