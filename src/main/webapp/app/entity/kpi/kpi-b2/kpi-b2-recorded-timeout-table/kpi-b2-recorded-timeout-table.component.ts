@@ -44,6 +44,16 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
 
   isLoadingResults = false;
   showAllRows = false;
+  isToggleDisabled = false;
+
+  toggleLabel = '';
+
+  private readonly TOGGLE_LABELS = {
+    onlyNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyNegative',
+    onlyPositive: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyPositive',
+    showNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showNegative',
+    showAll: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showAll',
+  } as const;
 
   locale: string;
   private readonly translateService = inject(TranslateService);
@@ -99,12 +109,14 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
     this.spinner.hide('isLoadingResultsKpiB2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.originalData = data;
-      this.dataSource.data = data.filter(d => (d.averageTimeMs ?? 0) > 2000);
-      this.negativeCount = this.originalData.filter(d => (d.averageTimeMs ?? 0) > 2000).length;
+      const negatives = data.filter(d => (d.averageTimeMs ?? 0) > 2000);
+      const positives = data.filter(d => (d.averageTimeMs ?? 0) <= 2000);
 
-      this.showAllRows = false;
+      this.negativeCount = negatives.length;
 
-      this.applyFilter();
+      this.updateToggleState(negatives.length, positives.length);
+
+      this.dataSource.data = this.showAllRows ? data : negatives;
 
       if (this.headerPaginator) {
         this.dataSource.paginator = this.headerPaginator;
@@ -191,6 +203,34 @@ export class KpiB2RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   onToggleChanged(value: boolean) {
     this.showAllRows = value;
     this.applyFilter();
+    this.updateLabelAfterToggle(value);
+  }
+
+  private updateToggleState(negatives: number, positives: number): void {
+    /** case 1: solo negativi */
+    if (negatives > 0 && positives === 0) {
+      this.showAllRows = false;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyNegative;
+      return;
+    }
+
+    /** case 2: solo positivi */
+    if (positives > 0 && negatives === 0) {
+      this.showAllRows = true;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyPositive;
+      return;
+    }
+
+    /** case 3: mix */
+    this.showAllRows = false;
+    this.isToggleDisabled = false;
+    this.toggleLabel = this.TOGGLE_LABELS.showNegative;
+  }
+
+  private updateLabelAfterToggle(value: boolean): void {
+    this.toggleLabel = value ? this.TOGGLE_LABELS.showAll : this.TOGGLE_LABELS.showNegative;
   }
 }
 
