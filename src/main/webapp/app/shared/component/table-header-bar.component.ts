@@ -51,9 +51,9 @@ import { FormsModule } from '@angular/forms';
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #fff;
-        padding: 8px 12px;
+        background: #fdf8fd;
         border-bottom: 1px solid #ddd;
+        padding: 8px 12px;
       }
       .table-header-bar--sticky {
         position: sticky;
