@@ -37,7 +37,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   showAllRows = false;
   isToggleDisabled = false;
 
-  displayedColumns = ['outcome', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
+  displayedColumns = ['negativeData', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
   dataSource = new MatTableDataSource<IB5PagoPaDrilldown>([]);
   originalData: IB5PagoPaDrilldown[] = [];
   negativeCount: number = 0;

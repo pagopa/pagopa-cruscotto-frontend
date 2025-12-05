@@ -23,6 +23,7 @@
             "evaluationEndDate": "Fine Periodo",
             "evaluationType": "Tipo di Valutazione",
             "outcome": "Esito",
+            "negativeData": "Dati Negativi",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
             "stationName": "Stazione",
@@ -44,14 +45,14 @@
             "stationName": "Stazione",
             "showDetails": "Mostra dettagli",
             "details": "Dettagli Risultato",
-            "outcome": "Esito"
+            "negativeData": "Dati Negativi"
           },
           "KpiAnalyticDrilldown": {
             "startTime": "Da ora",
             "endTime": "A ora",
             "totRes": "Totale response",
             "resKo": "Response KO",
-            "outcome": "Esito"
+            "negativeData": "Dati Negativi"
           }
         }
       }

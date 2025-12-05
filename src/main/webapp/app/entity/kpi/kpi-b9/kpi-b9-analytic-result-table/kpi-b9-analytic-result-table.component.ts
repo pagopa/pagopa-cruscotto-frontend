@@ -32,7 +32,7 @@ import { KpiB9AnalyticData } from '../models/KpiB9AnalyticData';
   ],
 })
 export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['outcome', 'evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
+  displayedColumns: string[] = ['negativeData', 'evaluationDate', 'stationName', 'totRes', 'resOk', 'resKoReal', 'resKoValid', 'details'];
   dataSource = new MatTableDataSource<KpiB9AnalyticData>([]);
 
   @Input() kpiB9DetailResultId: number | undefined;

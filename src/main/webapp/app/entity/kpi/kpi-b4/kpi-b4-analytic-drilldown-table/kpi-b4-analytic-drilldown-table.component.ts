@@ -40,7 +40,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isToggleDisabled = false;
 
   displayedColumns = [
-    'outcome',
+    'negativeData',
     'partnerFiscalCode',
     'dataDate',
     'stationCode',

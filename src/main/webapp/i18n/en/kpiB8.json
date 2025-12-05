@@ -23,6 +23,7 @@
             "reqKO": "Requests KO",
             "perKO": "% KO Req",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "details": "Details",
             "showDetails": "Show detail"
           },
@@ -38,7 +39,8 @@
             "showDetails": "Show Details",
             "stationFiscalCode": "Station",
             "totReq": "Total Requests",
-            "reqKO": "KO Requests"
+            "reqKO": "KO Requests",
+            "negativeData": "Negative Data"
           },
           "KpiAnalyticDrillDown": {
             "partnerFiscalCode": "Partner",
@@ -48,7 +50,8 @@
             "api": "API",
             "totalRequests": "Total Requests",
             "okRequests": "OK Requests",
-            "koRequests": "KO Requests"
+            "koRequests": "KO Requests",
+            "negativeData": "Negative Data"
           }
         }
       }

@@ -33,7 +33,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'indicator',
+    'negativeData',
     'evaluationDate',
     'stationName',
     'method',

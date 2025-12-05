@@ -35,7 +35,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input({ required: true }) evaluationDate!: Dayjs | Date | string;
   @Input() locale = 'it';
 
-  displayedColumns = ['outcome', 'startTime', 'endTime', 'totRes', 'resKo'];
+  displayedColumns = ['negativeData', 'startTime', 'endTime', 'totRes', 'resKo'];
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
   data: B9DrilldownRow[] = [];
   negativeCount: number = 0;

@@ -10,7 +10,6 @@ import { KpiA2Result } from '../models/KpiA2Result';
 import { MatButton } from '@angular/material/button';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
 import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
@@ -28,12 +27,11 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
     MatButton,
     FormatDatePipe,
     DecimalPipe,
-    DetailStatusMarkerComponent,
     TableHeaderBarComponent,
   ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['outcome', 'analysisDate', 'tolerance', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'tolerance', 'outcome', 'details'];
 
   dataSource = new MatTableDataSource<KpiA2Result>([]);
 

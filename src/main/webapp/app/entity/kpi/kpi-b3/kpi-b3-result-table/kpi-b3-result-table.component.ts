@@ -41,12 +41,12 @@ enum OutcomeStatus {
 })
 export class KpiB3ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'outcome',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
     'evaluationType',
+    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB3Result>([]);
