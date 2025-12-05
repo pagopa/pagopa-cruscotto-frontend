@@ -19,7 +19,6 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   styleUrls: ['./kpi-b4-result-table.component.scss'],
   imports: [
     CommonModule,
-    MatPaginator,
     MatTableModule,
     MatColumnDef,
     MatHeaderCell,
@@ -40,7 +39,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   ],
 })
 export class KpiB4ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['outcome', 'analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'outcome', 'details'];
   dataSource = new MatTableDataSource<KpiB4Result>([]);
   locale: string;
 

@@ -23,6 +23,7 @@
             "totalCP": "Totale CP",
             "percentageCP": "% CP",
             "outcome": "Esito",
+            "negativeData": "Dati Negativi",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
           },
@@ -38,7 +39,8 @@
             "showDetails": "Mostra dettagli",
             "stationFiscalCode": "Stazione",
             "totalGPD": "Totale GPD",
-            "totalCP": "Totale CP"
+            "totalCP": "Totale CP",
+            "negativeData": "Dati Negativi"
           },
           "KpiAnalyticDrillDown": {
             "partnerFiscalCode": "Partner",
@@ -48,7 +50,8 @@
             "api": "API",
             "totalRequests": "Totale Richieste",
             "okRequests": "Richieste OK",
-            "koRequests": "Richieste KO"
+            "koRequests": "Richieste KO",
+            "negativeData": "Dati Negativi"
           }
         }
       }

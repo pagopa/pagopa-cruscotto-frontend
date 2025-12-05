@@ -17,6 +17,7 @@
             "analysisDate": "Data Analisi",
             "stationId": "Id Stazione",
             "outcome": "Esito",
+            "negativeData": "Dati Negativi",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli",
             "stationsPresent": "Stazioni presenti",
@@ -29,7 +30,7 @@
             "instanceModuleId": "Id Modulo dell'Istanza",
             "analysisDate": "Data Analisi",
             "stationId": "Id Stazione",
-            "outcome": "Esito",
+            "negativeData": "Dati Negativi",
             "stationsPresent": "Stazioni presenti",
             "stationsWithoutSpontaneous": "Stazioni senza pagamenti spontanei",
             "percentageNoSpontaneous": "% no spontanei",
@@ -39,7 +40,8 @@
           "KpiAnalyticDrilldown": {
             "partnerFiscalCode": "Partner",
             "stationCode": "Stazione",
-            "spontaneousPayments": "Pagamenti spontanei"
+            "spontaneousPayments": "Pagamenti spontanei",
+            "negativeData": "Dati Negativi"
           }
         }
       }

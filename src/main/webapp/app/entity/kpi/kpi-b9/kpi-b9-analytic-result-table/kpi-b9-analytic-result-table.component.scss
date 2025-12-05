@@ -32,6 +32,7 @@
 .analytic-table .mat-column-evaluationDate,
 .analytic-table .mat-column-totRes,
 .analytic-table .mat-column-resOk,
+.analytic-table .mat-column-negativeData,
 .analytic-table .mat-column-resKoReal,
 .analytic-table .mat-column-resKoValid,
 .analytic-table .mat-column-details {
@@ -41,7 +42,7 @@
 /* allineamenti */
 .analytic-table .mat-column-analysisDate,
 .analytic-table .mat-column-evaluationDate {
-  text-align: left!important;
+  text-align: left !important;
 }
 
 .analytic-table .mat-column-totRes,
@@ -49,12 +50,12 @@
 .analytic-table .mat-column-resKoReal,
 .analytic-table .mat-column-resKoValid,
 .num {
-  text-align: left!important;
+  text-align: left !important;
 }
 
 .mat-column-details {
   width: 180px;
-  text-align: center!important;
+  text-align: center !important;
 }
 
 .analytic-table .mat-column-details,

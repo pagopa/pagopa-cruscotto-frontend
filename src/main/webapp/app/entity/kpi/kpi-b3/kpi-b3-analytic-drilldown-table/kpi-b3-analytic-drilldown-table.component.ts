@@ -36,7 +36,7 @@ export class KpiB3AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   @Input() locale = 'it';
 
-  displayedColumns = ['indicator', 'partnerFiscalCode', 'intervalStart', 'intervalEnd', 'stationCode', 'standInCount'];
+  displayedColumns = ['negativeData', 'partnerFiscalCode', 'intervalStart', 'intervalEnd', 'stationCode', 'standInCount'];
   dataSource = new MatTableDataSource<IB3PagoPaDrilldown>([]);
   originalData: IB3PagoPaDrilldown[] = [];
 

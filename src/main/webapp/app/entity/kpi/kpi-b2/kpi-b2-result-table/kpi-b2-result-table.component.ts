@@ -40,7 +40,6 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 })
 export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'outcome',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
@@ -48,6 +47,7 @@ export class KpiB2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     'tolerance',
     'averageTimeLimit',
     'evaluationType',
+    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB2Result>([]);
