@@ -84,7 +84,13 @@
             {{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiDetailResults.outcome' | translate }}
           </th>
           <td mat-cell *matCellDef="let element">
-            <jhi-detail-status-marker type="condition" [condition]="element.resKo > 0"></jhi-detail-status-marker>
+            <jhi-detail-status-marker
+              type="condition"
+              [condition]="
+                (element.evaluationType === EvaluationType.MESE && element.resKo > 0) ||
+                (element.evaluationType === EvaluationType.TOTALE && element.outcome === OutcomeStatus.KO)
+              "
+            ></jhi-detail-status-marker>
           </td>
         </ng-container>
 
@@ -93,7 +99,7 @@
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.9.tableLabels.KpiDetailResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
             <button
-              *ngIf="element.evaluationType === EvaluationType.MESE && element.totRes > 0"
+              *ngIf="element.evaluationType === EvaluationType.MESE && element.resKo > 0"
               mat-stroked-button
               color="primary"
               (click)="emitShowDetails(element.id)"
