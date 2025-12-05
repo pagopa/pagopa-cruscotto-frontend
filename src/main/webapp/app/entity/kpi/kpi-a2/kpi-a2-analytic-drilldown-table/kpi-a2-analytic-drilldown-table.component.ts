@@ -36,7 +36,7 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   @Input() analyticDataId!: number;
   @Input() locale: string = 'it';
 
-  displayedColumns = ['indicator', 'fromHour', 'endHour', 'transferCategory', 'totPayments', 'totIncorrectPayments'];
+  displayedColumns = ['negativeData', 'fromHour', 'endHour', 'transferCategory', 'totPayments', 'totIncorrectPayments'];
   dataSource = new MatTableDataSource<IWrongTaxCode>([]);
 
   private readonly spinner = inject(NgxSpinnerService);

@@ -36,7 +36,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   @Input() locale = 'it';
 
   displayedColumns = [
-    'outcome',
+    'negativeData',
     'partnerFiscalCode',
     'dataDate',
     'stationCode',

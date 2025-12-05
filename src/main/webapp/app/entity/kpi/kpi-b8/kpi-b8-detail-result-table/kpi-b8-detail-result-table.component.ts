@@ -34,7 +34,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 })
 export class KpiB8DetailResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'outcome',
+    'negativeData',
     'analysisDate',
     'evaluationType',
     'evaluationStartDate',
@@ -42,6 +42,7 @@ export class KpiB8DetailResultTableComponent implements AfterViewInit, OnChanges
     'totReq',
     'reqKO',
     'perKO',
+    'outcome',
     'details',
   ];
   dataSource = new MatTableDataSource<KpiB8DetailResult>([]);

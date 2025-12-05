@@ -3,7 +3,8 @@
 .mat-column-stationsPresent,
 .mat-column-stationsWithoutSpontaneous,
 .mat-column-percentageNoSpontaneous,
-.mat-column-outcome {
+.mat-column-outcome,
+.mat-column-negativeData {
   width: 150px;
   text-align: left !important;
   white-space: nowrap;

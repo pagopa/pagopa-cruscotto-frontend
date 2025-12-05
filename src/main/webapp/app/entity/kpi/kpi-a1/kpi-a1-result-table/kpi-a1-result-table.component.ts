@@ -36,13 +36,13 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 })
 export class KpiA1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
-    'outcome',
     'analysisDate',
     'excludePlannedShutdown',
     'excludeUnplannedShutdown',
     'eligibilityThreshold',
     'tolerance',
     'evaluationType',
+    'outcome',
     'details',
   ];
 

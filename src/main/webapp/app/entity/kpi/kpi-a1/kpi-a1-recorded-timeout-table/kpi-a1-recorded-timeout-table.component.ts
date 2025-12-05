@@ -41,7 +41,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['indicator', 'fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
+  displayedColumns: string[] = ['negativeData', 'fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;

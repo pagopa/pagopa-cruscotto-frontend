@@ -33,7 +33,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   ],
 })
 export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['indicator', 'analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
+  displayedColumns: string[] = ['negativeData', 'analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
   dataSource = new MatTableDataSource<KpiB3AnalyticData>([]);
 
   @Input() kpiB3DetailResultId: number | undefined;
