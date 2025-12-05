@@ -23,6 +23,7 @@
             "evaluationEndDate": "End Period",
             "totalStandIn": "Total StandIn",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "details": "Details",
             "showDetails": "Show detail"
           },
@@ -38,7 +39,7 @@
             "showDetails": "Show Details",
             "stationFiscalCode": "Station",
             "standInCount": "StandIn Number",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           },
           "KpiAnalyticDrillDown": {
             "partnerFiscalCode": "Partner",
@@ -46,7 +47,7 @@
             "intervalEnd": "End date",
             "stationCode": "Station",
             "standInCount": "StandIn Number",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           }
         }
       }

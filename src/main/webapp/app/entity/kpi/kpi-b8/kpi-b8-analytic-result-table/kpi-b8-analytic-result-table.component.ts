@@ -32,7 +32,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   ],
 })
 export class KpiB8AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['outcome', 'analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
+  displayedColumns: string[] = ['negativeData', 'analysisDate', 'evaluationDate', 'totReq', 'reqKO', 'details'];
   dataSource = new MatTableDataSource<KpiB8AnalyticData>([]);
 
   @Input() kpiB8DetailResultId: number | undefined;

@@ -39,7 +39,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
   ],
 })
 export class KpiB8ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['outcome', 'analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'details'];
+  displayedColumns: string[] = ['analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'outcome', 'details'];
   dataSource = new MatTableDataSource<KpiB8Result>([]);
   locale: string;
 

@@ -5,7 +5,8 @@
 .mat-column-totPayments,
 .mat-column-totIncorrectPayments,
 .mat-column-errorPercentage,
-.mat-column-outcome {
+.mat-column-outcome,
+.mat-column-negativeData {
   width: 150px;
   text-align: left !important;
   white-space: nowrap;

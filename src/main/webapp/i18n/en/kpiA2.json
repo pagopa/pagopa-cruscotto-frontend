@@ -23,6 +23,7 @@
             "totIncorrectPayments": "Incorrect Payments",
             "errorPercentage": "Wrong Percentage",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "kpiA2ResultId": "KPI A.2 Result Id",
             "details": "Results Detail",
             "showDetails": "Show Details"
@@ -41,7 +42,7 @@
             "transferCategory": "Transfer category",
             "details": "Results Detail",
             "showDetails": "Show Details",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           },
           "KpiAnalyticDrilldown": {
             "fromHour": "From hour",
@@ -49,7 +50,7 @@
             "transferCategory": "Transfer category",
             "totPayments": "Total Payments",
             "totIncorrectPayments": "Incorrect Payments",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           }
         }
       }

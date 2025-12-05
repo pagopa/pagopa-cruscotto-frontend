@@ -28,6 +28,7 @@
             "evaluationEndDate": "End Period",
             "evaluationType": "Type of Evaluation",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "details": "Details",
             "showDetails": "Show detail",
             "stationName": "Station"
@@ -48,7 +49,7 @@
             "details": "Details",
             "showDetails": "Show Details",
             "stationName": "Station",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           },
           "KpiRecordedTimeout": {
             "fromHour": "From hour",
@@ -56,7 +57,7 @@
             "okRequests": "OK requests",
             "totalRequests": "Total Requests",
             "averageTimeMs": "Average time (ms)",
-            "outcome": "Outcome"
+            "negativeData": "Negative Data"
           }
         }
       }
