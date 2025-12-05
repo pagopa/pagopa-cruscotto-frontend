@@ -1,123 +1,117 @@
 <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResultsKpiC2DetailResultTable">
   <p class="ngx-spinner-loading">Loading...</p>
 </ngx-spinner>
-<div class="table-responsive">
-  <div class="table-container">
-    <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
-        <!-- Colonne -->
+<mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
 
-        <ng-container matColumnDef="analysisDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.analysisDate' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
-        </ng-container>
+<div *ngIf="hasData; else noDataTemplate" class="kpi-table-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort matSortDisableClear class="full-width-table">
+    <ng-container matColumnDef="analysisDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.analysisDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.analysisDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="evaluationType">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationType' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
-        </ng-container>
+    <ng-container matColumnDef="evaluationType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationType' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.evaluationType }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="evaluationStartDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationStartDate' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationStartDate | formatDate: 'L' : locale }}</td>
-        </ng-container>
+    <ng-container matColumnDef="evaluationStartDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationStartDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.evaluationStartDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="evaluationEndDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationEndDate' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.evaluationEndDate | formatDate: 'L' : locale }}</td>
-        </ng-container>
+    <ng-container matColumnDef="evaluationEndDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.evaluationEndDate' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.evaluationEndDate | formatDate: 'L' : locale }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="totalInstitution">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalInstitution' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalInstitution | number }}</td>
-        </ng-container>
+    <ng-container matColumnDef="totalInstitution">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalInstitution' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.totalInstitution | number }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="totalInstitutionSend">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalInstitutionSend' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalInstitutionSend | number }}</td>
-        </ng-container>
+    <ng-container matColumnDef="totalInstitutionSend">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalInstitutionSend' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.totalInstitutionSend | number }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="percentInstitutionSend">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.percentInstitutionSend' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.percentInstitutionSend | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-          </td>
-        </ng-container>
+    <ng-container matColumnDef="percentInstitutionSend">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.percentInstitutionSend' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.percentInstitutionSend | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+      </td>
+    </ng-container>
 
-        <ng-container matColumnDef="totalPayment">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalPayment' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalPayment | number }}</td>
-        </ng-container>
+    <ng-container matColumnDef="totalPayment">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalPayment' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.totalPayment | number }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="totalNotification">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalNotification' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.totalNotification | number }}</td>
-        </ng-container>
+    <ng-container matColumnDef="totalNotification">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.totalNotification' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.totalNotification | number }}</td>
+    </ng-container>
 
-        <ng-container matColumnDef="percentEntiOk">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.percentEntiOk' | translate }}
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.percentEntiOk | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-          </td>
-        </ng-container>
+    <ng-container matColumnDef="percentEntiOk">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.percentEntiOk' | translate }}
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.percentEntiOk | number: '1.2-2' }}<span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+      </td>
+    </ng-container>
 
-        <ng-container matColumnDef="outcome">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.outcome' | translate }}
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
-          </td>
-        </ng-container>
+    <ng-container matColumnDef="outcome">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.outcome' | translate }}
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
+      >
+        {{ element.outcome }}
+      </td>
+    </ng-container>
 
-        <!-- Colonna Details -->
-        <ng-container matColumnDef="details">
-          <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.details' | translate }}</th>
-          <td mat-cell *matCellDef="let element">
-            <button
-              *ngIf="element.evaluationType === EvaluationType.MESE"
-              mat-stroked-button
-              color="primary"
-              (click)="emitShowDetails(element.id)"
-            >
-              {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.showDetails' | translate }}
-            </button>
-          </td>
-        </ng-container>
+    <!-- Colonna Details -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.details' | translate }}</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          *ngIf="element.evaluationType === EvaluationType.MESE && element.totalInstitution > 0"
+          mat-stroked-button
+          color="primary"
+          (click)="emitShowDetails(element.id)"
+        >
+          {{ 'pagopaCruscottoApp.module.C.2.tableLabels.KpiDetailResults.showDetails' | translate }}
+        </button>
+      </td>
+    </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
-      </table>
-    </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"> </mat-paginator>
-
-    <ng-template #noDataTemplate>
-      <p>{{ 'entity.list.noResult' | translate }}</p>
-    </ng-template>
-  </div>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
+  </table>
 </div>
+
+<ng-template #noDataTemplate>
+  <p>{{ 'entity.list.noResult' | translate }}</p>
+</ng-template>

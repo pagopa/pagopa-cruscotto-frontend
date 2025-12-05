@@ -1,8 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { environment } from 'environments/environment';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { ProfileService } from '../profiles/profile.service';
+import { Component } from '@angular/core';
 import SharedModule from '../../shared/shared.module';
+import packageJson from '../../../../../../package.json';
 
 @Component({
   standalone: true,
@@ -12,12 +10,13 @@ import SharedModule from '../../shared/shared.module';
   imports: [SharedModule],
 })
 export default class FooterComponent {
-  version = '';
-  private readonly profileService = inject(ProfileService);
+  public version: string = packageJson.version;
 
-  constructor() {
-    this.profileService.getProfileInfo().subscribe(profileInfo => {
-      this.version = profileInfo.build?.version ?? 'undefined';
-    });
-  }
+  // private readonly profileService = inject(ProfileService);
+
+  // constructor() {
+  //   this.profileService.getProfileInfo().subscribe(profileInfo => {
+  //     this.version = profileInfo.build?.version ?? 'undefined';
+  //   });
+  // }
 }
