@@ -74,7 +74,7 @@
         <ng-container matColumnDef="details">
           <th mat-header-cell *matHeaderCellDef>{{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiResults.details' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <button *ngIf="element.reqOk > 0" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
+            <button *ngIf="element.avgTime > 2000" mat-stroked-button color="primary" (click)="emitShowDetails(element.id)">
               {{ 'pagopaCruscottoApp.module.B.2.tableLabels.KpiResults.showDetails' | translate }}
             </button>
           </td>
