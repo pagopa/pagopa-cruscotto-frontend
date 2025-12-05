@@ -390,7 +390,7 @@
                             mat-icon-button
                             type="button"
                             *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                            [disabled]="row.status !== status.Bozza && row.status !== status.Pianificata"
+                            [disabled]="!(enableInstanceDeletion || row.status == status.Bozza || row.status == status.Pianificata)"
                             matTooltip="{{ 'entity.action.delete' | translate }}"
                             matTooltipPosition="above"
                             (click)="delete(row)"

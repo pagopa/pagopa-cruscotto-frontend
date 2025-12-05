@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, computed, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Subscription, take } from 'rxjs';
 import SharedModule from '../../../shared/shared.module';
@@ -36,6 +36,7 @@ import { datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import { OutcomeStatus } from '../../kpi/kpi-b2/models/KpiB2Result';
 import { Authority } from 'app/config/authority.constants';
 import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.component';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-instance',
@@ -88,6 +89,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   isLoadingResults = false;
   selectedRowId: any;
 
+  enableInstanceDeletion = false;
   confirmSubscriber?: Subscription;
 
   searchForm;
@@ -108,6 +110,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly confirmModalService = inject(ConfirmModalService);
   private readonly translateService = inject(TranslateService);
+  private readonly accountService = inject(AccountService);
 
   constructor() {
     this.searchForm = this.fb.group(
@@ -135,6 +138,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
     if (this.locationHelper.data) {
       this.filter.filters = this.locationHelper.data;
     }
+
+    this.enableInstanceDeletion = this.accountService.hasAnyAuthority(Authority.INSTANCE_FORCED_DELETION).valueOf();
   }
 
   ngOnInit(): void {
