@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [MatPaginatorModule, MatSlideToggleModule, CommonModule, FormsModule],
   template: `
-    <div class="table-header-bar" [ngClass]="{ padded: showPaginator }" [class.table-header-bar--sticky]="sticky">
+    <div class="table-header-bar" [class.table-header-bar--sticky]="sticky">
       <!-- SINISTRA: toggle opzionale -->
       <div class="table-header-bar__left">
         <mat-slide-toggle
@@ -53,9 +53,7 @@ import { FormsModule } from '@angular/forms';
         align-items: center;
         background: #fdf8fd;
         border-bottom: 1px solid #ddd;
-        .padded {
-          padding: 8px 12px;
-        }
+        padding: 8px 12px;
       }
       .table-header-bar--sticky {
         position: sticky;
