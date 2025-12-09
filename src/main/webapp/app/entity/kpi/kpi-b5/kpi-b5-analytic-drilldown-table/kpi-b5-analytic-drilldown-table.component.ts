@@ -99,7 +99,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
-      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId).subscribe({
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'ALL').subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
             this.originalData = res;
@@ -155,22 +155,24 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     });
   }
 
-  applyFilter(): void {
-    this.dataSource.data = this.showAllRows ? this.originalData : this.originalData.filter(d => d.spontaneousPayments === 'NON ATTIVI');
-
-    this.negativeCount = this.originalData.filter(d => d.spontaneousPayments === 'NON ATTIVI').length;
-
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource._updateChangeSubscription();
-      this.paginator.firstPage();
-    }
-  }
-
   onToggleChanged(value: boolean) {
-    this.showAllRows = value;
-    this.applyFilter();
-    this.updateLabelAfterToggle(value);
+    if (value) {
+      // MOSTRA TUTTI → spontaneousPaymentsFilter = 'ALL'
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'ALL').subscribe(res => {
+        this.originalData = res;
+        this.dataSource.data = res;
+        this.updateLabelAfterToggle(true);
+        this.paginator?.firstPage();
+      });
+    } else {
+      // MOSTRA SOLO NON ATTIVI → spontaneousPaymentsFilter = 'NON ATTIVI'
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'NON ATTIVI').subscribe(res => {
+        this.originalData = res;
+        this.dataSource.data = res;
+        this.updateLabelAfterToggle(false);
+        this.paginator?.firstPage();
+      });
+    }
   }
 
   private updateToggleState(negatives: number, positives: number): void {
