@@ -25,10 +25,11 @@ export class KpiB5PagopaDataDrilldownService {
   }
 
   /**
-   * NUOVO: recupera i record di drilldown per l'analyticDataId selezionato
+   * NUOVO: recupera i record di drilldown per l'analyticDataId selezionato, con spontaneousPaymentsFilter per filtro dati
    */
-  findByAnalyticDataId(analyticDataId: number): Observable<IB5PagoPaDrilldown[]> {
-    return this.http.get<PagopaData[]>(`${this.resourceUrl}/${analyticDataId}`).pipe(
+  findByAnalyticDataId(analyticDataId: number, spontaneousPaymentsFilter?: string): Observable<IB5PagoPaDrilldown[]> {
+    const params = spontaneousPaymentsFilter ? { params: { spontaneousPaymentsFilter } } : {};
+    return this.http.get<PagopaData[]>(`${this.resourceUrl}/${analyticDataId}`, params).pipe(
       first(),
       map(res => res.map(item => this.convertFromServer(item))),
     );
