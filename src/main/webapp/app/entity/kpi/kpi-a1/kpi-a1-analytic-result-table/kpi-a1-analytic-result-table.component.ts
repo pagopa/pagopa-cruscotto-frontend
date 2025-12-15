@@ -9,6 +9,8 @@ import { KpiA1AnalyticDataService } from '../service/kpi-a1-analytic-data.servic
 import { KpiA1AnalyticData } from '../models/KpiA1AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a1-analytic-result-table',
@@ -25,14 +27,17 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
   displayedColumns: string[] = [
+    'negativeData',
     'evaluationDate',
     'stationName',
     'method',
-    'totReq',
+    'totalRequests',
     'reqOk',
     'reqTimeoutReal',
     'reqTimeoutValid',
@@ -42,7 +47,6 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   @Input() kpiA1DetailResultId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
 
@@ -53,6 +57,7 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
 
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA1AnalyticDataService = inject(KpiA1AnalyticDataService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -71,8 +76,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -99,8 +104,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -121,6 +126,12 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**
@@ -145,8 +156,8 @@ export class KpiA1AnalyticResultTableComponent implements AfterViewInit, OnChang
           return compare(a.method, b.method, isAsc);
         case 'evaluationDate':
           return compare(a.evaluationDate?.toISOString(), b.evaluationDate?.toISOString(), isAsc);
-        case 'totReq':
-          return compare(a.totReq, b.totReq, isAsc);
+        case 'totalRequests':
+          return compare(a.totalRequests, b.totalRequests, isAsc);
         case 'reqOk':
           return compare(a.reqOk, b.reqOk, isAsc);
         case 'reqTimeoutReal':

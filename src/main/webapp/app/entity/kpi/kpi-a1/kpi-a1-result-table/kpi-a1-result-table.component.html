@@ -10,7 +10,15 @@
 </ngx-spinner>
 <div class="table-responsive">
   <div class="table-container">
-    <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0; else noDataTemplate">
+    <div *ngIf="hasData; else noDataTemplate">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+      </jhi-table-header-bar>
+
       <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
         <!-- Analysis Date -->
         <ng-container matColumnDef="analysisDate">
@@ -33,7 +41,9 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.excludeUnplannedShutdown' | translate }}
           </th>
-          <td mat-cell *matCellDef="let element"><jhi-yes-or-no-view [yesOrNo]="element.excludeUnplannedShutdown"></jhi-yes-or-no-view></td>
+          <td mat-cell *matCellDef="let element">
+            <jhi-yes-or-no-view [yesOrNo]="element.excludeUnplannedShutdown"></jhi-yes-or-no-view>
+          </td>
         </ng-container>
 
         <!-- Eligibility Threshold -->
@@ -69,13 +79,8 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
             {{ 'pagopaCruscottoApp.module.A.1.tableLabels.KpiResults.outcome' | translate }}
           </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
-            class="text-uppercase"
-            [ngClass]="{ 'outcome-ok': element.outcome === OutcomeStatus.OK, 'outcome-ko': element.outcome === OutcomeStatus.KO }"
-          >
-            {{ element.outcome }}
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="outcome" [outcome]="element.outcome"></jhi-detail-status-marker>
           </td>
         </ng-container>
 
@@ -95,7 +100,6 @@
       </table>
     </div>
 
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>
     </ng-template>

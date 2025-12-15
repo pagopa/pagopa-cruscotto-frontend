@@ -29,6 +29,7 @@
             "reqTimeout": "Timed out Requests",
             "timeoutPercentage": "Percentage in Timeout",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "kpiA1ResultId": "KPI A.1 Result Id",
             "details": "Results Detail",
             "showDetails": "Show Details",
@@ -47,14 +48,16 @@
             "reqTimeoutReal": "Real Timeout Requests",
             "reqTimeoutValid": "Valid Timeouts",
             "kpiA1DetailResultId": "KPI A.1 Detail Id",
-            "stationName": "Station"
+            "stationName": "Station",
+            "negativeData": "Negative Data"
           },
           "KpiRecordedTimeout": {
             "fromHour": "From hour",
             "toHour": "To hour",
             "totalRequests": "Total Requests",
             "okRequests": "OK Requests",
-            "reqTimeout": "Timed out Requests"
+            "reqTimeout": "Timed out Requests",
+            "negativeData": "Negative Data"
           }
         }
       }

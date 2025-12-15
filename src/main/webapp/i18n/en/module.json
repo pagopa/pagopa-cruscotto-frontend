@@ -112,6 +112,14 @@
       "C.2": {
         "name": "Native integration with SEND",
         "description": "Verify the activation of the SEND notification cost updating service in synchronous mode for all integrated entities, guaranteeing the updating of amounts"
+      },
+      "toggleForAnalyticDataDetails": {
+        "toggle": {
+          "onlyPositive": "Positive data only",
+          "onlyNegative": "Negative data only",
+          "showNegative": "Show only negative",
+          "showAll": "Show all"
+        }
       }
     }
   },

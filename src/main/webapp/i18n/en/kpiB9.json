@@ -23,6 +23,7 @@
             "evaluationEndDate": "End Period",
             "evaluationType": "Evaluation Type",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "details": "Details",
             "showDetails": "Show details",
             "stationName": "Station",
@@ -43,9 +44,11 @@
             "resKoValid": "Valid Response KO",
             "stationName": "Station",
             "showDetails": "Show details",
-            "details": "Results Detail"
+            "details": "Results Detail",
+            "negativeData": "Negative Data"
           },
           "KpiAnalyticDrilldown": {
+            "negativeData": "Negative Data",
             "startTime": "Start time",
             "endTime": "End time",
             "totRes": "Total Responses",

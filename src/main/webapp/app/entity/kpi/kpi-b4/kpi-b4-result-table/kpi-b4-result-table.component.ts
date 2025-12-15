@@ -9,7 +9,8 @@ import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { MatButton } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
-import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-view.component';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b4-result-table',
@@ -18,7 +19,6 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
   styleUrls: ['./kpi-b4-result-table.component.scss'],
   imports: [
     CommonModule,
-    MatPaginator,
     MatTableModule,
     MatColumnDef,
     MatHeaderCell,
@@ -33,19 +33,13 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
     MatButton,
     FormatDatePipe,
     NgClass,
-    // YesOrNoViewComponent,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB4ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'analysisDate',
-    'eligibilityThreshold',
-    'tolerance',
-    'evaluationType',
-    'outcome',
-    'details',
-  ];
+  displayedColumns: string[] = ['analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'outcome', 'details'];
   dataSource = new MatTableDataSource<KpiB4Result>([]);
   locale: string;
 
@@ -131,6 +125,12 @@ export class KpiB4ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   // Getter per verificare se ci sono dati
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

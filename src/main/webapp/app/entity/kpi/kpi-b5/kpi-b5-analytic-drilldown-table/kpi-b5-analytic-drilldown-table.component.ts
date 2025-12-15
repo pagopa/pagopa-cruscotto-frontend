@@ -7,21 +7,49 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB5PagopaDataDrilldownService } from '../service/kpi-b5-pagopa-data-drilldown.service';
 import { IB5PagoPaDrilldown } from '../models/KpiB5AnalyticDrilldown';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
+import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b5-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
+    TableHeaderBarComponent,
+  ],
   templateUrl: './kpi-b5-analytic-drilldown-table.component.html',
 })
 export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
   @Input() selectedKpiB5AnalyticResultId!: number;
-
-  isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
+  isLoadingResults = false;
+  showAllRows = false;
+  isToggleDisabled = false;
+
+  displayedColumns = ['negativeData', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
   dataSource = new MatTableDataSource<IB5PagoPaDrilldown>([]);
+  originalData: IB5PagoPaDrilldown[] = [];
+  negativeCount: number = 0;
+
+  toggleLabel = '';
+
+  private readonly TOGGLE_LABELS = {
+    onlyNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyNegative',
+    onlyPositive: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyPositive',
+    showNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showNegative',
+    showAll: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showAll',
+  } as const;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -31,6 +59,12 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   get hasData(): boolean {
     return !!this.dataSource?.data?.length;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   ngAfterViewInit(): void {
@@ -65,10 +99,19 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   loadDrillDown(): void {
     this.spinner.show('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
-      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId).subscribe({
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'ALL').subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB5AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
+            this.originalData = res;
+            const negatives = res.filter(d => d.spontaneousPayments === 'NON ATTIVI');
+            const positives = res.filter(d => d.spontaneousPayments === 'ATTIVI');
+
+            this.negativeCount = negatives.length;
+
+            this.updateToggleState(negatives.length, positives.length);
+
+            this.dataSource.data = this.showAllRows ? res : negatives;
+
             this.paginator?.firstPage();
 
             setTimeout(() => {
@@ -110,6 +153,53 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  onToggleChanged(value: boolean) {
+    if (value) {
+      // MOSTRA TUTTI → spontaneousPaymentsFilter = 'ALL'
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'ALL').subscribe(res => {
+        this.originalData = res;
+        this.dataSource.data = res;
+        this.updateLabelAfterToggle(true);
+        this.paginator?.firstPage();
+      });
+    } else {
+      // MOSTRA SOLO NON ATTIVI → spontaneousPaymentsFilter = 'NON ATTIVI'
+      this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB5AnalyticResultId, 'NON ATTIVI').subscribe(res => {
+        this.originalData = res;
+        this.dataSource.data = res;
+        this.updateLabelAfterToggle(false);
+        this.paginator?.firstPage();
+      });
+    }
+  }
+
+  private updateToggleState(negatives: number, positives: number): void {
+    /** case 1: solo negativi */
+    if (negatives > 0 && positives === 0) {
+      this.showAllRows = false;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyNegative;
+      return;
+    }
+
+    /** case 2: solo positivi */
+    if (positives > 0 && negatives === 0) {
+      this.showAllRows = true;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyPositive;
+      return;
+    }
+
+    /** case 3: mix */
+    this.showAllRows = false;
+    this.isToggleDisabled = false;
+    this.toggleLabel = this.TOGGLE_LABELS.showNegative;
+  }
+
+  private updateLabelAfterToggle(value: boolean): void {
+    this.toggleLabel = value ? this.TOGGLE_LABELS.showAll : this.TOGGLE_LABELS.showNegative;
   }
 }
 

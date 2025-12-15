@@ -2,7 +2,9 @@ import { AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, OnIni
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { DecimalPipe, NgIf } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
+import { DecimalPipe, NgClass, NgIf } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { KpiA1RecordedTimeoutService } from '../service/kpi-a1-recorded-timeout.service';
@@ -12,6 +14,9 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import { KpiA1RecordedTimeout } from '../models/KpiA1RecordedTimeout';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a1-recorded-timeout-table',
@@ -22,30 +27,52 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     MatSortModule,
     MatTableModule,
     NgxSpinnerModule,
+    FormsModule,
     TranslateModule,
+    MatSlideToggleModule,
     NgIf,
+    NgClass,
     MatButtonModule,
     FormatDatePipe,
     DecimalPipe,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
+    MatBadgeModule,
   ],
 })
 export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
+  displayedColumns: string[] = ['negativeData', 'fromHour', 'toHour', 'totalRequests', 'okRequests', 'reqTimeout'];
   dataSource = new MatTableDataSource<KpiA1RecordedTimeout>([]);
 
   @Input() kpiA1analyticDataId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<KpiA1AnalyticData>();
 
   isLoadingResults = false;
+  showAllRows = false;
+
   locale: string;
   partnerFiscalCode: string = '';
+  originalData: KpiA1RecordedTimeout[] = [];
+  negativeCount = 0;
+
+  isToggleDisabled = false;
+
+  toggleLabel = '';
+
+  private readonly TOGGLE_LABELS = {
+    onlyNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyNegative',
+    onlyPositive: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyPositive',
+    showNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showNegative',
+    showAll: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showAll',
+  } as const;
+
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly route = inject(ActivatedRoute);
   private readonly kpiA1RecordedTimeoutService = inject(KpiA1RecordedTimeoutService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -65,8 +92,8 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -92,9 +119,20 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   protected onSuccess(data: KpiA1RecordedTimeout[]): void {
     this.spinner.hide('isLoadingResultsKpiA1AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
-      this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      this.originalData = data;
+
+      const negatives = data.filter(d => (d.reqTimeout ?? 0) > 0);
+      const positives = data.filter(d => d.reqTimeout === 0);
+
+      this.negativeCount = negatives.length;
+
+      this.updateToggleState(negatives.length, positives.length);
+
+      this.dataSource.data = this.showAllRows ? data : negatives;
+
+      if (this.headerPaginator) {
+        this.dataSource.paginator = this.headerPaginator;
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -115,6 +153,12 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**
@@ -152,6 +196,53 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
    */
   emitShowDetails(kpiA1DetailResultId: KpiA1AnalyticData): void {
     this.showDetails.emit(kpiA1DetailResultId);
+  }
+
+  applyFilter(): void {
+    if (this.showAllRows) {
+      this.dataSource.data = this.originalData; // tutte
+    } else {
+      this.dataSource.data = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0);
+    }
+
+    this.negativeCount = this.originalData.filter(d => (d.reqTimeout ?? 0) > 0).length;
+
+    if (this.headerPaginator) {
+      this.headerPaginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
+    this.updateLabelAfterToggle(value);
+  }
+
+  private updateToggleState(negatives: number, positives: number): void {
+    /** case 1: solo negativi */
+    if (negatives > 0 && positives === 0) {
+      this.showAllRows = false;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyNegative;
+      return;
+    }
+
+    /** case 2: solo positivi */
+    if (positives > 0 && negatives === 0) {
+      this.showAllRows = true;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyPositive;
+      return;
+    }
+
+    /** case 3: mix */
+    this.showAllRows = false;
+    this.isToggleDisabled = false;
+    this.toggleLabel = this.TOGGLE_LABELS.showNegative;
+  }
+
+  private updateLabelAfterToggle(value: boolean): void {
+    this.toggleLabel = value ? this.TOGGLE_LABELS.showAll : this.TOGGLE_LABELS.showNegative;
   }
 }
 

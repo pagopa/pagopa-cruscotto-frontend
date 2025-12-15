@@ -4,7 +4,31 @@
 <div class="table-responsive">
   <div class="table-container">
     <div *ngIf="hasData; else noDataTemplate" class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort matSortDisableClear class="full-width-table">
+      <jhi-table-header-bar
+        [showToggle]="false"
+        [showPaginator]="true"
+        [length]="dataSource.data.length"
+        (paginatorReady)="onHeaderPaginatorReady($event)"
+      >
+      </jhi-table-header-bar>
+
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        (matSortChange)="sortData($event)"
+        matSort
+        matSortDisableClear
+        class="full-width-table sticky-table-header"
+      >
+        <ng-container matColumnDef="negativeData">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ 'pagopaCruscottoApp.module.B.5.tableLabels.KpiDetailResults.negativeData' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <jhi-detail-status-marker type="condition" [condition]="element.stationsWithoutSpontaneous > 0"></jhi-detail-status-marker>
+          </td>
+        </ng-container>
+
         <!-- Colonna Analysis Date -->
         <ng-container matColumnDef="analysisDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -51,8 +75,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ highlightTableColor: row.id === selectedElementId }"></tr>
       </table>
     </div>
-
-    <mat-paginator [pageSize]="35" [pageSizeOptions]="[35, 50, 100]" showFirstLastButtons [hidden]="!hasData"></mat-paginator>
 
     <ng-template #noDataTemplate>
       <p>{{ 'entity.list.noResult' | translate }}</p>

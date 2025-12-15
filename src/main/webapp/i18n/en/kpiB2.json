@@ -28,6 +28,7 @@
             "evaluationEndDate": "End Period",
             "evaluationType": "Type of Evaluation",
             "outcome": "Outcome",
+            "negativeData": "Negative Data",
             "details": "Details",
             "showDetails": "Show detail",
             "stationName": "Station"
@@ -47,14 +48,16 @@
             "kpiB2DetailResultId": "B2 Detail Result Id",
             "details": "Details",
             "showDetails": "Show Details",
-            "stationName": "Station"
+            "stationName": "Station",
+            "negativeData": "Negative Data"
           },
           "KpiRecordedTimeout": {
             "fromHour": "From hour",
             "endHour": "To hour",
             "okRequests": "OK requests",
             "totalRequests": "Total Requests",
-            "averageTimeMs": "Average time (ms)"
+            "averageTimeMs": "Average time (ms)",
+            "negativeData": "Negative Data"
           }
         }
       }

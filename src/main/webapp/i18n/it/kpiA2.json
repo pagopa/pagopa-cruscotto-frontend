@@ -23,6 +23,7 @@
             "totIncorrectPayments": "Versamenti Errati",
             "errorPercentage": "Percentuale Errati",
             "outcome": "Esito",
+            "negativeData": "Dati Negativi",
             "kpiA2ResultId": "Id KPI A.2 Risultato",
             "details": "Dettagli Risultato",
             "showDetails": "Mostra dettagli"
@@ -39,9 +40,17 @@
             "fromHour": "Da ora",
             "endHour": "A ora",
             "transferCategory": "Categoria versamenti",
-            "total": "Totale errati",
             "details": "Dettagli Risultato",
-            "showDetails": "Mostra dettagli"
+            "showDetails": "Mostra dettagli",
+            "negativeData": "Dati Negativi"
+          },
+          "KpiAnalyticDrilldown": {
+            "fromHour": "Da ora",
+            "endHour": "A ora",
+            "transferCategory": "Categoria versamenti",
+            "totPayments": "Totale Versamenti",
+            "totIncorrectPayments": "Totale Errati",
+            "negativeData": "Dati Negativi"
           }
         }
       }
