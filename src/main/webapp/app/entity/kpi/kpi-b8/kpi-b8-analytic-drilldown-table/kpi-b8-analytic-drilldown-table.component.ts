@@ -7,11 +7,26 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { KpiB8PagopaDataDrilldownService } from '../service/kpi-b8-pagopa-data-drilldown.service';
 import { IB8PagoPaDrilldown } from '../models/KpiB8AnalyticDrilldown';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
+import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'jhi-kpi-b8-analytic-drilldown-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, TranslateModule, NgxSpinnerModule, MatPaginator, MatPaginatorModule, MatSortModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    MatPaginatorModule,
+    MatSortModule,
+    DetailStatusMarkerComponent,
+    MatSlideToggleModule,
+    MatBadgeModule,
+    TableHeaderBarComponent,
+  ],
   templateUrl: './kpi-b8-analytic-drilldown-table.component.html',
 })
 export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterViewInit {
@@ -20,8 +35,31 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   isLoadingResults = false;
   @Input() locale = 'it';
 
-  displayedColumns = ['partnerFiscalCode', 'dataDate', 'stationCode', 'fiscalCode', 'api', 'totalRequests', 'okRequests', 'koRequests'];
+  displayedColumns = [
+    'negativeData',
+    'partnerFiscalCode',
+    'dataDate',
+    'stationCode',
+    'fiscalCode',
+    'api',
+    'totalRequests',
+    'okRequests',
+    'koRequests',
+  ];
   dataSource = new MatTableDataSource<IB8PagoPaDrilldown>([]);
+  data: IB8PagoPaDrilldown[] = [];
+  negativeCount: number = 0;
+  showAllRows = false;
+  isToggleDisabled = false;
+
+  toggleLabel = '';
+
+  private readonly TOGGLE_LABELS = {
+    onlyNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyNegative',
+    onlyPositive: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.onlyPositive',
+    showNegative: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showNegative',
+    showAll: 'pagopaCruscottoApp.module.toggleForAnalyticDataDetails.toggle.showAll',
+  } as const;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -31,6 +69,12 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
   get hasData(): boolean {
     return !!this.dataSource?.data?.length;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.paginator = p;
+    this.dataSource.paginator = p;
   }
 
   ngAfterViewInit(): void {
@@ -74,7 +118,15 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
       this.pagopaDataService.findByAnalyticDataId(this.selectedKpiB8AnalyticResultId).subscribe({
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
-            this.dataSource.data = res ?? [];
+            this.data = res;
+            const negatives = res.filter(d => (d.koRequests ?? 0) > 0);
+            const positives = res.filter(d => d.koRequests === 0);
+
+            this.negativeCount = negatives.length;
+            this.updateToggleState(negatives.length, positives.length);
+            this.dataSource.data = this.showAllRows ? res : negatives;
+            this.applyFilter();
+
             this.paginator?.firstPage();
           });
         },
@@ -82,10 +134,19 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           console.error('Failed to load B.8 drilldown', err);
           this.spinner.hide('isLoadingResultsKpiB2AnalyticDrilldown').then(() => {
             this.dataSource.data = [];
+            this.data = [];
           });
         },
       });
     });
+  }
+
+  filterData(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.dataSource.data = this.data;
+    } else {
+      this.dataSource.data = this.data.filter(_ => _.koRequests > 0);
+    }
   }
 
   sortData(sort: Sort): void {
@@ -119,6 +180,51 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
           return 0;
       }
     });
+  }
+
+  applyFilter(): void {
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.koRequests ?? 0) > 0);
+
+    this.negativeCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource._updateChangeSubscription();
+      this.paginator.firstPage();
+    }
+  }
+
+  onToggleChanged(value: boolean) {
+    this.showAllRows = value;
+    this.applyFilter();
+    this.updateLabelAfterToggle(value);
+  }
+
+  private updateToggleState(negatives: number, positives: number): void {
+    /** case 1: solo negativi */
+    if (negatives > 0 && positives === 0) {
+      this.showAllRows = false;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyNegative;
+      return;
+    }
+
+    /** case 2: solo positivi */
+    if (positives > 0 && negatives === 0) {
+      this.showAllRows = true;
+      this.isToggleDisabled = true;
+      this.toggleLabel = this.TOGGLE_LABELS.onlyPositive;
+      return;
+    }
+
+    /** case 3: mix */
+    this.showAllRows = false;
+    this.isToggleDisabled = false;
+    this.toggleLabel = this.TOGGLE_LABELS.showNegative;
+  }
+
+  private updateLabelAfterToggle(value: boolean): void {
+    this.toggleLabel = value ? this.TOGGLE_LABELS.showAll : this.TOGGLE_LABELS.showNegative;
   }
 }
 

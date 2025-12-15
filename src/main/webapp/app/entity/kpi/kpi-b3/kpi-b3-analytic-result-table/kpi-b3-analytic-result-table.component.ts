@@ -10,6 +10,8 @@ import { KpiB3AnalyticData } from '../models/KpiB3AnalyticData';
 import { MatButtonModule } from '@angular/material/button';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
 import dayjs from 'dayjs/esm';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-b3-analytic-result-table',
@@ -26,15 +28,16 @@ import dayjs from 'dayjs/esm';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
+  displayedColumns: string[] = ['negativeData', 'analysisDate', 'eventTimestamp', 'stationFiscalCode', 'standInCount', 'details'];
   dataSource = new MatTableDataSource<KpiB3AnalyticData>([]);
 
   @Input() kpiB3DetailResultId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
 
@@ -45,6 +48,7 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   private readonly translateService = inject(TranslateService);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiB3AnalyticDataService = inject(KpiB3AnalyticDataService);
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -74,7 +78,9 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
+    }
     this.dataSource.sort = this.sort;
   }
 
@@ -129,6 +135,12 @@ export class KpiB3AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

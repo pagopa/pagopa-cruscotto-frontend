@@ -14,13 +14,14 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BehaviorSubject } from 'rxjs';
 import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
+import { DetailStatusMarkerComponent } from 'app/shared/component/instance-detail-status-marker.component';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a2-analytic-result-table',
   templateUrl: './kpi-a2-analytic-result-table.component.html',
   styleUrls: ['./kpi-a2-analytic-result-table.component.scss'],
   imports: [
-    MatPaginator,
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
@@ -32,15 +33,16 @@ import { IWrongTaxCode } from '../models/KpiA2WrongTaxCodes';
     FormatDatePipe,
     DecimalPipe,
     NgClass,
+    DetailStatusMarkerComponent,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = ['analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'details'];
+  displayedColumns: string[] = ['negativeData', 'analysisDate', 'evaluationDate', 'totPayments', 'totIncorrectPayments', 'details'];
   dataSource = new MatTableDataSource<KpiA2AnalyticData>([]);
 
   @Input() kpiA2DetailResultId: number | undefined;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   @Output() showDetails = new EventEmitter<number>();
   @Input() selectedElementId?: number | KpiA2AnalyticData | null = null;
@@ -54,6 +56,8 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA2AnalyticDataService = inject(KpiA2AnalyticDataService);
   private readonly route = inject(ActivatedRoute);
+
+  private headerPaginator?: MatPaginator;
 
   constructor() {
     this.locale = this.translateService.currentLang;
@@ -73,8 +77,8 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -101,8 +105,8 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
     this.spinner.hide('isLoadingResultsKpiA2AnalyticResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -123,6 +127,12 @@ export class KpiA2AnalyticResultTableComponent implements AfterViewInit, OnChang
    */
   get hasData(): boolean {
     return this.dataSource && this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

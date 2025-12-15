@@ -8,7 +8,7 @@ export class KpiA1AnalyticData {
   stationId: number | null;
   method: string | null;
   evaluationDate: dayjs.Dayjs | null; // ISO string format for date
-  totReq: number | null;
+  totalRequests: number | null;
   reqOk: number | null;
   reqTimeoutReal: number | null;
   reqTimeoutValid: number | null;
@@ -24,7 +24,7 @@ export class KpiA1AnalyticData {
     stationId: number | null = null,
     method: string | null = null,
     evaluationDate: dayjs.Dayjs | null = null,
-    totReq: number | null = null,
+    totalRequests: number | null = null,
     reqOk: number | null = null,
     reqTimeoutReal: number | null = null,
     reqTimeoutValid: number | null = null,
@@ -38,7 +38,7 @@ export class KpiA1AnalyticData {
     this.stationId = stationId;
     this.method = method;
     this.evaluationDate = evaluationDate;
-    this.totReq = totReq;
+    this.totalRequests = totalRequests;
     this.reqOk = reqOk;
     this.reqTimeoutReal = reqTimeoutReal;
     this.reqTimeoutValid = reqTimeoutValid;

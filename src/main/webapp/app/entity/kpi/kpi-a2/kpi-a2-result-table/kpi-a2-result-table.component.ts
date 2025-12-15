@@ -10,6 +10,7 @@ import { KpiA2Result } from '../models/KpiA2Result';
 import { MatButton } from '@angular/material/button';
 import { OutcomeStatus } from '../../kpi-b2/models/KpiB2Result';
 import FormatDatePipe from '../../../../shared/date/format-date.pipe';
+import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.component';
 
 @Component({
   selector: 'jhi-kpi-a2-result-table',
@@ -26,6 +27,7 @@ import FormatDatePipe from '../../../../shared/date/format-date.pipe';
     MatButton,
     FormatDatePipe,
     DecimalPipe,
+    TableHeaderBarComponent,
   ],
 })
 export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
@@ -36,13 +38,14 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   @Input() moduleId: number | undefined;
   @Output() showDetails = new EventEmitter<number>();
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
   selectedElementId: number | null = null;
   isLoadingResults = false;
   protected readonly OutcomeStatus = OutcomeStatus;
   private readonly spinner = inject(NgxSpinnerService);
   private readonly kpiA2ResultService = inject(KpiA2ResultService);
+
+  private headerPaginator?: MatPaginator;
 
   locale: string;
   private readonly translateService = inject(TranslateService);
@@ -64,8 +67,8 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
   }
 
   ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    if (this.headerPaginator) {
+      this.dataSource.paginator = this.headerPaginator;
     }
     if (this.sort) {
       this.dataSource.sort = this.sort;
@@ -93,8 +96,8 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
     this.spinner.hide('isLoadingResultsKpiA2ResultTable').then(() => {
       this.isLoadingResults = false;
       this.dataSource.data = data;
-      if (this.paginator) {
-        this.paginator.firstPage();
+      if (this.headerPaginator) {
+        this.headerPaginator.firstPage();
       }
     });
   }
@@ -115,6 +118,12 @@ export class KpiA2ResultTableComponent implements AfterViewInit, OnChanges, OnIn
    */
   get hasData(): boolean {
     return this.dataSource.data && this.dataSource.data.length > 0;
+  }
+
+  /** paginator creato nel jhi-table-header-bar */
+  onHeaderPaginatorReady(p: MatPaginator) {
+    this.headerPaginator = p;
+    this.dataSource.paginator = p;
   }
 
   /**

@@ -4,5 +4,6 @@ export interface IWrongTaxCode {
   fromHour: dayjs.Dayjs | null;
   endHour: dayjs.Dayjs | null;
   transferCategory: string;
-  total: number;
+  totPayments: number;
+  totIncorrectPayments: number;
 }
