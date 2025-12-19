@@ -80,7 +80,7 @@
               <div class="col-lg-2" *ngIf="kpiConfiguration.configInstitutionTolerance">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configInstitutionTolerance">Evaluation Type</span>
                 <p class="p-2 bg-light">
-                  {{ kpiConfiguration.institutionTolerance }}
+                  {{ kpiConfiguration.institutionTolerance | number: '1.2-2' }}
                   <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
                 </p>
               </div>
