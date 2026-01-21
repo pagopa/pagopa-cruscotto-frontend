@@ -46,12 +46,9 @@
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configEligibilityThreshold">
                 <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.eligibilityThreshold">Eligibility Threshold</span>
-                <p class="p-2 bg-light" *ngIf="kpiConfiguration.moduleCode !== 'B.3'">
+                <p class="p-2 bg-light">
                   {{ kpiConfiguration.eligibilityThreshold | number: '1.2-2' }}
-                  <span *ngIf="kpiConfiguration?.moduleCode !== 'B.3'" class="fw-bold">{{ 'abbr.percent' | translate }}</span>
-                </p>
-                <p class="p-2 bg-light" *ngIf="kpiConfiguration.moduleCode == 'B.3'">
-                  {{ kpiConfiguration.eligibilityThreshold }}
+                  <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
                 </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configTolerance">
@@ -88,9 +85,16 @@
                 </p>
               </div>
               <div class="col-lg-2" *ngIf="kpiConfiguration.configNotificationTolerance">
-                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionTolerance"></span>
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configNotificationTolerance"></span>
                 <p class="p-2 bg-light">
                   {{ kpiConfiguration.notificationTolerance }}
+                  <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
+                </p>
+              </div>
+              <div class="col-lg-2" *ngIf="kpiConfiguration.configTransactionTolerance">
+                <span jhiTranslate="pagopaCruscottoApp.kpiConfiguration.configTransactionTolerance"></span>
+                <p class="p-2 bg-light">
+                  {{ kpiConfiguration.configTransactionTolerance }}
                   <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
                 </p>
               </div>
