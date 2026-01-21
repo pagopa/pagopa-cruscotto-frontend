@@ -23,6 +23,7 @@ import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
 import { InstanceService } from '../service/instance.service';
+import { ReportService } from '../service/report.service';
 import { IInstance, InstanceStatus } from '../models/instance.model';
 import { InstanceFilter } from './instance.filter';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -37,6 +38,10 @@ import { OutcomeStatus } from '../../kpi/kpi-b2/models/KpiB2Result';
 import { Authority } from 'app/config/authority.constants';
 import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.component';
 import { AccountService } from 'app/core/auth/account.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { GenerateReportRequest } from '../models/report.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'jhi-instance',
@@ -64,10 +69,12 @@ import { AccountService } from 'app/core/auth/account.service';
     MatSelectModule,
     MatDatepickerModule,
     YesOrNoViewComponent,
+    MatCheckboxModule,
   ],
 })
 export class InstanceComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
+    'select',
     'instanceIdentification',
     'partnerFiscalCode',
     'partner',
@@ -81,6 +88,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   ];
 
   data: IInstance[] = [];
+  selection = new SelectionModel<number>(true, []);
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -111,6 +119,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
   private readonly confirmModalService = inject(ConfirmModalService);
   private readonly translateService = inject(TranslateService);
   private readonly accountService = inject(AccountService);
+  private readonly reportService = inject(ReportService);
+  private readonly toastrService = inject(ToastrService);
 
   constructor() {
     this.searchForm = this.fb.group(
@@ -342,6 +352,48 @@ export class InstanceComponent implements OnInit, OnDestroy {
           });
         }
       });
+  }
+
+  launchReportGeneration() {
+    const ids = this.selection.selected.map(el => el);
+    const request: GenerateReportRequest = {
+      instanceIds: ids,
+      language: this.translateService.currentLang,
+      startDate: '2024-01-01',
+      endDate: '2024-01-31',
+      parameters: {
+        includeSummary: true,
+        includeKoKpisDetail: true,
+        includeAllKpisDetail: true,
+        includeDrilldownExcel: true,
+      },
+    };
+    this.eventManager.broadcast({
+      name: 'pagopaCruscottoApp.alert',
+      content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.reports.generating' },
+    });
+    this.reportService.generate(request).subscribe({
+      next: () => {
+        // Handle successful report generation
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.',
+          content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
+        });
+      },
+      error: () => {
+        // Handle error in report generation
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.',
+          content: { type: 'alert', translationKey: 'pagopaCruscottoApp.instance.reports.error' },
+        });
+      },
+    });
+  }
+
+  toggleVisibleRows() {
+    this.data.forEach(row => this.selection.toggle(row.id));
   }
 
   startFilter = (date: dayjs.Dayjs | null): boolean => {
