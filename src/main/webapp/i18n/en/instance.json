@@ -84,7 +84,13 @@
       "status": "State",
       "lastAnalysisDate": "Last Performed Analysis Date",
       "lastAnalysisOutcome": "Last Analysis Outcome",
-      "changePartnerQualified": "Validity for qualification (YES/NO)"
+      "changePartnerQualified": "Validity for qualification (YES/NO)",
+      "reports": {
+        "generate": "Genera Report",
+        "generating": "Generazione Report in corso...",
+        "generated": "Report generato con successo",
+        "error": "Error during Report generation"
+      }
     }
   },
   "error": {
