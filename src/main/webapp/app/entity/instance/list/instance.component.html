@@ -193,17 +193,28 @@
           <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
             <p class="ngx-spinner-loading">Loading...</p>
           </ngx-spinner>
-          <mat-paginator
-            *ngIf="resultsLength > 0"
-            [pageSize]="itemsPerPage"
-            [pageIndex]="page - 1"
-            [disabled]="isLoadingResults"
-            [length]="resultsLength"
-            (page)="changePage($event)"
-            showFirstLastButtons
-            aria-label="Select page of periodic elements"
-          >
-          </mat-paginator>
+          <div class="d-flex justify-content-between">
+            <button
+              id="generateReport"
+              mat-flat-button
+              color="primary"
+              *jhiHasAnyAuthority="Authority.INSTANCE_INQUIRY"
+              (click)="launchReportGeneration()"
+              [disabled]="!selection.hasValue()"
+            >
+              <mat-icon fontSet="material-symbols-outlined">add_chart</mat-icon><span>{{ 'Generate' | translate }}</span>
+            </button>
+            <mat-paginator
+              *ngIf="resultsLength > 0"
+              [pageSize]="itemsPerPage"
+              [pageIndex]="page - 1"
+              [disabled]="isLoadingResults"
+              [length]="resultsLength"
+              (page)="changePage($event)"
+              showFirstLastButtons
+            >
+            </mat-paginator>
+          </div>
           <div class="table-responsive">
             <div class="table-container">
               <table
@@ -216,6 +227,23 @@
                 matSort
                 matSortDisableClear
               >
+                <ng-container matColumnDef="select">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <!-- <mat-checkbox (change)="$event ? toggleVisibleRows() : null"
+                                  [checked]="selection.hasValue()">
+                    </mat-checkbox> -->
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <mat-checkbox
+                      *ngIf="row.status == 'ESEGUITA'"
+                      (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row.id) : null"
+                      [checked]="selection.isSelected(row.id)"
+                    >
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
                 <ng-container matColumnDef="instanceIdentification">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
                     {{ 'pagopaCruscottoApp.instance.instanceIdentification' | translate }}
