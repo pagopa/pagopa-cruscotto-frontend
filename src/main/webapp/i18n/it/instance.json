@@ -84,7 +84,15 @@
       "status": "Stato",
       "lastAnalysisDate": "Data Analisi",
       "lastAnalysisOutcome": "Esito Analisi",
-      "changePartnerQualified": "Valida per la qualifica (SI/NO)"
+      "changePartnerQualified": "Valida per la qualifica (SI/NO)",
+      "reports": {
+        "generate": "Genera Report",
+        "generating": "Generazione Report in corso...",
+        "generated": "Report generato con successo",
+        "error": "Errore durante la generazione del Report",
+        "download": "Download Report",
+        "notGenerated": "Report non generato"
+      }
     }
   },
   "error": {

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import SharedModule from '../../shared/shared.module';
 import packageJson from '../../../../../../package.json';
+import { ProfileService } from '../profiles/profile.service';
 
 @Component({
   standalone: true,
@@ -10,13 +11,14 @@ import packageJson from '../../../../../../package.json';
   imports: [SharedModule],
 })
 export default class FooterComponent {
-  public version: string = packageJson.version;
+  public feVersion: string = packageJson.version;
+  public beVersion: string | null = null;
 
-  // private readonly profileService = inject(ProfileService);
+  private readonly profileService = inject(ProfileService);
 
-  // constructor() {
-  //   this.profileService.getProfileInfo().subscribe(profileInfo => {
-  //     this.version = profileInfo.build?.version ?? 'undefined';
-  //   });
-  // }
+  constructor() {
+    this.profileService.getProfileInfo().subscribe(profileInfo => {
+      this.beVersion = profileInfo.build?.version ?? 'undefined';
+    });
+  }
 }
