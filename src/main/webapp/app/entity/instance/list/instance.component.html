@@ -202,7 +202,8 @@
               (click)="launchReportGeneration()"
               [disabled]="!selection.hasValue()"
             >
-              <mat-icon fontSet="material-symbols-outlined">add_chart</mat-icon><span>{{ 'Generate' | translate }}</span>
+              <mat-icon fontSet="material-symbols-outlined">add_chart</mat-icon
+              ><span>{{ 'pagopaCruscottoApp.instance.reports.generate' | translate }}</span>
             </button>
             <mat-paginator
               *ngIf="resultsLength > 0"
@@ -429,6 +430,20 @@
                               aria-hidden="false"
                               >delete</mat-icon
                             >
+                          </button>
+                        </span>
+                        <span>
+                          <button
+                            class="m-1"
+                            mat-icon-button
+                            type="button"
+                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
+                            [disabled]="reportStatus(row.id)"
+                            matTooltip="{{ reportStatusLabel(row.id) | translate }}"
+                            matTooltipPosition="above"
+                            (click)="downloadReport(row.id)"
+                          >
+                            <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
                           </button>
                         </span>
                       </div>

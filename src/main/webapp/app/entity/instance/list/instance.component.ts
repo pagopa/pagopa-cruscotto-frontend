@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, computed, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription, take } from 'rxjs';
+import { Subscription, take, forkJoin, first, switchMap, map, catchError, of } from 'rxjs';
 import SharedModule from '../../../shared/shared.module';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -92,6 +92,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
+  reportStatusMap = new Map<number, any>();
 
   _search = false;
   isLoadingResults = false;
@@ -222,6 +223,24 @@ export class InstanceComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse<IInstance[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
+
+        if (data.length > 0) {
+          data
+            .filter(d => d.latestCompletedReportId)
+            .forEach(instance => {
+              this.reportService
+                .checkStatus(instance.latestCompletedReportId!)
+                .pipe(
+                  first(),
+                  catchError(() => of(null)),
+                )
+                .subscribe(result => {
+                  if (result !== null) {
+                    this.reportStatusMap.set(instance.id!, result.body);
+                  }
+                });
+            });
+        }
       },
       error: () => this.onError(),
     });
@@ -392,8 +411,37 @@ export class InstanceComponent implements OnInit, OnDestroy {
     });
   }
 
+  reportStatusLabel(instanceId: number): string {
+    const status = this.reportStatusMap.get(instanceId)?.status;
+    switch (status) {
+      case 'COMPLETED':
+        return 'pagopaCruscottoApp.instance.reports.download';
+      // case 'GENERATED':
+      //   return 'pagopaCruscottoApp.instance.reports.download';
+      // case 'ERROR':
+      //   return 'pagopaCruscottoApp.instance.reports.error';
+      default:
+        return 'pagopaCruscottoApp.instance.reports.notGenerated';
+    }
+  }
+
+  reportStatus(instanceId: number): boolean {
+    const status = this.reportStatusMap.get(instanceId);
+    if (!status) return true;
+    else return status.status !== 'COMPLETED';
+  }
+
+  downloadReport(instanceId: number) {
+    const downloadUrl = this.reportStatusMap.get(instanceId)?.downloadInfo.downloadUrl;
+
+    if (downloadUrl) {
+      window.open(downloadUrl, '_blank', 'noopener');
+      return;
+    }
+  }
+
   toggleVisibleRows() {
-    this.data.forEach(row => this.selection.toggle(row.id));
+    this.data.filter(row => row.status == 'ESEGUITA').forEach(row => this.selection.toggle(row.id));
   }
 
   startFilter = (date: dayjs.Dayjs | null): boolean => {

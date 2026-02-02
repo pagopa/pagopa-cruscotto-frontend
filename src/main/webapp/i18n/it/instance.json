@@ -89,7 +89,9 @@
         "generate": "Genera Report",
         "generating": "Generazione Report in corso...",
         "generated": "Report generato con successo",
-        "error": "Errore durante la generazione del Report"
+        "error": "Errore durante la generazione del Report",
+        "download": "Download Report",
+        "notGenerated": "Report non generato"
       }
     }
   },

@@ -86,10 +86,12 @@
       "lastAnalysisOutcome": "Last Analysis Outcome",
       "changePartnerQualified": "Validity for qualification (YES/NO)",
       "reports": {
-        "generate": "Genera Report",
-        "generating": "Generazione Report in corso...",
-        "generated": "Report generato con successo",
-        "error": "Error during Report generation"
+        "generate": "Generate Report",
+        "generating": "Report generation in progress...",
+        "generated": "Report generated successfully",
+        "error": "Error during Report generation",
+        "download": "Download Report",
+        "notGenerated": "Report not generated"
       }
     }
   },
