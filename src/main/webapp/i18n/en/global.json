@@ -292,7 +292,8 @@
     }
   },
   "footer": {
-    "version": "Version"
+    "beVersion": "BE Version",
+    "feVersion": "FE Version"
   },
   "abbr": {
     "millisecond": "msec",
