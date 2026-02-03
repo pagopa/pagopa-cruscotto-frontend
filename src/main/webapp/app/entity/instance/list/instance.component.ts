@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, computed, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription, take, forkJoin, first, switchMap, map, catchError, of } from 'rxjs';
+import { Subscription, take, forkJoin, first, switchMap, map, catchError, of, timer } from 'rxjs';
 import SharedModule from '../../../shared/shared.module';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -93,6 +93,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
   reportStatusMap = new Map<number, any>();
+  reportStatusPolling?: Subscription;
 
   _search = false;
   isLoadingResults = false;
@@ -225,21 +226,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
         this.onSuccess(data, res.headers);
 
         if (data.length > 0) {
-          data
-            .filter(d => d.latestCompletedReportId)
-            .forEach(instance => {
-              this.reportService
-                .checkStatus(instance.latestCompletedReportId!)
-                .pipe(
-                  first(),
-                  catchError(() => of(null)),
-                )
-                .subscribe(result => {
-                  if (result !== null) {
-                    this.reportStatusMap.set(instance.id!, result.body);
-                  }
-                });
-            });
+          this.startReportStatusPolling(data);
         }
       },
       error: () => this.onError(),
@@ -256,6 +243,36 @@ export class InstanceComponent implements OnInit, OnDestroy {
     if (this.confirmSubscriber) {
       this.eventManager.destroy(this.confirmSubscriber);
     }
+    if (this.reportStatusPolling) {
+      this.reportStatusPolling.unsubscribe();
+    }
+  }
+
+  private startReportStatusPolling(data: IInstance[]): void {
+    if (this.reportStatusPolling) {
+      this.reportStatusPolling.unsubscribe();
+    }
+
+    const instances = data.filter(d => d.latestCompletedReportId);
+    if (instances.length === 0) {
+      return;
+    }
+
+    this.reportStatusPolling = timer(0, 60000).subscribe(() => {
+      instances.forEach(instance => {
+        this.reportService
+          .checkStatus(instance.latestCompletedReportId!)
+          .pipe(
+            first(),
+            catchError(() => of(null)),
+          )
+          .subscribe(result => {
+            if (result !== null) {
+              this.reportStatusMap.set(instance.id!, result.body);
+            }
+          });
+      });
+    });
   }
 
   private populateRequest(req: any): any {
