@@ -91,7 +91,12 @@
         "generated": "Report generato con successo",
         "error": "Errore durante la generazione del Report",
         "download": "Download Report",
-        "notGenerated": "Report non generato"
+        "notGenerated": "Report non generato",
+        "pending": "Generazione Report in attesa...",
+        "progress": "Generazione Report in corso...",
+        "failed": "Generazione Report fallita",
+        "selectedInstance": "istanza selezionata",
+        "selectedInstances": "istanze selezionate"
       }
     }
   },
