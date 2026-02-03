@@ -91,7 +91,12 @@
         "generated": "Report generated successfully",
         "error": "Error during Report generation",
         "download": "Download Report",
-        "notGenerated": "Report not generated"
+        "notGenerated": "Report not generated",
+        "pending": "Report generation pending...",
+        "progress": "Report generation in progress...",
+        "failed": "Report generation failed",
+        "selectedInstance": "selected instance",
+        "selectedInstances": "selected instances"
       }
     }
   },

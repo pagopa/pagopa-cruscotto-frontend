@@ -17,9 +17,7 @@ export class ReportService {
     return this.http.get<EntityResponseType>(`${this.resourceUrl}/${id}/status`, { observe: 'response' });
   }
 
-  generate(request: GenerateReportRequest): Observable<any> {
-    // const copy = this.convertDateFromClient(instance);
+  generate(request: GenerateReportRequest): Observable<EntityResponseType> {
     return this.http.post<EntityResponseType>(`${this.resourceUrl}/generate-async`, request, { observe: 'response' });
-    //   .pipe(map(res => this.convertResponseFromServer(res)));
   }
 }
