@@ -448,15 +448,13 @@
                             >
                           </button>
                         </span>
-                        <span>
+                        <span matTooltip="{{ reportStatusLabel(row.id) | translate }}" matTooltipPosition="above">
                           <button
                             class="m-1"
                             mat-icon-button
                             type="button"
                             *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             [disabled]="reportStatus(row.id)"
-                            matTooltip="{{ reportStatusLabel(row.id) | translate }}"
-                            matTooltipPosition="above"
                             (click)="downloadReport(row.id)"
                           >
                             <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
