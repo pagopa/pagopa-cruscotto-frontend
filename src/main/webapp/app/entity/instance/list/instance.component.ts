@@ -408,6 +408,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           name: 'pagopaCruscottoApp.alert',
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
         });
+        this.loadPage(this.filter.page, false);
       },
       error: () => {
         this.toastrService.clear();
