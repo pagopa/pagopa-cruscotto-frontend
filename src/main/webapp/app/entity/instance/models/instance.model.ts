@@ -20,6 +20,7 @@ export interface IInstance {
   instanceModules?: IInstanceModule[] | null;
   lastAnalysisOutcome?: AnalysisOutcome | null;
   changePartnerQualified?: boolean | null;
+  latestCompletedReportId?: number | null;
 }
 
 export type NewInstance = Omit<IInstance, 'id'> & { id: null };

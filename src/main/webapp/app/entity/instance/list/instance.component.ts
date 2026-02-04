@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, computed, signal, WritableSignal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Subscription, take } from 'rxjs';
+import { Subscription, take, forkJoin, first, switchMap, map, catchError, of, timer } from 'rxjs';
 import SharedModule from '../../../shared/shared.module';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -39,7 +39,7 @@ import { Authority } from 'app/config/authority.constants';
 import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.component';
 import { AccountService } from 'app/core/auth/account.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { GenerateReportRequest } from '../models/report.model';
 import { ToastrService } from 'ngx-toastr';
 
@@ -92,6 +92,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
+  reportStatusMap = new Map<number, any>();
+  reportStatusPolling?: Subscription;
 
   _search = false;
   isLoadingResults = false;
@@ -222,6 +224,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
       next: (res: HttpResponse<IInstance[]>) => {
         const data = res.body ?? [];
         this.onSuccess(data, res.headers);
+
+        if (data.length > 0) {
+          this.startReportStatusPolling(data);
+        }
       },
       error: () => this.onError(),
     });
@@ -237,6 +243,36 @@ export class InstanceComponent implements OnInit, OnDestroy {
     if (this.confirmSubscriber) {
       this.eventManager.destroy(this.confirmSubscriber);
     }
+    if (this.reportStatusPolling) {
+      this.reportStatusPolling.unsubscribe();
+    }
+  }
+
+  private startReportStatusPolling(data: IInstance[]): void {
+    if (this.reportStatusPolling) {
+      this.reportStatusPolling.unsubscribe();
+    }
+
+    const instances = data.filter(d => d.latestCompletedReportId);
+    if (instances.length === 0) {
+      return;
+    }
+
+    this.reportStatusPolling = timer(0, 60000).subscribe(() => {
+      instances.forEach(instance => {
+        this.reportService
+          .checkStatus(instance.latestCompletedReportId!)
+          .pipe(
+            first(),
+            catchError(() => of(null)),
+          )
+          .subscribe(result => {
+            if (result !== null) {
+              this.reportStatusMap.set(instance.id!, result.body);
+            }
+          });
+      });
+    });
   }
 
   private populateRequest(req: any): any {
@@ -359,14 +395,6 @@ export class InstanceComponent implements OnInit, OnDestroy {
     const request: GenerateReportRequest = {
       instanceIds: ids,
       language: this.translateService.currentLang,
-      startDate: '2024-01-01',
-      endDate: '2024-01-31',
-      parameters: {
-        includeSummary: true,
-        includeKoKpisDetail: true,
-        includeAllKpisDetail: true,
-        includeDrilldownExcel: true,
-      },
     };
     this.eventManager.broadcast({
       name: 'pagopaCruscottoApp.alert',
@@ -377,23 +405,69 @@ export class InstanceComponent implements OnInit, OnDestroy {
         // Handle successful report generation
         this.toastrService.clear();
         this.eventManager.broadcast({
-          name: 'pagopaCruscottoApp.',
+          name: 'pagopaCruscottoApp.alert',
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
         });
+        this.loadPage(this.filter.page, false);
       },
       error: () => {
-        // Handle error in report generation
         this.toastrService.clear();
         this.eventManager.broadcast({
-          name: 'pagopaCruscottoApp.',
-          content: { type: 'alert', translationKey: 'pagopaCruscottoApp.instance.reports.error' },
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.reports.error' },
         });
       },
     });
   }
 
-  toggleVisibleRows() {
-    this.data.forEach(row => this.selection.toggle(row.id));
+  reportStatusLabel(instanceId: number): string {
+    const status = this.reportStatusMap.get(instanceId)?.status;
+    switch (status) {
+      case 'COMPLETED':
+        return 'pagopaCruscottoApp.instance.reports.download';
+      case 'PENDING':
+        return 'pagopaCruscottoApp.instance.reports.pending';
+      case 'IN_PROGRESS':
+        return 'pagopaCruscottoApp.instance.reports.progress';
+      case 'FAILED':
+        return 'pagopaCruscottoApp.instance.reports.error';
+      default:
+        return 'pagopaCruscottoApp.instance.reports.notGenerated';
+    }
+  }
+
+  reportStatus(instanceId: number): boolean {
+    const status = this.reportStatusMap.get(instanceId);
+    if (!status) return true;
+    else return status.status !== 'COMPLETED';
+  }
+
+  downloadReport(instanceId: number): void {
+    const downloadUrl = this.reportStatusMap.get(instanceId)?.downloadInfo.downloadUrl;
+
+    if (downloadUrl) {
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = '';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+  }
+
+  onSelectPageClick(e: MatCheckboxChange): void {
+    if (e.checked) {
+      this.data.filter(row => row.status == 'ESEGUITA').forEach(row => this.selection.select(row.id));
+    } else {
+      this.data.filter(row => row.status == 'ESEGUITA').forEach(row => this.selection.deselect(row.id));
+    }
+  }
+
+  checkPageSelected(): boolean {
+    const selectableRows = this.data.filter(row => row.status == 'ESEGUITA').map(row => row.id);
+    return selectableRows.every(id => this.selection.isSelected(id)) && selectableRows.length > 0;
   }
 
   startFilter = (date: dayjs.Dayjs | null): boolean => {

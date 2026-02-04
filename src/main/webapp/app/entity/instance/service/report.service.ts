@@ -13,9 +13,11 @@ export class ReportService {
   private readonly applicationConfigService = inject(ApplicationConfigService);
   private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/reports');
 
+  checkStatus(id: number): Observable<EntityResponseType> {
+    return this.http.get<EntityResponseType>(`${this.resourceUrl}/${id}/status`, { observe: 'response' });
+  }
+
   generate(request: GenerateReportRequest): Observable<EntityResponseType> {
-    // const copy = this.convertDateFromClient(instance);
     return this.http.post<EntityResponseType>(`${this.resourceUrl}/generate-async`, request, { observe: 'response' });
-    //   .pipe(map(res => this.convertResponseFromServer(res)));
   }
 }
