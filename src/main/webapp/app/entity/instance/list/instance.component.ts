@@ -226,7 +226,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
         this.onSuccess(data, res.headers);
 
         if (data.length > 0) {
-          this.startReportStatusPolling(data);
+          this.startReportStatusPolling();
         }
       },
       error: () => this.onError(),
@@ -248,12 +248,12 @@ export class InstanceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private startReportStatusPolling(data: IInstance[]): void {
+  private startReportStatusPolling(): void {
     if (this.reportStatusPolling) {
       this.reportStatusPolling.unsubscribe();
     }
 
-    const instances = data.filter(d => d.latestCompletedReportId);
+    const instances = this.data.filter(d => d.latestRequestedReportId);
     if (instances.length === 0) {
       return;
     }
@@ -261,7 +261,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.reportStatusPolling = timer(0, 60000).subscribe(() => {
       instances.forEach(instance => {
         this.reportService
-          .checkStatus(instance.latestCompletedReportId!)
+          .checkStatus(instance.latestRequestedReportId!)
           .pipe(
             first(),
             catchError(() => of(null)),
@@ -408,9 +408,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           name: 'pagopaCruscottoApp.alert',
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
         });
-        res.body?.forEach((reportStatus: any, index: number) => {
-          this.reportStatusMap.set(ids[index], reportStatus);
-        });
+        this.loadPage(this.filter.page, false);
         this.selection.clear();
       },
       error: () => {
