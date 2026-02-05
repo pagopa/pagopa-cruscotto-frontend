@@ -391,7 +391,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   launchReportGeneration() {
-    const ids = this.selection.selected.map(el => el);
+    const ids = this.selection.selected;
     const request: GenerateReportRequest = {
       instanceIds: ids,
       language: this.translateService.currentLang,
@@ -401,14 +401,17 @@ export class InstanceComponent implements OnInit, OnDestroy {
       content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.reports.generating' },
     });
     this.reportService.generate(request).subscribe({
-      next: () => {
+      next: res => {
         // Handle successful report generation
         this.toastrService.clear();
         this.eventManager.broadcast({
           name: 'pagopaCruscottoApp.alert',
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
         });
-        this.loadPage(this.filter.page, false);
+        res.body?.forEach((reportStatus: any, index: number) => {
+          this.reportStatusMap.set(ids[index], reportStatus);
+        });
+        this.selection.clear();
       },
       error: () => {
         this.toastrService.clear();
@@ -443,12 +446,12 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   downloadReport(instanceId: number): void {
-    const downloadUrl = this.reportStatusMap.get(instanceId)?.downloadInfo.downloadUrl;
+    const downloadInfo = this.reportStatusMap.get(instanceId)?.downloadInfo;
 
-    if (downloadUrl) {
+    if (downloadInfo) {
       const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = '';
+      link.href = downloadInfo.downloadUrl;
+      link.download = downloadInfo.fileName;
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
