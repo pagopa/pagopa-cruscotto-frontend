@@ -54,7 +54,7 @@
         {{ 'pagopaCruscottoApp.module.C.1.tableLabels.KpiDetailResults.percentageOkInstitutions' | translate }}
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.percentageOkInstitutions | number: '1.2-2' }}
+        {{ element.percentageOkInstitutions ?? 0 | number: '1.2-2' }}
         <span class="fw-bold">{{ 'abbr.percent' | translate }}</span>
       </td>
     </ng-container>
