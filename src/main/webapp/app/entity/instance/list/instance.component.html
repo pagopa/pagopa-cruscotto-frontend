@@ -216,6 +216,10 @@
                   <mat-icon fontSet="material-symbols-outlined">add_chart</mat-icon
                   ><span>{{ 'pagopaCruscottoApp.instance.reports.generate' | translate }}</span>
                 </button>
+                <button id="archive" mat-flat-button color="primary" *jhiHasAnyAuthority="Authority.INSTANCE_ARCHIVING" (click)="archive()">
+                  <mat-icon fontSet="material-symbols-outlined">archive</mat-icon
+                  ><span>{{ 'pagopaCruscottoApp.instance.reports.archive' | translate }}</span>
+                </button>
               </div>
             </div>
             <mat-paginator
