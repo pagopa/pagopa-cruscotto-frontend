@@ -87,8 +87,8 @@
       "changePartnerQualified": "Valida per la qualifica (SI/NO)",
       "reports": {
         "generate": "Genera Report",
-        "generating": "Generazione Report in corso...",
-        "generated": "Report generato con successo",
+        "generating": "Generazione Report richiesta",
+        "generated": "Generazione Report avviata con successo, attendere il completamento per il download.",
         "error": "Errore durante la generazione del Report",
         "download": "Download Report",
         "notGenerated": "Report non generato",

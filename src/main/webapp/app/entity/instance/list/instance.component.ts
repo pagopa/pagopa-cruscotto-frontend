@@ -226,7 +226,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
         this.onSuccess(data, res.headers);
 
         if (data.length > 0) {
-          this.startReportStatusPolling(data);
+          this.startReportStatusPolling();
         }
       },
       error: () => this.onError(),
@@ -248,12 +248,12 @@ export class InstanceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private startReportStatusPolling(data: IInstance[]): void {
+  private startReportStatusPolling(): void {
     if (this.reportStatusPolling) {
       this.reportStatusPolling.unsubscribe();
     }
 
-    const instances = data.filter(d => d.latestCompletedReportId);
+    const instances = this.data.filter(d => d.latestRequestedReportId);
     if (instances.length === 0) {
       return;
     }
@@ -261,7 +261,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.reportStatusPolling = timer(0, 60000).subscribe(() => {
       instances.forEach(instance => {
         this.reportService
-          .checkStatus(instance.latestCompletedReportId!)
+          .checkStatus(instance.latestRequestedReportId!)
           .pipe(
             first(),
             catchError(() => of(null)),
@@ -391,7 +391,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   launchReportGeneration() {
-    const ids = this.selection.selected.map(el => el);
+    const ids = this.selection.selected;
     const request: GenerateReportRequest = {
       instanceIds: ids,
       language: this.translateService.currentLang,
@@ -401,7 +401,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
       content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.reports.generating' },
     });
     this.reportService.generate(request).subscribe({
-      next: () => {
+      next: res => {
         // Handle successful report generation
         this.toastrService.clear();
         this.eventManager.broadcast({
@@ -409,6 +409,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.reports.generated' },
         });
         this.loadPage(this.filter.page, false);
+        this.selection.clear();
       },
       error: () => {
         this.toastrService.clear();
@@ -443,12 +444,12 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   downloadReport(instanceId: number): void {
-    const downloadUrl = this.reportStatusMap.get(instanceId)?.downloadInfo.downloadUrl;
+    const downloadInfo = this.reportStatusMap.get(instanceId)?.downloadInfo;
 
-    if (downloadUrl) {
+    if (downloadInfo) {
       const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = '';
+      link.href = downloadInfo.downloadUrl;
+      link.download = downloadInfo.fileName;
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
