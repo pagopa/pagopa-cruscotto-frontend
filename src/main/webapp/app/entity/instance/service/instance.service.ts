@@ -69,6 +69,10 @@ export class InstanceService {
     return this.http.put<HttpResponse<{}>>(`${this.resourceUrl}/update-status/${id}`, { observe: 'response' });
   }
 
+  archive(instanceIds: number[]): Observable<any> {
+    return this.http.post(`${this.resourceUrl}/archive`, instanceIds);
+  }
+
   protected convertDateFromClient<T extends IInstance | NewInstance>(instance: T): InstanceRestOf<T> {
     return {
       ...instance,
