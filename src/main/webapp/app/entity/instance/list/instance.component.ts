@@ -390,6 +390,49 @@ export class InstanceComponent implements OnInit, OnDestroy {
       });
   }
 
+  archive() {
+    this.instanceService.archive(this.selection.selected).subscribe({
+      next: _ => {
+        if (_.successCount > 0 && _.failureCount === 0) {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.archived.success' },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        } else if (_.failureCount == this.selection.selected.length) {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: {
+              type: 'warning',
+              translationKey: 'pagopaCruscottoApp.instance.archived.partial',
+              params: { successCount: _.successCount, failureCount: _.failureCount },
+            },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        } else {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.error' },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        }
+      },
+      error: () => {
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.error' },
+        });
+      },
+    });
+  }
+
   launchReportGeneration() {
     const ids = this.selection.selected;
     const request: GenerateReportRequest = {
