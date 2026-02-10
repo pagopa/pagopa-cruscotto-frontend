@@ -97,6 +97,11 @@
         "failed": "Generazione Report fallita",
         "selectedInstance": "istanza selezionata",
         "selectedInstances": "istanze selezionate"
+      },
+      "archived": {
+        "success": "Istanze archiviate con successo",
+        "error": "Errore durante l'archiviazione delle istanze",
+        "partial": "Alcune istanze non sono state archiviate"
       }
     }
   },
