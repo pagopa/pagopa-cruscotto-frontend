@@ -97,6 +97,11 @@
         "failed": "Report generation failed",
         "selectedInstance": "selected instance",
         "selectedInstances": "selected instances"
+      },
+      "archived": {
+        "success": "Instances successfully archived",
+        "error": "Error while archiving instances",
+        "partial": "Some instances were not archived"
       }
     }
   },
