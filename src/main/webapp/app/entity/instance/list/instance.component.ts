@@ -408,7 +408,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
             content: {
               type: 'warning',
               translationKey: 'pagopaCruscottoApp.instance.archived.partial',
-              params: { successCount: _.successCount, failureCount: _.failureCount },
+              params: { successCount: _.successCount, count: _.successCount + _.failureCount },
             },
           });
           this.loadPage(this.filter.page, false);
