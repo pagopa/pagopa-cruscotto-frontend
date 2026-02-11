@@ -101,9 +101,10 @@
       "archived": {
         "archive": "Archive",
         "archiving": "Archiving in progress...",
-        "success": "Instances archived successfully.",
         "partialSuccess": "Some instances were archived successfully, but {{failureCount}} instances failed.",
-        "error": "Error during archiving"
+        "success": "Instances successfully archived",
+        "error": "Error while archiving instances",
+        "partial": "Some instances were not archived"
       }
     }
   },
