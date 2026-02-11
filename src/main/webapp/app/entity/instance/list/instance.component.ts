@@ -433,6 +433,45 @@ export class InstanceComponent implements OnInit, OnDestroy {
     });
   }
 
+  restore(instanceId: number) {
+    this.instanceService.restore([instanceId]).subscribe({
+      next: _ => {
+        if (_.successCount > 0 && _.failureCount === 0) {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.archived.restored' },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        } else if (_.failureCount == this.selection.selected.length) {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        } else {
+          this.toastrService.clear();
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
+          });
+          this.loadPage(this.filter.page, false);
+          this.selection.clear();
+        }
+      },
+      error: () => {
+        this.toastrService.clear();
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
+        });
+      },
+    });
+  }
+
   launchReportGeneration() {
     const ids = this.selection.selected;
     const request: GenerateReportRequest = {
@@ -512,6 +551,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
   checkPageSelected(): boolean {
     const selectableRows = this.data.filter(row => row.status == 'ESEGUITA').map(row => row.id);
     return selectableRows.every(id => this.selection.isSelected(id)) && selectableRows.length > 0;
+  }
+
+  checkFilterStatus(): boolean {
+    return this.searchForm.get('status')?.value == 'ARCHIVIATA';
   }
 
   startFilter = (date: dayjs.Dayjs | null): boolean => {
