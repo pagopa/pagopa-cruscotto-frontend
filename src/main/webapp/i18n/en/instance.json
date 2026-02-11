@@ -104,7 +104,11 @@
         "partialSuccess": "Some instances were archived successfully, but {{failureCount}} instances failed.",
         "success": "Instances successfully archived",
         "error": "Error while archiving instances",
-        "partial": "Some instances were not archived"
+        "partial": "Some instances were not archived",
+        "restore": "Restore",
+        "restoring": "Restoring in progress...",
+        "restored": "Instances successfully restored",
+        "restoreError": "Error while restoring instances"
       }
     }
   },
