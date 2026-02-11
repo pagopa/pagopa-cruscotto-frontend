@@ -73,6 +73,10 @@ export class InstanceService {
     return this.http.post(`${this.resourceUrl}/archive`, { instanceIds });
   }
 
+  restore(instanceIds: number[]): Observable<any> {
+    return this.http.post(`${this.resourceUrl}/restore`, { instanceIds });
+  }
+
   protected convertDateFromClient<T extends IInstance | NewInstance>(instance: T): InstanceRestOf<T> {
     return {
       ...instance,

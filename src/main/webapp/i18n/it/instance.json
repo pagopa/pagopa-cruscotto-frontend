@@ -104,7 +104,11 @@
         "partialSuccess": "Alcune istanze sono state archiviate con successo, ma {{failureCount}} istanze hanno fallito.",
         "error": "Errore durante l'archiviazione",
         "success": "Istanze archiviate con successo",
-        "partial": "Alcune istanze non sono state archiviate"
+        "partial": "Alcune istanze non sono state archiviate",
+        "restore": "Ripristina",
+        "restoring": "Ripristino in corso...",
+        "restored": "Istanze ripristinate con successo",
+        "restoreError": "Errore durante il ripristino"
       }
     }
   },
