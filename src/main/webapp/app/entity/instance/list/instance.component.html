@@ -474,18 +474,6 @@
                             <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
                           </button>
                         </span>
-                        <span *ngIf="row.status === status.Archiviata">
-                          <button
-                            class="m-1"
-                            mat-icon-button
-                            type="button"
-                            [matTooltip]="'pagopaCruscottoApp.instance.archived.restore' | translate"
-                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                            (click)="restore(row.id)"
-                          >
-                            <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
-                          </button>
-                        </span>
                       </div>
                     </div>
                   </td>
