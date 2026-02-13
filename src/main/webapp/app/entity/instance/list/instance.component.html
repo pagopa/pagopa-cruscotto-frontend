@@ -221,11 +221,14 @@
                   mat-flat-button
                   color="primary"
                   *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                  (click)="archive()"
-                  [disabled]="checkFilterStatus()"
+                  (click)="isShowingArchived ? restore() : archive()"
+                  [disabled]="!selection.hasValue()"
                 >
                   <mat-icon fontSet="material-symbols-outlined">archive</mat-icon
-                  ><span>{{ 'pagopaCruscottoApp.instance.archived.archive' | translate }}</span>
+                  ><span>{{
+                    (isShowingArchived ? 'pagopaCruscottoApp.instance.archived.restore' : 'pagopaCruscottoApp.instance.archived.archive')
+                      | translate
+                  }}</span>
                 </button>
               </div>
             </div>
