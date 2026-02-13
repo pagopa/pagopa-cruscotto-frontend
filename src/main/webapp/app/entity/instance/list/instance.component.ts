@@ -167,17 +167,6 @@ export class InstanceComponent implements OnInit, OnDestroy {
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.locale = event.lang;
     });
-
-    // Clear selection when status filter changes to/from ARCHIVIATA
-    this.searchForm.get('status')?.valueChanges.subscribe(status => {
-      if (this.isShowingArchived && status != 'ARCHIVIATA') {
-        this.selection.clear();
-        this.isShowingArchived = false;
-      } else if (!this.isShowingArchived && status == 'ARCHIVIATA') {
-        this.selection.clear();
-        this.isShowingArchived = true;
-      }
-    });
   }
 
   updateForm(): void {
@@ -240,6 +229,15 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
         if (data.length > 0) {
           this.startReportStatusPolling();
+        }
+
+        const status = this.searchForm.get('status')?.value;
+        if (this.isShowingArchived && status != 'ARCHIVIATA') {
+          this.selection.clear();
+          this.isShowingArchived = false;
+        } else if (!this.isShowingArchived && status == 'ARCHIVIATA') {
+          this.selection.clear();
+          this.isShowingArchived = true;
         }
       },
       error: () => this.onError(),
