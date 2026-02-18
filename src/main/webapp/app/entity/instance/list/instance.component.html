@@ -221,11 +221,14 @@
                   mat-flat-button
                   color="primary"
                   *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                  (click)="archive()"
-                  [disabled]="checkFilterStatus()"
+                  (click)="isShowingArchived ? restore() : archive()"
+                  [disabled]="!selection.hasValue()"
                 >
                   <mat-icon fontSet="material-symbols-outlined">archive</mat-icon
-                  ><span>{{ 'pagopaCruscottoApp.instance.archived.archive' | translate }}</span>
+                  ><span>{{
+                    (isShowingArchived ? 'pagopaCruscottoApp.instance.archived.restore' : 'pagopaCruscottoApp.instance.archived.archive')
+                      | translate
+                  }}</span>
                 </button>
               </div>
             </div>
@@ -467,18 +470,6 @@
                             *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
                             [disabled]="reportStatus(row.id)"
                             (click)="downloadReport(row.id)"
-                          >
-                            <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
-                          </button>
-                        </span>
-                        <span *ngIf="row.status === status.Archiviata">
-                          <button
-                            class="m-1"
-                            mat-icon-button
-                            type="button"
-                            [matTooltip]="'pagopaCruscottoApp.instance.archived.restore' | translate"
-                            *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                            (click)="restore(row.id)"
                           >
                             <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
                           </button>
