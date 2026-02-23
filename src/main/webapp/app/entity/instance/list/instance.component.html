@@ -459,16 +459,17 @@
                             >
                           </button>
                         </span>
-                        <span matTooltip="{{ reportStatusLabel(row.id) | translate }}" matTooltipPosition="above">
+                        @let reportInfo = getReportDisplayInfo(row.id);
+                        <span [matTooltip]="reportInfo.tooltipKey | translate" matTooltipPosition="above">
                           <button
                             class="m-1"
                             mat-icon-button
                             type="button"
                             *jhiHasAnyAuthority="Authority.INSTANCE_MANAGEMENT"
-                            [disabled]="reportStatus(row.id)"
+                            [disabled]="!reportInfo.downloadEnabled"
                             (click)="downloadReport(row.id)"
                           >
-                            <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
+                            <mat-icon fontSet="material-symbols-outlined">{{ reportInfo.icon }}</mat-icon>
                           </button>
                         </span>
                         <span *ngIf="row.status === status.Archiviata">
