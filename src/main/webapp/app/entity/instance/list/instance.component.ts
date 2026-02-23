@@ -109,6 +109,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
   status = InstanceStatus;
   instanceStatusValues: InstanceStatus[] = Object.values(InstanceStatus);
 
+  isShowingArchived: boolean = false;
+
   protected readonly Authority = Authority;
 
   protected readonly router = inject(Router);
@@ -227,6 +229,15 @@ export class InstanceComponent implements OnInit, OnDestroy {
 
         if (data.length > 0) {
           this.startReportStatusPolling();
+        }
+
+        const status = this.searchForm.get('status')?.value;
+        if (this.isShowingArchived && status != 'ARCHIVIATA') {
+          this.selection.clear();
+          this.isShowingArchived = false;
+        } else if (!this.isShowingArchived && status == 'ARCHIVIATA') {
+          this.selection.clear();
+          this.isShowingArchived = true;
         }
       },
       error: () => this.onError(),
@@ -433,8 +444,8 @@ export class InstanceComponent implements OnInit, OnDestroy {
     });
   }
 
-  restore(instanceId: number) {
-    this.instanceService.restore([instanceId]).subscribe({
+  restore() {
+    this.instanceService.restore(this.selection.selected).subscribe({
       next: _ => {
         if (_.successCount > 0 && _.failureCount === 0) {
           this.toastrService.clear();
@@ -561,10 +572,6 @@ export class InstanceComponent implements OnInit, OnDestroy {
   checkPageSelected(): boolean {
     const selectableRows = this.data.filter(row => row.status == 'ESEGUITA').map(row => row.id);
     return selectableRows.every(id => this.selection.isSelected(id)) && selectableRows.length > 0;
-  }
-
-  checkFilterStatus(): boolean {
-    return this.searchForm.get('status')?.value == 'ARCHIVIATA';
   }
 
   startFilter = (date: dayjs.Dayjs | null): boolean => {
