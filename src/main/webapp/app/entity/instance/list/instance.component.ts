@@ -40,7 +40,7 @@ import { YesOrNoViewComponent } from '../../../shared/component/yes-or-no-view.c
 import { AccountService } from 'app/core/auth/account.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { GenerateReportRequest } from '../models/report.model';
+import { GenerateReportRequest, ReportDisplayInfo, ReportStatusResponse } from '../models/report.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -92,7 +92,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   resultsLength = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
-  reportStatusMap = new Map<number, any>();
+  reportStatusMap = new Map<number, ReportStatusResponse>();
   reportStatusPolling?: Subscription;
 
   _search = false;
@@ -504,51 +504,61 @@ export class InstanceComponent implements OnInit, OnDestroy {
         this.loadPage(this.filter.page, false);
         this.selection.clear();
       },
-      error: () => {
+      error: err => {
         this.toastrService.clear();
-        this.eventManager.broadcast({
-          name: 'pagopaCruscottoApp.alert',
-          content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.reports.error' },
-        });
+        if (err.error.status === 409) {
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.reports.error409' },
+          });
+          return;
+        } else {
+          this.eventManager.broadcast({
+            name: 'pagopaCruscottoApp.alert',
+            content: {
+              type: 'error',
+              translationKey: 'pagopaCruscottoApp.instance.reports.error',
+              translationParams: { error: err.error.detail },
+            },
+          });
+        }
       },
     });
   }
 
-  reportStatusLabel(instanceId: number): string {
-    const status = this.reportStatusMap.get(instanceId)?.status;
-    switch (status) {
-      case 'COMPLETED':
-        return 'pagopaCruscottoApp.instance.reports.download';
-      case 'PENDING':
-        return 'pagopaCruscottoApp.instance.reports.pending';
-      case 'IN_PROGRESS':
-        return 'pagopaCruscottoApp.instance.reports.progress';
-      case 'FAILED':
-        return 'pagopaCruscottoApp.instance.reports.error';
-      default:
-        return 'pagopaCruscottoApp.instance.reports.notGenerated';
-    }
-  }
+  private static readonly REPORT_STATUS_TOOLTIP_MAP: Record<string, string> = {
+    COMPLETED: 'pagopaCruscottoApp.instance.reports.download',
+    PENDING: 'pagopaCruscottoApp.instance.reports.pending',
+    IN_PROGRESS: 'pagopaCruscottoApp.instance.reports.progress',
+    FAILED: 'pagopaCruscottoApp.instance.reports.error',
+  };
 
-  reportStatus(instanceId: number): boolean {
-    const status = this.reportStatusMap.get(instanceId);
-    if (!status) return true;
-    else return status.status !== 'COMPLETED';
+  private static readonly DEFAULT_TOOLTIP = 'pagopaCruscottoApp.instance.reports.notGenerated';
+
+  getReportDisplayInfo(instanceId: number): ReportDisplayInfo {
+    const report = this.reportStatusMap.get(instanceId);
+    const status = report?.status;
+    const isPending = status === 'PENDING' || status === 'IN_PROGRESS';
+    const isDownloadable = status === 'COMPLETED' && !!report?.downloadInfo?.downloadUrl;
+
+    return {
+      tooltipKey: (status && InstanceComponent.REPORT_STATUS_TOOLTIP_MAP[status]) || InstanceComponent.DEFAULT_TOOLTIP,
+      icon: isPending ? 'hourglass' : 'docs',
+      downloadEnabled: isDownloadable,
+    };
   }
 
   downloadReport(instanceId: number): void {
     const downloadInfo = this.reportStatusMap.get(instanceId)?.downloadInfo;
+    if (!downloadInfo?.downloadUrl) return;
 
-    if (downloadInfo) {
-      const link = document.createElement('a');
-      link.href = downloadInfo.downloadUrl;
-      link.download = downloadInfo.fileName;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      return;
-    }
+    const link = document.createElement('a');
+    link.href = downloadInfo.downloadUrl;
+    link.download = downloadInfo.fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   onSelectPageClick(e: MatCheckboxChange): void {
