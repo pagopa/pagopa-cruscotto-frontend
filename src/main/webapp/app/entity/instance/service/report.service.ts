@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { GenerateReportRequest } from '../models/report.model';
 
 type EntityResponseType = HttpResponse<any>;
-type EntityArrayResponseType = HttpResponse<any[]>;
 
 @Injectable({ providedIn: 'root' })
 export class ReportService {
