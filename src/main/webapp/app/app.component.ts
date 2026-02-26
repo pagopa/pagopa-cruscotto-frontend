@@ -42,7 +42,23 @@ export default class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.msalService.handleRedirectObservable().subscribe();
+    // Handle MSAL redirect after authentication
+    this.msalService.handleRedirectObservable().subscribe({
+      next: result => {
+        if (result) {
+          if (environment.DEBUG_INFO_ENABLED) {
+            console.log('MSAL redirect handled successfully', result);
+          }
+          // After successful redirect, check and set active account
+          this.checkAndSetActiveAccount();
+        }
+      },
+      error: error => {
+        console.error('MSAL redirect error:', error);
+        // If redirect fails, still try to check for existing session
+        this.checkAndSetActiveAccount();
+      },
+    });
 
     this.msalBroadcastService.inProgress$
       .pipe(
