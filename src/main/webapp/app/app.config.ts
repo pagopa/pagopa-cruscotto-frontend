@@ -11,7 +11,7 @@ import {
   Router,
 } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import './config/dayjs';
 import { TranslationModule } from 'app/shared/language/translation.module';
@@ -30,6 +30,18 @@ import { MatPaginatorI18nService } from './shared/pagination/mat-paginator-i18n.
 import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxMask } from 'ngx-mask';
+
+// MSAL imports
+import {
+  MSAL_INSTANCE,
+  MSAL_GUARD_CONFIG,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalService,
+  MsalGuard,
+  MsalBroadcastService,
+  MsalInterceptor,
+} from '@azure/msal-angular';
+import { MSALInstanceFactory, MSALGuardConfigFactory, MSALInterceptorConfigFactory } from './core/auth/msal-config';
 
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -122,6 +134,26 @@ export const appConfig: ApplicationConfig = {
     Title,
     { provide: LOCALE_ID, useValue: 'it-IT' },
     httpInterceptorProviders,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory,
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService,
     { provide: TitleStrategy, useClass: AppPageTitleStrategy },
     { provide: MAT_DAYJS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } },
     {

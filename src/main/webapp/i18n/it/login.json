@@ -25,6 +25,11 @@
     "password": {
       "forgot": "Password dimenticata?"
     },
+    "sso": {
+      "separator": "oppure",
+      "button": "Accedi con Microsoft Entra ID",
+      "error": "Errore durante l'accesso SSO. Riprova."
+    },
     "authRunning": "Autenticazione in corso..."
   }
 }

@@ -13,6 +13,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StateStorageService } from '../core/auth/state-storage.service';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
@@ -29,6 +31,8 @@ import { StateStorageService } from '../core/auth/state-storage.service';
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
 })
 export default class LoginComponent implements OnInit, AfterViewInit {
@@ -102,6 +106,10 @@ export default class LoginComponent implements OnInit, AfterViewInit {
           }
         },
       });
+  }
+
+  loginWithSSO(): void {
+    this.loginService.loginWithSSO();
   }
 
   protected onSaveFinalize(): void {
