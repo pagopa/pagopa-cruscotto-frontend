@@ -7,6 +7,6 @@ export const environment = {
       redirectUri: 'http://localhost:4200',
       postLogoutRedirectUri: 'http://localhost:4200',
     },
-    apiScopes: ['api://10eb962e-531c-4f0c-b216-bb0539bba43b/access_as_user'],
+    apiScopes: ['api://pagopa-d-crusc8-ui/user_impersonation'],
   },
 };

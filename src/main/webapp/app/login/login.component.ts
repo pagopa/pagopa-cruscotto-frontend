@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StateStorageService } from '../core/auth/state-storage.service';
+import { MsalService } from '@azure/msal-angular';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -55,13 +56,41 @@ export default class LoginComponent implements OnInit, AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly stateStorageService = inject(StateStorageService);
+  private readonly msalService = inject(MsalService);
 
   ngOnInit(): void {
-    // if already authenticated then navigate to home page
-    this.accountService.identity().subscribe(() => {
-      if (this.accountService.isAuthenticated()) {
-        void this.router.navigate(['home']);
-      }
+    // Check if user is already authenticated (JWT or MSAL)
+    this.accountService.identity().subscribe({
+      next: account => {
+        if (this.accountService.isAuthenticated()) {
+          // User is authenticated, navigate to home
+          void this.router.navigate(['home']);
+          return;
+        }
+
+        // Check if user has MSAL session but identity loading failed
+        const activeAccount = this.msalService.instance.getActiveAccount();
+        if (activeAccount) {
+          // User is MSAL authenticated but backend identity failed to load
+          // Try to handle SSO login success
+          this.loginService.handleSSOLoginSuccess().subscribe({
+            next: () => {
+              if (this.accountService.isAuthenticated()) {
+                void this.router.navigate(['home']);
+              }
+            },
+            error: error => {
+              console.error('Failed to handle SSO login success:', error);
+              // Clear MSAL session if identity loading fails
+              this.msalService.instance.setActiveAccount(null);
+              this.stateStorageService.clearAuthenticationToken();
+            },
+          });
+        }
+      },
+      error: error => {
+        console.error('Identity check failed:', error);
+      },
     });
   }
 
