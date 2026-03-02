@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { finalize } from 'rxjs';
+import { finalize, filter, take } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import SharedModule from '../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +13,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StateStorageService } from '../core/auth/state-storage.service';
-import { MsalService } from '@azure/msal-angular';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -56,42 +55,23 @@ export default class LoginComponent implements OnInit, AfterViewInit {
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly spinner = inject(NgxSpinnerService);
   private readonly stateStorageService = inject(StateStorageService);
-  private readonly msalService = inject(MsalService);
 
   ngOnInit(): void {
-    // Check if user is already authenticated (JWT or MSAL)
-    this.accountService.identity().subscribe({
-      next: account => {
-        if (this.accountService.isAuthenticated()) {
-          // User is authenticated, navigate to home
-          void this.router.navigate(['home']);
-          return;
-        }
+    // Trigger identity check (uses cached result or makes a new call)
+    this.accountService.identity().subscribe();
 
-        // Check if user has MSAL session but identity loading failed
-        const activeAccount = this.msalService.instance.getActiveAccount();
-        if (activeAccount) {
-          // User is MSAL authenticated but backend identity failed to load
-          // Try to handle SSO login success
-          this.loginService.handleSSOLoginSuccess().subscribe({
-            next: () => {
-              if (this.accountService.isAuthenticated()) {
-                void this.router.navigate(['home']);
-              }
-            },
-            error: error => {
-              console.error('Failed to handle SSO login success:', error);
-              // Clear MSAL session if identity loading fails
-              this.msalService.instance.setActiveAccount(null);
-              this.stateStorageService.clearAuthenticationToken();
-            },
-          });
-        }
-      },
-      error: error => {
-        console.error('Identity check failed:', error);
-      },
-    });
+    // Listen for authentication state changes — fires when:
+    // - The identity check above succeeds (JWT user)
+    // - AppComponent finishes processing an MSAL redirect
+    this.accountService
+      .getAuthenticationState()
+      .pipe(
+        filter(account => account !== null),
+        take(1),
+      )
+      .subscribe(() => {
+        void this.router.navigate(['home']);
+      });
   }
 
   ngAfterViewInit(): void {
