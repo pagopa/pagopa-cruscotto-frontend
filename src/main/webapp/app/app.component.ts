@@ -11,9 +11,10 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MainComponent } from './layouts/main/main.component';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import { InteractionStatus, SilentRequest } from '@azure/msal-browser';
-import { Subject, filter, takeUntil, catchError, of } from 'rxjs';
+import { InteractionStatus } from '@azure/msal-browser';
+import { Subject, filter, takeUntil } from 'rxjs';
 import { AccountService } from './core/auth/account.service';
+import { StateStorageService } from './core/auth/state-storage.service';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -30,7 +31,9 @@ export default class AppComponent implements OnInit, OnDestroy {
   private readonly msalService = inject(MsalService);
   private readonly msalBroadcastService = inject(MsalBroadcastService);
   private readonly accountService = inject(AccountService);
+  private readonly stateStorageService = inject(StateStorageService);
   private readonly destroying$ = new Subject<void>();
+  private msalAccountChecked = false;
 
   constructor() {
     this.applicationConfigService.setEndpointPrefix(SERVER_API_URL);
@@ -42,35 +45,31 @@ export default class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Handle MSAL redirect after authentication
+    // Process the MSAL redirect response — this returns the access token from the auth code exchange
     this.msalService.handleRedirectObservable().subscribe({
       next: result => {
-        if (result) {
-          if (environment.DEBUG_INFO_ENABLED) {
-            console.log('MSAL redirect handled successfully', result);
-          }
-          // After successful redirect, check and set active account
-          this.checkAndSetActiveAccount();
+        if (result?.accessToken) {
+          console.log('[MSAL] Redirect login successful, storing access token for:', result.account?.username);
+          // Store the MSAL access token so the auth interceptor can attach it to API calls
+          this.stateStorageService.storeAuthenticationToken(result.accessToken, false);
+          this.msalService.instance.setActiveAccount(result.account);
+          this.loadBackendIdentity();
         }
       },
       error: error => {
-        console.error('MSAL redirect error:', error);
-        // If redirect fails, still try to check for existing session
-        this.checkAndSetActiveAccount();
+        console.error('[MSAL] Redirect error:', error);
       },
     });
 
+    // When MSAL finishes all interactions, check for existing accounts (e.g. page refresh with cached session)
     this.msalBroadcastService.inProgress$
       .pipe(
         filter((status: InteractionStatus) => status === InteractionStatus.None),
         takeUntil(this.destroying$),
       )
-      .subscribe(async () => {
-        await this.checkAndSetActiveAccount();
+      .subscribe(() => {
+        this.checkAndSetActiveAccount();
       });
-
-    // Also check for existing sessions on app initialization
-    this.checkAndSetActiveAccount();
   }
 
   ngOnDestroy(): void {
@@ -79,70 +78,56 @@ export default class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Check for existing MSAL accounts and attempt silent login.
-   * If an account exists, try to acquire a token silently to verify the session is still valid.
-   * If successful, load the backend identity; otherwise, user will need to log in.
+   * On page refresh: if an MSAL account exists, acquire a fresh token silently and store it.
    */
-  private async checkAndSetActiveAccount(): Promise<void> {
-    const accounts = this.msalService.instance.getAllAccounts();
+  private checkAndSetActiveAccount(): void {
+    if (this.msalAccountChecked) {
+      return;
+    }
 
+    const accounts = this.msalService.instance.getAllAccounts();
     if (accounts.length > 0) {
-      // Set the first account as active if none is set
+      this.msalAccountChecked = true;
+
       let activeAccount = this.msalService.instance.getActiveAccount();
       if (!activeAccount) {
         this.msalService.instance.setActiveAccount(accounts[0]);
         activeAccount = accounts[0];
       }
 
-      if (activeAccount) {
-        // Try to acquire token silently to verify session is still valid
-        const silentRequest: SilentRequest = {
+      console.log('[MSAL] Account found:', activeAccount!.username);
+
+      // If we already have a stored token (set by handleRedirectObservable), just load identity
+      if (this.stateStorageService.getAuthenticationToken()) {
+        this.loadBackendIdentity();
+        return;
+      }
+
+      // Otherwise (e.g. page refresh), acquire a fresh token silently and store it
+      this.msalService.instance
+        .acquireTokenSilent({
           scopes: environment.msalConfig.apiScopes,
-          account: activeAccount,
-        };
-
-        try {
-          const response = await this.msalService.instance.acquireTokenSilent(silentRequest);
-          if (response.accessToken) {
-            if (environment.DEBUG_INFO_ENABLED) {
-              console.log('Silent login successful for user:', activeAccount.username);
-            }
-            // Session is valid, load backend identity
-            this.accountService.identity(true).subscribe({
-              next: () => {
-                if (environment.DEBUG_INFO_ENABLED) {
-                  console.log('Backend identity loaded successfully');
-                }
-              },
-              error: error => {
-                console.error('Failed to load backend identity:', error);
-              },
-            });
-          }
-        } catch (error: any) {
-          // Silent token acquisition failed
-          if (environment.DEBUG_INFO_ENABLED) {
-            console.log('Silent token acquisition failed:', error);
-          }
-
-          // If the error indicates interaction is required, clear the active account
-          // so the user will be prompted to log in again
-          if (
-            error.errorCode === 'interaction_required' ||
-            error.errorCode === 'consent_required' ||
-            error.errorCode === 'login_required'
-          ) {
-            if (environment.DEBUG_INFO_ENABLED) {
-              console.log('Session expired, user needs to log in again');
-            }
-            this.msalService.instance.setActiveAccount(null);
-          }
-        }
-      }
-    } else {
-      if (environment.DEBUG_INFO_ENABLED) {
-        console.log('No existing MSAL accounts found');
-      }
+          account: activeAccount!,
+        })
+        .then(response => {
+          console.log('[MSAL] Silent token acquired for:', activeAccount!.username);
+          this.stateStorageService.storeAuthenticationToken(response.accessToken, false);
+          this.loadBackendIdentity();
+        })
+        .catch(error => {
+          console.error('[MSAL] Silent token acquisition failed:', error);
+          this.msalAccountChecked = false;
+        });
     }
+  }
+
+  private loadBackendIdentity(): void {
+    this.accountService.identity(true).subscribe({
+      next: () => console.log('[MSAL] Backend identity loaded'),
+      error: error => {
+        console.error('[MSAL] Failed to load backend identity:', error);
+        this.msalAccountChecked = false;
+      },
+    });
   }
 }

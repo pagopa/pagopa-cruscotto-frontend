@@ -172,15 +172,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
       medium: true,
       large: true,
       children: [
-        {
-          label: 'global.menu.usersAdministration.users',
-          route: '/admin-users/user-management',
-          permission: Authority.USER_INQUIRY,
-          xSmall: true,
-          small: true,
-          medium: true,
-          large: true,
-        },
+        // {
+        //   label: 'global.menu.usersAdministration.users',
+        //   route: '/admin-users/user-management',
+        //   permission: Authority.USER_INQUIRY,
+        //   xSmall: true,
+        //   small: true,
+        //   medium: true,
+        //   large: true,
+        // },
         {
           label: 'global.menu.usersAdministration.groupManagement',
           route: '/admin-users/groups',
