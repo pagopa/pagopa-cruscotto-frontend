@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { AuthServerProvider } from 'app/core/auth/auth-jwt.service';
+import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { Login } from './login.model';
 import { Logout } from './logout.model';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ import { environment } from 'environments/environment';
 export class LoginService {
   private readonly accountService = inject(AccountService);
   private readonly authServerProvider = inject(AuthServerProvider);
+  private readonly stateStorageService = inject(StateStorageService);
   private readonly location = inject(Location);
   private readonly router = inject(Router);
   private readonly msalService = inject(MsalService);
@@ -39,21 +41,42 @@ export class LoginService {
     return this.accountService.identity(true);
   }
 
-  logout(): void {
+  /**
+   * Logout the user.
+   * Returns `true` if this is an MSAL redirect logout (caller should NOT navigate).
+   */
+  logout(): boolean {
     const activeAccount = this.msalService.instance.getActiveAccount();
     if (activeAccount) {
-      // SSO logout
+      // --- MSAL SSO logout (best-practice cleanup per MS docs) ---
+
+      // 1. Clear application-level cached token (jhi-authenticationToken)
+      this.stateStorageService.clearAuthenticationToken();
+
+      // 2. Clear stored redirect URL
+      this.stateStorageService.clearUrl();
+
+      // 3. Clear application identity state
       this.accountService.authenticate(null);
+
+      // 4. Trigger MSAL logout redirect – this clears the MSAL token cache
+      //    (sessionStorage MSAL keys) and redirects to Microsoft's logout endpoint.
+      //    Passing the specific `account` is recommended to log out the correct session.
       this.msalService.logoutRedirect({
+        account: activeAccount,
         postLogoutRedirectUri: environment.msalConfig.auth.postLogoutRedirectUri,
       });
+
+      return true; // Redirect logout in progress — caller should not navigate
     } else {
-      // Legacy JWT logout
+      // --- Legacy JWT logout ---
+      this.stateStorageService.clearUrl();
       this.authServerProvider.logout().subscribe({
         complete: () => {
           this.accountService.authenticate(null);
         },
       });
+      return false;
     }
   }
 }

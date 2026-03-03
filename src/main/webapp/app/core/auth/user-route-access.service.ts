@@ -4,11 +4,13 @@ import { map } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { StateStorageService } from './state-storage.service';
+import { LoginService } from 'app/login/login.service';
 
 export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const accountService = inject(AccountService);
   const router = inject(Router);
   const stateStorageService = inject(StateStorageService);
+  const loginService = inject(LoginService);
 
   return accountService.identity().pipe(
     map(account => {
@@ -26,8 +28,10 @@ export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapsh
         return false;
       }
 
+      // Store the requested URL so we can redirect after login completes
       stateStorageService.storeUrl(state.url);
-      router.navigate(['/login']);
+      // Trigger MSAL login directly — no login page
+      loginService.loginWithSSO();
       return false;
     }),
   );

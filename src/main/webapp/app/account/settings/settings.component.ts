@@ -39,6 +39,7 @@ const initialAccount: Account = {} as Account;
 export default class SettingsComponent implements OnInit {
   languages = LANGUAGES;
   isSaving = false;
+  isReadOnly = true;
 
   settingsForm = new FormGroup({
     firstName: new FormControl(initialAccount.firstName, {
