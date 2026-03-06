@@ -11,6 +11,7 @@ import { PasswordResetInitOutcomeService } from '../account/password-reset/init/
 import { EventManager } from '../core/util/event-manager.service';
 import { HttpResponse } from '@angular/common/http';
 import { IGroup } from '../admin-users/group/group.model';
+import { LoginService } from 'app/login/login.service';
 
 @Component({
   standalone: true,
@@ -21,6 +22,7 @@ import { IGroup } from '../admin-users/group/group.model';
 })
 export default class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
+  isLoading = true;
   authSubscription?: Subscription;
   passwordResetInitSubscription?: Subscription;
   passwordExpiredDate: string | null = null;
@@ -30,6 +32,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly passwordResetInitOutcomeService = inject(PasswordResetInitOutcomeService);
   private readonly eventManager = inject(EventManager);
+  private readonly loginService = inject(LoginService);
 
   constructor() {
     this.passwordResetInitSubscription = this.passwordResetInitOutcomeService.getSuccess().subscribe({
@@ -49,6 +52,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
     const hasAuthorityChangePasswordExpired = this.accountService.hasAnyAuthority(Authority.CHANGE_PASSWORD_EXPIRED);
 
     this.authSubscription = this.accountService.identity().subscribe(account => {
+      this.isLoading = false;
       if (account) {
         this.account = account;
 
@@ -60,8 +64,6 @@ export default class HomeComponent implements OnInit, OnDestroy {
           if (diffDays <= 0 || hasAuthorityChangePasswordExpired) {
             if (hasAuthorityChangePasswordExpired) {
               void this.router.navigate(['/account/password-expired']);
-            } else {
-              void this.router.navigate(['/login']);
             }
           } else if (diffDays <= HOME_PAGE_DAY_VIEW_ALERT_MESSAGE) {
             this.passwordExpiredDate = dateExpired;
@@ -73,6 +75,10 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   isNotAuthenticated(): boolean {
     return !this.accountService.isAuthenticated();
+  }
+
+  loginWithSSO(): void {
+    this.loginService.loginWithSSO();
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 <div class="home-page">
-  <div *ngIf="isNotAuthenticated()">
+  <div *ngIf="!isLoading && account === null">
     <div
       class="row-login-password info-message text-black"
       *ngIf="passwordResetRequestSuccess"
@@ -8,10 +8,10 @@
       Check e-mail for rest password
     </div>
     <div class="row-login-button">
-      <button routerLink="/login" class="btn btn-light login-btn btn-lg btn-raised" jhiTranslate="home.access">Accedi</button>
+      <button (click)="loginWithSSO()" class="btn btn-light login-btn btn-lg btn-raised" jhiTranslate="home.access">Accedi</button>
     </div>
   </div>
-  <div *ngIf="!isNotAuthenticated()">
+  <div *ngIf="account !== null">
     <div class="row-logged success-message text-black" jhiTranslate="home.logged.message" [translateValues]="{ username: account?.login }">
       You are logged in as user "{{ account?.login }}"
     </div>

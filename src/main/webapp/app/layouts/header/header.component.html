@@ -124,12 +124,12 @@
                   {{ 'global.menu.account.passwordExpired' | translate }}
                 </button>
               </mat-list-item>
-              <mat-list-item role="menuitem" *ngIf="isAuthenticated() && !hasAuthorityChangePasswordExpired()">
+              <!-- <mat-list-item role="menuitem" *ngIf="isAuthenticated() && !hasAuthorityChangePasswordExpired()">
                 <button mat-stroked-button color="primary" [routerLink]="'/account/password'" class="w-100" aria-label="changePassword">
                   <mat-icon fontSet="material-symbols-outlined">password</mat-icon>
                   {{ 'global.menu.account.password' | translate }}
                 </button>
-              </mat-list-item>
+              </mat-list-item> -->
               <mat-list-item role="menuitem" *ngIf="isAuthenticated() && !hasAuthorityChangePasswordExpired()">
                 <button mat-stroked-button color="primary" (click)="goToSettings()" class="w-100" aria-label="changeSettings">
                   <mat-icon fontSet="material-symbols-outlined">settings</mat-icon>

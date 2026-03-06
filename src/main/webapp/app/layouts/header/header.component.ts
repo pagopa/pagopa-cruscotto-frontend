@@ -172,15 +172,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
       medium: true,
       large: true,
       children: [
-        {
-          label: 'global.menu.usersAdministration.users',
-          route: '/admin-users/user-management',
-          permission: Authority.USER_INQUIRY,
-          xSmall: true,
-          small: true,
-          medium: true,
-          large: true,
-        },
+        // {
+        //   label: 'global.menu.usersAdministration.users',
+        //   route: '/admin-users/user-management',
+        //   permission: Authority.USER_INQUIRY,
+        //   xSmall: true,
+        //   small: true,
+        //   medium: true,
+        //   large: true,
+        // },
         {
           label: 'global.menu.usersAdministration.groupManagement',
           route: '/admin-users/groups',
@@ -288,13 +288,18 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     if (this.isAuthenticated()) {
       void this.router.navigate(['/account/settings']);
     } else {
-      void this.router.navigate(['account/login']);
+      // Trigger MSAL login directly — no login page
+      this.loginService.loginWithSSO();
     }
   }
 
   logout(): void {
-    this.loginService.logout();
-    void this.router.navigate(['']);
+    const isRedirectLogout = this.loginService.logout();
+    if (!isRedirectLogout) {
+      // Only navigate for legacy JWT logout.
+      // MSAL logout triggers a browser redirect to Microsoft's logout endpoint.
+      void this.router.navigate(['']);
+    }
   }
 
   isActive(items: MenuItem[]): boolean {
