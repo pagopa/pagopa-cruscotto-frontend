@@ -38,9 +38,14 @@ export class AuthExpiredInterceptor implements HttpInterceptor {
             !err.url.includes('api/authenticate') &&
             this.accountService.isAuthenticated()
           ) {
+            // Clear cached token immediately so no further requests use it
+            this.stateStorageService.clearAuthenticationToken();
             this.stateStorageService.storeUrl(this.router.routerState.snapshot.url);
-            this.loginService.logout();
-            void this.router.navigate(['']);
+
+            const isRedirectLogout = this.loginService.logout();
+            if (!isRedirectLogout) {
+              void this.router.navigate(['']);
+            }
           }
         },
       }),

@@ -31,6 +31,10 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxMask } from 'ngx-mask';
 
+// MSAL imports
+import { MSAL_INSTANCE, MSAL_GUARD_CONFIG, MsalService, MsalGuard, MsalBroadcastService } from '@azure/msal-angular';
+import { MSALInstanceFactory, MSALGuardConfigFactory } from './core/auth/msal-config';
+
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
     dateInput: ['DD/MM/YYYY'],
@@ -122,6 +126,17 @@ export const appConfig: ApplicationConfig = {
     Title,
     { provide: LOCALE_ID, useValue: 'it-IT' },
     httpInterceptorProviders,
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService,
     { provide: TitleStrategy, useClass: AppPageTitleStrategy },
     { provide: MAT_DAYJS_DATE_ADAPTER_OPTIONS, useValue: { useUtc: false } },
     {

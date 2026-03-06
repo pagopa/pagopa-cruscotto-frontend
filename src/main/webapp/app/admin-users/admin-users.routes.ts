@@ -13,11 +13,11 @@ const adminUsersRoutes: Routes = [
     path: 'groups',
     loadChildren: () => import('./group/group.routes'),
   },
-  {
-    path: 'user-management',
-    loadChildren: () => import('./user-management/user-management.route'),
-    title: 'userManagement.home.title',
-  },
+  // {
+  //   path: 'user-management',
+  //   loadChildren: () => import('./user-management/user-management.route'),
+  //   title: 'userManagement.home.title',
+  // },
 ];
 
 export default adminUsersRoutes;
