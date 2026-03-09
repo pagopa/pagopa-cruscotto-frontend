@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { LoginService } from 'app/login/login.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { finalize } from 'rxjs';
+import { finalize, filter, take } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import SharedModule from '../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StateStorageService } from '../core/auth/state-storage.service';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   standalone: true,
@@ -29,6 +31,8 @@ import { StateStorageService } from '../core/auth/state-storage.service';
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
 })
 export default class LoginComponent implements OnInit, AfterViewInit {
@@ -53,12 +57,21 @@ export default class LoginComponent implements OnInit, AfterViewInit {
   private readonly stateStorageService = inject(StateStorageService);
 
   ngOnInit(): void {
-    // if already authenticated then navigate to home page
-    this.accountService.identity().subscribe(() => {
-      if (this.accountService.isAuthenticated()) {
+    // Trigger identity check (uses cached result or makes a new call)
+    this.accountService.identity().subscribe();
+
+    // Listen for authentication state changes — fires when:
+    // - The identity check above succeeds (JWT user)
+    // - AppComponent finishes processing an MSAL redirect
+    this.accountService
+      .getAuthenticationState()
+      .pipe(
+        filter(account => account !== null),
+        take(1),
+      )
+      .subscribe(() => {
         void this.router.navigate(['home']);
-      }
-    });
+      });
   }
 
   ngAfterViewInit(): void {
@@ -102,6 +115,10 @@ export default class LoginComponent implements OnInit, AfterViewInit {
           }
         },
       });
+  }
+
+  loginWithSSO(): void {
+    this.loginService.loginWithSSO();
   }
 
   protected onSaveFinalize(): void {
