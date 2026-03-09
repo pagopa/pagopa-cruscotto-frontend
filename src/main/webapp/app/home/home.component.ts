@@ -12,6 +12,7 @@ import { EventManager } from '../core/util/event-manager.service';
 import { HttpResponse } from '@angular/common/http';
 import { IGroup } from '../admin-users/group/group.model';
 import { LoginService } from 'app/login/login.service';
+import { environment } from 'environments/environment';
 
 @Component({
   standalone: true,
@@ -78,6 +79,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
   }
 
   loginWithSSO(): void {
+    console.log(environment.msalConfig.redirectUri);
     this.loginService.loginWithSSO();
   }
 
