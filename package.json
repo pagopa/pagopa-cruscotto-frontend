@@ -45,7 +45,7 @@
     "watch": "concurrently npm:start",
     "prewebapp:instrumenter": "npm run clean-www && npm run clean-coverage",
     "webapp:build": "npm run clean-www && npm run webapp:build:dev",
-    "webapp:build:dev": "ng build --configuration development",
+    "webapp:build:dev": "ng build --configuration dev",
     "webapp:build:prod": "ng build --configuration prod",
     "webapp:build:uat": "ng build --configuration uat",
     "webapp:dev": "ng serve",
