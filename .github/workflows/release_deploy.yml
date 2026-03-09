@@ -127,7 +127,7 @@ jobs:
           echo ">>>>>>>>>>> SERVER_API_URL=$SERVER_API_URL"
 
           npm install
-          npm run webapp:${{ needs.setup.outputs.environment}}
+          npm run webapp:build:${{ needs.setup.outputs.environment}}
       - name: Login
         id: login
         # from https://github.com/Azure/login/commits/master
