@@ -4,8 +4,8 @@ export const environment = {
     auth: {
       clientId: 'TODO_PROD_CLIENT_ID',
       authority: 'https://login.microsoftonline.com/TODO_PROD_TENANT_ID',
-      redirectUri: 'https://crusc8.platform.pagopa.it',
-      postLogoutRedirectUri: 'https://crusc8.platform.pagopa.it',
+      redirectUri: window.location.origin,
+      postLogoutRedirectUri: window.location.origin,
     },
     apiScopes: ['api://pagopa-p-crusc8-ui/user_impersonation'],
   },
