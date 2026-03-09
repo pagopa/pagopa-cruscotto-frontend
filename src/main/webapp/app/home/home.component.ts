@@ -79,7 +79,6 @@ export default class HomeComponent implements OnInit, OnDestroy {
   }
 
   loginWithSSO(): void {
-    console.log(environment.msalConfig.redirectUri);
     this.loginService.loginWithSSO();
   }
 
