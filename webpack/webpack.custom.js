@@ -39,7 +39,6 @@ module.exports = async (config, options, targetOptions) => {
         {
           host: 'localhost',
           port: 9000,
-          open: false,
           https: tls,
           proxy: {
             target: `http${tls ? 's' : ''}://localhost:${targetOptions.target === 'serve' ? '4200' : '8080'}`,
