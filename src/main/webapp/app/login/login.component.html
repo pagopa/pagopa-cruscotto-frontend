@@ -66,6 +66,23 @@
                 <div class="d-flex align-items-center w-100 mb-3">
                   <a class="alert-link" routerLink="/account/reset/request" jhiTranslate="login.password.forgot"> Password dimenticata? </a>
                 </div>
+
+                <mat-divider class="my-3"></mat-divider>
+
+                <div class="d-flex flex-column align-items-center w-100 mb-3">
+                  <p class="text-muted mb-2" jhiTranslate="login.sso.separator">oppure</p>
+                  <button
+                    type="button"
+                    mat-flat-button
+                    color="primary"
+                    class="w-100 sso-button"
+                    (click)="loginWithSSO()"
+                    [title]="['login.sso.button' | translate]"
+                  >
+                    <mat-icon class="me-2">login</mat-icon>
+                    <span jhiTranslate="login.sso.button">Accedi con Microsoft Entra ID</span>
+                  </button>
+                </div>
               </div>
             </div>
           </mat-card-content>

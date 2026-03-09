@@ -25,6 +25,11 @@
     "password": {
       "forgot": "Did you forget your password?"
     },
+    "sso": {
+      "separator": "or",
+      "button": "Sign in with Microsoft Entra ID",
+      "error": "SSO login failed. Please try again."
+    },
     "authRunning": "Authentication running..."
   }
 }
