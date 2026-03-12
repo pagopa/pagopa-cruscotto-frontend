@@ -13,7 +13,7 @@ import { ApplicationConfigService } from '../config/application-config.service';
 export class AccountService {
   private readonly userIdentity = signal<Account | null>(null);
   private readonly authenticationState = new ReplaySubject<Account | null>(1);
-  private accountCache$?: Observable<Account> | null;
+  private accountCache$?: Observable<Account | null> | null;
 
   private readonly translateService = inject(TranslateService);
   private readonly http = inject(HttpClient);
@@ -50,8 +50,11 @@ export class AccountService {
 
   identity(force?: boolean): Observable<Account | null> {
     if (!this.accountCache$ || force) {
-      this.accountCache$ = this.fetch().pipe(
-        tap((account: Account) => {
+      this.accountCache$ = (this.fetch() as Observable<Account | null>).pipe(
+        tap((account: Account | null) => {
+          if (!account) {
+            return;
+          }
           this.authenticate(account);
 
           // After retrieve the account info, the language will be changed to
@@ -63,10 +66,15 @@ export class AccountService {
 
           this.navigateToStoredUrl();
         }),
+        catchError(() => {
+          // Emit null auth state so all subscribers (HomeComponent, guards) can resolve
+          this.authenticate(null);
+          return of(null);
+        }),
         shareReplay(),
       );
     }
-    return this.accountCache$.pipe(catchError(() => of(null)));
+    return this.accountCache$;
   }
 
   isAuthenticated(): boolean {
