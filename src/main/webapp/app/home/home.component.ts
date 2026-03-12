@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from '../core/auth/account.model';
 import { Router, RouterModule } from '@angular/router';
@@ -12,7 +12,6 @@ import { EventManager } from '../core/util/event-manager.service';
 import { HttpResponse } from '@angular/common/http';
 import { IGroup } from '../admin-users/group/group.model';
 import { LoginService } from 'app/login/login.service';
-import { environment } from 'environments/environment';
 
 @Component({
   standalone: true,
@@ -52,7 +51,9 @@ export default class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const hasAuthorityChangePasswordExpired = this.accountService.hasAnyAuthority(Authority.CHANGE_PASSWORD_EXPIRED);
 
-    this.authSubscription = this.accountService.identity().subscribe(account => {
+    // Subscribe to auth state — AppComponent populates this after MSAL finishes.
+    // The ReplaySubject replays the last value, so no HTTP call is made here.
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => {
       this.isLoading = false;
       if (account) {
         this.account = account;

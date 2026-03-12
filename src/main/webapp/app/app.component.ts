@@ -53,6 +53,8 @@ export default class AppComponent implements OnInit, OnDestroy {
           // Store the MSAL access token so the auth interceptor can attach it to API calls
           this.stateStorageService.storeAuthenticationToken(result.accessToken, false);
           this.msalService.instance.setActiveAccount(result.account);
+          // Mark as checked so checkAndSetActiveAccount skips the duplicate loadBackendIdentity call
+          this.msalAccountChecked = true;
           this.loadBackendIdentity();
         }
       },
@@ -118,6 +120,10 @@ export default class AppComponent implements OnInit, OnDestroy {
           console.error('[MSAL] Silent token acquisition failed:', error);
           this.msalAccountChecked = false;
         });
+    } else {
+      // No MSAL session — mark as checked and emit null so all subscribers (HomeComponent, guards) resolve
+      this.msalAccountChecked = true;
+      this.accountService.authenticate(null);
     }
   }
 

@@ -1,6 +1,6 @@
 import { inject, isDevMode } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { StateStorageService } from './state-storage.service';
@@ -12,7 +12,10 @@ export const UserRouteAccessService: CanActivateFn = (next: ActivatedRouteSnapsh
   const stateStorageService = inject(StateStorageService);
   const loginService = inject(LoginService);
 
-  return accountService.identity().pipe(
+  // getAuthenticationState() replays the last value emitted by AppComponent after MSAL finishes.
+  // If auth is not yet determined, this waits (no polling, no HTTP call from the guard).
+  return accountService.getAuthenticationState().pipe(
+    take(1),
     map(account => {
       if (account) {
         const { authorities } = next.data;
