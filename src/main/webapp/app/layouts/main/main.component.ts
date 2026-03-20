@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { AccountService } from '../../core/auth/account.service';
 import { LocaltionHelper } from '../../core/location/location.helper';
 import { NgxLoadingBar } from '@ngx-loading-bar/core';
 import { NgxSpinnerComponent } from 'ngx-spinner';
@@ -31,7 +30,6 @@ export class MainComponent implements OnInit {
   private renderer: Renderer2;
   private readonly router = inject(Router);
   // private readonly ccService = inject(NgcCookieConsentService);
-  private readonly accountService = inject(AccountService);
   private readonly translateService = inject(TranslateService);
   private readonly rootRenderer = inject(RendererFactory2);
   private readonly locationHelper = inject(LocaltionHelper);
@@ -42,9 +40,6 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // try to log in automatically
-    this.accountService.identity().subscribe();
-
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         /* eslint-disable no-console */
