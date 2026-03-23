@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable, from, switchMap, catchError, of } from 'rxjs';
+import { Observable, from, switchMap, catchError } from 'rxjs';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
@@ -19,8 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (
       !request.url ||
       (request.url.startsWith('http') && !(serverApiUrl && request.url.startsWith(serverApiUrl))) ||
-      request.url.includes('management/info') ||
-      request.url.includes('api/authenticate')
+      request.url.includes('management/info')
     ) {
       return next.handle(request);
     }
@@ -47,9 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     }
 
-    // Fallback: attach stored token (legacy JWT or previously stored MSAL token)
-    const token = this.stateStorageService.getAuthenticationToken();
-    return next.handle(token ? this.addToken(request, token) : request);
+    return next.handle(request);
   }
 
   private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
