@@ -23,15 +23,6 @@ export const settingsItemSelector = '[data-cy="settings"]';
 export const passwordItemSelector = '[data-cy="passwordItem"]';
 export const loginItemSelector = '[data-cy="login"]';
 export const logoutItemSelector = '[data-cy="logout"]';
-export const entityItemSelector = '[data-cy="entity"]';
-
-// Login
-export const titleLoginSelector = '[data-cy="loginTitle"]';
-export const errorLoginSelector = '[data-cy="loginError"]';
-export const usernameLoginSelector = '[data-cy="username"]';
-export const passwordLoginSelector = '[data-cy="password"]';
-export const forgetYourPasswordSelector = '[data-cy="forgetYourPasswordSelector"]';
-export const submitLoginSelector = '[data-cy="submit"]';
 
 // Register
 export const usernameRegisterSelector = '[data-cy="username"]';
@@ -72,54 +63,6 @@ export const configurationPageHeadingSelector = '[data-cy="configurationPageHead
 export const classInvalid = 'ng-invalid';
 
 export const classValid = 'ng-valid';
-
-Cypress.Commands.add('authenticatedRequest', data => {
-  const jwtToken = sessionStorage.getItem(Cypress.env('jwtStorageName'));
-  const bearerToken = jwtToken && JSON.parse(jwtToken);
-  if (bearerToken) {
-    return cy.request({
-      ...data,
-      auth: {
-        bearer: bearerToken,
-      },
-    });
-  }
-  return cy.request(data);
-});
-
-Cypress.Commands.add('login', (username: string, password: string) => {
-  cy.session(
-    [username, password],
-    () => {
-      cy.request({
-        method: 'GET',
-        url: '/api/account',
-        failOnStatusCode: false,
-      });
-      cy.authenticatedRequest({
-        method: 'POST',
-        body: { username, password },
-        url: Cypress.env('authenticationUrl'),
-      }).then(({ body: { id_token } }) => {
-        sessionStorage.setItem(Cypress.env('jwtStorageName'), JSON.stringify(id_token));
-      });
-    },
-    {
-      validate() {
-        cy.authenticatedRequest({ url: '/api/account' }).its('status').should('eq', 200);
-      },
-    },
-  );
-});
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      authenticatedRequest(data): Cypress.Chainable;
-      login(username: string, password: string): Cypress.Chainable;
-    }
-  }
-}
 
 import 'cypress-audit/commands';
 // Convert this to a module instead of a script (allows import/export)
