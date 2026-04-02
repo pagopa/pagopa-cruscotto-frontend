@@ -46,6 +46,13 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     }
 
+    // No MSAL session — attach stored token if present (used by test login)
+    if (environment.TEST_ENVIRONMENT) {
+      const storedToken = this.stateStorageService.getAuthenticationToken();
+      return next.handle(storedToken ? this.addToken(request, storedToken) : request);
+    }
+
+    // No token available — proceed without adding an Authorization header
     return next.handle(request);
   }
 

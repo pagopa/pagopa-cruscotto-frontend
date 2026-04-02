@@ -12,6 +12,7 @@ import { EventManager } from '../core/util/event-manager.service';
 import { HttpResponse } from '@angular/common/http';
 import { IGroup } from '../admin-users/group/group.model';
 import { LoginService } from 'app/login/login.service';
+import { environment } from 'environments/environment';
 
 @Component({
   standalone: true,
@@ -23,6 +24,7 @@ import { LoginService } from 'app/login/login.service';
 export default class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   isLoading = true;
+  readonly isTestEnvironment = environment.TEST_ENVIRONMENT;
   authSubscription?: Subscription;
   passwordResetInitSubscription?: Subscription;
   passwordExpiredDate: string | null = null;
@@ -81,6 +83,10 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   loginWithSSO(): void {
     this.loginService.loginWithSSO();
+  }
+
+  loginAsTestUser(): void {
+    this.loginService.loginAsTestUser();
   }
 
   ngOnDestroy(): void {
