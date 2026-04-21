@@ -16,11 +16,16 @@ export class LoginService {
     });
   }
 
-  /**
-   * Logout the user via MSAL redirect.
-   * Returns true to signal that navigation should not be performed by the caller
-   * (the MSAL redirect will handle it).
-   */
+  loginAsTestUser(): void {
+    this.stateStorageService.storeAuthenticationToken(environment.TEST_TOKEN, false);
+    this.accountService.identity(true).subscribe({
+      error: () => {
+        this.stateStorageService.clearAuthenticationToken();
+        this.accountService.authenticate(null);
+      },
+    });
+  }
+
   logout(): boolean {
     const activeAccount = this.msalService.instance.getActiveAccount();
     if (activeAccount) {
@@ -33,6 +38,10 @@ export class LoginService {
       });
       return true;
     }
+    // Test user logout — clear stored token and reset identity state
+    this.stateStorageService.clearAuthenticationToken();
+    this.stateStorageService.clearUrl();
+    this.accountService.authenticate(null);
     return false;
   }
 }

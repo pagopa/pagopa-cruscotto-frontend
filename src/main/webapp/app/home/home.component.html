@@ -9,6 +9,9 @@
     </div>
     <div class="row-login-button">
       <button (click)="loginWithSSO()" class="btn btn-light login-btn btn-lg btn-raised" jhiTranslate="home.access">Accedi</button>
+      <button *ngIf="isTestEnvironment" (click)="loginAsTestUser()" class="btn btn-warning login-btn btn-lg btn-raised ms-2">
+        Test Login
+      </button>
     </div>
   </div>
   <div *ngIf="account !== null">
