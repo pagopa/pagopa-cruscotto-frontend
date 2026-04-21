@@ -28,6 +28,6 @@ export class InstanceFilter extends IFilterPagination {
   };
   static ANALYSIS_END_DATE: IParam = { name: 'analysisEndDate', req: 'analysisEndDate', type: TypeData.DATE, defaultValue: null };
 
-  sort: ISortField = { field: 'predictedDateAnalysis', direction: 'desc' };
-  sortDefault: ISortField = { field: 'predictedDateAnalysis', direction: 'desc' };
+  sort: ISortField = { field: 'predictedAnalysisStartDate', direction: 'desc' };
+  sortDefault: ISortField = { field: 'predictedAnalysisEndDate', direction: 'desc' };
 }
