@@ -331,6 +331,10 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     return active;
   }
 
+  loginWithSSO(): void {
+    this.loginService.loginWithSSO();
+  }
+
   ngOnDestroy(): void {
     this.destroyed.next(null);
     this.destroyed.complete();
