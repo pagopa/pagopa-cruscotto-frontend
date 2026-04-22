@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: SampleLayoutComponent,
     children: [
-      {
-        path: 'login',
-        loadChildren: () => import('./login/login.routes'),
-      },
+      // {
+      //   path: 'login',
+      //   loadChildren: () => import('./login/login.routes'),
+      // },
       {
         path: 'home',
         loadChildren: () => import('./home/home.routes'),
