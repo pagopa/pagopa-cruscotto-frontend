@@ -422,6 +422,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
               params: { successCount: _.successCount, count: _.successCount + _.failureCount },
             },
           });
+          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(r.errorMessage!));
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         } else {
@@ -430,6 +431,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.error' },
           });
+          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(r.errorMessage!));
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         }
@@ -461,6 +463,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
           });
+          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(r.errorMessage!));
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         } else {
@@ -469,6 +472,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
           });
+          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(r.errorMessage!));
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         }

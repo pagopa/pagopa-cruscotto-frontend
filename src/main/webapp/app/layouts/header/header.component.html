@@ -85,7 +85,7 @@
     </ng-container>
 
     <span *ngIf="!isAuthenticated()">
-      <button mat-button [routerLinkActive]="'active'" [routerLink]="['login']" aria-label="goToLoginPage">
+      <button mat-button (click)="loginWithSSO()" aria-label="goToLoginPage">
         <mat-icon class="me-2" fontSet="material-symbols-outlined">login</mat-icon>
         {{ 'global.menu.account.login' | translate }}
       </button>

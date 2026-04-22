@@ -35,6 +35,18 @@ export enum InstanceStatus {
   Archiviata = 'ARCHIVIATA',
 }
 
+export interface IBulkOperationResult {
+  instanceId: number;
+  success: boolean;
+  errorMessage?: string | null;
+}
+
+export interface IBulkOperationResponse {
+  successCount: number;
+  failureCount: number;
+  results: IBulkOperationResult[];
+}
+
 export class Instance implements IInstance {
   constructor(
     public id: number,

@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { createRequestOption } from 'app/core/request/request-util';
 
 import { ApplicationConfigService } from '../../../core/config/application-config.service';
-import { IInstance, NewInstance } from '../models/instance.model';
+import { IBulkOperationResponse, IInstance, NewInstance } from '../models/instance.model';
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT, DATE_FORMAT_ISO, DATE_TIME_FORMAT_ISO } from 'app/config/input.constants';
 
@@ -69,12 +69,12 @@ export class InstanceService {
     return this.http.put<HttpResponse<{}>>(`${this.resourceUrl}/update-status/${id}`, { observe: 'response' });
   }
 
-  archive(instanceIds: number[]): Observable<any> {
-    return this.http.post(`${this.resourceUrl}/archive`, { instanceIds });
+  archive(instanceIds: number[]): Observable<IBulkOperationResponse> {
+    return this.http.post<IBulkOperationResponse>(`${this.resourceUrl}/archive`, { instanceIds });
   }
 
-  restore(instanceIds: number[]): Observable<any> {
-    return this.http.post(`${this.resourceUrl}/restore`, { instanceIds });
+  restore(instanceIds: number[]): Observable<IBulkOperationResponse> {
+    return this.http.post<IBulkOperationResponse>(`${this.resourceUrl}/restore`, { instanceIds });
   }
 
   protected convertDateFromClient<T extends IInstance | NewInstance>(instance: T): InstanceRestOf<T> {
