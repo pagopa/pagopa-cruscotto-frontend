@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { MsalBroadcastService } from '@azure/msal-angular';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
 import { AccountService } from 'app/core/auth/account.service';
 import { LoginService } from './login.service';
@@ -21,6 +21,7 @@ export default class LoginRedirectComponent implements OnInit {
   private readonly loginService = inject(LoginService);
   private readonly router = inject(Router);
   private readonly msalBroadcastService = inject(MsalBroadcastService);
+  private readonly msalService = inject(MsalService);
 
   ngOnInit(): void {
     this.msalBroadcastService.inProgress$
@@ -29,7 +30,7 @@ export default class LoginRedirectComponent implements OnInit {
         take(1),
       )
       .subscribe(() => {
-        if (this.accountService.isAuthenticated()) {
+        if (this.accountService.isAuthenticated() || this.msalService.instance.getAllAccounts().length > 0) {
           void this.router.navigate(['/home']);
         } else {
           this.loginService.loginWithSSO();
