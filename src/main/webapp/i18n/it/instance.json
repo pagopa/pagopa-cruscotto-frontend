@@ -109,6 +109,7 @@
         "restore": "Ripristina",
         "restoring": "Ripristino in corso...",
         "restored": "Istanze ripristinate con successo",
+        "restorePartial": "{{successCount}} di {{count}} istanze sono state ripristinate con successo",
         "restoreError": "Errore durante il ripristino"
       },
       "error": {

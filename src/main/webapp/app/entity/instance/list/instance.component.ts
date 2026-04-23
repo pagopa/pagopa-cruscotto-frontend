@@ -449,33 +449,31 @@ export class InstanceComponent implements OnInit, OnDestroy {
   restore() {
     this.instanceService.restore(this.selection.selected).subscribe({
       next: _ => {
+        this.toastrService.clear();
         if (_.successCount > 0 && _.failureCount === 0) {
-          this.toastrService.clear();
           this.eventManager.broadcast({
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'success', translationKey: 'pagopaCruscottoApp.instance.archived.restored' },
           });
-          this.loadPage(this.filter.page, false);
-          this.selection.clear();
-        } else if (_.failureCount == this.selection.selected.length) {
-          this.toastrService.clear();
+        } else if (_.successCount > 0 && _.failureCount > 0) {
           this.eventManager.broadcast({
             name: 'pagopaCruscottoApp.alert',
-            content: { type: 'warning', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
+            content: {
+              type: 'warning',
+              translationKey: 'pagopaCruscottoApp.instance.archived.restorePartial',
+              params: { successCount: _.successCount, count: _.successCount + _.failureCount },
+            },
           });
           _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
-          this.loadPage(this.filter.page, false);
-          this.selection.clear();
         } else {
-          this.toastrService.clear();
           this.eventManager.broadcast({
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
           });
           _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
-          this.loadPage(this.filter.page, false);
-          this.selection.clear();
         }
+        this.loadPage(this.filter.page, false);
+        this.selection.clear();
       },
       error: () => {
         this.toastrService.clear();
