@@ -110,6 +110,20 @@
         "restoring": "Ripristino in corso...",
         "restored": "Istanze ripristinate con successo",
         "restoreError": "Errore durante il ripristino"
+      },
+      "error": {
+        "archive": {
+          "mostRecentInstance": "Impossibile archiviare l'istanza '{{ instanceIdentification }}' perché è l'ultima istanza eseguita per il partner '{{ partnerName }}'.",
+          "wrongStatus": "L'istanza '{{ instanceIdentification }}' non può essere archiviata perché il suo stato attuale è '{{ status }}'.",
+          "unexpectedError": "Si è verificato un errore imprevisto durante l'archiviazione."
+        },
+        "restore": {
+          "wrongStatus": "L'istanza '{{ instanceIdentification }}' non può essere ripristinata perché il suo stato attuale è '{{ status }}'.",
+          "unexpectedError": "Si è verificato un errore imprevisto durante il ripristino."
+        },
+        "instance": {
+          "notExists": "L'istanza con ID '{{ instanceId }}' non esiste."
+        }
       }
     }
   },
