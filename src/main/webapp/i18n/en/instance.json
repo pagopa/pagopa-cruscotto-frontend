@@ -110,6 +110,20 @@
         "restoring": "Restoring in progress...",
         "restored": "Instances successfully restored",
         "restoreError": "Error while restoring instances"
+      },
+      "error": {
+        "archive": {
+          "mostRecentInstance": "Cannot archive instance '{{ instanceIdentification }}' because it is the most recent executed instance for partner '{{ partnerName }}'.",
+          "wrongStatus": "Instance '{{ instanceIdentification }}' cannot be archived because its current status is '{{ status }}'.",
+          "unexpectedError": "An unexpected error occurred during archiving."
+        },
+        "restore": {
+          "wrongStatus": "Instance '{{ instanceIdentification }}' cannot be restored because its current status is '{{ status }}'.",
+          "unexpectedError": "An unexpected error occurred during restoring."
+        },
+        "instance": {
+          "notExists": "Instance with ID '{{ instanceId }}' does not exist."
+        }
       }
     }
   },

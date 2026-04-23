@@ -39,6 +39,7 @@ export interface IBulkOperationResult {
   instanceId: number;
   success: boolean;
   errorMessage?: string | null;
+  params?: Record<string, string> | null;
 }
 
 export interface IBulkOperationResponse {
