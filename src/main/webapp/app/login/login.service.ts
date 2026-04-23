@@ -17,12 +17,14 @@ export class LoginService {
   }
 
   loginAsTestUser(): void {
-    this.stateStorageService.storeAuthenticationToken(environment.TEST_TOKEN, false);
-    this.accountService.identity(true).subscribe({
-      error: () => {
-        this.stateStorageService.clearAuthenticationToken();
-        this.accountService.authenticate(null);
-      },
+    void this.msalService.instance.clearCache().then(() => {
+      this.stateStorageService.storeAuthenticationToken(environment.TEST_TOKEN, false);
+      this.accountService.identity(true).subscribe({
+        error: () => {
+          this.stateStorageService.clearAuthenticationToken();
+          this.accountService.authenticate(null);
+        },
+      });
     });
   }
 
