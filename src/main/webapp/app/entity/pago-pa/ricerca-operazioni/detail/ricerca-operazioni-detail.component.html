@@ -1,0 +1,217 @@
+<div>
+  <!-- ===== INTESTAZIONE ===== -->
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.title">Dettaglio Posizione</span>
+    </div>
+    <div>
+      <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+        <span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== DATI POSIZIONE ===== -->
+  <mat-card class="mat-elevation-z8 mb-4">
+    <mat-card-content>
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="detailSpinner">
+        <p class="ngx-spinner-loading">Loading...</p>
+      </ngx-spinner>
+
+      <div class="row" *ngIf="dettaglio">
+        <div class="col-lg-3 mb-3">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.positionId">ID Posizione</div>
+          <div class="fw-bold">{{ dettaglio.posizione.positionId }}</div>
+        </div>
+        <div class="col-lg-3 mb-3">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paEmittente">PA Emittente</div>
+          <div class="fw-bold">{{ dettaglio.posizione.paEmittente }}</div>
+        </div>
+        <div class="col-lg-3 mb-3">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.numeroAvviso">Numero Avviso</div>
+          <div class="fw-bold">{{ dettaglio.posizione.numeroAvviso }}</div>
+        </div>
+        <div class="col-lg-3 mb-3" *ngIf="dettaglio.posizione.iuv">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.iuv">IUV</div>
+          <div class="fw-bold">{{ dettaglio.posizione.iuv }}</div>
+        </div>
+        <div class="col-lg-3 mb-3" *ngIf="dettaglio.posizione.importo != null">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
+          <div class="fw-bold">{{ dettaglio.posizione.importo | number: '1.2-2' }} €</div>
+        </div>
+        <div class="col-lg-6 mb-3" *ngIf="dettaglio.posizione.descrizione">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.descrizione">Descrizione</div>
+          <div class="fw-bold">{{ dettaglio.posizione.descrizione }}</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- ===== TAB TOKENS / EVENTI ===== -->
+  <mat-card class="mat-elevation-z8" *ngIf="dettaglio">
+    <mat-card-content>
+      <mat-tab-group>
+        <!-- ===== TAB TOKENS ===== -->
+        <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabTokens' | translate">
+          <div class="table-responsive mt-3">
+            <table mat-table [dataSource]="tokensData" class="w-100" multiTemplateDataRows>
+              <!-- Token -->
+              <ng-container matColumnDef="token">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.token' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.token }}</td>
+              </ng-container>
+
+              <!-- Importo -->
+              <ng-container matColumnDef="importo">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.importo' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.importo | number: '1.2-2' }}</td>
+              </ng-container>
+
+              <!-- Stato -->
+              <ng-container matColumnDef="stato">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.stato' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.stato }}</td>
+              </ng-container>
+
+              <!-- Data Creazione -->
+              <ng-container matColumnDef="dataCreazione">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.dataCreazione' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.dataCreazione }}</td>
+              </ng-container>
+
+              <!-- Espandi -->
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <button
+                    mat-icon-button
+                    (click)="toggleTokenExpand(row)"
+                    [matTooltip]="
+                      expandedTokens.has(row.token)
+                        ? ('pagopaCruscottoApp.ricercaOperazioni.detail.collapse' | translate)
+                        : ('pagopaCruscottoApp.ricercaOperazioni.detail.expand' | translate)
+                    "
+                    [disabled]="loadingExpandTokens.has(row.token)"
+                  >
+                    <mat-icon fontSet="material-symbols-outlined">
+                      {{ expandedTokens.has(row.token) ? 'expand_less' : 'expand_more' }}
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <!-- Riga espansa dettaglio token -->
+              <ng-container matColumnDef="expandedTokenDetail">
+                <td mat-cell *matCellDef="let row" [attr.colspan]="tokensColumns.length">
+                  <div class="expanded-row p-3" *ngIf="expandedTokens.has(row.token) && row.dettaglio">
+                    <!-- ⚠️ INTEGRARE con il template reale una volta definiti i campi di ITokenDettaglio -->
+                    <pre class="mb-0">{{ row.dettaglio | json }}</pre>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="tokensColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: tokensColumns" class="element-row"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedTokenDetail']; when: isTokenExpanded" class="detail-row"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center p-3" [attr.colspan]="tokensColumns.length">
+                  {{ 'entity.list.notFound' | translate }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-tab>
+
+        <!-- ===== TAB EVENTI ===== -->
+        <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabEventi' | translate">
+          <div class="table-responsive mt-3">
+            <table mat-table [dataSource]="eventiData" class="w-100" multiTemplateDataRows>
+              <!-- Evento ID -->
+              <ng-container matColumnDef="eventoId">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.eventoId' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.eventoId }}</td>
+              </ng-container>
+
+              <!-- Tipo -->
+              <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.tipo' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
+              </ng-container>
+
+              <!-- Data Evento -->
+              <ng-container matColumnDef="dataEvento">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.dataEvento' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.dataEvento }}</td>
+              </ng-container>
+
+              <!-- Stato -->
+              <ng-container matColumnDef="stato">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.stato' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.stato }}</td>
+              </ng-container>
+
+              <!-- Espandi -->
+              <ng-container matColumnDef="expand">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let row">
+                  <button
+                    mat-icon-button
+                    (click)="toggleEventoExpand(row)"
+                    [matTooltip]="
+                      expandedEventi.has(row.eventoId)
+                        ? ('pagopaCruscottoApp.ricercaOperazioni.detail.collapse' | translate)
+                        : ('pagopaCruscottoApp.ricercaOperazioni.detail.expand' | translate)
+                    "
+                    [disabled]="loadingExpandEventi.has(row.eventoId)"
+                  >
+                    <mat-icon fontSet="material-symbols-outlined">
+                      {{ expandedEventi.has(row.eventoId) ? 'expand_less' : 'expand_more' }}
+                    </mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <!-- Riga espansa dettaglio evento -->
+              <ng-container matColumnDef="expandedEventoDetail">
+                <td mat-cell *matCellDef="let row" [attr.colspan]="eventiColumns.length">
+                  <div class="expanded-row p-3" *ngIf="expandedEventi.has(row.eventoId) && row.dettaglio">
+                    <!-- ⚠️ INTEGRARE con il template reale una volta definiti i campi di IEventoDettaglio -->
+                    <pre class="mb-0">{{ row.dettaglio | json }}</pre>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="eventiColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: eventiColumns" class="element-row"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedEventoDetail']; when: isEventoExpanded" class="detail-row"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center p-3" [attr.colspan]="eventiColumns.length">
+                  {{ 'entity.list.notFound' | translate }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</div>

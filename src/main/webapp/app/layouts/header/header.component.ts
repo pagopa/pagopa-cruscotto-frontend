@@ -136,6 +136,15 @@ export default class HeaderComponent implements OnInit, OnDestroy {
           medium: true,
           large: true,
         },
+        {
+          label: 'global.menu.registry.ricercaOperazioni',
+          route: '/entity/pago-pa/ricerca-operazioni',
+          // permission: Authority.RICERCA_OPERAZIONI_INQUIRY, TODO
+          xSmall: true,
+          small: true,
+          medium: true,
+          large: true,
+        },
       ],
     },
     {

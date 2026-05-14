@@ -1,0 +1,49 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaOperazioni": {
+      "home": {
+        "title": "Ricerca Operazioni"
+      },
+      "filter": {
+        "paEmittente": "PA Emittente (Codice Fiscale)",
+        "nav": "Numero Avviso (NAV)",
+        "iuv": "IUV / Creditor Reference ID",
+        "token": "Token",
+        "idCarrello": "ID Carrello",
+        "extra": "Informazioni Aggiuntive",
+        "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive"
+      },
+      "result": {
+        "paEmittente": "PA Emittente",
+        "numeroAvviso": "Numero Avviso",
+        "infoAggiuntive": "Info Aggiuntive (match)",
+        "detail": "Dettaglio"
+      },
+      "detail": {
+        "title": "Dettaglio Posizione",
+        "positionId": "ID Posizione",
+        "paEmittente": "PA Emittente",
+        "numeroAvviso": "Numero Avviso",
+        "iuv": "IUV",
+        "importo": "Importo",
+        "descrizione": "Descrizione",
+        "tabTokens": "Tokens",
+        "tabEventi": "Eventi",
+        "expand": "Espandi",
+        "collapse": "Riduci"
+      },
+      "tokens": {
+        "token": "Token",
+        "importo": "Importo",
+        "stato": "Stato",
+        "dataCreazione": "Data Creazione"
+      },
+      "eventi": {
+        "eventoId": "ID Evento",
+        "tipo": "Tipo",
+        "dataEvento": "Data Evento",
+        "stato": "Stato"
+      }
+    }
+  }
+}

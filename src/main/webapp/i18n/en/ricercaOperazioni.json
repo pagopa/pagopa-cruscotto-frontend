@@ -1,0 +1,49 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaOperazioni": {
+      "home": {
+        "title": "Operation Search"
+      },
+      "filter": {
+        "paEmittente": "Issuing PA (Tax Code)",
+        "nav": "Notice Number (NAV)",
+        "iuv": "IUV / Creditor Reference ID",
+        "token": "Token",
+        "idCarrello": "Cart ID",
+        "extra": "Additional Information",
+        "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information"
+      },
+      "result": {
+        "paEmittente": "Issuing PA",
+        "numeroAvviso": "Notice Number",
+        "infoAggiuntive": "Additional Info (match)",
+        "detail": "Detail"
+      },
+      "detail": {
+        "title": "Position Detail",
+        "positionId": "Position ID",
+        "paEmittente": "Issuing PA",
+        "numeroAvviso": "Notice Number",
+        "iuv": "IUV",
+        "importo": "Amount",
+        "descrizione": "Description",
+        "tabTokens": "Tokens",
+        "tabEventi": "Events",
+        "expand": "Expand",
+        "collapse": "Collapse"
+      },
+      "tokens": {
+        "token": "Token",
+        "importo": "Amount",
+        "stato": "Status",
+        "dataCreazione": "Created At"
+      },
+      "eventi": {
+        "eventoId": "Event ID",
+        "tipo": "Type",
+        "dataEvento": "Event Date",
+        "stato": "Status"
+      }
+    }
+  }
+}

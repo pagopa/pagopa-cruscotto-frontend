@@ -28,7 +28,8 @@
         "institutions": "Institutions",
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
-        "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position"
+        "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position",
+        "ricercaOperazioni": "Search Operations"
       },
       "configuration": {
         "main": "Configuration",
