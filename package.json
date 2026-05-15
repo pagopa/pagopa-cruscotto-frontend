@@ -1,6 +1,6 @@
 {
   "name": "pagopa-cruscotto",
-  "version": "0.4.34-1-dev",
+  "version": "0.4.34-2-feature/ricerca-operazioni",
   "private": true,
   "description": "PagoPa Cruscotto Frontend",
   "license": "UNLICENSED",
