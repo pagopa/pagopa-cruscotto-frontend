@@ -35,6 +35,12 @@ import { provideNgxMask } from 'ngx-mask';
 import { MSAL_INSTANCE, MSAL_GUARD_CONFIG, MsalService, MsalGuard, MsalBroadcastService } from '@azure/msal-angular';
 import { MSALInstanceFactory, MSALGuardConfigFactory } from './core/auth/msal-config';
 
+// Generated PagoPa Sert API client
+import { BASE_PATH as PAGOPA_SERT_BASE_PATH } from './api-clients/pagopa-sert/variables';
+import { RicercaDellePosizioniDebitorieService } from './api-clients/pagopa-sert/api/ricercaDellePosizioniDebitorie.service';
+import { VisualizzazioneDettagliService } from './api-clients/pagopa-sert/api/visualizzazioneDettagli.service';
+import { VisualizzazionePosizioneDebitoriaService } from './api-clients/pagopa-sert/api/visualizzazionePosizioneDebitoria.service';
+
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
     dateInput: ['DD/MM/YYYY'],
@@ -154,5 +160,11 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
+    // Generated PagoPa Sert API client services
+    // BASE_PATH is empty so URLs become relative (e.g. /api/position/...) and are handled by the existing proxy/interceptor
+    { provide: PAGOPA_SERT_BASE_PATH, useValue: '' },
+    RicercaDellePosizioniDebitorieService,
+    VisualizzazioneDettagliService,
+    VisualizzazionePosizioneDebitoriaService,
   ],
 };

@@ -25,24 +25,79 @@
         "paEmittente": "Issuing PA",
         "numeroAvviso": "Notice Number",
         "iuv": "IUV",
+        "creditorReferenceId": "Creditor Reference ID",
         "importo": "Amount",
-        "descrizione": "Description",
+        "fee": "Fee",
+        "tokensCount": "Tokens Count",
+        "lastEvent": "Last Event",
+        "isCached": "From Cache",
         "tabTokens": "Tokens",
         "tabEventi": "Events",
         "expand": "Expand",
-        "collapse": "Collapse"
+        "collapse": "Collapse",
+        "closeAll": "Close all",
+        "pagata": "Paid",
+        "sections": {
+          "paymentInfo": "Payment Info",
+          "actors": "Actors",
+          "amount": "Amount",
+          "payed": "Payment",
+          "tokenInfo": "Token Info",
+          "extraInfo": "Extra Info",
+          "transfers": "Transfers",
+          "events": "Token Events"
+        },
+        "paymentInfo": {
+          "touchpoint": "Touchpoint",
+          "paymentMethod": "Payment Method",
+          "isDw": "Data Warehouse",
+          "isGpd": "GPD",
+          "isStandin": "Stand-In",
+          "isCart": "Cart"
+        },
+        "actors": {
+          "psp": "PSP",
+          "station": "Station",
+          "channel": "Channel",
+          "ptPa": "PT PA",
+          "ptPsp": "PT PSP"
+        },
+        "payed": {
+          "token": "Paid Token",
+          "paymentBorn": "Payment Registered",
+          "payedDate": "Paid Date",
+          "multiOutcome": "Multi Outcome",
+          "isPayedToken": "Paid Token"
+        },
+        "transfers": {
+          "idTransfer": "Transfer ID",
+          "iban": "IBAN",
+          "amount": "Amount",
+          "typeTransfer": "Type",
+          "paFiscalCode": "PA Tax Code"
+        },
+        "extraInfo": {
+          "name": "Name",
+          "value": "Value",
+          "tipoevento": "Event Type",
+          "noData": "No additional information"
+        }
       },
       "tokens": {
         "token": "Token",
-        "importo": "Amount",
-        "stato": "Status",
-        "dataCreazione": "Created At"
+        "isPayed": "Paid",
+        "amount": "Amount",
+        "lastEvent": "Last Event"
       },
       "eventi": {
         "eventoId": "Event ID",
         "tipo": "Type",
+        "sottotipo": "Subtype",
+        "outcome": "Outcome",
+        "faultcode": "Fault Code",
         "dataEvento": "Event Date",
-        "stato": "Status"
+        "token": "Token",
+        "goToToken": "Go to token detail"
       }
     }
   }

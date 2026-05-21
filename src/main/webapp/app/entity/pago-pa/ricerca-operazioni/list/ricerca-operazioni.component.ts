@@ -142,25 +142,26 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
     this.spinner.show('isLoadingResults');
 
-    const req = { page: this.page - 1, size: this.itemsPerPage, sort: `${this.filter.sort.field},${this.filter.sort.direction}` };
+    // Nota: l'endpoint unificato /api/search non supporta paginazione lato server.
+    // La paginazione viene gestita lato client sui risultati restituiti.
     const pa = paEmittente?.trim() || undefined;
 
     let call$;
     switch (mode) {
       case 'nav':
-        call$ = this.service.searchByNav(nav!.trim(), pa, req);
+        call$ = this.service.searchByNav(nav!.trim(), pa);
         break;
       case 'iuv':
-        call$ = this.service.searchByIuv(iuv!.trim(), pa, req);
+        call$ = this.service.searchByIuv(iuv!.trim(), pa);
         break;
       case 'token':
-        call$ = this.service.searchByToken(token!.trim(), pa, req);
+        call$ = this.service.searchByToken(token!.trim(), pa);
         break;
       case 'cart':
-        call$ = this.service.searchByCart(idCarrello!.trim(), pa, req);
+        call$ = this.service.searchByCart(idCarrello!.trim(), pa);
         break;
       case 'extra':
-        call$ = this.service.searchByExtra(extra!.trim(), pa, req);
+        call$ = this.service.searchByExtra(extra!.trim(), pa);
         break;
     }
 

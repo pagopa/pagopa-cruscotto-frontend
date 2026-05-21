@@ -196,7 +196,7 @@
                     <button
                       mat-icon-button
                       color="primary"
-                      [routerLink]="['/entity/pago-pa/ricerca-operazioni', row.positionId, 'view']"
+                      [routerLink]="['/entity/pago-pa/ricerca-operazioni', row.paEmittente, row.numeroAvviso, 'view']"
                       [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.result.detail' | translate"
                     >
                       <mat-icon fontSet="material-symbols-outlined">open_in_new</mat-icon>

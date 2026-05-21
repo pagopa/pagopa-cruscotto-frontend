@@ -25,7 +25,7 @@ export class NotificationInterceptor implements HttpInterceptor {
             }
           }
 
-          if (alert) {
+          if (alert && !request.url.includes('/archive') && !request.url.includes('/restore')) {
             const jhiAlert: Alert = { type: 'success', translationKey: alert, translationParams: { param: alertParams } };
             this.eventManager.broadcast(new EventWithContent('pagopaCruscottoApp.alert', jhiAlert));
           }

@@ -12,7 +12,7 @@ const ricercaOperazioniRoutes: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':positionId/view',
+    path: ':paEmittente/:nav/view',
     loadComponent: () => import('./detail/ricerca-operazioni-detail.component').then(m => m.RicercaOperazioniDetailComponent),
     data: {
       // authorities: [Authority.RICERCA_OPERAZIONI_INQUIRY],

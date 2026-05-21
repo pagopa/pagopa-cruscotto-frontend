@@ -1,8 +1,12 @@
 <div>
   <!-- ===== INTESTAZIONE ===== -->
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
-    <div class="h2">
+    <div class="h2 d-flex align-items-center gap-3">
       <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.title">Dettaglio Posizione</span>
+      <mat-chip *ngIf="isPagata" color="primary" highlighted disableRipple class="payed-chip">
+        <mat-icon fontSet="material-symbols-outlined" inline>check_circle</mat-icon>
+        <span class="ms-1" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.pagata">Pagata</span>
+      </mat-chip>
     </div>
     <div>
       <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
@@ -12,51 +16,91 @@
     </div>
   </div>
 
-  <!-- ===== DATI POSIZIONE ===== -->
+  <!-- ===== DATI POSIZIONE (vista centrale) ===== -->
   <mat-card class="mat-elevation-z8 mb-4">
     <mat-card-content>
       <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="detailSpinner">
         <p class="ngx-spinner-loading">Loading...</p>
       </ngx-spinner>
 
-      <div class="row" *ngIf="dettaglio">
+      <div *ngIf="posizione" class="row">
+        <!-- Campi richiesti dalla specifica: nav, pa-emittente, iuv, creditor-reference-id, last-event -->
         <div class="col-lg-3 mb-3">
-          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.positionId">ID Posizione</div>
-          <div class="fw-bold">{{ dettaglio.posizione.positionId }}</div>
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.numeroAvviso">Numero Avviso</div>
+          <div class="fw-bold">{{ posizione.positionInfo?.nav || nav }}</div>
         </div>
         <div class="col-lg-3 mb-3">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paEmittente">PA Emittente</div>
-          <div class="fw-bold">{{ dettaglio.posizione.paEmittente }}</div>
+          <div class="fw-bold">{{ posizione.positionInfo?.paEmittente || paEmittente }}</div>
         </div>
-        <div class="col-lg-3 mb-3">
-          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.numeroAvviso">Numero Avviso</div>
-          <div class="fw-bold">{{ dettaglio.posizione.numeroAvviso }}</div>
-        </div>
-        <div class="col-lg-3 mb-3" *ngIf="dettaglio.posizione.iuv">
+        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.iuv">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.iuv">IUV</div>
-          <div class="fw-bold">{{ dettaglio.posizione.iuv }}</div>
+          <div class="fw-bold">{{ posizione.positionInfo?.iuv }}</div>
         </div>
-        <div class="col-lg-3 mb-3" *ngIf="dettaglio.posizione.importo != null">
-          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
-          <div class="fw-bold">{{ dettaglio.posizione.importo | number: '1.2-2' }} €</div>
+        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.creditorReferenceId">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.creditorReferenceId">
+            Creditor Reference
+          </div>
+          <div class="fw-bold">{{ posizione.positionInfo?.creditorReferenceId }}</div>
         </div>
-        <div class="col-lg-6 mb-3" *ngIf="dettaglio.posizione.descrizione">
-          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.descrizione">Descrizione</div>
-          <div class="fw-bold">{{ dettaglio.posizione.descrizione }}</div>
+        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.lastEvent">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.lastEvent">Ultimo Evento</div>
+          <div class="fw-bold">{{ posizione.positionInfo?.lastEvent | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
         </div>
+        <div class="col-lg-3 mb-3" *ngIf="posizione.tokens != null">
+          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.tokensCount">Numero Token</div>
+          <div class="fw-bold">{{ posizione.tokens }}</div>
+        </div>
+
+        <!-- Dettaglio pagamento (visibile se posizione pagata) -->
+        <ng-container *ngIf="isPagata && posizione.payed as payed">
+          <div class="col-12 mt-2">
+            <h6 jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.payed">Pagamento</h6>
+          </div>
+          <div class="col-lg-3 mb-3" *ngIf="payed.token">
+            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.token">Token Pagato</div>
+            <div class="fw-bold">{{ payed.token }}</div>
+          </div>
+          <div class="col-lg-3 mb-3" *ngIf="payed.paymentBorn">
+            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.paymentBorn">
+              Registrazione Pagamento
+            </div>
+            <div class="fw-bold">{{ payed.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+          </div>
+          <div class="col-lg-3 mb-3" *ngIf="payed.payedDate">
+            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.payedDate">Data Pagamento</div>
+            <div class="fw-bold">{{ payed.payedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+          </div>
+          <div class="col-lg-3 mb-3" *ngIf="posizione.amount?.amount != null">
+            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
+            <div class="fw-bold">{{ posizione.amount?.amount | number: '1.2-2' }} €</div>
+          </div>
+        </ng-container>
       </div>
     </mat-card-content>
   </mat-card>
 
   <!-- ===== TAB TOKENS / EVENTI ===== -->
-  <mat-card class="mat-elevation-z8" *ngIf="dettaglio">
+  <mat-card class="mat-elevation-z8" *ngIf="posizione">
     <mat-card-content>
-      <mat-tab-group>
+      <mat-tab-group #tabGroup>
         <!-- ===== TAB TOKENS ===== -->
         <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabTokens' | translate">
+          <div class="d-flex justify-content-end mt-3" *ngIf="expandedTokens.size > 0">
+            <button
+              mat-stroked-button
+              color="warn"
+              type="button"
+              (click)="collapseAllTokens()"
+              [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.detail.closeAll' | translate"
+            >
+              <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.closeAll">Chiudi tutto</span>
+            </button>
+          </div>
+
           <div class="table-responsive mt-3">
             <table mat-table [dataSource]="tokensData" class="w-100" multiTemplateDataRows>
-              <!-- Token -->
               <ng-container matColumnDef="token">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.token' | translate }}
@@ -64,34 +108,9 @@
                 <td mat-cell *matCellDef="let row">{{ row.token }}</td>
               </ng-container>
 
-              <!-- Importo -->
-              <ng-container matColumnDef="importo">
-                <th mat-header-cell *matHeaderCellDef>
-                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.importo' | translate }}
-                </th>
-                <td mat-cell *matCellDef="let row">{{ row.importo | number: '1.2-2' }}</td>
-              </ng-container>
-
-              <!-- Stato -->
-              <ng-container matColumnDef="stato">
-                <th mat-header-cell *matHeaderCellDef>
-                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.stato' | translate }}
-                </th>
-                <td mat-cell *matCellDef="let row">{{ row.stato }}</td>
-              </ng-container>
-
-              <!-- Data Creazione -->
-              <ng-container matColumnDef="dataCreazione">
-                <th mat-header-cell *matHeaderCellDef>
-                  {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.dataCreazione' | translate }}
-                </th>
-                <td mat-cell *matCellDef="let row">{{ row.dataCreazione }}</td>
-              </ng-container>
-
-              <!-- Espandi -->
               <ng-container matColumnDef="expand">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row">
+                <th mat-header-cell *matHeaderCellDef class="text-end"></th>
+                <td mat-cell *matCellDef="let row" class="text-end">
                   <button
                     mat-icon-button
                     (click)="toggleTokenExpand(row)"
@@ -100,7 +119,6 @@
                         ? ('pagopaCruscottoApp.ricercaOperazioni.detail.collapse' | translate)
                         : ('pagopaCruscottoApp.ricercaOperazioni.detail.expand' | translate)
                     "
-                    [disabled]="loadingExpandTokens.has(row.token)"
                   >
                     <mat-icon fontSet="material-symbols-outlined">
                       {{ expandedTokens.has(row.token) ? 'expand_less' : 'expand_more' }}
@@ -109,12 +127,258 @@
                 </td>
               </ng-container>
 
-              <!-- Riga espansa dettaglio token -->
+              <!-- Riga espansa con 3 accordion: ordine fisso info → transfers → extra -->
               <ng-container matColumnDef="expandedTokenDetail">
                 <td mat-cell *matCellDef="let row" [attr.colspan]="tokensColumns.length">
-                  <div class="expanded-row p-3" *ngIf="expandedTokens.has(row.token) && row.dettaglio">
-                    <!-- ⚠️ INTEGRARE con il template reale una volta definiti i campi di ITokenDettaglio -->
-                    <pre class="mb-0">{{ row.dettaglio | json }}</pre>
+                  <div class="expanded-row p-3" *ngIf="expandedTokens.has(row.token)">
+                    <mat-accordion multi>
+                      <!-- 1. Dettaglio Token -->
+                      <mat-expansion-panel expanded (opened)="loadTokenSection(row, 'info')">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <mat-icon fontSet="material-symbols-outlined" class="me-2">info</mat-icon>
+                            <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.tokenInfo">Dettaglio Token</span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="isTokenSectionLoading(row.token, 'info')" class="text-center p-3">
+                          <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                        <ng-container *ngIf="!isTokenSectionLoading(row.token, 'info') && row.info as info">
+                          <!-- Pagamento -->
+                          <h6 class="mt-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.payed">Pagamento</h6>
+                          <div class="row">
+                            <div class="col-lg-3 mb-3" *ngIf="info.payed?.paymentBorn">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.paymentBorn">
+                                Registrazione
+                              </div>
+                              <div class="fw-bold">{{ info.payed?.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.payed?.payedDate">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.payedDate">
+                                Data Pagamento
+                              </div>
+                              <div class="fw-bold">{{ info.payed?.payedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.isPayedToken">
+                                Token Pagato
+                              </div>
+                              <div class="fw-bold">{{ info.isPayedToken ? '✓' : '—' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.payed?.multiOutcome != null">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.multiOutcome">
+                                Multi Outcome
+                              </div>
+                              <div class="fw-bold">{{ info.payed?.multiOutcome ? '✓' : '—' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.amount?.amount != null">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
+                              <div class="fw-bold">{{ info.amount?.amount | number: '1.2-2' }} €</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.amount?.fee != null">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.fee">Commissioni</div>
+                              <div class="fw-bold">{{ info.amount?.fee | number: '1.2-2' }} €</div>
+                            </div>
+                          </div>
+
+                          <!-- Attori -->
+                          <h6 class="mt-3" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.actors">Attori</h6>
+                          <div class="row">
+                            <div class="col-lg-3 mb-3" *ngIf="info.actors?.psp">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.psp">PSP</div>
+                              <div class="fw-bold">{{ info.actors?.psp }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.actors?.station">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.station">
+                                Stazione
+                              </div>
+                              <div class="fw-bold">{{ info.actors?.station }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.actors?.channel">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.channel">
+                                Canale
+                              </div>
+                              <div class="fw-bold">{{ info.actors?.channel }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.actors?.ptPa">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.ptPa">
+                                Partner PA
+                              </div>
+                              <div class="fw-bold">{{ info.actors?.ptPa }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.actors?.ptPsp">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.ptPsp">
+                                Partner PSP
+                              </div>
+                              <div class="fw-bold">{{ info.actors?.ptPsp }}</div>
+                            </div>
+                          </div>
+
+                          <!-- Payment Info -->
+                          <h6 class="mt-3" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.paymentInfo">Payment Info</h6>
+                          <div class="row">
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo?.touchpoint">
+                              <div
+                                class="text-muted small"
+                                jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.touchpoint"
+                              >
+                                Touchpoint
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.touchpoint }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo?.paymentMethod">
+                              <div
+                                class="text-muted small"
+                                jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.paymentMethod"
+                              >
+                                Metodo
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.paymentMethod }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isDw">
+                                Data Warehouse
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.isDw ? '✓' : '—' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isGpd">
+                                GPD
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.isGpd ? '✓' : '—' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo">
+                              <div
+                                class="text-muted small"
+                                jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isStandin"
+                              >
+                                Stand-In
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.isStandin ? '✓' : '—' }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="info.paymentInfo">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isCart">
+                                Carrello
+                              </div>
+                              <div class="fw-bold">{{ info.paymentInfo?.isCart ? '✓' : '—' }}</div>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </mat-expansion-panel>
+
+                      <!-- 2. Transfers -->
+                      <mat-expansion-panel (opened)="loadTokenSection(row, 'transfers')">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <mat-icon fontSet="material-symbols-outlined" class="me-2">swap_horiz</mat-icon>
+                            <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.transfers">Transfers</span>
+                            <span class="ms-2 text-muted small" *ngIf="row.transfers">({{ transfersCount(row) }})</span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="isTokenSectionLoading(row.token, 'transfers')" class="text-center p-3">
+                          <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                        <ng-container *ngIf="!isTokenSectionLoading(row.token, 'transfers') && row.transfers?.transfers as tr">
+                          <div class="row">
+                            <div class="col-lg-3 mb-3" *ngIf="tr.idTransfer != null">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.transfers.idTransfer">
+                                ID Transfer
+                              </div>
+                              <div class="fw-bold">{{ tr.idTransfer }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="tr.iban">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.transfers.iban">
+                                IBAN
+                              </div>
+                              <div class="fw-bold">{{ tr.iban }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="tr.amount != null">
+                              <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.transfers.amount">
+                                Importo
+                              </div>
+                              <div class="fw-bold">{{ tr.amount | number: '1.2-2' }} €</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="tr.typeTransfer">
+                              <div
+                                class="text-muted small"
+                                jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.transfers.typeTransfer"
+                              >
+                                Tipo
+                              </div>
+                              <div class="fw-bold">{{ tr.typeTransfer }}</div>
+                            </div>
+                            <div class="col-lg-3 mb-3" *ngIf="tr.paFiscalCode">
+                              <div
+                                class="text-muted small"
+                                jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.transfers.paFiscalCode"
+                              >
+                                CF PA
+                              </div>
+                              <div class="fw-bold">{{ tr.paFiscalCode }}</div>
+                            </div>
+                          </div>
+                        </ng-container>
+                        <div
+                          *ngIf="!isTokenSectionLoading(row.token, 'transfers') && !row.transfers?.transfers"
+                          class="text-muted text-center p-2"
+                        >
+                          —
+                        </div>
+                      </mat-expansion-panel>
+
+                      <!-- 3. Informazioni Aggiuntive -->
+                      <mat-expansion-panel (opened)="loadTokenSection(row, 'extra')">
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            <mat-icon fontSet="material-symbols-outlined" class="me-2">notes</mat-icon>
+                            <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.extraInfo"
+                              >Informazioni Aggiuntive</span
+                            >
+                            <span class="ms-2 text-muted small" *ngIf="row.extra">({{ extraInfoCount(row) }})</span>
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="isTokenSectionLoading(row.token, 'extra')" class="text-center p-3">
+                          <mat-spinner diameter="32"></mat-spinner>
+                        </div>
+                        <ng-container *ngIf="!isTokenSectionLoading(row.token, 'extra') && row.extra as extra">
+                          <table
+                            mat-table
+                            [dataSource]="extra.results || []"
+                            class="w-100"
+                            *ngIf="(extra.results || []).length; else noExtra"
+                          >
+                            <ng-container matColumnDef="name">
+                              <th mat-header-cell *matHeaderCellDef>
+                                {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.extraInfo.name' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let r">{{ r.name }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="value">
+                              <th mat-header-cell *matHeaderCellDef>
+                                {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.extraInfo.value' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let r">{{ r.value }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="tipoevento">
+                              <th mat-header-cell *matHeaderCellDef>
+                                {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.extraInfo.tipoevento' | translate }}
+                              </th>
+                              <td mat-cell *matCellDef="let r">{{ r.tipoevento }}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="['name', 'value', 'tipoevento']"></tr>
+                            <tr mat-row *matRowDef="let r; columns: ['name', 'value', 'tipoevento']"></tr>
+                          </table>
+                          <ng-template #noExtra>
+                            <div
+                              class="text-muted text-center p-2"
+                              jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.extraInfo.noData"
+                            >
+                              Nessuna informazione aggiuntiva
+                            </div>
+                          </ng-template>
+                        </ng-container>
+                      </mat-expansion-panel>
+                    </mat-accordion>
                   </div>
                 </td>
               </ng-container>
@@ -132,69 +396,117 @@
           </div>
         </mat-tab>
 
-        <!-- ===== TAB EVENTI ===== -->
+        <!-- ===== TAB EVENTI (workflow di posizione + token) ===== -->
         <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabEventi' | translate">
           <div class="table-responsive mt-3">
             <table mat-table [dataSource]="eventiData" class="w-100" multiTemplateDataRows>
-              <!-- Evento ID -->
               <ng-container matColumnDef="eventoId">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.eventoId' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let row">{{ row.eventoId }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.eventId }}</td>
               </ng-container>
 
-              <!-- Tipo -->
               <ng-container matColumnDef="tipo">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.tipo' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.tipoevento }}</td>
               </ng-container>
 
-              <!-- Data Evento -->
+              <ng-container matColumnDef="sottotipo">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.sottotipo' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.sottotipoevento }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="outcome">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.outcome' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.outcome }}</td>
+              </ng-container>
+
+              <!-- Token cliccabile per saltare alla TAB Tokens e aprirne il dettaglio -->
+              <ng-container matColumnDef="token">
+                <th mat-header-cell *matHeaderCellDef>
+                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.token' | translate }}
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <a
+                    *ngIf="row.token; else dashCell"
+                    href="javascript:void(0)"
+                    (click)="goToTokenDetail(row.token)"
+                    [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.eventi.goToToken' | translate"
+                  >
+                    {{ row.token }}
+                  </a>
+                  <ng-template #dashCell>—</ng-template>
+                </td>
+              </ng-container>
+
               <ng-container matColumnDef="dataEvento">
                 <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.dataEvento' | translate }}
                 </th>
-                <td mat-cell *matCellDef="let row">{{ row.dataEvento }}</td>
+                <td mat-cell *matCellDef="let row">{{ row.insertedtimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
               </ng-container>
 
-              <!-- Stato -->
-              <ng-container matColumnDef="stato">
-                <th mat-header-cell *matHeaderCellDef>
-                  {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.stato' | translate }}
-                </th>
-                <td mat-cell *matCellDef="let row">{{ row.stato }}</td>
-              </ng-container>
-
-              <!-- Espandi -->
               <ng-container matColumnDef="expand">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let row">
+                <th mat-header-cell *matHeaderCellDef class="text-end"></th>
+                <td mat-cell *matCellDef="let row" class="text-end">
                   <button
                     mat-icon-button
                     (click)="toggleEventoExpand(row)"
                     [matTooltip]="
-                      expandedEventi.has(row.eventoId)
+                      expandedEventi.has(row.rowId)
                         ? ('pagopaCruscottoApp.ricercaOperazioni.detail.collapse' | translate)
                         : ('pagopaCruscottoApp.ricercaOperazioni.detail.expand' | translate)
                     "
-                    [disabled]="loadingExpandEventi.has(row.eventoId)"
                   >
                     <mat-icon fontSet="material-symbols-outlined">
-                      {{ expandedEventi.has(row.eventoId) ? 'expand_less' : 'expand_more' }}
+                      {{ expandedEventi.has(row.rowId) ? 'expand_less' : 'expand_more' }}
                     </mat-icon>
                   </button>
                 </td>
               </ng-container>
 
-              <!-- Riga espansa dettaglio evento -->
               <ng-container matColumnDef="expandedEventoDetail">
                 <td mat-cell *matCellDef="let row" [attr.colspan]="eventiColumns.length">
-                  <div class="expanded-row p-3" *ngIf="expandedEventi.has(row.eventoId) && row.dettaglio">
-                    <!-- ⚠️ INTEGRARE con il template reale una volta definiti i campi di IEventoDettaglio -->
-                    <pre class="mb-0">{{ row.dettaglio | json }}</pre>
+                  <div class="expanded-row p-3" *ngIf="expandedEventi.has(row.rowId)">
+                    <div class="row">
+                      <div class="col-lg-4 mb-2" *ngIf="row.eventId">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.eventoId">ID Evento</div>
+                        <div class="fw-bold">{{ row.eventId }}</div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.tipoevento">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.tipo">Tipo</div>
+                        <div class="fw-bold">{{ row.tipoevento }}</div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.sottotipoevento">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.sottotipo">Sottotipo</div>
+                        <div class="fw-bold">{{ row.sottotipoevento }}</div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.outcome">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.outcome">Esito</div>
+                        <div class="fw-bold">{{ row.outcome }}</div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.faultcode">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.faultcode">Fault Code</div>
+                        <div class="fw-bold">{{ row.faultcode }}</div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.token">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.token">Token</div>
+                        <div class="fw-bold">
+                          <a href="javascript:void(0)" (click)="goToTokenDetail(row.token)">{{ row.token }}</a>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 mb-2" *ngIf="row.insertedtimestamp">
+                        <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.eventi.dataEvento">Data</div>
+                        <div class="fw-bold">{{ row.insertedtimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </td>
               </ng-container>

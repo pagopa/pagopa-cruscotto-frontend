@@ -25,24 +25,79 @@
         "paEmittente": "PA Emittente",
         "numeroAvviso": "Numero Avviso",
         "iuv": "IUV",
+        "creditorReferenceId": "Creditor Reference ID",
         "importo": "Importo",
-        "descrizione": "Descrizione",
+        "fee": "Commissione",
+        "tokensCount": "Numero Token",
+        "lastEvent": "Ultimo Evento",
+        "isCached": "Da Cache",
         "tabTokens": "Tokens",
         "tabEventi": "Eventi",
         "expand": "Espandi",
-        "collapse": "Riduci"
+        "collapse": "Riduci",
+        "closeAll": "Chiudi tutto",
+        "pagata": "Pagata",
+        "sections": {
+          "paymentInfo": "Informazioni Pagamento",
+          "actors": "Attori",
+          "amount": "Importo",
+          "payed": "Pagamento",
+          "tokenInfo": "Informazioni Token",
+          "extraInfo": "Informazioni Aggiuntive",
+          "transfers": "Transfers",
+          "events": "Eventi Token"
+        },
+        "paymentInfo": {
+          "touchpoint": "Touchpoint",
+          "paymentMethod": "Metodo di Pagamento",
+          "isDw": "Data Warehouse",
+          "isGpd": "GPD",
+          "isStandin": "Stand-In",
+          "isCart": "Carrello"
+        },
+        "actors": {
+          "psp": "PSP",
+          "station": "Stazione",
+          "channel": "Canale",
+          "ptPa": "PT PA",
+          "ptPsp": "PT PSP"
+        },
+        "payed": {
+          "token": "Token Pagato",
+          "paymentBorn": "Registrazione Pagamento",
+          "payedDate": "Data Pagamento",
+          "multiOutcome": "Multi Outcome",
+          "isPayedToken": "Token Pagato"
+        },
+        "transfers": {
+          "idTransfer": "ID Transfer",
+          "iban": "IBAN",
+          "amount": "Importo",
+          "typeTransfer": "Tipo",
+          "paFiscalCode": "Codice Fiscale PA"
+        },
+        "extraInfo": {
+          "name": "Nome",
+          "value": "Valore",
+          "tipoevento": "Tipo Evento",
+          "noData": "Nessuna informazione aggiuntiva"
+        }
       },
       "tokens": {
         "token": "Token",
-        "importo": "Importo",
-        "stato": "Stato",
-        "dataCreazione": "Data Creazione"
+        "isPayed": "Pagato",
+        "amount": "Importo",
+        "lastEvent": "Ultimo Evento"
       },
       "eventi": {
         "eventoId": "ID Evento",
         "tipo": "Tipo",
+        "sottotipo": "Sottotipo",
+        "outcome": "Esito",
+        "faultcode": "Fault Code",
         "dataEvento": "Data Evento",
-        "stato": "Stato"
+        "token": "Token",
+        "goToToken": "Vai al dettaglio del token"
       }
     }
   }

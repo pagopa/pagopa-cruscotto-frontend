@@ -1,102 +1,123 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { delay, Observable, of } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
 
-import { ApplicationConfigService } from '../../../../core/config/application-config.service';
-import { createRequestOption } from '../../../../core/request/request-util';
+import { RicercaDellePosizioniDebitorieService } from '../../../../api-clients/pagopa-sert/api/ricercaDellePosizioniDebitorie.service';
+import { VisualizzazionePosizioneDebitoriaService } from '../../../../api-clients/pagopa-sert/api/visualizzazionePosizioneDebitoria.service';
+import { VisualizzazioneDettagliService } from '../../../../api-clients/pagopa-sert/api/visualizzazioneDettagli.service';
+
 import {
-  IEventoDettaglio,
+  IExtraInfo,
   IOperazioneRicercaResponse,
-  IPosizioneDettaglioFull,
-  ITokenDettaglio,
-  MOCK_EVENTO_DETTAGLIO,
-  MOCK_POSIZIONE_DETTAGLIO_FULL,
-  MOCK_RICERCA_OPERAZIONI_RESPONSE,
-  MOCK_TOKEN_DETTAGLIO,
+  IPosizione,
+  ITokenInfo,
+  ITransfers,
+  IWorkflows,
+  toOperazioneRicercaRow,
 } from '../models/ricerca-operazioni.model';
 
+/**
+ * Service applicativo della feature "Ricerca Operazioni".
+ *
+ * Espone una API a misura di view-model — internamente delega ai service generati
+ * dal client OpenAPI (`api-clients/pagopa-sert`).
+ */
 @Injectable({ providedIn: 'root' })
 export class RicercaOperazioniService {
-  private readonly http = inject(HttpClient);
-  private readonly applicationConfigService = inject(ApplicationConfigService);
+  private readonly searchApi = inject(RicercaDellePosizioniDebitorieService);
+  private readonly positionApi = inject(VisualizzazionePosizioneDebitoriaService);
+  private readonly detailApi = inject(VisualizzazioneDettagliService);
 
-  // ⚠️ INTEGRARE con il base path reale delle API (es. 'api/ricerca-operazioni')
-  private readonly resourceUrl = this.applicationConfigService.getEndpointFor('api/ricerca-operazioni');
+  // ============================================================
+  // Ricerca unificata
+  // ============================================================
 
-  /**
-   * GET /search/{nav} — Ricerca per Codice Avviso (NAV)
-   */
-  searchByNav(nav: string, paEmittente?: string, req?: any): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // const options = createRequestOption({ ...req, paEmittente });
-    // return this.http.get<IOperazioneRicercaResponse>(`${this.resourceUrl}/search/${nav}`, { params: options, observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_RICERCA_OPERAZIONI_RESPONSE, status: 200 })).pipe(delay(300));
+  /** GET /api/search?nav=...&pa=... */
+  searchByNav(nav: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch({ nav, pa: paEmittente });
   }
 
-  /**
-   * GET /search/{iuv} — Ricerca per IUV o Creditor Reference ID
-   */
-  searchByIuv(iuv: string, paEmittente?: string, req?: any): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // const options = createRequestOption({ ...req, paEmittente });
-    // return this.http.get<IOperazioneRicercaResponse>(`${this.resourceUrl}/search/${iuv}`, { params: options, observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_RICERCA_OPERAZIONI_RESPONSE, status: 200 })).pipe(delay(300));
+  /** GET /api/search?iuv=...&pa=... */
+  searchByIuv(iuv: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch({ iuv, pa: paEmittente });
   }
 
-  /**
-   * GET /search/{token} — Ricerca per token
-   */
-  searchByToken(token: string, paEmittente?: string, req?: any): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // const options = createRequestOption({ ...req, paEmittente });
-    // return this.http.get<IOperazioneRicercaResponse>(`${this.resourceUrl}/search/${token}`, { params: options, observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_RICERCA_OPERAZIONI_RESPONSE, status: 200 })).pipe(delay(300));
+  /** GET /api/search?token=...&pa=... */
+  searchByToken(token: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch({ token, pa: paEmittente });
   }
 
-  /**
-   * GET /search/cart/{id_cart} — Ricerca per ID Carrello
-   */
-  searchByCart(idCart: string, paEmittente?: string, req?: any): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // const options = createRequestOption({ ...req, paEmittente });
-    // return this.http.get<IOperazioneRicercaResponse>(`${this.resourceUrl}/search/cart/${idCart}`, { params: options, observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_RICERCA_OPERAZIONI_RESPONSE, status: 200 })).pipe(delay(300));
+  /** GET /api/search?idCarrello=...&pa=... */
+  searchByCart(idCart: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch({ idCarrello: idCart, pa: paEmittente });
   }
 
-  /**
-   * GET /search/extra/{searchValue} — Ricerca per Informazioni Aggiuntive
-   */
-  searchByExtra(searchValue: string, paEmittente?: string, req?: any): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // const options = createRequestOption({ ...req, paEmittente });
-    // return this.http.get<IOperazioneRicercaResponse>(`${this.resourceUrl}/search/extra/${searchValue}`, { params: options, observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_RICERCA_OPERAZIONI_RESPONSE, status: 200 })).pipe(delay(300));
+  /** GET /api/search?info=...&pa=... */
+  searchByExtra(searchValue: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch({ info: searchValue, pa: paEmittente });
   }
 
-  /**
-   * GET /position/{positionId} — Dettaglio posizione con tokens ed eventi
-   */
-  getPosizioneDettaglio(positionId: string): Observable<HttpResponse<IPosizioneDettaglioFull>> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // return this.http.get<IPosizioneDettaglioFull>(`${this.resourceUrl}/position/${positionId}`, { observe: 'response' });
-    return of(new HttpResponse({ body: MOCK_POSIZIONE_DETTAGLIO_FULL, status: 200 })).pipe(delay(300));
+  private unifiedSearch(p: {
+    pa?: string;
+    nav?: string;
+    iuv?: string;
+    token?: string;
+    idCarrello?: string;
+    info?: string;
+  }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.searchApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, 'response').pipe(
+      map(res => {
+        const dto = res.body;
+        const rows = (dto?.results ?? []).map(toOperazioneRicercaRow);
+        const body: IOperazioneRicercaResponse = {
+          content: rows,
+          totalElements: dto?.count ?? rows.length,
+          totalPages: 1,
+          size: rows.length,
+          number: 0,
+        };
+        return new HttpResponse({ body, status: res.status, headers: res.headers });
+      }),
+    );
   }
 
-  /**
-   * Carica il dettaglio espanso di un token
-   */
-  getTokenDettaglio(token: string): Observable<ITokenDettaglio> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // return this.http.get<ITokenDettaglio>(`${this.resourceUrl}/token/${token}/detail`);
-    return of(MOCK_TOKEN_DETTAGLIO).pipe(delay(200));
+  // ============================================================
+  // Vista centrale del dettaglio posizione
+  // ============================================================
+
+  /** GET /api/position/{nav}/{paEmittente} */
+  getPosition(nav: string, paEmittente: string): Observable<IPosizione> {
+    return this.positionApi.getPosition(nav, paEmittente);
   }
 
-  /**
-   * Carica il dettaglio espanso di un evento
-   */
-  getEventoDettaglio(eventoId: string): Observable<IEventoDettaglio> {
-    // TODO: sostituire con la chiamata HTTP reale:
-    // return this.http.get<IEventoDettaglio>(`${this.resourceUrl}/evento/${eventoId}/detail`);
-    return of(MOCK_EVENTO_DETTAGLIO).pipe(delay(200));
+  // ============================================================
+  // Sezioni espandibili dei Token
+  // ============================================================
+
+  /** GET /api/token/{token} */
+  getTokenInfo(token: string): Observable<ITokenInfo> {
+    return this.detailApi.getTokenInfo(token);
+  }
+
+  /** GET /api/extra/{token} */
+  getExtraInfo(token: string): Observable<IExtraInfo> {
+    return this.detailApi.getExtraInfo(token);
+  }
+
+  /** GET /api/transfers/{nav}/{paEmittente}/{token} */
+  getTransfers(nav: string, paEmittente: string, token: string): Observable<ITransfers> {
+    return this.detailApi.getTransfers(nav, paEmittente, token);
+  }
+
+  // ============================================================
+  // Workflow / Eventi
+  // ============================================================
+
+  /** GET /api/workflows/{nav}/{paEmittente} */
+  getWorkflows(nav: string, paEmittente: string): Observable<IWorkflows> {
+    return this.detailApi.getWorkflows(nav, paEmittente).pipe(
+      // In caso di errore restituiamo un workflow vuoto per non bloccare la vista
+      catchError(() => of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] })),
+    );
   }
 }
