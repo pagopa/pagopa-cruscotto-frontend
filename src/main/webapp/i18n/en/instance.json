@@ -109,6 +109,7 @@
         "restore": "Restore",
         "restoring": "Restoring in progress...",
         "restored": "Instances successfully restored",
+        "restorePartial": "{{successCount}} of {{count}} instances were successfully restored",
         "restoreError": "Error while restoring instances"
       },
       "error": {

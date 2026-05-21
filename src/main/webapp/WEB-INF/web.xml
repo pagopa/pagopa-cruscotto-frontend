@@ -10,4 +10,9 @@
         <mime-type>text/html;charset=utf-8</mime-type>
     </mime-mapping>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/index.html</location>
+    </error-page>
+
 </web-app>
