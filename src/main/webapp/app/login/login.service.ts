@@ -17,6 +17,9 @@ export class LoginService {
   }
 
   loginAsTestUser(): void {
+    if (!environment.TEST_ENVIRONMENT) {
+      return;
+    }
     void this.msalService.instance.clearCache().then(() => {
       this.stateStorageService.storeAuthenticationToken(environment.TEST_TOKEN, false);
       this.accountService.identity(true).subscribe({

@@ -214,3 +214,233 @@ export interface IEventoRow extends IWorkflowEvent {
   /** Presente solo se l'evento è associato a un token (eventsToken). */
   token?: string;
 }
+
+// ============================================================
+// Tipi raw (JSON) — cruscotto-sert-backend
+// Le chiavi rispecchiano esattamente la serializzazione Jackson
+// (con @JsonProperty kebab-case). Non usare questi tipi fuori
+// dal layer API client e dai mapper qui sotto.
+// ============================================================
+
+export interface IRawBasicPosition {
+  nav?: string;
+  'pa-emittente'?: string;
+}
+
+export interface IRawPositionPaymentInfo extends IRawBasicPosition {
+  iuv?: string;
+  'creditor-reference-id'?: string;
+  /** ISO-8601 Instant come stringa. */
+  'last-event'?: string;
+  'is-cached'?: boolean;
+}
+
+export interface IRawActors {
+  psp?: string;
+  'pt-pa'?: string;
+  'pt-psp'?: string;
+  station?: string;
+  channel?: string;
+}
+
+export interface IRawPayed {
+  token?: string;
+  'payment-born'?: string;
+  'payed-date'?: string;
+  'multi-outcome'?: boolean;
+}
+
+export interface IRawPaymentInfo {
+  touchpoint?: string;
+  'payment-method'?: string;
+  'is-dw'?: boolean;
+  'is-gpd'?: boolean;
+  'is-standin'?: boolean;
+  'is-cart'?: boolean;
+}
+
+export interface IRawUnifiedSearchResponse {
+  results?: Array<IRawBasicPosition & { match?: string[] }>;
+  count?: number;
+}
+
+export interface IRawPositionPayment {
+  'position-info'?: IRawPositionPaymentInfo;
+  tokens?: number;
+  'all-tokens'?: string[];
+  payed?: IRawPayed;
+  actors?: IRawActors;
+  amount?: IAmount;
+  'payment-info'?: IRawPaymentInfo;
+}
+
+export interface IRawTokenInfo {
+  'position-info'?: IRawPositionPaymentInfo;
+  'is-payed-token'?: boolean;
+  payed?: IRawPayed;
+  actors?: IRawActors;
+  amount?: IAmount;
+  'payment-info'?: IRawPaymentInfo;
+}
+
+export interface IRawTransferObject {
+  idTransfer?: number;
+  'type-transfer'?: string;
+  iban?: string;
+  amount?: number;
+  'pa-fiscal-code'?: string;
+}
+
+export interface IRawTransferPayment {
+  'position-info'?: IRawPositionPaymentInfo;
+  token?: string;
+  'transfers-count'?: number;
+  transfers?: IRawTransferObject;
+}
+
+export interface IRawWorkflowEvent {
+  insertedtimestamp?: string;
+  tipoevento?: string;
+  sottotipoevento?: string;
+  outcome?: string;
+  faultcode?: string;
+  'event-id'?: string;
+}
+
+export interface IRawWorkflowTokenEvent extends IRawWorkflowEvent {
+  token?: string;
+}
+
+export interface IRawWorkflowResponse {
+  count?: number;
+  'events-position'?: IRawWorkflowEvent[];
+  'events-token'?: IRawWorkflowTokenEvent[];
+}
+
+export interface IRawExtraInfoObject extends IRawBasicPosition {
+  token?: string;
+  name?: string;
+  value?: string;
+  tipoevento?: string;
+}
+
+export interface IRawExtraInfoResponse {
+  count?: number;
+  results?: IRawExtraInfoObject[];
+}
+
+// ============================================================
+// Mapper: raw JSON → view-model (camelCase)
+// ============================================================
+
+const mapRawPositionInfo = (raw?: IRawPositionPaymentInfo): IPositionInfo | undefined =>
+  raw
+    ? {
+        nav: raw.nav,
+        paEmittente: raw['pa-emittente'],
+        iuv: raw.iuv,
+        creditorReferenceId: raw['creditor-reference-id'],
+        lastEvent: raw['last-event'] ? new Date(raw['last-event']) : undefined,
+        isCached: raw['is-cached'],
+      }
+    : undefined;
+
+const mapRawActors = (raw?: IRawActors): IActors | undefined =>
+  raw
+    ? {
+        psp: raw.psp,
+        ptPa: raw['pt-pa'],
+        ptPsp: raw['pt-psp'],
+        station: raw.station,
+        channel: raw.channel,
+      }
+    : undefined;
+
+const mapRawPayed = (raw?: IRawPayed): IPayed | undefined =>
+  raw
+    ? {
+        token: raw.token,
+        paymentBorn: raw['payment-born'] ? new Date(raw['payment-born']) : undefined,
+        payedDate: raw['payed-date'] ? new Date(raw['payed-date']) : undefined,
+        multiOutcome: raw['multi-outcome'],
+      }
+    : undefined;
+
+const mapRawPaymentInfo = (raw?: IRawPaymentInfo): IPaymentInfo | undefined =>
+  raw
+    ? {
+        touchpoint: raw.touchpoint,
+        paymentMethod: raw['payment-method'],
+        isDw: raw['is-dw'],
+        isGpd: raw['is-gpd'],
+        isStandin: raw['is-standin'],
+        isCart: raw['is-cart'],
+      }
+    : undefined;
+
+export const mapRawPosizione = (raw: IRawPositionPayment): IPosizione => ({
+  positionInfo: mapRawPositionInfo(raw['position-info']),
+  tokens: raw.tokens,
+  allTokens: raw['all-tokens'],
+  payed: mapRawPayed(raw.payed),
+  actors: mapRawActors(raw.actors),
+  amount: raw.amount,
+  paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+});
+
+export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({
+  positionInfo: mapRawPositionInfo(raw['position-info']),
+  isPayedToken: raw['is-payed-token'],
+  payed: mapRawPayed(raw.payed),
+  actors: mapRawActors(raw.actors),
+  amount: raw.amount,
+  paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+});
+
+export const mapRawTransfers = (raw: IRawTransferPayment): ITransfers => ({
+  positionInfo: mapRawPositionInfo(raw['position-info']),
+  token: raw.token,
+  transfersCount: raw['transfers-count'],
+  transfers: raw.transfers
+    ? {
+        idTransfer: raw.transfers.idTransfer,
+        typeTransfer: raw.transfers['type-transfer'],
+        iban: raw.transfers.iban,
+        amount: raw.transfers.amount,
+        paFiscalCode: raw.transfers['pa-fiscal-code'],
+      }
+    : undefined,
+});
+
+export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({
+  count: raw.count,
+  eventsPosition: (raw['events-position'] ?? []).map(e => ({
+    insertedtimestamp: e.insertedtimestamp ? new Date(e.insertedtimestamp) : undefined,
+    tipoevento: e.tipoevento,
+    sottotipoevento: e.sottotipoevento,
+    outcome: e.outcome,
+    faultcode: e.faultcode,
+    eventId: e['event-id'],
+  })),
+  eventsToken: (raw['events-token'] ?? []).map(e => ({
+    insertedtimestamp: e.insertedtimestamp ? new Date(e.insertedtimestamp) : undefined,
+    tipoevento: e.tipoevento,
+    sottotipoevento: e.sottotipoevento,
+    outcome: e.outcome,
+    faultcode: e.faultcode,
+    eventId: e['event-id'],
+    token: e.token,
+  })),
+});
+
+export const mapRawExtraInfo = (raw: IRawExtraInfoResponse): IExtraInfo => ({
+  count: raw.count,
+  results: (raw.results ?? []).map(r => ({
+    nav: r.nav,
+    paEmittente: r['pa-emittente'],
+    token: r.token,
+    name: r.name,
+    value: r.value,
+    tipoevento: r.tipoevento,
+  })),
+});

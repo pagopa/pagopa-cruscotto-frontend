@@ -25,11 +25,29 @@ import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMod
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 
-/** Validator di form group: esattamente uno dei campi esclusivi deve essere valorizzato */
-const exclusiveFieldValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
-  const exclusiveKeys = ['nav', 'iuv', 'token', 'idCarrello', 'extra'];
-  const filled = exclusiveKeys.filter(k => !!group.get(k)?.value?.trim());
-  return filled.length === 1 ? null : { exclusiveFieldRequired: true };
+const hasTrimmedValue = (group: AbstractControl, key: string): boolean => !!group.get(key)?.value?.trim();
+
+/**
+ * Regole combinazione campi:
+ * - PA o NAV devono essere presenti (almeno uno).
+ * - Tra i campi secondari (token, idCarrello, extra) ne puo essere valorizzato al massimo uno.
+ */
+const searchCombinationValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+  const hasPa = hasTrimmedValue(group, 'paEmittente');
+  const hasNav = hasTrimmedValue(group, 'nav');
+  const secondaryCount = ['token', 'idCarrello', 'extra'].filter(key => hasTrimmedValue(group, key)).length;
+
+  const errors: ValidationErrors = {};
+
+  // if (!hasPa && !hasNav) {
+  //   errors.primaryFieldRequired = true;
+  // }
+
+  if (secondaryCount > 1) {
+    errors.secondaryExclusive = true;
+  }
+
+  return Object.keys(errors).length > 0 ? errors : null;
 };
 
 @Component({
@@ -83,13 +101,12 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   searchForm = this.fb.group(
     {
       paEmittente: ['', [Validators.pattern(/^\d{11}$/)]],
-      nav: [''],
-      iuv: [''],
-      token: [''],
-      idCarrello: [''],
+      nav: ['', [Validators.pattern(/^\d{18}$/)]],
+      token: ['', [Validators.pattern(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)]],
+      idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{35}$/)]],
       extra: [''],
     },
-    { validators: exclusiveFieldValidator },
+    { validators: searchCombinationValidator },
   );
 
   constructor() {
@@ -104,7 +121,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     );
 
     // Quando un campo esclusivo viene valorizzato, pulire gli altri
-    const exclusiveKeys: Array<'iuv' | 'token' | 'idCarrello' | 'extra'> = ['iuv', 'token', 'idCarrello', 'extra'];
+    const exclusiveKeys: Array<'token' | 'idCarrello' | 'extra'> = ['token', 'idCarrello', 'extra'];
     exclusiveKeys.forEach(key => {
       this.subscriptions.add(
         this.searchForm.get(key)!.valueChanges.subscribe(val => {
@@ -128,9 +145,12 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   search(): void {
-    if (this.searchForm.invalid) return;
+    if (this.searchForm.invalid) {
+      this.searchForm.markAllAsTouched();
+      return;
+    }
 
-    const { paEmittente, nav, iuv, token, idCarrello, extra } = this.searchForm.value;
+    const { paEmittente, nav, token, idCarrello, extra } = this.searchForm.value;
     const mode = this.detectMode();
     if (!mode) return;
 
@@ -144,44 +164,31 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
     // Nota: l'endpoint unificato /api/search non supporta paginazione lato server.
     // La paginazione viene gestita lato client sui risultati restituiti.
-    const pa = paEmittente?.trim() || undefined;
-
-    let call$;
-    switch (mode) {
-      case 'nav':
-        call$ = this.service.searchByNav(nav!.trim(), pa);
-        break;
-      case 'iuv':
-        call$ = this.service.searchByIuv(iuv!.trim(), pa);
-        break;
-      case 'token':
-        call$ = this.service.searchByToken(token!.trim(), pa);
-        break;
-      case 'cart':
-        call$ = this.service.searchByCart(idCarrello!.trim(), pa);
-        break;
-      case 'extra':
-        call$ = this.service.searchByExtra(extra!.trim(), pa);
-        break;
-    }
-
-    call$!.subscribe({
-      next: (res: HttpResponse<IOperazioneRicercaResponse>) => {
-        const body = res.body!;
-        this.data = body.content;
-        this.resultsLength = body.totalElements;
-        this.isLoadingResults = false;
-        this.spinner.hide('isLoadingResults');
-      },
-      error: () => {
-        this.isLoadingResults = false;
-        this.spinner.hide('isLoadingResults');
-      },
-    });
+    this.service
+      .search({
+        pa: paEmittente?.trim() || undefined,
+        nav: nav?.trim() || undefined,
+        token: token?.trim() || undefined,
+        idCarrello: idCarrello?.trim() || undefined,
+        info: extra?.trim() || undefined,
+      })
+      .subscribe({
+        next: (res: HttpResponse<IOperazioneRicercaResponse>) => {
+          const body = res.body!;
+          this.data = body.content;
+          this.resultsLength = body.totalElements;
+          this.isLoadingResults = false;
+          this.spinner.hide('isLoadingResults');
+        },
+        error: () => {
+          this.isLoadingResults = false;
+          this.spinner.hide('isLoadingResults');
+        },
+      });
   }
 
   clear(): void {
-    this.searchForm.reset({ paEmittente: '', nav: '', iuv: '', token: '', idCarrello: '', extra: '' });
+    this.searchForm.reset({ paEmittente: '', nav: '', token: '', idCarrello: '', extra: '' });
     this.filter.clear();
     this.data = [];
     this._search = false;
@@ -207,12 +214,12 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   private detectMode(): RicercaOperazioniMode | null {
-    const { nav, iuv, token, idCarrello, extra } = this.searchForm.value;
+    const { paEmittente, nav, token, idCarrello, extra } = this.searchForm.value;
+    if (extra?.trim()) return 'extra';
     if (nav?.trim()) return 'nav';
-    if (iuv?.trim()) return 'iuv';
     if (token?.trim()) return 'token';
     if (idCarrello?.trim()) return 'cart';
-    if (extra?.trim()) return 'extra';
+    if (paEmittente?.trim()) return 'nav';
     return null;
   }
 

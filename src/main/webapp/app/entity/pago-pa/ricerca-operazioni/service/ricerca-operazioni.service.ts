@@ -2,9 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 
-import { RicercaDellePosizioniDebitorieService } from '../../../../api-clients/pagopa-sert/api/ricercaDellePosizioniDebitorie.service';
-import { VisualizzazionePosizioneDebitoriaService } from '../../../../api-clients/pagopa-sert/api/visualizzazionePosizioneDebitoria.service';
-import { VisualizzazioneDettagliService } from '../../../../api-clients/pagopa-sert/api/visualizzazioneDettagli.service';
+import { SertService } from '../../../../api-clients/pagopa-sert/api/sert.service';
 
 import {
   IExtraInfo,
@@ -13,6 +11,11 @@ import {
   ITokenInfo,
   ITransfers,
   IWorkflows,
+  mapRawExtraInfo,
+  mapRawPosizione,
+  mapRawTokenInfo,
+  mapRawTransfers,
+  mapRawWorkflows,
   toOperazioneRicercaRow,
 } from '../models/ricerca-operazioni.model';
 
@@ -24,9 +27,7 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class RicercaOperazioniService {
-  private readonly searchApi = inject(RicercaDellePosizioniDebitorieService);
-  private readonly positionApi = inject(VisualizzazionePosizioneDebitoriaService);
-  private readonly detailApi = inject(VisualizzazioneDettagliService);
+  private readonly sertApi = inject(SertService);
 
   // ============================================================
   // Ricerca unificata
@@ -35,6 +36,17 @@ export class RicercaOperazioniService {
   /** GET /api/search?nav=...&pa=... */
   searchByNav(nav: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
     return this.unifiedSearch({ nav, pa: paEmittente });
+  }
+
+  /** GET /api/search con combinazioni di campi supportate dal form. */
+  search(p: {
+    pa?: string;
+    nav?: string;
+    token?: string;
+    idCarrello?: string;
+    info?: string;
+  }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
+    return this.unifiedSearch(p);
   }
 
   /** GET /api/search?iuv=...&pa=... */
@@ -57,6 +69,47 @@ export class RicercaOperazioniService {
     return this.unifiedSearch({ info: searchValue, pa: paEmittente });
   }
 
+  // ============================================================
+  // Vista centrale del dettaglio posizione
+  // ============================================================
+
+  /** GET /api/position/{nav}/{paEmittente} */
+  getPosition(nav: string, paEmittente: string): Observable<IPosizione> {
+    return this.sertApi.getPosition(nav, paEmittente).pipe(map(mapRawPosizione));
+  }
+
+  // ============================================================
+  // Sezioni espandibili dei Token
+  // ============================================================
+
+  /** GET /api/token/{token} */
+  getTokenInfo(token: string): Observable<ITokenInfo> {
+    return this.sertApi.getTokenInfo(token).pipe(map(mapRawTokenInfo));
+  }
+
+  /** GET /api/extra/{token} */
+  getExtraInfo(token: string): Observable<IExtraInfo> {
+    return this.sertApi.getExtraInfo(token).pipe(map(mapRawExtraInfo));
+  }
+
+  /** GET /api/transfers/{nav}/{paEmittente}/{token} */
+  getTransfers(nav: string, paEmittente: string, token: string): Observable<ITransfers> {
+    return this.sertApi.getTransfers(nav, paEmittente, token).pipe(map(mapRawTransfers));
+  }
+
+  // ============================================================
+  // Workflow / Eventi
+  // ============================================================
+
+  /** GET /api/workflows/{nav}/{paEmittente} */
+  getWorkflows(nav: string, paEmittente: string): Observable<IWorkflows> {
+    return this.sertApi.getWorkflows(nav, paEmittente).pipe(
+      map(mapRawWorkflows),
+      // In caso di errore restituiamo un workflow vuoto per non bloccare la vista
+      catchError(() => of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] })),
+    );
+  }
+
   private unifiedSearch(p: {
     pa?: string;
     nav?: string;
@@ -65,10 +118,10 @@ export class RicercaOperazioniService {
     idCarrello?: string;
     info?: string;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.searchApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, 'response').pipe(
+    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, 'response').pipe(
       map(res => {
         const dto = res.body;
-        const rows = (dto?.results ?? []).map(toOperazioneRicercaRow);
+        const rows = (dto?.results ?? []).map(r => toOperazioneRicercaRow({ nav: r.nav, match: r.match, paEmittente: r['pa-emittente'] }));
         const body: IOperazioneRicercaResponse = {
           content: rows,
           totalElements: dto?.count ?? rows.length,
@@ -78,46 +131,6 @@ export class RicercaOperazioniService {
         };
         return new HttpResponse({ body, status: res.status, headers: res.headers });
       }),
-    );
-  }
-
-  // ============================================================
-  // Vista centrale del dettaglio posizione
-  // ============================================================
-
-  /** GET /api/position/{nav}/{paEmittente} */
-  getPosition(nav: string, paEmittente: string): Observable<IPosizione> {
-    return this.positionApi.getPosition(nav, paEmittente);
-  }
-
-  // ============================================================
-  // Sezioni espandibili dei Token
-  // ============================================================
-
-  /** GET /api/token/{token} */
-  getTokenInfo(token: string): Observable<ITokenInfo> {
-    return this.detailApi.getTokenInfo(token);
-  }
-
-  /** GET /api/extra/{token} */
-  getExtraInfo(token: string): Observable<IExtraInfo> {
-    return this.detailApi.getExtraInfo(token);
-  }
-
-  /** GET /api/transfers/{nav}/{paEmittente}/{token} */
-  getTransfers(nav: string, paEmittente: string, token: string): Observable<ITransfers> {
-    return this.detailApi.getTransfers(nav, paEmittente, token);
-  }
-
-  // ============================================================
-  // Workflow / Eventi
-  // ============================================================
-
-  /** GET /api/workflows/{nav}/{paEmittente} */
-  getWorkflows(nav: string, paEmittente: string): Observable<IWorkflows> {
-    return this.detailApi.getWorkflows(nav, paEmittente).pipe(
-      // In caso di errore restituiamo un workflow vuoto per non bloccare la vista
-      catchError(() => of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] })),
     );
   }
 }

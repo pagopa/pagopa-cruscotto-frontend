@@ -3,10 +3,6 @@
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2 d-flex align-items-center gap-3">
       <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.title">Dettaglio Posizione</span>
-      <mat-chip *ngIf="isPagata" color="primary" highlighted disableRipple class="payed-chip">
-        <mat-icon fontSet="material-symbols-outlined" inline>check_circle</mat-icon>
-        <span class="ms-1" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.pagata">Pagata</span>
-      </mat-chip>
     </div>
     <div>
       <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
@@ -25,53 +21,53 @@
 
       <div *ngIf="posizione" class="row">
         <!-- Campi richiesti dalla specifica: nav, pa-emittente, iuv, creditor-reference-id, last-event -->
-        <div class="col-lg-3 mb-3">
+        <div class="col-lg-2 mb-3">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.numeroAvviso">Numero Avviso</div>
           <div class="fw-bold">{{ posizione.positionInfo?.nav || nav }}</div>
         </div>
-        <div class="col-lg-3 mb-3">
+        <div class="col-lg-2 mb-3">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paEmittente">PA Emittente</div>
           <div class="fw-bold">{{ posizione.positionInfo?.paEmittente || paEmittente }}</div>
         </div>
-        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.iuv">
+        <div class="col-lg-2 mb-3" *ngIf="posizione.positionInfo?.iuv">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.iuv">IUV</div>
           <div class="fw-bold">{{ posizione.positionInfo?.iuv }}</div>
         </div>
-        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.creditorReferenceId">
+        <div class="col-lg-2 mb-3" *ngIf="posizione.positionInfo?.creditorReferenceId">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.creditorReferenceId">
             Creditor Reference
           </div>
           <div class="fw-bold">{{ posizione.positionInfo?.creditorReferenceId }}</div>
         </div>
-        <div class="col-lg-3 mb-3" *ngIf="posizione.positionInfo?.lastEvent">
+        <div class="col-lg-2 mb-3" *ngIf="posizione.positionInfo?.lastEvent">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.lastEvent">Ultimo Evento</div>
           <div class="fw-bold">{{ posizione.positionInfo?.lastEvent | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
         </div>
-        <div class="col-lg-3 mb-3" *ngIf="posizione.tokens != null">
+        <div class="col-lg-2 mb-3" *ngIf="posizione.tokens != null">
           <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.tokensCount">Numero Token</div>
           <div class="fw-bold">{{ posizione.tokens }}</div>
         </div>
 
         <!-- Dettaglio pagamento (visibile se posizione pagata) -->
         <ng-container *ngIf="isPagata && posizione.payed as payed">
-          <div class="col-12 mt-2">
+          <!-- <div class="col-12 mt-2">
             <h6 jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.payed">Pagamento</h6>
-          </div>
-          <div class="col-lg-3 mb-3" *ngIf="payed.token">
+          </div> -->
+          <div class="col-lg-4 mb-3" *ngIf="payed.token">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.token">Token Pagato</div>
             <div class="fw-bold">{{ payed.token }}</div>
           </div>
-          <div class="col-lg-3 mb-3" *ngIf="payed.paymentBorn">
+          <div class="col-lg-2 mb-3" *ngIf="payed.paymentBorn">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.paymentBorn">
               Registrazione Pagamento
             </div>
             <div class="fw-bold">{{ payed.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
           </div>
-          <div class="col-lg-3 mb-3" *ngIf="payed.payedDate">
+          <div class="col-lg-2 mb-3" *ngIf="payed.payedDate">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.payedDate">Data Pagamento</div>
             <div class="fw-bold">{{ payed.payedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
           </div>
-          <div class="col-lg-3 mb-3" *ngIf="posizione.amount?.amount != null">
+          <div class="col-lg-2 mb-3" *ngIf="posizione.amount?.amount != null">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
             <div class="fw-bold">{{ posizione.amount?.amount | number: '1.2-2' }} €</div>
           </div>
@@ -86,7 +82,7 @@
       <mat-tab-group #tabGroup>
         <!-- ===== TAB TOKENS ===== -->
         <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabTokens' | translate">
-          <div class="d-flex justify-content-end mt-3" *ngIf="expandedTokens.size > 0">
+          <!-- <div class="d-flex justify-content-end mt-3" *ngIf="expandedTokens.size > 0">
             <button
               mat-stroked-button
               color="warn"
@@ -97,7 +93,7 @@
               <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
               <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.closeAll">Chiudi tutto</span>
             </button>
-          </div>
+          </div> -->
 
           <div class="table-responsive mt-3">
             <table mat-table [dataSource]="tokensData" class="w-100" multiTemplateDataRows>
@@ -133,7 +129,7 @@
                   <div class="expanded-row p-3" *ngIf="expandedTokens.has(row.token)">
                     <mat-accordion multi>
                       <!-- 1. Dettaglio Token -->
-                      <mat-expansion-panel expanded (opened)="loadTokenSection(row, 'info')">
+                      <mat-expansion-panel (opened)="loadTokenSection(row, 'info')">
                         <mat-expansion-panel-header>
                           <mat-panel-title>
                             <mat-icon fontSet="material-symbols-outlined" class="me-2">info</mat-icon>

@@ -35,64 +35,86 @@
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittente">PA Emittente</mat-label>
               <input matInput formControlName="paEmittente" maxlength="11" />
-              <mat-hint jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittente">Facoltativo — 11 cifre</mat-hint>
               <mat-error *ngIf="searchForm.get('paEmittente')?.hasError('pattern')">
-                <span jhiTranslate="entity.validation.pattern">Formato non valido (11 cifre)</span>
+                Formato non valido: inserire 11 cifre numeriche.
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.nav">Numero Avviso (NAV)</mat-label>
-              <input matInput formControlName="nav" />
+              <input matInput formControlName="nav" maxlength="17" />
+              <mat-error *ngIf="searchForm.get('nav')?.hasError('pattern')">Formato non valido: inserire 17 cifre numeriche.</mat-error>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Hint esclusività -->
-        <div class="row mb-2">
+        <!-- <div class="row mb-2">
           <div class="col-12">
-            <!-- <p class="text-muted small mb-1">
+            <p class="text-muted small mb-1">
               <mat-icon fontSet="material-symbols-outlined"
                         style="font-size:16px; vertical-align:middle;">info</mat-icon>
               <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
                 Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
               </span>
-            </p> -->
-            <!-- Errore esclusività -->
-            <!-- <div *ngIf="searchForm.hasError('exclusiveFieldRequired') && (searchForm.dirty || searchForm.touched)"
+            </p>
+            <div *ngIf="searchForm.hasError('exclusiveFieldRequired') && (searchForm.dirty || searchForm.touched)"
                  class="text-danger small">
               <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
                 Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
               </span>
-            </div> -->
+            </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="row">
-          <div class="col-lg-3">
+          <!-- <div class="col-lg-3">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.iuv">IUV</mat-label>
               <input matInput formControlName="iuv" />
             </mat-form-field>
-          </div>
-          <div class="col-lg-3">
+          </div> -->
+          <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.token">Token</mat-label>
-              <input matInput formControlName="token" />
+              <input matInput formControlName="token" maxlength="32" />
+              <mat-error *ngIf="searchForm.get('token')?.hasError('pattern')">
+                Formato non valido: inserire un codice alfanumerico di 32 caratteri.
+              </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.idCarrello">ID Carrello</mat-label>
-              <input matInput formControlName="idCarrello" />
+              <input matInput formControlName="idCarrello" maxlength="35" />
+              <mat-error *ngIf="searchForm.get('idCarrello')?.hasError('pattern')">
+                Formato non valido: inserire un codice alfanumerico di 35 caratteri.
+              </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.extra">Informazioni Aggiuntive</mat-label>
               <input matInput formControlName="extra" />
             </mat-form-field>
+          </div>
+        </div>
+
+        <div
+          class="row mb-2"
+          *ngIf="
+            (searchForm.dirty || searchForm.touched) &&
+            (searchForm.hasError('primaryFieldRequired') || searchForm.hasError('secondaryExclusive'))
+          "
+        >
+          <div class="col-12">
+            <div class="text-danger small" *ngIf="searchForm.hasError('primaryFieldRequired')">
+              Inserire almeno uno tra PA Emittente e NAV. Non e consentita la ricerca con soli campi secondari.
+            </div>
+            <div class="text-danger small" *ngIf="searchForm.hasError('secondaryExclusive')">
+              E consentito valorizzare al massimo uno tra Token, ID Carrello e Informazioni Aggiuntive.
+            </div>
           </div>
         </div>
 

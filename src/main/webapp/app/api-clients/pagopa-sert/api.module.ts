@@ -2,15 +2,13 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
-import { RicercaDellePosizioniDebitorieService } from './api/ricercaDellePosizioniDebitorie.service';
-import { VisualizzazioneDettagliService } from './api/visualizzazioneDettagli.service';
-import { VisualizzazionePosizioneDebitoriaService } from './api/visualizzazionePosizioneDebitoria.service';
+import { SertService } from './api/sert.service';
 
 @NgModule({
   imports: [],
   declarations: [],
   exports: [],
-  providers: [RicercaDellePosizioniDebitorieService, VisualizzazioneDettagliService, VisualizzazionePosizioneDebitoriaService],
+  providers: [SertService],
 })
 export class ApiModule {
   public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {

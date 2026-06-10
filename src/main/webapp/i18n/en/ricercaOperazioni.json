@@ -6,7 +6,7 @@
       },
       "filter": {
         "paEmittente": "Issuing PA (Tax Code)",
-        "nav": "Notice Number (NAV)",
+        "nav": "Notice Number (NAV/IUV)",
         "iuv": "IUV / Creditor Reference ID",
         "token": "Token",
         "idCarrello": "Cart ID",

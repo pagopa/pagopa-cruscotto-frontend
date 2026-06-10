@@ -6,7 +6,7 @@
       },
       "filter": {
         "paEmittente": "PA Emittente (Codice Fiscale)",
-        "nav": "Numero Avviso (NAV)",
+        "nav": "Numero Avviso (NAV/IUV)",
         "iuv": "IUV / Creditor Reference ID",
         "token": "Token",
         "idCarrello": "ID Carrello",

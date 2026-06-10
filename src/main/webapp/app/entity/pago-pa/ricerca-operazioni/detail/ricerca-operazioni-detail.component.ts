@@ -177,9 +177,10 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   toggleTokenExpand(row: ITokenRow): void {
     if (this.expandedTokens.has(row.token)) {
       this.expandedTokens.delete(row.token);
-      return;
+    } else {
+      this.expandedTokens.add(row.token);
     }
-    this.expandedTokens.add(row.token);
+    this.tokensData = [...this.tokensData];
   }
 
   /**
