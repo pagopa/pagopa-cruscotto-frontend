@@ -1,6 +1,7 @@
 export const environment = {
   DEBUG_INFO_ENABLED: false,
   TEST_ENVIRONMENT: false,
+  TEST_TOKEN: '',
   msalConfig: {
     auth: {
       clientId: '5a3a6ad5-b4bc-49aa-a111-23279a0256ed',
