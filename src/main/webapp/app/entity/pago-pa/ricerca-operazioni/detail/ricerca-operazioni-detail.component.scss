@@ -1,0 +1,35 @@
+.expanded-row {
+  background-color: #f5f5f5;
+  border-top: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.flex-row {
+  width: 100%;
+}
+
+.flex-item {
+  flex: 1 1 10rem;
+  min-width: 10rem;
+}
+
+.detail-row {
+  height: 0;
+}
+
+.element-row td {
+  border-bottom-width: 0;
+}
+
+.payed-chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: middle;
+  }
+}

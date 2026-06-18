@@ -5,39 +5,53 @@
       {{ 'global.title' | translate }}
       <jhi-language-picker class="ms-3"></jhi-language-picker>
     </span>
-    <button mat-button [routerLink]="['/home']" [routerLinkActive]="['active']">
+    <button mat-button class="nav-item-btn" [routerLink]="['/home']" [routerLinkActive]="['active']">
       {{ 'global.menu.home' | translate }}
     </button>
-    <span
-      *ngFor="let item of menuItems"
-      [ngClass]="
-        ((this.currentRange === 'Large' && item.large) ||
-          (this.currentRange === 'Medium' && item.medium) ||
-          (this.currentRange === 'Small' && item.small) ||
-          (this.currentRange === 'XSmall' && item.xSmall)) &&
-        isAuthenticated()
-          ? 'd-block ps-1 pe-1'
-          : 'd-none ps-1 pe-1'
-      "
-    >
-      <span *ngIf="item.children && item.children.length > 0" class="d-flex align-items-center">
-        <button mat-button [matMenuTriggerFor]="menu.childMenu" [class.active]="isActive(item.children)" *jhiHasAnyAuthorityMenu="[item]">
-          {{ item.label | translate }}
+    <ng-container *ngIf="isAuthenticated()">
+      <span [ngClass]="this.currentRange === 'Large' || this.currentRange === 'Medium' ? 'd-block ps-1 pe-1' : 'd-none ps-1 pe-1'">
+        <button
+          mat-button
+          class="nav-item-btn"
+          [matMenuTriggerFor]="qualificaPartnerMenu"
+          [class.active]="isActive(qualificaPartnerActiveItems)"
+          *jhiHasAnyAuthorityMenu="qualificaPartnerAuthItems"
+        >
+          Qualifica partner
           <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
         </button>
-        <jhi-menu-item #menu [items]="item.children"></jhi-menu-item>
-      </span>
-      <span *ngIf="!item.children || item.children.length === 0">
-        <button mat-button [routerLink]="item.route" [routerLinkActive]="item.route ? 'active' : ''" *jhiHasAnyAuthorityMenu="[item]">
-          {{ item.label | translate }}
+
+        <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
+          <button
+            mat-button
+            class="nav-item-btn"
+            [routerLink]="ricercaOperazioniItem.route"
+            [routerLinkActive]="['active']"
+            *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
+          >
+            Ricerca operazioni
+          </button>
+        </ng-container>
+
+        <button mat-button class="nav-item-btn" disabled>Flussi di rendicontazione</button>
+
+        <button
+          mat-button
+          class="nav-item-btn"
+          [matMenuTriggerFor]="amministrazioneMenu"
+          [class.active]="isActive(amministrazioneActiveItems)"
+          *jhiHasAnyAuthorityMenu="amministrazioneAuthItems"
+        >
+          Amministrazione
+          <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
         </button>
       </span>
-    </span>
+    </ng-container>
     <ng-container>
       <button
         mat-icon-button
+        class="mr-2 nav-overflow-btn"
         [matMenuTriggerFor]="dropMenu"
-        class="mr-2"
         [ngClass]="{
           'd-none': this.currentRange === 'Large',
           'd-block': this.currentRange === 'Medium' || this.currentRange === 'Small' || this.currentRange === 'XSmall',
@@ -45,44 +59,128 @@
       >
         <mat-icon fontSet="material-symbols-outlined" aria-hidden="false" class="text-white">more_vert</mat-icon>
       </button>
-      <mat-menu #dropMenu="matMenu">
-        <ng-container *ngFor="let item of menuItems">
-          <div
-            [ngClass]="
-              !(this.currentRange === 'Large' && item.large) &&
-              !(this.currentRange === 'Medium' && item.medium) &&
-              !(this.currentRange === 'Small' && item.small) &&
-              !(this.currentRange === 'XSmall' && item.xSmall)
-                ? 'd-block ps-1 pe-1'
-                : 'd-none ps-1 pe-1'
-            "
+      <mat-menu #dropMenu="matMenu" panelClass="header-nav-menu">
+        <ng-container *ngIf="isAuthenticated()">
+          <button
+            mat-menu-item
+            class="header-nav-menu-item"
+            [matMenuTriggerFor]="qualificaPartnerMenu"
+            [class.active]="isActive(qualificaPartnerActiveItems)"
+            *jhiHasAnyAuthorityMenu="qualificaPartnerAuthItems"
           >
-            <span *ngIf="item.children && item.children.length > 0">
-              <button
-                mat-menu-item
-                [matMenuTriggerFor]="menu.childMenu"
-                [class.active]="isActive(item.children)"
-                *jhiHasAnyAuthorityMenu="[item]"
-              >
-                {{ item.label | translate }}
-              </button>
-              <jhi-menu-item #menu [items]="item.children"></jhi-menu-item>
-            </span>
-            <span *ngIf="!item.children || item.children.length === 0">
-              <button
-                mat-menu-item
-                [routerLink]="item.route"
-                [routerLinkActive]="item.route ? 'active' : ''"
-                *jhiHasAnyAuthorityMenu="[item]"
-              >
-                {{ item.label | translate }}
-              </button>
-            </span>
-            <mat-divider></mat-divider>
-          </div>
+            Qualifica partner
+          </button>
+
+          <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
+            <button
+              mat-menu-item
+              class="header-nav-menu-item"
+              [routerLink]="ricercaOperazioniItem.route"
+              *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
+            >
+              Ricerca operazioni
+            </button>
+          </ng-container>
+
+          <button mat-menu-item class="header-nav-menu-item" disabled>Flussi di rendicontazione</button>
+
+          <button
+            mat-menu-item
+            class="header-nav-menu-item"
+            [matMenuTriggerFor]="amministrazioneMenu"
+            [class.active]="isActive(amministrazioneActiveItems)"
+            *jhiHasAnyAuthorityMenu="amministrazioneAuthItems"
+          >
+            Amministrazione
+          </button>
         </ng-container>
       </mat-menu>
     </ng-container>
+
+    <mat-menu #qualificaPartnerMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngIf="instanceMenuItem as instanceItem">
+        <button mat-menu-item class="header-nav-menu-item" [routerLink]="instanceItem.route" *jhiHasAnyAuthorityMenu="[instanceItem]">
+          Istanze
+        </button>
+      </ng-container>
+
+      <button mat-menu-item class="header-nav-menu-item" [matMenuTriggerFor]="anagraficaMenu" *jhiHasAnyAuthorityMenu="anagraficaMenuItems">
+        Anagrafica
+      </button>
+      <button
+        mat-menu-item
+        class="header-nav-menu-item"
+        [matMenuTriggerFor]="configurazioniMenu"
+        *jhiHasAnyAuthorityMenu="configurazioniMenuItems"
+      >
+        Configurazioni
+      </button>
+    </mat-menu>
+
+    <mat-menu #anagraficaMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngFor="let item of anagraficaMenuItems">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="item.route"
+          [routerLinkActive]="item.route ? 'active' : ''"
+          *jhiHasAnyAuthorityMenu="[item]"
+        >
+          {{ item.label | translate }}
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <mat-menu #configurazioniMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngFor="let item of configurazioniMenuItems">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="item.route"
+          [routerLinkActive]="item.route ? 'active' : ''"
+          *jhiHasAnyAuthorityMenu="[item]"
+        >
+          {{ item.label | translate }}
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <mat-menu #amministrazioneMenu="matMenu" panelClass="header-nav-menu">
+      <button mat-menu-item class="header-nav-menu-item" [matMenuTriggerFor]="utentiMenu" *jhiHasAnyAuthorityMenu="utentiMenuItems">
+        Utenti
+      </button>
+      <button mat-menu-item class="header-nav-menu-item" [matMenuTriggerFor]="generaleMenu" *jhiHasAnyAuthorityMenu="generaleMenuItems">
+        Generale
+      </button>
+    </mat-menu>
+
+    <mat-menu #utentiMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngFor="let item of utentiMenuItems">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="item.route"
+          [routerLinkActive]="item.route ? 'active' : ''"
+          *jhiHasAnyAuthorityMenu="[item]"
+        >
+          {{ item.label | translate }}
+        </button>
+      </ng-container>
+    </mat-menu>
+
+    <mat-menu #generaleMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngFor="let item of generaleMenuItems">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="item.route"
+          [routerLinkActive]="item.route ? 'active' : ''"
+          *jhiHasAnyAuthorityMenu="[item]"
+        >
+          {{ item.label | translate }}
+        </button>
+      </ng-container>
+    </mat-menu>
 
     <span *ngIf="!isAuthenticated()">
       <button mat-button (click)="loginWithSSO()" aria-label="goToLoginPage">

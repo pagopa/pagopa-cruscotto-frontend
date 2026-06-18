@@ -28,7 +28,8 @@
         "institutions": "Enti",
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
-        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti"
+        "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti",
+        "ricercaOperazioni": "Ricerca Operazioni"
       },
       "configuration": {
         "main": "Configurazioni",

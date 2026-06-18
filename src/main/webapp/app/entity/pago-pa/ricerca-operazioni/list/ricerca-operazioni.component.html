@@ -1,0 +1,233 @@
+<div>
+  <!-- ===== INTESTAZIONE ===== -->
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.home.title">Ricerca Operazioni</span>
+    </div>
+    <div>
+      <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+        <span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== FORM FILTRI ===== -->
+  <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm" autocomplete="off">
+    <mat-accordion>
+      <mat-expansion-panel class="criteri-ricerca mb-4" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-start align-content-center">
+              <div class="p-2">
+                <mat-icon fontSet="material-symbols-outlined" color="primary">search</mat-icon>
+              </div>
+              <div class="p-2">
+                <span jhiTranslate="entity.search.title" class="h6">Filtri di ricerca</span>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Riga 1: PA Emittente -->
+        <div class="row">
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittente">PA Emittente</mat-label>
+              <input matInput formControlName="paEmittente" maxlength="11" />
+              <mat-error *ngIf="searchForm.get('paEmittente')?.hasError('pattern')">
+                Formato non valido: inserire massimo 11 cifre numeriche.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.nav">Numero Avviso (NAV)</mat-label>
+              <input matInput formControlName="nav" maxlength="18" />
+              <mat-error *ngIf="searchForm.get('nav')?.hasError('pattern')"
+                >Formato non valido: inserire massimo 18 cifre numeriche.</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.iuv">IUV</mat-label>
+              <input matInput formControlName="iuv" maxlength="35" />
+              <mat-error *ngIf="searchForm.get('iuv')?.hasError('maxlength')">Formato non valido: massimo 35 caratteri.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Hint esclusività -->
+        <!-- <div class="row mb-2">
+          <div class="col-12">
+            <p class="text-muted small mb-1">
+              <mat-icon fontSet="material-symbols-outlined"
+                        style="font-size:16px; vertical-align:middle;">info</mat-icon>
+              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
+                Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
+              </span>
+            </p>
+            <div *ngIf="searchForm.hasError('exclusiveFieldRequired') && (searchForm.dirty || searchForm.touched)"
+                 class="text-danger small">
+              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
+                Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
+              </span>
+            </div>
+          </div>
+        </div> -->
+
+        <div class="row">
+          <!-- <div class="col-lg-3">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.iuv">IUV</mat-label>
+              <input matInput formControlName="iuv" />
+            </mat-form-field>
+          </div> -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.token">Token</mat-label>
+              <input matInput formControlName="token" maxlength="32" />
+              <mat-error *ngIf="searchForm.get('token')?.hasError('pattern')">
+                Formato non valido: inserire un codice esadecimale di massimo 32 caratteri.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.idCarrello">ID Carrello</mat-label>
+              <input matInput formControlName="idCarrello" maxlength="35" />
+              <mat-error *ngIf="searchForm.get('idCarrello')?.hasError('pattern')">
+                Formato non valido: inserire un codice alfanumerico di massimo 35 caratteri.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.extra">Informazioni Aggiuntive</mat-label>
+              <input matInput formControlName="extra" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Azioni -->
+        <mat-action-row class="d-block">
+          <div class="d-flex justify-content-end align-items-center">
+            <button
+              type="submit"
+              id="search"
+              mat-flat-button
+              color="primary"
+              [disabled]="searchForm.invalid || isLoadingResults"
+              [title]="'entity.action.search' | translate"
+            >
+              <!-- TODO: add authority check  *jhiHasAnyAuthority="Authority.RICERCA_OPERAZIONI_INQUIRY"-->
+              <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+              <span jhiTranslate="entity.action.search">Cerca</span>
+            </button>
+            <button type="button" mat-stroked-button (click)="clear()" [title]="'entity.action.clear' | translate">
+              <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon>
+              <span jhiTranslate="entity.action.clear">Pulisci</span>
+            </button>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <!-- ===== RISULTATI ===== -->
+  <div class="row">
+    <div class="col-12">
+      <!-- Stato iniziale -->
+      <mat-card class="mat-elevation-z8" *ngIf="!_search">
+        <mat-card-content>
+          <div class="d-flex align-items-center justify-content-center w-100 m-4">
+            <div class="h6 font-weight-bold">
+              {{ 'entity.list.filter' | translate }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Tabella risultati -->
+      <mat-card class="mat-elevation-z8" *ngIf="_search">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+
+          <mat-paginator
+            *ngIf="resultsLength > 0"
+            [pageSize]="10"
+            [pageIndex]="page - 1"
+            [disabled]="isLoadingResults"
+            [length]="resultsLength"
+            (page)="changePage($event)"
+            showFirstLastButtons
+            aria-label="Select page"
+          ></mat-paginator>
+
+          <div class="table-responsive">
+            <div class="table-container">
+              <table mat-table [dataSource]="data" class="w-100">
+                <!-- PA Emittente -->
+                <ng-container matColumnDef="paEmittente">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.ricercaOperazioni.result.paEmittente' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.paEmittente }}</td>
+                </ng-container>
+
+                <!-- Numero Avviso -->
+                <ng-container matColumnDef="numeroAvviso">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.ricercaOperazioni.result.numeroAvviso' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.numeroAvviso }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="infoAggiuntiveType">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.ricercaOperazioni.result.infoAggiuntiveType' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.match?.join(', ') }}</td>
+                </ng-container>
+                <ng-container matColumnDef="infoAggiuntiveValue">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ 'pagopaCruscottoApp.ricercaOperazioni.result.infoAggiuntiveValue' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ searchForm.get('extra')?.value }}</td>
+                </ng-container>
+
+                <!-- link al dettaglio -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td mat-cell *matCellDef="let row">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      [routerLink]="['/entity/pago-pa/ricerca-operazioni', row.paEmittente, row.numeroAvviso, 'view']"
+                      [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.result.detail' | translate"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined">open_in_new</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <!-- Riga "nessun risultato" -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center p-3" [attr.colspan]="displayedColumns.length">
+                    {{ 'entity.list.noResult' | translate }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
