@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, map, of } from 'rxjs';
 
 import SharedModule from '../../../../shared/shared.module';
 import { IEventoRow, IExtraInfo, IPosizione, ITokenInfo, ITokenRow, ITransfers, IWorkflows } from '../models/ricerca-operazioni.model';
@@ -63,8 +63,18 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   eventiData: IEventoRow[] = [];
 
   // ---- Colonne ----
-  tokensColumns: string[] = ['token', 'expand'];
-  eventiColumns: string[] = ['eventoId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento', 'expand'];
+  tokensColumns: string[] = [
+    'paymentBorn',
+    'token',
+    'pspName',
+    'pspDescription',
+    'amount',
+    'paymentMethod',
+    'touchpoint',
+    'isPayed',
+    'expand',
+  ];
+  eventiColumns: string[] = ['eventoId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
 
   // ---- Stato espansione ----
   expandedTokens = new Set<string>();
@@ -119,7 +129,9 @@ export class RicercaOperazioniDetailComponent implements OnInit {
           extra: null,
         }));
 
-        // Tabella Eventi: unione di eventsPosition + eventsToken (i secondi hanno il campo `token`).
+        // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
+        this.preloadTokenInfo();
+
         const positionEvents: IEventoRow[] = (workflows.eventsPosition ?? []).map((e, idx) => ({
           ...e,
           rowId: e.eventId ?? `pos-${idx}`,
@@ -130,7 +142,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
           token: e.token,
         }));
         // Ordino per timestamp decrescente (più recenti per primi); gli undefined vanno in coda.
-        this.eventiData = [...positionEvents, ...tokenEvents].sort((a, b) => {
+        this.eventiData = [...tokenEvents].sort((a, b) => {
           const ta = a.insertedtimestamp ? new Date(a.insertedtimestamp).getTime() : 0;
           const tb = b.insertedtimestamp ? new Date(b.insertedtimestamp).getTime() : 0;
           return tb - ta;
@@ -170,9 +182,35 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   // Espansione Tokens
   // ============================================================
 
+  /** Carica in background le info token per tutte le righe disponibili. */
+  private preloadTokenInfo(): void {
+    if (!this.tokensData.length) return;
+
+    const requests = this.tokensData.map(row => {
+      const key = `${row.token}:info`;
+      this.loadingSections.add(key);
+
+      return this.service.getTokenInfo(row.token).pipe(
+        map((info: ITokenInfo) => ({ row, info, key })),
+        catchError(() => of({ row, info: null as ITokenInfo | null, key })),
+      );
+    });
+
+    forkJoin(requests).subscribe(results => {
+      results.forEach(({ row, info, key }) => {
+        if (info) {
+          row.info = info;
+        }
+        this.loadingSections.delete(key);
+      });
+
+      this.tokensData = [...this.tokensData];
+    });
+  }
+
   /**
-   * Espande/collassa la riga di un token. Le sotto-sezioni (info/transfers/extra) si caricano
-   * lazy quando il relativo accordion panel viene aperto — vedi `loadTokenSection`.
+   * Espande/collassa la riga di un token. Le sotto-sezioni (transfers/extra) si caricano
+   * lazy quando il relativo accordion panel viene aperto; la sezione info viene pre-caricata.
    */
   toggleTokenExpand(row: ITokenRow): void {
     if (this.expandedTokens.has(row.token)) {
@@ -268,11 +306,41 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   // ============================================================
 
   transfersCount(row: ITokenRow): number {
-    return row.transfers?.transfersCount ?? 0;
+    return row.transfers?.transfersCount ?? row.transfers?.transfers?.length ?? 0;
   }
 
   extraInfoCount(row: ITokenRow): number {
     return row.extra?.count ?? row.extra?.results?.length ?? 0;
+  }
+
+  getRowPaymentBorn(row: ITokenRow): Date | undefined {
+    return row.info?.payed?.paymentBorn ?? this.posizione?.payed?.paymentBorn;
+  }
+
+  getRowPspName(row: ITokenRow): string | undefined {
+    return row.info?.actors?.psp ?? this.posizione?.actors?.psp;
+  }
+
+  getRowAmount(row: ITokenRow): number | undefined {
+    return row.info?.amount?.amount ?? this.posizione?.amount?.amount;
+  }
+
+  getRowPaymentMethod(row: ITokenRow): string | undefined {
+    return row.info?.paymentInfo?.paymentMethod ?? this.posizione?.paymentInfo?.paymentMethod;
+  }
+
+  getRowTouchpoint(row: ITokenRow): string | undefined {
+    return row.info?.paymentInfo?.touchpoint ?? this.posizione?.paymentInfo?.touchpoint;
+  }
+
+  isRowPayed(row: ITokenRow): boolean {
+    if (row.info?.isPayedToken != null) {
+      return row.info.isPayedToken;
+    }
+    if (row.info?.payed?.payedDate || row.info?.payed?.token) {
+      return true;
+    }
+    return this.isPagata;
   }
 
   /** True se la posizione risulta pagata (presenza di payed con token o data pagamento). */

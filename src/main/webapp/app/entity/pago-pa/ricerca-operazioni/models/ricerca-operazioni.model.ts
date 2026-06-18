@@ -76,7 +76,7 @@ export interface IUnifiedSearchResponse {
 // Tipo discriminante per la modalità di ricerca
 // ============================================================
 
-export type RicercaOperazioniMode = 'nav' | 'iuv' | 'token' | 'cart' | 'extra';
+export type RicercaOperazioniMode = 'paEmittente' | 'nav' | 'iuv' | 'token' | 'cart' | 'extra';
 
 // ============================================================
 // Riga del risultato di ricerca
@@ -157,7 +157,7 @@ export interface IExtraInfo {
 /** Transfer associati a un token. */
 export interface ITransfers {
   token?: string;
-  transfers?: ITransferObject;
+  transfers?: ITransferObject[];
   positionInfo?: IPositionInfo;
   transfersCount?: number;
 }
@@ -262,6 +262,10 @@ export interface IRawPaymentInfo {
 export interface IRawUnifiedSearchResponse {
   results?: Array<IRawBasicPosition & { match?: string[] }>;
   count?: number;
+  totalElements?: number;
+  totalPages?: number;
+  size?: number;
+  number?: number;
 }
 
 export interface IRawPositionPayment {
@@ -295,7 +299,7 @@ export interface IRawTransferPayment {
   'position-info'?: IRawPositionPaymentInfo;
   token?: string;
   'transfers-count'?: number;
-  transfers?: IRawTransferObject;
+  transfers?: IRawTransferObject | IRawTransferObject[];
 }
 
 export interface IRawWorkflowEvent {
@@ -401,15 +405,14 @@ export const mapRawTransfers = (raw: IRawTransferPayment): ITransfers => ({
   positionInfo: mapRawPositionInfo(raw['position-info']),
   token: raw.token,
   transfersCount: raw['transfers-count'],
-  transfers: raw.transfers
-    ? {
-        idTransfer: raw.transfers.idTransfer,
-        typeTransfer: raw.transfers['type-transfer'],
-        iban: raw.transfers.iban,
-        amount: raw.transfers.amount,
-        paFiscalCode: raw.transfers['pa-fiscal-code'],
-      }
-    : undefined,
+  // Backward-compatible: backend may return a single object or an array.
+  transfers: (Array.isArray(raw.transfers) ? raw.transfers : raw.transfers ? [raw.transfers] : []).map(t => ({
+    idTransfer: t.idTransfer,
+    typeTransfer: t['type-transfer'],
+    iban: t.iban,
+    amount: t.amount,
+    paFiscalCode: t['pa-fiscal-code'],
+  })),
 });
 
 export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({

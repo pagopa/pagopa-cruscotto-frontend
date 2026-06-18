@@ -4,6 +4,15 @@
   overflow: hidden;
 }
 
+.flex-row {
+  width: 100%;
+}
+
+.flex-item {
+  flex: 1 1 10rem;
+  min-width: 10rem;
+}
+
 .detail-row {
   height: 0;
 }

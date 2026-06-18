@@ -52,6 +52,7 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
+    offset?: number,
     observe?: 'body',
     reportProgress?: boolean,
   ): Observable<IRawUnifiedSearchResponse>;
@@ -62,6 +63,7 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
+    offset?: number,
     observe?: 'response',
     reportProgress?: boolean,
   ): Observable<HttpResponse<IRawUnifiedSearchResponse>>;
@@ -72,6 +74,7 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
+    offset?: number,
     observe?: 'events',
     reportProgress?: boolean,
   ): Observable<HttpEvent<IRawUnifiedSearchResponse>>;
@@ -82,6 +85,7 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
+    offset?: number,
     observe: any = 'body',
     reportProgress: boolean = false,
   ): Observable<any> {
@@ -92,6 +96,7 @@ export class SertService {
     if (token != null) queryParameters = queryParameters.set('token', token);
     if (idCarrello != null) queryParameters = queryParameters.set('idCarrello', idCarrello);
     if (info != null) queryParameters = queryParameters.set('info', info);
+    if (offset != null) queryParameters = queryParameters.set('offset', offset.toString());
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);

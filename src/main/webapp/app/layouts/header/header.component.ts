@@ -13,7 +13,6 @@ import LanguagePickerComponent from './language-picker/language-picker.component
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import MenuItemComponent from './menu-item/menu-item.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MenuItem } from '../../shared/model/menu-item.model';
@@ -29,7 +28,6 @@ import { MenuItem } from '../../shared/model/menu-item.model';
     RouterModule,
     LanguagePickerComponent,
     MatButtonModule,
-    MenuItemComponent,
     MatIconModule,
     MatMenuModule,
     MatCardModule,
@@ -257,6 +255,23 @@ export default class HeaderComponent implements OnInit, OnDestroy {
     },
   ];
 
+  instanceMenuItem?: MenuItem;
+  registryGroupMenuItem?: MenuItem;
+  configurationGroupMenuItem?: MenuItem;
+  usersAdministrationGroupMenuItem?: MenuItem;
+  systemAdministrationGroupMenuItem?: MenuItem;
+  ricercaOperazioniMenuItem?: MenuItem;
+
+  registryChildrenWithoutRicercaOperazioni: MenuItem[] = [];
+  anagraficaMenuItems: MenuItem[] = [];
+  configurazioniMenuItems: MenuItem[] = [];
+  utentiMenuItems: MenuItem[] = [];
+  generaleMenuItems: MenuItem[] = [];
+  qualificaPartnerActiveItems: MenuItem[] = [];
+  amministrazioneActiveItems: MenuItem[] = [];
+  qualificaPartnerAuthItems: MenuItem[] = [];
+  amministrazioneAuthItems: MenuItem[] = [];
+
   destroyed = new Subject();
   currentRange?: 'XSmall' | 'Small' | 'Medium' | 'Large' | 'XLarge';
 
@@ -266,6 +281,8 @@ export default class HeaderComponent implements OnInit, OnDestroy {
   private readonly breakpointObserver = inject(BreakpointObserver);
 
   ngOnInit(): void {
+    this.initializeNavigationGroups();
+
     this.breakpointObserver
       .observe([Breakpoints.Small, Breakpoints.Medium, Breakpoints.Large])
       .pipe(takeUntil(this.destroyed))
@@ -283,6 +300,48 @@ export default class HeaderComponent implements OnInit, OnDestroy {
           this.currentRange = 'Large';
         }
       });
+  }
+
+  private initializeNavigationGroups(): void {
+    this.instanceMenuItem = this.findMenuItem('global.menu.instance.main');
+    this.registryGroupMenuItem = this.findMenuItem('global.menu.registry.main');
+    this.configurationGroupMenuItem = this.findMenuItem('global.menu.configuration.main');
+    this.usersAdministrationGroupMenuItem = this.findMenuItem('global.menu.usersAdministration.main');
+    this.systemAdministrationGroupMenuItem = this.findMenuItem('global.menu.systemAdministration.main');
+    this.ricercaOperazioniMenuItem = this.registryGroupMenuItem?.children?.find(
+      child => child.label === 'global.menu.registry.ricercaOperazioni',
+    );
+
+    this.registryChildrenWithoutRicercaOperazioni = (this.registryGroupMenuItem?.children ?? []).filter(
+      child => child.label !== 'global.menu.registry.ricercaOperazioni',
+    );
+
+    this.anagraficaMenuItems = this.registryChildrenWithoutRicercaOperazioni;
+    this.configurazioniMenuItems = this.configurationGroupMenuItem?.children ?? [];
+    this.utentiMenuItems = this.usersAdministrationGroupMenuItem?.children ?? [];
+    this.generaleMenuItems = this.systemAdministrationGroupMenuItem?.children ?? [];
+
+    this.qualificaPartnerActiveItems = [this.instanceMenuItem, ...this.anagraficaMenuItems, ...this.configurazioniMenuItems].filter(
+      this.isDefinedMenuItem,
+    );
+
+    this.amministrazioneActiveItems = [...this.utentiMenuItems, ...this.generaleMenuItems].filter(this.isDefinedMenuItem);
+
+    this.qualificaPartnerAuthItems = [this.instanceMenuItem, this.registryGroupMenuItem, this.configurationGroupMenuItem].filter(
+      this.isDefinedMenuItem,
+    );
+
+    this.amministrazioneAuthItems = [this.usersAdministrationGroupMenuItem, this.systemAdministrationGroupMenuItem].filter(
+      this.isDefinedMenuItem,
+    );
+  }
+
+  private findMenuItem(label: string): MenuItem | undefined {
+    return this.menuItems.find(item => item.label === label);
+  }
+
+  private isDefinedMenuItem(item: MenuItem | undefined): item is MenuItem {
+    return item !== undefined;
   }
 
   isAuthenticated(): boolean {
