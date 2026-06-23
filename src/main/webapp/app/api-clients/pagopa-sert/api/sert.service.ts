@@ -52,7 +52,9 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
-    offset?: number,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'body',
     reportProgress?: boolean,
   ): Observable<IRawUnifiedSearchResponse>;
@@ -63,7 +65,9 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
-    offset?: number,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
   ): Observable<HttpResponse<IRawUnifiedSearchResponse>>;
@@ -74,7 +78,9 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
-    offset?: number,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
   ): Observable<HttpEvent<IRawUnifiedSearchResponse>>;
@@ -85,7 +91,9 @@ export class SertService {
     token?: string,
     idCarrello?: string,
     info?: string,
-    offset?: number,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
   ): Observable<any> {
@@ -96,7 +104,9 @@ export class SertService {
     if (token != null) queryParameters = queryParameters.set('token', token);
     if (idCarrello != null) queryParameters = queryParameters.set('idCarrello', idCarrello);
     if (info != null) queryParameters = queryParameters.set('info', info);
-    if (offset != null) queryParameters = queryParameters.set('offset', offset.toString());
+    if (page != null) queryParameters = queryParameters.set('page', page.toString());
+    if (size != null) queryParameters = queryParameters.set('size', size.toString());
+    if (sort != null) queryParameters = queryParameters.set('sort', sort);
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);
@@ -163,11 +173,44 @@ export class SertService {
 
   // ─── GET /api/extra/{token} ───────────────────────────────────────────────
 
-  public getExtraInfo(token: string, observe?: 'body', reportProgress?: boolean): Observable<IRawExtraInfoResponse>;
-  public getExtraInfo(token: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IRawExtraInfoResponse>>;
-  public getExtraInfo(token: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IRawExtraInfoResponse>>;
-  public getExtraInfo(token: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getExtraInfo(
+    token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+  ): Observable<IRawExtraInfoResponse>;
+  public getExtraInfo(
+    token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+  ): Observable<HttpResponse<IRawExtraInfoResponse>>;
+  public getExtraInfo(
+    token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+  ): Observable<HttpEvent<IRawExtraInfoResponse>>;
+  public getExtraInfo(
+    token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+  ): Observable<any> {
     if (!token) throw new Error('Required parameter token was null or undefined when calling getExtraInfo.');
+
+    let queryParameters = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    if (page != null) queryParameters = queryParameters.set('page', page.toString());
+    if (size != null) queryParameters = queryParameters.set('size', size.toString());
+    if (sort != null) queryParameters = queryParameters.set('sort', sort);
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);
@@ -176,6 +219,7 @@ export class SertService {
     return this.httpClient.request<IRawExtraInfoResponse>('get', `${this.basePath}/api/extra/${encodeURIComponent(token)}`, {
       withCredentials: this.configuration.withCredentials,
       headers,
+      params: queryParameters,
       observe,
       reportProgress,
     });
@@ -187,6 +231,9 @@ export class SertService {
     nav: string,
     paEmittente: string,
     token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'body',
     reportProgress?: boolean,
   ): Observable<IRawTransferPayment>;
@@ -194,6 +241,9 @@ export class SertService {
     nav: string,
     paEmittente: string,
     token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
   ): Observable<HttpResponse<IRawTransferPayment>>;
@@ -201,6 +251,9 @@ export class SertService {
     nav: string,
     paEmittente: string,
     token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
   ): Observable<HttpEvent<IRawTransferPayment>>;
@@ -208,12 +261,20 @@ export class SertService {
     nav: string,
     paEmittente: string,
     token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
   ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getTransfers.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getTransfers.');
     if (!token) throw new Error('Required parameter token was null or undefined when calling getTransfers.');
+
+    let queryParameters = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    if (page != null) queryParameters = queryParameters.set('page', page.toString());
+    if (size != null) queryParameters = queryParameters.set('size', size.toString());
+    if (sort != null) queryParameters = queryParameters.set('sort', sort);
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);
@@ -222,7 +283,7 @@ export class SertService {
     return this.httpClient.request<IRawTransferPayment>(
       'get',
       `${this.basePath}/api/transfers/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}/${encodeURIComponent(token)}`,
-      { withCredentials: this.configuration.withCredentials, headers, observe, reportProgress },
+      { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }
 

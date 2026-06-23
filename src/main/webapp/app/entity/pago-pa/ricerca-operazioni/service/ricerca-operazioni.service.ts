@@ -6,6 +6,7 @@ import { SertService } from '../../../../api-clients/pagopa-sert/api/sert.servic
 
 import {
   IExtraInfo,
+  IRawUnifiedSearchPayload,
   IOperazioneRicercaResponse,
   IPosizione,
   ITokenInfo,
@@ -15,8 +16,8 @@ import {
   mapRawPosizione,
   mapRawTokenInfo,
   mapRawTransfers,
+  mapRawUnifiedSearchResponse,
   mapRawWorkflows,
-  toOperazioneRicercaRow,
 } from '../models/ricerca-operazioni.model';
 
 /**
@@ -37,7 +38,9 @@ export class RicercaOperazioniService {
     token?: string;
     idCarrello?: string;
     info?: string;
-    offset?: number;
+    page?: number;
+    size?: number;
+    sort?: string;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
     return this.unifiedSearch(p);
   }
@@ -51,14 +54,14 @@ export class RicercaOperazioniService {
     return this.sertApi.getTokenInfo(token).pipe(map(mapRawTokenInfo));
   }
 
-  /** GET /api/extra/{token} */
-  getExtraInfo(token: string): Observable<IExtraInfo> {
-    return this.sertApi.getExtraInfo(token).pipe(map(mapRawExtraInfo));
+  /** GET /api/extra/{token} con paginazione/sort server-side. */
+  getExtraInfo(token: string, page?: number, size?: number, sort?: string): Observable<IExtraInfo> {
+    return this.sertApi.getExtraInfo(token, page, size, sort).pipe(map(mapRawExtraInfo));
   }
 
-  /** GET /api/transfers/{nav}/{paEmittente}/{token} */
-  getTransfers(nav: string, paEmittente: string, token: string): Observable<ITransfers> {
-    return this.sertApi.getTransfers(nav, paEmittente, token).pipe(map(mapRawTransfers));
+  /** GET /api/transfers/{nav}/{paEmittente}/{token} con paginazione/sort server-side. */
+  getTransfers(nav: string, paEmittente: string, token: string, page?: number, size?: number, sort?: string): Observable<ITransfers> {
+    return this.sertApi.getTransfers(nav, paEmittente, token, page, size, sort).pipe(map(mapRawTransfers));
   }
 
   /** GET /api/workflows/{nav}/{paEmittente} */
@@ -77,20 +80,23 @@ export class RicercaOperazioniService {
     token?: string;
     idCarrello?: string;
     info?: string;
-    offset?: number;
+    page?: number;
+    size?: number;
+    sort?: string;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, p.offset, 'response').pipe(
+    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, p.page, p.size, p.sort, 'response').pipe(
       map(res => {
-        const dto = res.body;
-        const rows = (dto?.results ?? []).map(r => toOperazioneRicercaRow({ nav: r.nav, match: r.match, paEmittente: r['pa-emittente'] }));
-        const body: IOperazioneRicercaResponse = {
-          content: rows,
-          totalElements: dto?.totalElements ?? dto?.count ?? rows.length,
-          totalPages: dto?.totalPages ?? 1,
-          size: dto?.size ?? rows.length,
-          number: dto?.number ?? 0,
-        };
-        return new HttpResponse({ body, status: res.status, headers: res.headers });
+        const body = mapRawUnifiedSearchResponse(res.body as IRawUnifiedSearchPayload);
+        const totalFromHeader = Number(res.headers.get('x-total-count'));
+
+        return new HttpResponse({
+          body: {
+            ...body,
+            totalElements: Number.isFinite(totalFromHeader) ? totalFromHeader : body.totalElements,
+          },
+          status: res.status,
+          headers: res.headers,
+        });
       }),
     );
   }

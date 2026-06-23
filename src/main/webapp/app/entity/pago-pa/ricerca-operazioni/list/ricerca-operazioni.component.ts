@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
@@ -40,6 +41,7 @@ import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
     MatIconModule,
     MatInputModule,
     MatPaginatorModule,
+    MatSortModule,
     MatTableModule,
     MatTooltipModule,
     NgxSpinnerModule,
@@ -51,6 +53,10 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   data: IOperazioneRicercaRow[] = [];
   resultsLength = 0;
   page = 1;
+  pageSize = 10;
+
+  sortActive: 'paEmittente' | 'numeroAvviso' | '' = '';
+  sortDirection: 'asc' | 'desc' | '' = '';
 
   _search = false;
   isLoadingResults = false;
@@ -110,12 +116,30 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     this.data = [];
     this._search = false;
     this.page = 1;
+    this.pageSize = 10;
     this.resultsLength = 0;
+    this.sortActive = '';
+    this.sortDirection = '';
     this.displayedColumns = ['paEmittente', 'numeroAvviso', 'iuv', 'action'];
   }
 
   changePage(event: PageEvent): void {
     this.page = event.pageIndex + 1;
+    this.loadPage();
+  }
+
+  onSortChange(sort: Sort): void {
+    if (!sort.active || !sort.direction) {
+      return;
+    }
+
+    if (sort.active !== 'paEmittente' && sort.active !== 'numeroAvviso') {
+      return;
+    }
+
+    this.sortActive = sort.active;
+    this.sortDirection = sort.direction;
+    this.page = 1;
     this.loadPage();
   }
 
@@ -143,6 +167,14 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     }
   }
 
+  private buildSortParam(): string | undefined {
+    if (!this.sortActive || !this.sortDirection) {
+      return undefined;
+    }
+    const field = (this.sortActive as string) === 'numeroAvviso' ? 'nav' : 'paEmittente';
+    return `${field},${this.sortDirection}`;
+  }
+
   private loadPage(): void {
     const { paEmittente, nav, iuv, token, idCarrello, extra } = this.searchForm.value;
     const mode = this.detectMode();
@@ -164,7 +196,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
         token: token?.trim() || undefined,
         idCarrello: idCarrello?.trim() || undefined,
         info: extra?.trim() || undefined,
-        offset: this.page - 1,
+        page: this.page - 1,
+        size: this.pageSize,
+        sort: this.buildSortParam(),
       })
       .subscribe({
         next: (res: HttpResponse<IOperazioneRicercaResponse>) => {

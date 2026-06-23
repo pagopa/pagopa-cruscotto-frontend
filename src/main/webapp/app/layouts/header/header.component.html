@@ -25,11 +25,12 @@
           <button
             mat-button
             class="nav-item-btn"
-            [routerLink]="ricercaOperazioniItem.route"
-            [routerLinkActive]="['active']"
+            [matMenuTriggerFor]="pagamentiMenu"
+            [class.active]="isActive([ricercaOperazioniItem])"
             *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
           >
-            Ricerca operazioni
+            Pagamenti
+            <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
           </button>
         </ng-container>
 
@@ -75,10 +76,11 @@
             <button
               mat-menu-item
               class="header-nav-menu-item"
-              [routerLink]="ricercaOperazioniItem.route"
+              [matMenuTriggerFor]="pagamentiMenu"
+              [class.active]="isActive([ricercaOperazioniItem])"
               *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
             >
-              Ricerca operazioni
+              Pagamenti
             </button>
           </ng-container>
 
@@ -115,6 +117,22 @@
       >
         Configurazioni
       </button>
+    </mat-menu>
+
+    <mat-menu #pagamentiMenu="matMenu" panelClass="header-nav-menu">
+      <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="ricercaOperazioniItem.route"
+          [routerLinkActive]="['active']"
+          *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
+        >
+          Ricerca operazioni
+        </button>
+      </ng-container>
+
+      <button mat-menu-item class="header-nav-menu-item" disabled>Anagrafica</button>
     </mat-menu>
 
     <mat-menu #anagraficaMenu="matMenu" panelClass="header-nav-menu">

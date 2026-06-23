@@ -8,6 +8,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -15,7 +17,16 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { catchError, forkJoin, map, of } from 'rxjs';
 
 import SharedModule from '../../../../shared/shared.module';
-import { IEventoRow, IExtraInfo, IPosizione, ITokenInfo, ITokenRow, ITransfers, IWorkflows } from '../models/ricerca-operazioni.model';
+import {
+  IEventoRow,
+  IExtraInfo,
+  IExtraInfoObject,
+  IPosizione,
+  ITokenInfo,
+  ITokenRow,
+  ITransfers,
+  IWorkflows,
+} from '../models/ricerca-operazioni.model';
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 
 /**
@@ -24,6 +35,24 @@ import { RicercaOperazioniService } from '../service/ricerca-operazioni.service'
  * L'ordine di esposizione è fissato dalla specifica: info → transfers → extra.
  */
 type TokenSubSection = 'info' | 'transfers' | 'extra';
+
+type ExtraInfoSortField = 'name' | 'value' | 'tipoevento' | '';
+type TransfersSortField = 'idTransfer' | 'iban' | 'amount' | 'typeTransfer' | 'paFiscalCode' | '';
+type EventiSortField = 'eventoId' | 'tipo' | 'sottotipo' | 'outcome' | 'token' | 'dataEvento' | '';
+
+interface IExtraInfoTableState {
+  pageIndex: number;
+  pageSize: number;
+  sortActive: ExtraInfoSortField;
+  sortDirection: 'asc' | 'desc' | '';
+}
+
+interface ITransfersTableState {
+  pageIndex: number;
+  pageSize: number;
+  sortActive: TransfersSortField;
+  sortDirection: 'asc' | 'desc' | '';
+}
 
 @Component({
   selector: 'jhi-ricerca-operazioni-detail',
@@ -39,7 +68,9 @@ type TokenSubSection = 'info' | 'transfers' | 'extra';
     MatChipsModule,
     MatExpansionModule,
     MatIconModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatSortModule,
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
@@ -75,12 +106,22 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     'expand',
   ];
   eventiColumns: string[] = ['eventoId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
+  readonly eventiPageSize: number = 10;
+  eventiPageIndex: number = 0;
+  eventiSortActive: EventiSortField = '';
+  eventiSortDirection: 'asc' | 'desc' | '' = '';
 
   // ---- Stato espansione ----
   expandedTokens = new Set<string>();
   expandedEventi = new Set<string>();
   /** Stato di caricamento delle sotto-sezioni di un token: key = `${token}:${section}`. */
   loadingSections = new Set<string>();
+
+  readonly extraInfoColumns: string[] = ['name', 'value', 'tipoevento'];
+  private readonly extraInfoTableStateByToken: Record<string, IExtraInfoTableState> = {};
+
+  readonly transfersColumns: string[] = ['idTransfer', 'iban', 'amount', 'typeTransfer', 'paFiscalCode'];
+  private readonly transfersTableStateByToken: Record<string, ITransfersTableState> = {};
 
   isLoading = true;
 
@@ -147,6 +188,9 @@ export class RicercaOperazioniDetailComponent implements OnInit {
           const tb = b.insertedtimestamp ? new Date(b.insertedtimestamp).getTime() : 0;
           return tb - ta;
         });
+        this.eventiPageIndex = 0;
+        this.eventiSortActive = '';
+        this.eventiSortDirection = '';
 
         this.isLoading = false;
         this.spinner.hide('detailSpinner');
@@ -225,10 +269,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
    * Carica on-demand una singola sotto-sezione di un token. Invocato da `(opened)` su
    * ciascun `mat-expansion-panel`. Il risultato è cachato sulla `row`: chiamate successive
    * (riapertura del panel, del token o cambio tab) non rigenerano la richiesta.
+   * Eccezione: extra e transfers supportano paginazione/sort server-side e non sono cachati.
    */
   loadTokenSection(row: ITokenRow, section: TokenSubSection): void {
-    // Cache hit: dati già presenti sulla riga.
-    if (row[section] != null) return;
+    // Cache hit: solo per info; extra e transfers supportano paginazione/sort server-side.
+    if (section === 'info' && row[section] != null) return;
     const key = `${row.token}:${section}`;
     if (this.loadingSections.has(key)) return;
     this.loadingSections.add(key);
@@ -249,32 +294,241 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         });
         break;
       case 'transfers':
-        if (!this.paEmittente || !this.nav) {
-          onDone();
-          return;
-        }
-        this.service.getTransfers(this.nav, this.paEmittente, row.token).subscribe({
-          next: (t: ITransfers) => {
-            row.transfers = t;
-            onDone();
-          },
-          error: onDone,
-        });
+        this.fetchTransfers(row, onDone);
         break;
       case 'extra':
-        this.service.getExtraInfo(row.token).subscribe({
-          next: (extra: IExtraInfo) => {
-            row.extra = extra;
-            onDone();
-          },
-          error: onDone,
-        });
+        this.fetchExtraInfo(row, onDone);
         break;
     }
   }
 
   isTokenSectionLoading(token: string, section: TokenSubSection): boolean {
     return this.loadingSections.has(`${token}:${section}`);
+  }
+
+  getExtraInfoTableState(token: string): IExtraInfoTableState {
+    const existingState = this.extraInfoTableStateByToken[token];
+    if (existingState) {
+      return existingState;
+    }
+
+    const initialState: IExtraInfoTableState = {
+      pageIndex: 0,
+      pageSize: 5,
+      sortActive: '',
+      sortDirection: '',
+    };
+    this.extraInfoTableStateByToken[token] = initialState;
+    return initialState;
+  }
+
+  onExtraInfoSortChange(row: ITokenRow, sort: Sort): void {
+    const state = this.getExtraInfoTableState(row.token);
+
+    if (!sort.active || (sort.active !== 'name' && sort.active !== 'value' && sort.active !== 'tipoevento')) {
+      state.sortActive = '';
+      state.sortDirection = '';
+      state.pageIndex = 0;
+      this.loadTokenSection(row, 'extra');
+      return;
+    }
+
+    state.sortActive = sort.active;
+    state.sortDirection = sort.direction;
+    state.pageIndex = 0;
+    this.loadTokenSection(row, 'extra');
+  }
+
+  onExtraInfoPageChange(row: ITokenRow, event: PageEvent): void {
+    const state = this.getExtraInfoTableState(row.token);
+    state.pageIndex = event.pageIndex;
+    this.loadTokenSection(row, 'extra');
+  }
+
+  getExtraInfoResults(row: ITokenRow): IExtraInfoObject[] {
+    return row.extra?.results ?? [];
+  }
+
+  getExtraInfoTotalCount(row: ITokenRow): number {
+    return row.extra?.count ?? row.extra?.results?.length ?? 0;
+  }
+
+  private fetchExtraInfo(row: ITokenRow, onDone?: () => void): void {
+    const state = this.getExtraInfoTableState(row.token);
+    const sortParam = this.buildExtraInfoSortParam(state);
+
+    this.service.getExtraInfo(row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
+      next: (extra: IExtraInfo) => {
+        row.extra = extra;
+        onDone?.();
+      },
+      error: () => onDone?.(),
+    });
+  }
+
+  private buildExtraInfoSortParam(state: IExtraInfoTableState): string | undefined {
+    if (!state.sortActive || !state.sortDirection) {
+      return undefined;
+    }
+
+    return `${state.sortActive},${state.sortDirection}`;
+  }
+
+  // ============================================================
+  // Transfers: Pagination & Sort (Server-side)
+  // ============================================================
+
+  getTransfersTableState(token: string): ITransfersTableState {
+    if (!this.transfersTableStateByToken[token]) {
+      const initialState: ITransfersTableState = {
+        pageIndex: 0,
+        pageSize: 3,
+        sortActive: '',
+        sortDirection: '',
+      };
+      this.transfersTableStateByToken[token] = initialState;
+      return initialState;
+    }
+    return this.transfersTableStateByToken[token];
+  }
+
+  onTransfersSortChange(row: ITokenRow, sort: Sort): void {
+    const state = this.getTransfersTableState(row.token);
+
+    if (
+      !sort.active ||
+      (sort.active !== 'idTransfer' &&
+        sort.active !== 'iban' &&
+        sort.active !== 'amount' &&
+        sort.active !== 'typeTransfer' &&
+        sort.active !== 'paFiscalCode')
+    ) {
+      state.sortActive = '';
+      state.sortDirection = '';
+      state.pageIndex = 0;
+      this.loadTokenSection(row, 'transfers');
+      return;
+    }
+
+    state.sortActive = sort.active as TransfersSortField;
+    state.sortDirection = sort.direction;
+    state.pageIndex = 0;
+    this.loadTokenSection(row, 'transfers');
+  }
+
+  onTransfersPageChange(row: ITokenRow, event: PageEvent): void {
+    const state = this.getTransfersTableState(row.token);
+    state.pageIndex = event.pageIndex;
+    this.loadTokenSection(row, 'transfers');
+  }
+
+  onEventiSortChange(sort: Sort): void {
+    if (
+      !sort.active ||
+      (sort.active !== 'eventoId' &&
+        sort.active !== 'tipo' &&
+        sort.active !== 'sottotipo' &&
+        sort.active !== 'outcome' &&
+        sort.active !== 'token' &&
+        sort.active !== 'dataEvento')
+    ) {
+      this.eventiSortActive = '';
+      this.eventiSortDirection = '';
+      this.eventiPageIndex = 0;
+      return;
+    }
+
+    this.eventiSortActive = sort.active as EventiSortField;
+    this.eventiSortDirection = sort.direction;
+    this.eventiPageIndex = 0;
+  }
+
+  onEventiPageChange(event: PageEvent): void {
+    this.eventiPageIndex = event.pageIndex;
+  }
+
+  getEventiResults(): IEventoRow[] {
+    const sorted = this.getSortedEventiRows();
+    const start = this.eventiPageIndex * this.eventiPageSize;
+    return sorted.slice(start, start + this.eventiPageSize);
+  }
+
+  getEventiTotalCount(): number {
+    return this.eventiData.length;
+  }
+
+  private getSortedEventiRows(): IEventoRow[] {
+    if (!this.eventiSortActive || !this.eventiSortDirection) {
+      return this.eventiData;
+    }
+
+    const sortKey: Exclude<EventiSortField, ''> = this.eventiSortActive;
+    const direction = this.eventiSortDirection === 'asc' ? 1 : -1;
+    return [...this.eventiData].sort((a, b) => {
+      const aValue = this.getEventiSortValue(a, sortKey);
+      const bValue = this.getEventiSortValue(b, sortKey);
+
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return 1;
+      if (bValue == null) return -1;
+
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return (aValue - bValue) * direction;
+      }
+
+      return String(aValue).localeCompare(String(bValue)) * direction;
+    });
+  }
+
+  private getEventiSortValue(row: IEventoRow, field: Exclude<EventiSortField, ''>): number | string | null {
+    switch (field) {
+      case 'eventoId':
+        return row.eventId ?? null;
+      case 'tipo':
+        return row.tipoevento ?? null;
+      case 'sottotipo':
+        return row.sottotipoevento ?? null;
+      case 'outcome':
+        return row.outcome ?? null;
+      case 'token':
+        return row.token ?? null;
+      case 'dataEvento':
+        return row.insertedtimestamp ? new Date(row.insertedtimestamp).getTime() : null;
+    }
+  }
+
+  getTransfersResults(row: ITokenRow): any[] {
+    return row.transfers?.transfers ?? [];
+  }
+
+  getTransfersTotalCount(row: ITokenRow): number {
+    return row.transfers?.count ?? row.transfers?.transfers?.length ?? 0;
+  }
+
+  private fetchTransfers(row: ITokenRow, onDone?: () => void): void {
+    if (!this.paEmittente || !this.nav) {
+      onDone?.();
+      return;
+    }
+
+    const state = this.getTransfersTableState(row.token);
+    const sortParam = this.buildTransfersSortParam(state);
+
+    this.service.getTransfers(this.nav, this.paEmittente, row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
+      next: (transfers: ITransfers) => {
+        row.transfers = transfers;
+        onDone?.();
+      },
+      error: () => onDone?.(),
+    });
+  }
+
+  private buildTransfersSortParam(state: ITransfersTableState): string | undefined {
+    if (!state.sortActive || !state.sortDirection) {
+      return undefined;
+    }
+
+    return `${state.sortActive},${state.sortDirection}`;
   }
 
   /** Chiude tutti i dettagli token aperti contemporaneamente. */

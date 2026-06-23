@@ -68,7 +68,7 @@ export interface IProblemDetail {
 }
 
 export interface IUnifiedSearchResponse {
-  results?: Array<{ nav?: string; match?: Array<string>; paEmittente?: string }>;
+  results?: Array<{ nav?: string; match?: Array<string>; paEmittente?: string; 'pa-emittente'?: string }>;
   count?: number;
 }
 
@@ -116,12 +116,19 @@ export const parsePositionId = (positionId: string): { paEmittente: string; nav:
 };
 
 /** Converte un elemento della risposta di ricerca in una riga della tabella. */
-export const toOperazioneRicercaRow = (dto: { nav?: string; match?: Array<string>; paEmittente?: string }): IOperazioneRicercaRow => ({
-  paEmittente: dto.paEmittente ?? '',
-  numeroAvviso: dto.nav ?? '',
-  match: dto.match ?? null,
-  positionId: buildPositionId(dto.paEmittente ?? '', dto.nav ?? ''),
-});
+export const toOperazioneRicercaRow = (
+  dto: Pick<IRawUnifiedSearchItem, 'nav' | 'match' | 'pa-emittente' | 'paEmittente'>,
+): IOperazioneRicercaRow => {
+  const paEmittente = dto['pa-emittente'] ?? dto.paEmittente ?? '';
+  const nav = dto.nav ?? '';
+
+  return {
+    paEmittente,
+    numeroAvviso: nav,
+    match: dto.match ?? null,
+    positionId: buildPositionId(paEmittente, nav),
+  };
+};
 
 // ============================================================
 // Dettaglio posizione (vista centrale)
@@ -160,6 +167,7 @@ export interface ITransfers {
   transfers?: ITransferObject[];
   positionInfo?: IPositionInfo;
   transfersCount?: number;
+  count?: number;
 }
 
 /** Risposta workflow (eventi posizione + eventi token). */
@@ -260,13 +268,21 @@ export interface IRawPaymentInfo {
 }
 
 export interface IRawUnifiedSearchResponse {
-  results?: Array<IRawBasicPosition & { match?: string[] }>;
+  results?: IRawUnifiedSearchItem[];
   count?: number;
   totalElements?: number;
   totalPages?: number;
   size?: number;
   number?: number;
 }
+
+export interface IRawUnifiedSearchItem extends IRawBasicPosition {
+  match?: string[];
+  /** Fallback camelCase gestito per compatibilita con serializzazioni non uniformi. */
+  paEmittente?: string;
+}
+
+export type IRawUnifiedSearchPayload = IRawUnifiedSearchResponse | IRawUnifiedSearchItem[] | null | undefined;
 
 export interface IRawPositionPayment {
   'position-info'?: IRawPositionPaymentInfo;
@@ -405,6 +421,7 @@ export const mapRawTransfers = (raw: IRawTransferPayment): ITransfers => ({
   positionInfo: mapRawPositionInfo(raw['position-info']),
   token: raw.token,
   transfersCount: raw['transfers-count'],
+  count: raw['transfers-count'],
   // Backward-compatible: backend may return a single object or an array.
   transfers: (Array.isArray(raw.transfers) ? raw.transfers : raw.transfers ? [raw.transfers] : []).map(t => ({
     idTransfer: t.idTransfer,
@@ -447,3 +464,20 @@ export const mapRawExtraInfo = (raw: IRawExtraInfoResponse): IExtraInfo => ({
     tipoevento: r.tipoevento,
   })),
 });
+
+/**
+ * Normalizza la risposta di /api/search (oggetto paginato o array nudo)
+ * nel contratto usato dalla tabella risultati.
+ */
+export const mapRawUnifiedSearchResponse = (raw: IRawUnifiedSearchPayload): IOperazioneRicercaResponse => {
+  const rawResults = Array.isArray(raw) ? raw : (raw?.results ?? []);
+  const metadata = Array.isArray(raw) ? undefined : raw;
+
+  return {
+    content: rawResults.map(toOperazioneRicercaRow),
+    totalElements: metadata?.totalElements ?? metadata?.count ?? rawResults.length,
+    totalPages: metadata?.totalPages ?? 1,
+    size: metadata?.size ?? rawResults.length,
+    number: metadata?.number ?? 0,
+  };
+};
