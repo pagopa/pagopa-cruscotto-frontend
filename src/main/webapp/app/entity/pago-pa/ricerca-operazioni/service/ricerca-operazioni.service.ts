@@ -29,58 +29,22 @@ import {
 export class RicercaOperazioniService {
   private readonly sertApi = inject(SertService);
 
-  // ============================================================
-  // Ricerca unificata
-  // ============================================================
-
-  /** GET /api/search?nav=...&pa=... */
-  searchByNav(nav: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.unifiedSearch({ nav, pa: paEmittente });
-  }
-
   /** GET /api/search con combinazioni di campi supportate dal form. */
   search(p: {
     pa?: string;
     nav?: string;
+    iuv?: string;
     token?: string;
     idCarrello?: string;
     info?: string;
+    offset?: number;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
     return this.unifiedSearch(p);
   }
-
-  /** GET /api/search?iuv=...&pa=... */
-  searchByIuv(iuv: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.unifiedSearch({ iuv, pa: paEmittente });
-  }
-
-  /** GET /api/search?token=...&pa=... */
-  searchByToken(token: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.unifiedSearch({ token, pa: paEmittente });
-  }
-
-  /** GET /api/search?idCarrello=...&pa=... */
-  searchByCart(idCart: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.unifiedSearch({ idCarrello: idCart, pa: paEmittente });
-  }
-
-  /** GET /api/search?info=...&pa=... */
-  searchByExtra(searchValue: string, paEmittente?: string): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.unifiedSearch({ info: searchValue, pa: paEmittente });
-  }
-
-  // ============================================================
-  // Vista centrale del dettaglio posizione
-  // ============================================================
-
   /** GET /api/position/{nav}/{paEmittente} */
   getPosition(nav: string, paEmittente: string): Observable<IPosizione> {
     return this.sertApi.getPosition(nav, paEmittente).pipe(map(mapRawPosizione));
   }
-
-  // ============================================================
-  // Sezioni espandibili dei Token
-  // ============================================================
 
   /** GET /api/token/{token} */
   getTokenInfo(token: string): Observable<ITokenInfo> {
@@ -96,10 +60,6 @@ export class RicercaOperazioniService {
   getTransfers(nav: string, paEmittente: string, token: string): Observable<ITransfers> {
     return this.sertApi.getTransfers(nav, paEmittente, token).pipe(map(mapRawTransfers));
   }
-
-  // ============================================================
-  // Workflow / Eventi
-  // ============================================================
 
   /** GET /api/workflows/{nav}/{paEmittente} */
   getWorkflows(nav: string, paEmittente: string): Observable<IWorkflows> {
@@ -117,17 +77,18 @@ export class RicercaOperazioniService {
     token?: string;
     idCarrello?: string;
     info?: string;
+    offset?: number;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, 'response').pipe(
+    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, p.offset, 'response').pipe(
       map(res => {
         const dto = res.body;
         const rows = (dto?.results ?? []).map(r => toOperazioneRicercaRow({ nav: r.nav, match: r.match, paEmittente: r['pa-emittente'] }));
         const body: IOperazioneRicercaResponse = {
           content: rows,
-          totalElements: dto?.count ?? rows.length,
-          totalPages: 1,
-          size: rows.length,
-          number: 0,
+          totalElements: dto?.totalElements ?? dto?.count ?? rows.length,
+          totalPages: dto?.totalPages ?? 1,
+          size: dto?.size ?? rows.length,
+          number: dto?.number ?? 0,
         };
         return new HttpResponse({ body, status: res.status, headers: res.headers });
       }),

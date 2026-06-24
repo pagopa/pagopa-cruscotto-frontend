@@ -6,8 +6,8 @@
       },
       "filter": {
         "paEmittente": "Issuing PA (Tax Code)",
-        "nav": "Notice Number (NAV/IUV)",
-        "iuv": "IUV / Creditor Reference ID",
+        "nav": "NAV",
+        "iuv": "IUV/Creditor Reference ID",
         "token": "Token",
         "idCarrello": "Cart ID",
         "extra": "Additional Information",
@@ -16,7 +16,8 @@
       "result": {
         "paEmittente": "Issuing PA",
         "numeroAvviso": "Notice Number",
-        "infoAggiuntive": "Additional Info (match)",
+        "infoAggiuntiveType": "Info Type",
+        "infoAggiuntiveValue": "Info Value",
         "detail": "Detail"
       },
       "detail": {
@@ -50,10 +51,10 @@
         "paymentInfo": {
           "touchpoint": "Touchpoint",
           "paymentMethod": "Payment Method",
-          "isDw": "Data Warehouse",
-          "isGpd": "GPD",
-          "isStandin": "Stand-In",
-          "isCart": "Cart"
+          "isDw": "is DW",
+          "isGpd": "is GPD",
+          "isStandin": "is Stand-In",
+          "isCart": "is Cart"
         },
         "actors": {
           "psp": "PSP",
