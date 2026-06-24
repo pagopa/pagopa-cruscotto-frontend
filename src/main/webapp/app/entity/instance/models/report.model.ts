@@ -17,6 +17,8 @@ export type ReportGenerationStatus = 'COMPLETED' | 'PENDING' | 'IN_PROGRESS' | '
 export interface ReportDownloadInfo {
   downloadUrl: string;
   fileName: string;
+  expiresAt: string;
+  fileSizeBytes: number;
 }
 
 export interface ReportStatusResponse {

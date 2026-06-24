@@ -269,8 +269,13 @@ export class InstanceComponent implements OnInit, OnDestroy {
       return;
     }
 
+    //call gets executed immediately and then every 60 seconds if needed
     this.reportStatusPolling = timer(0, 60000).subscribe(() => {
       instances.forEach(instance => {
+        const existing = this.reportStatusMap.get(instance.id!);
+        if (existing?.downloadInfo?.expiresAt && dayjs(existing.downloadInfo.expiresAt.replace(/(\.\d{3})\d+/, '$1')).isAfter(dayjs())) {
+          return;
+        }
         this.reportService
           .checkStatus(instance.latestRequestedReportId!)
           .pipe(
@@ -422,7 +427,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
               params: { successCount: _.successCount, count: _.successCount + _.failureCount },
             },
           });
-          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
+          _.results
+            .filter(r => !r.success && r.errorMessage)
+            .forEach(r =>
+              this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})),
+            );
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         } else {
@@ -431,7 +440,11 @@ export class InstanceComponent implements OnInit, OnDestroy {
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.error' },
           });
-          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
+          _.results
+            .filter(r => !r.success && r.errorMessage)
+            .forEach(r =>
+              this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})),
+            );
           this.loadPage(this.filter.page, false);
           this.selection.clear();
         }
@@ -464,13 +477,21 @@ export class InstanceComponent implements OnInit, OnDestroy {
               params: { successCount: _.successCount, count: _.successCount + _.failureCount },
             },
           });
-          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
+          _.results
+            .filter(r => !r.success && r.errorMessage)
+            .forEach(r =>
+              this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})),
+            );
         } else {
           this.eventManager.broadcast({
             name: 'pagopaCruscottoApp.alert',
             content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.archived.restoreError' },
           });
-          _.results.filter(r => !r.success && r.errorMessage).forEach(r => this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})));
+          _.results
+            .filter(r => !r.success && r.errorMessage)
+            .forEach(r =>
+              this.toastrService.error(this.translateService.instant('pagopaCruscottoApp.instance.' + r.errorMessage!, r.params ?? {})),
+            );
         }
         this.loadPage(this.filter.page, false);
         this.selection.clear();
