@@ -11,7 +11,8 @@
         "token": "Token",
         "idCarrello": "Cart ID",
         "extra": "Additional Information",
-        "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information"
+        "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information",
+        "exclusiveFieldsConflict": "Provide only one among IUV, Token, Cart ID or Additional Information."
       },
       "result": {
         "paEmittente": "Issuing PA",

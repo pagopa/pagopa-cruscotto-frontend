@@ -110,6 +110,14 @@
           </div>
         </div>
 
+        <div class="row" *ngIf="searchForm.hasError('exclusiveFieldsConflict') && (searchForm.dirty || searchForm.touched)">
+          <div class="col-12">
+            <div class="text-danger small mb-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveFieldsConflict">
+              Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive.
+            </div>
+          </div>
+        </div>
+
         <!-- Azioni -->
         <mat-action-row class="d-block">
           <div class="d-flex justify-content-end align-items-center">

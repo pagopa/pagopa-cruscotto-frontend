@@ -344,7 +344,7 @@
                         <div *ngIf="isTokenSectionLoading(row.token, 'transfers')" class="text-center p-3">
                           <mat-spinner diameter="32"></mat-spinner>
                         </div>
-                        <ng-container *ngIf="!isTokenSectionLoading(row.token, 'transfers') && row.transfers as transfers">
+                        <ng-container *ngIf="!isTokenSectionLoading(row.token, 'transfers')">
                           <table
                             mat-table
                             [dataSource]="getTransfersResults(row)"
@@ -354,7 +354,7 @@
                             [matSortActive]="getTransfersTableState(row.token).sortActive"
                             [matSortDirection]="getTransfersTableState(row.token).sortDirection"
                             (matSortChange)="onTransfersSortChange(row, $event)"
-                            *ngIf="(transfers.transfers || []).length; else noTransfers"
+                            *ngIf="getTransfersResults(row).length; else noTransfers"
                           >
                             <ng-container matColumnDef="idTransfer">
                               <th mat-header-cell *matHeaderCellDef mat-sort-header="idTransfer">
@@ -390,7 +390,7 @@
                             <tr mat-row *matRowDef="let r; columns: transfersColumns"></tr>
                           </table>
                           <mat-paginator
-                            *ngIf="(transfers.transfers || []).length"
+                            *ngIf="getTransfersResults(row).length"
                             [length]="getTransfersTotalCount(row)"
                             [pageIndex]="getTransfersTableState(row.token).pageIndex"
                             [pageSize]="getTransfersTableState(row.token).pageSize"
@@ -507,15 +507,18 @@
 
         <!-- ===== TAB EVENTI (workflow di posizione + token) ===== -->
         <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabEventi' | translate">
-          <div class="table-responsive mt-3">
+          <div class="table-responsive mt-3 position-relative">
+            <div *ngIf="isEventiLoading" class="text-center p-3">
+              <mat-spinner diameter="32"></mat-spinner>
+            </div>
             <table
               mat-table
               [dataSource]="getEventiResults()"
               class="w-100"
               matSort
               matSortDisableClear
-              [matSortActive]="eventiSortActive"
-              [matSortDirection]="eventiSortDirection"
+              [matSortActive]="workflowsTableState.sortActive || ''"
+              [matSortDirection]="workflowsTableState.sortDirection || 'asc'"
               (matSortChange)="onEventiSortChange($event)"
               multiTemplateDataRows
             >
@@ -549,7 +552,7 @@
 
               <!-- Token cliccabile per saltare alla TAB Tokens e aprirne il dettaglio -->
               <ng-container matColumnDef="token">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="token">
+                <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.token' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let row">
@@ -565,7 +568,7 @@
               </ng-container>
 
               <ng-container matColumnDef="dataEvento">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header="dataEvento">
+                <th mat-header-cell *matHeaderCellDef>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.dataEvento' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let row">{{ row.insertedtimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
@@ -581,10 +584,10 @@
               </tr>
             </table>
             <mat-paginator
-              *ngIf="eventiData.length"
+              *ngIf="getEventiTotalCount() > 0"
               [length]="getEventiTotalCount()"
-              [pageIndex]="eventiPageIndex"
-              [pageSize]="eventiPageSize"
+              [pageIndex]="workflowsTableState.pageIndex"
+              [pageSize]="workflowsTableState.pageSize"
               [hidePageSize]="true"
               (page)="onEventiPageChange($event)"
               showFirstLastButtons

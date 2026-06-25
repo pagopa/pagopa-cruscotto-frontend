@@ -7,11 +7,12 @@
       "filter": {
         "paEmittente": "PA Emittente (Codice Fiscale)",
         "nav": "NAV",
-        "iuv": "IUV/ID Riferimento Creditorio",
+        "iuv": "IUV/Creditor Reference ID",
         "token": "Token",
         "idCarrello": "ID Carrello",
         "extra": "Informazioni Aggiuntive",
-        "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive"
+        "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive",
+        "exclusiveFieldsConflict": "Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive."
       },
       "result": {
         "paEmittente": "PA Emittente",
