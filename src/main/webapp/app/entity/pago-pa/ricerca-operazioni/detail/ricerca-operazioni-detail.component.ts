@@ -39,6 +39,7 @@ type TokenSubSection = 'info' | 'transfers' | 'extra';
 type ExtraInfoSortField = 'name' | 'value' | 'tipoevento' | '';
 type TransfersSortField = 'idTransfer' | 'iban' | 'amount' | 'typeTransfer' | 'paFiscalCode' | '';
 type EventiSortField = 'eventoId' | 'tipo' | 'sottotipo' | 'outcome' | 'token' | 'dataEvento' | '';
+type TokensSortField = 'paymentBorn' | 'token' | 'pspName' | 'pspDescription' | 'amount' | 'paymentMethod' | 'touchpoint';
 
 interface IExtraInfoTableState {
   pageIndex: number;
@@ -51,6 +52,13 @@ interface ITransfersTableState {
   pageIndex: number;
   pageSize: number;
   sortActive: TransfersSortField;
+  sortDirection: 'asc' | 'desc' | '';
+}
+
+interface ITokensTableState {
+  pageIndex: number;
+  pageSize: number;
+  sortActive: TokensSortField | '';
   sortDirection: 'asc' | 'desc' | '';
 }
 
@@ -122,6 +130,16 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   readonly transfersColumns: string[] = ['idTransfer', 'iban', 'amount', 'typeTransfer', 'paFiscalCode'];
   private readonly transfersTableStateByToken: Record<string, ITransfersTableState> = {};
+  private readonly tokenInfoCacheByToken: Record<string, ITokenInfo> = {};
+
+  // ---- Stato paginazione Tokens ----
+  tokensTableState: ITokensTableState = {
+    pageIndex: 0,
+    pageSize: 10,
+    sortActive: '',
+    sortDirection: '',
+  };
+  private tokensTokenTotalCount: number = 0;
 
   isLoading = true;
 
@@ -130,6 +148,15 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly service = inject(RicercaOperazioniService);
   private readonly spinner = inject(NgxSpinnerService);
+
+  private buildTokenRows(tokens: string[]): ITokenRow[] {
+    return tokens.map(token => ({
+      token,
+      info: this.tokenInfoCacheByToken[token] ?? null,
+      transfers: null,
+      extra: null,
+    }));
+  }
 
   // ============================================================
   // Lifecycle
@@ -163,12 +190,8 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         this.workflows = workflows;
 
         // Tabella Tokens: una riga per ogni token in allTokens.
-        this.tokensData = (posizione.allTokens ?? []).map(t => ({
-          token: t,
-          info: null,
-          transfers: null,
-          extra: null,
-        }));
+        this.tokensData = this.buildTokenRows(posizione.allTokens ?? []);
+        this.tokensTokenTotalCount = posizione.totalTokens ?? posizione.tokens ?? posizione.allTokens?.length ?? 0;
 
         // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
         this.preloadTokenInfo();
@@ -230,7 +253,13 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   private preloadTokenInfo(): void {
     if (!this.tokensData.length) return;
 
-    const requests = this.tokensData.map(row => {
+    const rowsToLoad = this.tokensData.filter(row => row.info == null && !this.tokenInfoCacheByToken[row.token]);
+    if (!rowsToLoad.length) {
+      this.tokensData = [...this.tokensData];
+      return;
+    }
+
+    const requests = rowsToLoad.map(row => {
       const key = `${row.token}:info`;
       this.loadingSections.add(key);
 
@@ -243,6 +272,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     forkJoin(requests).subscribe(results => {
       results.forEach(({ row, info, key }) => {
         if (info) {
+          this.tokenInfoCacheByToken[row.token] = info;
           row.info = info;
         }
         this.loadingSections.delete(key);
@@ -272,6 +302,12 @@ export class RicercaOperazioniDetailComponent implements OnInit {
    * Eccezione: extra e transfers supportano paginazione/sort server-side e non sono cachati.
    */
   loadTokenSection(row: ITokenRow, section: TokenSubSection): void {
+    if (section === 'info' && row.info == null && this.tokenInfoCacheByToken[row.token]) {
+      row.info = this.tokenInfoCacheByToken[row.token];
+      this.tokensData = [...this.tokensData];
+      return;
+    }
+
     // Cache hit: solo per info; extra e transfers supportano paginazione/sort server-side.
     if (section === 'info' && row[section] != null) return;
     const key = `${row.token}:${section}`;
@@ -287,6 +323,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       case 'info':
         this.service.getTokenInfo(row.token).subscribe({
           next: (info: ITokenInfo) => {
+            this.tokenInfoCacheByToken[row.token] = info;
             row.info = info;
             onDone();
           },
@@ -548,16 +585,16 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     }
   }
 
-  // ============================================================
-  // Predicati per mat-table multiTemplateDataRows
-  // ============================================================
+  get tokensTableStatePageIndex(): number {
+    return this.tokensTableState.pageIndex;
+  }
+
+  get tokensTableStatePageSize(): number {
+    return this.tokensTableState.pageSize;
+  }
 
   isTokenExpanded = (_index: number, row: ITokenRow): boolean => this.expandedTokens.has(row.token);
   isEventoExpanded = (_index: number, row: IEventoRow): boolean => this.expandedEventi.has(row.rowId);
-
-  // ============================================================
-  // Helpers per il template
-  // ============================================================
 
   transfersCount(row: ITokenRow): number {
     return row.transfers?.transfersCount ?? row.transfers?.transfers?.length ?? 0;
@@ -601,5 +638,74 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   get isPagata(): boolean {
     const p = this.posizione?.payed;
     return !!(p && (p.token || p.payedDate));
+  }
+
+  // evento Sort dalla tabella Tokens.
+  onTokensSortChange(sort: Sort): void {
+    const validFields: TokensSortField[] = ['paymentBorn', 'token', 'pspName', 'pspDescription', 'amount', 'paymentMethod', 'touchpoint'];
+
+    if (!sort.active || !validFields.includes(sort.active as TokensSortField)) {
+      return;
+    }
+
+    const nextDirection: 'asc' | 'desc' = sort.direction === 'desc' ? 'desc' : 'asc';
+    this.tokensTableState.sortActive = sort.active as TokensSortField;
+    this.tokensTableState.sortDirection = nextDirection;
+    this.tokensTableState.pageIndex = 0;
+    this.reloadTokens();
+  }
+
+  /** Gestisci evento PageChange dalla tabella Tokens. */
+  onTokensPageChange(event: PageEvent): void {
+    this.tokensTableState.pageIndex = event.pageIndex;
+    this.reloadTokens();
+  }
+
+  /** Ricarica i token dal server con i parametri di paginazione e ordinamento correnti. */
+  private reloadTokens(): void {
+    if (!this.paEmittente || !this.nav) return;
+
+    // Costruisci il parametro sort nel formato "fieldName,direction"
+    let sortParam = '';
+    if (this.tokensTableState.sortActive && this.tokensTableState.sortDirection) {
+      const fieldMapping: Record<string, string> = {
+        paymentBorn: 'tokenDateEvent',
+        token: 'token',
+        pspName: 'psp',
+        pspDescription: 'ptPsp',
+        amount: 'amount',
+        paymentMethod: 'paymentMethod',
+        touchpoint: 'touchpoint',
+      };
+      const backendFieldName = fieldMapping[this.tokensTableState.sortActive] || this.tokensTableState.sortActive;
+      sortParam = `${backendFieldName},${this.tokensTableState.sortDirection}`;
+    }
+
+    this.service
+      .getPosition(this.nav, this.paEmittente, this.tokensTableState.pageIndex, this.tokensTableState.pageSize, sortParam || undefined)
+      .subscribe({
+        next: posizione => {
+          this.posizione = posizione;
+          // Aggiorna tokensData con i token della pagina corrente
+          this.tokensData = this.buildTokenRows(posizione.allTokens ?? []);
+          // Salva il total count
+          this.tokensTokenTotalCount = posizione.totalTokens ?? posizione.tokens ?? posizione.allTokens?.length ?? 0;
+          // Precarica i dettagli dei token nella pagina
+          this.preloadTokenInfo();
+        },
+        error: () => {
+          // In caso di errore mantieni i dati precedenti
+        },
+      });
+  }
+
+  /** Ritorna i token da visualizzare nella tabella (già paginati dal server). */
+  getTokensResults(): ITokenRow[] {
+    return this.tokensData;
+  }
+
+  /** Ritorna il numero totale di token (per il paginator). */
+  getTokensTotalCount(): number {
+    return this.tokensTokenTotalCount;
   }
 }

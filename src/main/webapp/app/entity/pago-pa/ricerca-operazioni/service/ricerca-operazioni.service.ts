@@ -1,12 +1,15 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 
 import { SertService } from '../../../../api-clients/pagopa-sert/api/sert.service';
+import { CustomHttpUrlEncodingCodec } from '../../../../api-clients/pagopa-sert/encoder';
 
 import {
   IExtraInfo,
   IRawUnifiedSearchPayload,
+  IRawPositionPayment,
+  IRawWorkflowResponse,
   IOperazioneRicercaResponse,
   IPosizione,
   ITokenInfo,
@@ -29,6 +32,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class RicercaOperazioniService {
   private readonly sertApi = inject(SertService);
+  private readonly http = inject(HttpClient);
 
   /** GET /api/search con combinazioni di campi supportate dal form. */
   search(p: {
@@ -44,9 +48,12 @@ export class RicercaOperazioniService {
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
     return this.unifiedSearch(p);
   }
-  /** GET /api/position/{nav}/{paEmittente} */
-  getPosition(nav: string, paEmittente: string): Observable<IPosizione> {
-    return this.sertApi.getPosition(nav, paEmittente).pipe(map(mapRawPosizione));
+  /** GET /api/position/{nav}/{paEmittente} con paginazione/sort server-side per tokens. */
+  getPosition(nav: string, paEmittente: string, page?: number, size?: number, sort?: string): Observable<IPosizione> {
+    const params = this.toPageableParams(page, size, sort);
+    const basePath = (this.sertApi as any).basePath as string;
+    const url = `${basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
+    return this.http.get<IRawPositionPayment>(url, { params }).pipe(map(mapRawPosizione));
   }
 
   /** GET /api/token/{token} */
@@ -64,13 +71,24 @@ export class RicercaOperazioniService {
     return this.sertApi.getTransfers(nav, paEmittente, token, page, size, sort).pipe(map(mapRawTransfers));
   }
 
-  /** GET /api/workflows/{nav}/{paEmittente} */
-  getWorkflows(nav: string, paEmittente: string): Observable<IWorkflows> {
-    return this.sertApi.getWorkflows(nav, paEmittente).pipe(
+  /** GET /api/workflows/{nav}/{paEmittente} con paginazione/sort server-side. */
+  getWorkflows(nav: string, paEmittente: string, page?: number, size?: number, sort?: string): Observable<IWorkflows> {
+    const params = this.toPageableParams(page, size, sort);
+    const basePath = (this.sertApi as any).basePath as string;
+    const url = `${basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
+    return this.http.get<IRawWorkflowResponse>(url, { params }).pipe(
       map(mapRawWorkflows),
       // In caso di errore restituiamo un workflow vuoto per non bloccare la vista
       catchError(() => of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] })),
     );
+  }
+
+  private toPageableParams(page?: number, size?: number, sort?: string): HttpParams {
+    let params = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    if (page != null) params = params.set('page', page.toString());
+    if (size != null) params = params.set('size', size.toString());
+    if (sort != null) params = params.set('sort', sort);
+    return params;
   }
 
   private unifiedSearch(p: {
