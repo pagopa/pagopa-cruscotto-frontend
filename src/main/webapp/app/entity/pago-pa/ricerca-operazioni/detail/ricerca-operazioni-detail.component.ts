@@ -153,6 +153,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   private tokensTokenTotalCount: number = 0;
 
   isLoading = true;
+  isEventiLoading = false;
 
   @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
 
@@ -234,7 +235,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       rowId: e.eventId ?? `tok-${idx}`,
       token: e.token,
     }));
-    this.eventiData = [...positionEvents, ...tokenEvents];
+    this.eventiData = [...tokenEvents];
     this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
   }
 
@@ -512,7 +513,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   private reloadWorkflows(): void {
     if (!this.paEmittente || !this.nav) return;
 
-    this.spinner.show('detailSpinner');
+    this.isEventiLoading = true;
 
     const sortParam = this.buildWorkflowsSortParam(this.workflowsTableState);
 
@@ -522,10 +523,10 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         next: workflows => {
           this.workflows = workflows;
           this.buildEventiRows(workflows);
-          this.spinner.hide('detailSpinner');
+          this.isEventiLoading = false;
         },
         error: () => {
-          this.spinner.hide('detailSpinner');
+          this.isEventiLoading = false;
         },
       });
   }
@@ -576,7 +577,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         row.transfers = transfers;
         onDone?.();
       },
-      error: () => onDone?.(),
+      error: () => {
+        // On error (e.g. 404), set empty result so the template shows the noTransfers message
+        row.transfers = { transfers: [], count: 0, transfersCount: 0 };
+        onDone?.();
+      },
     });
   }
 
