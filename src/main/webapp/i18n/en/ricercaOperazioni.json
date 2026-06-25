@@ -1,0 +1,105 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaOperazioni": {
+      "home": {
+        "title": "Operation Search"
+      },
+      "filter": {
+        "paEmittente": "Issuing PA (Tax Code)",
+        "nav": "NAV",
+        "iuv": "IUV/Creditor Reference ID",
+        "token": "Token",
+        "idCarrello": "Cart ID",
+        "extra": "Additional Information",
+        "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information"
+      },
+      "result": {
+        "paEmittente": "Issuing PA",
+        "numeroAvviso": "Notice Number",
+        "infoAggiuntiveType": "Info Type",
+        "infoAggiuntiveValue": "Info Value",
+        "detail": "Detail"
+      },
+      "detail": {
+        "title": "Position Detail",
+        "positionId": "Position ID",
+        "paEmittente": "Issuing PA",
+        "numeroAvviso": "Notice Number",
+        "iuv": "IUV",
+        "creditorReferenceId": "Creditor Reference ID",
+        "importo": "Amount",
+        "fee": "Fee",
+        "tokensCount": "Tokens Count",
+        "lastEvent": "Last Event",
+        "isCached": "From Cache",
+        "tabTokens": "Tokens",
+        "tabEventi": "Events",
+        "expand": "Expand",
+        "collapse": "Collapse",
+        "closeAll": "Close all",
+        "pagata": "Paid",
+        "sections": {
+          "paymentInfo": "Payment Info",
+          "actors": "Actors",
+          "amount": "Amount",
+          "payed": "Payment",
+          "tokenInfo": "Token Info",
+          "extraInfo": "Extra Info",
+          "transfers": "Transfers",
+          "events": "Token Events"
+        },
+        "paymentInfo": {
+          "touchpoint": "Touchpoint",
+          "paymentMethod": "Payment Method",
+          "isDw": "is DW",
+          "isGpd": "is GPD",
+          "isStandin": "is Stand-In",
+          "isCart": "is Cart"
+        },
+        "actors": {
+          "psp": "PSP",
+          "station": "Station",
+          "channel": "Channel",
+          "ptPa": "PT PA",
+          "ptPsp": "PT PSP"
+        },
+        "payed": {
+          "token": "Paid Token",
+          "paymentBorn": "Payment Registered",
+          "payedDate": "Paid Date",
+          "multiOutcome": "Multi Outcome",
+          "isPayedToken": "Paid Token"
+        },
+        "transfers": {
+          "idTransfer": "Transfer ID",
+          "iban": "IBAN",
+          "amount": "Amount",
+          "typeTransfer": "Type",
+          "paFiscalCode": "PA Tax Code"
+        },
+        "extraInfo": {
+          "name": "Name",
+          "value": "Value",
+          "tipoevento": "Event Type",
+          "noData": "No additional information"
+        }
+      },
+      "tokens": {
+        "token": "Token",
+        "isPayed": "Paid",
+        "amount": "Amount",
+        "lastEvent": "Last Event"
+      },
+      "eventi": {
+        "eventoId": "Event ID",
+        "tipo": "Type",
+        "sottotipo": "Subtype",
+        "outcome": "Outcome",
+        "faultcode": "Fault Code",
+        "dataEvento": "Event Date",
+        "token": "Token",
+        "goToToken": "Go to token detail"
+      }
+    }
+  }
+}

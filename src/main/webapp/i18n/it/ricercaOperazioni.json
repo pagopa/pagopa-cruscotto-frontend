@@ -1,0 +1,105 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaOperazioni": {
+      "home": {
+        "title": "Ricerca Operazioni"
+      },
+      "filter": {
+        "paEmittente": "PA Emittente (Codice Fiscale)",
+        "nav": "NAV",
+        "iuv": "IUV/ID Riferimento Creditorio",
+        "token": "Token",
+        "idCarrello": "ID Carrello",
+        "extra": "Informazioni Aggiuntive",
+        "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive"
+      },
+      "result": {
+        "paEmittente": "PA Emittente",
+        "numeroAvviso": "Numero Avviso",
+        "infoAggiuntiveType": "Tipo Info",
+        "infoAggiuntiveValue": "Valore Info",
+        "detail": "Dettaglio"
+      },
+      "detail": {
+        "title": "Dettaglio Posizione",
+        "positionId": "ID Posizione",
+        "paEmittente": "PA Emittente",
+        "numeroAvviso": "Numero Avviso",
+        "iuv": "IUV",
+        "creditorReferenceId": "Creditor Reference ID",
+        "importo": "Importo",
+        "fee": "Commissione",
+        "tokensCount": "Numero Token",
+        "lastEvent": "Ultimo Evento",
+        "isCached": "Da Cache",
+        "tabTokens": "Tokens",
+        "tabEventi": "Eventi",
+        "expand": "Espandi",
+        "collapse": "Riduci",
+        "closeAll": "Chiudi tutto",
+        "pagata": "Pagata",
+        "sections": {
+          "paymentInfo": "Informazioni Pagamento",
+          "actors": "Attori",
+          "amount": "Importo",
+          "payed": "Pagamento",
+          "tokenInfo": "Informazioni Token",
+          "extraInfo": "Informazioni Aggiuntive",
+          "transfers": "Transfers",
+          "events": "Eventi Token"
+        },
+        "paymentInfo": {
+          "touchpoint": "Touchpoint",
+          "paymentMethod": "Metodo di Pagamento",
+          "isDw": "is DW",
+          "isGpd": "is GPD",
+          "isStandin": "is Stand-In",
+          "isCart": "is Cart"
+        },
+        "actors": {
+          "psp": "PSP",
+          "station": "Stazione",
+          "channel": "Canale",
+          "ptPa": "PT PA",
+          "ptPsp": "PT PSP"
+        },
+        "payed": {
+          "token": "Token Pagato",
+          "paymentBorn": "Registrazione Pagamento",
+          "payedDate": "Data Pagamento",
+          "multiOutcome": "Multi Outcome",
+          "isPayedToken": "Token Pagato"
+        },
+        "transfers": {
+          "idTransfer": "ID Transfer",
+          "iban": "IBAN",
+          "amount": "Importo",
+          "typeTransfer": "Tipo",
+          "paFiscalCode": "Codice Fiscale PA"
+        },
+        "extraInfo": {
+          "name": "Nome",
+          "value": "Valore",
+          "tipoevento": "Tipo Evento",
+          "noData": "Nessuna informazione aggiuntiva"
+        }
+      },
+      "tokens": {
+        "token": "Token",
+        "isPayed": "Pagato",
+        "amount": "Importo",
+        "lastEvent": "Ultimo Evento"
+      },
+      "eventi": {
+        "eventoId": "ID Evento",
+        "tipo": "Tipo",
+        "sottotipo": "Sottotipo",
+        "outcome": "Esito",
+        "faultcode": "Fault Code",
+        "dataEvento": "Data Evento",
+        "token": "Token",
+        "goToToken": "Vai al dettaglio del token"
+      }
+    }
+  }
+}
