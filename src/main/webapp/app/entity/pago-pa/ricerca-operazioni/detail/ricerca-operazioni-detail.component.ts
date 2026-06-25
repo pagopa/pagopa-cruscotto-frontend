@@ -62,6 +62,13 @@ interface ITokensTableState {
   sortDirection: 'asc' | 'desc' | '';
 }
 
+interface IWorkflowsTableState {
+  pageIndex: number;
+  pageSize: number;
+  sortActive: EventiSortField;
+  sortDirection: 'asc' | 'desc' | '';
+}
+
 @Component({
   selector: 'jhi-ricerca-operazioni-detail',
   templateUrl: './ricerca-operazioni-detail.component.html',
@@ -115,9 +122,13 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   ];
   eventiColumns: string[] = ['eventoId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
   readonly eventiPageSize: number = 10;
-  eventiPageIndex: number = 0;
-  eventiSortActive: EventiSortField = '';
-  eventiSortDirection: 'asc' | 'desc' | '' = '';
+  workflowsTableState: IWorkflowsTableState = {
+    pageIndex: 0,
+    pageSize: 10,
+    sortActive: '',
+    sortDirection: '',
+  };
+  private workflowsTotalCount: number = 0;
 
   // ---- Stato espansione ----
   expandedTokens = new Set<string>();
@@ -196,24 +207,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
         this.preloadTokenInfo();
 
-        const positionEvents: IEventoRow[] = (workflows.eventsPosition ?? []).map((e, idx) => ({
-          ...e,
-          rowId: e.eventId ?? `pos-${idx}`,
-        }));
-        const tokenEvents: IEventoRow[] = (workflows.eventsToken ?? []).map((e, idx) => ({
-          ...e,
-          rowId: e.eventId ?? `tok-${idx}`,
-          token: e.token,
-        }));
-        // Ordino per timestamp decrescente (più recenti per primi); gli undefined vanno in coda.
-        this.eventiData = [...tokenEvents].sort((a, b) => {
-          const ta = a.insertedtimestamp ? new Date(a.insertedtimestamp).getTime() : 0;
-          const tb = b.insertedtimestamp ? new Date(b.insertedtimestamp).getTime() : 0;
-          return tb - ta;
-        });
-        this.eventiPageIndex = 0;
-        this.eventiSortActive = '';
-        this.eventiSortDirection = '';
+        // Tabella Eventi: estrai e valorizza i dati dal workflow con il conteggio totale
+        this.buildEventiRows(workflows);
+        this.workflowsTableState.pageIndex = 0;
+        this.workflowsTableState.sortActive = '';
+        this.workflowsTableState.sortDirection = '';
 
         this.isLoading = false;
         this.spinner.hide('detailSpinner');
@@ -223,6 +221,21 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         this.spinner.hide('detailSpinner');
       },
     });
+  }
+
+  /** Costruisce la tabella eventi dal workflow e aggiorna il conteggio totale. */
+  private buildEventiRows(workflows: IWorkflows): void {
+    const positionEvents: IEventoRow[] = (workflows.eventsPosition ?? []).map((e, idx) => ({
+      ...e,
+      rowId: e.eventId ?? `pos-${idx}`,
+    }));
+    const tokenEvents: IEventoRow[] = (workflows.eventsToken ?? []).map((e, idx) => ({
+      ...e,
+      rowId: e.eventId ?? `tok-${idx}`,
+      token: e.token,
+    }));
+    this.eventiData = [...positionEvents, ...tokenEvents];
+    this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
   }
 
   // ============================================================
@@ -469,69 +482,76 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         sort.active !== 'token' &&
         sort.active !== 'dataEvento')
     ) {
-      this.eventiSortActive = '';
-      this.eventiSortDirection = '';
-      this.eventiPageIndex = 0;
+      this.workflowsTableState.sortActive = '';
+      this.workflowsTableState.sortDirection = '';
+      this.workflowsTableState.pageIndex = 0;
+      this.reloadWorkflows();
       return;
     }
 
-    this.eventiSortActive = sort.active as EventiSortField;
-    this.eventiSortDirection = sort.direction;
-    this.eventiPageIndex = 0;
+    this.workflowsTableState.sortActive = sort.active as EventiSortField;
+    this.workflowsTableState.sortDirection = sort.direction;
+    this.workflowsTableState.pageIndex = 0;
+    this.reloadWorkflows();
   }
 
   onEventiPageChange(event: PageEvent): void {
-    this.eventiPageIndex = event.pageIndex;
+    this.workflowsTableState.pageIndex = event.pageIndex;
+    this.reloadWorkflows();
   }
 
   getEventiResults(): IEventoRow[] {
-    const sorted = this.getSortedEventiRows();
-    const start = this.eventiPageIndex * this.eventiPageSize;
-    return sorted.slice(start, start + this.eventiPageSize);
+    return this.eventiData;
   }
 
   getEventiTotalCount(): number {
-    return this.eventiData.length;
+    return this.workflowsTotalCount;
   }
 
-  private getSortedEventiRows(): IEventoRow[] {
-    if (!this.eventiSortActive || !this.eventiSortDirection) {
-      return this.eventiData;
-    }
+  /** Ricarica i workflow dal server con i parametri attuali di paginazione/sort. */
+  private reloadWorkflows(): void {
+    if (!this.paEmittente || !this.nav) return;
 
-    const sortKey: Exclude<EventiSortField, ''> = this.eventiSortActive;
-    const direction = this.eventiSortDirection === 'asc' ? 1 : -1;
-    return [...this.eventiData].sort((a, b) => {
-      const aValue = this.getEventiSortValue(a, sortKey);
-      const bValue = this.getEventiSortValue(b, sortKey);
+    this.spinner.show('detailSpinner');
 
-      if (aValue == null && bValue == null) return 0;
-      if (aValue == null) return 1;
-      if (bValue == null) return -1;
+    const sortParam = this.buildWorkflowsSortParam(this.workflowsTableState);
 
-      if (typeof aValue === 'number' && typeof bValue === 'number') {
-        return (aValue - bValue) * direction;
-      }
-
-      return String(aValue).localeCompare(String(bValue)) * direction;
-    });
+    this.service
+      .getWorkflows(this.nav, this.paEmittente, this.workflowsTableState.pageIndex, this.workflowsTableState.pageSize, sortParam)
+      .subscribe({
+        next: workflows => {
+          this.workflows = workflows;
+          this.buildEventiRows(workflows);
+          this.spinner.hide('detailSpinner');
+        },
+        error: () => {
+          this.spinner.hide('detailSpinner');
+        },
+      });
   }
 
-  private getEventiSortValue(row: IEventoRow, field: Exclude<EventiSortField, ''>): number | string | null {
-    switch (field) {
-      case 'eventoId':
-        return row.eventId ?? null;
-      case 'tipo':
-        return row.tipoevento ?? null;
-      case 'sottotipo':
-        return row.sottotipoevento ?? null;
-      case 'outcome':
-        return row.outcome ?? null;
-      case 'token':
-        return row.token ?? null;
-      case 'dataEvento':
-        return row.insertedtimestamp ? new Date(row.insertedtimestamp).getTime() : null;
+  private buildWorkflowsSortParam(state: IWorkflowsTableState): string | undefined {
+    if (!state.sortActive || !state.sortDirection) {
+      return undefined;
     }
+
+    // Mappare i nomi dei campi frontend ai nomi backend
+    const fieldMap: Record<EventiSortField, string> = {
+      eventoId: 'eventId',
+      tipo: 'tipoevento',
+      sottotipo: 'sottotipoevento',
+      outcome: 'outcome',
+      token: 'token',
+      dataEvento: 'insertedtimestamp',
+      '': '',
+    };
+
+    const backendField = fieldMap[state.sortActive];
+    if (!backendField) {
+      return undefined;
+    }
+
+    return `${backendField},${state.sortDirection}`;
   }
 
   getTransfersResults(row: ITokenRow): any[] {

@@ -514,8 +514,8 @@
               class="w-100"
               matSort
               matSortDisableClear
-              [matSortActive]="eventiSortActive"
-              [matSortDirection]="eventiSortDirection"
+              [matSortActive]="workflowsTableState.sortActive || ''"
+              [matSortDirection]="workflowsTableState.sortDirection || 'asc'"
               (matSortChange)="onEventiSortChange($event)"
               multiTemplateDataRows
             >
@@ -581,10 +581,10 @@
               </tr>
             </table>
             <mat-paginator
-              *ngIf="eventiData.length"
+              *ngIf="getEventiTotalCount() > 0"
               [length]="getEventiTotalCount()"
-              [pageIndex]="eventiPageIndex"
-              [pageSize]="eventiPageSize"
+              [pageIndex]="workflowsTableState.pageIndex"
+              [pageSize]="workflowsTableState.pageSize"
               [hidePageSize]="true"
               (page)="onEventiPageChange($event)"
               showFirstLastButtons
