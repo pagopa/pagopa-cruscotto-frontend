@@ -137,6 +137,7 @@ export const toOperazioneRicercaRow = (
 /** Posizione debitoria. */
 export interface IPosizione {
   tokens?: number;
+  totalTokens?: number;
   payed?: IPayed;
   actors?: IActors;
   amount?: IAmount;
@@ -287,6 +288,7 @@ export type IRawUnifiedSearchPayload = IRawUnifiedSearchResponse | IRawUnifiedSe
 export interface IRawPositionPayment {
   'position-info'?: IRawPositionPaymentInfo;
   tokens?: number;
+  'total-tokens'?: number;
   'all-tokens'?: string[];
   payed?: IRawPayed;
   actors?: IRawActors;
@@ -315,8 +317,11 @@ export interface IRawTransferPayment {
   'position-info'?: IRawPositionPaymentInfo;
   token?: string;
   'transfers-count'?: number;
-  transfers?: IRawTransferObject | IRawTransferObject[];
+  transfers?: IRawTransferObject[];
 }
+
+/** Array response from GET /api/transfers/{nav}/{paEmittente}/{token} */
+export type IRawTransfersResponse = IRawTransferPayment[] | IRawTransferPayment;
 
 export interface IRawWorkflowEvent {
   insertedtimestamp?: string;
@@ -401,6 +406,7 @@ const mapRawPaymentInfo = (raw?: IRawPaymentInfo): IPaymentInfo | undefined =>
 export const mapRawPosizione = (raw: IRawPositionPayment): IPosizione => ({
   positionInfo: mapRawPositionInfo(raw['position-info']),
   tokens: raw.tokens,
+  totalTokens: raw['total-tokens'],
   allTokens: raw['all-tokens'],
   payed: mapRawPayed(raw.payed),
   actors: mapRawActors(raw.actors),
@@ -417,20 +423,36 @@ export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({
   paymentInfo: mapRawPaymentInfo(raw['payment-info']),
 });
 
-export const mapRawTransfers = (raw: IRawTransferPayment): ITransfers => ({
-  positionInfo: mapRawPositionInfo(raw['position-info']),
-  token: raw.token,
-  transfersCount: raw['transfers-count'],
-  count: raw['transfers-count'],
-  // Backward-compatible: backend may return a single object or an array.
-  transfers: (Array.isArray(raw.transfers) ? raw.transfers : raw.transfers ? [raw.transfers] : []).map(t => ({
-    idTransfer: t.idTransfer,
-    typeTransfer: t['type-transfer'],
-    iban: t.iban,
-    amount: t.amount,
-    paFiscalCode: t['pa-fiscal-code'],
-  })),
-});
+export const mapRawTransfers = (raw: IRawTransfersResponse): ITransfers => {
+  // Handle both array and single object response formats
+  let transferPayment: IRawTransferPayment | undefined;
+
+  if (Array.isArray(raw)) {
+    transferPayment = raw.length > 0 ? raw[0] : undefined;
+  } else {
+    transferPayment = raw;
+  }
+
+  if (!transferPayment) {
+    return {
+      transfers: [],
+    };
+  }
+
+  return {
+    positionInfo: mapRawPositionInfo(transferPayment['position-info']),
+    token: transferPayment.token,
+    transfersCount: transferPayment['transfers-count'],
+    count: transferPayment['transfers-count'],
+    transfers: (transferPayment.transfers ?? []).map(t => ({
+      idTransfer: t.idTransfer,
+      typeTransfer: t['type-transfer'],
+      iban: t.iban,
+      amount: t.amount,
+      paFiscalCode: t['pa-fiscal-code'],
+    })),
+  };
+};
 
 export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({
   count: raw.count,

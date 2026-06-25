@@ -123,22 +123,49 @@ export class SertService {
 
   // ─── GET /api/position/{nav}/{pa-emittente} ───────────────────────────────
 
-  public getPosition(nav: string, paEmittente: string, observe?: 'body', reportProgress?: boolean): Observable<IRawPositionPayment>;
   public getPosition(
     nav: string,
     paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+  ): Observable<IRawPositionPayment>;
+  public getPosition(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
   ): Observable<HttpResponse<IRawPositionPayment>>;
   public getPosition(
     nav: string,
     paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
   ): Observable<HttpEvent<IRawPositionPayment>>;
-  public getPosition(nav: string, paEmittente: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getPosition(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+  ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getPosition.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getPosition.');
+
+    let queryParameters = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    if (page != null) queryParameters = queryParameters.set('page', page.toString());
+    if (size != null) queryParameters = queryParameters.set('size', size.toString());
+    if (sort != null) queryParameters = queryParameters.set('sort', sort);
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);
@@ -147,7 +174,7 @@ export class SertService {
     return this.httpClient.request<IRawPositionPayment>(
       'get',
       `${this.basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
-      { withCredentials: this.configuration.withCredentials, headers, observe, reportProgress },
+      { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }
 
@@ -289,22 +316,49 @@ export class SertService {
 
   // ─── GET /api/workflows/{nav}/{pa-emittente} ──────────────────────────────
 
-  public getWorkflows(nav: string, paEmittente: string, observe?: 'body', reportProgress?: boolean): Observable<IRawWorkflowResponse>;
   public getWorkflows(
     nav: string,
     paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+  ): Observable<IRawWorkflowResponse>;
+  public getWorkflows(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'response',
     reportProgress?: boolean,
   ): Observable<HttpResponse<IRawWorkflowResponse>>;
   public getWorkflows(
     nav: string,
     paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
     observe?: 'events',
     reportProgress?: boolean,
   ): Observable<HttpEvent<IRawWorkflowResponse>>;
-  public getWorkflows(nav: string, paEmittente: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getWorkflows(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+  ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getWorkflows.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getWorkflows.');
+
+    let queryParameters = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    if (page != null) queryParameters = queryParameters.set('page', page.toString());
+    if (size != null) queryParameters = queryParameters.set('size', size.toString());
+    if (sort != null) queryParameters = queryParameters.set('sort', sort);
 
     let headers = this.defaultHeaders;
     const accept = this.configuration.selectHeaderAccept(['application/json']);
@@ -313,7 +367,7 @@ export class SertService {
     return this.httpClient.request<IRawWorkflowResponse>(
       'get',
       `${this.basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
-      { withCredentials: this.configuration.withCredentials, headers, observe, reportProgress },
+      { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }
 }

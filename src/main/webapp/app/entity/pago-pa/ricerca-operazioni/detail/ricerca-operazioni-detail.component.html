@@ -100,9 +100,19 @@
           </div> -->
 
           <div class="table-responsive mt-3">
-            <table mat-table [dataSource]="tokensData" class="w-100" multiTemplateDataRows>
+            <table
+              mat-table
+              [dataSource]="getTokensResults()"
+              class="w-100"
+              multiTemplateDataRows
+              matSort
+              matSortDisableClear
+              [matSortActive]="tokensTableState.sortActive || ''"
+              [matSortDirection]="tokensTableState.sortDirection || 'asc'"
+              (matSortChange)="onTokensSortChange($event)"
+            >
               <ng-container matColumnDef="paymentBorn">
-                <th mat-header-cell *matHeaderCellDef>Payment Born</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Born</th>
                 <td mat-cell *matCellDef="let row">
                   <ng-container *ngIf="getRowPaymentBorn(row) as paymentBorn; else dashPaymentBorn">
                     {{ paymentBorn | date: 'dd/MM/yyyy' }}
@@ -112,19 +122,19 @@
               </ng-container>
 
               <ng-container matColumnDef="token">
-                <th mat-header-cell *matHeaderCellDef>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
                   {{ 'pagopaCruscottoApp.ricercaOperazioni.tokens.token' | translate }}
                 </th>
                 <td mat-cell *matCellDef="let row">{{ row.token }}</td>
               </ng-container>
 
               <ng-container matColumnDef="pspName">
-                <th mat-header-cell *matHeaderCellDef>PSP Name</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>PSP Name</th>
                 <td mat-cell *matCellDef="let row">{{ getRowPspName(row) || '--' }}</td>
               </ng-container>
 
               <ng-container matColumnDef="pspDescription">
-                <th mat-header-cell *matHeaderCellDef>PSP Description</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>PSP Description</th>
                 <td mat-cell *matCellDef="let row">
                   {{ row.info?.actors?.ptPsp || posizione?.actors?.ptPsp || '--' }}
                   <!-- TODO: verify the exact backend property for "psp description" (current fallback uses actors.ptPsp). -->
@@ -132,7 +142,7 @@
               </ng-container>
 
               <ng-container matColumnDef="amount">
-                <th mat-header-cell *matHeaderCellDef>Amount</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
                 <td mat-cell *matCellDef="let row">
                   <ng-container *ngIf="getRowAmount(row) != null; else dashAmount">
                     {{ getRowAmount(row) | number: '1.2-2' }} €
@@ -142,12 +152,12 @@
               </ng-container>
 
               <ng-container matColumnDef="paymentMethod">
-                <th mat-header-cell *matHeaderCellDef>Payment Method</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Method</th>
                 <td mat-cell *matCellDef="let row">{{ getRowPaymentMethod(row) || '--' }}</td>
               </ng-container>
 
               <ng-container matColumnDef="touchpoint">
-                <th mat-header-cell *matHeaderCellDef>Touchpoint</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Touchpoint</th>
                 <td mat-cell *matCellDef="let row">{{ getRowTouchpoint(row) || '--' }}</td>
               </ng-container>
 
@@ -482,6 +492,16 @@
                 </td>
               </tr>
             </table>
+
+            <mat-paginator
+              [length]="getTokensTotalCount()"
+              [pageIndex]="tokensTableStatePageIndex"
+              [pageSize]="tokensTableStatePageSize"
+              [hidePageSize]="true"
+              (page)="onTokensPageChange($event)"
+              showFirstLastButtons
+              aria-label="Token pagination"
+            ></mat-paginator>
           </div>
         </mat-tab>
 
