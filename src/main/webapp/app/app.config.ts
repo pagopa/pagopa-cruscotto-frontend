@@ -35,6 +35,12 @@ import { provideNgxMask } from 'ngx-mask';
 import { MSAL_INSTANCE, MSAL_GUARD_CONFIG, MsalService, MsalGuard, MsalBroadcastService } from '@azure/msal-angular';
 import { MSALInstanceFactory, MSALGuardConfigFactory } from './core/auth/msal-config';
 
+// Generated PagoPa Sert API client
+import { BASE_PATH as PAGOPA_SERT_BASE_PATH } from './api-clients/pagopa-sert/variables';
+import { SertService } from './api-clients/pagopa-sert/api/sert.service';
+
+const PAGOPA_SERT_API_URL = SERVER_API_URL ? SERVER_API_URL.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert/v1') : '';
+
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
     dateInput: ['DD/MM/YYYY'],
@@ -154,5 +160,10 @@ export const appConfig: ApplicationConfig = {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'outline' },
     },
+    // Generated PagoPa Sert API client services.
+    // Locally SERVER_API_URL is '' and the webpack dev-server proxy forwards /api/** to localhost:8080.
+    // In deployed environments, SERT uses the /smo/cruscotto-sert/v1 APIM root.
+    { provide: PAGOPA_SERT_BASE_PATH, useValue: PAGOPA_SERT_API_URL },
+    SertService,
   ],
 };
