@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export interface GenerateReportRequest {
   instanceIds: number[];
   reportType?: ReportType;
@@ -22,6 +24,8 @@ export interface ReportDownloadInfo {
 export interface ReportStatusResponse {
   status: ReportGenerationStatus;
   downloadInfo?: ReportDownloadInfo;
+  expiresAt?: dayjs.Dayjs;
+  fileSizeBytes?: number;
 }
 
 export interface ReportDisplayInfo {

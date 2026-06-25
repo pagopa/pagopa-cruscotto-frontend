@@ -45,6 +45,10 @@ const entityRoutes: Routes = [
     path: 'pago-pa/taxonomy-aggregate-position',
     loadChildren: () => import('./pago-pa/taxonomy-aggregate-position/taxonomy-aggregate-position.routes'),
   },
+  {
+    path: 'pago-pa/ricerca-operazioni',
+    loadChildren: () => import('./pago-pa/ricerca-operazioni/ricerca-operazioni.routes'),
+  },
 ];
 
 export default entityRoutes;
