@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
@@ -23,6 +23,21 @@ import { LocaltionHelper } from '../../../../core/location/location.helper';
 import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMode } from '../models/ricerca-operazioni.model';
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
+
+const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
+  const formValue = control.value as {
+    iuv?: string | null;
+    token?: string | null;
+    idCarrello?: string | null;
+    extra?: string | null;
+  };
+
+  const filledExclusiveFieldsCount = [formValue.iuv, formValue.token, formValue.idCarrello, formValue.extra].filter(
+    fieldValue => !!fieldValue?.trim(),
+  ).length;
+
+  return filledExclusiveFieldsCount > 1 ? { exclusiveFieldsConflict: true } : null;
+};
 
 @Component({
   selector: 'jhi-ricerca-operazioni',
@@ -75,14 +90,17 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
   private readonly subscriptions = new Subscription();
 
-  searchForm = this.fb.group({
-    paEmittente: ['', [Validators.pattern(/^\d{0,11}$/)]],
-    nav: ['', [Validators.pattern(/^\d{0,18}$/)]],
-    iuv: ['', [Validators.maxLength(35)]],
-    token: ['', [Validators.pattern(/^[0-9a-f]{0,32}$/i)]],
-    idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,35}$/)]],
-    extra: [''],
-  });
+  searchForm = this.fb.group(
+    {
+      paEmittente: ['', [Validators.pattern(/^\d{0,11}$/)]],
+      nav: ['', [Validators.pattern(/^\d{0,18}$/)]],
+      iuv: ['', [Validators.maxLength(35)]],
+      token: ['', [Validators.pattern(/^[0-9a-f]{0,32}$/i)]],
+      idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,35}$/)]],
+      extra: [''],
+    },
+    { validators: [exclusiveSearchFieldsValidator] },
+  );
 
   constructor() {
     this.locale = this.translateService.currentLang;
