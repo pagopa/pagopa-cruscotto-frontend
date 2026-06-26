@@ -357,7 +357,7 @@
                             *ngIf="getTransfersResults(row).length; else noTransfers"
                           >
                             <ng-container matColumnDef="idTransfer">
-                              <th mat-header-cell *matHeaderCellDef mat-sort-header="idTransfer">
+                              <th mat-header-cell *matHeaderCellDef>
                                 {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.transfers.idTransfer' | translate }}
                               </th>
                               <td mat-cell *matCellDef="let r">{{ r.idTransfer }}</td>
