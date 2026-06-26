@@ -130,9 +130,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   };
   private workflowsTotalCount: number = 0;
 
-  // ---- Stato espansione ----
   expandedTokens = new Set<string>();
-  expandedEventi = new Set<string>();
   /** Stato di caricamento delle sotto-sezioni di un token: key = `${token}:${section}`. */
   loadingSections = new Set<string>();
 
@@ -433,7 +431,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     if (!this.transfersTableStateByToken[token]) {
       const initialState: ITransfersTableState = {
         pageIndex: 0,
-        pageSize: 3,
+        pageSize: 10,
         sortActive: '',
         sortDirection: '',
       };
@@ -538,7 +536,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
     // Mappare i nomi dei campi frontend ai nomi backend
     const fieldMap: Record<EventiSortField, string> = {
-      eventoId: 'eventId',
+      eventoId: 'event-id',
       tipo: 'tipoevento',
       sottotipo: 'sottotipoevento',
       outcome: 'outcome',
@@ -598,18 +596,6 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     this.expandedTokens.clear();
   }
 
-  // ============================================================
-  // Espansione Eventi
-  // ============================================================
-
-  toggleEventoExpand(row: IEventoRow): void {
-    if (this.expandedEventi.has(row.rowId)) {
-      this.expandedEventi.delete(row.rowId);
-    } else {
-      this.expandedEventi.add(row.rowId);
-    }
-  }
-
   get tokensTableStatePageIndex(): number {
     return this.tokensTableState.pageIndex;
   }
@@ -619,7 +605,6 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   }
 
   isTokenExpanded = (_index: number, row: ITokenRow): boolean => this.expandedTokens.has(row.token);
-  isEventoExpanded = (_index: number, row: IEventoRow): boolean => this.expandedEventi.has(row.rowId);
 
   transfersCount(row: ITokenRow): number {
     return row.transfers?.transfersCount ?? row.transfers?.transfers?.length ?? 0;
