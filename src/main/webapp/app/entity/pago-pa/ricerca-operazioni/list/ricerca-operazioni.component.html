@@ -96,9 +96,9 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.idCarrello">ID Carrello</mat-label>
-              <input matInput formControlName="idCarrello" maxlength="35" />
+              <input matInput formControlName="idCarrello" maxlength="40" />
               <mat-error *ngIf="searchForm.get('idCarrello')?.hasError('pattern')">
-                Formato non valido: inserire un codice alfanumerico di massimo 35 caratteri.
+                Formato non valido: inserire un codice alfanumerico di massimo 40 caratteri.
               </mat-error>
             </mat-form-field>
           </div>

@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -13,7 +14,6 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { catchError, forkJoin, map, of } from 'rxjs';
 
 import SharedModule from '../../../../shared/shared.module';
@@ -89,7 +89,6 @@ interface IWorkflowsTableState {
     MatTableModule,
     MatTabsModule,
     MatTooltipModule,
-    NgxSpinnerModule,
   ],
 })
 export class RicercaOperazioniDetailComponent implements OnInit {
@@ -151,13 +150,13 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   private tokensTokenTotalCount: number = 0;
 
   isLoading = true;
+  isTokensLoading = false;
   isEventiLoading = false;
 
   @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
 
   private readonly route = inject(ActivatedRoute);
   private readonly service = inject(RicercaOperazioniService);
-  private readonly spinner = inject(NgxSpinnerService);
 
   private buildTokenRows(tokens: string[]): ITokenRow[] {
     return tokens.map(token => ({
@@ -189,7 +188,8 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     if (!this.paEmittente || !this.nav) return;
 
     this.isLoading = true;
-    this.spinner.show('detailSpinner');
+    this.isTokensLoading = true;
+    this.isEventiLoading = true;
 
     forkJoin({
       posizione: this.service.getPosition(this.nav, this.paEmittente),
@@ -213,11 +213,13 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         this.workflowsTableState.sortDirection = '';
 
         this.isLoading = false;
-        this.spinner.hide('detailSpinner');
+        this.isTokensLoading = false;
+        this.isEventiLoading = false;
       },
       error: () => {
         this.isLoading = false;
-        this.spinner.hide('detailSpinner');
+        this.isTokensLoading = false;
+        this.isEventiLoading = false;
       },
     });
   }
@@ -411,7 +413,12 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         row.extra = extra;
         onDone?.();
       },
-      error: () => onDone?.(),
+      error: (error: unknown) => {
+        if (this.isNotFoundError(error)) {
+          row.extra = { count: 0, results: [] };
+        }
+        onDone?.();
+      },
     });
   }
 
@@ -575,12 +582,17 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         row.transfers = transfers;
         onDone?.();
       },
-      error: () => {
-        // On error (e.g. 404), set empty result so the template shows the noTransfers message
-        row.transfers = { transfers: [], count: 0, transfersCount: 0 };
+      error: (error: unknown) => {
+        if (this.isNotFoundError(error)) {
+          row.transfers = { transfers: [], count: 0, transfersCount: 0 };
+        }
         onDone?.();
       },
     });
+  }
+
+  private isNotFoundError(error: unknown): boolean {
+    return error instanceof HttpErrorResponse && error.status === 404;
   }
 
   private buildTransfersSortParam(state: ITransfersTableState): string | undefined {
@@ -691,6 +703,8 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       sortParam = `${backendFieldName},${this.tokensTableState.sortDirection}`;
     }
 
+    this.isTokensLoading = true;
+
     this.service
       .getPosition(this.nav, this.paEmittente, this.tokensTableState.pageIndex, this.tokensTableState.pageSize, sortParam || undefined)
       .subscribe({
@@ -702,9 +716,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
           this.tokensTokenTotalCount = posizione.totalTokens ?? posizione.tokens ?? posizione.allTokens?.length ?? 0;
           // Precarica i dettagli dei token nella pagina
           this.preloadTokenInfo();
+          this.isTokensLoading = false;
         },
         error: () => {
           // In caso di errore mantieni i dati precedenti
+          this.isTokensLoading = false;
         },
       });
   }

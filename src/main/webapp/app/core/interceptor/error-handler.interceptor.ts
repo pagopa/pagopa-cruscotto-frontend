@@ -14,6 +14,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
+          const isExpectedNoData404 = err.status === 404 && (err.url?.includes('/api/transfers/') || err.url?.includes('/api/extra/'));
+
+          if (isExpectedNoData404) {
+            return;
+          }
+
           //avoid broadcasting error when generating report, as it is expected to receive a 409 response with the message "Report generation in progress" if the report is already being generated
           if (!(err.status === 409 && err.url?.includes('generate-async'))) {
             if (!(err.status === 401 && (err.message === '' || err.url?.includes('api/account')))) {

@@ -76,7 +76,8 @@
           "iban": "IBAN",
           "amount": "Amount",
           "typeTransfer": "Type",
-          "paFiscalCode": "PA Tax Code"
+          "paFiscalCode": "PA Tax Code",
+          "noData": "No transfers"
         },
         "extraInfo": {
           "name": "Name",

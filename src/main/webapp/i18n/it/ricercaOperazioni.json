@@ -76,7 +76,8 @@
           "iban": "IBAN",
           "amount": "Importo",
           "typeTransfer": "Tipo",
-          "paFiscalCode": "Codice Fiscale PA"
+          "paFiscalCode": "Codice Fiscale PA",
+          "noData": "Nessun trasferimento"
         },
         "extraInfo": {
           "name": "Nome",
