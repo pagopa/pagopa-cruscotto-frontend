@@ -96,7 +96,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       nav: ['', [Validators.pattern(/^\d{0,18}$/)]],
       iuv: ['', [Validators.maxLength(35)]],
       token: ['', [Validators.pattern(/^[0-9a-f]{0,32}$/i)]],
-      idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,35}$/)]],
+      idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,40}$/)]],
       extra: [''],
     },
     { validators: [exclusiveSearchFieldsValidator] },
