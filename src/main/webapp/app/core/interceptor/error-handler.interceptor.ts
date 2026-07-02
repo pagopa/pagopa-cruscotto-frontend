@@ -14,7 +14,12 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         error: (err: HttpErrorResponse) => {
-          const isExpectedNoData404 = err.status === 404 && (err.url?.includes('/api/transfers/') || err.url?.includes('/api/extra/'));
+          const isExpectedNoData404 =
+            err.status === 404 &&
+            (err.url?.includes('/api/transfers/') ||
+              err.url?.includes('/api/extra/') ||
+              err.url?.includes('/api/workflows/') ||
+              err.url?.includes('/api/search/'));
 
           if (isExpectedNoData404) {
             return;
