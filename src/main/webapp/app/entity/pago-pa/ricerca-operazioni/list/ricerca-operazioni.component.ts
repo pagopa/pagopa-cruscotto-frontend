@@ -1,6 +1,7 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { addToFilter, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 
@@ -104,9 +105,19 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.locale = this.translateService.currentLang;
+
+    if (!this.locationHelper.getIsBack()) {
+      this.filter.clear();
+    }
   }
 
   ngOnInit(): void {
+    this.updateForm();
+
+    if (this.locationHelper.getIsBack()) {
+      this.loadPage();
+    }
+
     this.subscriptions.add(
       this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
         this.locale = event.lang;
@@ -124,6 +135,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.populateFilter();
     this.page = 1;
     this.loadPage();
   }
@@ -165,7 +177,34 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     window.history.back();
   }
 
-  private detectMode(): RicercaOperazioniMode | null {
+  private updateForm(): void {
+    this.searchForm.patchValue({
+      paEmittente: getFilterValue(this.filter, RicercaOperazioniFilter.PA_EMITTENTE),
+      nav: getFilterValue(this.filter, RicercaOperazioniFilter.NAV),
+      iuv: getFilterValue(this.filter, RicercaOperazioniFilter.IUV),
+      token: getFilterValue(this.filter, RicercaOperazioniFilter.TOKEN),
+      idCarrello: getFilterValue(this.filter, RicercaOperazioniFilter.ID_CARRELLO),
+      extra: getFilterValue(this.filter, RicercaOperazioniFilter.EXTRA),
+    });
+    this.page = this.filter.page;
+  }
+
+  private populateFilter(): void {
+    this.filter.clear();
+    this.filter.page = this.page;
+    this.filter.mode = this.detectMode();
+
+    addToFilter(this.filter, this.searchForm.get('paEmittente'), RicercaOperazioniFilter.PA_EMITTENTE);
+    addToFilter(this.filter, this.searchForm.get('nav'), RicercaOperazioniFilter.NAV);
+    addToFilter(this.filter, this.searchForm.get('iuv'), RicercaOperazioniFilter.IUV);
+    addToFilter(this.filter, this.searchForm.get('token'), RicercaOperazioniFilter.TOKEN);
+    addToFilter(this.filter, this.searchForm.get('idCarrello'), RicercaOperazioniFilter.ID_CARRELLO);
+    addToFilter(this.filter, this.searchForm.get('extra'), RicercaOperazioniFilter.EXTRA);
+
+    this.filter.search = true;
+  }
+
+  private detectMode(): RicercaOperazioniMode | undefined {
     const { paEmittente, nav, iuv, token, idCarrello, extra } = this.searchForm.value;
     if (extra?.trim()) return 'extra';
     if (nav?.trim()) return 'nav';
@@ -173,7 +212,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     if (token?.trim()) return 'token';
     if (idCarrello?.trim()) return 'cart';
     if (paEmittente?.trim()) return 'paEmittente';
-    return null;
+    return undefined;
   }
 
   private updateDisplayedColumns(): void {
