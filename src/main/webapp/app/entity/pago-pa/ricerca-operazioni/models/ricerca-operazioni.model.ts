@@ -8,10 +8,13 @@
 
 export interface IActors {
   psp?: string;
+  pspDescription?: string;
   station?: string;
   channel?: string;
   ptPa?: string;
+  ptPaDescription?: string;
   ptPsp?: string;
+  ptPspDescription?: string;
 }
 
 export interface IAmount {
@@ -246,8 +249,11 @@ export interface IRawPositionPaymentInfo extends IRawBasicPosition {
 
 export interface IRawActors {
   psp?: string;
+  'psp-description'?: string;
   'pt-pa'?: string;
+  'pt-pa-description'?: string;
   'pt-psp'?: string;
+  'pt-psp-description'?: string;
   station?: string;
   channel?: string;
 }
@@ -374,8 +380,11 @@ const mapRawActors = (raw?: IRawActors): IActors | undefined =>
   raw
     ? {
         psp: raw.psp,
+        pspDescription: raw['psp-description'],
         ptPa: raw['pt-pa'],
+        ptPaDescription: raw['pt-pa-description'],
         ptPsp: raw['pt-psp'],
+        ptPspDescription: raw['pt-psp-description'],
         station: raw.station,
         channel: raw.channel,
       }
