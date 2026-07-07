@@ -7,15 +7,17 @@ function setupProxy({ tls }) {
   return [
     {
       context: sertResources,
-      target: `http${tls ? 's' : ''}://localhost:8081`,
+      // target: `http${tls ? 's' : ''}://localhost:8081`,
+      target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert-search/v1',
       secure: false,
-      changeOrigin: tls,
+      changeOrigin: true,
     },
     {
       context: serverResources,
-      target: `http${tls ? 's' : ''}://localhost:8080`,
+      // target: `http${tls ? 's' : ''}://localhost:8080`,
+      target: 'https://api.dev.platform.pagopa.it/smo/cruscotto/v1',
       secure: false,
-      changeOrigin: tls,
+      changeOrigin: true,
     },
   ];
 }
