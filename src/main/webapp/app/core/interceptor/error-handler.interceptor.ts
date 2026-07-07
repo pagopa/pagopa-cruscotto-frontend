@@ -19,7 +19,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             (err.url?.includes('/api/transfers/') ||
               err.url?.includes('/api/extra/') ||
               err.url?.includes('/api/workflows/') ||
-              err.url?.includes('/api/search/'));
+              err.url?.includes('/api/search'));
 
           if (isExpectedNoData404) {
             return;

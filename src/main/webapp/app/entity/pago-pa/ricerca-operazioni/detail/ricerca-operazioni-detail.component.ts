@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -95,6 +94,18 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   paEmittente: string | null = null;
   nav: string | null = null;
 
+  /** Formatta l'intestazione PA come "codice - nome" quando disponibile. */
+  get paEmittenteHeader(): string {
+    const paCode = this.paEmittente ?? this.posizione?.positionInfo?.paEmittente;
+    const paName = this.posizione?.positionInfo?.paEmittente;
+
+    if (paCode && paName && paCode !== paName) {
+      return `${paCode} - ${paName}`;
+    }
+
+    return paCode ?? paName ?? '--';
+  }
+
   /** Posizione (vista centrale) — DTO restituito da GET /api/position/{nav}/{pa}. */
   posizione: IPosizione | null = null;
 
@@ -113,6 +124,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     'token',
     'pspName',
     'pspDescription',
+    'paDescription',
     'amount',
     'paymentMethod',
     'touchpoint',
@@ -413,10 +425,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         row.extra = extra;
         onDone?.();
       },
-      error: (error: unknown) => {
-        if (this.isNotFoundError(error)) {
-          row.extra = { count: 0, results: [] };
-        }
+      error: () => {
         onDone?.();
       },
     });
@@ -582,17 +591,10 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         row.transfers = transfers;
         onDone?.();
       },
-      error: (error: unknown) => {
-        if (this.isNotFoundError(error)) {
-          row.transfers = { transfers: [], count: 0, transfersCount: 0 };
-        }
+      error: () => {
         onDone?.();
       },
     });
-  }
-
-  private isNotFoundError(error: unknown): boolean {
-    return error instanceof HttpErrorResponse && error.status === 404;
   }
 
   private buildTransfersSortParam(state: ITransfersTableState): string | undefined {
@@ -632,6 +634,14 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   getRowPspName(row: ITokenRow): string | undefined {
     return row.info?.actors?.psp ?? this.posizione?.actors?.psp;
+  }
+
+  getRowPspDescription(row: ITokenRow): string | undefined {
+    return row.info?.actors?.pspDescription ?? this.posizione?.actors?.pspDescription;
+  }
+
+  getRowPaDescription(row: ITokenRow): string | undefined {
+    return row.info?.actors?.ptPaDescription ?? this.posizione?.actors?.ptPaDescription;
   }
 
   getRowAmount(row: ITokenRow): number | undefined {

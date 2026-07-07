@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 
 import { SertService } from '../../../../api-clients/pagopa-sert/api/sert.service';
@@ -63,12 +63,30 @@ export class RicercaOperazioniService {
 
   /** GET /api/extra/{token} con paginazione/sort server-side. */
   getExtraInfo(token: string, page?: number, size?: number, sort?: string): Observable<IExtraInfo> {
-    return this.sertApi.getExtraInfo(token, page, size, sort).pipe(map(mapRawExtraInfo));
+    return this.sertApi.getExtraInfo(token, page, size, sort).pipe(
+      map(mapRawExtraInfo),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          return of<IExtraInfo>({ count: 0, results: [] });
+        }
+
+        throw error;
+      }),
+    );
   }
 
   /** GET /api/transfers/{nav}/{paEmittente}/{token} con paginazione/sort server-side. */
   getTransfers(nav: string, paEmittente: string, token: string, page?: number, size?: number, sort?: string): Observable<ITransfers> {
-    return this.sertApi.getTransfers(nav, paEmittente, token, page, size, sort).pipe(map(mapRawTransfers));
+    return this.sertApi.getTransfers(nav, paEmittente, token, page, size, sort).pipe(
+      map(mapRawTransfers),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          return of<ITransfers>({ token, transfers: [], count: 0, transfersCount: 0 });
+        }
+
+        throw error;
+      }),
+    );
   }
 
   /** GET /api/workflows/{nav}/{paEmittente} con paginazione/sort server-side. */
@@ -78,8 +96,13 @@ export class RicercaOperazioniService {
     const url = `${basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawWorkflowResponse>(url, { params }).pipe(
       map(mapRawWorkflows),
-      // In caso di errore restituiamo un workflow vuoto per non bloccare la vista
-      catchError(() => of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] })),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          return of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] });
+        }
+
+        throw error;
+      }),
     );
   }
 
@@ -115,6 +138,28 @@ export class RicercaOperazioniService {
           status: res.status,
           headers: res.headers,
         });
+      }),
+      catchError((error: unknown) => {
+        if (error instanceof HttpErrorResponse && error.status === 404) {
+          const pageSize = p.size ?? 10;
+          const pageNumber = p.page ?? 0;
+
+          return of(
+            new HttpResponse<IOperazioneRicercaResponse>({
+              body: {
+                content: [],
+                totalElements: 0,
+                totalPages: 0,
+                size: pageSize,
+                number: pageNumber,
+              },
+              status: 200,
+              headers: new HttpHeaders({ 'x-total-count': '0' }),
+            }),
+          );
+        }
+
+        throw error;
       }),
     );
   }

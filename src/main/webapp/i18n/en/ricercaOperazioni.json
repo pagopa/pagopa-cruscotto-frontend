@@ -52,17 +52,25 @@
         "paymentInfo": {
           "touchpoint": "Touchpoint",
           "paymentMethod": "Payment Method",
+          "pspDescription": "PSP Description",
+          "paDescription": "PA Description",
           "isDw": "is DW",
           "isGpd": "is GPD",
           "isStandin": "is Stand-In",
           "isCart": "is Cart"
         },
+        "tokens": {
+          "pspDescription": "PSP Description",
+          "paDescription": "PA Description"
+        },
         "actors": {
           "psp": "PSP",
+          "pspDescription": "PSP Description",
           "station": "Station",
           "channel": "Channel",
           "ptPa": "PT PA",
-          "ptPsp": "PT PSP"
+          "ptPsp": "PT PSP",
+          "paDescription": "PA Description"
         },
         "payed": {
           "token": "Paid Token",

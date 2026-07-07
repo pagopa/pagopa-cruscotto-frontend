@@ -24,7 +24,7 @@
         <div *ngIf="posizione" class="row">
           <div class="col-lg-4 mb-3">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paEmittente">PA Emittente</div>
-            <div class="fw-bold">{{ posizione.positionInfo?.paEmittente || paEmittente }}</div>
+            <div class="fw-bold">{{ paEmittenteHeader }}</div>
           </div>
           <div class="col-lg-4 mb-3">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.numeroAvviso">Numero Avviso</div>
@@ -144,11 +144,17 @@
                   </ng-container>
 
                   <ng-container matColumnDef="pspDescription">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PSP Description</th>
-                    <td mat-cell *matCellDef="let row">
-                      {{ row.info?.actors?.ptPsp || posizione?.actors?.ptPsp || '--' }}
-                      <!-- TODO: verify the exact backend property for "psp description" (current fallback uses actors.ptPsp). -->
-                    </td>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.tokens.pspDescription' | translate }}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ getRowPspDescription(row) || '--' }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="paDescription">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.tokens.paDescription' | translate }}
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ getRowPaDescription(row) || '--' }}</td>
                   </ng-container>
 
                   <ng-container matColumnDef="amount">
@@ -273,12 +279,6 @@
                               <!-- Attori -->
                               <h6 class="mt-3" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.actors">Attori</h6>
                               <div class="d-flex flex-wrap align-items-start gap-3 flex-row border-bottom pb-3">
-                                <div class="mb-3 flex-item" *ngIf="info.actors?.psp">
-                                  <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.psp">
-                                    PSP
-                                  </div>
-                                  <div class="fw-bold">{{ info.actors?.psp }}</div>
-                                </div>
                                 <div class="mb-3 flex-item" *ngIf="info.actors?.station">
                                   <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.station">
                                     Stazione
@@ -291,17 +291,41 @@
                                   </div>
                                   <div class="fw-bold">{{ info.actors?.channel }}</div>
                                 </div>
-                                <div class="mb-3 flex-item" *ngIf="info.actors?.ptPa">
-                                  <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.ptPa">
-                                    Partner PA
+                                <div class="mb-3 flex-item" *ngIf="info.actors?.psp">
+                                  <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.psp">
+                                    PSP
                                   </div>
-                                  <div class="fw-bold">{{ info.actors?.ptPa }}</div>
+                                  <div class="fw-bold">{{ info.actors?.psp }}</div>
                                 </div>
                                 <div class="mb-3 flex-item" *ngIf="info.actors?.ptPsp">
                                   <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.ptPsp">
                                     Partner PSP
                                   </div>
                                   <div class="fw-bold">{{ info.actors?.ptPsp }}</div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.actors?.pspDescription || info.actors?.ptPspDescription">
+                                  <div
+                                    class="text-muted small"
+                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.pspDescription"
+                                  >
+                                    Descrizione PSP
+                                  </div>
+                                  <div class="fw-bold">{{ info.actors?.pspDescription || info.actors?.ptPspDescription }}</div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.actors?.ptPa">
+                                  <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.ptPa">
+                                    Partner PA
+                                  </div>
+                                  <div class="fw-bold">{{ info.actors?.ptPa }}</div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.actors?.ptPaDescription">
+                                  <div
+                                    class="text-muted small"
+                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.actors.paDescription"
+                                  >
+                                    Descrizione PA
+                                  </div>
+                                  <div class="fw-bold">{{ info.actors?.ptPaDescription }}</div>
                                 </div>
                               </div>
 
