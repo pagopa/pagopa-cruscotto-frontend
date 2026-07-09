@@ -16,10 +16,10 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
         error: (err: HttpErrorResponse) => {
           const isExpectedNoData404 =
             err.status === 404 &&
-            (err.url?.includes('/api/transfers/') ||
-              err.url?.includes('/api/extra/') ||
-              err.url?.includes('/api/workflows/') ||
-              err.url?.includes('/api/search'));
+            (err.url?.includes('/sert/transfers/') ||
+              err.url?.includes('/sert/extra/') ||
+              err.url?.includes('/sert/workflows/') ||
+              err.url?.includes('/sert/search'));
 
           if (isExpectedNoData404) {
             return;

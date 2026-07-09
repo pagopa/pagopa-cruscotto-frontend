@@ -82,7 +82,7 @@ export class VisualizzazioneDettagliService {
     // to determine the Content-Type header
     const consumes: string[] = [];
 
-    return this.httpClient.request<IExtraInfo>('get', `${this.basePath}/api/extra/${encodeURIComponent(String(token))}`, {
+    return this.httpClient.request<IExtraInfo>('get', `${this.basePath}/sert/extra/${encodeURIComponent(String(token))}`, {
       withCredentials: this.configuration.withCredentials,
       headers: headers,
       observe: observe,
@@ -117,7 +117,7 @@ export class VisualizzazioneDettagliService {
     // to determine the Content-Type header
     const consumes: string[] = [];
 
-    return this.httpClient.request<ITokenInfo>('get', `${this.basePath}/api/token/${encodeURIComponent(String(token))}`, {
+    return this.httpClient.request<ITokenInfo>('get', `${this.basePath}/sert/token/${encodeURIComponent(String(token))}`, {
       withCredentials: this.configuration.withCredentials,
       headers: headers,
       observe: observe,
@@ -182,7 +182,7 @@ export class VisualizzazioneDettagliService {
 
     return this.httpClient.request<ITransfers>(
       'get',
-      `${this.basePath}/api/transfers/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}/${encodeURIComponent(String(token))}`,
+      `${this.basePath}/sert/transfers/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}/${encodeURIComponent(String(token))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
@@ -231,7 +231,7 @@ export class VisualizzazioneDettagliService {
 
     return this.httpClient.request<IWorkflows>(
       'get',
-      `${this.basePath}/api/workflows/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}`,
+      `${this.basePath}/sert/workflows/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,
