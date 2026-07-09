@@ -112,7 +112,7 @@ export class SertService {
     const accept = this.configuration.selectHeaderAccept(['application/json']);
     if (accept) headers = headers.set('Accept', accept);
 
-    return this.httpClient.request<IRawUnifiedSearchResponse>('get', `${this.basePath}/sert/search`, {
+    return this.httpClient.request<IRawUnifiedSearchResponse>('get', `${this.basePath}/api/search`, {
       params: queryParameters,
       withCredentials: this.configuration.withCredentials,
       headers,
@@ -173,7 +173,7 @@ export class SertService {
 
     return this.httpClient.request<IRawPositionPayment>(
       'get',
-      `${this.basePath}/sert/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
+      `${this.basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
       { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }
@@ -190,7 +190,7 @@ export class SertService {
     const accept = this.configuration.selectHeaderAccept(['application/json']);
     if (accept) headers = headers.set('Accept', accept);
 
-    return this.httpClient.request<IRawTokenInfo>('get', `${this.basePath}/sert/token/${encodeURIComponent(token)}`, {
+    return this.httpClient.request<IRawTokenInfo>('get', `${this.basePath}/api/token/${encodeURIComponent(token)}`, {
       withCredentials: this.configuration.withCredentials,
       headers,
       observe,
@@ -243,7 +243,7 @@ export class SertService {
     const accept = this.configuration.selectHeaderAccept(['application/json']);
     if (accept) headers = headers.set('Accept', accept);
 
-    return this.httpClient.request<IRawExtraInfoResponse>('get', `${this.basePath}/sert/extra/${encodeURIComponent(token)}`, {
+    return this.httpClient.request<IRawExtraInfoResponse>('get', `${this.basePath}/api/extra/${encodeURIComponent(token)}`, {
       withCredentials: this.configuration.withCredentials,
       headers,
       params: queryParameters,
@@ -309,7 +309,7 @@ export class SertService {
 
     return this.httpClient.request<IRawTransferPayment>(
       'get',
-      `${this.basePath}/sert/transfers/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}/${encodeURIComponent(token)}`,
+      `${this.basePath}/api/transfers/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}/${encodeURIComponent(token)}`,
       { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }
@@ -366,7 +366,7 @@ export class SertService {
 
     return this.httpClient.request<IRawWorkflowResponse>(
       'get',
-      `${this.basePath}/sert/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
+      `${this.basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`,
       { withCredentials: this.configuration.withCredentials, headers, params: queryParameters, observe, reportProgress },
     );
   }

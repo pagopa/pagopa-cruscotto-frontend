@@ -94,7 +94,7 @@ export class VisualizzazionePosizioneDebitoriaService {
 
     return this.httpClient.request<IPosizione>(
       'get',
-      `${this.basePath}/sert/position/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}`,
+      `${this.basePath}/api/position/${encodeURIComponent(String(nav))}/${encodeURIComponent(String(paEmittente))}`,
       {
         withCredentials: this.configuration.withCredentials,
         headers: headers,

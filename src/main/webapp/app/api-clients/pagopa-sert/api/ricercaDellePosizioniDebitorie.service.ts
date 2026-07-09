@@ -139,7 +139,7 @@ export class RicercaDellePosizioniDebitorieService {
     // to determine the Content-Type header
     const consumes: string[] = [];
 
-    return this.httpClient.request<IUnifiedSearchResponse>('get', `${this.basePath}/sert/search`, {
+    return this.httpClient.request<IUnifiedSearchResponse>('get', `${this.basePath}/api/search`, {
       params: queryParameters,
       withCredentials: this.configuration.withCredentials,
       headers: headers,
