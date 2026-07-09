@@ -12,6 +12,7 @@
         "idCarrello": "Cart ID",
         "extra": "Additional Information",
         "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information",
+        "paEmittenteSolo": "Searching by Issuing PA only is not allowed. Please add at least one more search criterion.",
         "exclusiveFieldsConflict": "Provide only one among IUV, Token, Cart ID or Additional Information."
       },
       "result": {

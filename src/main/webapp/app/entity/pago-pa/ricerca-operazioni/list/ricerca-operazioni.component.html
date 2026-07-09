@@ -110,6 +110,14 @@
           </div>
         </div>
 
+        <div class="row" *ngIf="searchForm.hasError('paEmittenteSolo') && (searchForm.dirty || searchForm.touched)">
+          <div class="col-12">
+            <div class="text-danger small mb-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittenteSolo">
+              La ricerca per sola PA Emittente non è consentita. Aggiungere almeno un altro criterio.
+            </div>
+          </div>
+        </div>
+
         <div class="row" *ngIf="searchForm.hasError('exclusiveFieldsConflict') && (searchForm.dirty || searchForm.touched)">
           <div class="col-12">
             <div class="text-danger small mb-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveFieldsConflict">

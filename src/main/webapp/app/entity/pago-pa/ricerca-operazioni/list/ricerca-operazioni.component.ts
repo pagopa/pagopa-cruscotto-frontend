@@ -25,6 +25,12 @@ import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMod
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 
+const paEmittenteSoloValidator = (control: AbstractControl): ValidationErrors | null => {
+  const { paEmittente, nav, iuv, token, idCarrello, extra } = control.value as Record<string, string | null>;
+  const hasOther = [nav, iuv, token, idCarrello, extra].some(v => !!v?.trim());
+  return !!paEmittente?.trim() && !hasOther ? { paEmittenteSolo: true } : null;
+};
+
 const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
     iuv?: string | null;
@@ -100,7 +106,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,40}$/)]],
       extra: [''],
     },
-    { validators: [exclusiveSearchFieldsValidator] },
+    { validators: [paEmittenteSoloValidator, exclusiveSearchFieldsValidator] },
   );
 
   constructor() {

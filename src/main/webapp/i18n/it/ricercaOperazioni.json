@@ -12,6 +12,7 @@
         "idCarrello": "ID Carrello",
         "extra": "Informazioni Aggiuntive",
         "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive",
+        "paEmittenteSolo": "La ricerca per sola PA Emittente non è consentita. Aggiungere almeno un altro criterio di ricerca.",
         "exclusiveFieldsConflict": "Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive."
       },
       "result": {
