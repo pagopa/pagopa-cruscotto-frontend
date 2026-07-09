@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const serverApiUrl = this.applicationConfigService.getEndpointFor('');
-    const sertApiUrl = serverApiUrl ? serverApiUrl.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert/v1') : '';
+    const sertApiUrl = serverApiUrl ? serverApiUrl.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert-search/v1') : '';
     const isAbsoluteExternalUrl =
       request.url.startsWith('http') &&
       !((serverApiUrl && request.url.startsWith(serverApiUrl)) || (sertApiUrl && request.url.startsWith(sertApiUrl)));
