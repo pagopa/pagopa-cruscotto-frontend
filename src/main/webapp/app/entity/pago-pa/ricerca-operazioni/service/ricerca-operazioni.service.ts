@@ -52,7 +52,7 @@ export class RicercaOperazioniService {
   getPosition(nav: string, paEmittente: string, page?: number, size?: number, sort?: string): Observable<IPosizione> {
     const params = this.toPageableParams(page, size, sort);
     const basePath = (this.sertApi as any).basePath as string;
-    const url = `${basePath}/sert/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
+    const url = `${basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawPositionPayment>(url, { params }).pipe(map(mapRawPosizione));
   }
 

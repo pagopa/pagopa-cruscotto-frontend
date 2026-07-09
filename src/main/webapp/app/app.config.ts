@@ -39,7 +39,7 @@ import { MSALInstanceFactory, MSALGuardConfigFactory } from './core/auth/msal-co
 import { BASE_PATH as PAGOPA_SERT_BASE_PATH } from './api-clients/pagopa-sert/variables';
 import { SertService } from './api-clients/pagopa-sert/api/sert.service';
 
-const PAGOPA_SERT_API_URL = SERVER_API_URL ? SERVER_API_URL.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert/v1') : '';
+const PAGOPA_SERT_API_URL = SERVER_API_URL ? SERVER_API_URL.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert-search/v1') : '';
 
 const MAT_DAYJS_DATE_FORMATS: MatDateFormats = {
   parse: {
