@@ -2,13 +2,15 @@ function setupProxy({ tls }) {
   const serverResources = ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/health'];
 
   // Sert-specific endpoints — served by cruscotto-sert-backend on port 8081
-  const sertResources = ['/api/search', '/api/position', '/api/token', '/api/extra', '/api/transfers', '/api/workflows'];
+  // Uses /sert/* prefix locally; pathRewrite strips it before forwarding to the remote /api/* path.
+  const sertResources = ['/sert'];
 
   return [
     {
       context: sertResources,
       // target: `http${tls ? 's' : ''}://localhost:8081`,
       target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert-search/v1',
+      pathRewrite: { '^/sert': '/api' },
       secure: false,
       changeOrigin: true,
     },
