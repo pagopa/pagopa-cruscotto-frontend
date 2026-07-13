@@ -19,4 +19,8 @@ export class ReportService {
   generate(request: GenerateReportRequest): Observable<EntityResponseType> {
     return this.http.post<EntityResponseType>(`${this.resourceUrl}/generate-async`, request, { observe: 'response' });
   }
+
+  download(id: number): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/${id}/download`, { observe: 'response', responseType: 'blob' });
+  }
 }
