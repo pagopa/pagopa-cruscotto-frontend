@@ -9,7 +9,7 @@ function setupProxy({ tls }) {
     {
       context: pathname => sertPaths.some(p => pathname.startsWith(p)),
       // target: `http${tls ? 's' : ''}://localhost:8081`,
-      target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert-search/v1',
+      target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert/v1',
       secure: false,
       changeOrigin: true,
     },

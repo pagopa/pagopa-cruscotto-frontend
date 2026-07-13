@@ -247,7 +247,9 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       rowId: e.eventId ?? `tok-${idx}`,
       token: e.token,
     }));
-    this.eventiData = [...tokenEvents];
+    this.eventiData = [...tokenEvents, ...positionEvents].sort((a, b) => {
+      return (a?.positionNumber ?? 0) - (b?.positionNumber ?? 0); // Ordine riprodotto a backend
+    });
     this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
   }
 

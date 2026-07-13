@@ -572,16 +572,32 @@ export class InstanceComponent implements OnInit, OnDestroy {
   }
 
   downloadReport(instanceId: number): void {
-    const downloadInfo = this.reportStatusMap.get(instanceId)?.downloadInfo;
-    if (!downloadInfo?.downloadUrl) return;
+    const instance = this.data.find(d => d.id === instanceId);
+    if (!instance?.latestRequestedReportId) return;
 
-    const link = document.createElement('a');
-    link.href = downloadInfo.downloadUrl;
-    link.download = downloadInfo.fileName;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    this.reportService.download(instance.latestRequestedReportId).subscribe({
+      next: response => {
+        const blob = response.body!;
+        const contentDisposition = response.headers.get('Content-Disposition') ?? '';
+        const fileNameMatch = /filename\*?=['"]?(?:UTF-\d['"]*)?([^;\r\n"']+)['"]?/i.exec(contentDisposition);
+        const fileName = fileNameMatch?.[1] ?? this.reportStatusMap.get(instanceId)?.downloadInfo?.fileName ?? 'report';
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      },
+      error: () => {
+        this.eventManager.broadcast({
+          name: 'pagopaCruscottoApp.alert',
+          content: { type: 'error', translationKey: 'pagopaCruscottoApp.instance.reports.downloadError' },
+        });
+      },
+    });
   }
 
   onSelectPageClick(e: MatCheckboxChange): void {
