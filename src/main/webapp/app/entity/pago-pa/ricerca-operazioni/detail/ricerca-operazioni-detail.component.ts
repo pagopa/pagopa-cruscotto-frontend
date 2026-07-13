@@ -248,7 +248,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       token: e.token,
     }));
     this.eventiData = [...tokenEvents, ...positionEvents].sort((a, b) => {
-      return a.positionNumber - b.positionNumber; // Ordine riprodotto a backend
+      return (a?.positionNumber ?? 0) - (b?.positionNumber ?? 0); // Ordine riprodotto a backend
     });
     this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
   }

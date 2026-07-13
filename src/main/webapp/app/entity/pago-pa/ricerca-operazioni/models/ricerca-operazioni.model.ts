@@ -188,6 +188,7 @@ export interface IWorkflowEvent {
   outcome?: string;
   faultcode?: string;
   eventId?: string;
+  positionNumber?: number; // Aggiunto per ordinamento eventi posizione
 }
 
 export interface IWorkflowTokenEvent {
@@ -198,6 +199,7 @@ export interface IWorkflowTokenEvent {
   faultcode?: string;
   token?: string;
   eventId?: string;
+  positionNumber?: number; // Aggiunto per ordinamento eventi posizione
 }
 
 /**
@@ -336,6 +338,7 @@ export interface IRawWorkflowEvent {
   outcome?: string;
   faultcode?: string;
   'event-id'?: string;
+  positionNumber?: number;
 }
 
 export interface IRawWorkflowTokenEvent extends IRawWorkflowEvent {
@@ -472,6 +475,7 @@ export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({
     outcome: e.outcome,
     faultcode: e.faultcode,
     eventId: e['event-id'],
+    positionNumber: e.positionNumber,
   })),
   eventsToken: (raw['events-token'] ?? []).map(e => ({
     insertedtimestamp: e.insertedtimestamp ? new Date(e.insertedtimestamp) : undefined,
@@ -481,6 +485,7 @@ export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({
     faultcode: e.faultcode,
     eventId: e['event-id'],
     token: e.token,
+    positionNumber: e.positionNumber,
   })),
 });
 
