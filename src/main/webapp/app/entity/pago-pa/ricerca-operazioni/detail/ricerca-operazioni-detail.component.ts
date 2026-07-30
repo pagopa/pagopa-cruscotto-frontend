@@ -37,8 +37,8 @@ type TokenSubSection = 'info' | 'transfers' | 'extra';
 
 type ExtraInfoSortField = 'name' | 'value' | 'tipoevento' | '';
 type TransfersSortField = 'idTransfer' | 'iban' | 'amount' | 'typeTransfer' | 'paFiscalCode' | '';
-type EventiSortField = 'eventoId' | 'tipo' | 'sottotipo' | 'outcome' | 'token' | 'dataEvento' | '';
-type TokensSortField = 'paymentBorn' | 'token' | 'pspName' | 'pspDescription' | 'amount' | 'paymentMethod' | 'touchpoint';
+type EventiSortField = 'eventoId' | 'tipo' | 'sottotipo' | 'outcome' | 'token' | 'corrId' | 'dataEvento' | '';
+type TokensSortField = 'paymentBorn' | 'token' | 'pspName' | 'pspDescription' | 'paDescription' | 'amount' | 'paymentMethod' | 'touchpoint';
 
 interface IExtraInfoTableState {
   pageIndex: number;
@@ -109,13 +109,13 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   /** Posizione (vista centrale) — DTO restituito da GET /api/position/{nav}/{pa}. */
   posizione: IPosizione | null = null;
 
-  /** Workflow (eventi posizione + eventi token). */
+  /** Workflow (eventi). */
   workflows: IWorkflows | null = null;
 
   /** Righe della tabella Tokens (derivate da posizione.allTokens). */
   tokensData: ITokenRow[] = [];
 
-  /** Righe della tabella Eventi (unione di eventsPosition + eventsToken). */
+  /** Righe della tabella Eventi. */
   eventiData: IEventoRow[] = [];
 
   // ---- Colonne ----
@@ -131,7 +131,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     'isPayed',
     'expand',
   ];
-  eventiColumns: string[] = ['eventoId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
+  eventiColumns: string[] = ['eventoId', 'corrId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
   readonly eventiPageSize: number = 10;
   workflowsTableState: IWorkflowsTableState = {
     pageIndex: 0,
@@ -203,9 +203,24 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     this.isTokensLoading = true;
     this.isEventiLoading = true;
 
+    this.tokensTableState.pageIndex = 0;
+    this.tokensTableState.sortActive = '';
+    this.tokensTableState.sortDirection = '';
+    this.workflowsTableState.pageIndex = 0;
+    this.workflowsTableState.sortActive = '';
+    this.workflowsTableState.sortDirection = '';
+
     forkJoin({
-      posizione: this.service.getPosition(this.nav, this.paEmittente),
-      workflows: this.service.getWorkflows(this.nav, this.paEmittente),
+      // Richiedi esplicitamente page/size coerenti con tokensTableState: senza questi parametri
+      // il backend applica la propria paginazione di default (potenzialmente diversa da pageSize),
+      // disallineando il conteggio/i dati mostrati al primo render rispetto al paginator.
+      posizione: this.service.getPosition(this.nav, this.paEmittente, this.tokensTableState.pageIndex, this.tokensTableState.pageSize),
+      workflows: this.service.getWorkflows(
+        this.nav,
+        this.paEmittente,
+        this.workflowsTableState.pageIndex,
+        this.workflowsTableState.pageSize,
+      ),
     }).subscribe({
       next: ({ posizione, workflows }) => {
         this.posizione = posizione;
@@ -220,9 +235,6 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
         // Tabella Eventi: estrai e valorizza i dati dal workflow con il conteggio totale
         this.buildEventiRows(workflows);
-        this.workflowsTableState.pageIndex = 0;
-        this.workflowsTableState.sortActive = '';
-        this.workflowsTableState.sortDirection = '';
 
         this.isLoading = false;
         this.isTokensLoading = false;
@@ -238,16 +250,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   /** Costruisce la tabella eventi dal workflow e aggiorna il conteggio totale. */
   private buildEventiRows(workflows: IWorkflows): void {
-    const positionEvents: IEventoRow[] = (workflows.eventsPosition ?? []).map((e, idx) => ({
+    this.eventiData = (workflows.events ?? []).map((e, idx) => ({
       ...e,
-      rowId: e.eventId ?? `pos-${idx}`,
+      rowId: e.eventId ?? `evt-${idx}`,
     }));
-    const tokenEvents: IEventoRow[] = (workflows.eventsToken ?? []).map((e, idx) => ({
-      ...e,
-      rowId: e.eventId ?? `tok-${idx}`,
-      token: e.token,
-    }));
-    this.eventiData = [...tokenEvents, ...positionEvents].sort((a, b) => {
+    this.eventiData = this.eventiData.sort((a, b) => {
       return (a?.positionNumber ?? 0) - (b?.positionNumber ?? 0); // Ordine riprodotto a backend
     });
     this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
@@ -497,6 +504,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         sort.active !== 'sottotipo' &&
         sort.active !== 'outcome' &&
         sort.active !== 'token' &&
+        sort.active !== 'corrId' &&
         sort.active !== 'dataEvento')
     ) {
       this.workflowsTableState.sortActive = '';
@@ -559,6 +567,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       sottotipo: 'sottotipoevento',
       outcome: 'outcome',
       token: 'token',
+      corrId: 'corr-id',
       dataEvento: 'insertedtimestamp',
       '': '',
     };
@@ -676,7 +685,16 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   // evento Sort dalla tabella Tokens.
   onTokensSortChange(sort: Sort): void {
-    const validFields: TokensSortField[] = ['paymentBorn', 'token', 'pspName', 'pspDescription', 'amount', 'paymentMethod', 'touchpoint'];
+    const validFields: TokensSortField[] = [
+      'paymentBorn',
+      'token',
+      'pspName',
+      'pspDescription',
+      'paDescription',
+      'amount',
+      'paymentMethod',
+      'touchpoint',
+    ];
 
     if (!sort.active || !validFields.includes(sort.active as TokensSortField)) {
       return;
@@ -707,6 +725,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         token: 'token',
         pspName: 'psp',
         pspDescription: 'ptPsp',
+        paDescription: 'pt-pa-description',
         amount: 'amount',
         paymentMethod: 'paymentMethod',
         touchpoint: 'touchpoint',

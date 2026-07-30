@@ -43,7 +43,7 @@
           </div>
           <div class="col-lg-4 mb-3" *ngIf="posizione.positionInfo?.lastEvent">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.lastEvent">Ultimo Evento</div>
-            <div class="fw-bold">{{ posizione.positionInfo?.lastEvent | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+            <div class="fw-bold">{{ posizione.positionInfo?.lastEvent | date: 'dd/MM/yyyy HH:mm:ss' : 'UTC' }}</div>
           </div>
           <div class="col-lg-2 mb-3" *ngIf="posizione.tokens != null">
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.tokensCount">Numero Token</div>
@@ -125,7 +125,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Born</th>
                     <td mat-cell *matCellDef="let row">
                       <ng-container *ngIf="getRowPaymentBorn(row) as paymentBorn; else dashPaymentBorn">
-                        {{ paymentBorn | date: 'dd/MM/yyyy' }}
+                        {{ paymentBorn | date: 'dd/MM/yyyy' : 'UTC' }}
                       </ng-container>
                       <ng-template #dashPaymentBorn>--</ng-template>
                     </td>
@@ -151,7 +151,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="paDescription">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
                       {{ 'pagopaCruscottoApp.ricercaOperazioni.detail.tokens.paDescription' | translate }}
                     </th>
                     <td mat-cell *matCellDef="let row">{{ getRowPaDescription(row) || '--' }}</td>
@@ -228,13 +228,13 @@
                                   >
                                     Registrazione
                                   </div>
-                                  <div class="fw-bold">{{ info.payed?.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                                  <div class="fw-bold">{{ info.payed?.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' : 'UTC' }}</div>
                                 </div>
                                 <div class="mb-3 flex-item" *ngIf="info.payed?.payedDate">
                                   <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.payedDate">
                                     Data Pagamento
                                   </div>
-                                  <div class="fw-bold">{{ info.payed?.payedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
+                                  <div class="fw-bold">{{ info.payed?.payedDate | date: 'dd/MM/yyyy HH:mm:ss' : 'UTC' }}</div>
                                 </div>
                                 <div class="mb-3 flex-item">
                                   <div
@@ -557,7 +557,6 @@
                 </table>
 
                 <mat-paginator
-                  *ngIf="getTokensTotalCount() > tokensTableStatePageSize"
                   [length]="getTokensTotalCount()"
                   [pageIndex]="tokensTableStatePageIndex"
                   [pageSize]="tokensTableStatePageSize"
@@ -616,12 +615,14 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header="outcome">
                       {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.outcome' | translate }}
                     </th>
-                    <td mat-cell *matCellDef="let row">{{ row.outcome }}</td>
+                    <td mat-cell *matCellDef="let row">
+                      {{ row.outcome == 'KO' && row.sottotipoevento == 'RESP' ? 'KO - ' + row.faultcode : (row.outcome ?? '--') }}
+                    </td>
                   </ng-container>
 
                   <!-- Token cliccabile per saltare alla TAB Tokens e aprirne il dettaglio -->
                   <ng-container matColumnDef="token">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="token">
                       {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.token' | translate }}
                     </th>
                     <td mat-cell *matCellDef="let row">
@@ -636,11 +637,16 @@
                     </td>
                   </ng-container>
 
+                  <ng-container matColumnDef="corrId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="corrId">ID chiamata</th>
+                    <td mat-cell *matCellDef="let row">{{ row.corrId || '--' }}</td>
+                  </ng-container>
+
                   <ng-container matColumnDef="dataEvento">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header="dataEvento">
                       {{ 'pagopaCruscottoApp.ricercaOperazioni.eventi.dataEvento' | translate }}
                     </th>
-                    <td mat-cell *matCellDef="let row">{{ row.insertedtimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</td>
+                    <td mat-cell *matCellDef="let row">{{ row.insertedtimestamp | date: 'dd/MM/yyyy HH:mm:ss' : 'UTC' }}</td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="eventiColumns"></tr>
@@ -653,7 +659,6 @@
                   </tr>
                 </table>
                 <mat-paginator
-                  *ngIf="getEventiTotalCount() > workflowsTableState.pageSize"
                   [length]="getEventiTotalCount()"
                   [pageIndex]="workflowsTableState.pageIndex"
                   [pageSize]="workflowsTableState.pageSize"

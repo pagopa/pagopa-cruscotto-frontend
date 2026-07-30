@@ -54,7 +54,7 @@
           "touchpoint": "Touchpoint",
           "paymentMethod": "Metodo di Pagamento",
           "pspDescription": "Descrizione PSP",
-          "paDescription": "Descrizione PA",
+          "paDescription": "Intermediario PA",
           "isDw": "is DW",
           "isGpd": "is GPD",
           "isStandin": "is Stand-In",
@@ -62,7 +62,7 @@
         },
         "tokens": {
           "pspDescription": "Descrizione PSP",
-          "paDescription": "Descrizione PA"
+          "paDescription": "Intermediario PA"
         },
         "actors": {
           "psp": "PSP",
@@ -71,7 +71,7 @@
           "channel": "Canale",
           "ptPa": "PT PA",
           "ptPsp": "PT PSP",
-          "paDescription": "Descrizione PA"
+          "paDescription": "Intermediario PA"
         },
         "payed": {
           "token": "Token Pagato",

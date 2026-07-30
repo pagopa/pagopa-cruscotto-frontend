@@ -94,11 +94,19 @@ export class RicercaOperazioniService {
     const params = this.toPageableParams(page, size, sort);
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
-    return this.http.get<IRawWorkflowResponse>(url, { params }).pipe(
-      map(mapRawWorkflows),
+    return this.http.get<IRawWorkflowResponse>(url, { params, observe: 'response' }).pipe(
+      map(response => {
+        const workflows = mapRawWorkflows(response.body ?? []);
+        const totalCount = Number(response.headers.get('x-total-count'));
+
+        return {
+          ...workflows,
+          count: totalCount,
+        };
+      }),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse && error.status === 404) {
-          return of<IWorkflows>({ count: 0, eventsPosition: [], eventsToken: [] });
+          return of<IWorkflows>({ count: 0, events: [] });
         }
 
         throw error;
