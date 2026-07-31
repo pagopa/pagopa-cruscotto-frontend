@@ -557,7 +557,6 @@
                 </table>
 
                 <mat-paginator
-                  *ngIf="showTokensPaginator()"
                   [length]="getTokensTotalCount()"
                   [pageIndex]="tokensTableStatePageIndex"
                   [pageSize]="tokensTableStatePageSize"
@@ -660,7 +659,6 @@
                   </tr>
                 </table>
                 <mat-paginator
-                  *ngIf="showEventiPaginator()"
                   [length]="getEventiTotalCount()"
                   [pageIndex]="workflowsTableState.pageIndex"
                   [pageSize]="workflowsTableState.pageSize"

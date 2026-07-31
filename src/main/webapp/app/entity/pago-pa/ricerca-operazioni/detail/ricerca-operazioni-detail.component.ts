@@ -537,10 +537,6 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     return this.workflowsTotalCount;
   }
 
-  showEventiPaginator(): boolean {
-    return this.getEventiTotalCount() > this.workflowsTableState.pageSize;
-  }
-
   /** Ricarica i workflow dal server con i parametri attuali di paginazione/sort. */
   private reloadWorkflows(): void {
     if (!this.paEmittente || !this.nav) return;
@@ -640,10 +636,6 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   get tokensTableStatePageSize(): number {
     return this.tokensTableState.pageSize;
-  }
-
-  showTokensPaginator(): boolean {
-    return this.getTokensTotalCount() > this.tokensTableState.pageSize;
   }
 
   isTokenExpanded = (_index: number, row: ITokenRow): boolean => this.expandedTokens.has(row.token);
