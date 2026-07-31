@@ -449,7 +449,7 @@
                                   <tr mat-row *matRowDef="let r; columns: transfersColumns"></tr>
                                 </table>
                                 <mat-paginator
-                                  *ngIf="getTransfersResults(row).length"
+                                  *ngIf="showTransfersPaginator(row)"
                                   [length]="getTransfersTotalCount(row)"
                                   [pageIndex]="getTransfersTableState(row.token).pageIndex"
                                   [pageSize]="getTransfersTableState(row.token).pageSize"
@@ -520,7 +520,7 @@
                                   <tr mat-row *matRowDef="let r; columns: extraInfoColumns"></tr>
                                 </table>
                                 <mat-paginator
-                                  *ngIf="getExtraInfoResults(row).length"
+                                  *ngIf="showExtraInfoPaginator(row)"
                                   [length]="getExtraInfoTotalCount(row)"
                                   [pageIndex]="getExtraInfoTableState(row.token).pageIndex"
                                   [pageSize]="getExtraInfoTableState(row.token).pageSize"
@@ -557,6 +557,7 @@
                 </table>
 
                 <mat-paginator
+                  *ngIf="showTokensPaginator()"
                   [length]="getTokensTotalCount()"
                   [pageIndex]="tokensTableStatePageIndex"
                   [pageSize]="tokensTableStatePageSize"
@@ -659,6 +660,7 @@
                   </tr>
                 </table>
                 <mat-paginator
+                  *ngIf="showEventiPaginator()"
                   [length]="getEventiTotalCount()"
                   [pageIndex]="workflowsTableState.pageIndex"
                   [pageSize]="workflowsTableState.pageSize"
