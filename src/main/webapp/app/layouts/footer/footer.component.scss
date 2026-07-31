@@ -16,3 +16,45 @@ a {
   float: right;
   color: #ffffff;
 }
+
+.version-dropdown {
+  float: right;
+}
+
+.version-toggle {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0;
+  border: 0;
+  line-height: 50px;
+
+  &:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+.version-menu {
+  min-width: 15rem;
+  padding: 0.25rem 0;
+}
+
+.version-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  opacity: 1;
+}
+
+.version-label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.version-value {
+  color: #212529;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
