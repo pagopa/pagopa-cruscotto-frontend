@@ -1,0 +1,57 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaMassiva": {
+      "home": {
+        "title": "Bulk Search"
+      },
+      "filter": {
+        "createdAt": "Creation date",
+        "name": "Instance name",
+        "status": "Instance state"
+      },
+      "result": {
+        "createdAt": "Instance timestamp",
+        "name": "Instance name",
+        "status": "Instance state"
+      },
+      "action": {
+        "new": "New instance",
+        "update": "Update",
+        "setAsPlanned": "Set as planned",
+        "duplicate": "Duplicate",
+        "delete": "Delete",
+        "uploadCsv": "Upload CSV",
+        "downloadResults": "Download results"
+      },
+      "create": {
+        "title": "New bulk search instance",
+        "name": "Instance name",
+        "paymentOutcome": "Payment status",
+        "paymentOutcomeValues": {
+          "OK": "OK",
+          "KO": "KO",
+          "NONE": "No outcome"
+        },
+        "periodStartDate": "Start date",
+        "periodStartTime": "Start time",
+        "periodEndDate": "End date",
+        "periodEndTime": "End time",
+        "periodValidation": {
+          "startNotAfterEnd": "The start date/time cannot be after the end date/time",
+          "endNotBeforeStart": "The end date/time cannot be before the start date/time"
+        },
+        "touchpoint": "Touchpoint",
+        "paymentMethod": "Payment method",
+        "amountMin": "Minimum amount",
+        "amountMax": "Maximum amount",
+        "amountRangeInvalid": "The maximum amount cannot be lower than the minimum amount",
+        "creditorInstitution": "Creditor institution",
+        "psp": "PSP",
+        "intermediary": "Intermediary",
+        "station": "Channel/Station",
+        "stationHint": "Options depend on the selected PSP and Intermediary",
+        "saveError": "Error while creating the instance"
+      }
+    }
+  }
+}

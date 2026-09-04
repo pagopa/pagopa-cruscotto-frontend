@@ -29,7 +29,8 @@
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
         "pagoPaTaxonomyAggregatePosition": "Taxonomy Aggregate Position",
-        "ricercaOperazioni": "Search Operations"
+        "ricercaOperazioni": "Search Operations",
+        "ricercaMassiva": "Bulk Search"
       },
       "configuration": {
         "main": "Configuration",

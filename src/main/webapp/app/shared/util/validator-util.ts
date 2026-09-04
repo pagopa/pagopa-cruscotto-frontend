@@ -21,7 +21,7 @@ export const datepickerRangeValidatorFn = (fromControlName: string, toControlNam
         if (fromControl) {
           fromControl.setErrors({ ...fromControl.errors, ...{ matStartDateInvalid: true } });
         }
-        /*if (toControl) {
+        /* if (toControl) {
 		  toControl.setErrors({ ...toControl.errors, ...{ matEndDateInvalid: true } });
         }*/
       } else {
@@ -88,11 +88,11 @@ export const timeValidatorFn = (
     let notDateError = true;
     let notTimeError = true;
     if (startDate && endDate && startTime && endTime) {
-      //considero la sola differenza in giorni fra startDate, endDate e now
+      // considero la sola differenza in giorni fra startDate, endDate e now
       startDate = startDate.clone().hour(0).minute(0).second(0).millisecond(0);
       endDate = endDate.clone().hour(0).minute(0).second(0).millisecond(0);
       const now = dayjs(dayjs().hour(0).minute(0).second(0).millisecond(0));
-      //considero la sola differenza in ore e minuti fra nowStart e nowEnd
+      // considero la sola differenza in ore e minuti fra nowStart e nowEnd
       const nowStart = dayjs().hour(startTime.hour()).minute(startTime.minute()).second(0).millisecond(0);
       const nowEnd = dayjs(dayjs().hour(endTime.hour()).minute(endTime.minute()).second(0).millisecond(0));
 
@@ -198,6 +198,28 @@ export const stringNumericValidatorFn = (...formControlNames: string[]): Validat
       }
     });
 
+    return null;
+  };
+};
+
+export const amountRangeValidatorFn = (minControlName: string, maxControlName: string): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const minControl = control.get(minControlName);
+    const maxControl = control.get(maxControlName);
+    const min = minControl ? (minControl.value as number | null) : null;
+    const max = maxControl ? (maxControl.value as number | null) : null;
+
+    if (maxControl) {
+      const errors = maxControl.errors ?? {};
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      delete errors['amountRangeInvalid'];
+
+      if (min !== null && max !== null && max < min) {
+        errors['amountRangeInvalid'] = true;
+      }
+      maxControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+    }
     return null;
   };
 };

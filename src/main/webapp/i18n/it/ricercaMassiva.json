@@ -1,0 +1,57 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaMassiva": {
+      "home": {
+        "title": "Ricerca Massiva"
+      },
+      "filter": {
+        "createdAt": "Data di creazione",
+        "name": "Nome istanza",
+        "status": "Stato istanza"
+      },
+      "result": {
+        "createdAt": "Timestamp istanza",
+        "name": "Nome istanza",
+        "status": "Stato istanza"
+      },
+      "action": {
+        "new": "Nuova istanza",
+        "update": "Modifica",
+        "setAsPlanned": "Imposta come pianificata",
+        "duplicate": "Duplica",
+        "delete": "Elimina",
+        "uploadCsv": "Carica CSV",
+        "downloadResults": "Scarica risultati"
+      },
+      "create": {
+        "title": "Nuova istanza di analisi massiva",
+        "name": "Nome istanza",
+        "paymentOutcome": "Stato pagamento",
+        "paymentOutcomeValues": {
+          "OK": "OK",
+          "KO": "KO",
+          "NONE": "Nessun esito"
+        },
+        "periodStartDate": "Data inizio",
+        "periodStartTime": "Ora inizio",
+        "periodEndDate": "Data fine",
+        "periodEndTime": "Ora fine",
+        "periodValidation": {
+          "startNotAfterEnd": "La data/ora di inizio non pu\u00F2 essere successiva alla data/ora di fine",
+          "endNotBeforeStart": "La data/ora di fine non pu\u00F2 precedere quella di inizio"
+        },
+        "touchpoint": "Touchpoint",
+        "paymentMethod": "Metodo di pagamento",
+        "amountMin": "Importo minimo",
+        "amountMax": "Importo massimo",
+        "amountRangeInvalid": "L'importo massimo non pu\u00F2 essere inferiore all'importo minimo",
+        "creditorInstitution": "Ente creditore",
+        "psp": "PSP",
+        "intermediary": "Intermediario",
+        "station": "Canale/Stazione",
+        "stationHint": "Le opzioni dipendono da PSP e Intermediario selezionati",
+        "saveError": "Errore durante la creazione dell'istanza"
+      }
+    }
+  }
+}

@@ -261,6 +261,14 @@ export default class HeaderComponent implements OnInit, OnDestroy {
   usersAdministrationGroupMenuItem?: MenuItem;
   systemAdministrationGroupMenuItem?: MenuItem;
   ricercaOperazioniMenuItem?: MenuItem;
+  ricercaMassivaMenuItem: MenuItem = {
+    label: 'global.menu.registry.ricercaMassiva',
+    route: '/bulk/ricerca-massiva',
+    xSmall: true,
+    small: true,
+    medium: true,
+    large: true,
+  };
 
   registryChildrenWithoutRicercaOperazioni: MenuItem[] = [];
   anagraficaMenuItems: MenuItem[] = [];

@@ -22,16 +22,18 @@
         </button>
 
         <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
-          <button
-            mat-button
-            class="nav-item-btn"
-            [matMenuTriggerFor]="pagamentiMenu"
-            [class.active]="isActive([ricercaOperazioniItem])"
-            *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
-          >
-            Pagamenti
-            <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
-          </button>
+          <ng-container *ngIf="ricercaMassivaMenuItem as ricercaMassivaItem">
+            <button
+              mat-button
+              class="nav-item-btn"
+              [matMenuTriggerFor]="pagamentiMenu"
+              [class.active]="isActive([ricercaOperazioniItem, ricercaMassivaItem])"
+              *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem, ricercaMassivaItem]"
+            >
+              Pagamenti
+              <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
+            </button>
+          </ng-container>
         </ng-container>
 
         <button mat-button class="nav-item-btn" disabled>Flussi di rendicontazione</button>
@@ -73,15 +75,17 @@
           </button>
 
           <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
-            <button
-              mat-menu-item
-              class="header-nav-menu-item"
-              [matMenuTriggerFor]="pagamentiMenu"
-              [class.active]="isActive([ricercaOperazioniItem])"
-              *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
-            >
-              Pagamenti
-            </button>
+            <ng-container *ngIf="ricercaMassivaMenuItem as ricercaMassivaItem">
+              <button
+                mat-menu-item
+                class="header-nav-menu-item"
+                [matMenuTriggerFor]="pagamentiMenu"
+                [class.active]="isActive([ricercaOperazioniItem, ricercaMassivaItem])"
+                *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem, ricercaMassivaItem]"
+              >
+                Pagamenti
+              </button>
+            </ng-container>
           </ng-container>
 
           <button mat-menu-item class="header-nav-menu-item" disabled>Flussi di rendicontazione</button>
@@ -129,6 +133,18 @@
           *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
         >
           Ricerca operazioni
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="ricercaMassivaMenuItem as ricercaMassivaItem">
+        <button
+          mat-menu-item
+          class="header-nav-menu-item"
+          [routerLink]="ricercaMassivaItem.route"
+          [routerLinkActive]="['active']"
+          *jhiHasAnyAuthorityMenu="[ricercaMassivaItem]"
+        >
+          Ricerca massiva
         </button>
       </ng-container>
 

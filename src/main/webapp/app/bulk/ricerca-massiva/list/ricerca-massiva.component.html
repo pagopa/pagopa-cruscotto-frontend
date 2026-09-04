@@ -1,0 +1,252 @@
+<div>
+  <!-- ===== INTESTAZIONE ===== -->
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.home.title">Ricerca Massiva</span>
+    </div>
+    <div>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        [routerLink]="['new']"
+        [title]="'pagopaCruscottoApp.ricercaMassiva.action.new' | translate"
+      >
+        <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
+        <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.action.new">Nuova istanza</span>
+      </button>
+      <input #csvFileInput type="file" accept=".csv,text/csv" hidden (change)="uploadCsv(csvFileInput)" />
+      <button
+        type="button"
+        mat-flat-button
+        color="accent"
+        [disabled]="isUploadingCsv"
+        (click)="csvFileInput.click()"
+        title="Nuova istanza da CSV"
+      >
+        <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
+        <span>Nuova istanza da CSV</span>
+      </button>
+      <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+        <span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== FORM FILTRI ===== -->
+  <form name="searchForm" role="form" novalidate (ngSubmit)="search()" [formGroup]="searchForm" autocomplete="off">
+    <mat-accordion>
+      <mat-expansion-panel class="criteri-ricerca mb-4" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="d-flex justify-content-start align-content-center">
+              <div class="p-2">
+                <mat-icon fontSet="material-symbols-outlined" color="primary">search</mat-icon>
+              </div>
+              <div class="p-2">
+                <span jhiTranslate="entity.search.title" class="h6">Filtri di ricerca</span>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="row">
+          <div class="col-lg-4">
+            @let createdFromRef = searchForm.get('createdFrom')!;
+            @let createdToRef = searchForm.get('createdTo')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.filter.createdAt">Data di creazione</mat-label>
+              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="createdAtPicker">
+                <input matStartDate formControlName="createdFrom" />
+                <input matEndDate formControlName="createdTo" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle
+                matIconSuffix
+                *ngIf="createdFromRef.value || createdToRef.value"
+                (click)="clearFields('createdFrom', 'createdTo')"
+              >
+                <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
+                  close_small
+                </mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker-toggle matSuffix [for]="createdAtPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #createdAtPicker></mat-date-range-picker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="
+                  (createdFromRef.invalid && (createdFromRef.dirty || createdFromRef.touched)) ||
+                  (createdToRef.invalid && (createdToRef.dirty || createdToRef.touched))
+                "
+              >
+                @if (createdFromRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.fromDate">Invalid start date</mat-error>
+                } @else if (createdToRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.toDate">Invalid end date</mat-error>
+                } @else if (createdToRef?.errors?.matEndDateInvalid || createdFromRef?.errors?.matStartDateInvalid) {
+                  <mat-error jhiTranslate="entity.validation.dateRange">This field should be a valid range of date</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.filter.name">Nome istanza</mat-label>
+              <input matInput formControlName="name" maxlength="100" />
+            </mat-form-field>
+          </div>
+
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.filter.status">Stato istanza</mat-label>
+              <mat-select formControlName="status">
+                <mat-option value="">{{ 'global.form.select.all' | translate }}</mat-option>
+                <mat-option *ngFor="let statusValue of statusValues" [value]="statusValue">{{ statusValue }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Azioni -->
+        <mat-action-row class="d-block">
+          <div class="d-flex justify-content-end align-items-center">
+            <button
+              type="submit"
+              id="search"
+              mat-flat-button
+              color="primary"
+              [disabled]="searchForm.invalid || isLoadingResults"
+              [title]="'entity.action.search' | translate"
+            >
+              <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+              <span jhiTranslate="entity.action.search">Cerca</span>
+            </button>
+            <button type="button" mat-stroked-button (click)="clear()" [title]="'entity.action.clear' | translate">
+              <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon>
+              <span jhiTranslate="entity.action.clear">Pulisci</span>
+            </button>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </form>
+
+  <!-- ===== RISULTATI ===== -->
+  <div class="row">
+    <div class="col-12">
+      <mat-card class="mat-elevation-z8">
+        <mat-card-content>
+          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingResults">
+            <p class="ngx-spinner-loading">Loading...</p>
+          </ngx-spinner>
+
+          <mat-paginator
+            *ngIf="resultsLength > 0"
+            [pageSize]="pageSize"
+            [hidePageSize]="true"
+            [pageIndex]="page - 1"
+            [disabled]="isLoadingResults"
+            [length]="resultsLength"
+            (page)="changePage($event)"
+            showFirstLastButtons
+            aria-label="Select page"
+          ></mat-paginator>
+
+          <div class="table-responsive">
+            <div class="table-container">
+              <table
+                mat-table
+                [dataSource]="data"
+                [trackBy]="trackId"
+                class="w-100"
+                matSort
+                matSortDisableClear
+                [matSortActive]="sortActive"
+                [matSortDirection]="sortDirection"
+                (matSortChange)="onSortChange($event)"
+              >
+                <!-- Timestamp istanza -->
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">
+                    {{ 'pagopaCruscottoApp.ricercaMassiva.result.createdAt' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.createdAt | formatDate: 'L LTS' : locale }}</td>
+                </ng-container>
+
+                <!-- Nome istanza -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="name">
+                    {{ 'pagopaCruscottoApp.ricercaMassiva.result.name' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+                </ng-container>
+
+                <!-- Stato istanza -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="status">
+                    {{ 'pagopaCruscottoApp.ricercaMassiva.result.status' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+                </ng-container>
+
+                <!-- Azioni -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>{{ 'entity.list.column.actions.label' | translate }}</th>
+                  <td mat-cell *matCellDef="let row">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      type="button"
+                      (click)="onSetAsPlanned(row)"
+                      [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned' | translate"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      type="button"
+                      (click)="onDuplicate(row)"
+                      [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.duplicate' | translate"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined">content_copy</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      type="button"
+                      [disabled]="row.status !== 'COMPLETED'"
+                      (click)="onDownloadResult(row)"
+                      [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.downloadResults' | translate"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined">docs</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      type="button"
+                      (click)="onDelete(row)"
+                      [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.delete' | translate"
+                    >
+                      <mat-icon fontSet="material-symbols-outlined">delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center p-3" [attr.colspan]="displayedColumns.length">
+                    {{ 'entity.list.noResult' | translate }}
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

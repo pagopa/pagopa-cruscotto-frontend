@@ -1,0 +1,245 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between w-100 mb-5">
+    <div class="h2">
+      <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.title">Nuova istanza di analisi massiva</span>
+    </div>
+    <div>
+      <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
+        <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+        <span jhiTranslate="entity.action.back">Back</span>
+      </button>
+    </div>
+  </div>
+
+  <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm" autocomplete="off">
+    <mat-card class="mat-elevation-z8">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
+        <p class="ngx-spinner-loading">Loading...</p>
+      </ngx-spinner>
+      <mat-card-content>
+        <div class="row mt-3">
+          <!-- Nome istanza -->
+          <div class="col-lg-6">
+            @let nameRef = editForm.get('name')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
+              <input matInput formControlName="name" maxlength="100" />
+              <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+                @if (nameRef?.errors?.required) {
+                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                } @else if (nameRef?.errors?.maxlength) {
+                  <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">Too long</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+
+          <!-- Stato pagamento -->
+          <div class="col-lg-6">
+            @let paymentOutcomeRef = editForm.get('paymentOutcome')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentOutcome">Stato pagamento</mat-label>
+              <mat-select formControlName="paymentOutcome">
+                <mat-option *ngFor="let outcome of paymentOutcomes" [value]="outcome">
+                  {{ 'pagopaCruscottoApp.ricercaMassiva.create.paymentOutcomeValues.' + outcome | translate }}
+                </mat-option>
+              </mat-select>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="paymentOutcomeRef.invalid && (paymentOutcomeRef.dirty || paymentOutcomeRef.touched)"
+              >
+                @if (paymentOutcomeRef?.errors?.required) {
+                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Periodo: data inizio -->
+          <div class="col-lg-6">
+            @let periodStartDateRef = editForm.get('periodStartDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodStartDate">Data inizio</mat-label>
+              <input matInput [matDatepicker]="periodStartDatePicker" formControlName="periodStartDate" />
+              <mat-datepicker-toggle matSuffix [for]="periodStartDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #periodStartDatePicker></mat-datepicker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="periodStartDateRef.invalid && (periodStartDateRef.dirty || periodStartDateRef.touched)"
+              >
+                @if (periodStartDateRef?.errors?.required && !periodStartDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                } @else if (periodStartDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                } @else if (periodStartDateRef?.errors?.matStartDateInvalid) {
+                  <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.startNotAfterEnd">
+                    La data di inizio non può essere successiva alla data di fine
+                  </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+          <!-- Periodo: data fine -->
+          <div class="col-lg-6">
+            @let periodEndDateRef = editForm.get('periodEndDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodEndDate">Data fine</mat-label>
+              <input matInput [matDatepicker]="periodEndDatePicker" formControlName="periodEndDate" />
+              <mat-datepicker-toggle matSuffix [for]="periodEndDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #periodEndDatePicker></mat-datepicker>
+              <ng-container
+                ngProjectAs="mat-error"
+                *ngIf="periodEndDateRef.invalid && (periodEndDateRef.dirty || periodEndDateRef.touched)"
+              >
+                @if (periodEndDateRef?.errors?.required && !periodEndDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                } @else if (periodEndDateRef?.errors?.matDatepickerParse) {
+                  <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                } @else if (periodEndDateRef?.errors?.matEndDateInvalid) {
+                  <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.endNotBeforeStart">
+                    La data di fine non può precedere quella di inizio
+                  </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Touchpoint -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.touchpoint">Touchpoint</mat-label>
+              <input matInput formControlName="touchpoint" [matAutocomplete]="touchpointAuto" />
+              <mat-autocomplete #touchpointAuto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredTouchpoints$ | async" [value]="option">{{ option }}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <!-- Metodo di pagamento -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentMethod">Metodo di pagamento</mat-label>
+              <input matInput formControlName="paymentMethod" [matAutocomplete]="paymentMethodAuto" />
+              <mat-autocomplete #paymentMethodAuto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredPaymentMethods$ | async" [value]="option">{{ option }}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <!-- Ente creditore -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.creditorInstitution">Ente creditore</mat-label>
+              <input matInput formControlName="creditorInstitution" [matAutocomplete]="creditorInstitutionAuto" />
+              <mat-autocomplete #creditorInstitutionAuto="matAutocomplete" [displayWith]="displayCodeDescription">
+                <mat-option *ngFor="let option of filteredCreditorInstitutions$ | async" [value]="option">
+                  {{ displayCodeDescription(option) }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- PSP -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.psp">PSP</mat-label>
+              <input matInput formControlName="psp" [matAutocomplete]="pspAuto" />
+              <mat-autocomplete #pspAuto="matAutocomplete" [displayWith]="displayCodeDescription">
+                <mat-option *ngFor="let option of filteredPsp$ | async" [value]="option">{{ displayCodeDescription(option) }}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <!-- Intermediario -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.intermediary">Intermediario</mat-label>
+              <input matInput formControlName="intermediary" [matAutocomplete]="intermediaryAuto" />
+              <mat-autocomplete #intermediaryAuto="matAutocomplete" [displayWith]="displayCodeDescription">
+                <mat-option *ngFor="let option of filteredIntermediaries$ | async" [value]="option">
+                  {{ displayCodeDescription(option) }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+
+          <!-- Canale / stazione -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.station">Canale/Stazione</mat-label>
+              <input matInput formControlName="station" [matAutocomplete]="stationAuto" />
+              <mat-autocomplete #stationAuto="matAutocomplete" [displayWith]="displayStation">
+                <mat-option *ngFor="let option of filteredStations$ | async" [value]="option">{{ option.codice }}</mat-option>
+              </mat-autocomplete>
+              <mat-hint jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.stationHint">
+                Le opzioni dipendono da PSP e Intermediario selezionati
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Importo minimo -->
+          <div class="col-lg-3">
+            @let amountMinRef = editForm.get('amountMin')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMin">Importo minimo</mat-label>
+              <input matInput type="number" min="0" step="0.01" formControlName="amountMin" />
+              <ng-container ngProjectAs="mat-error" *ngIf="amountMinRef.invalid && (amountMinRef.dirty || amountMinRef.touched)">
+                @if (amountMinRef?.errors?.min) {
+                  <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+
+          <!-- Importo massimo -->
+          <div class="col-lg-3">
+            @let amountMaxRef = editForm.get('amountMax')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMax">Importo massimo</mat-label>
+              <input matInput type="number" min="0" step="0.01" formControlName="amountMax" />
+              <ng-container ngProjectAs="mat-error" *ngIf="amountMaxRef.invalid && (amountMaxRef.dirty || amountMaxRef.touched)">
+                @if (amountMaxRef?.errors?.min) {
+                  <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
+                } @else if (amountMaxRef?.errors?.amountRangeInvalid) {
+                  <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountRangeInvalid">
+                    L'importo massimo non può essere inferiore all'importo minimo
+                  </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" *ngIf="submitError" jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.saveError">
+          Errore durante la creazione dell'istanza
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="d-flex justify-content-end p-3">
+        <button type="button" mat-stroked-button (click)="previousState()" [title]="'entity.action.cancel' | translate">
+          <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+          <span jhiTranslate="entity.action.cancel">Annulla</span>
+        </button>
+        <button
+          type="submit"
+          id="save-entity"
+          mat-flat-button
+          color="primary"
+          [disabled]="editForm.invalid || isSaving"
+          [title]="'entity.action.save' | translate"
+        >
+          <mat-icon fontSet="material-symbols-outlined">save</mat-icon>
+          <span jhiTranslate="entity.action.save">Salva</span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
