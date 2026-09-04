@@ -172,7 +172,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
           return stations;
         }),
         catchError(() => {
-          return [] as IStation[];
+          return of([] as IStation[]);
         }),
         finalize(() => {
           this.loading = false;

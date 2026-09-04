@@ -186,7 +186,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
         return partners;
       }),
       catchError(() => {
-        return [] as IPartnerIdentification[];
+        return of([] as IPartnerIdentification[]);
       }),
       finalize(() => {
         this.loading = false;
