@@ -42,12 +42,6 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
-        /* eslint-disable no-console */
-        console.group('NavigationStart Event');
-        console.log('navigation id:', event.id);
-        console.log('route:', event.url);
-        console.log('trigger:', event.navigationTrigger);
-
         if (event.navigationTrigger === 'popstate') {
           this.locationHelper.updateIsBack(true);
         } else {
@@ -57,8 +51,6 @@ export class MainComponent implements OnInit {
         if (event.restoredState) {
           console.warn('restoring navigation id:', event.restoredState.navigationId);
         }
-
-        console.groupEnd();
       }
     });
 
@@ -73,7 +65,6 @@ export class MainComponent implements OnInit {
     this.translateService
       .get(['cookie.header', 'cookie.message', 'cookie.dismiss', 'cookie.allow', 'cookie.deny', 'cookie.link', 'cookie.policy'])
       .subscribe(data => {
-        console.log(data);
         // console.log(this.ccService.getConfig());
         // this.ccService.getConfig().content = this.ccService.getConfig().content ?? {};
         // // Override default messages with the translated ones

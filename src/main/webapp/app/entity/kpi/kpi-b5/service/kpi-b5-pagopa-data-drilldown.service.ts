@@ -5,7 +5,7 @@ import { first, map } from 'rxjs/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { IB5PagoPaDrilldown } from '../models/KpiB5AnalyticDrilldown';
 
-type PagopaData = Omit<IB5PagoPaDrilldown, '' | ''> & {
+type PagopaData = Omit<IB5PagoPaDrilldown, ''> & {
   partnerFiscalCode?: string | null;
   stationCode?: string | number | null;
   spontaneousPayments?: string | null;

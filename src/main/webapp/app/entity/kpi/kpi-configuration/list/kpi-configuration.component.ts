@@ -187,7 +187,7 @@ export class KpiConfigurationComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.kpiConfigurationService.delete(row.id!).subscribe({
+          this.kpiConfigurationService.delete(row.id).subscribe({
             next: () => {
               if (
                 this.resultsLength % this.itemsPerPage === 1 &&

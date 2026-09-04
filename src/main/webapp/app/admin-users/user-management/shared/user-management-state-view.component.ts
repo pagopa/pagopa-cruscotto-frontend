@@ -13,7 +13,6 @@ import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service
 import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options.model';
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 
-/* eslint-disable no-console */
 @Component({
   selector: 'jhi-user-management-state-view',
   template: `

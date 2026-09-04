@@ -5,7 +5,7 @@ import { CustomDateFormat, DateDisplay, DateParse } from './custom-date-format';
 import { DayjsDateAdapter } from '../adapter/dayjs-date.adapter';
 
 @Directive({
-  selector: '[datePickerFormat]',
+  selector: '[jhiDatePickerFormat]',
   providers: [
     {
       provide: DateAdapter,
@@ -21,8 +21,8 @@ export class DatePickerFormatDirective {
   @Input() public configDateParse?: DateParse;
   @Input() public configDateDisplay?: DateDisplay;
 
-  @Input('datePickerFormat')
-  set datePickerFormat(format: string) {
+  @Input()
+  set jhiDatePickerFormat(format: string) {
     if (this.configDateParse) {
       this.matDateFormat.updateDateFormat(this.configDateParse, this.configDateDisplay);
     } else {

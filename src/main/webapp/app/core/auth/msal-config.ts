@@ -21,7 +21,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     },
     system: {
       loggerOptions: {
-        loggerCallback: (level: LogLevel, message: string, containsPii: boolean) => {
+        loggerCallback(level: LogLevel, message: string, containsPii: boolean) {
           if (containsPii) {
             return;
           }
@@ -69,7 +69,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
  * need an Entra ID access token and which scopes to request.
  */
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
+  const protectedResourceMap = new Map<string, string[]>();
 
   // Protect backend API calls that go through the proxy
   protectedResourceMap.set('/api/*', environment.msalConfig.apiScopes);

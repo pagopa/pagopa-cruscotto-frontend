@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
 import { ProcessMetrics } from 'app/admin/metrics/metrics.model';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'jhi-metrics-system',

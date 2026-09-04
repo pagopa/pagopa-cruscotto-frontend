@@ -86,7 +86,7 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
             return p.length > 0;
           }, true),
           scan((allGroups: any[], newGroups: any[]) => {
-            let i = 0;
+            const i = 0;
 
             newGroups.forEach(group => {
               group.order = this.i++;

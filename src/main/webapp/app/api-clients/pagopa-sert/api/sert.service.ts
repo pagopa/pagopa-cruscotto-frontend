@@ -1,5 +1,3 @@
-/* tslint:disable:no-unused-variable member-ordering */
-
 import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpEvent } from '@angular/common/http';
 import { CustomHttpUrlEncodingCodec } from '../encoder';
@@ -25,21 +23,22 @@ import { Configuration } from '../configuration';
  */
 @Injectable()
 export class SertService {
-  protected basePath = 'http://localhost:8081';
   public defaultHeaders = new HttpHeaders();
   public configuration = new Configuration();
 
+  protected basePath = 'http://localhost:8081';
+
   constructor(
     protected httpClient: HttpClient,
-    @Optional() @Inject(BASE_PATH) basePath: string,
-    @Optional() configuration: Configuration,
+    @Optional() @Inject(BASE_PATH) basePath: string | null,
+    @Optional() configuration: Configuration | null,
   ) {
-    if (basePath != null) {
+    if (basePath) {
       this.basePath = basePath;
     }
     if (configuration) {
       this.configuration = configuration;
-      this.basePath = basePath != null ? basePath : (configuration.basePath ?? this.basePath);
+      this.basePath = basePath ?? configuration.basePath ?? this.basePath;
     }
   }
 
@@ -95,7 +94,7 @@ export class SertService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
   ): Observable<any> {
     let queryParameters = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
     if (pa != null) queryParameters = queryParameters.set('pa', pa);
@@ -157,7 +156,7 @@ export class SertService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
   ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getPosition.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getPosition.');
@@ -183,7 +182,7 @@ export class SertService {
   public getTokenInfo(token: string, observe?: 'body', reportProgress?: boolean): Observable<IRawTokenInfo>;
   public getTokenInfo(token: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<IRawTokenInfo>>;
   public getTokenInfo(token: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<IRawTokenInfo>>;
-  public getTokenInfo(token: string, observe: any = 'body', reportProgress: boolean = false): Observable<any> {
+  public getTokenInfo(token: string, observe: any = 'body', reportProgress = false): Observable<any> {
     if (!token) throw new Error('Required parameter token was null or undefined when calling getTokenInfo.');
 
     let headers = this.defaultHeaders;
@@ -230,7 +229,7 @@ export class SertService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
   ): Observable<any> {
     if (!token) throw new Error('Required parameter token was null or undefined when calling getExtraInfo.');
 
@@ -292,7 +291,7 @@ export class SertService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
   ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getTransfers.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getTransfers.');
@@ -350,7 +349,7 @@ export class SertService {
     size?: number,
     sort?: string,
     observe: any = 'body',
-    reportProgress: boolean = false,
+    reportProgress = false,
   ): Observable<any> {
     if (!nav) throw new Error('Required parameter nav was null or undefined when calling getWorkflows.');
     if (!paEmittente) throw new Error('Required parameter paEmittente was null or undefined when calling getWorkflows.');

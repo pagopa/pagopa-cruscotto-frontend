@@ -272,7 +272,7 @@ export class JobComponent implements OnInit, OnDestroy {
         top: '100px',
       },
       data: {
-        job: job,
+        job,
       },
     });
 

@@ -31,8 +31,6 @@ import { FunctionService } from '../../function/service/function.service';
 import { IFunction } from '../../function/function.model';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-auth-group-assignable-functions',
   templateUrl: './group.assignable-functions.component.html',
@@ -182,9 +180,9 @@ export class GroupAssignableFunctionsComponent implements OnDestroy {
           });
           this.groupService.associaFunzioni(this.selection.selected, this.groupId()).subscribe({
             next: () => {
-              let selected = this.countSelectedForPage();
+              const selected = this.countSelectedForPage();
 
-              let page = this.data.length === selected && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
+              const page = this.data.length === selected && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
 
               this.selection.clear(true);
               this.loadPage(page, true);
@@ -222,13 +220,13 @@ export class GroupAssignableFunctionsComponent implements OnDestroy {
   }
 
   isAllSelected(): boolean {
-    let selected = this.countSelectedForPage();
+    const selected = this.countSelectedForPage();
 
     return selected > 0 && selected == this.data.length;
   }
 
   isPartialPageSelected(): boolean {
-    let selected = this.countSelectedForPage();
+    const selected = this.countSelectedForPage();
 
     return selected > 0 && selected < this.data.length;
   }

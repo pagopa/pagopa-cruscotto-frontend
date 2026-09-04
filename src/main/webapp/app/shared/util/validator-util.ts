@@ -21,7 +21,7 @@ export const datepickerRangeValidatorFn = (fromControlName: string, toControlNam
         if (fromControl) {
           fromControl.setErrors({ ...fromControl.errors, ...{ matStartDateInvalid: true } });
         }
-        /*if (toControl) {
+        /* if (toControl) {
 		  toControl.setErrors({ ...toControl.errors, ...{ matEndDateInvalid: true } });
         }*/
       } else {
@@ -80,7 +80,6 @@ export const timeValidatorFn = (
     const fromTimeControl = control.get(fromTimeControlName);
     const toTimeControl = control.get(toTimeControlName);
 
-    console.log(toTimeControl);
     let startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
     let endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
     const startTime = fromTimeControl ? (fromTimeControl.value as dayjs.Dayjs) : null;
@@ -88,11 +87,11 @@ export const timeValidatorFn = (
     let notDateError = true;
     let notTimeError = true;
     if (startDate && endDate && startTime && endTime) {
-      //considero la sola differenza in giorni fra startDate, endDate e now
+      // considero la sola differenza in giorni fra startDate, endDate e now
       startDate = startDate.clone().hour(0).minute(0).second(0).millisecond(0);
       endDate = endDate.clone().hour(0).minute(0).second(0).millisecond(0);
       const now = dayjs(dayjs().hour(0).minute(0).second(0).millisecond(0));
-      //considero la sola differenza in ore e minuti fra nowStart e nowEnd
+      // considero la sola differenza in ore e minuti fra nowStart e nowEnd
       const nowStart = dayjs().hour(startTime.hour()).minute(startTime.minute()).second(0).millisecond(0);
       const nowEnd = dayjs(dayjs().hour(endTime.hour()).minute(endTime.minute()).second(0).millisecond(0));
 
@@ -114,7 +113,7 @@ export const timeValidatorFn = (
             },
           });
         }
-      } else if (endDate.diff(startDate, 'days') == 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
+      } else if (endDate.diff(startDate, 'days') === 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
         notTimeError = false;
         if (fromTimeControl) {
           fromTimeControl.setErrors({

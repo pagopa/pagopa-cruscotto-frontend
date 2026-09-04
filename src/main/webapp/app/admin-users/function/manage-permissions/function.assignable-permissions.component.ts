@@ -31,8 +31,6 @@ import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox
 import { MatBadgeModule } from '@angular/material/badge';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-auth-function-assignable-permissions',
   templateUrl: './function.assignable-permissions.component.html',
@@ -182,9 +180,9 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
           });
           this.functionService.associaPermesso(this.selection.selected, this.functionId()).subscribe({
             next: () => {
-              let selected = this.countSelectedForPage();
+              const selected = this.countSelectedForPage();
 
-              let page = this.data.length === selected && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
+              const page = this.data.length === selected && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
 
               this.selection.clear(true);
               this.loadPage(page, true);
@@ -222,13 +220,13 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
   }
 
   isAllSelected(): boolean {
-    let selected = this.countSelectedForPage();
+    const selected = this.countSelectedForPage();
 
     return selected > 0 && selected == this.data.length;
   }
 
   isPartialPageSelected(): boolean {
-    let selected = this.countSelectedForPage();
+    const selected = this.countSelectedForPage();
 
     return selected > 0 && selected < this.data.length;
   }

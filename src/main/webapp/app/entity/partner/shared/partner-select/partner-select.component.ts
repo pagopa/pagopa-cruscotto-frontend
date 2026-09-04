@@ -61,8 +61,6 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
 
   public searching = false;
 
-  protected partner: IExtendPartner[] = [];
-
   filteredData$: Observable<IExtendPartner[]> = of([]);
   selectPartner: IExtendPartner | null = null;
   loading = false;
@@ -71,8 +69,16 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
   countSelect = 0;
   currentPage = 0;
   i = 0;
+  /** Number of items added per batch */
+  batchSize = 20;
 
-  ngOnInit() {
+  protected partner: IExtendPartner[] = [];
+
+  private incrementBatchOffset$: Subject<void> = new Subject<void>();
+  private readonly partnerService = inject(PartnerSelectService);
+  private destroy$: Subject<void> = new Subject<void>();
+
+  ngOnInit(): void {
     this.selectPartner = this.parentForm.get(this.formInnerControlName)?.value ?? null;
     if (this.selectPartner) {
       this.selectPartner.order = this.i++;
@@ -82,7 +88,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
     const filter$ = this.partnerFilteringCtrl.valueChanges.pipe(
       startWith(''),
       debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
+      filter((q): q is string => typeof q === 'string'),
     );
 
     this.filteredData$ = filter$.pipe(
@@ -91,7 +97,6 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
         let currentPage = 0;
         this.countSelect = 0;
         this.i = 0;
-        console.log('Search ' + value);
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           tap(() => {
@@ -102,7 +107,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(partners => (this.countSelect = (this.countSelect ?? 0) + partners.length)),
+          tap(partners => (this.countSelect = this.countSelect + partners.length)),
           tap(() => (this.currentPage = ++currentPage)),
           tap(() => (this.searching = false)),
           /** Note: This is a custom operator because we also need the last emitted value.
@@ -112,7 +117,7 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
             return p.length > 0;
           }, true),
           scan((allPartners: any[], newPartners: any[]) => {
-            let i = 0;
+            const i = 0;
 
             newPartners.forEach(partner => {
               partner.order = this.i++;
@@ -120,39 +125,42 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selectPartner) {
-              this.partnerService.sendPartnerId(String(this.selectPartner?.id), false, false);
-              const foundIntoNewPartners = newPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
-              );
-              const foundIntoAllPartners = allPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selectPartner && this.selectPartner.id),
-              );
+              this.partnerService.sendPartnerId(String(this.selectPartner.id), false, false);
+              const foundIntoNewPartners = newPartners.findIndex((partner: { id: any }) => partner.id === this.selectPartner?.id);
+              const foundIntoAllPartners = allPartners.findIndex((partner: { id: any }) => partner.id === this.selectPartner?.id);
               if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
                 allPartners.splice(foundIntoAllPartners, 1);
               } else if (foundIntoNewPartners === -1 && foundIntoAllPartners === -1) {
                 newPartners.push(this.selectPartner);
               }
             }
-            return allPartners.concat(newPartners);
+            return allPartners.concat(newPartners) as IExtendPartner[];
           }, []),
         );
       }),
     );
   }
 
-  /** Number of items added per batch */
-  batchSize = 20;
-  private incrementBatchOffset$: Subject<void> = new Subject<void>();
-  private readonly partnerService = inject(PartnerSelectService);
-  private destroy$: Subject<void> = new Subject<void>();
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
   getList(value: any, page: number): Observable<IPartnerIdentification[]> {
     return this.callService(value, page);
+  }
+
+  compareFn(obj1: IExtendPartner, obj2: IExtendPartner): boolean {
+    return obj1.id === obj2.id;
+  }
+
+  selectionChange(matSelectChange: MatSelectChange): void {
+    this.selectPartner = matSelectChange.value as IExtendPartner;
+    this.partnerService.sendPartnerId(String(matSelectChange.value.id), false, false); // Emit the selected partner's ID
+  }
+
+  getNextBatch(): void {
+    this.incrementBatchOffset$.next();
   }
 
   private callService(search: string, pageRequired: number): Observable<IPartnerIdentification[]> {
@@ -173,29 +181,16 @@ export class PartnerSelectComponent implements OnInit, OnDestroy {
 
     return this.partnerService.query(req).pipe(
       map((value: HttpResponse<IPartnerIdentification[]>) => {
-        const partners = value.body || [];
+        const partners = value.body ?? [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return partners;
       }),
       catchError(() => {
-        return [];
+        return [] as IPartnerIdentification[];
       }),
       finalize(() => {
         this.loading = false;
       }),
     );
-  }
-
-  compareFn(obj1: IExtendPartner, obj2: IExtendPartner) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
-  }
-
-  selectionChange(matSelectChange: MatSelectChange): void {
-    this.selectPartner = matSelectChange.value as IExtendPartner;
-    this.partnerService.sendPartnerId(String(matSelectChange.value.id), false, false); // Emit the selected partner's ID
-  }
-
-  getNextBatch(): void {
-    this.incrementBatchOffset$.next();
   }
 }

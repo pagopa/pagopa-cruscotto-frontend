@@ -42,11 +42,11 @@ export class InstanceFormService {
         id: new FormControl({ value: instanceRawValue.id, disabled: true }, { validators: [Validators.required], nonNullable: true }),
         partner: new FormControl(
           instanceRawValue.partnerId
-            ? <IPartnerIdentification>{
+            ? ({
                 id: instanceRawValue.partnerId,
                 name: instanceRawValue.partnerName,
                 fiscalCode: instanceRawValue.partnerFiscalCode,
-              }
+              } as IPartnerIdentification)
             : null,
           {
             validators: [Validators.required],

@@ -36,17 +36,17 @@ type KpiConfigurationFormDefaults = Pick<NewKpiConfiguration, 'id'>;
 type KpiConfigurationFormGroupContent = {
   id: FormControl<IKpiConfiguration['id'] | NewKpiConfiguration['id']>;
   module: FormControl<IModule | null>;
-  excludePlannedShutdown: FormControl<IKpiConfiguration['excludePlannedShutdown'] | NewKpiConfiguration['excludePlannedShutdown']>;
-  excludeUnplannedShutdown: FormControl<IKpiConfiguration['excludeUnplannedShutdown'] | NewKpiConfiguration['excludeUnplannedShutdown']>;
-  eligibilityThreshold: FormControl<IKpiConfiguration['eligibilityThreshold'] | NewKpiConfiguration['eligibilityThreshold']>;
-  tolerance: FormControl<IKpiConfiguration['tolerance'] | NewKpiConfiguration['tolerance']>;
-  evaluationType: FormControl<IKpiConfiguration['evaluationType'] | NewKpiConfiguration['evaluationType']>;
-  averageTimeLimit: FormControl<IKpiConfiguration['averageTimeLimit'] | NewKpiConfiguration['averageTimeLimit']>;
-  institutionCount: FormControl<IKpiConfiguration['institutionCount'] | NewKpiConfiguration['institutionCount']>;
-  transactionCount: FormControl<IKpiConfiguration['transactionCount'] | NewKpiConfiguration['transactionCount']>;
-  institutionTolerance: FormControl<IKpiConfiguration['institutionTolerance'] | NewKpiConfiguration['institutionTolerance']>;
-  transactionTolerance: FormControl<IKpiConfiguration['transactionTolerance'] | NewKpiConfiguration['transactionTolerance']>;
-  notificationTolerance: FormControl<IKpiConfiguration['notificationTolerance'] | NewKpiConfiguration['notificationTolerance']>;
+  excludePlannedShutdown: FormControl<IKpiConfiguration['excludePlannedShutdown']>;
+  excludeUnplannedShutdown: FormControl<IKpiConfiguration['excludeUnplannedShutdown']>;
+  eligibilityThreshold: FormControl<IKpiConfiguration['eligibilityThreshold']>;
+  tolerance: FormControl<IKpiConfiguration['tolerance']>;
+  evaluationType: FormControl<IKpiConfiguration['evaluationType']>;
+  averageTimeLimit: FormControl<IKpiConfiguration['averageTimeLimit']>;
+  institutionCount: FormControl<IKpiConfiguration['institutionCount']>;
+  transactionCount: FormControl<IKpiConfiguration['transactionCount']>;
+  institutionTolerance: FormControl<IKpiConfiguration['institutionTolerance']>;
+  transactionTolerance: FormControl<IKpiConfiguration['transactionTolerance']>;
+  notificationTolerance: FormControl<IKpiConfiguration['notificationTolerance']>;
 };
 
 export type KpiConfigurationFormGroup = FormGroup<KpiConfigurationFormGroupContent>;
@@ -67,11 +67,11 @@ export class KpiConfigurationFormService {
         module: new FormControl(
           {
             value: kpiConfigurationRawValue.moduleId
-              ? <IModule>{
+              ? ({
                   id: kpiConfigurationRawValue.moduleId,
                   name: kpiConfigurationRawValue.moduleName,
                   code: kpiConfigurationRawValue.moduleCode,
-                }
+                } as IModule)
               : null,
             disabled: kpiConfigurationRawValue.id !== null,
           },
@@ -122,7 +122,6 @@ export class KpiConfigurationFormService {
   }
 
   resetForm(form: KpiConfigurationFormGroup, kpiConfiguration: KpiConfigurationFormGroupInput): void {
-    console.log('resetForm', kpiConfiguration.eligibilityThreshold ? kpiConfiguration.eligibilityThreshold.toFixed(2) : null);
     const kpiConfigurationRawValue = {
       ...this.getFormDefaults(),
       ...kpiConfiguration,
@@ -145,11 +144,11 @@ export class KpiConfigurationFormService {
         id: { value: kpiConfigurationRawValue.id, disabled: true },
         module: {
           value: kpiConfigurationRawValue.moduleId
-            ? <IModule>{
+            ? ({
                 id: kpiConfigurationRawValue.moduleId,
                 name: kpiConfigurationRawValue.moduleName,
                 code: kpiConfigurationRawValue.moduleCode,
-              }
+              } as IModule)
             : null,
           disabled: kpiConfigurationRawValue.id !== null,
         },

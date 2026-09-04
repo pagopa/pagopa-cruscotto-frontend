@@ -21,7 +21,7 @@ export interface B9DrilldownRow {
 @Injectable({ providedIn: 'root' })
 export class KpiB9PaymentReceiptDrilldownService {
   private http = inject(HttpClient);
-  private app  = inject(ApplicationConfigService);
+  private app = inject(ApplicationConfigService);
 
   private resourceUrl = this.app.getEndpointFor('/api/kpi-b9/drilldown/instance');
 
@@ -33,11 +33,11 @@ export class KpiB9PaymentReceiptDrilldownService {
       map(rows =>
         (rows ?? []).map(r => ({
           startTime: r.startTime ? dayjs(r.startTime, DATE_TIME_FORMAT_ISO) : null,
-          endTime:  r.endTime  ? dayjs(r.endTime,  DATE_TIME_FORMAT_ISO) : null,
-          totRes:   r.totRes ?? null,
-          resKo:    r.resKo ?? null,
-        }))
-      )
+          endTime: r.endTime ? dayjs(r.endTime, DATE_TIME_FORMAT_ISO) : null,
+          totRes: r.totRes ?? null,
+          resKo: r.resKo ?? null,
+        })),
+      ),
     );
   }
 }

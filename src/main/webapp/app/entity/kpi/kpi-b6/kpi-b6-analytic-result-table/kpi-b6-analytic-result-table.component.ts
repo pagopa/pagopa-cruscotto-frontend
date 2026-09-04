@@ -105,7 +105,7 @@ export class KpiB6AnalyticResultTableComponent implements OnChanges, OnInit {
           case 'analysisDate':
             return dayjs(item.analysisDate).valueOf();
           case 'paymentOption':
-            return item.paymentOption?.toUpperCase() === 'SI' ? 1 : 0;
+            return item.paymentOption.toUpperCase() === 'SI' ? 1 : 0;
           default:
             return (item as any)[property];
         }

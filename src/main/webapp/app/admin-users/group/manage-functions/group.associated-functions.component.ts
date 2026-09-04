@@ -170,7 +170,7 @@ export class GroupAssociatedFunctionsComponent implements OnDestroy {
           });
           this.groupService.dissociaFunzione(this.groupId(), row.id).subscribe({
             next: () => {
-              let page = this.data.length === 1 && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
+              const page = this.data.length === 1 && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
 
               this.loadPage(page, true);
               this.eventManager.broadcast('assignableFunctionsRefresh');

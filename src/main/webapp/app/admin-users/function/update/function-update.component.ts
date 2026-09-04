@@ -17,8 +17,6 @@ import { FunctionService } from '../service/function.service';
 import { IFunction } from '../function.model';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-auth-function-update',
   templateUrl: './function-update.component.html',

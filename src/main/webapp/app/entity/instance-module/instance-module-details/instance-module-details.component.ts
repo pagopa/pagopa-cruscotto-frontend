@@ -246,7 +246,6 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
       this.isLoadingResults = false;
       this.moduleDetails = data; // Imposta i dettagli del modulo
       this.resetAllVariables();
-      console.log('Dati caricati con successo:', this.moduleDetails);
     });
   }
 
@@ -421,7 +420,7 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 
   onAnalyticDrilldownShowDetailsB9(row: KpiB9AnalyticData): void {
-    if (!row?.instanceId || !row?.stationId || !row?.evaluationDate) return;
+    if (!row.instanceId || !row.stationId || !row.evaluationDate) return;
 
     const same =
       this.b9DrillInstanceId === row.instanceId &&
@@ -557,9 +556,10 @@ export class InstanceModuleDetailsComponent implements OnInit, OnChanges {
   }
 }
 
-type DetailComponentMappingDynamic = {
-  [key: string]: {
+type DetailComponentMappingDynamic = Record<
+  string,
+  {
     resultTable: Type<any>;
     analyticTable: Type<any>;
-  };
-};
+  }
+>;

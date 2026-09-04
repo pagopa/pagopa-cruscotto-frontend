@@ -162,7 +162,6 @@ export class KpiB9AnalyticResultTableComponent implements AfterViewInit, OnChang
   }
 
   onShowDetails(row: KpiB9AnalyticData) {
-    console.log('[B9] click showDetails, id=', row);
     this.selectedElementId = row.id ?? null;
     this.showDetails.emit(row);
   }

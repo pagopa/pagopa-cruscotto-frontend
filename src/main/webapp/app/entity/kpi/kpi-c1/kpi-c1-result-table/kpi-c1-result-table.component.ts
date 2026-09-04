@@ -38,14 +38,7 @@ import { YesOrNoViewComponent } from '../../../../shared/component/yes-or-no-vie
   ],
 })
 export class KpiC1ResultTableComponent implements AfterViewInit, OnChanges, OnInit {
-  displayedColumns: string[] = [
-    'analysisDate',
-    'eligibilityThreshold',
-    'tolerance',
-    'evaluationType',
-    'outcome',
-    'details',
-  ];
+  displayedColumns: string[] = ['analysisDate', 'eligibilityThreshold', 'tolerance', 'evaluationType', 'outcome', 'details'];
   dataSource = new MatTableDataSource<KpiC1Result>([]);
   locale: string;
 

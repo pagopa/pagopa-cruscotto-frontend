@@ -75,7 +75,7 @@ export class KpiB4AnalyticResultTableComponent implements AfterViewInit, OnChang
     }
 
     // Ordina di default i dati per dataDate (dal più vecchio al più recente)
-    if (this.dataSource.data?.length) {
+    if (this.dataSource.data.length) {
       this.dataSource.data = this.dataSource.data.sort((a, b) => {
         const aTime = toTimestamp(a.dataDate);
         const bTime = toTimestamp(b.dataDate);

@@ -109,7 +109,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
   status = InstanceStatus;
   instanceStatusValues: InstanceStatus[] = Object.values(InstanceStatus);
 
-  isShowingArchived: boolean = false;
+  isShowingArchived = false;
 
   protected readonly Authority = Authority;
 
@@ -269,10 +269,10 @@ export class InstanceComponent implements OnInit, OnDestroy {
       return;
     }
 
-    //call gets executed immediately and then every 60 seconds if needed
+    // call gets executed immediately and then every 60 seconds if needed
     this.reportStatusPolling = timer(0, 60000).subscribe(() => {
       instances.forEach(instance => {
-        const existing = this.reportStatusMap.get(instance.id!);
+        const existing = this.reportStatusMap.get(instance.id);
         if (existing?.downloadInfo?.expiresAt && dayjs(existing.downloadInfo.expiresAt.replace(/(\.\d{3})\d+/, '$1')).isAfter(dayjs())) {
           return;
         }
@@ -284,7 +284,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           )
           .subscribe(result => {
             if (result !== null) {
-              this.reportStatusMap.set(instance.id!, result.body);
+              this.reportStatusMap.set(instance.id, result.body);
             }
           });
       });
@@ -332,7 +332,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.instanceService.delete(row.id!).subscribe({
+          this.instanceService.delete(row.id).subscribe({
             next: () => {
               if (
                 this.resultsLength % this.itemsPerPage === 1 &&
@@ -392,7 +392,7 @@ export class InstanceComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.instanceService.updateStatus(row.id!).subscribe({
+          this.instanceService.updateStatus(row.id).subscribe({
             next: () => {
               this.loadPage(this.filter.page, false);
             },

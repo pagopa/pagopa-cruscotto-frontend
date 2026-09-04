@@ -18,7 +18,7 @@ export class InstituteSelectService {
     return this.http.get<IInstituteIdentification[]>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
       map(res =>
         res.clone({
-          body: res.body ? (res.body as IInstituteIdentification[]) : null,
+          body: res.body ? res.body : null,
         }),
       ),
     );

@@ -46,13 +46,12 @@ export default class AppComponent implements OnInit {
     // Calling backend identity before redirect completion can race with MSAL interaction finalization.
     this.msalService.handleRedirectObservable().subscribe({
       next: result => {
-        if (result?.account) {
-          console.log('[MSAL] Redirect login successful for:', result.account.username);
+        if (result.account) {
           this.redirectAccount = result.account;
           this.msalService.instance.setActiveAccount(result.account);
         }
 
-        if (result?.accessToken) {
+        if (result.accessToken) {
           // Store the redirect token; subsequent API calls may still refresh silently via interceptor.
           this.stateStorageService.storeAuthenticationToken(result.accessToken, false);
         }
@@ -90,10 +89,6 @@ export default class AppComponent implements OnInit {
         }
       }
 
-      if (activeAccount) {
-        console.log('[MSAL] Account found:', activeAccount.username);
-      }
-
       // Let the auth interceptor silently acquire/refresh the token for /api/account.
       this.loadBackendIdentity();
     } else {
@@ -105,7 +100,6 @@ export default class AppComponent implements OnInit {
 
   private loadBackendIdentity(): void {
     this.accountService.identity(true).subscribe({
-      next: () => console.log('[MSAL] Backend identity loaded'),
       error: error => {
         console.error('[MSAL] Failed to load backend identity:', error);
         this.msalAccountChecked = false;

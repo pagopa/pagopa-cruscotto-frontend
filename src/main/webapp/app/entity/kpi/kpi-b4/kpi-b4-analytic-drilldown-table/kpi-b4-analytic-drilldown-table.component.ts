@@ -52,7 +52,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   ];
   dataSource = new MatTableDataSource<IB4PagoPaDrilldown>([]);
   originalData: IB4PagoPaDrilldown[] = [];
-  negativeCount: number = 0;
+  negativeCount = 0;
 
   toggleLabel = '';
 
@@ -70,7 +70,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   private readonly pagopaDataService = inject(KpiB4PagopaDataDrilldownService);
 
   get hasData(): boolean {
-    return !!this.dataSource?.data?.length;
+    return !!this.dataSource.data.length;
   }
 
   /** paginator creato nel jhi-table-header-bar */
@@ -131,7 +131,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
             this.dataSource.data = this.showAllRows ? res : negatives;
 
             if (this.paginator) {
-              this.paginator?.firstPage();
+              this.paginator.firstPage();
             }
           });
         },
@@ -153,7 +153,7 @@ export class KpiB4AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     }
 
     this.dataSource.sort = this.sort;
-    this.paginator?.firstPage();
+    this.paginator.firstPage();
   }
 
   sortData(sort: Sort): void {

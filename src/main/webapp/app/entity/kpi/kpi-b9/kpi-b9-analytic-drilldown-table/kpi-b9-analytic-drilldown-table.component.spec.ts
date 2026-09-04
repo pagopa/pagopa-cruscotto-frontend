@@ -8,9 +8,8 @@ describe('KpiB9AnalyticDrilldownTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [KpiB9AnalyticDrilldownTableComponent]
-    })
-    .compileComponents();
+      imports: [KpiB9AnalyticDrilldownTableComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(KpiB9AnalyticDrilldownTableComponent);
     component = fixture.componentInstance;

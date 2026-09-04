@@ -80,6 +80,5 @@ export class InstanceDetailComponent implements OnInit {
    */
   selectModule(module: IInstanceModule): void {
     this.selectedModule = module;
-    console.log('Modulo selezionato:', this.selectedModule);
   }
 }

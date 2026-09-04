@@ -91,7 +91,6 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
         let currentPage = 0;
         this.countSelect = 0;
         this.i = 0;
-        console.log('Search ' + value);
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           tap(() => {
@@ -112,7 +111,7 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
             return p.length > 0;
           }, true),
           scan((allPartners: any[], newPartners: any[]) => {
-            let i = 0;
+            const i = 0;
 
             newPartners.forEach(partner => {
               partner.order = this.i++;
@@ -120,7 +119,7 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selected) {
-              this.service.sendId(String(this.selected?.id), false, false);
+              this.service.sendId(String(this.selected.id), false, false);
               const foundIntoNewPartners = newPartners.findIndex(
                 (partner: { id: any }) => partner.id === (this.selected && this.selected.id),
               );

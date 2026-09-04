@@ -74,7 +74,7 @@ export default class UserManagementUpdateComponent implements OnInit {
       validators: [Validators.minLength(8), Validators.maxLength(100)],
     }),
     langKey: new FormControl(userTemplate.langKey, { nonNullable: true, validators: [Validators.required] }),
-    gruppo: new FormControl(userTemplate.groupId ? <IGroup>{ id: userTemplate.groupId } : null, {
+    gruppo: new FormControl(userTemplate.groupId ? ({ id: userTemplate.groupId } as IGroup) : null, {
       nonNullable: true,
       validators: [Validators.required],
     }),

@@ -76,7 +76,6 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
         let currentPage = 0;
         this.countSelect = 0;
         this.i = 0;
-        console.log('Search ' + value);
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           tap(() => {
@@ -97,7 +96,7 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
             return p.length > 0;
           }, true),
           scan((allModules: any[], newModules: any[]) => {
-            let i = 0;
+            const i = 0;
 
             newModules.forEach(module => {
               module.order = this.i++;

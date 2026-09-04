@@ -40,7 +40,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   displayedColumns = ['negativeData', 'partnerFiscalCode', 'stationCode', 'spontaneousPayments'];
   dataSource = new MatTableDataSource<IB5PagoPaDrilldown>([]);
   originalData: IB5PagoPaDrilldown[] = [];
-  negativeCount: number = 0;
+  negativeCount = 0;
 
   toggleLabel = '';
 
@@ -58,7 +58,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   private readonly pagopaDataService = inject(KpiB5PagopaDataDrilldownService);
 
   get hasData(): boolean {
-    return !!this.dataSource?.data?.length;
+    return !!this.dataSource.data.length;
   }
 
   /** paginator creato nel jhi-table-header-bar */
@@ -112,7 +112,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
 
             this.dataSource.data = this.showAllRows ? res : negatives;
 
-            this.paginator?.firstPage();
+            this.paginator.firstPage();
 
             setTimeout(() => {
               this.dataSource.sort = this.sort;
@@ -162,7 +162,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         this.originalData = res;
         this.dataSource.data = res;
         this.updateLabelAfterToggle(true);
-        this.paginator?.firstPage();
+        this.paginator.firstPage();
       });
     } else {
       // MOSTRA SOLO NON ATTIVI → spontaneousPaymentsFilter = 'NON ATTIVI'
@@ -170,7 +170,7 @@ export class KpiB5AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         this.originalData = res;
         this.dataSource.data = res;
         this.updateLabelAfterToggle(false);
-        this.paginator?.firstPage();
+        this.paginator.firstPage();
       });
     }
   }

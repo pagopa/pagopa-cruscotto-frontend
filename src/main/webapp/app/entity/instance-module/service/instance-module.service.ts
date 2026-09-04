@@ -60,7 +60,7 @@ export class InstanceModuleService {
    */
   patch(instanceModule: IInstanceModule): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(instanceModule);
-    return this.http.patch<RestInstanceModule>(`${this.resourceUrl}`, copy, { observe: 'response' }).pipe(
+    return this.http.patch<RestInstanceModule>(this.resourceUrl, copy, { observe: 'response' }).pipe(
       first(),
       map(res => this.convertResponseFromServer(res)),
     );

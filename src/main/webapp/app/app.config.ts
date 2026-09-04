@@ -100,9 +100,6 @@ const routerFeatures: RouterFeatures[] = [
   withComponentInputBinding(),
   withNavigationErrorHandler((e: NavigationError) => {
     const router = inject(Router);
-    console.log('--------------');
-    console.log(router);
-    console.log('--------------');
     if (e.error.status === 403) {
       void router.navigate(['/accessdenied']);
     } else if (e.error.status === 404) {

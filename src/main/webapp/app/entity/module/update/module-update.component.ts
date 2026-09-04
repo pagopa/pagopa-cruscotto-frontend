@@ -103,7 +103,6 @@ export class ModuleUpdateComponent implements OnInit {
         } else {
           this.editForm.get('allowManualOutcome')!.enable();
         }
-        console.log(_);
       });
   }
 
@@ -166,8 +165,6 @@ export class ModuleUpdateComponent implements OnInit {
   }
 
   selectModule(module: IModule): void {
-    console.log(module);
     this.moduleConfiguration = new ModuleConfiguration(module as IModuleConfiguration);
-    console.log(this.moduleConfiguration);
   }
 }

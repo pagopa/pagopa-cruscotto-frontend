@@ -177,7 +177,7 @@ export class ModuleComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.moduleService.delete(row.id!).subscribe({
+          this.moduleService.delete(row.id).subscribe({
             next: () => {
               if (
                 this.resultsLength % this.itemsPerPage === 1 &&

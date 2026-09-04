@@ -17,8 +17,6 @@ import { HttpResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-auth-permission-update',
   templateUrl: './permission-update.component.html',

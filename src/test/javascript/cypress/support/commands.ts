@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
 // ***********************************************
 // This commands.ts shows you how to
 // create various custom commands and overwrite

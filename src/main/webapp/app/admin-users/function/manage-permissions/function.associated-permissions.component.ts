@@ -171,7 +171,7 @@ export class FunctionAssociatedPermissionsComponent implements OnDestroy {
           });
           this.functionService.dissociaPermesso(this.functionId(), row.id).subscribe({
             next: () => {
-              let page = this.data.length === 1 && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
+              const page = this.data.length === 1 && this.filter.page !== 1 ? this.filter.page - 1 : this.filter.page;
 
               this.loadPage(page, true);
               this.eventManager.broadcast('assignablePermissionsRefresh');

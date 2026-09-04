@@ -17,8 +17,6 @@ import { IGroup } from '../group.model';
 import { GroupService } from '../service/group.service';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-auth-group-update',
   templateUrl: './group-update.component.html',

@@ -34,7 +34,7 @@ import { TableHeaderBarComponent } from 'app/shared/component/table-header-bar.c
 })
 export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   @Input() analyticDataId!: number;
-  @Input() locale: string = 'it';
+  @Input() locale = 'it';
 
   displayedColumns = ['negativeData', 'fromHour', 'endHour', 'transferCategory', 'totPayments', 'totIncorrectPayments'];
   dataSource = new MatTableDataSource<IWrongTaxCode>([]);
@@ -64,7 +64,7 @@ export class KpiA2AnalyticDrilldownTableComponent implements OnChanges {
   }
 
   get hasData(): boolean {
-    return this.dataSource?.data?.length > 0;
+    return this.dataSource.data.length > 0;
   }
 
   /** paginator creato nel jhi-table-header-bar */

@@ -34,7 +34,6 @@ export class KpiC1IODrilldownService {
    * NUOVO: recupera i record di drilldown per l'analyticDataId selezionato
    */
   findByAnalyticDataId(analyticDataId: number): Observable<IC1IODrilldown[]> {
-    console.log('analyticDataId: ', analyticDataId);
     return this.http.get<IO[]>(`${this.resourceUrl}/${analyticDataId}`).pipe(
       first(),
       map(res => res.map(item => this.convertFromServer(item))),

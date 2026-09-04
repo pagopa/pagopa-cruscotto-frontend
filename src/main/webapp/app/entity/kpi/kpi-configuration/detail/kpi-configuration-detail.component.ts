@@ -32,7 +32,6 @@ export default class KpiConfigurationDetailComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ kpiConfiguration }) => {
       this.kpiConfiguration = kpiConfiguration;
-      console.log(this.kpiConfiguration);
     });
 
     this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {

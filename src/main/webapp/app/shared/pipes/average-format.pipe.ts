@@ -11,7 +11,7 @@ export class AverageFormatPipe implements PipeTransform {
    * @param {number} [decimals=5] - The number of decimal places to retain in the formatted output. Defaults to 5.
    * @return {string} A formatted string representing the numeric value with specified decimals, a comma as the decimal separator, and a percentage sign. Returns an empty string if the input is invalid or cannot be parsed as a number.
    */
-  transform(value: any, decimals: number = 5): string {
+  transform(value: any, decimals = 5): string {
     if (value === null || value === undefined || isNaN(parseFloat(value))) {
       return '';
     }

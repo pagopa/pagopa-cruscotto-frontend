@@ -23,8 +23,6 @@ import { Authority } from 'app/config/authority.constants';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { LocaltionHelper } from 'app/core/location/location.helper';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-instance-update',
   templateUrl: './instance-update.component.html',

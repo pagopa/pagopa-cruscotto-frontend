@@ -34,8 +34,6 @@ import { AuthenticationType } from '../../../shared/model/authentication-type.mo
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-user-management',
   templateUrl: './user-management.component.html',

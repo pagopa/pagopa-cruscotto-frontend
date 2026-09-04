@@ -196,7 +196,7 @@ export class GroupComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.groupService.delete(row.id!).subscribe({
+          this.groupService.delete(row.id).subscribe({
             next: () => {
               if (
                 this.resultsLength % this.itemsPerPage === 1 &&

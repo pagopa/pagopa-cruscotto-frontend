@@ -12,11 +12,11 @@ import { MetricsEndpointsRequestsComponent } from './blocks/metrics-endpoints-re
 import { MetricsGarbageCollectorComponent } from './blocks/metrics-garbagecollector/metrics-garbagecollector.component';
 import { MetricsRequestComponent } from './blocks/metrics-request/metrics-request.component';
 import { MetricsSystemComponent } from './blocks/metrics-system/metrics-system.component';
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatCardModule} from "@angular/material/card";
-import {MatTabsModule} from "@angular/material/tabs";
-import {NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService} from "ngx-spinner";
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'jhi-metrics',
@@ -38,7 +38,7 @@ import {NgxSpinnerComponent, NgxSpinnerModule, NgxSpinnerService} from "ngx-spin
     MatTabsModule,
     NgxSpinnerModule,
   ],
-  styles: [ '.mat-card-metrics { min-height: 400px; }'],
+  styles: ['.mat-card-metrics { min-height: 400px; }'],
 })
 export default class MetricsComponent implements OnInit {
   metrics = signal<Metrics | null>(null);

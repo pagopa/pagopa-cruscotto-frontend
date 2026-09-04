@@ -71,7 +71,7 @@ export interface IProblemDetail {
 }
 
 export interface IUnifiedSearchResponse {
-  results?: Array<{ nav?: string; match?: Array<string>; paEmittente?: string; 'pa-emittente'?: string }>;
+  results?: { nav?: string; match?: string[]; paEmittente?: string; 'pa-emittente'?: string }[];
   count?: number;
 }
 
@@ -145,7 +145,7 @@ export interface IPosizione {
   actors?: IActors;
   amount?: IAmount;
   positionInfo?: IPositionInfo;
-  allTokens?: Array<string>;
+  allTokens?: string[];
   paymentInfo?: IPaymentInfo;
 }
 
@@ -162,7 +162,7 @@ export interface ITokenInfo {
 /** Informazioni aggiuntive associate a un token. */
 export interface IExtraInfo {
   count?: number;
-  results?: Array<IExtraInfoObject>;
+  results?: IExtraInfoObject[];
 }
 
 /** Transfer associati a un token. */
@@ -177,8 +177,8 @@ export interface ITransfers {
 /** Risposta workflow (eventi posizione + eventi token). */
 export interface IWorkflows {
   count?: number;
-  eventsPosition?: Array<IWorkflowEvent>;
-  eventsToken?: Array<IWorkflowTokenEvent>;
+  eventsPosition?: IWorkflowEvent[];
+  eventsToken?: IWorkflowTokenEvent[];
 }
 
 export interface IWorkflowEvent {

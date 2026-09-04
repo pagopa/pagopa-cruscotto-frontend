@@ -40,7 +40,7 @@ export class KpiC1AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   private readonly IOService = inject(KpiC1IODrilldownService);
 
   get hasData(): boolean {
-    return !!this.dataSource?.data?.length;
+    return !!this.dataSource.data.length;
   }
 
   ngAfterViewInit(): void {
@@ -81,7 +81,7 @@ export class KpiC1AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         next: res => {
           this.spinner.hide('isLoadingResultsKpiC1AnalyticDrilldown').then(() => {
             this.dataSource.data = res ?? [];
-            this.paginator?.firstPage();
+            this.paginator.firstPage();
           });
         },
         error: err => {

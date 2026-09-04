@@ -15,7 +15,7 @@ export class PartnerSelectService {
     return this.http.get<IPartnerIdentification[]>(this.resourceUrl, { params: options, observe: 'response' }).pipe(
       map(res =>
         res.clone({
-          body: res.body ? (res.body as IPartnerIdentification[]) : null,
+          body: res.body ? res.body : null,
         }),
       ),
     );

@@ -10,7 +10,4 @@ if (!environment.DEBUG_INFO_ENABLED) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, appConfig)
-  // eslint-disable-next-line no-console
-  .then(() => console.log('Application started'))
-  .catch((err: unknown) => console.error(err));
+bootstrapApplication(AppComponent, appConfig).catch((err: unknown) => console.error(err));

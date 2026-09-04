@@ -139,7 +139,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     sortActive: '',
     sortDirection: '',
   };
-  private workflowsTotalCount: number = 0;
+  private workflowsTotalCount = 0;
 
   expandedTokens = new Set<string>();
   /** Stato di caricamento delle sotto-sezioni di un token: key = `${token}:${section}`. */
@@ -159,7 +159,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     sortActive: '',
     sortDirection: '',
   };
-  private tokensTokenTotalCount: number = 0;
+  private tokensTokenTotalCount = 0;
 
   isLoading = true;
   isTokensLoading = false;
@@ -248,7 +248,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       token: e.token,
     }));
     this.eventiData = [...tokenEvents, ...positionEvents].sort((a, b) => {
-      return (a?.positionNumber ?? 0) - (b?.positionNumber ?? 0); // Ordine riprodotto a backend
+      return (a.positionNumber ?? 0) - (b.positionNumber ?? 0); // Ordine riprodotto a backend
     });
     this.workflowsTotalCount = workflows.count ?? this.eventiData.length;
   }
@@ -423,11 +423,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     const sortParam = this.buildExtraInfoSortParam(state);
 
     this.service.getExtraInfo(row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
-      next: (extra: IExtraInfo) => {
+      next(extra: IExtraInfo) {
         row.extra = extra;
         onDone?.();
       },
-      error: () => {
+      error() {
         onDone?.();
       },
     });
@@ -589,11 +589,11 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     const sortParam = this.buildTransfersSortParam(state);
 
     this.service.getTransfers(this.nav, this.paEmittente, row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
-      next: (transfers: ITransfers) => {
+      next(transfers: ITransfers) {
         row.transfers = transfers;
         onDone?.();
       },
-      error: () => {
+      error() {
         onDone?.();
       },
     });

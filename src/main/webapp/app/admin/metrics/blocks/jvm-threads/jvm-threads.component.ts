@@ -3,10 +3,10 @@ import { Component, computed, inject, input } from '@angular/core';
 import SharedModule from 'app/shared/shared.module';
 import { Thread, ThreadState } from 'app/admin/metrics/metrics.model';
 import { MetricsModalThreadsComponent } from '../metrics-modal-threads/metrics-modal-threads.component';
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {MatButton} from "@angular/material/button";
-import {MatIcon} from "@angular/material/icon";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'jhi-jvm-threads',

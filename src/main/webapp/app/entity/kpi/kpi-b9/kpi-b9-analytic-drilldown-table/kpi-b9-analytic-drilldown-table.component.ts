@@ -38,7 +38,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   displayedColumns = ['negativeData', 'startTime', 'endTime', 'totRes', 'resKo'];
   dataSource = new MatTableDataSource<B9DrilldownRow>([]);
   data: B9DrilldownRow[] = [];
-  negativeCount: number = 0;
+  negativeCount = 0;
   showAllRows = false;
   isToggleDisabled = false;
 
@@ -58,7 +58,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   private readonly svc = inject(KpiB9PaymentReceiptDrilldownService);
 
   get hasData(): boolean {
-    return !!this.dataSource?.data?.length;
+    return !!this.dataSource.data.length;
   }
 
   /** paginator creato nel jhi-table-header-bar */
@@ -108,7 +108,7 @@ export class KpiB9AnalyticDrilldownTableComponent implements OnChanges, AfterVie
             this.dataSource.data = this.showAllRows ? res : negatives;
             this.applyFilter();
 
-            this.paginator?.firstPage();
+            this.paginator.firstPage();
           });
         },
         error: () => this.spinner.hide('isLoadingResultsKpiB9AnalyticDrilldown').then(() => (this.dataSource.data = [])),

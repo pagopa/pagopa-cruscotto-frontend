@@ -53,7 +53,7 @@ export class KpiA1RecordedTimeoutTableComponent implements AfterViewInit, OnChan
   showAllRows = false;
 
   locale: string;
-  partnerFiscalCode: string = '';
+  partnerFiscalCode = '';
   originalData: KpiA1RecordedTimeout[] = [];
   negativeCount = 0;
 

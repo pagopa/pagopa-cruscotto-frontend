@@ -59,7 +59,6 @@ export class ShutdownService {
   }
 
   protected convertShutdownFromClient(shutdown: IShutdown | NewShutdown): ShutdownRestOf<IShutdown | NewShutdown> {
-    console.log(shutdown);
     let startDate = shutdown.shutdownStartDate?.clone();
     const startHour = shutdown.shutdownStartHour;
 
@@ -76,7 +75,7 @@ export class ShutdownService {
       endDate = endDate.minute(endHour.minute());
     }
 
-    let result = {
+    const result = {
       ...shutdown,
       shutdownStartDate: startDate?.format(DATE_TIME_FORMAT) ?? null,
       shutdownEndDate: endDate?.format(DATE_TIME_FORMAT) ?? null,

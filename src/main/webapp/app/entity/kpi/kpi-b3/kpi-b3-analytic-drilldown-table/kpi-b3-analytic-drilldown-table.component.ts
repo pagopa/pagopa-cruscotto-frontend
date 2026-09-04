@@ -57,7 +57,7 @@ export class KpiB3AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   } as const;
 
   get hasData(): boolean {
-    return !!this.dataSource?.data?.length;
+    return !!this.dataSource.data.length;
   }
 
   /** paginator creato nel jhi-table-header-bar */

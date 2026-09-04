@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import SharedModule from 'app/shared/shared.module';
-import {IDialogMetricsData, Thread, ThreadState} from 'app/admin/metrics/metrics.model';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import { MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatTableModule} from "@angular/material/table";
+import { IDialogMetricsData, Thread, ThreadState } from 'app/admin/metrics/metrics.model';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'jhi-thread-modal',
@@ -60,5 +60,3 @@ export class MetricsModalThreadsComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-
-

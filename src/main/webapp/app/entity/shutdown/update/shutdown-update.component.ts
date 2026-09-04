@@ -23,8 +23,6 @@ import { StationSelectComponent } from 'app/entity/station/shared/station-select
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { Authority } from 'app/config/authority.constants';
 
-/* eslint-disable no-console */
-
 @Component({
   selector: 'jhi-shutdown-update',
   templateUrl: './shutdown-update.component.html',
@@ -50,6 +48,8 @@ export class ShutdownUpdateComponent implements OnInit {
   shutdown: IShutdown | null = null;
   minDateFrom = dayjs().add(1, 'day');
   locale: string;
+  editForm!: ShutdownFormGroup;
+  partnerId$ = new BehaviorSubject<number | null>(null);
 
   protected readonly Authority = Authority;
 
@@ -59,10 +59,8 @@ export class ShutdownUpdateComponent implements OnInit {
   private readonly spinner = inject(NgxSpinnerService);
   private readonly translateService = inject(TranslateService);
 
-  editForm: ShutdownFormGroup = this.shutdownFormService.createShutdownFormGroup();
-  partnerId$ = new BehaviorSubject<number | null>(null);
-
   constructor() {
+    this.editForm = this.shutdownFormService.createShutdownFormGroup();
     this.locale = this.translateService.currentLang;
   }
 
@@ -114,6 +112,24 @@ export class ShutdownUpdateComponent implements OnInit {
     ctrlNames.forEach(ctrlName => this.editForm.get(ctrlName)?.setValue(null));
   }
 
+  minDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
+    const maxDate = this.editForm.get('shutdownEndDate')?.value ?? dayjs().add(1, 'year');
+
+    if (d !== null) {
+      return d.isSameOrBefore(maxDate);
+    }
+    return true;
+  };
+
+  maxDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
+    const minDate = this.editForm.get('shutdownStartDate')?.value ?? dayjs().add(-1, 'year');
+    if (d !== null) {
+      return d.isSameOrAfter(minDate);
+    }
+
+    return true;
+  };
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IShutdown>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -125,29 +141,14 @@ export class ShutdownUpdateComponent implements OnInit {
     this.previousState();
   }
 
-  protected onSaveError(): void {}
+  protected onSaveError(): void {
+    // handled via onSaveFinalize; no additional error UI needed here
+    this.isSaving = false;
+  }
 
   protected onSaveFinalize(): void {
     this.spinner.hide('isSaving').then(() => {
       this.isSaving = false;
     });
   }
-
-  minDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
-    const maxDate = this.editForm.get('shutdownEndDate')?.value || dayjs().add(1, 'year');
-
-    if (maxDate && d !== null) {
-      return d.isSameOrBefore(maxDate);
-    }
-    return true;
-  };
-
-  maxDateRangeValidator = (d: dayjs.Dayjs | null): boolean => {
-    const minDate = this.editForm.get('shutdownStartDate')?.value || dayjs().add(-1, 'year');
-    if (minDate && d !== null) {
-      return d.isSameOrAfter(minDate);
-    }
-
-    return true;
-  };
 }

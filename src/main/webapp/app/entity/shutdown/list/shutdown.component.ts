@@ -225,24 +225,6 @@ export class ShutdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  private populateRequest(req: any): any {
-    addFilterToRequest(this.filter, ShutdownFilter.PARTNER, req);
-    addFilterToRequest(this.filter, ShutdownFilter.TYPE, req);
-    addFilterToRequest(this.filter, ShutdownFilter.YEAR, req);
-    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_START_DATE, req);
-    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_END_DATE, req);
-  }
-
-  private populateFilter(): void {
-    addToFilter(this.filter, this.searchForm.get('partner'), ShutdownFilter.PARTNER);
-    addToFilter(this.filter, this.searchForm.get('typePlanned'), ShutdownFilter.TYPE);
-    addToFilter(this.filter, this.searchForm.get('year'), ShutdownFilter.YEAR);
-    addToFilter(this.filter, this.searchForm.get('shutdownStartDate'), ShutdownFilter.SHUTDOWN_START_DATE);
-    addToFilter(this.filter, this.searchForm.get('shutdownEndDate'), ShutdownFilter.SHUTDOWN_END_DATE);
-
-    this.filter.page = this.page;
-  }
-
   previousState(): void {
     window.history.back();
   }
@@ -266,7 +248,7 @@ export class ShutdownComponent implements OnInit, OnDestroy {
           this.spinner.show('isLoadingResults').then(() => {
             this.isLoadingResults = true;
           });
-          this.shutdownService.delete(row.id!).subscribe({
+          this.shutdownService.delete(row.id).subscribe({
             next: () => {
               if (
                 this.resultsLength % this.itemsPerPage === 1 &&
@@ -287,6 +269,11 @@ export class ShutdownComponent implements OnInit, OnDestroy {
       });
   }
 
+  changeYear(year: number): void {
+    this.minDate = dayjs().set('year', year).startOf('year');
+    this.maxDate = dayjs().set('year', year).endOf('year');
+  }
+
   protected onSuccess(data: IShutdown[], headers: HttpHeaders): void {
     this.resultsLength = Number(headers.get('X-Total-Count'));
     this.data = data;
@@ -302,8 +289,21 @@ export class ShutdownComponent implements OnInit, OnDestroy {
     });
   }
 
-  changeYear(year: number): void {
-    this.minDate = dayjs().set('year', year).startOf('year');
-    this.maxDate = dayjs().set('year', year).endOf('year');
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, ShutdownFilter.PARTNER, req);
+    addFilterToRequest(this.filter, ShutdownFilter.TYPE, req);
+    addFilterToRequest(this.filter, ShutdownFilter.YEAR, req);
+    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_START_DATE, req);
+    addFilterToRequest(this.filter, ShutdownFilter.SHUTDOWN_END_DATE, req);
+  }
+
+  private populateFilter(): void {
+    addToFilter(this.filter, this.searchForm.get('partner'), ShutdownFilter.PARTNER);
+    addToFilter(this.filter, this.searchForm.get('typePlanned'), ShutdownFilter.TYPE);
+    addToFilter(this.filter, this.searchForm.get('year'), ShutdownFilter.YEAR);
+    addToFilter(this.filter, this.searchForm.get('shutdownStartDate'), ShutdownFilter.SHUTDOWN_START_DATE);
+    addToFilter(this.filter, this.searchForm.get('shutdownEndDate'), ShutdownFilter.SHUTDOWN_END_DATE);
+
+    this.filter.page = this.page;
   }
 }

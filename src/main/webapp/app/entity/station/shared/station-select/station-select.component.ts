@@ -59,7 +59,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
   _partner: IPartnerIdentification | null = null;
 
-  first: boolean = true;
+  first = true;
   filteredData$: Observable<IExtendedStation[]> = of([]);
   selectStation: IExtendedStation | null = null;
   loading = false;
@@ -68,8 +68,13 @@ export class StationSelectComponent implements OnInit, OnDestroy {
   countSelect = 0;
   currentPage = 0;
   i = 0;
+  batchSize = 20;
 
-  ngOnInit() {
+  private incrementBatchOffset$: Subject<void> = new Subject<void>();
+  private readonly stationService = inject(StationService);
+  private destroy$: Subject<void> = new Subject<void>();
+
+  ngOnInit(): void {
     this.selectStation = this.parentForm.get(this.formInnerControlName)?.value ?? null;
     if (this.selectStation) {
       this.selectStation.order = this.i++;
@@ -82,7 +87,6 @@ export class StationSelectComponent implements OnInit, OnDestroy {
 
     this.parentForm.get(this.partnerControlName)!.valueChanges.subscribe(value => {
       this._partner = value;
-      console.log(this._partner);
       if (value === null || value === '' || value.id !== this.selectStation?.partnerId) {
         this.clear();
       }
@@ -91,7 +95,7 @@ export class StationSelectComponent implements OnInit, OnDestroy {
     const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
       startWith(null),
       debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
+      filter((q): q is string => typeof q === 'string'),
     );
 
     this.filteredData$ = filter$.pipe(
@@ -104,42 +108,33 @@ export class StationSelectComponent implements OnInit, OnDestroy {
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
+          tap(gruppi => (this.countSelect = this.countSelect + gruppi.length)),
           tap(() => (this.currentPage = ++currentPage)),
           takeWhile(p => p.length > 0, true),
           scan((allGroups: any[], newGroups: any[]) => {
-            let i = 0;
+            const i = 0;
             newGroups.forEach(group => {
               group.order = this.i++;
               group.orderForSort = group.order;
             });
 
             if (this.selectStation) {
-              const foundIntoNewGroups = newGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
-              );
-              const foundIntoAllGroups = allGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectStation && this.selectStation.id),
-              );
+              const foundIntoNewGroups = newGroups.findIndex((group: { id: any }) => group.id === this.selectStation?.id);
+              const foundIntoAllGroups = allGroups.findIndex((group: { id: any }) => group.id === this.selectStation?.id);
               if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
                 allGroups.splice(foundIntoAllGroups, 1);
               } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
                 newGroups.push(this.selectStation);
               }
             }
-            return allGroups.concat(newGroups);
+            return allGroups.concat(newGroups) as IExtendedStation[];
           }, []),
         );
       }),
     );
   }
 
-  batchSize = 20;
-  private incrementBatchOffset$: Subject<void> = new Subject<void>();
-  private readonly stationService = inject(StationService);
-  private destroy$: Subject<void> = new Subject<void>();
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -148,9 +143,21 @@ export class StationSelectComponent implements OnInit, OnDestroy {
     return this.callService(value, page);
   }
 
+  compareFn(obj1: IExtendedStation, obj2: IExtendedStation): boolean {
+    return obj1.id === obj2.id;
+  }
+
+  selectionChange(matSelectChange: MatSelectChange): void {
+    this.selectStation = matSelectChange.value as IExtendedStation;
+  }
+
+  getNextBatch(): void {
+    this.incrementBatchOffset$.next();
+  }
+
   private callService(search: string, pageRequired: number): Observable<IStation[]> {
     this.loading = true;
-    if (this._partner !== null && this._partner !== undefined && this._partner.id !== undefined && this._partner.id !== null) {
+    if (this._partner?.id !== undefined) {
       const req: any = {
         page: pageRequired,
         size: ITEMS_PER_PAGE,
@@ -160,12 +167,12 @@ export class StationSelectComponent implements OnInit, OnDestroy {
       addNumericToReq(this._partner.id, 'partnerId', req);
       return this.stationService.queryLookup(req).pipe(
         map((value: HttpResponse<IStation[]>) => {
-          const stations = value.body || [];
+          const stations = value.body ?? [];
           this.totalItems = Number(value.headers.get('X-Total-Count'));
           return stations;
         }),
         catchError(() => {
-          return [];
+          return [] as IStation[];
         }),
         finalize(() => {
           this.loading = false;
@@ -178,18 +185,6 @@ export class StationSelectComponent implements OnInit, OnDestroy {
         }),
       );
     }
-  }
-
-  compareFn(obj1: IExtendedStation, obj2: IExtendedStation) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
-  }
-
-  selectionChange(matSelectChange: MatSelectChange): void {
-    this.selectStation = matSelectChange.value as IExtendedStation;
-  }
-
-  getNextBatch(): void {
-    this.incrementBatchOffset$.next();
   }
 
   private clear(): void {
