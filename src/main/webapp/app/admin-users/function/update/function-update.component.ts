@@ -36,6 +36,7 @@ import { Authority } from 'app/config/authority.constants';
 export class FunctionUpdateComponent implements OnInit {
   isSaving = false;
   function: IFunction | null = null;
+  editForm: FunctionFormGroup;
 
   protected readonly Authority = Authority;
 
@@ -44,7 +45,9 @@ export class FunctionUpdateComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly spinner = inject(NgxSpinnerService);
 
-  editForm: FunctionFormGroup = this.functionFormService.createFunctionFormGroup();
+  constructor() {
+    this.editForm = this.functionFormService.createFunctionFormGroup();
+  }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ authFunction }) => {
@@ -79,15 +82,12 @@ export class FunctionUpdateComponent implements OnInit {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IFunction>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
-      error: () => this.onSaveError(),
     });
   }
 
   protected onSaveSuccess(): void {
     this.previousState();
   }
-
-  protected onSaveError(): void {}
 
   protected onSaveFinalize(): void {
     this.spinner.hide('isSaving').then(() => {

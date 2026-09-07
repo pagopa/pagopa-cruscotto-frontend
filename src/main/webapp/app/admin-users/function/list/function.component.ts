@@ -165,18 +165,6 @@ export class FunctionComponent implements OnInit, OnDestroy {
     }
   }
 
-  private populateRequest(req: any): any {
-    addFilterToRequest(this.filter, FunctionFilter.NOME, req);
-    addFilterToRequest(this.filter, FunctionFilter.DESCRIZIONE, req);
-  }
-
-  private populateFilter(): void {
-    addToFilter(this.filter, this.searchForm.get('nome'), FunctionFilter.NOME);
-    addToFilter(this.filter, this.searchForm.get('descrizione'), FunctionFilter.DESCRIZIONE);
-
-    this.filter.page = this.page;
-  }
-
   previousState(): void {
     window.history.back();
   }
@@ -230,5 +218,17 @@ export class FunctionComponent implements OnInit, OnDestroy {
     this.spinner.hide('isLoadingResults').then(() => {
       this.isLoadingResults = false;
     });
+  }
+
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, FunctionFilter.NOME, req);
+    addFilterToRequest(this.filter, FunctionFilter.DESCRIZIONE, req);
+  }
+
+  private populateFilter(): void {
+    addToFilter(this.filter, this.searchForm.get('nome'), FunctionFilter.NOME);
+    addToFilter(this.filter, this.searchForm.get('descrizione'), FunctionFilter.DESCRIZIONE);
+
+    this.filter.page = this.page;
   }
 }

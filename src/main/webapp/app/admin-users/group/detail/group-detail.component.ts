@@ -45,13 +45,13 @@ export class GroupDetailComponent implements OnInit {
 
   @ViewChild(CdkTree) tree!: CdkTree<IFunction>;
 
-  childrenAccessor = (dataNode: IFunction) => dataNode.authPermissions ?? [];
-
   dataSource = new MatTreeNestedDataSource<any>();
 
   protected readonly Authority = Authority;
 
   protected readonly activatedRoute = inject(ActivatedRoute);
+
+  childrenAccessor = (dataNode: IFunction): IPermission[] => dataNode.authPermissions ?? [];
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ authGroup }) => {
@@ -62,9 +62,9 @@ export class GroupDetailComponent implements OnInit {
     });
   }
 
-  hasChild = (_: number, node: IFunction) => !!node.authPermissions && node.authPermissions.length > 0;
+  hasChild = (_: number, node: IFunction): boolean => !!node.authPermissions && node.authPermissions.length > 0;
 
-  getParentNode(node: IFunction) {
+  getParentNode(node: IFunction): IFunction | null {
     for (const parent of flattenNodes(this.group?.authFunctions ?? [])) {
       if (parent.authFunctions?.includes(node)) {
         return parent;

@@ -14,7 +14,7 @@ export const addToFilter = (pagination: IFilterPagination, data: AbstractControl
   }
 };
 
-export const addValueToFilter = (pagination: IFilterPagination, data: any | null, param: IParam): void => {
+export const addValueToFilter = (pagination: IFilterPagination, data: any, param: IParam): void => {
   if (data != null) {
     pagination.filters[param.name] = data;
   }
@@ -155,14 +155,14 @@ export const getFilterValueByType = (filter: Record<string, any> | null, param: 
   }
 };
 
-export const addStringToReq = (filterValue: string | undefined | null, filterKey: string, req: any) => {
+export const addStringToReq = (filterValue: string | undefined | null, filterKey: string, req: any): void => {
   if (filterValue !== undefined && filterValue !== null && filterValue.trim() !== '') {
     const reqFilter = { [filterKey]: filterValue };
     Object.assign(req, reqFilter);
   }
 };
 
-export const addNumericToReq = (filterValue: number | undefined | null, filterKey: string, req: any) => {
+export const addNumericToReq = (filterValue: number | undefined | null, filterKey: string, req: any): void => {
   if (filterValue !== undefined && filterValue !== null) {
     const reqFilter = { [filterKey]: filterValue };
     Object.assign(req, reqFilter);

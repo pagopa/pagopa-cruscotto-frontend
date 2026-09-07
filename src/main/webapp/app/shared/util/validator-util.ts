@@ -80,7 +80,6 @@ export const timeValidatorFn = (
     const fromTimeControl = control.get(fromTimeControlName);
     const toTimeControl = control.get(toTimeControlName);
 
-    console.log(toTimeControl);
     let startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
     let endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
     const startTime = fromTimeControl ? (fromTimeControl.value as dayjs.Dayjs) : null;
@@ -114,7 +113,7 @@ export const timeValidatorFn = (
             },
           });
         }
-      } else if (endDate.diff(startDate, 'days') == 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
+      } else if (endDate.diff(startDate, 'days') === 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
         notTimeError = false;
         if (fromTimeControl) {
           fromTimeControl.setErrors({

@@ -22,7 +22,7 @@ export class FunctionDetailComponent implements OnInit {
   protected readonly activatedRoute = inject(ActivatedRoute);
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ authFunction }) => (this.function = authFunction));
+    this.activatedRoute.data.subscribe(({ authFunction }) => (this.function = authFunction as IFunction));
   }
 
   previousState(): void {

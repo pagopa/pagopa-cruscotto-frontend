@@ -158,10 +158,6 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
     }
   }
 
-  private populateFilter(): void {
-    this.filter.page = this.page;
-  }
-
   associaPermessi(): void {
     const confirmOptions = new ConfirmModalOptions(
       'pagopaCruscottoApp.authFunction.managePermissions.assignablePermissions.question.title',
@@ -198,14 +194,10 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
       });
   }
 
-  private populateRequest(req: any): any {
-    addFilterToRequest(this.filter, FunctionAssignablePermissionsFilter.NOME, req);
-  }
-
-  modelChangeFn(value: any) {
+  modelChangeFn(value: any): void {
     addValueToFilter(this.filter, value, FunctionAssignablePermissionsFilter.NOME);
 
-    if (value.length > 3 || value.length == 0) {
+    if (value.length > 3 || value.length === 0) {
       this.loadPage(1, true);
       this.selection.clear();
     }
@@ -222,7 +214,7 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
   isAllSelected(): boolean {
     const selected = this.countSelectedForPage();
 
-    return selected > 0 && selected == this.data.length;
+    return selected > 0 && selected === this.data.length;
   }
 
   isPartialPageSelected(): boolean {
@@ -271,5 +263,13 @@ export class FunctionAssignablePermissionsComponent implements OnDestroy {
     this.spinner.hide('isLoadingAssignablePermissions').then(() => {
       this.isLoadingResults = false;
     });
+  }
+
+  private populateFilter(): void {
+    this.filter.page = this.page;
+  }
+
+  private populateRequest(req: any): any {
+    addFilterToRequest(this.filter, FunctionAssignablePermissionsFilter.NOME, req);
   }
 }

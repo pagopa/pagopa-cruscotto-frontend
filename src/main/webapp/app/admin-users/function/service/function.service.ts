@@ -63,11 +63,11 @@ export class FunctionService {
     });
   }
 
-  associaPermesso(permessiDaAssociare: IPermission[], functionId: number): Observable<HttpResponse<void>> {
-    return this.http.post<void>(`${this.resourceUrl}/${functionId}/associa-permessi`, permessiDaAssociare, { observe: 'response' });
+  associaPermesso(permessiDaAssociare: IPermission[], functionId: number): Observable<HttpResponse<{}>> {
+    return this.http.post<{}>(`${this.resourceUrl}/${functionId}/associa-permessi`, permessiDaAssociare, { observe: 'response' });
   }
 
-  dissociaPermesso(functionId: number, permessoId: number): Observable<HttpResponse<void>> {
-    return this.http.get<void>(`${this.resourceUrl}/${functionId}/rimuovi-permesso/${permessoId}`, { observe: 'response' });
+  dissociaPermesso(functionId: number, permessoId: number): Observable<HttpResponse<{}>> {
+    return this.http.get<{}>(`${this.resourceUrl}/${functionId}/rimuovi-permesso/${permessoId}`, { observe: 'response' });
   }
 }

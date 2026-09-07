@@ -142,10 +142,6 @@ export class FunctionAssociatedPermissionsComponent implements OnDestroy {
     }
   }
 
-  private populateFilter(): void {
-    this.filter.page = this.page;
-  }
-
   previousState(): void {
     window.history.back();
   }
@@ -199,5 +195,9 @@ export class FunctionAssociatedPermissionsComponent implements OnDestroy {
     this.spinner.hide('isLoadingAssociatedPermissions').then(() => {
       this.isLoadingResults = false;
     });
+  }
+
+  private populateFilter(): void {
+    this.filter.page = this.page;
   }
 }

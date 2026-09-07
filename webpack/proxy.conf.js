@@ -1,4 +1,4 @@
-function setupProxy({ tls }) {
+function setupProxy({ tls: _tls }) {
   const serverResources = ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/health'];
 
   // Sert-specific endpoints — served by cruscotto-sert-backend on port 8081

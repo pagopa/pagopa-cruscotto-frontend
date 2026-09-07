@@ -3,7 +3,7 @@ export type Account = Record<string, string | boolean | number>;
 
 Cypress.Commands.add('getAccount', () => {
   return cy
-    .authenticatedRequest({
+    .request({
       method: 'GET',
       url: '/api/account',
     })
@@ -11,7 +11,7 @@ Cypress.Commands.add('getAccount', () => {
 });
 
 Cypress.Commands.add('saveAccount', (account: Account) => {
-  return cy.authenticatedRequest({
+  return cy.request({
     method: 'POST',
     url: '/api/account',
     body: account,
