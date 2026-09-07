@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, exhaustMap, filter, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { catchError, debounceTime, exhaustMap, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
 import { MatSelect, MatSelectChange, MatSelectModule } from '@angular/material/select';
 import SharedModule from '../../../../shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -57,18 +57,14 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
   currentPage = 0;
   i = 0;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selectModule = this.parentForm.get(this.formInnerControlName)?.value ?? null;
     if (this.selectModule) {
       this.selectModule.order = this.i++;
       this.selectModule.orderForSort = -1;
     }
 
-    const filter$ = this.moduleFilteringCtrl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
-    );
+    const filter$ = this.moduleFilteringCtrl.valueChanges.pipe(startWith(''), debounceTime(200));
 
     this.filteredData$ = filter$.pipe(
       switchMap((value: any) => {
@@ -79,14 +75,14 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           tap(() => {
-            if (value !== null && value !== '' && value !== undefined && value.length >= 1) {
+            if (value?.length >= 1) {
               this.searching = true;
             }
           }),
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(modules => (this.countSelect = (this.countSelect ?? 0) + modules.length)),
+          tap((modules: IModule[]) => (this.countSelect = this.countSelect + modules.length)),
           tap(() => (this.currentPage = ++currentPage)),
           tap(() => (this.searching = false)),
           /** Note: This is a custom operator because we also need the last emitted value.
@@ -95,29 +91,24 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
           takeWhile(p => {
             return p.length > 0;
           }, true),
-          scan((allModules: any[], newModules: any[]) => {
-            const i = 0;
-
-            newModules.forEach(module => {
-              module.order = this.i++;
-              module.orderForSort = module.order;
-            });
+          scan((allModules: IExtendModule[], newModules: IModule[]) => {
+            const extendedModules: IExtendModule[] = newModules.map(module => ({
+              ...module,
+              order: this.i++,
+              orderForSort: this.i,
+            }));
 
             if (this.selectModule) {
-              const foundIntoNewModules = newModules.findIndex(
-                (module: { id: any }) => module.id === (this.selectModule && this.selectModule.id),
-              );
-              const foundIntoAllModules = allModules.findIndex(
-                (module: { id: any }) => module.id === (this.selectModule && this.selectModule.id),
-              );
+              const foundIntoNewModules = extendedModules.findIndex((module: { id: any }) => module.id === this.selectModule?.id);
+              const foundIntoAllModules = allModules.findIndex((module: { id: any }) => module.id === this.selectModule?.id);
               if (foundIntoNewModules !== -1 && foundIntoAllModules !== -1) {
                 allModules.splice(foundIntoAllModules, 1);
               } else if (foundIntoNewModules === -1 && foundIntoAllModules === -1) {
-                newModules.push(this.selectModule);
+                extendedModules.push(this.selectModule);
               }
             }
-            return allModules.concat(newModules);
-          }, []),
+            return allModules.concat(extendedModules);
+          }, [] as IExtendModule[]),
         );
       }),
     );
@@ -129,7 +120,7 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
   private readonly moduleService = inject(ModuleService);
   private destroy$: Subject<void> = new Subject<void>();
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -150,21 +141,19 @@ export class ModuleSelectComponent implements OnInit, OnDestroy {
 
     return this.moduleService.getWithoutConfiguration(req).pipe(
       map((value: HttpResponse<IModule[]>) => {
-        const modules = value.body || [];
+        const modules = value.body ?? [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return modules;
       }),
-      catchError(() => {
-        return [];
-      }),
+      catchError(() => of([])),
       finalize(() => {
         this.loading = false;
       }),
     );
   }
 
-  compareFn(obj1: IExtendModule, obj2: IExtendModule) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  compareFn(obj1: IExtendModule, obj2: IExtendModule): boolean {
+    return obj1.id === obj2.id;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {

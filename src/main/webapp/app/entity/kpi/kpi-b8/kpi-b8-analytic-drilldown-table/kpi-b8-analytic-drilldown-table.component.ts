@@ -72,7 +72,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   }
 
   /** paginator creato nel jhi-table-header-bar */
-  onHeaderPaginatorReady(p: MatPaginator) {
+  onHeaderPaginatorReady(p: MatPaginator): void {
     this.paginator = p;
     this.dataSource.paginator = p;
   }
@@ -84,21 +84,21 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     this.dataSource.sortingDataAccessor = (row, column) => {
       switch (column) {
         case 'partnerFiscalCode':
-          return row.partnerFiscalCode ?? '';
+          return row.partnerFiscalCode === null ? '' : row.partnerFiscalCode;
         case 'dataDate':
-          return row.dataDate ? row.dataDate.valueOf() : -1;
+          return row.dataDate === null ? -1 : row.dataDate.valueOf();
         case 'stationCode':
-          return row.stationCode ?? '';
+          return row.stationCode === null ? '' : row.stationCode;
         case 'fiscalCode':
-          return row.fiscalCode ?? '';
+          return row.fiscalCode === null ? '' : row.fiscalCode;
         case 'api':
-          return row.api ?? '';
+          return row.api === null ? '' : row.api;
         case 'totalRequests':
-          return row.totalRequests ?? -1;
+          return row.totalRequests;
         case 'okRequests':
-          return row.okRequests ?? -1;
+          return row.okRequests;
         case 'koRequests':
-          return row.koRequests ?? -1;
+          return row.koRequests;
         default:
           return 0;
       }
@@ -106,11 +106,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   }
 
   ngOnChanges(): void {
-    if (this.selectedKpiB8AnalyticResultId != null) {
-      this.loadDrillDown();
-    } else {
-      this.dataSource.data = [];
-    }
+    this.loadDrillDown();
   }
 
   loadDrillDown(): void {
@@ -119,7 +115,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
         next: res => {
           this.spinner.hide('isLoadingResultsKpiB8AnalyticDrilldown').then(() => {
             this.data = res;
-            const negatives = res.filter(d => (d.koRequests ?? 0) > 0);
+            const negatives = res.filter(d => d.koRequests > 0);
             const positives = res.filter(d => d.koRequests === 0);
 
             this.negativeCount = negatives.length;
@@ -141,7 +137,7 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
     });
   }
 
-  filterData(event: MatSlideToggleChange) {
+  filterData(event: MatSlideToggleChange): void {
     if (event.checked) {
       this.dataSource.data = this.data;
     } else {
@@ -183,18 +179,16 @@ export class KpiB8AnalyticDrilldownTableComponent implements OnChanges, AfterVie
   }
 
   applyFilter(): void {
-    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => (d.koRequests ?? 0) > 0);
+    this.dataSource.data = this.showAllRows ? this.data : this.data.filter(d => d.koRequests > 0);
 
-    this.negativeCount = this.data.filter(d => (d.koRequests ?? 0) > 0).length;
+    this.negativeCount = this.data.filter(d => d.koRequests > 0).length;
 
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource._updateChangeSubscription();
-      this.paginator.firstPage();
-    }
+    this.dataSource.paginator = this.paginator;
+    this.dataSource._updateChangeSubscription();
+    this.paginator.firstPage();
   }
 
-  onToggleChanged(value: boolean) {
+  onToggleChanged(value: boolean): void {
     this.showAllRows = value;
     this.applyFilter();
     this.updateLabelAfterToggle(value);

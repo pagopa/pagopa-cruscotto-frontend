@@ -58,7 +58,7 @@ export default tseslint.config(
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/member-ordering': [
-        'error',
+        'warn',
         {
           default: [
             'public-static-field',

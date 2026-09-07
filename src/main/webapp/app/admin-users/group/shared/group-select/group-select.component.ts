@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError, debounceTime, exhaustMap, filter, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { catchError, debounceTime, exhaustMap, finalize, map, scan, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
 import { MatOption, MatSelect, MatSelectChange, MatSelectModule } from '@angular/material/select';
 import SharedModule from '../../../../shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,18 +52,14 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
   currentPage = 0;
   i = 0;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selectGroup = this.parentForm.get(this.formInnerControlName)?.value ?? null;
     if (this.selectGroup) {
       this.selectGroup.order = this.i++;
       this.selectGroup.orderForSort = -1;
     }
 
-    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(
-      startWith(null),
-      debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
-    );
+    const filter$ = this.parentForm.get(this.formInnerControlName)!.valueChanges.pipe(startWith(null), debounceTime(200));
 
     this.filteredData$ = filter$.pipe(
       switchMap((value: any) => {
@@ -77,7 +73,7 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(gruppi => (this.countSelect = (this.countSelect ?? 0) + gruppi.length)),
+          tap((gruppi: IGroup[]) => (this.countSelect = this.countSelect + gruppi.length)),
           tap(() => (this.currentPage = ++currentPage)),
           /** Note: This is a custom operator because we also need the last emitted value.
            Note: Stop if there are no more pages, or no results at all for the current search text.
@@ -85,7 +81,7 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
           takeWhile(p => {
             return p.length > 0;
           }, true),
-          scan((allGroups: any[], newGroups: any[]) => {
+          scan((allGroups: IExtendGroup[], newGroups: IExtendGroup[]) => {
             const i = 0;
 
             newGroups.forEach(group => {
@@ -94,12 +90,8 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
             });
 
             if (this.selectGroup) {
-              const foundIntoNewGroups = newGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectGroup && this.selectGroup.id),
-              );
-              const foundIntoAllGroups = allGroups.findIndex(
-                (group: { id: any }) => group.id === (this.selectGroup && this.selectGroup.id),
-              );
+              const foundIntoNewGroups = newGroups.findIndex((group: { id: any }) => group.id === this.selectGroup?.id);
+              const foundIntoAllGroups = allGroups.findIndex((group: { id: any }) => group.id === this.selectGroup?.id);
               if (foundIntoNewGroups !== -1 && foundIntoAllGroups !== -1) {
                 allGroups.splice(foundIntoAllGroups, 1);
               } else if (foundIntoNewGroups === -1 && foundIntoAllGroups === -1) {
@@ -108,7 +100,7 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
             }
 
             return allGroups.concat(newGroups);
-          }, []),
+          }, [] as IExtendGroup[]),
         );
       }),
     );
@@ -122,7 +114,7 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
   }
 
@@ -141,21 +133,19 @@ export class GroupSelectComponent implements OnInit, OnDestroy {
 
     return this.groupService.query(req).pipe(
       map((value: HttpResponse<IGroup[]>) => {
-        const groups = value.body || [];
+        const groups = value.body ?? [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return groups;
       }),
-      catchError(() => {
-        return [];
-      }),
+      catchError(() => of([])),
       finalize(() => {
         this.loading = false;
       }),
     );
   }
 
-  compareFn(obj1: IExtendGroup, obj2: IExtendGroup) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  compareFn(obj1: IExtendGroup, obj2: IExtendGroup): boolean {
+    return obj1.id === obj2.id;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {

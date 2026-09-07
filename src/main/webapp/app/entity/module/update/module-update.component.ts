@@ -26,8 +26,6 @@ import { ModuleFormGroup, ModuleFormService } from './module-form.service';
 import { Authority } from 'app/config/authority.constants';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-/* eslint-disable no-console */
-
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',

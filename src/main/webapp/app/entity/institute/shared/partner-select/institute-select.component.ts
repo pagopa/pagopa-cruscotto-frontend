@@ -1,21 +1,7 @@
 import { Component, inject, Input, OnDestroy, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, of, Subject } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  delay,
-  exhaustMap,
-  filter,
-  finalize,
-  map,
-  scan,
-  startWith,
-  switchMap,
-  takeUntil,
-  takeWhile,
-  tap,
-} from 'rxjs/operators';
+import { catchError, debounceTime, exhaustMap, finalize, map, scan, startWith, switchMap, takeUntil, takeWhile, tap } from 'rxjs/operators';
 import { MatSelect, MatSelectChange, MatSelectModule } from '@angular/material/select';
 import SharedModule from '../../../../shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -72,21 +58,17 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
   private readonly service = inject(InstituteSelectService);
   private destroy$: Subject<void> = new Subject<void>();
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.selected = this.parentForm.get(this.formInnerControlName)?.value ?? null;
     if (this.selected) {
       this.selected.order = this.i++;
       this.selected.orderForSort = -1;
     }
 
-    const filter$ = this.filteringCtrl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(200),
-      filter(q => typeof q === 'string' || q === null),
-    );
+    const filter$ = this.filteringCtrl.valueChanges.pipe(startWith(''), debounceTime(200));
 
     this.filteredData$ = filter$.pipe(
-      switchMap((value: any) => {
+      switchMap((value: any): Observable<IExtendInstitute[]> => {
         this.searchTerm = value;
         let currentPage = 0;
         this.countSelect = 0;
@@ -94,14 +76,14 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
         return this.incrementBatchOffset$.pipe(
           startWith(currentPage),
           tap(() => {
-            if (value !== null && value !== '' && value !== undefined && value.length >= 1) {
+            if (value?.length >= 1) {
               this.searching = true;
             }
           }),
           exhaustMap(() => {
             return this.getList(value, currentPage);
           }),
-          tap(partners => (this.countSelect = (this.countSelect ?? 0) + partners.length)),
+          tap((partners: IInstituteIdentification[]) => (this.countSelect = this.countSelect + partners.length)),
           tap(() => (this.currentPage = ++currentPage)),
           tap(() => (this.searching = false)),
           /** Note: This is a custom operator because we also need the last emitted value.
@@ -110,36 +92,31 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
           takeWhile(p => {
             return p.length > 0;
           }, true),
-          scan((allPartners: any[], newPartners: any[]) => {
-            const i = 0;
-
-            newPartners.forEach(partner => {
-              partner.order = this.i++;
-              partner.orderForSort = partner.order;
-            });
+          scan((allPartners: IExtendInstitute[], newPartners: IInstituteIdentification[]) => {
+            const extendedPartners: IExtendInstitute[] = newPartners.map(partner => ({
+              ...partner,
+              order: this.i++,
+              orderForSort: this.i,
+            }));
 
             if (this.selected) {
               this.service.sendId(String(this.selected.id), false, false);
-              const foundIntoNewPartners = newPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selected && this.selected.id),
-              );
-              const foundIntoAllPartners = allPartners.findIndex(
-                (partner: { id: any }) => partner.id === (this.selected && this.selected.id),
-              );
+              const foundIntoNewPartners = extendedPartners.findIndex((partner: { id: any }) => partner.id === this.selected?.id);
+              const foundIntoAllPartners = allPartners.findIndex((partner: { id: any }) => partner.id === this.selected?.id);
               if (foundIntoNewPartners !== -1 && foundIntoAllPartners !== -1) {
                 allPartners.splice(foundIntoAllPartners, 1);
               } else if (foundIntoNewPartners === -1 && foundIntoAllPartners === -1) {
-                newPartners.push(this.selected);
+                extendedPartners.push(this.selected);
               }
             }
-            return allPartners.concat(newPartners);
-          }, []),
+            return allPartners.concat(extendedPartners);
+          }, [] as IExtendInstitute[]),
         );
       }),
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -166,21 +143,19 @@ export class InstituteSelectComponent implements OnInit, OnDestroy {
 
     return this.service.query(req).pipe(
       map((value: HttpResponse<IInstituteIdentification[]>) => {
-        const partners = value.body || [];
+        const partners = value.body ?? [];
         this.totalItems = Number(value.headers.get('X-Total-Count'));
         return partners;
       }),
-      catchError(() => {
-        return [];
-      }),
+      catchError(() => of([])),
       finalize(() => {
         this.loading = false;
       }),
     );
   }
 
-  compareFn(obj1: IExtendInstitute, obj2: IExtendInstitute) {
-    return obj1 && obj2 ? obj1.id === obj2.id : obj1 === obj2;
+  compareFn(obj1: IExtendInstitute, obj2: IExtendInstitute): boolean {
+    return obj1.id === obj2.id;
   }
 
   selectionChange(matSelectChange: MatSelectChange): void {

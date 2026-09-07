@@ -122,7 +122,7 @@ export class JobComponent implements OnInit, OnDestroy {
     });
   }
 
-  sortData(sort: Sort) {
+  sortData(sort: Sort): void {
     const data = this.data.slice();
     if (!sort.active || sort.direction === '') {
       this.data = data;
@@ -144,7 +144,7 @@ export class JobComponent implements OnInit, OnDestroy {
     });
   }
 
-  start(job: IJob) {
+  start(job: IJob): void {
     this.selectedRow = job;
 
     const confirmOptions = new ConfirmModalOptions(
@@ -173,7 +173,7 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  resume(job: IJob) {
+  resume(job: IJob): void {
     this.selectedRow = job;
 
     const confirmOptions = new ConfirmModalOptions(
@@ -202,7 +202,7 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  pause(job: IJob) {
+  pause(job: IJob): void {
     this.selectedRow = job;
 
     const confirmOptions = new ConfirmModalOptions(
@@ -231,7 +231,7 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  stop(job: IJob) {
+  stop(job: IJob): void {
     this.selectedRow = job;
 
     const confirmOptions = new ConfirmModalOptions(
@@ -260,7 +260,7 @@ export class JobComponent implements OnInit, OnDestroy {
       });
   }
 
-  edit(job: IJob) {
+  edit(job: IJob): void {
     this.selectedRow = job;
 
     const modal = this.matDialog.open(JobEditDialogComponent, {
@@ -286,17 +286,15 @@ export class JobComponent implements OnInit, OnDestroy {
   }
 
   toExecution(row: IJob): void {
-    if (row) {
-      // addValueToFilter(this.executionFilter, row.schedulerName, ExecutionFilter.SCHEDULER_NAME);
-      // addValueToFilter(this.executionFilter, row.groupName, ExecutionFilter.JOB_GROUP);
-      // addValueToFilter(this.executionFilter, row.jobName, ExecutionFilter.JOB_NAME);
-      void this.router.navigate(['/admin/jobs/execution'], {
-        queryParams: { schedulerName: row.schedulerName, groupName: row.groupName, jobName: row.jobName },
-      });
-    }
+    // addValueToFilter(this.executionFilter, row.schedulerName, ExecutionFilter.SCHEDULER_NAME);
+    // addValueToFilter(this.executionFilter, row.groupName, ExecutionFilter.JOB_GROUP);
+    // addValueToFilter(this.executionFilter, row.jobName, ExecutionFilter.JOB_NAME);
+    void this.router.navigate(['/admin/jobs/execution'], {
+      queryParams: { schedulerName: row.schedulerName, groupName: row.groupName, jobName: row.jobName },
+    });
   }
 }
 
-function compare(a: number | string, b: number | string, isAsc: boolean) {
+function compare(a: number | string, b: number | string, isAsc: boolean): number {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

@@ -80,6 +80,7 @@ export const timeValidatorFn = (
     const fromTimeControl = control.get(fromTimeControlName);
     const toTimeControl = control.get(toTimeControlName);
 
+    console.log(toTimeControl);
     let startDate = fromControl ? (fromControl.value as dayjs.Dayjs) : null;
     let endDate = toControl ? (toControl.value as dayjs.Dayjs) : null;
     const startTime = fromTimeControl ? (fromTimeControl.value as dayjs.Dayjs) : null;
@@ -113,7 +114,7 @@ export const timeValidatorFn = (
             },
           });
         }
-      } else if (endDate.diff(startDate, 'days') === 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
+      } else if (endDate.diff(startDate, 'days') == 0 && (nowEnd.isBefore(nowStart) || nowEnd.isSame(nowStart))) {
         notTimeError = false;
         if (fromTimeControl) {
           fromTimeControl.setErrors({
@@ -197,6 +198,28 @@ export const stringNumericValidatorFn = (...formControlNames: string[]): Validat
       }
     });
 
+    return null;
+  };
+};
+
+export const amountRangeValidatorFn = (minControlName: string, maxControlName: string): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const minControl = control.get(minControlName);
+    const maxControl = control.get(maxControlName);
+    const min = minControl ? (minControl.value as number | null) : null;
+    const max = maxControl ? (maxControl.value as number | null) : null;
+
+    if (maxControl) {
+      const errors = maxControl.errors ?? {};
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      delete errors['amountRangeInvalid'];
+
+      if (min !== null && max !== null && max < min) {
+        errors['amountRangeInvalid'] = true;
+      }
+      maxControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+    }
     return null;
   };
 };
