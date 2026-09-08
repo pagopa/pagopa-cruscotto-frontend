@@ -174,11 +174,10 @@ export interface ITransfers {
   count?: number;
 }
 
-/** Risposta workflow (eventi posizione + eventi token). */
+/** Risposta workflow (array eventi + total count da header). */
 export interface IWorkflows {
   count?: number;
-  eventsPosition?: Array<IWorkflowEvent>;
-  eventsToken?: Array<IWorkflowTokenEvent>;
+  events?: Array<IWorkflowEvent>;
 }
 
 export interface IWorkflowEvent {
@@ -187,16 +186,7 @@ export interface IWorkflowEvent {
   sottotipoevento?: string;
   outcome?: string;
   faultcode?: string;
-  eventId?: string;
-  positionNumber?: number; // Aggiunto per ordinamento eventi posizione
-}
-
-export interface IWorkflowTokenEvent {
-  insertedtimestamp?: Date;
-  tipoevento?: string;
-  sottotipoevento?: string;
-  outcome?: string;
-  faultcode?: string;
+  corrId?: string;
   token?: string;
   eventId?: string;
   positionNumber?: number; // Aggiunto per ordinamento eventi posizione
@@ -218,15 +208,12 @@ export interface ITokenRow {
 }
 
 /**
- * Riga della tabella Eventi (workflow di posizione + token).
- * Internamente i dati provengono dall'unione di IWorkflowEvent[] (eventsPosition) e
- * IWorkflowTokenEvent[] (eventsToken); il campo `token` è valorizzato solo per gli eventi token.
+ * Riga della tabella Eventi workflow.
+ * Il campo token e' opzionale e puo' essere presente per eventi associati a un token.
  */
 export interface IEventoRow extends IWorkflowEvent {
   /** ID univoco di riga (eventId o indice). */
   rowId: string;
-  /** Presente solo se l'evento è associato a un token (eventsToken). */
-  token?: string;
 }
 
 // ============================================================
@@ -337,19 +324,14 @@ export interface IRawWorkflowEvent {
   sottotipoevento?: string;
   outcome?: string;
   faultcode?: string;
+  'corr-id'?: string;
+  token?: string;
   'event-id'?: string;
   positionNumber?: number;
 }
 
-export interface IRawWorkflowTokenEvent extends IRawWorkflowEvent {
-  token?: string;
-}
-
-export interface IRawWorkflowResponse {
-  count?: number;
-  'events-position'?: IRawWorkflowEvent[];
-  'events-token'?: IRawWorkflowTokenEvent[];
-}
+/** Array response from GET /api/workflows/{nav}/{paEmittente}. */
+export type IRawWorkflowResponse = IRawWorkflowEvent[];
 
 export interface IRawExtraInfoObject extends IRawBasicPosition {
   token?: string;
@@ -467,24 +449,15 @@ export const mapRawTransfers = (raw: IRawTransfersResponse): ITransfers => {
 };
 
 export const mapRawWorkflows = (raw: IRawWorkflowResponse): IWorkflows => ({
-  count: raw.count,
-  eventsPosition: (raw['events-position'] ?? []).map(e => ({
+  events: (raw ?? []).map(e => ({
     insertedtimestamp: e.insertedtimestamp ? new Date(e.insertedtimestamp) : undefined,
     tipoevento: e.tipoevento,
     sottotipoevento: e.sottotipoevento,
     outcome: e.outcome,
     faultcode: e.faultcode,
-    eventId: e['event-id'],
-    positionNumber: e.positionNumber,
-  })),
-  eventsToken: (raw['events-token'] ?? []).map(e => ({
-    insertedtimestamp: e.insertedtimestamp ? new Date(e.insertedtimestamp) : undefined,
-    tipoevento: e.tipoevento,
-    sottotipoevento: e.sottotipoevento,
-    outcome: e.outcome,
-    faultcode: e.faultcode,
-    eventId: e['event-id'],
+    corrId: e['corr-id'],
     token: e.token,
+    eventId: e['event-id'],
     positionNumber: e.positionNumber,
   })),
 });

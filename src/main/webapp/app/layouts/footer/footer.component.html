@@ -1,8 +1,36 @@
 <footer class="footer">
   <div>
     <!-- Copyright &copy; <b><a href="https://www.nexi.it" target="_blank">Nexi SpA</a></b> 2025. Tutti i diritti riservati. -->
-    <span class="version me-5">
-      <span class="me-2" jhiTranslate="footer.version"></span> <b>( {{ feVersion }} / {{ beVersion }} )</b>
-    </span>
+    <div class="version-dropdown me-5" ngbDropdown #versionMenu="ngbDropdown" placement="top-end">
+      <button
+        type="button"
+        class="btn btn-link version-toggle"
+        ngbDropdownToggle
+        aria-haspopup="true"
+        [attr.aria-expanded]="versionMenu.isOpen()"
+        [attr.aria-label]="'Versioni applicative'"
+      >
+        <span class="me-1" jhiTranslate="footer.version"></span>
+      </button>
+
+      <div ngbDropdownMenu class="version-menu" aria-label="Dettaglio versioni">
+        <button ngbDropdownItem type="button" class="version-item" disabled>
+          <span class="version-label">Frontend</span>
+          <span class="version-value">{{ feVersion }}</span>
+        </button>
+        <button ngbDropdownItem type="button" class="version-item" disabled>
+          <span class="version-label">Backend</span>
+          <span class="version-value">{{ beVersion }}</span>
+        </button>
+        <button ngbDropdownItem type="button" class="version-item" disabled>
+          <span class="version-label">SERT</span>
+          <span class="version-value">{{ sertVersion }}</span>
+        </button>
+        <button ngbDropdownItem type="button" class="version-item" disabled>
+          <span class="version-label">Ingestor</span>
+          <span class="version-value">{{ ingestorVersion }}</span>
+        </button>
+      </div>
+    </div>
   </div>
 </footer>
