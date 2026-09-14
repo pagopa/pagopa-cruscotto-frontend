@@ -19,6 +19,31 @@ export const RICERCA_MASSIVA_CSV_VALIDATION_ERRORS: BulkCsvValidationError[] = [
   { row: 8, column: 'IUV', message: 'Il formato del valore non è valido.' },
 ];
 
+export const RICERCA_MASSIVA_CSV_VALIDATION_RESULT: BulkCsvValidationError[] = RICERCA_MASSIVA_CSV_VALIDATION_ERRORS;
+
+export const RICERCA_MASSIVA_CSV_TUTORIAL_TYPES = [
+  {
+    title: '1. NAV / IDDomini',
+    sample: 'NAV;DOMINIO;123456789012345678;123456789012345678',
+  },
+  {
+    title: '2. IUV / IDDomini',
+    sample: 'IUV;DOMINIO;123456789012345678;123456789012345678',
+  },
+  {
+    title: '3. NAV',
+    sample: 'NAV;123456789012345678;123456789012345678',
+  },
+  {
+    title: '4. IUV',
+    sample: 'IUV;123456789012345678;123456789012345678',
+  },
+  {
+    title: '5. Token',
+    sample: 'TOKEN;DOMINIO;token27udhfjrtgz8973jg9234hdte5',
+  },
+];
+
 export const RICERCA_MASSIVA_LOOKUPS: {
   touchpoints: PageString;
   paymentMethods: PageString;

@@ -76,11 +76,19 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
 
   private readonly duplicateInstance: SearchInstanceDTO | null;
+  private readonly detailInstance: SearchInstanceDTO | null;
+  isReadOnly = false;
 
   constructor() {
     this.editForm = this.formService.createFormGroup();
-    const navigationState = this.router.getCurrentNavigation?.()?.extras.state as { duplicateInstance?: SearchInstanceDTO } | undefined;
+    const navigationState = this.router.getCurrentNavigation?.()?.extras.state as
+      | {
+          duplicateInstance?: SearchInstanceDTO;
+          detailInstance?: SearchInstanceDTO;
+        }
+      | undefined;
     this.duplicateInstance = navigationState?.duplicateInstance ?? null;
+    this.detailInstance = navigationState?.detailInstance ?? null;
   }
 
   ngOnInit(): void {
@@ -91,13 +99,21 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.loadIntermediaries();
     this.loadStations();
 
-    if (this.duplicateInstance) {
-      this.formService.patchFromSearchInstance(this.editForm, this.duplicateInstance, {
+    const instanceToLoad = this.detailInstance ?? this.duplicateInstance;
+    if (instanceToLoad) {
+      this.formService.patchFromSearchInstance(this.editForm, instanceToLoad, {
         creditorInstitutions: this.creditorInstitutions,
         psp: this.psp,
         intermediaries: this.intermediaries,
         stations: this.stations,
       });
+    }
+
+    if (this.detailInstance) {
+      this.isReadOnly = this.detailInstance.status !== 'DRAFT';
+      if (this.isReadOnly) {
+        this.editForm.disable();
+      }
     }
 
     // Le stazioni disponibili dipendono dal PSP e dall'intermediario selezionati.
@@ -123,6 +139,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   }
 
   save(): void {
+    if (this.isReadOnly) {
+      return;
+    }
+
     if (this.editForm.invalid) {
       this.editForm.markAllAsTouched();
       return;

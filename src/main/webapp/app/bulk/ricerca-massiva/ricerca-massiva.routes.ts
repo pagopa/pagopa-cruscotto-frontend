@@ -18,6 +18,14 @@ const ricercaMassivaRoutes: Routes = [
     },
     canActivate: [UserRouteAccessService],
   },
+  {
+    path: 'csv',
+    loadComponent: () => import('./csv-upload/ricerca-massiva-csv-upload.component').then(m => m.RicercaMassivaCsvUploadComponent),
+    data: {
+      // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO
+    },
+    canActivate: [UserRouteAccessService],
+  },
 ];
 
 export default ricercaMassivaRoutes;

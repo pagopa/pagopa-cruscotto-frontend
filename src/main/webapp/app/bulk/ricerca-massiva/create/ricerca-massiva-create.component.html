@@ -11,7 +11,15 @@
     </div>
   </div>
 
-  <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm" autocomplete="off">
+  <form
+    name="editForm"
+    role="form"
+    novalidate
+    (ngSubmit)="save()"
+    [formGroup]="editForm"
+    autocomplete="off"
+    [class.detail-readonly]="isReadOnly"
+  >
     <mat-card class="mat-elevation-z8">
       <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
         <p class="ngx-spinner-loading">Loading...</p>
@@ -229,6 +237,7 @@
           <span jhiTranslate="entity.action.cancel">Annulla</span>
         </button>
         <button
+          *ngIf="!isReadOnly"
           type="submit"
           id="save-entity"
           mat-flat-button

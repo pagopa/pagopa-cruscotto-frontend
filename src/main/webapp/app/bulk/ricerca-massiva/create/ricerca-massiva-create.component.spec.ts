@@ -15,7 +15,7 @@ describe('RicercaMassivaCreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
       imports: [RicercaMassivaCreateComponent],
-      providers: [{ provide: Router, useValue: { navigate: jest.fn() } }],
+      providers: [{ provide: Router, useValue: { navigate: jest.fn(), getCurrentNavigation: jest.fn(() => undefined) } }],
     })
       .overrideTemplate(RicercaMassivaCreateComponent, '')
       .createComponent(RicercaMassivaCreateComponent);
@@ -72,6 +72,31 @@ describe('RicercaMassivaCreateComponent', () => {
 
     expect(comp.submitError).toBe(true);
     expect(router.navigate).not.toHaveBeenCalled();
+  });
+
+  it('loads a detail instance in read-only mode when passed in navigation state', () => {
+    (router.getCurrentNavigation as jest.Mock).mockReturnValue({
+      extras: {
+        state: {
+          detailInstance: {
+            id: 'instance-123',
+            name: 'Dettaglio istanza',
+            status: 'DRAFT',
+            searchCriteria: {
+              paymentOutcome: 'OK',
+              periodStart: '2026-01-01T00:00:00.000Z',
+              periodEnd: '2026-01-02T00:00:00.000Z',
+            },
+          },
+        },
+      },
+    });
+
+    const detailFixture = TestBed.createComponent(RicercaMassivaCreateComponent);
+
+    expect(detailFixture.componentInstance.isReadOnly).toBe(true);
+    expect(detailFixture.componentInstance.editForm.disabled).toBe(true);
+    expect(detailFixture.componentInstance.editForm.get('name')?.value).toBe('Dettaglio istanza');
   });
 
   it('navigates back to the list on cancel', () => {

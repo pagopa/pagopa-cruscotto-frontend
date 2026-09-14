@@ -144,6 +144,10 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     window.history.back();
   }
 
+  onCsvUpload(): void {
+    void this.router.navigate(['/bulk/ricerca-massiva/csv']);
+  }
+
   uploadCsv(fileInput: HTMLInputElement): void {
     const file = fileInput.files?.[0];
     fileInput.value = '';
@@ -178,6 +182,22 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   // TODO: call bulkSearchService.lifecycleAction / dedicated endpoint to plan the instance
   onSetAsPlanned(_instance: SearchInstanceDTO): void {
     // implementazione da definire
+  }
+
+  // TODO: chiamare bulkSearchService.get(id) per recuperare i dettagli dell'istanza e aprire il form in sola lettura.
+  onViewDetail(instance: SearchInstanceDTO): void {
+    if (!instance.id) {
+      return;
+    }
+    const id = instance.id;
+    this.subscriptions.add(
+      this.bulkSearchService
+        .get(id)
+        .pipe(catchError(() => of(getRicercaMassivaDetailMock(id))))
+        .subscribe(fullInstance => {
+          void this.router.navigate(['/bulk/ricerca-massiva/new'], { state: { detailInstance: fullInstance } });
+        }),
+    );
   }
 
   // Recupera i dati dell'istanza (con fallback al mock finché l'endpoint GET by id non è disponibile)

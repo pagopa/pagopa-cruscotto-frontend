@@ -15,15 +15,7 @@
         <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
         <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.action.new">Nuova istanza</span>
       </button>
-      <input #csvFileInput type="file" accept=".csv,text/csv" hidden (change)="uploadCsv(csvFileInput)" />
-      <button
-        type="button"
-        mat-flat-button
-        color="accent"
-        [disabled]="isUploadingCsv"
-        (click)="csvFileInput.click()"
-        title="Nuova istanza da CSV"
-      >
+      <button type="button" mat-flat-button color="accent" [disabled]="isUploadingCsv" (click)="onCsvUpload()" title="Nuova istanza da CSV">
         <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
         <span>Nuova istanza da CSV</span>
       </button>
@@ -202,6 +194,9 @@
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned' | translate"
                     >
                       <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" type="button" (click)="onViewDetail(row)" [matTooltip]="'Vedi dettaglio'">
+                      <mat-icon fontSet="material-symbols-outlined">visibility</mat-icon>
                     </button>
                     <button
                       mat-icon-button

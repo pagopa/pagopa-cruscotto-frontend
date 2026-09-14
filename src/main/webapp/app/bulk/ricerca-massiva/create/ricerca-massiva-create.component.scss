@@ -1,1 +1,30 @@
-// Override minimali — aggiungere stili specifici se necessario
+:host {
+  display: block;
+}
+
+form.detail-readonly {
+  .mat-mdc-form-field,
+  .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+  .mat-mdc-form-field .mat-mdc-input-element,
+  .mat-mdc-select-value,
+  .mat-mdc-select-disabled,
+  .mat-mdc-form-field-disabled {
+    opacity: 1 !important;
+    filter: none !important;
+    background-color: transparent !important;
+  }
+
+  .mdc-text-field--disabled {
+    background-color: transparent !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
+  }
+
+  .mat-mdc-input-element:disabled,
+  .mat-mdc-select-disabled .mat-mdc-select-value,
+  .mat-mdc-form-field input:disabled,
+  .mat-mdc-form-field textarea:disabled {
+    color: rgba(0, 0, 0, 0.87) !important;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0.87) !important;
+    opacity: 1 !important;
+  }
+}
