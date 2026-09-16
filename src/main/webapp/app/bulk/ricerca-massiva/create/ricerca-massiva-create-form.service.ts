@@ -52,7 +52,7 @@ export class RicercaMassivaCreateFormService {
         name: new FormControl(null, { validators: [Validators.required, Validators.maxLength(100)] }),
         periodStartDate: new FormControl(null, { validators: [Validators.required] }),
         periodEndDate: new FormControl(null, { validators: [Validators.required] }),
-        paymentOutcome: new FormControl(null, { validators: [Validators.required] }),
+        paymentOutcome: new FormControl(null),
         touchpoint: new FormControl(null),
         paymentMethod: new FormControl(null),
         amountMin: new FormControl(null, { validators: [Validators.min(0)] }),
@@ -82,48 +82,42 @@ export class RicercaMassivaCreateFormService {
 
     const periodStart = raw.periodStartDate?.startOf('day').toISOString();
     const periodEnd = raw.periodEndDate?.startOf('day').toISOString();
-    if (periodStart) {
-      perimeterFilter.periodStart = periodStart;
-    }
-    if (periodEnd) {
-      perimeterFilter.periodEnd = periodEnd;
+    if (periodStart || periodEnd) {
+      perimeterFilter.paymentPeriod = { from: periodStart, to: periodEnd };
     }
     if (raw.paymentOutcome) {
-      perimeterFilter.paymentOutcome = raw.paymentOutcome;
+      perimeterFilter.paymentStatuses = [raw.paymentOutcome];
     }
     if (raw.touchpoint) {
-      perimeterFilter.touchpoint = raw.touchpoint;
+      perimeterFilter.touchpoints = [raw.touchpoint];
     }
     if (raw.paymentMethod) {
-      perimeterFilter.paymentMethod = raw.paymentMethod;
+      perimeterFilter.paymentMethods = [raw.paymentMethod];
     }
-    if (raw.amountMin !== null) {
-      perimeterFilter.amountMin = raw.amountMin;
-    }
-    if (raw.amountMax !== null) {
-      perimeterFilter.amountMax = raw.amountMax;
+    if (raw.amountMin !== null || raw.amountMax !== null) {
+      perimeterFilter.amount = { from: raw.amountMin ?? undefined, to: raw.amountMax ?? undefined };
     }
     if (raw.creditorInstitution?.id !== undefined) {
-      perimeterFilter.creditorInstitutionId = raw.creditorInstitution.id;
+      perimeterFilter.creditors = [raw.creditorInstitution.id];
     }
     if (raw.psp?.id !== undefined) {
-      perimeterFilter.pspId = raw.psp.id;
+      perimeterFilter.psps = [raw.psp.id];
     }
-    if (raw.intermediary?.id !== undefined) {
-      perimeterFilter.intermediaryId = raw.intermediary.id;
-    }
-    if (raw.intermediaryPsp?.id !== undefined) {
-      perimeterFilter.intermediaryPspId = raw.intermediaryPsp.id;
+    if (raw.intermediary?.id !== undefined || raw.intermediaryPsp?.id !== undefined) {
+      perimeterFilter.technologicalPartners = [raw.intermediary?.id, raw.intermediaryPsp?.id].filter(
+        (id): id is number => id !== undefined,
+      );
     }
     if (raw.station?.id !== undefined) {
-      perimeterFilter.stationId = raw.station.id;
+      perimeterFilter.stations = [raw.station.id];
     }
     if (raw.channel?.id !== undefined) {
-      perimeterFilter.channelId = raw.channel.id;
+      perimeterFilter.channels = [raw.channel.id];
     }
 
     return {
       name: raw.name ?? undefined,
+      inputType: 'FILTER',
       perimeterFilter,
     };
   }
@@ -139,19 +133,19 @@ export class RicercaMassivaCreateFormService {
     form.patchValue(
       {
         name: instance.name ?? null,
-        periodStartDate: criteria.periodStart ? dayjs(criteria.periodStart) : null,
-        periodEndDate: criteria.periodEnd ? dayjs(criteria.periodEnd) : null,
-        paymentOutcome: criteria.paymentOutcome ?? null,
-        touchpoint: criteria.touchpoint ?? null,
-        paymentMethod: criteria.paymentMethod ?? null,
-        amountMin: criteria.amountMin ?? null,
-        amountMax: criteria.amountMax ?? null,
-        creditorInstitution: lookups.creditorInstitutions.find(item => item.id === criteria.creditorInstitutionId) ?? null,
-        psp: lookups.psp.find(item => item.id === criteria.pspId) ?? null,
-        intermediary: lookups.intermediaries.find(item => item.id === criteria.intermediaryId) ?? null,
-        intermediaryPsp: lookups.intermediariesPsp.find(item => item.id === criteria.intermediaryPspId) ?? null,
-        station: lookups.stations.find(item => item.id === criteria.stationId) ?? null,
-        channel: lookups.channels.find(item => item.id === criteria.channelId) ?? null,
+        periodStartDate: criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null,
+        periodEndDate: criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null,
+        paymentOutcome: criteria.paymentStatuses?.[0] ?? null,
+        touchpoint: criteria.touchpoints?.[0] ?? null,
+        paymentMethod: criteria.paymentMethods?.[0] ?? null,
+        amountMin: criteria.amount?.from ?? null,
+        amountMax: criteria.amount?.to ?? null,
+        creditorInstitution: lookups.creditorInstitutions.find(item => criteria.creditors?.includes(item.id ?? -1)) ?? null,
+        psp: lookups.psp.find(item => criteria.psps?.includes(item.id ?? -1)) ?? null,
+        intermediary: lookups.intermediaries.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
+        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
+        station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
+        channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
       },
       { emitEvent: false },
     );

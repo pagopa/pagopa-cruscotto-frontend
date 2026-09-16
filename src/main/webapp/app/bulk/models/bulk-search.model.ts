@@ -1,7 +1,7 @@
 export interface SearchInstanceDTO {
   id?: string;
   name?: string;
-  inputType?: string;
+  inputType?: 'FILTER' | 'CSV' | string;
   status?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -9,6 +9,16 @@ export interface SearchInstanceDTO {
 }
 
 export type PaymentOutcome = 'OK' | 'KO' | 'NONE';
+
+export interface PaymentPeriod {
+  from?: string;
+  to?: string;
+}
+
+export interface AmountRange {
+  from?: number;
+  to?: number;
+}
 
 export interface CsvValidationError {
   lineNumber?: number;
@@ -28,19 +38,16 @@ export interface CsvValidationResult {
 // Criteri di ricerca per la creazione di una nuova istanza di analisi massiva.
 // Solo i campi effettivamente valorizzati devono essere inviati al backend.
 export interface PerimeterFilter {
-  periodStart?: string;
-  periodEnd?: string;
-  paymentOutcome?: PaymentOutcome;
-  touchpoint?: string;
-  paymentMethod?: string;
-  amountMin?: number;
-  amountMax?: number;
-  creditorInstitutionId?: number;
-  pspId?: number;
-  intermediaryId?: number;
-  intermediaryPspId?: number;
-  stationId?: number;
-  channelId?: number;
+  paymentPeriod?: PaymentPeriod;
+  paymentStatuses?: PaymentOutcome[];
+  touchpoints?: string[];
+  paymentMethods?: string[];
+  amount?: AmountRange;
+  creditors?: number[];
+  psps?: number[];
+  technologicalPartners?: number[];
+  channels?: number[];
+  stations?: number[];
 }
 
 export interface ProblemDetailWithCause {

@@ -148,6 +148,10 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     void this.router.navigate(['/bulk/ricerca-massiva/csv']);
   }
 
+  onNewInstance(): void {
+    void this.router.navigate(['/bulk/ricerca-massiva/new']);
+  }
+
   trackId(_index: number, item: SearchInstanceDTO): string {
     return item.id ?? '';
   }

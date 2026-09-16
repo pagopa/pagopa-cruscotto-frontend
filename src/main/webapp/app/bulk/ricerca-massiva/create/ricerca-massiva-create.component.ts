@@ -171,12 +171,18 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     void this.spinner.show('isSaving');
 
     const searchInstance = this.formService.getSearchInstance(this.editForm);
-    if (this.detailInstance?.inputType === 'filter') {
-      searchInstance.inputType = this.detailInstance.inputType;
+    if (this.detailInstance?.inputType?.toUpperCase() === 'FILTER') {
+      searchInstance.inputType = 'FILTER';
     }
 
     const saveRequest = this.detailInstance?.id
-      ? this.bulkSearchService.update(this.detailInstance.id, searchInstance)
+      ? this.bulkSearchService.update(this.detailInstance.id, {
+          ...searchInstance,
+          id: this.detailInstance.id,
+          status: this.detailInstance.status,
+          createdAt: this.detailInstance.createdAt,
+          updatedAt: this.detailInstance.updatedAt,
+        })
       : this.bulkSearchService.create(searchInstance);
 
     this.subscriptions.add(

@@ -5,7 +5,12 @@
       <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.home.title">Ricerca Massiva</span>
     </div>
     <div>
-      <button type="button" mat-stroked-button [routerLink]="['new']" [title]="'pagopaCruscottoApp.ricercaMassiva.action.new' | translate">
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="onNewInstance()"
+        [title]="'pagopaCruscottoApp.ricercaMassiva.action.new' | translate"
+      >
         <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
         <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.action.new">Nuova istanza</span>
       </button>

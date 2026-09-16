@@ -81,7 +81,8 @@ describe('RicercaMassivaCreateComponent', () => {
     expect(bulkSearchService.create).toHaveBeenCalledWith(
       expect.objectContaining({
         name: 'Estrazione test',
-        perimeterFilter: expect.objectContaining({ paymentOutcome: 'OK' }),
+        inputType: 'FILTER',
+        perimeterFilter: expect.objectContaining({ paymentStatuses: ['OK'] }),
       }),
     );
     expect(router.navigate).toHaveBeenCalledWith(['/bulk/ricerca-massiva']);
@@ -113,9 +114,11 @@ describe('RicercaMassivaCreateComponent', () => {
             inputType: 'CSV',
             status: 'COMPLETED',
             perimeterFilter: {
-              paymentOutcome: 'OK',
-              periodStart: '2026-01-01T00:00:00.000Z',
-              periodEnd: '2026-01-02T00:00:00.000Z',
+              paymentStatuses: ['OK'],
+              paymentPeriod: {
+                from: '2026-01-01T00:00:00.000Z',
+                to: '2026-01-02T00:00:00.000Z',
+              },
             },
           },
         },
@@ -135,7 +138,7 @@ describe('RicercaMassivaCreateComponent', () => {
         state: {
           detailInstance: {
             id: 'instance-123',
-            inputType: 'filter',
+            inputType: 'FILTER',
             status: 'DRAFT',
             perimeterFilter: {},
           },

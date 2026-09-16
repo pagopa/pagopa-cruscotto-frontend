@@ -82,11 +82,14 @@ describe('RicercaMassivaCreateFormService', () => {
     const payload = service.getSearchInstance(form);
 
     expect(payload.name).toBe('Estrazione test');
-    expect(payload.perimeterFilter?.paymentOutcome).toBe('OK');
-    expect(payload.perimeterFilter?.pspId).toBe(5);
-    expect(payload.perimeterFilter?.periodStart).toBe(dayjs('2026-01-01').startOf('day').toISOString());
-    expect(payload.perimeterFilter?.periodEnd).toBe(dayjs('2026-01-02').startOf('day').toISOString());
-    expect(payload.perimeterFilter?.touchpoint).toBeUndefined();
-    expect(payload.perimeterFilter?.creditorInstitutionId).toBeUndefined();
+    expect(payload.inputType).toBe('FILTER');
+    expect(payload.perimeterFilter?.paymentStatuses).toEqual(['OK']);
+    expect(payload.perimeterFilter?.paymentPeriod).toEqual({
+      from: dayjs('2026-01-01').startOf('day').toISOString(),
+      to: dayjs('2026-01-02').startOf('day').toISOString(),
+    });
+    expect(payload.perimeterFilter?.psps).toEqual([5]);
+    expect(payload.perimeterFilter?.touchpoints).toBeUndefined();
+    expect(payload.perimeterFilter?.creditors).toBeUndefined();
   });
 });

@@ -65,9 +65,6 @@
                 ngProjectAs="mat-error"
                 *ngIf="paymentOutcomeRef.invalid && (paymentOutcomeRef.dirty || paymentOutcomeRef.touched)"
               >
-                @if (paymentOutcomeRef?.errors?.required) {
-                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
-                }
               </ng-container>
             </mat-form-field>
           </div>
@@ -249,9 +246,9 @@
               >
                 <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
               </button>
-              <mat-hint jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.stationHint">
+              <!-- <mat-hint jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.stationHint">
                 Le opzioni dipendono da PSP e Intermediario selezionati
-              </mat-hint>
+              </mat-hint> -->
             </mat-form-field>
           </div>
         </div>
