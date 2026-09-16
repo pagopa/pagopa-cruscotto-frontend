@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import SharedModule from '../../../shared/shared.module';
+import { BulkLookupSelectComponent } from '../../shared/bulk-lookup-select/bulk-lookup-select.component';
 import {
   AnagIntermediarioPa,
   AnagIntermediarioPsp,
@@ -44,6 +45,7 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     MatInputModule,
     MatSelectModule,
     NgxSpinnerModule,
+    BulkLookupSelectComponent,
   ],
 })
 export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
@@ -59,8 +61,11 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   touchpoints: string[] = [];
   paymentMethods: string[] = [];
   creditorInstitutions: AnagPaEmittente[] = [];
+  creditorInstitutionsHasMore = false;
   psp: AnagPsp[] = [];
+  pspHasMore = false;
   intermediaries: AnagIntermediarioPa[] = [];
+  intermediariesHasMore = false;
   intermediariesPsp: AnagIntermediarioPsp[] = [];
   stations: AnagStazione[] = [];
   channels: AnagCanale[] = [];
@@ -233,8 +238,11 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
           this.touchpoints = lookups.touchpoints.content ?? [];
           this.paymentMethods = lookups.paymentMethods.content ?? [];
           this.creditorInstitutions = lookups.creditorInstitutions.content ?? [];
+          this.creditorInstitutionsHasMore = !lookups.creditorInstitutions.last;
           this.psp = lookups.psp.content ?? [];
+          this.pspHasMore = !lookups.psp.last;
           this.intermediaries = lookups.intermediaries.content ?? [];
+          this.intermediariesHasMore = !lookups.intermediaries.last;
           this.intermediariesPsp = lookups.intermediariesPsp.content ?? [];
           this.stations = lookups.stations.content ?? [];
           this.channels = lookups.channels.content ?? [];

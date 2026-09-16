@@ -157,74 +157,37 @@
 
           <!-- Ente creditore -->
           <div class="col-lg-4">
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.creditorInstitution">Ente creditore</mat-label>
-              <mat-select formControlName="creditorInstitution">
-                <mat-option *ngFor="let option of creditorInstitutions" [value]="option">
-                  {{ displayCodeDescription(option) }}
-                </mat-option>
-              </mat-select>
-              <button
-                *ngIf="editForm.controls.creditorInstitution.value"
-                mat-icon-button
-                matSuffix
-                class="clear-select-button"
-                type="button"
-                [disabled]="isReadOnly"
-                aria-label="Cancella ente creditore"
-                (click)="clearFilter('creditorInstitution')"
-              >
-                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-              </button>
-            </mat-form-field>
+            <jhi-bulk-lookup-select
+              formControlName="creditorInstitution"
+              label="Ente creditore"
+              lookupType="creditorInstitutions"
+              [initialOptions]="creditorInstitutions"
+              [initialHasMore]="creditorInstitutionsHasMore"
+            />
           </div>
         </div>
 
         <div class="row">
           <!-- PSP -->
           <div class="col-lg-4">
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.psp">PSP</mat-label>
-              <mat-select formControlName="psp">
-                <mat-option *ngFor="let option of psp" [value]="option">{{ displayCodeDescription(option) }}</mat-option>
-              </mat-select>
-              <button
-                *ngIf="editForm.controls.psp.value"
-                mat-icon-button
-                matSuffix
-                class="clear-select-button"
-                type="button"
-                [disabled]="isReadOnly"
-                aria-label="Cancella PSP"
-                (click)="clearFilter('psp')"
-              >
-                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-              </button>
-            </mat-form-field>
+            <jhi-bulk-lookup-select
+              formControlName="psp"
+              label="PSP"
+              lookupType="psp"
+              [initialOptions]="psp"
+              [initialHasMore]="pspHasMore"
+            />
           </div>
 
           <!-- Intermediario -->
           <div class="col-lg-4">
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.intermediary">Intermediario</mat-label>
-              <mat-select formControlName="intermediary">
-                <mat-option *ngFor="let option of intermediaries" [value]="option">
-                  {{ displayCodeDescription(option) }}
-                </mat-option>
-              </mat-select>
-              <button
-                *ngIf="editForm.controls.intermediary.value"
-                mat-icon-button
-                matSuffix
-                class="clear-select-button"
-                type="button"
-                [disabled]="isReadOnly"
-                aria-label="Cancella intermediario"
-                (click)="clearFilter('intermediary')"
-              >
-                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-              </button>
-            </mat-form-field>
+            <jhi-bulk-lookup-select
+              formControlName="intermediary"
+              label="Intermediario"
+              lookupType="intermediaries"
+              [initialOptions]="intermediaries"
+              [initialHasMore]="intermediariesHasMore"
+            />
           </div>
 
           <!-- Canale / stazione -->

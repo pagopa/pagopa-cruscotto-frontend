@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+.lookup-field {
+  width: 100%;
+}
+
+.lookup-viewport {
+  height: 200px;
+  width: 100%;
+}
+
+.lookup-search-option {
+  height: 32px;
+  padding: 0 8px;
+}
+
+.lookup-search {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+
+  mat-icon {
+    flex: 0 0 auto;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+.lookup-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 8px 0;
+}

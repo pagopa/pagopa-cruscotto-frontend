@@ -1,0 +1,39 @@
+<mat-form-field class="lookup-field">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [value]="selected" (selectionChange)="select($event.value)">
+    <mat-select-trigger>{{ displayOption(selected) }}</mat-select-trigger>
+    <mat-option class="lookup-search-option" [value]="null" (click)="$event.stopPropagation()">
+      <div class="lookup-search" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+        <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+        <input
+          matInput
+          type="search"
+          [formControl]="searchControl"
+          [placeholder]="'Cerca ' + label"
+          (click)="$event.stopPropagation()"
+          (keydown)="$event.stopPropagation()"
+        />
+      </div>
+    </mat-option>
+    <cdk-virtual-scroll-viewport
+      itemSize="48"
+      class="lookup-viewport"
+      [minBufferPx]="240"
+      [maxBufferPx]="480"
+      [appendOnly]="true"
+      #lookupViewport
+      (scrolledIndexChange)="loadNextPage(lookupViewport)"
+    >
+      <mat-option *cdkVirtualFor="let option of options; trackBy: trackByOption" [value]="option">
+        {{ displayOption(option) }}
+      </mat-option>
+    </cdk-virtual-scroll-viewport>
+    <div *ngIf="loading" class="lookup-loading" role="status" aria-label="Caricamento risultati">
+      <mat-spinner diameter="24"></mat-spinner>
+    </div>
+    <mat-option *ngIf="!loading && options.length === 0" disabled>Nessun risultato</mat-option>
+  </mat-select>
+  <button *ngIf="selected" mat-icon-button matSuffix type="button" aria-label="Cancella selezione" (click)="clear()">
+    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+  </button>
+</mat-form-field>
