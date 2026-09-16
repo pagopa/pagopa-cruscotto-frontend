@@ -18,4 +18,9 @@ export class ApplicationConfigService {
     }
     return `${this.endpointPrefix}${api}`;
   }
+
+  getSertEndpointFor(api: string): string {
+    const sertPrefix = this.endpointPrefix.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert/v1');
+    return sertPrefix ? `${sertPrefix}/${api}` : api;
+  }
 }

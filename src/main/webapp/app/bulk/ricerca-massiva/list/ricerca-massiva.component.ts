@@ -25,8 +25,6 @@ import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import dayjs from '../../../config/dayjs';
 import { SearchInstanceDTO } from '../../models/bulk-search.model';
 import { BulkSearchService } from '../../services/bulk-search.service';
-import { RICERCA_MASSIVA_CSV_VALIDATION_ERRORS, RICERCA_MASSIVA_MOCK, getRicercaMassivaDetailMock } from '../ricerca-massiva.mock';
-import { RicercaMassivaCsvErrorsModalComponent } from './ricerca-massiva-csv-errors-modal.component';
 
 @Component({
   selector: 'jhi-ricerca-massiva',
@@ -176,12 +174,9 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     }
     const id = instance.id;
     this.subscriptions.add(
-      this.bulkSearchService
-        .get(id)
-        .pipe(catchError(() => of(getRicercaMassivaDetailMock(id))))
-        .subscribe(fullInstance => {
-          void this.router.navigate(['/bulk/ricerca-massiva/new'], { state: { duplicateInstance: fullInstance } });
-        }),
+      this.bulkSearchService.get(id).subscribe(fullInstance => {
+        void this.router.navigate(['/bulk/ricerca-massiva/new'], { state: { duplicateInstance: fullInstance } });
+      }),
     );
   }
 
@@ -221,7 +216,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
           sort: [`${this.sortActive},${this.sortDirection}`],
         })
         // TODO: rimuovere il fallback al mock quando l'endpoint sarà disponibile
-        .pipe(catchError(() => of({ content: RICERCA_MASSIVA_MOCK, totalElements: RICERCA_MASSIVA_MOCK.length })))
         .subscribe(page => {
           this.allInstances = page.content ?? [];
           this.statusValues = Array.from(new Set(this.allInstances.map(instance => instance.status).filter((s): s is string => !!s))).sort(

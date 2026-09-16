@@ -14,7 +14,7 @@ export interface BulkSearchPageRequest {
 @Injectable({ providedIn: 'root' })
 export class BulkSearchService {
   private readonly http = inject(HttpClient);
-  private readonly resourceUrl = inject(ApplicationConfigService).getEndpointFor('api/bulk/search-instances');
+  private readonly resourceUrl = inject(ApplicationConfigService).getSertEndpointFor('api/bulk/search-instances');
 
   list(request?: BulkSearchPageRequest): Observable<PageDTO<SearchInstanceDTO>> {
     let params = new HttpParams();

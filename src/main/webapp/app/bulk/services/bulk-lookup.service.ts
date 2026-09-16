@@ -29,7 +29,7 @@ export interface BulkLookupPageRequest {
 @Injectable({ providedIn: 'root' })
 export class BulkLookupService {
   private readonly http = inject(HttpClient);
-  private readonly resourceUrl = inject(ApplicationConfigService).getEndpointFor('api/bulk/lookups');
+  private readonly resourceUrl = inject(ApplicationConfigService).getSertEndpointFor('api/bulk/lookups');
   private readonly sessionCachePrefix = 'pagopa-cruscotto.bulk-lookups.v2';
 
   touchpoints(request?: BulkLookupPageRequest): Observable<PageString> {

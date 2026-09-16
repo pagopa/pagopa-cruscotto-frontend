@@ -17,8 +17,5 @@ export const ricercaMassivaDetailResolver: ResolveFn<SearchInstanceDTO> = (route
   }
 
   void spinner.show('bulkDetailResolve');
-  return bulkSearchService.get(id).pipe(
-    catchError(() => of(getRicercaMassivaDetailMock(id))),
-    finalize(() => void spinner.hide('bulkDetailResolve')),
-  );
+  return bulkSearchService.get(id).pipe(finalize(() => void spinner.hide('bulkDetailResolve')));
 };

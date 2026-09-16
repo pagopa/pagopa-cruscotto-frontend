@@ -36,5 +36,11 @@ describe('ApplicationConfigService', () => {
     it('should return correctly when passing microservice', () => {
       expect(service.getEndpointFor('api', 'microservice')).toEqual('prefix/services/microservice/api');
     });
+
+    it('should route SERT endpoints to the SERT application', () => {
+      service.setEndpointPrefix('https://api.example.com/smo/cruscotto/v1');
+
+      expect(service.getSertEndpointFor('api/bulk')).toEqual('https://api.example.com/smo/cruscotto-sert/v1/api/bulk');
+    });
   });
 });
