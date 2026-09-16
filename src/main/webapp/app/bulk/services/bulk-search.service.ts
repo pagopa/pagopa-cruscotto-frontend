@@ -1,17 +1,30 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BulkLifecycleAction, SearchInstanceDTO } from '../models/bulk-search.model';
+import { BulkLifecycleAction, CsvValidationResult, PageDTO, SearchInstanceDTO } from '../models/bulk-search.model';
+
+export interface BulkSearchPageRequest {
+  page?: number;
+  size?: number;
+  sort?: string[];
+}
 
 @Injectable({ providedIn: 'root' })
 export class BulkSearchService {
   private readonly http = inject(HttpClient);
   private readonly resourceUrl = inject(ApplicationConfigService).getEndpointFor('api/bulk/search-instances');
 
-  list(): Observable<SearchInstanceDTO[]> {
-    return this.http.get<SearchInstanceDTO[]>(this.resourceUrl);
+  list(request?: BulkSearchPageRequest): Observable<PageDTO<SearchInstanceDTO>> {
+    let params = new HttpParams();
+    if (request?.page != null) params = params.set('page', request.page);
+    if (request?.size != null) params = params.set('size', request.size);
+    request?.sort?.forEach(sort => (params = params.append('sort', sort)));
+
+    return this.http
+      .get<SearchInstanceDTO[] | PageDTO<SearchInstanceDTO>>(this.resourceUrl, { params })
+      .pipe(map(response => (Array.isArray(response) ? { content: response, totalElements: response.length } : response)));
   }
 
   get(id: string): Observable<SearchInstanceDTO> {
@@ -48,8 +61,17 @@ export class BulkSearchService {
     return this.http.post<unknown>(`${this.resourceUrl}/${encodeURIComponent(id)}/csv`, formData);
   }
 
-  validateCsv(id: string): Observable<boolean> {
-    return this.http.post<boolean>(`${this.resourceUrl}/${encodeURIComponent(id)}/csv/validate`, {});
+  createFromCsv(name: string, file: File | Blob): Observable<SearchInstanceDTO> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const params = new HttpParams().set('name', name);
+    return this.http.post<SearchInstanceDTO>(`${this.resourceUrl}/csv`, formData, { params });
+  }
+
+  validateCsvFile(file: File | Blob): Observable<CsvValidationResult | null> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<CsvValidationResult>(`${this.resourceUrl}/csv/validate-file`, formData);
   }
 
   getLastResult(id: string): Observable<unknown> {
@@ -58,5 +80,9 @@ export class BulkSearchService {
 
   download(id: string): Observable<Blob> {
     return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/download`, { responseType: 'blob' });
+  }
+
+  downloadCsv(id: string): Observable<Blob> {
+    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/perimeter/download`, { responseType: 'blob' });
   }
 }

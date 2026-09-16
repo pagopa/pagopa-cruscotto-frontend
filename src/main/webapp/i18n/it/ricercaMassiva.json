@@ -32,10 +32,7 @@
           "KO": "KO",
           "NONE": "Nessun esito"
         },
-        "periodStartDate": "Data inizio",
-        "periodStartTime": "Ora inizio",
-        "periodEndDate": "Data fine",
-        "periodEndTime": "Ora fine",
+        "period": "Periodo di analisi",
         "periodValidation": {
           "startNotAfterEnd": "La data/ora di inizio non pu\u00F2 essere successiva alla data/ora di fine",
           "endNotBeforeStart": "La data/ora di fine non pu\u00F2 precedere quella di inizio"

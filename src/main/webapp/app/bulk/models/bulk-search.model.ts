@@ -5,14 +5,29 @@ export interface SearchInstanceDTO {
   status?: string;
   createdAt?: string;
   updatedAt?: string;
-  searchCriteria?: BulkSearchCriteria;
+  perimeterFilter?: PerimeterFilter;
 }
 
 export type PaymentOutcome = 'OK' | 'KO' | 'NONE';
 
+export interface CsvValidationError {
+  lineNumber?: number;
+  column?: string;
+  message?: string;
+}
+
+export interface CsvValidationResult {
+  valid?: boolean;
+  detectedTemplate?: string;
+  totalRows?: number;
+  validRows?: number;
+  invalidRows?: number;
+  errors?: CsvValidationError[];
+}
+
 // Criteri di ricerca per la creazione di una nuova istanza di analisi massiva.
 // Solo i campi effettivamente valorizzati devono essere inviati al backend.
-export interface BulkSearchCriteria {
+export interface PerimeterFilter {
   periodStart?: string;
   periodEnd?: string;
   paymentOutcome?: PaymentOutcome;
@@ -23,6 +38,7 @@ export interface BulkSearchCriteria {
   creditorInstitutionId?: number;
   pspId?: number;
   intermediaryId?: number;
+  intermediaryPspId?: number;
   stationId?: number;
   channelId?: number;
 }

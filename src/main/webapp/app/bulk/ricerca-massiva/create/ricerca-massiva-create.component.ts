@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable, Subscription, map, merge, of, startWith } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription, finalize, forkJoin, merge } from 'rxjs';
 
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -16,14 +15,16 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import SharedModule from '../../../shared/shared.module';
 import {
   AnagIntermediarioPa,
+  AnagIntermediarioPsp,
+  AnagCanale,
   AnagPaEmittente,
   AnagPsp,
   AnagStazione,
   PaymentOutcome,
   SearchInstanceDTO,
 } from '../../models/bulk-search.model';
+import { BulkLookupService } from '../../services/bulk-lookup.service';
 import { BulkSearchService } from '../../services/bulk-search.service';
-import { RICERCA_MASSIVA_LOOKUPS } from '../ricerca-massiva.mock';
 import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from './ricerca-massiva-create-form.service';
 
 @Component({
@@ -35,7 +36,6 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
@@ -52,31 +52,32 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   editForm: RicercaMassivaCreateFormGroup;
 
   isSaving = false;
+  isLoadingDetail = false;
+  isDownloadingCsv = false;
   submitError = false;
 
-  filteredTouchpoints$: Observable<string[]> = of([]);
-  filteredPaymentMethods$: Observable<string[]> = of([]);
-  filteredCreditorInstitutions$: Observable<AnagPaEmittente[]> = of([]);
-  filteredPsp$: Observable<AnagPsp[]> = of([]);
-  filteredIntermediaries$: Observable<AnagIntermediarioPa[]> = of([]);
-  filteredStations$: Observable<AnagStazione[]> = of([]);
-
-  private touchpoints: string[] = [];
-  private paymentMethods: string[] = [];
-  private creditorInstitutions: AnagPaEmittente[] = [];
-  private psp: AnagPsp[] = [];
-  private intermediaries: AnagIntermediarioPa[] = [];
-  private stations: AnagStazione[] = [];
+  touchpoints: string[] = [];
+  paymentMethods: string[] = [];
+  creditorInstitutions: AnagPaEmittente[] = [];
+  psp: AnagPsp[] = [];
+  intermediaries: AnagIntermediarioPa[] = [];
+  intermediariesPsp: AnagIntermediarioPsp[] = [];
+  stations: AnagStazione[] = [];
+  channels: AnagCanale[] = [];
 
   private readonly formService = inject(RicercaMassivaCreateFormService);
+  private readonly bulkLookupService = inject(BulkLookupService);
   private readonly bulkSearchService = inject(BulkSearchService);
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
   private readonly spinner = inject(NgxSpinnerService);
 
   private readonly subscriptions = new Subscription();
 
   private readonly duplicateInstance: SearchInstanceDTO | null;
   private readonly detailInstance: SearchInstanceDTO | null;
+  detailInstanceId: string | null = null;
+  detailInstanceStatus: string | null = null;
   isReadOnly = false;
 
   constructor() {
@@ -88,34 +89,12 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
         }
       | undefined;
     this.duplicateInstance = navigationState?.duplicateInstance ?? null;
-    this.detailInstance = navigationState?.detailInstance ?? null;
+    this.detailInstance = this.activatedRoute?.snapshot.data['detailInstance'] ?? navigationState?.detailInstance ?? null;
+    this.detailInstanceId = this.detailInstance?.id ?? null;
+    this.detailInstanceStatus = this.detailInstance?.status ?? null;
   }
 
   ngOnInit(): void {
-    this.loadTouchpoints();
-    this.loadPaymentMethods();
-    this.loadCreditorInstitutions();
-    this.loadPsp();
-    this.loadIntermediaries();
-    this.loadStations();
-
-    const instanceToLoad = this.detailInstance ?? this.duplicateInstance;
-    if (instanceToLoad) {
-      this.formService.patchFromSearchInstance(this.editForm, instanceToLoad, {
-        creditorInstitutions: this.creditorInstitutions,
-        psp: this.psp,
-        intermediaries: this.intermediaries,
-        stations: this.stations,
-      });
-    }
-
-    if (this.detailInstance) {
-      this.isReadOnly = this.detailInstance.status !== 'DRAFT';
-      if (this.isReadOnly) {
-        this.editForm.disable();
-      }
-    }
-
     // Le stazioni disponibili dipendono dal PSP e dall'intermediario selezionati.
     this.subscriptions.add(
       merge(this.editForm.controls.psp.valueChanges, this.editForm.controls.intermediary.valueChanges).subscribe(() => {
@@ -123,6 +102,8 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
         this.loadStations();
       }),
     );
+
+    this.loadLookups();
   }
 
   ngOnDestroy(): void {
@@ -134,12 +115,49 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
 
   displayStation = (value: AnagStazione | null): string => value?.codice ?? '';
 
+  clearFilter(controlName: string): void {
+    if (this.isReadOnly) {
+      return;
+    }
+    this.editForm.get(controlName)?.setValue(null);
+  }
+
+  downloadCsv(): void {
+    if (!this.detailInstanceId || this.isLoadingDetail || this.isDownloadingCsv) {
+      return;
+    }
+
+    this.isDownloadingCsv = true;
+    void this.spinner.show('download-spinner');
+    this.subscriptions.add(
+      this.bulkSearchService
+        .downloadCsv(this.detailInstanceId)
+        .pipe(
+          finalize(() => {
+            this.isDownloadingCsv = false;
+            void this.spinner.hide('download-spinner');
+          }),
+        )
+        .subscribe(blob => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `${this.detailInstance?.name ?? 'ricerca-massiva'}.csv`;
+          link.click();
+          URL.revokeObjectURL(url);
+        }),
+    );
+  }
+
   previousState(): void {
+    if (this.isLoadingDetail || this.isSaving) {
+      return;
+    }
     void this.router.navigate(['/bulk/ricerca-massiva']);
   }
 
   save(): void {
-    if (this.isReadOnly) {
+    if (this.isReadOnly || this.isLoadingDetail || this.isSaving) {
       return;
     }
 
@@ -149,14 +167,20 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     }
 
     this.submitError = false;
-    this.spinner.show('isSaving').then(() => {
-      this.isSaving = true;
-    });
+    this.isSaving = true;
+    void this.spinner.show('isSaving');
 
     const searchInstance = this.formService.getSearchInstance(this.editForm);
+    if (this.detailInstance?.inputType === 'filter') {
+      searchInstance.inputType = this.detailInstance.inputType;
+    }
+
+    const saveRequest = this.detailInstance?.id
+      ? this.bulkSearchService.update(this.detailInstance.id, searchInstance)
+      : this.bulkSearchService.create(searchInstance);
 
     this.subscriptions.add(
-      this.bulkSearchService.create(searchInstance).subscribe({
+      saveRequest.subscribe({
         next: () => this.onSaveSuccess(),
         error: () => this.onSaveError(),
       }),
@@ -174,89 +198,68 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   }
 
   private onSaveFinalize(): void {
-    this.spinner.hide('isSaving').then(() => {
-      this.isSaving = false;
-    });
+    this.isSaving = false;
+    void this.spinner.hide('isSaving');
   }
 
-  // TODO: sostituire con una ricerca server-side quando l'endpoint supporterà un parametro testuale.
-  private loadTouchpoints(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.touchpoints).subscribe(page => {
-      this.touchpoints = page.content ?? [];
-      this.filteredTouchpoints$ = this.editForm.controls.touchpoint.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterStrings(this.touchpoints, value)),
-      );
-    });
+  private loadLookups(): void {
+    const request = { page: 0, size: 20 };
+    this.isLoadingDetail = true;
+    void this.spinner.show('isLoadingDetail');
+    this.subscriptions.add(
+      forkJoin({
+        touchpoints: this.bulkLookupService.touchpoints(request),
+        paymentMethods: this.bulkLookupService.paymentMethods(request),
+        creditorInstitutions: this.bulkLookupService.creditorInstitutions(request),
+        psp: this.bulkLookupService.psp(request),
+        intermediaries: this.bulkLookupService.intermediaries(request),
+        intermediariesPsp: this.bulkLookupService.intermediariesPsp(request),
+        stations: this.bulkLookupService.stations(request),
+        channels: this.bulkLookupService.channels(request),
+      })
+        .pipe(
+          finalize(() => {
+            this.isLoadingDetail = false;
+            void this.spinner.hide('isLoadingDetail');
+          }),
+        )
+        .subscribe(lookups => {
+          this.touchpoints = lookups.touchpoints.content ?? [];
+          this.paymentMethods = lookups.paymentMethods.content ?? [];
+          this.creditorInstitutions = lookups.creditorInstitutions.content ?? [];
+          this.psp = lookups.psp.content ?? [];
+          this.intermediaries = lookups.intermediaries.content ?? [];
+          this.intermediariesPsp = lookups.intermediariesPsp.content ?? [];
+          this.stations = lookups.stations.content ?? [];
+          this.channels = lookups.channels.content ?? [];
+
+          const instanceToLoad = this.detailInstance ?? this.duplicateInstance;
+          if (instanceToLoad) {
+            this.formService.patchFromSearchInstance(this.editForm, instanceToLoad, {
+              creditorInstitutions: this.creditorInstitutions,
+              psp: this.psp,
+              intermediaries: this.intermediaries,
+              intermediariesPsp: this.intermediariesPsp,
+              stations: this.stations,
+              channels: this.channels,
+            });
+          }
+
+          if (this.detailInstance) {
+            this.isReadOnly = this.detailInstance.status !== 'DRAFT';
+            if (this.isReadOnly) {
+              this.editForm.disable();
+            }
+          }
+        }),
+    );
   }
 
-  // TODO: sostituire con una ricerca server-side quando l'endpoint supporterà un parametro testuale.
-  private loadPaymentMethods(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.paymentMethods).subscribe(page => {
-      this.paymentMethods = page.content ?? [];
-      this.filteredPaymentMethods$ = this.editForm.controls.paymentMethod.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterStrings(this.paymentMethods, value)),
-      );
-    });
-  }
-
-  // TODO: sostituire con una ricerca server-side quando l'endpoint supporterà un parametro testuale.
-  private loadCreditorInstitutions(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.creditorInstitutions).subscribe(page => {
-      this.creditorInstitutions = page.content ?? [];
-      this.filteredCreditorInstitutions$ = this.editForm.controls.creditorInstitution.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterCodeDescription(this.creditorInstitutions, value)),
-      );
-    });
-  }
-
-  // TODO: sostituire con una ricerca server-side quando l'endpoint supporterà un parametro testuale.
-  private loadPsp(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.psp).subscribe(page => {
-      this.psp = page.content ?? [];
-      this.filteredPsp$ = this.editForm.controls.psp.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterCodeDescription(this.psp, value)),
-      );
-    });
-  }
-
-  // TODO: sostituire con una ricerca server-side quando l'endpoint supporterà un parametro testuale.
-  private loadIntermediaries(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.intermediaries).subscribe(page => {
-      this.intermediaries = page.content ?? [];
-      this.filteredIntermediaries$ = this.editForm.controls.intermediary.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterCodeDescription(this.intermediaries, value)),
-      );
-    });
-  }
-
-  // TODO: filtrare le stazioni lato server in base a pspId/intermediaryId quando l'endpoint lo supporterà.
   private loadStations(): void {
-    of(RICERCA_MASSIVA_LOOKUPS.stations).subscribe(page => {
-      this.stations = page.content ?? [];
-      this.filteredStations$ = this.editForm.controls.station.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterStations(this.stations, value)),
-      );
-    });
-  }
-
-  private filterStrings(options: string[], value: string | null): string[] {
-    const filterValue = (value ?? '').toLowerCase();
-    return options.filter(option => option.toLowerCase().includes(filterValue));
-  }
-
-  private filterStations(options: AnagStazione[], value: AnagStazione | string | null): AnagStazione[] {
-    const filterValue = (typeof value === 'string' ? value : (value?.codice ?? '')).toLowerCase();
-    return options.filter(option => (option.codice ?? '').toLowerCase().includes(filterValue));
-  }
-
-  private filterCodeDescription<T extends { codice?: string; description?: string }>(options: T[], value: T | string | null): T[] {
-    const filterValue = (typeof value === 'string' ? value : this.displayCodeDescription(value)).toLowerCase();
-    return options.filter(option => this.displayCodeDescription(option).toLowerCase().includes(filterValue));
+    this.subscriptions.add(
+      this.bulkLookupService.stations({ page: 0, size: 20 }).subscribe(page => {
+        this.stations = page.content ?? [];
+      }),
+    );
   }
 }

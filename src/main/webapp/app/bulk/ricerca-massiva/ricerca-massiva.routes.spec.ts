@@ -20,8 +20,14 @@ describe('ricercaMassivaRoutes', () => {
     expect(component).toBe(RicercaMassivaCreateComponent);
   });
 
-  it('no longer exposes the removed instance detail route', () => {
+  it('exposes the instance detail page on the id route', async () => {
     const route = ricercaMassivaRoutes.find(r => r.path === ':id/view');
-    expect(route).toBeUndefined();
+    expect(route).toBeDefined();
+    expect(route!.canActivate).toBeDefined();
+    expect(route!.resolve?.detailInstance).toBeDefined();
+
+    const { RicercaMassivaCreateComponent } = await import('./create/ricerca-massiva-create.component');
+    const component = await route!.loadComponent!();
+    expect(component).toBe(RicercaMassivaCreateComponent);
   });
 });

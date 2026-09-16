@@ -44,6 +44,17 @@ describe('RicercaMassivaCreateFormService', () => {
     expect(form.valid).toBe(false);
   });
 
+  it('limits the analysis period to two weeks', () => {
+    const form = service.createFormGroup();
+    form.patchValue({
+      periodStartDate: dayjs('2026-01-01'),
+      periodEndDate: dayjs('2026-01-16'),
+    });
+
+    expect(form.controls.periodEndDate.hasError('maxDateRangeExceeded')).toBe(true);
+    expect(form.valid).toBe(false);
+  });
+
   it('flags the max amount when lower than the min amount', () => {
     const form = service.createFormGroup();
     form.patchValue({ amountMin: 100, amountMax: 10 });
@@ -71,11 +82,11 @@ describe('RicercaMassivaCreateFormService', () => {
     const payload = service.getSearchInstance(form);
 
     expect(payload.name).toBe('Estrazione test');
-    expect(payload.searchCriteria?.paymentOutcome).toBe('OK');
-    expect(payload.searchCriteria?.pspId).toBe(5);
-    expect(payload.searchCriteria?.periodStart).toBe(dayjs('2026-01-01').startOf('day').toISOString());
-    expect(payload.searchCriteria?.periodEnd).toBe(dayjs('2026-01-02').startOf('day').toISOString());
-    expect(payload.searchCriteria?.touchpoint).toBeUndefined();
-    expect(payload.searchCriteria?.creditorInstitutionId).toBeUndefined();
+    expect(payload.perimeterFilter?.paymentOutcome).toBe('OK');
+    expect(payload.perimeterFilter?.pspId).toBe(5);
+    expect(payload.perimeterFilter?.periodStart).toBe(dayjs('2026-01-01').startOf('day').toISOString());
+    expect(payload.perimeterFilter?.periodEnd).toBe(dayjs('2026-01-02').startOf('day').toISOString());
+    expect(payload.perimeterFilter?.touchpoint).toBeUndefined();
+    expect(payload.perimeterFilter?.creditorInstitutionId).toBeUndefined();
   });
 });

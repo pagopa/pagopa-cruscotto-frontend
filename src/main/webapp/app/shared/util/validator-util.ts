@@ -68,6 +68,29 @@ export const datepickerRangeValidatorFn = (fromControlName: string, toControlNam
   };
 };
 
+export const datepickerMaxRangeValidatorFn = (fromControlName: string, toControlName: string, maxDays: number): ValidatorFn => {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const fromControl = control.get(fromControlName);
+    const toControl = control.get(toControlName);
+    const start = fromControl?.value as Dayjs | null;
+    const end = toControl?.value as Dayjs | null;
+
+    if (!toControl) {
+      return null;
+    }
+
+    const errors = toControl.errors ?? {};
+    delete errors['maxDateRangeExceeded'];
+
+    if (start && end && end.diff(start, 'day') > maxDays) {
+      errors['maxDateRangeExceeded'] = true;
+    }
+
+    toControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+    return null;
+  };
+};
+
 export const timeValidatorFn = (
   fromDateControlName: string,
   toDateControlName: string,

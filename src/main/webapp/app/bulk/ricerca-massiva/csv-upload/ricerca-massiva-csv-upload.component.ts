@@ -1,13 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { BulkSearchService } from '../../services/bulk-search.service';
 
-import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES, RICERCA_MASSIVA_CSV_VALIDATION_RESULT } from '../ricerca-massiva.mock';
+import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
 
 @Component({
   selector: 'jhi-ricerca-massiva-csv-upload',
@@ -63,6 +66,11 @@ import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES, RICERCA_MAS
           @if (selectedFileName) {
             <div class="alert alert-light border mb-3"><strong>File selezionato:</strong> {{ selectedFileName }}</div>
 
+            <mat-form-field appearance="outline" class="w-100 mb-3">
+              <mat-label>Nome istanza</mat-label>
+              <input matInput [(ngModel)]="instanceName" maxlength="100" placeholder="Nome del file se lasciato vuoto" />
+            </mat-form-field>
+
             <div class="mb-3">
               <label class="form-label fw-semibold">Anteprima CSV</label>
               <textarea class="form-control" rows="8" [value]="csvPreview" readonly></textarea>
@@ -93,17 +101,14 @@ import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES, RICERCA_MAS
             <mat-icon fontSet="material-symbols-outlined">rule</mat-icon>
             <span>{{ isValidating ? 'Validazione...' : 'Valida CSV' }}</span>
           </button>
-          <button
-            type="button"
-            mat-flat-button
-            color="primary"
-            [disabled]="!selectedFileName || !hasValidated || !canSubmit || isValidating"
-            (click)="submit()"
-          >
+          <button type="button" mat-flat-button color="primary" [disabled]="!canSubmit || isValidating || isSubmitting" (click)="submit()">
             <mat-icon fontSet="material-symbols-outlined">send</mat-icon>
-            <span>Invia richiesta</span>
+            <span>{{ isSubmitting ? 'Invio...' : 'Invia richiesta' }}</span>
           </button>
         </div>
+        @if (submitError) {
+          <div class="alert alert-danger mx-3 mb-3" role="alert">Impossibile creare l'istanza.</div>
+        }
       </mat-card>
     </div>
   `,
@@ -117,7 +122,7 @@ import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES, RICERCA_MAS
       }
     `,
   ],
-  imports: [CommonModule, RouterModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatFormFieldModule],
 })
 export class RicercaMassivaCsvUploadComponent {
   readonly tutorialTypes = RICERCA_MASSIVA_CSV_TUTORIAL_TYPES;
@@ -129,8 +134,12 @@ export class RicercaMassivaCsvUploadComponent {
   isValidating = false;
   validationErrors: BulkCsvValidationError[] = [];
   canSubmit = false;
+  instanceName = '';
+  isSubmitting = false;
+  submitError = false;
 
   private readonly router = inject(Router);
+  private readonly bulkSearchService = inject(BulkSearchService);
   private currentCsvBlob: Blob | null = null;
   private validatedCsvBlob: Blob | null = null;
 
@@ -147,6 +156,8 @@ export class RicercaMassivaCsvUploadComponent {
     this.hasValidated = false;
     this.validationErrors = [];
     this.canSubmit = false;
+    this.instanceName = '';
+    this.submitError = false;
     this.validatedCsvBlob = null;
     this.currentCsvBlob = null;
 
@@ -158,7 +169,7 @@ export class RicercaMassivaCsvUploadComponent {
     reader.onload = () => {
       const content = typeof reader.result === 'string' ? reader.result : '';
       this.csvPreview = this.extractPreview(content);
-      this.refreshCurrentCsvBlob();
+      this.currentCsvBlob = file;
     };
     reader.readAsText(file);
   }
@@ -169,6 +180,7 @@ export class RicercaMassivaCsvUploadComponent {
     this.hasValidated = false;
     this.validationErrors = [];
     this.canSubmit = false;
+    this.submitError = false;
     this.validatedCsvBlob = null;
     this.refreshCurrentCsvBlob();
   }
@@ -192,7 +204,7 @@ export class RicercaMassivaCsvUploadComponent {
   }
 
   validateCsv(): void {
-    if (!this.selectedFileName || !this.currentCsvBlob) {
+    if (!this.currentCsvBlob) {
       return;
     }
 
@@ -201,19 +213,31 @@ export class RicercaMassivaCsvUploadComponent {
     this.hasValidated = false;
     this.validationErrors = [];
     this.canSubmit = false;
+    this.submitError = false;
     this.validatedCsvBlob = null;
 
-    setTimeout(() => {
-      this.validationErrors = RICERCA_MASSIVA_CSV_VALIDATION_RESULT;
-      this.canSubmit = this.validationErrors.length === 0;
-      this.hasValidated = true;
-      this.validatedCsvBlob = this.canSubmit ? new Blob([this.csvPreview], { type: 'text/csv;charset=utf-8' }) : null;
-      this.isValidating = false;
-    }, 300);
+    this.bulkSearchService.validateCsvFile(this.currentCsvBlob).subscribe({
+      next: result => {
+        this.validationErrors = (result?.errors ?? []).map(error => ({
+          row: error.lineNumber ?? 0,
+          column: error.column ?? '',
+          message: error.message ?? '',
+        }));
+        this.canSubmit = result?.valid !== false;
+        this.hasValidated = true;
+        this.validatedCsvBlob = this.canSubmit ? this.currentCsvBlob : null;
+        this.isValidating = false;
+      },
+      error: () => {
+        this.validationErrors = [{ row: 0, column: '', message: 'Impossibile validare il file CSV.' }];
+        this.hasValidated = true;
+        this.isValidating = false;
+      },
+    });
   }
 
   submit(): void {
-    if (!this.canSubmit || !this.validatedCsvBlob) {
+    if (!this.canSubmit || !this.validatedCsvBlob || this.isSubmitting) {
       return;
     }
 
@@ -222,6 +246,18 @@ export class RicercaMassivaCsvUploadComponent {
       return;
     }
 
-    void this.router.navigate(['/bulk/ricerca-massiva']);
+    const name = this.instanceName.trim() || this.selectedFileName;
+    this.isSubmitting = true;
+    this.submitError = false;
+    this.bulkSearchService.createFromCsv(name, fileToSubmit).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        void this.router.navigate(['/bulk/ricerca-massiva']);
+      },
+      error: () => {
+        this.isSubmitting = false;
+        this.submitError = true;
+      },
+    });
   }
 }

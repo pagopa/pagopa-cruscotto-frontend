@@ -3,13 +3,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dayjs } from 'dayjs/esm';
 
 import dayjs from '../../../config/dayjs';
-import { amountRangeValidatorFn, datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { amountRangeValidatorFn, datepickerMaxRangeValidatorFn, datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import {
   AnagIntermediarioPa,
+  AnagIntermediarioPsp,
+  AnagCanale,
   AnagPaEmittente,
   AnagPsp,
   AnagStazione,
-  BulkSearchCriteria,
+  PerimeterFilter,
   PaymentOutcome,
   SearchInstanceDTO,
 } from '../../models/bulk-search.model';
@@ -18,7 +20,9 @@ export interface RicercaMassivaCreateFormLookups {
   creditorInstitutions: AnagPaEmittente[];
   psp: AnagPsp[];
   intermediaries: AnagIntermediarioPa[];
+  intermediariesPsp: AnagIntermediarioPsp[];
   stations: AnagStazione[];
+  channels: AnagCanale[];
 }
 
 type RicercaMassivaCreateFormContent = {
@@ -33,7 +37,9 @@ type RicercaMassivaCreateFormContent = {
   creditorInstitution: FormControl<AnagPaEmittente | null>;
   psp: FormControl<AnagPsp | null>;
   intermediary: FormControl<AnagIntermediarioPa | null>;
+  intermediaryPsp: FormControl<AnagIntermediarioPsp | null>;
   station: FormControl<AnagStazione | null>;
+  channel: FormControl<AnagCanale | null>;
 };
 
 export type RicercaMassivaCreateFormGroup = FormGroup<RicercaMassivaCreateFormContent>;
@@ -54,10 +60,16 @@ export class RicercaMassivaCreateFormService {
         creditorInstitution: new FormControl(null),
         psp: new FormControl(null),
         intermediary: new FormControl(null),
+        intermediaryPsp: new FormControl(null),
         station: new FormControl(null),
+        channel: new FormControl(null),
       },
       {
-        validators: [datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'), amountRangeValidatorFn('amountMin', 'amountMax')],
+        validators: [
+          datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'),
+          datepickerMaxRangeValidatorFn('periodStartDate', 'periodEndDate', 14),
+          amountRangeValidatorFn('amountMin', 'amountMax'),
+        ],
       },
     );
   }
@@ -66,47 +78,53 @@ export class RicercaMassivaCreateFormService {
   getSearchInstance(form: RicercaMassivaCreateFormGroup): SearchInstanceDTO {
     const raw = form.getRawValue();
 
-    const searchCriteria: BulkSearchCriteria = {};
+    const perimeterFilter: PerimeterFilter = {};
 
     const periodStart = raw.periodStartDate?.startOf('day').toISOString();
     const periodEnd = raw.periodEndDate?.startOf('day').toISOString();
     if (periodStart) {
-      searchCriteria.periodStart = periodStart;
+      perimeterFilter.periodStart = periodStart;
     }
     if (periodEnd) {
-      searchCriteria.periodEnd = periodEnd;
+      perimeterFilter.periodEnd = periodEnd;
     }
     if (raw.paymentOutcome) {
-      searchCriteria.paymentOutcome = raw.paymentOutcome;
+      perimeterFilter.paymentOutcome = raw.paymentOutcome;
     }
     if (raw.touchpoint) {
-      searchCriteria.touchpoint = raw.touchpoint;
+      perimeterFilter.touchpoint = raw.touchpoint;
     }
     if (raw.paymentMethod) {
-      searchCriteria.paymentMethod = raw.paymentMethod;
+      perimeterFilter.paymentMethod = raw.paymentMethod;
     }
     if (raw.amountMin !== null) {
-      searchCriteria.amountMin = raw.amountMin;
+      perimeterFilter.amountMin = raw.amountMin;
     }
     if (raw.amountMax !== null) {
-      searchCriteria.amountMax = raw.amountMax;
+      perimeterFilter.amountMax = raw.amountMax;
     }
     if (raw.creditorInstitution?.id !== undefined) {
-      searchCriteria.creditorInstitutionId = raw.creditorInstitution.id;
+      perimeterFilter.creditorInstitutionId = raw.creditorInstitution.id;
     }
     if (raw.psp?.id !== undefined) {
-      searchCriteria.pspId = raw.psp.id;
+      perimeterFilter.pspId = raw.psp.id;
     }
     if (raw.intermediary?.id !== undefined) {
-      searchCriteria.intermediaryId = raw.intermediary.id;
+      perimeterFilter.intermediaryId = raw.intermediary.id;
+    }
+    if (raw.intermediaryPsp?.id !== undefined) {
+      perimeterFilter.intermediaryPspId = raw.intermediaryPsp.id;
     }
     if (raw.station?.id !== undefined) {
-      searchCriteria.stationId = raw.station.id;
+      perimeterFilter.stationId = raw.station.id;
+    }
+    if (raw.channel?.id !== undefined) {
+      perimeterFilter.channelId = raw.channel.id;
     }
 
     return {
       name: raw.name ?? undefined,
-      searchCriteria,
+      perimeterFilter,
     };
   }
 
@@ -116,21 +134,26 @@ export class RicercaMassivaCreateFormService {
     instance: SearchInstanceDTO,
     lookups: RicercaMassivaCreateFormLookups,
   ): void {
-    const criteria = instance.searchCriteria ?? {};
+    const criteria = instance.perimeterFilter ?? {};
 
-    form.patchValue({
-      name: instance.name ?? null,
-      periodStartDate: criteria.periodStart ? dayjs(criteria.periodStart) : null,
-      periodEndDate: criteria.periodEnd ? dayjs(criteria.periodEnd) : null,
-      paymentOutcome: criteria.paymentOutcome ?? null,
-      touchpoint: criteria.touchpoint ?? null,
-      paymentMethod: criteria.paymentMethod ?? null,
-      amountMin: criteria.amountMin ?? null,
-      amountMax: criteria.amountMax ?? null,
-      creditorInstitution: lookups.creditorInstitutions.find(item => item.id === criteria.creditorInstitutionId) ?? null,
-      psp: lookups.psp.find(item => item.id === criteria.pspId) ?? null,
-      intermediary: lookups.intermediaries.find(item => item.id === criteria.intermediaryId) ?? null,
-      station: lookups.stations.find(item => item.id === criteria.stationId) ?? null,
-    });
+    form.patchValue(
+      {
+        name: instance.name ?? null,
+        periodStartDate: criteria.periodStart ? dayjs(criteria.periodStart) : null,
+        periodEndDate: criteria.periodEnd ? dayjs(criteria.periodEnd) : null,
+        paymentOutcome: criteria.paymentOutcome ?? null,
+        touchpoint: criteria.touchpoint ?? null,
+        paymentMethod: criteria.paymentMethod ?? null,
+        amountMin: criteria.amountMin ?? null,
+        amountMax: criteria.amountMax ?? null,
+        creditorInstitution: lookups.creditorInstitutions.find(item => item.id === criteria.creditorInstitutionId) ?? null,
+        psp: lookups.psp.find(item => item.id === criteria.pspId) ?? null,
+        intermediary: lookups.intermediaries.find(item => item.id === criteria.intermediaryId) ?? null,
+        intermediaryPsp: lookups.intermediariesPsp.find(item => item.id === criteria.intermediaryPspId) ?? null,
+        station: lookups.stations.find(item => item.id === criteria.stationId) ?? null,
+        channel: lookups.channels.find(item => item.id === criteria.channelId) ?? null,
+      },
+      { emitEvent: false },
+    );
   }
 }

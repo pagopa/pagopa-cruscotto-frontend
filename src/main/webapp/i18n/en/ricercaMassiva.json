@@ -32,10 +32,7 @@
           "KO": "KO",
           "NONE": "No outcome"
         },
-        "periodStartDate": "Start date",
-        "periodStartTime": "Start time",
-        "periodEndDate": "End date",
-        "periodEndTime": "End time",
+        "period": "Analysis period",
         "periodValidation": {
           "startNotAfterEnd": "The start date/time cannot be after the end date/time",
           "endNotBeforeStart": "The end date/time cannot be before the start date/time"

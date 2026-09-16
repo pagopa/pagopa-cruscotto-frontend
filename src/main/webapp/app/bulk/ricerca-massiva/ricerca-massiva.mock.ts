@@ -170,7 +170,7 @@ export function getRicercaMassivaDetailMock(id: string): SearchInstanceDTO {
   return {
     ...base,
     id,
-    searchCriteria: {
+    perimeterFilter: {
       periodStart: '2026-01-01T00:00:00.000Z',
       periodEnd: '2026-01-31T00:00:00.000Z',
       paymentOutcome: 'OK',

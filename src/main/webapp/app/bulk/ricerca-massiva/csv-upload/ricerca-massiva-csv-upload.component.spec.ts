@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 import { RicercaMassivaCsvUploadComponent } from './ricerca-massiva-csv-upload.component';
+import { BulkSearchService } from '../../services/bulk-search.service';
 
 describe('RicercaMassivaCsvUploadComponent', () => {
   let fixture: ComponentFixture<RicercaMassivaCsvUploadComponent>;
@@ -10,7 +12,10 @@ describe('RicercaMassivaCsvUploadComponent', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
       imports: [RicercaMassivaCsvUploadComponent],
-      providers: [{ provide: Router, useValue: { navigate: jest.fn() } }],
+      providers: [
+        { provide: Router, useValue: { navigate: jest.fn() } },
+        { provide: BulkSearchService, useValue: { validateCsvFile: jest.fn(() => of({ valid: true, errors: [] })) } },
+      ],
     }).createComponent(RicercaMassivaCsvUploadComponent);
 
     comp = fixture.componentInstance;

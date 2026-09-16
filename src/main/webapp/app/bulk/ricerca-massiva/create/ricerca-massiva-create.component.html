@@ -1,7 +1,13 @@
 <div>
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
-      <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.title">Nuova istanza di analisi massiva</span>
+      <ng-container *ngIf="detailInstanceId; else newInstanceTitle">
+        <span>{{ detailInstanceId }}</span>
+        <span *ngIf="detailInstanceStatus" class="text-muted fs-6 ms-2">({{ detailInstanceStatus }})</span>
+      </ng-container>
+      <ng-template #newInstanceTitle>
+        <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.title">Nuova istanza di analisi massiva</span>
+      </ng-template>
     </div>
     <div>
       <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
@@ -21,6 +27,9 @@
     [class.detail-readonly]="isReadOnly"
   >
     <mat-card class="mat-elevation-z8">
+      <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingDetail">
+        <p class="ngx-spinner-loading">Loading...</p>
+      </ngx-spinner>
       <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
         <p class="ngx-spinner-loading">Loading...</p>
       </ngx-spinner>
@@ -65,50 +74,39 @@
         </div>
 
         <div class="row">
-          <!-- Periodo: data inizio -->
-          <div class="col-lg-6">
+          <!-- Periodo -->
+          <div class="col-lg-12">
             @let periodStartDateRef = editForm.get('periodStartDate')!;
+            @let periodEndDateRef = editForm.get('periodEndDate')!;
             <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodStartDate">Data inizio</mat-label>
-              <input matInput [matDatepicker]="periodStartDatePicker" formControlName="periodStartDate" />
-              <mat-datepicker-toggle matSuffix [for]="periodStartDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #periodStartDatePicker></mat-datepicker>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.period">Periodo</mat-label>
+              <mat-date-range-input [rangePicker]="periodPicker">
+                <input matStartDate formControlName="periodStartDate" placeholder="Data inizio" />
+                <input matEndDate formControlName="periodEndDate" placeholder="Data fine" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="periodPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #periodPicker></mat-date-range-picker>
               <ng-container
                 ngProjectAs="mat-error"
-                *ngIf="periodStartDateRef.invalid && (periodStartDateRef.dirty || periodStartDateRef.touched)"
+                *ngIf="
+                  (periodStartDateRef.invalid && (periodStartDateRef.dirty || periodStartDateRef.touched)) ||
+                  (periodEndDateRef.invalid && (periodEndDateRef.dirty || periodEndDateRef.touched))
+                "
               >
-                @if (periodStartDateRef?.errors?.required && !periodStartDateRef?.errors?.matDatepickerParse) {
+                @if (periodStartDateRef?.errors?.required || periodEndDateRef?.errors?.required) {
                   <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
-                } @else if (periodStartDateRef?.errors?.matDatepickerParse) {
+                } @else if (periodStartDateRef?.errors?.matDatepickerParse || periodEndDateRef?.errors?.matDatepickerParse) {
                   <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
                 } @else if (periodStartDateRef?.errors?.matStartDateInvalid) {
                   <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.startNotAfterEnd">
                     La data di inizio non può essere successiva alla data di fine
                   </mat-error>
-                }
-              </ng-container>
-            </mat-form-field>
-          </div>
-          <!-- Periodo: data fine -->
-          <div class="col-lg-6">
-            @let periodEndDateRef = editForm.get('periodEndDate')!;
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodEndDate">Data fine</mat-label>
-              <input matInput [matDatepicker]="periodEndDatePicker" formControlName="periodEndDate" />
-              <mat-datepicker-toggle matSuffix [for]="periodEndDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #periodEndDatePicker></mat-datepicker>
-              <ng-container
-                ngProjectAs="mat-error"
-                *ngIf="periodEndDateRef.invalid && (periodEndDateRef.dirty || periodEndDateRef.touched)"
-              >
-                @if (periodEndDateRef?.errors?.required && !periodEndDateRef?.errors?.matDatepickerParse) {
-                  <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
-                } @else if (periodEndDateRef?.errors?.matDatepickerParse) {
-                  <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
                 } @else if (periodEndDateRef?.errors?.matEndDateInvalid) {
                   <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.endNotBeforeStart">
                     La data di fine non può precedere quella di inizio
                   </mat-error>
+                } @else if (periodEndDateRef?.errors?.maxDateRangeExceeded) {
+                  <mat-error>Il periodo massimo selezionabile è di due settimane</mat-error>
                 }
               </ng-container>
             </mat-form-field>
@@ -120,10 +118,21 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.touchpoint">Touchpoint</mat-label>
-              <input matInput formControlName="touchpoint" [matAutocomplete]="touchpointAuto" />
-              <mat-autocomplete #touchpointAuto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredTouchpoints$ | async" [value]="option">{{ option }}</mat-option>
-              </mat-autocomplete>
+              <mat-select formControlName="touchpoint">
+                <mat-option *ngFor="let option of touchpoints" [value]="option">{{ option }}</mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.touchpoint.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella touchpoint"
+                (click)="clearFilter('touchpoint')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -131,10 +140,21 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentMethod">Metodo di pagamento</mat-label>
-              <input matInput formControlName="paymentMethod" [matAutocomplete]="paymentMethodAuto" />
-              <mat-autocomplete #paymentMethodAuto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredPaymentMethods$ | async" [value]="option">{{ option }}</mat-option>
-              </mat-autocomplete>
+              <mat-select formControlName="paymentMethod">
+                <mat-option *ngFor="let option of paymentMethods" [value]="option">{{ option }}</mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.paymentMethod.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella metodo di pagamento"
+                (click)="clearFilter('paymentMethod')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -142,12 +162,23 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.creditorInstitution">Ente creditore</mat-label>
-              <input matInput formControlName="creditorInstitution" [matAutocomplete]="creditorInstitutionAuto" />
-              <mat-autocomplete #creditorInstitutionAuto="matAutocomplete" [displayWith]="displayCodeDescription">
-                <mat-option *ngFor="let option of filteredCreditorInstitutions$ | async" [value]="option">
+              <mat-select formControlName="creditorInstitution">
+                <mat-option *ngFor="let option of creditorInstitutions" [value]="option">
                   {{ displayCodeDescription(option) }}
                 </mat-option>
-              </mat-autocomplete>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.creditorInstitution.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella ente creditore"
+                (click)="clearFilter('creditorInstitution')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
         </div>
@@ -157,10 +188,21 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.psp">PSP</mat-label>
-              <input matInput formControlName="psp" [matAutocomplete]="pspAuto" />
-              <mat-autocomplete #pspAuto="matAutocomplete" [displayWith]="displayCodeDescription">
-                <mat-option *ngFor="let option of filteredPsp$ | async" [value]="option">{{ displayCodeDescription(option) }}</mat-option>
-              </mat-autocomplete>
+              <mat-select formControlName="psp">
+                <mat-option *ngFor="let option of psp" [value]="option">{{ displayCodeDescription(option) }}</mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.psp.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella PSP"
+                (click)="clearFilter('psp')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -168,12 +210,23 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.intermediary">Intermediario</mat-label>
-              <input matInput formControlName="intermediary" [matAutocomplete]="intermediaryAuto" />
-              <mat-autocomplete #intermediaryAuto="matAutocomplete" [displayWith]="displayCodeDescription">
-                <mat-option *ngFor="let option of filteredIntermediaries$ | async" [value]="option">
+              <mat-select formControlName="intermediary">
+                <mat-option *ngFor="let option of intermediaries" [value]="option">
                   {{ displayCodeDescription(option) }}
                 </mat-option>
-              </mat-autocomplete>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.intermediary.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella intermediario"
+                (click)="clearFilter('intermediary')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -181,13 +234,72 @@
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.station">Canale/Stazione</mat-label>
-              <input matInput formControlName="station" [matAutocomplete]="stationAuto" />
-              <mat-autocomplete #stationAuto="matAutocomplete" [displayWith]="displayStation">
-                <mat-option *ngFor="let option of filteredStations$ | async" [value]="option">{{ option.codice }}</mat-option>
-              </mat-autocomplete>
+              <mat-select formControlName="station">
+                <mat-option *ngFor="let option of stations" [value]="option">{{ option.codice }}</mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.station.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella stazione"
+                (click)="clearFilter('station')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
               <mat-hint jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.stationHint">
                 Le opzioni dipendono da PSP e Intermediario selezionati
               </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Intermediario PSP -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label>Intermediario PSP</mat-label>
+              <mat-select formControlName="intermediaryPsp">
+                <mat-option *ngFor="let option of intermediariesPsp" [value]="option">
+                  {{ displayCodeDescription(option) }}
+                </mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.intermediaryPsp.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella intermediario PSP"
+                (click)="clearFilter('intermediaryPsp')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <!-- Canale -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label>Canale</mat-label>
+              <mat-select formControlName="channel">
+                <mat-option *ngFor="let option of channels" [value]="option">{{ option.codice }}</mat-option>
+              </mat-select>
+              <button
+                *ngIf="editForm.controls.channel.value"
+                mat-icon-button
+                matSuffix
+                class="clear-select-button"
+                type="button"
+                [disabled]="isReadOnly"
+                aria-label="Cancella canale"
+                (click)="clearFilter('channel')"
+              >
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
             </mat-form-field>
           </div>
         </div>
@@ -232,7 +344,25 @@
       </mat-card-content>
 
       <mat-card-actions class="d-flex justify-content-end p-3">
-        <button type="button" mat-stroked-button (click)="previousState()" [title]="'entity.action.cancel' | translate">
+        <button
+          *ngIf="detailInstanceId"
+          type="button"
+          mat-stroked-button
+          (click)="downloadCsv()"
+          [disabled]="isLoadingDetail || isSaving || isDownloadingCsv"
+          title="Scarica CSV"
+        >
+          <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
+          <span>Scarica CSV</span>
+        </button>
+        <button
+          *ngIf="!isReadOnly"
+          type="button"
+          mat-stroked-button
+          (click)="previousState()"
+          [disabled]="isLoadingDetail || isSaving"
+          [title]="'entity.action.cancel' | translate"
+        >
           <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
           <span jhiTranslate="entity.action.cancel">Annulla</span>
         </button>
@@ -242,7 +372,7 @@
           id="save-entity"
           mat-flat-button
           color="primary"
-          [disabled]="editForm.invalid || isSaving"
+          [disabled]="editForm.invalid || isSaving || isLoadingDetail"
           [title]="'entity.action.save' | translate"
         >
           <mat-icon fontSet="material-symbols-outlined">save</mat-icon>

@@ -5,17 +5,11 @@
       <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.home.title">Ricerca Massiva</span>
     </div>
     <div>
-      <button
-        type="button"
-        mat-flat-button
-        color="primary"
-        [routerLink]="['new']"
-        [title]="'pagopaCruscottoApp.ricercaMassiva.action.new' | translate"
-      >
+      <button type="button" mat-stroked-button [routerLink]="['new']" [title]="'pagopaCruscottoApp.ricercaMassiva.action.new' | translate">
         <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
         <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.action.new">Nuova istanza</span>
       </button>
-      <button type="button" mat-flat-button color="accent" [disabled]="isUploadingCsv" (click)="onCsvUpload()" title="Nuova istanza da CSV">
+      <button type="button" mat-stroked-button [disabled]="isUploadingCsv" (click)="onCsvUpload()" title="Nuova istanza da CSV">
         <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
         <span>Nuova istanza da CSV</span>
       </button>
@@ -108,13 +102,20 @@
               id="search"
               mat-flat-button
               color="primary"
+              class="bulk-white-button"
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="'entity.action.search' | translate"
             >
               <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
               <span jhiTranslate="entity.action.search">Cerca</span>
             </button>
-            <button type="button" mat-stroked-button (click)="clear()" [title]="'entity.action.clear' | translate">
+            <button
+              type="button"
+              mat-stroked-button
+              class="bulk-white-button"
+              (click)="clear()"
+              [title]="'entity.action.clear' | translate"
+            >
               <mat-icon fontSet="material-symbols-outlined">ink_eraser</mat-icon>
               <span jhiTranslate="entity.action.clear">Pulisci</span>
             </button>
@@ -189,18 +190,27 @@
                     <button
                       mat-icon-button
                       color="primary"
+                      class="bulk-white-button"
                       type="button"
                       (click)="onSetAsPlanned(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned' | translate"
                     >
                       <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" type="button" (click)="onViewDetail(row)" [matTooltip]="'Vedi dettaglio'">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      class="bulk-white-button"
+                      type="button"
+                      (click)="onViewDetail(row)"
+                      [matTooltip]="'Vedi dettaglio'"
+                    >
                       <mat-icon fontSet="material-symbols-outlined">visibility</mat-icon>
                     </button>
                     <button
                       mat-icon-button
                       color="primary"
+                      class="bulk-white-button"
                       type="button"
                       (click)="onDuplicate(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.duplicate' | translate"
@@ -210,6 +220,7 @@
                     <button
                       mat-icon-button
                       color="primary"
+                      class="bulk-white-button"
                       type="button"
                       [disabled]="row.status !== 'COMPLETED'"
                       (click)="onDownloadResult(row)"
@@ -220,6 +231,7 @@
                     <button
                       mat-icon-button
                       color="warn"
+                      class="bulk-white-button"
                       type="button"
                       (click)="onDelete(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.delete' | translate"

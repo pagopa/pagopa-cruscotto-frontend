@@ -111,7 +111,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
   search(): void {
     this.page = 1;
-    this.applyFilters();
+    this.loadInstances();
   }
 
   clear(): void {
@@ -127,7 +127,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   changePage(event: PageEvent): void {
     this.page = event.pageIndex + 1;
     this.pageSize = event.pageSize;
-    this.updateVisibleData();
+    this.loadInstances();
   }
 
   onSortChange(sort: Sort): void {
@@ -137,7 +137,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     this.sortActive = sort.active as 'createdAt' | 'name' | 'status';
     this.sortDirection = sort.direction;
     this.page = 1;
-    this.applySortAndPage();
+    this.loadInstances();
   }
 
   previousState(): void {
@@ -146,33 +146,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
   onCsvUpload(): void {
     void this.router.navigate(['/bulk/ricerca-massiva/csv']);
-  }
-
-  uploadCsv(fileInput: HTMLInputElement): void {
-    const file = fileInput.files?.[0];
-    fileInput.value = '';
-    if (!file) {
-      return;
-    }
-
-    this.isUploadingCsv = true;
-    this.subscriptions.add(
-      this.bulkSearchService
-        .create({ name: file.name, inputType: 'CSV' })
-        .pipe(
-          catchError(() => of({ id: 'mock-csv-instance' })),
-          switchMap(instance => this.bulkSearchService.uploadCsv(instance.id ?? 'mock-csv-instance', file)),
-          map(() => RICERCA_MASSIVA_CSV_VALIDATION_ERRORS),
-          catchError(() => of(RICERCA_MASSIVA_CSV_VALIDATION_ERRORS)),
-        )
-        .subscribe(validationErrors => {
-          this.isUploadingCsv = false;
-          this.dialog.open(RicercaMassivaCsvErrorsModalComponent, {
-            width: 'min(680px, 92vw)',
-            data: validationErrors,
-          });
-        }),
-    );
   }
 
   trackId(_index: number, item: SearchInstanceDTO): string {
@@ -184,20 +157,11 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     // implementazione da definire
   }
 
-  // TODO: chiamare bulkSearchService.get(id) per recuperare i dettagli dell'istanza e aprire il form in sola lettura.
   onViewDetail(instance: SearchInstanceDTO): void {
     if (!instance.id) {
       return;
     }
-    const id = instance.id;
-    this.subscriptions.add(
-      this.bulkSearchService
-        .get(id)
-        .pipe(catchError(() => of(getRicercaMassivaDetailMock(id))))
-        .subscribe(fullInstance => {
-          void this.router.navigate(['/bulk/ricerca-massiva/new'], { state: { detailInstance: fullInstance } });
-        }),
-    );
+    void this.router.navigate(['/bulk/ricerca-massiva', instance.id, 'view']);
   }
 
   // Recupera i dati dell'istanza (con fallback al mock finché l'endpoint GET by id non è disponibile)
@@ -247,14 +211,19 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
     this.subscriptions.add(
       this.bulkSearchService
-        .list()
+        .list({
+          page: this.page - 1,
+          size: this.pageSize,
+          sort: [`${this.sortActive},${this.sortDirection}`],
+        })
         // TODO: rimuovere il fallback al mock quando l'endpoint sarà disponibile
-        .pipe(catchError(() => of(RICERCA_MASSIVA_MOCK)))
-        .subscribe((instances: SearchInstanceDTO[]) => {
-          this.allInstances = instances;
+        .pipe(catchError(() => of({ content: RICERCA_MASSIVA_MOCK, totalElements: RICERCA_MASSIVA_MOCK.length })))
+        .subscribe(page => {
+          this.allInstances = page.content ?? [];
           this.statusValues = Array.from(new Set(this.allInstances.map(instance => instance.status).filter((s): s is string => !!s))).sort(
             (a, b) => a.localeCompare(b),
           );
+          this.resultsLength = page.totalElements ?? this.allInstances.length;
           this.applyFilters();
           this.isLoadingResults = false;
           this.spinner.hide('isLoadingResults');
@@ -290,24 +259,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
       return true;
     });
 
-    this.resultsLength = this.filteredInstances.length;
-    this.applySortAndPage();
-  }
-
-  private applySortAndPage(): void {
-    const direction = this.sortDirection === 'desc' ? -1 : 1;
-
-    this.filteredInstances = [...this.filteredInstances].sort((a, b) => {
-      const left = a[this.sortActive] ?? '';
-      const right = b[this.sortActive] ?? '';
-      return left.localeCompare(right) * direction;
-    });
-
-    this.updateVisibleData();
-  }
-
-  private updateVisibleData(): void {
-    const start = (this.page - 1) * this.pageSize;
-    this.data = this.filteredInstances.slice(start, start + this.pageSize);
+    this.data = this.filteredInstances;
   }
 }
