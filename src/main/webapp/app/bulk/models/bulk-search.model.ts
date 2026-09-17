@@ -21,9 +21,9 @@ export interface AmountRange {
 }
 
 export interface CsvValidationError {
-  lineNumber?: number;
-  column?: string;
-  message?: string;
+  lineNumber: number;
+  column: string;
+  message: string;
 }
 
 export interface CsvValidationResult {
@@ -56,7 +56,7 @@ export interface ProblemDetailWithCause {
   detail?: string;
 }
 
-export type BulkLifecycleAction = 'restore' | 'archive' | 'duplicate';
+export type BulkLifecycleAction = 'restore' | 'archive' | 'duplicate' | 'plan';
 
 export interface SortObject {
   empty?: boolean;

@@ -7,20 +7,6 @@ import {
   SearchInstanceDTO,
 } from '../models/bulk-search.model';
 
-export interface BulkCsvValidationError {
-  row: number;
-  column: string;
-  message: string;
-}
-
-export const RICERCA_MASSIVA_CSV_VALIDATION_ERRORS: BulkCsvValidationError[] = [
-  { row: 2, column: 'NAV', message: 'Il valore è obbligatorio.' },
-  { row: 5, column: 'Importo', message: 'Il valore deve essere numerico.' },
-  { row: 8, column: 'IUV', message: 'Il formato del valore non è valido.' },
-];
-
-export const RICERCA_MASSIVA_CSV_VALIDATION_RESULT: BulkCsvValidationError[] = RICERCA_MASSIVA_CSV_VALIDATION_ERRORS;
-
 export const RICERCA_MASSIVA_CSV_TUTORIAL_TYPES = [
   {
     title: '1. NAV / ID Dominio',

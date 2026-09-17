@@ -8,19 +8,23 @@ export class ApplicationConfigService {
   private endpointPrefix = '';
 
   setEndpointPrefix(endpointPrefix: string): void {
-    this.endpointPrefix = endpointPrefix;
-    localStorage.setItem(this.apiUrlKey, endpointPrefix);
+    this.endpointPrefix = endpointPrefix.replace(/\/+$/, '');
+    localStorage.setItem(this.apiUrlKey, this.endpointPrefix);
   }
 
   getEndpointFor(api: string, microservice?: string): string {
+    const normalizedApi = api.replace(/^\/+/, '');
     if (microservice) {
-      return `${this.endpointPrefix}services/${microservice}/${api}`;
+      return this.endpointPrefix
+        ? `${this.endpointPrefix}/services/${microservice}/${normalizedApi}`
+        : `/services/${microservice}/${normalizedApi}`;
     }
-    return `${this.endpointPrefix}${api}`;
+    return this.endpointPrefix ? `${this.endpointPrefix}/${normalizedApi}` : `/${normalizedApi}`;
   }
 
   getSertEndpointFor(api: string): string {
+    const normalizedApi = api.replace(/^\/+/, '');
     const sertPrefix = this.endpointPrefix.replace(/\/cruscotto\/v1\/?$/, '/cruscotto-sert/v1');
-    return sertPrefix ? `${sertPrefix}/${api}` : api;
+    return sertPrefix ? `${sertPrefix}/${normalizedApi}` : `/${normalizedApi}`;
   }
 }

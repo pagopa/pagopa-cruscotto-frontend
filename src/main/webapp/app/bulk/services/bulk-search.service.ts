@@ -43,6 +43,10 @@ export class BulkSearchService {
     return this.http.delete<unknown>(`${this.resourceUrl}/${encodeURIComponent(id)}`, { observe: 'response' });
   }
 
+  plan(id: string): Observable<Record<string, unknown>> {
+    return this.lifecycleAction(id, 'plan');
+  }
+
   lifecycleAction(id: string, action: BulkLifecycleAction): Observable<Record<string, unknown>> {
     return this.http.post<Record<string, unknown>>(`${this.resourceUrl}/${encodeURIComponent(id)}/${action}`, {});
   }

@@ -11,7 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BulkSearchService } from '../../services/bulk-search.service';
 
-import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
+import { CsvValidationError } from '../../models/bulk-search.model';
+import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
 
 @Component({
   selector: 'jhi-ricerca-massiva-csv-upload',
@@ -81,16 +82,28 @@ import { BulkCsvValidationError, RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../r
             @if (validationErrors.length) {
               <div class="alert alert-danger mt-3" role="alert">
                 <h4 class="alert-heading mb-3">Errori di validazione</h4>
+                @if (validationSummary) {
+                  <p class="mb-3 text-muted">{{ validationSummary }}</p>
+                }
                 <ul class="mb-0 ps-3">
-                  @for (error of validationErrors; track error.row + error.column) {
+                  @for (error of visibleValidationErrors; track error.lineNumber + error.column + error.message) {
                     <li>
-                      <strong>Riga {{ error.row }}</strong> · {{ error.column }}: {{ error.message }}
+                      <strong>Riga {{ error.lineNumber }}</strong> · {{ error.column || 'campo' }}: {{ error.message }}
                     </li>
+                  }
+                  @if (remainingErrorsCount > 0) {
+                    <li class="text-muted">Altri {{ remainingErrorsCount }} errore{{ remainingErrorsCount === 1 ? '' : 'i' }}.</li>
                   }
                 </ul>
               </div>
             } @else {
-              <div class="alert alert-success mt-3" role="alert">Il file rispetta il formato richiesto e può essere inviato.</div>
+              <div class="alert alert-success mt-3" role="alert">
+                @if (validationSummary) {
+                  {{ validationSummary }}
+                } @else {
+                  Il file rispetta il formato richiesto e può essere inviato.
+                }
+              </div>
             }
           }
         </div>
@@ -191,11 +204,20 @@ export class RicercaMassivaCsvUploadComponent {
   validationRequested = false;
   hasValidated = false;
   isValidating = false;
-  validationErrors: BulkCsvValidationError[] = [];
+  validationErrors: CsvValidationError[] = [];
+  validationSummary = '';
   canSubmit = false;
   instanceName = '';
   isSubmitting = false;
   submitError = false;
+
+  get visibleValidationErrors(): CsvValidationError[] {
+    return this.validationErrors.slice(0, 3);
+  }
+
+  get remainingErrorsCount(): number {
+    return Math.max(this.validationErrors.length - 3, 0);
+  }
 
   private readonly router = inject(Router);
   private readonly bulkSearchService = inject(BulkSearchService);
@@ -214,6 +236,7 @@ export class RicercaMassivaCsvUploadComponent {
     this.validationRequested = false;
     this.hasValidated = false;
     this.validationErrors = [];
+    this.validationSummary = '';
     this.canSubmit = false;
     this.instanceName = '';
     this.submitError = false;
@@ -238,28 +261,11 @@ export class RicercaMassivaCsvUploadComponent {
     this.validationRequested = false;
     this.hasValidated = false;
     this.validationErrors = [];
+    this.validationSummary = '';
     this.canSubmit = false;
     this.submitError = false;
     this.validatedCsvBlob = null;
     this.refreshCurrentCsvBlob();
-  }
-
-  private refreshCurrentCsvBlob(): void {
-    this.currentCsvBlob = new Blob([this.csvPreview], { type: 'text/csv;charset=utf-8' });
-  }
-
-  private extractPreview(content: string): string {
-    const rows = content
-      .replace(/\r\n/g, '\n')
-      .split('\n')
-      .map(row => row.trimEnd())
-      .filter(row => row.length > 0);
-
-    if (rows.length === 0) {
-      return '';
-    }
-
-    return rows.slice(0, 10).join('\n');
   }
 
   validateCsv(): void {
@@ -271,24 +277,23 @@ export class RicercaMassivaCsvUploadComponent {
     this.validationRequested = true;
     this.hasValidated = false;
     this.validationErrors = [];
+    this.validationSummary = '';
     this.canSubmit = false;
     this.submitError = false;
     this.validatedCsvBlob = null;
 
     this.bulkSearchService.validateCsvFile(this.currentCsvBlob).subscribe({
       next: result => {
-        this.validationErrors = (result?.errors ?? []).map(error => ({
-          row: error.lineNumber ?? 0,
-          column: error.column ?? '',
-          message: error.message ?? '',
-        }));
+        this.validationErrors = result?.errors ?? [];
+        this.validationSummary = this.buildValidationSummary(result);
         this.canSubmit = result?.valid !== false;
         this.hasValidated = true;
         this.validatedCsvBlob = this.canSubmit ? this.currentCsvBlob : null;
         this.isValidating = false;
       },
       error: () => {
-        this.validationErrors = [{ row: 0, column: '', message: 'Impossibile validare il file CSV.' }];
+        this.validationErrors = [{ lineNumber: 0, column: '', message: 'Impossibile validare il file CSV.' }];
+        this.validationSummary = 'Validazione del CSV non disponibile.';
         this.hasValidated = true;
         this.isValidating = false;
       },
@@ -318,5 +323,55 @@ export class RicercaMassivaCsvUploadComponent {
         this.submitError = true;
       },
     });
+  }
+
+  private refreshCurrentCsvBlob(): void {
+    this.currentCsvBlob = new Blob([this.csvPreview], { type: 'text/csv;charset=utf-8' });
+  }
+
+  private extractPreview(content: string): string {
+    const rows = content
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(row => row.trimEnd())
+      .filter(row => row.length > 0);
+
+    if (rows.length === 0) {
+      return '';
+    }
+
+    return rows.slice(0, 10).join('\n');
+  }
+
+  private buildValidationSummary(
+    result: { detectedTemplate?: string; totalRows?: number; validRows?: number; invalidRows?: number; valid?: boolean } | null,
+  ): string {
+    if (!result) {
+      return '';
+    }
+
+    const parts: string[] = [];
+    if (result.detectedTemplate) {
+      parts.push(`template: ${result.detectedTemplate}`);
+    }
+    if (typeof result.totalRows === 'number') {
+      parts.push(`${result.totalRows} righe totali`);
+    }
+    if (typeof result.validRows === 'number') {
+      parts.push(`${result.validRows} righe valide`);
+    }
+    if (typeof result.invalidRows === 'number') {
+      parts.push(`${result.invalidRows} righe non valide`);
+    }
+
+    if (result.valid === false && !parts.length) {
+      return 'CSV non valido.';
+    }
+
+    if (result.valid === true && !parts.length) {
+      return 'CSV valido.';
+    }
+
+    return parts.join(' · ');
   }
 }

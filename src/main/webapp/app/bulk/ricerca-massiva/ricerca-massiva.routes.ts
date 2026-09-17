@@ -5,6 +5,7 @@ import { ricercaMassivaDetailResolver } from './ricerca-massiva-detail.resolver'
 const ricercaMassivaRoutes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadComponent: () => import('./list/ricerca-massiva.component').then(m => m.RicercaMassivaComponent),
     data: {
       // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -22,6 +22,9 @@ import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { SearchInstanceDTO } from '../../models/bulk-search.model';
 import { BulkSearchService } from '../../services/bulk-search.service';
+import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options.model';
+import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
+import { ModalResult } from '../../../shared/modal/modal-results.enum';
 
 @Component({
   selector: 'jhi-ricerca-massiva',
@@ -61,7 +64,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   sortActive: 'createdAt' | 'name' | 'status' = 'createdAt';
   sortDirection: 'asc' | 'desc' = 'desc';
 
-  statusValues: string[] = [];
+  statusValues: string[] = ['DRAFT', 'PLANNED', 'RUNNING', 'COMPLETED', 'FAILED', 'CANCELLED'];
   isLoadingResults = false;
   locale: string;
   isUploadingCsv = false;
@@ -75,6 +78,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   private readonly translateService = inject(TranslateService);
   private readonly bulkSearchService = inject(BulkSearchService);
   private readonly router = inject(Router);
+  private readonly confirmModalService = inject(ConfirmModalService);
 
   private readonly subscriptions = new Subscription();
 
@@ -149,9 +153,28 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     return item.id ?? '';
   }
 
-  // TODO: call bulkSearchService.lifecycleAction / dedicated endpoint to plan the instance
-  onSetAsPlanned(_instance: SearchInstanceDTO): void {
-    // implementazione da definire
+  onSetAsPlanned(instance: SearchInstanceDTO): void {
+    if (!instance.id) {
+      return;
+    }
+
+    const confirmOptions = new ConfirmModalOptions(
+      'entity.updateStatus.title',
+      'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned',
+      undefined,
+      { name: instance.name ?? '' },
+    );
+
+    this.confirmModalService
+      .save({ width: '500px', hasBackdrop: true }, confirmOptions)
+      .pipe(take(1))
+      .subscribe((result: ModalResult) => {
+        if (result !== ModalResult.CONFIRMED) {
+          return;
+        }
+
+        this.bulkSearchService.plan(instance.id!).subscribe(() => this.loadInstances());
+      });
   }
 
   onViewDetail(instance: SearchInstanceDTO): void {
@@ -193,9 +216,25 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
     );
   }
 
-  // TODO: ask confirmation, then call bulkSearchService.delete(id) and reload the list
-  onDelete(_instance: SearchInstanceDTO): void {
-    // implementazione da definire
+  onDelete(instance: SearchInstanceDTO): void {
+    if (!instance.id) {
+      return;
+    }
+
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.ricercaMassiva.action.delete', undefined, {
+      name: instance.name ?? '',
+    });
+
+    this.confirmModalService
+      .delete({ width: '500px', hasBackdrop: true }, confirmOptions)
+      .pipe(take(1))
+      .subscribe((result: ModalResult) => {
+        if (result !== ModalResult.CONFIRMED) {
+          return;
+        }
+
+        this.bulkSearchService.delete(instance.id!).subscribe(() => this.loadInstances());
+      });
   }
 
   private loadInstances(): void {
@@ -210,11 +249,8 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
           sort: [`${this.sortActive},${this.sortDirection}`],
         })
         .subscribe(page => {
-          this.allInstances = page.content ?? [];
-          this.statusValues = Array.from(new Set(this.allInstances.map(instance => instance.status).filter((s): s is string => !!s))).sort(
-            (a, b) => a.localeCompare(b),
-          );
-          this.resultsLength = page.totalElements ?? this.allInstances.length;
+          this.data = page.content ?? [];
+          this.resultsLength = page.totalElements ?? 0;
           this.isLoadingResults = false;
           this.spinner.hide('isLoadingResults');
         }),

@@ -95,6 +95,13 @@ describe('BulkSearchService', () => {
     request.flush({});
   });
 
+  it('plans a search instance through the SERT lifecycle endpoint', () => {
+    service.lifecycleAction('id', 'plan').subscribe();
+
+    const request = httpMock.expectOne({ method: 'POST', url: '/api/bulk/search-instances/id/plan' });
+    request.flush({});
+  });
+
   it('propagates HTTP errors', () => {
     let receivedStatus: number | undefined;
     service.get('missing').subscribe({ error: (error: HttpErrorResponse) => (receivedStatus = error.status) });

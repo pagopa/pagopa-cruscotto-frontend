@@ -28,12 +28,12 @@
         {{ displayOption(option) }}
       </mat-option>
     </cdk-virtual-scroll-viewport>
-    <div *ngIf="loading" class="lookup-loading" role="status" aria-label="Caricamento risultati">
-      <mat-spinner diameter="24"></mat-spinner>
-    </div>
+    <!-- <div *ngIf="loading" class="lookup-loading" role="status" aria-label="Caricamento risultati">
+      <mat-spinner diameter="8"></mat-spinner>
+    </div> -->
     <mat-option *ngIf="!loading && options.length === 0" disabled>Nessun risultato</mat-option>
   </mat-select>
-  <button *ngIf="selected" mat-icon-button matSuffix type="button" aria-label="Cancella selezione" (click)="clear()">
+  <!-- <button *ngIf="selected" mat-icon-button matSuffix type="button" aria-label="Cancella selezione" (click)="clear()">
     <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-  </button>
+  </button> -->
 </mat-form-field>
