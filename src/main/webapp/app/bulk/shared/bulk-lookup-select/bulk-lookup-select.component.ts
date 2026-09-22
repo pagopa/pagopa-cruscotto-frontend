@@ -78,7 +78,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
           this.filter = filter;
           this.page = 0;
           this.loading = true;
-          return this.getPage({ page: 0, size: this.pageSize, filter }).pipe(finalize(() => (this.loading = false)));
+          return this.getPage({ page: 0, size: this.pageSize, search: filter }).pipe(finalize(() => (this.loading = false)));
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -131,7 +131,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     }
 
     this.loading = true;
-    this.getPage({ page: this.page + 1, size: this.pageSize, filter: this.filter })
+    this.getPage({ page: this.page + 1, size: this.pageSize, search: this.filter })
       .pipe(
         finalize(() => (this.loading = false)),
         takeUntilDestroyed(this.destroyRef),

@@ -39,12 +39,12 @@ describe('BulkLookupService', () => {
     expect(result).toEqual({ content: [{ id: 1, codice: 'PSP001', description: 'PSP test' }] });
   });
 
-  it('sends the lookup filter together with pagination', () => {
-    service.psp({ page: 0, size: 20, filter: ' pago ' }).subscribe();
+  it('sends the lookup search term together with pagination', () => {
+    service.psp({ page: 0, size: 20, search: ' pago ' }).subscribe();
 
     const request = httpMock.expectOne({
       method: 'GET',
-      url: '/api/bulk/lookups/psp?page=0&size=20&filter=%20pago%20',
+      url: '/api/bulk/lookups/psp?page=0&size=20&search=%20pago%20',
     });
     request.flush({ content: [] });
   });

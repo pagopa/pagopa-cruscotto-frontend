@@ -10,28 +10,28 @@ import {
 export const RICERCA_MASSIVA_CSV_TUTORIAL_TYPES = [
   {
     title: '1. NAV / ID Dominio',
-    sample: `"NAV";"DOMINIO"
-"123456789012345678";"123456789012345678"`,
+    sample: `NAV;DOMINIO
+123456789012345678;123456789012345678`,
   },
   {
     title: '2. IUV / ID Dominio',
-    sample: `"IUV";"DOMINIO"
-"123456789012345678";"123456789012345678"`,
+    sample: `IUV;DOMINIO
+123456789012345678;123456789012345678`,
   },
   {
     title: '3. NAV',
-    sample: `"NAV"
-    "123456789012345678;123456789012345678"`,
+    sample: `NAV
+    "123456789012345678;123456789012345678`,
   },
   {
     title: '4. IUV',
-    sample: `"IUV"
-"123456789012345678;123456789012345678"`,
+    sample: `IUV
+123456789012345678;123456789012345678`,
   },
   {
     title: '5. Token',
-    sample: `"TOKEN";
-"token27udhfjrtgz8973jg9234hdte5"`,
+    sample: `TOKEN;
+token27udhfjrtgz8973jg9234hdte5`,
   },
 ];
 
