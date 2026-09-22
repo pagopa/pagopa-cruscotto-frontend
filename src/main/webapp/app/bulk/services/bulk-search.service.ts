@@ -3,7 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { BulkLifecycleAction, CsvValidationResult, PageDTO, SearchInstanceDTO } from '../models/bulk-search.model';
+import {
+  BulkLifecycleAction,
+  CsvValidationResult,
+  PageDTO,
+  SearchInstanceDTO,
+  SearchInstanceExecutionDTO,
+} from '../models/bulk-search.model';
 
 export interface BulkSearchPageRequest {
   page?: number;
@@ -82,8 +88,18 @@ export class BulkSearchService {
     return this.http.get<unknown>(`${this.resourceUrl}/${encodeURIComponent(id)}/last-result`);
   }
 
+  getExecutions(id: string): Observable<SearchInstanceExecutionDTO[]> {
+    return this.http
+      .get<SearchInstanceExecutionDTO[] | PageDTO<SearchInstanceExecutionDTO>>(`${this.resourceUrl}/${encodeURIComponent(id)}/executions`)
+      .pipe(map(response => (Array.isArray(response) ? response : (response?.content ?? []))));
+  }
+
+  downloadResult(id: string): Observable<Blob> {
+    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/result`, { responseType: 'blob' });
+  }
+
   download(id: string): Observable<Blob> {
-    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/download`, { responseType: 'blob' });
+    return this.downloadResult(id);
   }
 
   downloadCsv(id: string): Observable<Blob> {

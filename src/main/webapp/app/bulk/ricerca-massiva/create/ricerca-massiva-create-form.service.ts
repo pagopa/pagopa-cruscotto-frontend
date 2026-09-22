@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Dayjs } from 'dayjs/esm';
 
 import dayjs from '../../../config/dayjs';
@@ -29,6 +29,8 @@ type RicercaMassivaCreateFormContent = {
   name: FormControl<string | null>;
   periodStartDate: FormControl<Dayjs | null>;
   periodEndDate: FormControl<Dayjs | null>;
+  periodStartTime: FormControl<string | null>;
+  periodEndTime: FormControl<string | null>;
   paymentOutcome: FormControl<PaymentOutcome | null>;
   touchpoint: FormControl<string | null>;
   paymentMethod: FormControl<string | null>;
@@ -42,6 +44,42 @@ type RicercaMassivaCreateFormContent = {
   channel: FormControl<AnagCanale | null>;
 };
 
+const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const fromControl = control.get('periodStartDate');
+  const toControl = control.get('periodEndDate');
+  const fromTimeControl = control.get('periodStartTime');
+  const toTimeControl = control.get('periodEndTime');
+
+  const startDate = fromControl?.value as Dayjs | null;
+  const endDate = toControl?.value as Dayjs | null;
+  const startTime = fromTimeControl?.value as string | null;
+  const endTime = toTimeControl?.value as string | null;
+
+  if (!startDate || !endDate) {
+    return null;
+  }
+
+  const startDateTime = startDate
+    .clone()
+    .hour(Number(startTime?.split(':')[0] ?? 0))
+    .minute(Number(startTime?.split(':')[1] ?? 0));
+  const endDateTime = endDate
+    .clone()
+    .hour(Number(endTime?.split(':')[0] ?? 0))
+    .minute(Number(endTime?.split(':')[1] ?? 0));
+
+  if (endDateTime.isBefore(startDateTime)) {
+    fromControl?.setErrors({ ...(fromControl.errors ?? {}), matStartDateInvalid: true });
+    return null;
+  }
+
+  const fromErrors = { ...(fromControl?.errors ?? {}) };
+  delete fromErrors['matStartDateInvalid'];
+  fromControl?.setErrors(Object.keys(fromErrors).length > 0 ? fromErrors : null);
+
+  return null;
+};
+
 export type RicercaMassivaCreateFormGroup = FormGroup<RicercaMassivaCreateFormContent>;
 
 @Injectable({ providedIn: 'root' })
@@ -52,6 +90,8 @@ export class RicercaMassivaCreateFormService {
         name: new FormControl(null, { validators: [Validators.required, Validators.maxLength(100)] }),
         periodStartDate: new FormControl(null, { validators: [Validators.required] }),
         periodEndDate: new FormControl(null, { validators: [Validators.required] }),
+        periodStartTime: new FormControl('00:00', { validators: [Validators.required] }),
+        periodEndTime: new FormControl('23:59', { validators: [Validators.required] }),
         paymentOutcome: new FormControl(null),
         touchpoint: new FormControl(null),
         paymentMethod: new FormControl(null),
@@ -67,6 +107,7 @@ export class RicercaMassivaCreateFormService {
       {
         validators: [
           datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'),
+          massiveSearchPeriodValidatorFn,
           datepickerMaxRangeValidatorFn('periodStartDate', 'periodEndDate', 14),
           amountRangeValidatorFn('amountMin', 'amountMax'),
         ],
@@ -80,8 +121,24 @@ export class RicercaMassivaCreateFormService {
 
     const perimeterFilter: PerimeterFilter = {};
 
-    const periodStart = raw.periodStartDate?.startOf('day').toISOString();
-    const periodEnd = raw.periodEndDate?.startOf('day').toISOString();
+    const periodStart = raw.periodStartDate
+      ? raw.periodStartDate
+          .clone()
+          .hour(Number((raw.periodStartTime ?? '00:00').split(':')[0] ?? 0))
+          .minute(Number((raw.periodStartTime ?? '00:00').split(':')[1] ?? 0))
+          .second(0)
+          .millisecond(0)
+          .toISOString()
+      : undefined;
+    const periodEnd = raw.periodEndDate
+      ? raw.periodEndDate
+          .clone()
+          .hour(Number((raw.periodEndTime ?? '23:59').split(':')[0] ?? 0))
+          .minute(Number((raw.periodEndTime ?? '23:59').split(':')[1] ?? 0))
+          .second(0)
+          .millisecond(0)
+          .toISOString()
+      : undefined;
     if (periodStart || periodEnd) {
       perimeterFilter.paymentPeriod = { from: periodStart, to: periodEnd };
     }
@@ -130,11 +187,16 @@ export class RicercaMassivaCreateFormService {
   ): void {
     const criteria = instance.perimeterFilter ?? {};
 
+    const startDate = criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null;
+    const endDate = criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null;
+
     form.patchValue(
       {
         name: instance.name ?? null,
-        periodStartDate: criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null,
-        periodEndDate: criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null,
+        periodStartDate: startDate,
+        periodEndDate: endDate,
+        periodStartTime: startDate ? startDate.format('HH:mm') : '00:00',
+        periodEndTime: endDate ? endDate.format('HH:mm') : '23:59',
         paymentOutcome: criteria.paymentStatuses?.[0] ?? null,
         touchpoint: criteria.touchpoints?.[0] ?? null,
         paymentMethod: criteria.paymentMethods?.[0] ?? null,

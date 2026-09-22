@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import SharedModule from '../../../shared/shared.module';
@@ -23,6 +25,7 @@ import {
   AnagStazione,
   PaymentOutcome,
   SearchInstanceDTO,
+  SearchInstanceExecutionDTO,
 } from '../../models/bulk-search.model';
 import { BulkLookupService } from '../../services/bulk-lookup.service';
 import { BulkSearchService } from '../../services/bulk-search.service';
@@ -44,6 +47,8 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatTableModule,
+    MatTabsModule,
     NgxSpinnerModule,
     BulkLookupSelectComponent,
   ],
@@ -55,8 +60,12 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
 
   isSaving = false;
   isLoadingDetail = false;
+  isLoadingExecutions = false;
   isDownloadingCsv = false;
   submitError = false;
+
+  executionColumns: string[] = ['id', 'status', 'startedAt', 'endedAt'];
+  executionRows: SearchInstanceExecutionDTO[] = [];
 
   touchpoints: string[] = [];
   paymentMethods: string[] = [];
@@ -70,6 +79,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   stations: AnagStazione[] = [];
   channels: AnagCanale[] = [];
 
+  detailInstanceId: string | null = null;
+  detailInstanceStatus: string | null = null;
+  isReadOnly = false;
+
   private readonly formService = inject(RicercaMassivaCreateFormService);
   private readonly bulkLookupService = inject(BulkLookupService);
   private readonly bulkSearchService = inject(BulkSearchService);
@@ -81,13 +94,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
 
   private readonly duplicateInstance: SearchInstanceDTO | null;
   private readonly detailInstance: SearchInstanceDTO | null;
-  detailInstanceId: string | null = null;
-  detailInstanceStatus: string | null = null;
-  isReadOnly = false;
 
   constructor() {
     this.editForm = this.formService.createFormGroup();
-    const navigationState = this.router.getCurrentNavigation?.()?.extras.state as
+    const navigationState = this.router.getCurrentNavigation()?.extras.state as
       | {
           duplicateInstance?: SearchInstanceDTO;
           detailInstance?: SearchInstanceDTO;
@@ -109,6 +119,9 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     );
 
     this.loadLookups();
+    if (this.detailInstanceId) {
+      this.loadExecutions();
+    }
   }
 
   ngOnDestroy(): void {
@@ -265,6 +278,29 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
               this.editForm.disable();
             }
           }
+        }),
+    );
+  }
+
+  private loadExecutions(): void {
+    if (!this.detailInstanceId) {
+      return;
+    }
+
+    this.isLoadingExecutions = true;
+    void this.spinner.show('isLoadingExecutions');
+
+    this.subscriptions.add(
+      this.bulkSearchService
+        .getExecutions(this.detailInstanceId)
+        .pipe(
+          finalize(() => {
+            this.isLoadingExecutions = false;
+            void this.spinner.hide('isLoadingExecutions');
+          }),
+        )
+        .subscribe(executions => {
+          this.executionRows = executions ?? [];
         }),
     );
   }

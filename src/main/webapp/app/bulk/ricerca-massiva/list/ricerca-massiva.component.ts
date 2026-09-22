@@ -202,7 +202,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscriptions.add(
-      this.bulkSearchService.download(instance.id).subscribe(blob => {
+      this.bulkSearchService.downloadResult(instance.id).subscribe(blob => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;

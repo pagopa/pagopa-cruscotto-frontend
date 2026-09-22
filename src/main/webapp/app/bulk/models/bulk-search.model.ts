@@ -8,6 +8,14 @@ export interface SearchInstanceDTO {
   perimeterFilter?: PerimeterFilter;
 }
 
+export interface SearchInstanceExecutionDTO {
+  id?: string;
+  status?: string;
+  startedAt?: string;
+  endedAt?: string;
+  message?: string;
+}
+
 export type PaymentOutcome = 'OK' | 'KO' | 'NONE';
 
 export interface PaymentPeriod {

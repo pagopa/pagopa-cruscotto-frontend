@@ -23,7 +23,7 @@ import {
 export interface BulkLookupPageRequest {
   page?: number;
   size?: number;
-  filter?: string;
+  search?: string;
   sort?: string[];
 }
 
@@ -69,7 +69,7 @@ export class BulkLookupService {
     let params = new HttpParams();
     if (request?.page != null) params = params.set('page', request.page);
     if (request?.size != null) params = params.set('size', request.size);
-    if (request?.filter) params = params.set('filter', request.filter);
+    if (request?.search) params = params.set('search', request.search);
     request?.sort?.forEach(sort => (params = params.append('sort', sort)));
 
     const cacheKey = `${this.sessionCachePrefix}.${path}.${params.toString() || 'default'}`;
