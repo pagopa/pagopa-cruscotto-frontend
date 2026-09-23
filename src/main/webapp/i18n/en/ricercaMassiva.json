@@ -32,6 +32,11 @@
           "KO": "KO",
           "NONE": "No outcome"
         },
+        "selectedReports": {
+          "POSITION": "Posizion Report",
+          "TOKEN": "Token Report",
+          "TRANSFER": "Transfer Report"
+        },
         "period": "Analysis period",
         "periodValidation": {
           "startNotAfterEnd": "The start date/time cannot be after the end date/time",
@@ -45,8 +50,9 @@
         "creditorInstitution": "Creditor institution",
         "psp": "PSP",
         "intermediary": "Intermediary",
-        "station": "Channel/Station",
+        "station": "Station",
         "stationHint": "Options depend on the selected PSP and Intermediary",
+        "neverExecuted": "The instance has never been executed.",
         "saveError": "Error while creating the instance"
       }
     }

@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import SharedModule from '../../../shared/shared.module';
@@ -24,6 +25,7 @@ import {
   AnagPsp,
   AnagStazione,
   PaymentOutcome,
+  SelectedReportsValues,
   SearchInstanceDTO,
   SearchInstanceExecutionDTO,
 } from '../../models/bulk-search.model';
@@ -49,12 +51,14 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     MatSelectModule,
     MatTableModule,
     MatTabsModule,
+    MatTimepickerModule,
     NgxSpinnerModule,
     BulkLookupSelectComponent,
   ],
 })
 export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   readonly paymentOutcomes: PaymentOutcome[] = ['OK', 'KO', 'NONE'];
+  readonly selectedReportsValues: SelectedReportsValues[] = ['POSITION', 'TOKEN', 'TRANSFER'];
 
   editForm: RicercaMassivaCreateFormGroup;
 
@@ -69,6 +73,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
 
   touchpoints: string[] = [];
   paymentMethods: string[] = [];
+  paymentMethodsHasMore = false;
   creditorInstitutions: AnagPaEmittente[] = [];
   creditorInstitutionsHasMore = false;
   psp: AnagPsp[] = [];
@@ -76,9 +81,11 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   intermediaries: AnagIntermediarioPa[] = [];
   intermediariesHasMore = false;
   intermediariesPsp: AnagIntermediarioPsp[] = [];
+  intermediariesPspHasMore = false;
   stations: AnagStazione[] = [];
+  stationsHasMore = false;
   channels: AnagCanale[] = [];
-
+  channelsHasMore = false;
   detailInstanceId: string | null = null;
   detailInstanceStatus: string | null = null;
   isReadOnly = false;
@@ -110,14 +117,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Le stazioni disponibili dipendono dal PSP e dall'intermediario selezionati.
-    this.subscriptions.add(
-      merge(this.editForm.controls.psp.valueChanges, this.editForm.controls.intermediary.valueChanges).subscribe(() => {
-        this.editForm.controls.station.setValue(null);
-        this.loadStations();
-      }),
-    );
-
     this.loadLookups();
     if (this.detailInstanceId) {
       this.loadExecutions();
@@ -250,6 +249,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
         .subscribe(lookups => {
           this.touchpoints = lookups.touchpoints.content ?? [];
           this.paymentMethods = lookups.paymentMethods.content ?? [];
+          this.paymentMethodsHasMore = !lookups.paymentMethods.last;
           this.creditorInstitutions = lookups.creditorInstitutions.content ?? [];
           this.creditorInstitutionsHasMore = !lookups.creditorInstitutions.last;
           this.psp = lookups.psp.content ?? [];
@@ -257,8 +257,11 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
           this.intermediaries = lookups.intermediaries.content ?? [];
           this.intermediariesHasMore = !lookups.intermediaries.last;
           this.intermediariesPsp = lookups.intermediariesPsp.content ?? [];
+          this.intermediariesPspHasMore = !lookups.intermediariesPsp.last;
           this.stations = lookups.stations.content ?? [];
+          this.stationsHasMore = !lookups.stations.last;
           this.channels = lookups.channels.content ?? [];
+          this.channelsHasMore = !lookups.channels.last;
 
           const instanceToLoad = this.detailInstance ?? this.duplicateInstance;
           if (instanceToLoad) {
@@ -271,6 +274,16 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
               channels: this.channels,
             });
           }
+
+          // Le stazioni disponibili dipendono dal PSP e dall'intermediario selezionati.
+          // Registriamo il watcher solo dopo la precompilazione del form, per non azzerare la stazione appena
+          // assegnata da un'istanza duplicata o caricata dal backend.
+          this.subscriptions.add(
+            merge(this.editForm.controls.psp.valueChanges, this.editForm.controls.intermediary.valueChanges).subscribe(() => {
+              this.editForm.controls.station.setValue(null);
+              this.loadStations();
+            }),
+          );
 
           if (this.detailInstance) {
             this.isReadOnly = this.detailInstance.status !== 'DRAFT';

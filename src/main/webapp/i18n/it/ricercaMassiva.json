@@ -32,6 +32,12 @@
           "KO": "KO",
           "NONE": "Nessun esito"
         },
+        "selectedReports": "Tipo di report",
+        "selectedReportsValues": {
+          "POSITION": "Report Posizioni",
+          "TOKEN": "Report Tokens",
+          "TRANSFER": "Report Transfers"
+        },
         "period": "Periodo di analisi",
         "periodValidation": {
           "startNotAfterEnd": "La data/ora di inizio non pu\u00F2 essere successiva alla data/ora di fine",
@@ -45,8 +51,9 @@
         "creditorInstitution": "Ente creditore",
         "psp": "PSP",
         "intermediary": "Intermediario",
-        "station": "Canale/Stazione",
+        "station": "Stazione",
         "stationHint": "Le opzioni dipendono da PSP e Intermediario selezionati",
+        "neverExecuted": "L'istanza non è mai stata eseguita.",
         "saveError": "Errore durante la creazione dell'istanza"
       }
     }

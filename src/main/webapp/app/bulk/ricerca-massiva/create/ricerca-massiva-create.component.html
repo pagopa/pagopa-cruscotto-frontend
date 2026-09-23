@@ -1,406 +1,422 @@
-<div>
+<div class="m-auto mb-3"
+     style="max-width: 1024px">
   <div class="d-flex align-items-center justify-content-between w-100 mb-5">
     <div class="h2">
       <ng-container *ngIf="detailInstanceId; else newInstanceTitle">
         <span>{{ detailInstanceId }}</span>
-        <span *ngIf="detailInstanceStatus" class="text-muted fs-6 ms-2">({{ detailInstanceStatus }})</span>
+        <span *ngIf="detailInstanceStatus"
+              class="text-muted fs-6 ms-2">({{ detailInstanceStatus }})</span>
       </ng-container>
       <ng-template #newInstanceTitle>
         <span jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.title">Nuova istanza di analisi massiva</span>
       </ng-template>
     </div>
     <div>
-      <button type="button" mat-flat-button (click)="previousState()" [title]="'entity.action.back' | translate">
+      <button type="button"
+              mat-flat-button
+              (click)="previousState()"
+              [title]="'entity.action.back' | translate">
         <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
         <span jhiTranslate="entity.action.back">Back</span>
       </button>
     </div>
   </div>
 
-  <mat-tab-group>
-    <mat-tab label="Dettaglio">
-      <form
-        name="editForm"
+  <form name="editForm"
         role="form"
         novalidate
         (ngSubmit)="save()"
         [formGroup]="editForm"
         autocomplete="off"
-        [class.detail-readonly]="isReadOnly"
-      >
-        <mat-card class="mat-elevation-z8">
-          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingDetail">
-            <p class="ngx-spinner-loading">Loading...</p>
-          </ngx-spinner>
-          <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isSaving">
-            <p class="ngx-spinner-loading">Loading...</p>
-          </ngx-spinner>
-          <mat-card-content>
-            <div class="row mt-3">
-              <!-- Nome istanza -->
-              <div class="col-lg-6">
-                @let nameRef = editForm.get('name')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
-                  <input matInput formControlName="name" maxlength="100" />
-                  <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
-                    @if (nameRef?.errors?.required) {
-                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
-                    } @else if (nameRef?.errors?.maxlength) {
-                      <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">Too long</mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-              </div>
-
-              <!-- Stato pagamento -->
-              <div class="col-lg-6">
-                @let paymentOutcomeRef = editForm.get('paymentOutcome')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentOutcome">Stato pagamento</mat-label>
-                  <mat-select formControlName="paymentOutcome">
-                    <mat-option *ngFor="let outcome of paymentOutcomes" [value]="outcome">
-                      {{ 'pagopaCruscottoApp.ricercaMassiva.create.paymentOutcomeValues.' + outcome | translate }}
-                    </mat-option>
-                  </mat-select>
-                  <ng-container
-                    ngProjectAs="mat-error"
-                    *ngIf="paymentOutcomeRef.invalid && (paymentOutcomeRef.dirty || paymentOutcomeRef.touched)"
-                  >
-                  </ng-container>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <!-- Periodo -->
-              <div class="col-lg-8">
-                @let periodStartDateRef = editForm.get('periodStartDate')!;
-                @let periodEndDateRef = editForm.get('periodEndDate')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.period">Periodo</mat-label>
-                  <mat-date-range-input [rangePicker]="periodPicker">
-                    <input matStartDate formControlName="periodStartDate" placeholder="Data inizio" />
-                    <input matEndDate formControlName="periodEndDate" placeholder="Data fine" />
-                  </mat-date-range-input>
-                  <mat-datepicker-toggle matSuffix [for]="periodPicker"></mat-datepicker-toggle>
-                  <mat-date-range-picker #periodPicker></mat-date-range-picker>
-                  <ng-container
-                    ngProjectAs="mat-error"
-                    *ngIf="
-                      (periodStartDateRef.invalid && (periodStartDateRef.dirty || periodStartDateRef.touched)) ||
-                      (periodEndDateRef.invalid && (periodEndDateRef.dirty || periodEndDateRef.touched))
-                    "
-                  >
-                    @if (periodStartDateRef?.errors?.required || periodEndDateRef?.errors?.required) {
-                      <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
-                    } @else if (periodStartDateRef?.errors?.matDatepickerParse || periodEndDateRef?.errors?.matDatepickerParse) {
-                      <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
-                    } @else if (periodStartDateRef?.errors?.matStartDateInvalid) {
-                      <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.startNotAfterEnd">
-                        La data di inizio non può essere successiva alla data di fine
-                      </mat-error>
-                    } @else if (periodEndDateRef?.errors?.matEndDateInvalid) {
-                      <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.endNotBeforeStart">
-                        La data di fine non può precedere quella di inizio
-                      </mat-error>
-                    } @else if (periodEndDateRef?.errors?.maxDateRangeExceeded) {
-                      <mat-error>Il periodo massimo selezionabile è di due settimane</mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-              </div>
-
-              <div class="col-lg-4">
-                <div class="row g-2">
-                  <div class="col-6">
-                    <mat-form-field class="d-block mb-2">
-                      <mat-label>Ora inizio</mat-label>
-                      <input matInput type="time" formControlName="periodStartTime" />
-                    </mat-form-field>
-                  </div>
-                  <div class="col-6">
-                    <mat-form-field class="d-block mb-2">
-                      <mat-label>Ora fine</mat-label>
-                      <input matInput type="time" formControlName="periodEndTime" />
-                    </mat-form-field>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <!-- Touchpoint -->
-              <div class="col-lg-4">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.touchpoint">Touchpoint</mat-label>
-                  <mat-select formControlName="touchpoint">
-                    <mat-option *ngFor="let option of touchpoints" [value]="option">{{ option }}</mat-option>
-                  </mat-select>
-                  <button
-                    *ngIf="editForm.controls.touchpoint.value"
-                    mat-icon-button
-                    matSuffix
-                    class="clear-select-button"
-                    type="button"
-                    [disabled]="isReadOnly"
-                    aria-label="Cancella touchpoint"
-                    (click)="clearFilter('touchpoint')"
-                  >
-                    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-
-              <!-- Metodo di pagamento -->
-              <div class="col-lg-4">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentMethod">Metodo di pagamento</mat-label>
-                  <mat-select formControlName="paymentMethod">
-                    <mat-option *ngFor="let option of paymentMethods" [value]="option">{{ option }}</mat-option>
-                  </mat-select>
-                  <button
-                    *ngIf="editForm.controls.paymentMethod.value"
-                    mat-icon-button
-                    matSuffix
-                    class="clear-select-button"
-                    type="button"
-                    [disabled]="isReadOnly"
-                    aria-label="Cancella metodo di pagamento"
-                    (click)="clearFilter('paymentMethod')"
-                  >
-                    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-
-              <!-- Ente creditore -->
-              <div class="col-lg-4">
-                <jhi-bulk-lookup-select
-                  formControlName="creditorInstitution"
-                  label="Ente creditore"
-                  lookupType="creditorInstitutions"
-                  [initialOptions]="creditorInstitutions"
-                  [initialHasMore]="creditorInstitutionsHasMore"
-                />
-              </div>
-            </div>
-
-            <div class="row">
-              <!-- PSP -->
-              <div class="col-lg-4">
-                <jhi-bulk-lookup-select
-                  formControlName="psp"
-                  label="PSP"
-                  lookupType="psp"
-                  [initialOptions]="psp"
-                  [initialHasMore]="pspHasMore"
-                />
-              </div>
-
-              <!-- Intermediario -->
-              <div class="col-lg-4">
-                <jhi-bulk-lookup-select
-                  formControlName="intermediary"
-                  label="Intermediario"
-                  lookupType="intermediaries"
-                  [initialOptions]="intermediaries"
-                  [initialHasMore]="intermediariesHasMore"
-                />
-              </div>
-
-              <!-- Canale / stazione -->
-              <div class="col-lg-4">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.station">Canale/Stazione</mat-label>
-                  <mat-select formControlName="station">
-                    <mat-option *ngFor="let option of stations" [value]="option">{{ option.codice }}</mat-option>
-                  </mat-select>
-                  <button
-                    *ngIf="editForm.controls.station.value"
-                    mat-icon-button
-                    matSuffix
-                    class="clear-select-button"
-                    type="button"
-                    [disabled]="isReadOnly"
-                    aria-label="Cancella stazione"
-                    (click)="clearFilter('station')"
-                  >
-                    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <!-- Intermediario PSP -->
-              <div class="col-lg-4">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label>Intermediario PSP</mat-label>
-                  <mat-select formControlName="intermediaryPsp">
-                    <mat-option *ngFor="let option of intermediariesPsp" [value]="option">
-                      {{ displayCodeDescription(option) }}
-                    </mat-option>
-                  </mat-select>
-                  <button
-                    *ngIf="editForm.controls.intermediaryPsp.value"
-                    mat-icon-button
-                    matSuffix
-                    class="clear-select-button"
-                    type="button"
-                    [disabled]="isReadOnly"
-                    aria-label="Cancella intermediario PSP"
-                    (click)="clearFilter('intermediaryPsp')"
-                  >
-                    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-
-              <!-- Canale -->
-              <div class="col-lg-4">
-                <mat-form-field class="d-block mb-2">
-                  <mat-label>Canale</mat-label>
-                  <mat-select formControlName="channel">
-                    <mat-option *ngFor="let option of channels" [value]="option">{{ option.codice }}</mat-option>
-                  </mat-select>
-                  <button
-                    *ngIf="editForm.controls.channel.value"
-                    mat-icon-button
-                    matSuffix
-                    class="clear-select-button"
-                    type="button"
-                    [disabled]="isReadOnly"
-                    aria-label="Cancella canale"
-                    (click)="clearFilter('channel')"
-                  >
-                    <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-                  </button>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <!-- Importo minimo -->
-              <div class="col-lg-3">
-                @let amountMinRef = editForm.get('amountMin')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMin">Importo minimo</mat-label>
-                  <input matInput type="number" min="0" step="0.01" formControlName="amountMin" />
-                  <ng-container ngProjectAs="mat-error" *ngIf="amountMinRef.invalid && (amountMinRef.dirty || amountMinRef.touched)">
-                    @if (amountMinRef?.errors?.min) {
-                      <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-              </div>
-
-              <!-- Importo massimo -->
-              <div class="col-lg-3">
-                @let amountMaxRef = editForm.get('amountMax')!;
-                <mat-form-field class="d-block mb-2">
-                  <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMax">Importo massimo</mat-label>
-                  <input matInput type="number" min="0" step="0.01" formControlName="amountMax" />
-                  <ng-container ngProjectAs="mat-error" *ngIf="amountMaxRef.invalid && (amountMaxRef.dirty || amountMaxRef.touched)">
-                    @if (amountMaxRef?.errors?.min) {
-                      <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
-                    } @else if (amountMaxRef?.errors?.amountRangeInvalid) {
-                      <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountRangeInvalid">
-                        L'importo massimo non può essere inferiore all'importo minimo
-                      </mat-error>
-                    }
-                  </ng-container>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="submitError"
-              jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.saveError"
-            >
-              Errore durante la creazione dell'istanza
-            </div>
-          </mat-card-content>
-
-          <mat-card-actions class="d-flex justify-content-end p-3">
-            <button
-              *ngIf="detailInstanceId"
-              type="button"
-              mat-stroked-button
-              (click)="downloadCsv()"
-              [disabled]="isLoadingDetail || isSaving || isDownloadingCsv"
-              title="Scarica CSV"
-            >
-              <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
-              <span>Scarica CSV</span>
-            </button>
-            <button
-              *ngIf="!isReadOnly"
-              type="button"
-              mat-stroked-button
-              (click)="previousState()"
-              [disabled]="isLoadingDetail || isSaving"
-              [title]="'entity.action.cancel' | translate"
-            >
-              <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
-              <span jhiTranslate="entity.action.cancel">Annulla</span>
-            </button>
-            <button
-              *ngIf="!isReadOnly"
-              type="submit"
-              id="save-entity"
-              mat-flat-button
-              color="primary"
-              [disabled]="editForm.invalid || isSaving || isLoadingDetail"
-              [title]="'entity.action.save' | translate"
-            >
-              <mat-icon fontSet="material-symbols-outlined">save</mat-icon>
-              <span jhiTranslate="entity.action.save">Salva</span>
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      </form>
-    </mat-tab>
-
-    <mat-tab label="Esecuzioni" *ngIf="detailInstanceId">
-      <div class="p-3">
-        <ngx-spinner [fullScreen]="false" type="ball-clip-rotate" size="default" color="#ffffff" name="isLoadingExecutions">
+        [class.detail-readonly]="isReadOnly">
+    <mat-card class="mat-elevation-z8">
+      <mat-card-content>
+        <ngx-spinner [fullScreen]="false"
+                     type="ball-clip-rotate"
+                     size="default"
+                     color="#ffffff"
+                     name="isLoadingDetail">
           <p class="ngx-spinner-loading">Loading...</p>
         </ngx-spinner>
+        <ngx-spinner [fullScreen]="false"
+                     type="ball-clip-rotate"
+                     size="default"
+                     color="#ffffff"
+                     name="isSaving">
+          <p class="ngx-spinner-loading">Loading...</p>
+        </ngx-spinner>
+        <div class="row mt-3">
+          <!-- Nome istanza -->
+          <div class="col-lg-6">
+            @let nameRef = editForm.get('name')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
+              <input matInput
+                     formControlName="name"
+                     maxlength="100" />
+              <ng-container ngProjectAs="mat-error"
+                            *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+                @if (nameRef?.errors?.required) {
+                <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                } @else if (nameRef?.errors?.maxlength) {
+                <mat-error jhiTranslate="entity.validation.maxlength"
+                           [translateValues]="{ max: 100 }">Too long</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
 
-        <div *ngIf="!isLoadingExecutions && executionRows.length === 0" class="text-muted fst-italic py-3">
-          L'istanza non è mai stata eseguita.
+          <!-- Stato pagamento -->
+          <div class="col-lg-6">
+            @let paymentOutcomeRef = editForm.get('paymentOutcome')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.paymentOutcome">Stato pagamento</mat-label>
+              <mat-select formControlName="paymentOutcome">
+                <mat-option *ngFor="let outcome of paymentOutcomes"
+                            [value]="outcome">
+                  {{ 'pagopaCruscottoApp.ricercaMassiva.create.paymentOutcomeValues.' + outcome | translate }}
+                </mat-option>
+              </mat-select>
+              <ng-container ngProjectAs="mat-error"
+                            *ngIf="paymentOutcomeRef.invalid && (paymentOutcomeRef.dirty || paymentOutcomeRef.touched)">
+              </ng-container>
+            </mat-form-field>
+          </div>
         </div>
 
-        <div *ngIf="!isLoadingExecutions && executionRows.length > 0" class="table-responsive">
-          <table mat-table [dataSource]="executionRows" class="w-100">
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef>ID</th>
-              <td mat-cell *matCellDef="let row">{{ row.id }}</td>
-            </ng-container>
+        <div class="row">
+          <!-- Periodo -->
+          <div class="col-lg-8">
+            @let periodStartDateRef = editForm.get('periodStartDate')!;
+            @let periodEndDateRef = editForm.get('periodEndDate')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.period">Periodo</mat-label>
+              <mat-date-range-input [rangePicker]="periodPicker">
+                <input matStartDate
+                       formControlName="periodStartDate"
+                       placeholder="Data inizio" />
+                <input matEndDate
+                       formControlName="periodEndDate"
+                       placeholder="Data fine" />
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix
+                                     [for]="periodPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #periodPicker></mat-date-range-picker>
+              <ng-container ngProjectAs="mat-error"
+                            *ngIf="
+                      (periodStartDateRef.invalid && (periodStartDateRef.dirty || periodStartDateRef.touched)) ||
+                      (periodEndDateRef.invalid && (periodEndDateRef.dirty || periodEndDateRef.touched))
+                    ">
+                @if (periodStartDateRef?.errors?.required || periodEndDateRef?.errors?.required) {
+                <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
+                } @else if (periodStartDateRef?.errors?.matDatepickerParse || periodEndDateRef?.errors?.matDatepickerParse) {
+                <mat-error jhiTranslate="entity.validation.date">Invalid date</mat-error>
+                } @else if (periodStartDateRef?.errors?.matStartDateInvalid) {
+                <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.startNotAfterEnd">
+                  La data di inizio non può essere successiva alla data di fine
+                </mat-error>
+                } @else if (periodEndDateRef?.errors?.matEndDateInvalid) {
+                <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.periodValidation.endNotBeforeStart">
+                  La data di fine non può precedere quella di inizio
+                </mat-error>
+                } @else if (periodEndDateRef?.errors?.maxDateRangeExceeded) {
+                <mat-error>Il periodo massimo selezionabile è di due settimane</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
 
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Stato</th>
-              <td mat-cell *matCellDef="let row">{{ row.status }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="startedAt">
-              <th mat-header-cell *matHeaderCellDef>Iniziata</th>
-              <td mat-cell *matCellDef="let row">{{ row.startedAt }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="endedAt">
-              <th mat-header-cell *matHeaderCellDef>Terminata</th>
-              <td mat-cell *matCellDef="let row">{{ row.endedAt }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="executionColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: executionColumns"></tr>
-          </table>
+          <div class="col-lg-4">
+            <div class="row g-2">
+              <div class="col-6">
+                @let periodStartTimeRef = editForm.get('periodStartTime')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label>Ora inizio</mat-label>
+                  <input matInput
+                         [matTimepicker]="periodStartTimePicker"
+                         formControlName="periodStartTime"
+                         readonly />
+                  <mat-timepicker-toggle matSuffix
+                                         [for]="periodStartTimePicker" />
+                  <mat-timepicker #periodStartTimePicker />
+                  <ng-container ngProjectAs="mat-error"
+                                *ngIf="periodStartTimeRef.invalid && (periodStartTimeRef.dirty || periodStartTimeRef.touched)">
+                    @if (periodStartTimeRef?.errors?.matTimepickerParse) {
+                    <mat-error>Orario non valido</mat-error>
+                    } @else if (periodStartTimeRef?.errors?.timeSequenceInvalid) {
+                    <mat-error>Se data iniziale e finale coincidono, l'orario finale deve essere successivo a quello iniziale</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                @let periodEndTimeRef = editForm.get('periodEndTime')!;
+                <mat-form-field class="d-block mb-2">
+                  <mat-label>Ora fine</mat-label>
+                  <input matInput
+                         [matTimepicker]="periodEndTimePicker"
+                         formControlName="periodEndTime"
+                         readonly />
+                  <mat-timepicker-toggle matSuffix
+                                         [for]="periodEndTimePicker" />
+                  <mat-timepicker #periodEndTimePicker />
+                  <ng-container ngProjectAs="mat-error"
+                                *ngIf="periodEndTimeRef.invalid && (periodEndTimeRef.dirty || periodEndTimeRef.touched)">
+                    @if (periodEndTimeRef?.errors?.matTimepickerParse) {
+                    <mat-error>Orario non valido</mat-error>
+                    } @else if (periodEndTimeRef?.errors?.timeSequenceInvalid) {
+                    <mat-error>Se data iniziale e finale coincidono, l'orario finale deve essere successivo a quello iniziale</mat-error>
+                    }
+                  </ng-container>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
         </div>
+
+
+        <div class="row">
+          <!-- Touchpoint -->
+          <div class="col-lg-4">
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.touchpoint">Touchpoint</mat-label>
+              <mat-select formControlName="touchpoint">
+                <mat-option *ngFor="let option of touchpoints"
+                            [value]="option">{{ option }}</mat-option>
+              </mat-select>
+              <button *ngIf="editForm.controls.touchpoint.value"
+                      mat-icon-button
+                      matSuffix
+                      class="clear-select-button"
+                      type="button"
+                      [disabled]="isReadOnly"
+                      aria-label="Cancella touchpoint"
+                      (click)="clearFilter('touchpoint')">
+                <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+
+          <!-- Metodo di pagamento -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="paymentMethod"
+                                    label="Metodo di pagamento"
+                                    lookupType="paymentMethods"
+                                    [initialOptions]="paymentMethods"
+                                    [initialHasMore]="paymentMethodsHasMore" />
+          </div>
+
+          <!-- Ente creditore -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="creditorInstitution"
+                                    label="Ente creditore"
+                                    lookupType="creditorInstitutions"
+                                    [initialOptions]="creditorInstitutions"
+                                    [initialHasMore]="creditorInstitutionsHasMore" />
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- PSP -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="psp"
+                                    label="PSP"
+                                    lookupType="psp"
+                                    [initialOptions]="psp"
+                                    [initialHasMore]="pspHasMore" />
+          </div>
+
+          <!-- Intermediario -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="intermediary"
+                                    label="Intermediario"
+                                    lookupType="intermediaries"
+                                    [initialOptions]="intermediaries"
+                                    [initialHasMore]="intermediariesHasMore" />
+          </div>
+
+          <!-- Canale / stazione -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="station"
+                                    label="Canale/Stazione"
+                                    lookupType="stations"
+                                    [initialOptions]="stations"
+                                    [initialHasMore]="stationsHasMore" />
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Intermediario PSP -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="intermediaryPsp"
+                                    label="Intermediario PSP"
+                                    lookupType="intermediariesPsp"
+                                    [initialOptions]="intermediariesPsp"
+                                    [initialHasMore]="intermediariesPspHasMore" />
+          </div>
+
+          <!-- Canale -->
+          <div class="col-lg-4">
+            <jhi-bulk-lookup-select formControlName="channel"
+                                    label="Canale"
+                                    lookupType="channels"
+                                    [initialOptions]="channels"
+                                    [initialHasMore]="channelsHasMore" />
+          </div>
+
+          <!-- Importo minimo -->
+          <div class="col-lg-2">
+            @let amountMinRef = editForm.get('amountMin')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMin">Importo minimo</mat-label>
+              <input matInput
+                     type="number"
+                     min="0"
+                     step="0.01"
+                     formControlName="amountMin" />
+              <ng-container ngProjectAs="mat-error"
+                            *ngIf="amountMinRef.invalid && (amountMinRef.dirty || amountMinRef.touched)">
+                @if (amountMinRef?.errors?.min) {
+                <mat-error jhiTranslate="entity.validation.min"
+                           [translateValues]="{ min: 0 }">Value must be positive</mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+
+          <!-- Importo massimo -->
+          <div class="col-lg-2">
+            @let amountMaxRef = editForm.get('amountMax')!;
+            <mat-form-field class="d-block mb-2">
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMax">Importo massimo</mat-label>
+              <input matInput
+                     type="number"
+                     min="0"
+                     step="0.01"
+                     formControlName="amountMax" />
+              <ng-container ngProjectAs="mat-error"
+                            *ngIf="amountMaxRef.invalid && (amountMaxRef.dirty || amountMaxRef.touched)">
+                @if (amountMaxRef?.errors?.min) {
+                <mat-error jhiTranslate="entity.validation.min"
+                           [translateValues]="{ min: 0 }">Value must be positive</mat-error>
+                } @else if (amountMaxRef?.errors?.amountRangeInvalid) {
+                <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountRangeInvalid">
+                  L'importo massimo non può essere inferiore all'importo minimo
+                </mat-error>
+                }
+              </ng-container>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- Tipo di report -->
+        <div class="col-lg-6">
+          <mat-form-field class="d-block mb-2">
+            <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.selectedReports">Tipo di report</mat-label>
+            <mat-select formControlName="selectedReports"
+                        multiple>
+              @for (topping of selectedReportsValues; track topping) {
+              <mat-option [value]="topping">{{'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="alert alert-danger"
+             role="alert"
+             *ngIf="submitError"
+             jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.saveError">
+          Errore durante la creazione dell'istanza
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="d-flex justify-content-end p-3">
+        <button *ngIf="detailInstanceId"
+                type="button"
+                mat-stroked-button
+                (click)="downloadCsv()"
+                [disabled]="isLoadingDetail || isSaving || isDownloadingCsv"
+                title="Scarica CSV">
+          <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
+          <span>Scarica CSV</span>
+        </button>
+        <button *ngIf="!isReadOnly"
+                type="button"
+                mat-stroked-button
+                (click)="previousState()"
+                [disabled]="isLoadingDetail || isSaving"
+                [title]="'entity.action.cancel' | translate">
+          <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+          <span jhiTranslate="entity.action.cancel">Annulla</span>
+        </button>
+        <button *ngIf="!isReadOnly"
+                type="submit"
+                id="save-entity"
+                mat-flat-button
+                color="primary"
+                [disabled]="editForm.invalid || isSaving || isLoadingDetail"
+                [title]="'entity.action.save' | translate">
+          <mat-icon fontSet="material-symbols-outlined">save</mat-icon>
+          <span jhiTranslate="entity.action.save">Salva</span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+  <mat-card *ngIf="detailInstanceId"
+            class="mat-elevation-z8">
+    <div class="p-3">
+      <ngx-spinner [fullScreen]="false"
+                   type="ball-clip-rotate"
+                   size="default"
+                   color="#ffffff"
+                   name="isLoadingExecutions">
+        <p class="ngx-spinner-loading">Loading...</p>
+      </ngx-spinner>
+
+      <div *ngIf="!isLoadingExecutions && executionRows.length === 0"
+           class="d-flex justify-content-center text-muted fst-italic py-3"
+           jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.neverExecuted">
+        L'istanza non è mai stata eseguita.
       </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+
+      <div *ngIf="!isLoadingExecutions && executionRows.length > 0"
+           class="table-responsive">
+        <table mat-table
+               [dataSource]="executionRows"
+               class="w-100">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell
+                *matHeaderCellDef>ID</th>
+            <td mat-cell
+                *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell
+                *matHeaderCellDef>Stato</th>
+            <td mat-cell
+                *matCellDef="let row">{{ row.status }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="startedAt">
+            <th mat-header-cell
+                *matHeaderCellDef>Iniziata</th>
+            <td mat-cell
+                *matCellDef="let row">{{ row.startedAt }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="endedAt">
+            <th mat-header-cell
+                *matHeaderCellDef>Terminata</th>
+            <td mat-cell
+                *matCellDef="let row">{{ row.endedAt }}</td>
+          </ng-container>
+
+          <tr mat-header-row
+              *matHeaderRowDef="executionColumns"></tr>
+          <tr mat-row
+              *matRowDef="let row; columns: executionColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </mat-card>

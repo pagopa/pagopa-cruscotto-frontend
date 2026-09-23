@@ -20,7 +20,7 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
   standalone: true,
   template: `
     <div class="csv-page-shell">
-      <div class="d-flex align-items-center justify-content-between mb-3 page-header">
+      <div class="d-flex align-items-center justify-content-between mb-5 page-header">
         <div>
           <h2 class="mb-1">Nuova istanza da CSV</h2>
         </div>

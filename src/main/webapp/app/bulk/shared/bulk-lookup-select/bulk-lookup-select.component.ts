@@ -1,6 +1,17 @@
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, Input, OnChanges, OnInit, SimpleChanges, forwardRef, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  forwardRef,
+  inject,
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,11 +21,33 @@ import { MatSelectModule } from '@angular/material/select';
 import { Observable, debounceTime, distinctUntilChanged, finalize, map, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { AnagIntermediarioPa, AnagPaEmittente, AnagPsp, PageDTO } from '../../models/bulk-search.model';
+import {
+  AnagCanale,
+  AnagIntermediarioPa,
+  AnagIntermediarioPsp,
+  AnagPaEmittente,
+  AnagPsp,
+  AnagStazione,
+  PageDTO,
+} from '../../models/bulk-search.model';
 import { BulkLookupPageRequest, BulkLookupService } from '../../services/bulk-lookup.service';
 
-type LookupOption = AnagPaEmittente | AnagPsp | AnagIntermediarioPa;
-export type BulkLookupType = 'creditorInstitutions' | 'psp' | 'intermediaries';
+type LookupOption =
+  | AnagPaEmittente
+  | AnagPsp
+  | AnagIntermediarioPa
+  | AnagIntermediarioPsp
+  | AnagStazione
+  | AnagCanale
+  | string;
+export type BulkLookupType =
+  | 'creditorInstitutions'
+  | 'psp'
+  | 'intermediaries'
+  | 'intermediariesPsp'
+  | 'stations'
+  | 'channels'
+  | 'paymentMethods';
 
 @Component({
   selector: 'jhi-bulk-lookup-select',
@@ -40,6 +73,8 @@ export type BulkLookupType = 'creditorInstitutions' | 'psp' | 'intermediaries';
   ],
 })
 export class BulkLookupSelectComponent implements ControlValueAccessor, OnChanges, OnInit {
+  @ViewChild('searchInput') private readonly searchInput?: ElementRef<HTMLInputElement>;
+
   @Input({ required: true }) label = '';
   @Input({ required: true }) lookupType!: BulkLookupType;
   @Input() initialOptions: LookupOption[] = [];
@@ -85,9 +120,20 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
       .subscribe(response => this.replaceOptions(response));
   }
 
-  displayOption = (option: LookupOption | null): string => (option ? [option.codice, option.description].filter(Boolean).join(' - ') : '');
+  displayOption = (option: LookupOption | null): string => {
+    if (!option) {
+      return '';
+    }
 
-  trackByOption = (_index: number, option: LookupOption): number | undefined => option.id;
+    if (typeof option === 'string') {
+      return option;
+    }
+
+    return [option.codice].filter(Boolean).join(' - ');
+  };
+
+  trackByOption = (_index: number, option: LookupOption): number | string | undefined =>
+    typeof option === 'string' ? option : option.id;
 
   writeValue(value: LookupOption | null): void {
     this.selected = value;
@@ -125,6 +171,17 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     this.onTouched();
   }
 
+  onOpenedChange(isOpen: boolean): void {
+    if (!isOpen) {
+      return;
+    }
+
+    queueMicrotask(() => {
+      this.searchInput?.nativeElement.focus();
+      this.searchInput?.nativeElement.select();
+    });
+  }
+
   loadNextPage(viewport: CdkVirtualScrollViewport): void {
     if (this.loading || !this.hasMore || viewport.getRenderedRange().end < this.options.length - 5) {
       return;
@@ -146,11 +203,19 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
   private getPage(request: BulkLookupPageRequest): Observable<PageDTO<LookupOption>> {
     switch (this.lookupType) {
       case 'creditorInstitutions':
-        return this.lookupService.creditorInstitutions(request);
+        return this.lookupService.creditorInstitutions(request) as Observable<PageDTO<LookupOption>>;
       case 'psp':
-        return this.lookupService.psp(request);
+        return this.lookupService.psp(request) as Observable<PageDTO<LookupOption>>;
       case 'intermediaries':
-        return this.lookupService.intermediaries(request);
+        return this.lookupService.intermediaries(request) as Observable<PageDTO<LookupOption>>;
+      case 'intermediariesPsp':
+        return this.lookupService.intermediariesPsp(request) as Observable<PageDTO<LookupOption>>;
+      case 'stations':
+        return this.lookupService.stations(request) as Observable<PageDTO<LookupOption>>;
+      case 'channels':
+        return this.lookupService.channels(request) as Observable<PageDTO<LookupOption>>;
+      case 'paymentMethods':
+        return this.lookupService.paymentMethods(request) as Observable<PageDTO<LookupOption>>;
     }
   }
 

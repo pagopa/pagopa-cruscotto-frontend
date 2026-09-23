@@ -173,7 +173,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.bulkSearchService.plan(instance.id!).subscribe(() => this.loadInstances());
+        this.bulkSearchService.execute(instance.id!).subscribe(() => this.loadInstances());
       });
   }
 

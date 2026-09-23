@@ -29,8 +29,8 @@ type RicercaMassivaCreateFormContent = {
   name: FormControl<string | null>;
   periodStartDate: FormControl<Dayjs | null>;
   periodEndDate: FormControl<Dayjs | null>;
-  periodStartTime: FormControl<string | null>;
-  periodEndTime: FormControl<string | null>;
+  periodStartTime: FormControl<Dayjs | null>;
+  periodEndTime: FormControl<Dayjs | null>;
   paymentOutcome: FormControl<PaymentOutcome | null>;
   touchpoint: FormControl<string | null>;
   paymentMethod: FormControl<string | null>;
@@ -42,6 +42,25 @@ type RicercaMassivaCreateFormContent = {
   intermediaryPsp: FormControl<AnagIntermediarioPsp | null>;
   station: FormControl<AnagStazione | null>;
   channel: FormControl<AnagCanale | null>;
+  selectedReports: FormControl<string[] | null>;
+};
+
+const getTime = (value: Dayjs | null | undefined): { hour: number; minute: number } => {
+  if (!value) {
+    return { hour: 0, minute: 0 };
+  }
+
+  return { hour: value.hour(), minute: value.minute() };
+};
+
+const clearTimeError = (control: AbstractControl | null, errorKey: string): void => {
+  if (!control) {
+    return;
+  }
+
+  const currentErrors = { ...(control.errors ?? {}) };
+  delete currentErrors[errorKey];
+  control.setErrors(Object.keys(currentErrors).length > 0 ? currentErrors : null);
 };
 
 const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -52,30 +71,44 @@ const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): 
 
   const startDate = fromControl?.value as Dayjs | null;
   const endDate = toControl?.value as Dayjs | null;
-  const startTime = fromTimeControl?.value as string | null;
-  const endTime = toTimeControl?.value as string | null;
+  const startTime = fromTimeControl?.value as Dayjs | null;
+  const endTime = toTimeControl?.value as Dayjs | null;
 
   if (!startDate || !endDate) {
+    clearTimeError(fromTimeControl, 'timeSequenceInvalid');
+    clearTimeError(toTimeControl, 'timeSequenceInvalid');
     return null;
   }
 
-  const startDateTime = startDate
-    .clone()
-    .hour(Number(startTime?.split(':')[0] ?? 0))
-    .minute(Number(startTime?.split(':')[1] ?? 0));
-  const endDateTime = endDate
-    .clone()
-    .hour(Number(endTime?.split(':')[0] ?? 0))
-    .minute(Number(endTime?.split(':')[1] ?? 0));
+  const startDateTime = startTime
+    ? startDate.clone().hour(getTime(startTime).hour).minute(getTime(startTime).minute).second(0).millisecond(0)
+    : startDate.clone().startOf('day');
+  const endDateTime = endTime
+    ? endDate.clone().hour(getTime(endTime).hour).minute(getTime(endTime).minute).second(0).millisecond(0)
+    : endDate.clone().add(1, 'day').startOf('day');
+
+  if (startDate.isSame(endDate, 'day') && startTime && endTime && endDateTime.isSameOrBefore(startDateTime)) {
+    fromTimeControl?.setErrors({ ...(fromTimeControl.errors ?? {}), timeSequenceInvalid: true });
+    toTimeControl?.setErrors({ ...(toTimeControl.errors ?? {}), timeSequenceInvalid: true });
+    return { timeSequenceInvalid: true };
+  }
+
+  clearTimeError(fromTimeControl, 'timeSequenceInvalid');
+  clearTimeError(toTimeControl, 'timeSequenceInvalid');
 
   if (endDateTime.isBefore(startDateTime)) {
     fromControl?.setErrors({ ...(fromControl.errors ?? {}), matStartDateInvalid: true });
+    toControl?.setErrors({ ...(toControl.errors ?? {}), matEndDateInvalid: true });
     return null;
   }
 
   const fromErrors = { ...(fromControl?.errors ?? {}) };
   delete fromErrors['matStartDateInvalid'];
   fromControl?.setErrors(Object.keys(fromErrors).length > 0 ? fromErrors : null);
+
+  const toErrors = { ...(toControl?.errors ?? {}) };
+  delete toErrors['matEndDateInvalid'];
+  toControl?.setErrors(Object.keys(toErrors).length > 0 ? toErrors : null);
 
   return null;
 };
@@ -90,8 +123,8 @@ export class RicercaMassivaCreateFormService {
         name: new FormControl(null, { validators: [Validators.required, Validators.maxLength(100)] }),
         periodStartDate: new FormControl(null, { validators: [Validators.required] }),
         periodEndDate: new FormControl(null, { validators: [Validators.required] }),
-        periodStartTime: new FormControl('00:00', { validators: [Validators.required] }),
-        periodEndTime: new FormControl('23:59', { validators: [Validators.required] }),
+        periodStartTime: new FormControl<Dayjs | null>(null),
+        periodEndTime: new FormControl<Dayjs | null>(null),
         paymentOutcome: new FormControl(null),
         touchpoint: new FormControl(null),
         paymentMethod: new FormControl(null),
@@ -103,6 +136,7 @@ export class RicercaMassivaCreateFormService {
         intermediaryPsp: new FormControl(null),
         station: new FormControl(null),
         channel: new FormControl(null),
+        selectedReports: new FormControl(null),
       },
       {
         validators: [
@@ -124,8 +158,8 @@ export class RicercaMassivaCreateFormService {
     const periodStart = raw.periodStartDate
       ? raw.periodStartDate
           .clone()
-          .hour(Number((raw.periodStartTime ?? '00:00').split(':')[0] ?? 0))
-          .minute(Number((raw.periodStartTime ?? '00:00').split(':')[1] ?? 0))
+          .hour(raw.periodStartTime ? raw.periodStartTime.hour() : 0)
+          .minute(raw.periodStartTime ? raw.periodStartTime.minute() : 0)
           .second(0)
           .millisecond(0)
           .toISOString()
@@ -133,10 +167,11 @@ export class RicercaMassivaCreateFormService {
     const periodEnd = raw.periodEndDate
       ? raw.periodEndDate
           .clone()
-          .hour(Number((raw.periodEndTime ?? '23:59').split(':')[0] ?? 0))
-          .minute(Number((raw.periodEndTime ?? '23:59').split(':')[1] ?? 0))
+          .hour(raw.periodEndTime ? raw.periodEndTime.hour() : 0)
+          .minute(raw.periodEndTime ? raw.periodEndTime.minute() : 0)
           .second(0)
           .millisecond(0)
+          .add(raw.periodEndTime ? 0 : 1, 'day')
           .toISOString()
       : undefined;
     if (periodStart || periodEnd) {
@@ -171,10 +206,11 @@ export class RicercaMassivaCreateFormService {
     if (raw.channel?.id !== undefined) {
       perimeterFilter.channels = [raw.channel.id];
     }
-
+    const selectedReports = raw.selectedReports ? raw.selectedReports.join(',') : undefined;
     return {
       name: raw.name ?? undefined,
       inputType: 'FILTER',
+      selectedReports,
       perimeterFilter,
     };
   }
@@ -195,8 +231,8 @@ export class RicercaMassivaCreateFormService {
         name: instance.name ?? null,
         periodStartDate: startDate,
         periodEndDate: endDate,
-        periodStartTime: startDate ? startDate.format('HH:mm') : '00:00',
-        periodEndTime: endDate ? endDate.format('HH:mm') : '23:59',
+        periodStartTime: startDate ? startDate.clone() : null,
+        periodEndTime: endDate ? endDate.clone() : null,
         paymentOutcome: criteria.paymentStatuses?.[0] ?? null,
         touchpoint: criteria.touchpoints?.[0] ?? null,
         paymentMethod: criteria.paymentMethods?.[0] ?? null,
@@ -208,6 +244,7 @@ export class RicercaMassivaCreateFormService {
         intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
         station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
         channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
+        selectedReports: instance.selectedReports?.split(',') ?? null,
       },
       { emitEvent: false },
     );

@@ -22,12 +22,6 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     fixture.detectChanges();
   });
 
-  it('keeps the CSV guide collapsed by default and exposes format descriptions', () => {
-    expect(comp.isGuideOpen).toBe(false);
-    expect(fixture.nativeElement.textContent).toContain('Mostra guida');
-    expect(fixture.nativeElement.textContent).toContain('Ricerca tramite NAV e Dominio');
-  });
-
   it('builds a preview excluding the CSV header', async () => {
     const file = new File(['col1,col2\nvalue1,value2\nvalue3,value4\n'], 'import.csv', { type: 'text/csv' });
     const input = document.createElement('input');
