@@ -17,10 +17,10 @@ export interface SearchInstanceExecutionDTO {
   message?: string;
 }
 
-export type Statuses = 'DRAFT'|'READY'| 'RUNNING'|'EXECUTED'|'FAILED'|'ARCHIVED';
+export type Statuses = 'DRAFT' | 'READY' | 'RUNNING' | 'EXECUTED' | 'FAILED' | 'ARCHIVED';
 export type PaymentOutcome = 'OK' | 'KO' | 'NONE';
 export type SelectedReportsValues = 'POSITION' | 'TOKEN' | 'TRANSFER';
-export type BulkLifecycleAction = 'RESTORE' | 'archive' | 'DUPLICATE;
+export type BulkLifecycleAction = 'RESTORE' | 'archive' | 'DUPLICATE';
 
 export interface PaymentPeriod {
   from?: string;
