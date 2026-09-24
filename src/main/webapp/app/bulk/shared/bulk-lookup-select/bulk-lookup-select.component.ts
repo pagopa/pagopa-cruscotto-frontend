@@ -1,17 +1,6 @@
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DestroyRef,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-  forwardRef,
-  inject,
-} from '@angular/core';
+import { Component, DestroyRef, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,14 +21,7 @@ import {
 } from '../../models/bulk-search.model';
 import { BulkLookupPageRequest, BulkLookupService } from '../../services/bulk-lookup.service';
 
-type LookupOption =
-  | AnagPaEmittente
-  | AnagPsp
-  | AnagIntermediarioPa
-  | AnagIntermediarioPsp
-  | AnagStazione
-  | AnagCanale
-  | string;
+type LookupOption = AnagPaEmittente | AnagPsp | AnagIntermediarioPa | AnagIntermediarioPsp | AnagStazione | AnagCanale | string;
 export type BulkLookupType =
   | 'creditorInstitutions'
   | 'psp'
@@ -85,6 +67,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
   loading = false;
   hasMore = true;
   selected: LookupOption | null = null;
+  disabled = false;
 
   private readonly lookupService = inject(BulkLookupService);
   private readonly destroyRef = inject(DestroyRef);
@@ -132,8 +115,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     return [option.codice].filter(Boolean).join(' - ');
   };
 
-  trackByOption = (_index: number, option: LookupOption): number | string | undefined =>
-    typeof option === 'string' ? option : option.id;
+  trackByOption = (_index: number, option: LookupOption): number | string | undefined => (typeof option === 'string' ? option : option.id);
 
   writeValue(value: LookupOption | null): void {
     this.selected = value;
@@ -149,6 +131,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
   }
 
   setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
     if (isDisabled) {
       this.searchControl.disable({ emitEvent: false });
     } else {

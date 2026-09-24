@@ -17,7 +17,7 @@
       "action": {
         "new": "Nuova istanza",
         "update": "Modifica",
-        "setAsPlanned": "Imposta come pianificata",
+        "setAsPlanned": "Eseui istanza",
         "duplicate": "Duplica",
         "delete": "Elimina",
         "uploadCsv": "Carica CSV",

@@ -17,7 +17,7 @@
       "action": {
         "new": "New instance",
         "update": "Update",
-        "setAsPlanned": "Set as planned",
+        "setAsPlanned": "Execute instance",
         "duplicate": "Duplicate",
         "delete": "Delete",
         "uploadCsv": "Upload CSV",

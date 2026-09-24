@@ -1,6 +1,6 @@
 <mat-form-field class="lookup-field">
   <mat-label>{{ label }}</mat-label>
-  <mat-select [value]="selected" (selectionChange)="select($event.value)" (openedChange)="onOpenedChange($event)">
+  <mat-select [value]="selected" [disabled]="disabled" (selectionChange)="select($event.value)" (openedChange)="onOpenedChange($event)">
     <mat-select-trigger>{{ displayOption(selected) }}</mat-select-trigger>
     <mat-option class="lookup-search-option" [value]="null" (click)="$event.stopPropagation()">
       <div class="lookup-search" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">

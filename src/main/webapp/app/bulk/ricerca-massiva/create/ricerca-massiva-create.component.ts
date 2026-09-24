@@ -89,6 +89,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   detailInstanceId: string | null = null;
   detailInstanceStatus: string | null = null;
   isReadOnly = false;
+  hasCsv = false;
 
   private readonly formService = inject(RicercaMassivaCreateFormService);
   private readonly bulkLookupService = inject(BulkLookupService);
@@ -112,6 +113,9 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
       | undefined;
     this.duplicateInstance = navigationState?.duplicateInstance ?? null;
     this.detailInstance = this.activatedRoute?.snapshot.data['detailInstance'] ?? navigationState?.detailInstance ?? null;
+    if (this.detailInstance) {
+      this.hasCsv = this.detailInstance.inputType == 'CSV' || this.detailInstance.status == 'READY';
+    }
     this.detailInstanceId = this.detailInstance?.id ?? null;
     this.detailInstanceStatus = this.detailInstance?.status ?? null;
   }
