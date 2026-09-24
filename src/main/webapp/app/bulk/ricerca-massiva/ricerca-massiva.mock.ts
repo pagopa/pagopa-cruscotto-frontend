@@ -166,7 +166,7 @@ export function getRicercaMassivaDetailMock(id: string): SearchInstanceDTO {
       paymentStatuses: ['OK'],
       touchpoints: [RICERCA_MASSIVA_LOOKUPS.touchpoints.content?.[0] ?? ''],
       paymentMethods: [RICERCA_MASSIVA_LOOKUPS.paymentMethods.content?.[0] ?? ''],
-      amount: { from: 10, to: 1000 },
+      amount: { min: 10, max: 1000 },
       creditors: [RICERCA_MASSIVA_LOOKUPS.creditorInstitutions.content?.[0]?.id ?? 0],
       psps: [RICERCA_MASSIVA_LOOKUPS.psp.content?.[0]?.id ?? 0],
       technologicalPartners: [RICERCA_MASSIVA_LOOKUPS.intermediaries.content?.[0]?.id ?? 0],

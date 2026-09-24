@@ -188,6 +188,14 @@
                   <td mat-cell *matCellDef="let row">{{ row.status }}</td>
                 </ng-container>
 
+                <!-- Tipo istanza -->
+                <ng-container matColumnDef="inputType">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header="inputType">
+                    {{ 'pagopaCruscottoApp.ricercaMassiva.result.inputType' | translate }}
+                  </th>
+                  <td mat-cell *matCellDef="let row">{{ 'pagopaCruscottoApp.ricercaMassiva.result.' + row.inputType | translate }}</td>
+                </ng-container>
+
                 <!-- Azioni -->
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>{{ 'entity.list.column.actions.label' | translate }}</th>
@@ -197,10 +205,11 @@
                       color="primary"
                       class="bulk-white-button"
                       type="button"
+                      [disabled]="row.status == 'RUNNING'"
                       (click)="onSetAsPlanned(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned' | translate"
                     >
-                      <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
+                      <mat-icon fontSet="material-symbols-outlined">play_circle</mat-icon>
                     </button>
                     <button
                       mat-icon-button

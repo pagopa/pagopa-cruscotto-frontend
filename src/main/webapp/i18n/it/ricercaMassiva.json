@@ -12,14 +12,17 @@
       "result": {
         "createdAt": "Timestamp istanza",
         "name": "Nome istanza",
-        "status": "Stato istanza"
+        "status": "Stato istanza",
+        "inputType": "Tipo istanza",
+        "FILTER": "Ricerca per filtri",
+        "CSV": "Ricerca per csv"
       },
       "action": {
         "new": "Nuova istanza",
         "update": "Modifica",
-        "setAsPlanned": "Eseui istanza",
+        "setAsPlanned": "Esegui istanza {{name}}",
         "duplicate": "Duplica",
-        "delete": "Elimina",
+        "delete": "Elimina istanza {{name}}",
         "uploadCsv": "Carica CSV",
         "downloadResults": "Scarica risultati"
       },
@@ -45,8 +48,7 @@
         },
         "touchpoint": "Touchpoint",
         "paymentMethod": "Metodo di pagamento",
-        "amountMin": "Importo minimo",
-        "amountMax": "Importo massimo",
+        "amount": "Amount",
         "amountRangeInvalid": "L'importo massimo non pu\u00F2 essere inferiore all'importo minimo",
         "creditorInstitution": "Ente creditore",
         "psp": "PSP",

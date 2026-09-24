@@ -257,33 +257,19 @@
             />
           </div>
 
-          <!-- Importo minimo -->
-          <div class="col-lg-2">
-            @let amountMinRef = editForm.get('amountMin')!;
+          <!-- Importo -->
+          <div class="col-lg-4">
+            @let amountRef = editForm.get('amount')!;
             <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMin">Importo minimo</mat-label>
-              <input matInput type="number" min="0" step="0.01" formControlName="amountMin" />
-              <ng-container ngProjectAs="mat-error" *ngIf="amountMinRef.invalid && (amountMinRef.dirty || amountMinRef.touched)">
-                @if (amountMinRef?.errors?.min) {
-                  <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
-                }
-              </ng-container>
-            </mat-form-field>
-          </div>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amount">Importo minimo</mat-label>
+              <input matInput type="number" min="0" step="0.01" formControlName="amount" placeholder="e.g. 0.1-100.1" />
 
-          <!-- Importo massimo -->
-          <div class="col-lg-2">
-            @let amountMaxRef = editForm.get('amountMax')!;
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountMax">Importo massimo</mat-label>
-              <input matInput type="number" min="0" step="0.01" formControlName="amountMax" />
-              <ng-container ngProjectAs="mat-error" *ngIf="amountMaxRef.invalid && (amountMaxRef.dirty || amountMaxRef.touched)">
-                @if (amountMaxRef?.errors?.min) {
-                  <mat-error jhiTranslate="entity.validation.min" [translateValues]="{ min: 0 }">Value must be positive</mat-error>
-                } @else if (amountMaxRef?.errors?.amountRangeInvalid) {
-                  <mat-error jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amountRangeInvalid">
-                    L'importo massimo non può essere inferiore all'importo minimo
-                  </mat-error>
+              <ng-container ngProjectAs="mat-error" *ngIf="amountRef.invalid && (amountRef.dirty || amountRef.touched)">
+                @if (amountRef.errors?.amountFormat) {
+                  <mat-error> Inserire un numero oppure un intervallo nel formato 100-200 </mat-error>
+                }
+                @if (amountRef.errors?.amountRangeOrder) {
+                  <mat-error> Il secondo importo deve essere maggiore o uguale al primo </mat-error>
                 }
               </ng-container>
             </mat-form-field>
@@ -293,9 +279,17 @@
         <div class="col-lg-6">
           <mat-form-field class="d-block mb-2">
             @let selectedReportsRef = editForm.get('selectedReports')!;
-            <!-- <mat-label>Genera intero report o seleziona tipologia</mat-label> -->
-            <!-- <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.selectedReports">Tipo di report</mat-label> -->
-            <mat-label>{{ selectedReportsRef.value ? 'Genera file selezionati' : 'Genera intero report' }}</mat-label>
+            <mat-label>Genera file selezionati</mat-label>
+            <mat-select-trigger>
+              @if (selectedReportsRef.value?.length == 0) {
+                Nessun file selezionato
+              }
+              @if (selectedReportsRef.value?.length == 3) {
+                Genera intero report
+              } @else {
+                'Genera report: '+selectedReportsRef.value.join(', ')
+              }
+            </mat-select-trigger>
             <mat-select formControlName="selectedReports" canSelectNullableOptions multiple>
               @for (topping of selectedReportsValues; track topping) {
                 <mat-option [value]="topping">{{
@@ -317,7 +311,7 @@
           type="button"
           mat-stroked-button
           (click)="downloadCsv()"
-          [disabled]="hasCsv || isLoadingDetail || isSaving || isDownloadingCsv"
+          [disabled]="!hasCsv || isLoadingDetail || isSaving || isDownloadingCsv"
           title="Scarica CSV"
         >
           <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
@@ -327,6 +321,7 @@
           *ngIf="!isReadOnly"
           type="button"
           mat-stroked-button
+          class="ml-2"
           (click)="previousState()"
           [disabled]="isLoadingDetail || isSaving"
           [title]="'entity.action.cancel' | translate"
@@ -339,6 +334,7 @@
           type="submit"
           id="save-entity"
           mat-flat-button
+          class="ml-2"
           color="primary"
           [disabled]="editForm.invalid || isSaving || isLoadingDetail"
           [title]="'entity.action.save' | translate"

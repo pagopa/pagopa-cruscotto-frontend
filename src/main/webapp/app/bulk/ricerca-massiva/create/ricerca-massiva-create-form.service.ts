@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { Dayjs } from 'dayjs/esm';
 
 import dayjs from '../../../config/dayjs';
-import { amountRangeValidatorFn, datepickerMaxRangeValidatorFn, datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
+import { datepickerMaxRangeValidatorFn, datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import {
   AnagIntermediarioPa,
   AnagIntermediarioPsp,
@@ -34,8 +34,7 @@ type RicercaMassivaCreateFormContent = {
   paymentOutcome: FormControl<PaymentOutcome | null>;
   touchpoint: FormControl<string | null>;
   paymentMethod: FormControl<string | null>;
-  amountMin: FormControl<number | null>;
-  amountMax: FormControl<number | null>;
+  amount: FormControl<string | null>;
   creditorInstitution: FormControl<AnagPaEmittente | null>;
   psp: FormControl<AnagPsp | null>;
   intermediary: FormControl<AnagIntermediarioPa | null>;
@@ -112,6 +111,34 @@ const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): 
 
   return null;
 };
+export function amountRangeValidatorFn(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.trim();
+
+    if (!value) {
+      return null;
+    }
+
+    const regex = /^\d+(\.\d+)?(-\d+(\.\d+)?)?$/;
+
+    if (!regex.test(value)) {
+      return { amountFormat: true };
+    }
+
+    const parts = value.split('-');
+
+    if (parts.length === 2) {
+      const min = Number(parts[0]);
+      const max = Number(parts[1]);
+
+      if (max < min) {
+        return { amountRangeOrder: true };
+      }
+    }
+
+    return null;
+  };
+}
 
 export type RicercaMassivaCreateFormGroup = FormGroup<RicercaMassivaCreateFormContent>;
 
@@ -128,8 +155,7 @@ export class RicercaMassivaCreateFormService {
         paymentOutcome: new FormControl(null),
         touchpoint: new FormControl(null),
         paymentMethod: new FormControl(null),
-        amountMin: new FormControl(null, { validators: [Validators.min(0)] }),
-        amountMax: new FormControl(null, { validators: [Validators.min(0)] }),
+        amount: new FormControl(null, { validators: [Validators.min(0), amountRangeValidatorFn] }),
         creditorInstitution: new FormControl(null),
         psp: new FormControl(null),
         intermediary: new FormControl(null),
@@ -143,7 +169,6 @@ export class RicercaMassivaCreateFormService {
           datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'),
           massiveSearchPeriodValidatorFn,
           datepickerMaxRangeValidatorFn('periodStartDate', 'periodEndDate', 14),
-          amountRangeValidatorFn('amountMin', 'amountMax'),
         ],
       },
     );
@@ -162,7 +187,7 @@ export class RicercaMassivaCreateFormService {
           .minute(raw.periodStartTime ? raw.periodStartTime.minute() : 0)
           .second(0)
           .millisecond(0)
-          .toISOString()
+          .format('YYYY-MM-DDTHH:mm:ss')
       : undefined;
     const periodEnd = raw.periodEndDate
       ? raw.periodEndDate
@@ -172,7 +197,7 @@ export class RicercaMassivaCreateFormService {
           .second(0)
           .millisecond(0)
           .add(raw.periodEndTime ? 0 : 1, 'day')
-          .toISOString()
+          .format('YYYY-MM-DDTHH:mm:ss')
       : undefined;
     if (periodStart || periodEnd) {
       perimeterFilter.paymentPeriod = { from: periodStart, to: periodEnd };
@@ -186,8 +211,16 @@ export class RicercaMassivaCreateFormService {
     if (raw.paymentMethod) {
       perimeterFilter.paymentMethods = [raw.paymentMethod];
     }
-    if (raw.amountMin !== null || raw.amountMax !== null) {
-      perimeterFilter.amount = { from: raw.amountMin ?? undefined, to: raw.amountMax ?? undefined };
+    if (raw.amount) {
+      if (raw.amount.includes('-')) {
+        const [min, max] = raw.amount.split('-');
+        perimeterFilter.amount = {
+          min: Number(min) || undefined,
+          max: Number(max) || undefined,
+        };
+      } else {
+        perimeterFilter.amount = { exact: Number(raw.amount) || undefined };
+      }
     }
     if (raw.creditorInstitution?.id !== undefined) {
       perimeterFilter.creditors = [raw.creditorInstitution.id];
@@ -225,6 +258,7 @@ export class RicercaMassivaCreateFormService {
 
     const startDate = criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null;
     const endDate = criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null;
+    const amount = (criteria.amount?.exact ?? criteria.amount?.min) ? criteria.amount?.min + '-' + criteria.amount.max : null;
 
     form.patchValue(
       {
@@ -236,15 +270,14 @@ export class RicercaMassivaCreateFormService {
         paymentOutcome: criteria.paymentStatuses?.[0] ?? null,
         touchpoint: criteria.touchpoints?.[0] ?? null,
         paymentMethod: criteria.paymentMethods?.[0] ?? null,
-        amountMin: criteria.amount?.from ?? null,
-        amountMax: criteria.amount?.to ?? null,
+        amount: amount,
         creditorInstitution: lookups.creditorInstitutions.find(item => criteria.creditors?.includes(item.id ?? -1)) ?? null,
         psp: lookups.psp.find(item => criteria.psps?.includes(item.id ?? -1)) ?? null,
         intermediary: lookups.intermediaries.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
         intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
         station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
         channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
-        selectedReports: instance.selectedReports?.split(',') ?? null,
+        selectedReports: instance.selectedReports?.split(',') ?? ['POSITION', 'TOKEN', 'TRANSFER'],
       },
       { emitEvent: false },
     );

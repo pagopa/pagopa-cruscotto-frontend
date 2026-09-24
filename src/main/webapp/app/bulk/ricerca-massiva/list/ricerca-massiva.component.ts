@@ -54,7 +54,7 @@ import { ModalResult } from '../../../shared/modal/modal-results.enum';
   ],
 })
 export class RicercaMassivaComponent implements OnInit, OnDestroy {
-  readonly displayedColumns: string[] = ['createdAt', 'name', 'status', 'action'];
+  readonly displayedColumns: string[] = ['createdAt', 'name', 'status', 'inputType', 'action'];
 
   data: SearchInstanceDTO[] = [];
   resultsLength = 0;

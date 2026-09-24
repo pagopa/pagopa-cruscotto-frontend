@@ -28,8 +28,9 @@ export interface PaymentPeriod {
 }
 
 export interface AmountRange {
-  from?: number;
-  to?: number;
+  exact?: number;
+  min?: number;
+  max?: number;
 }
 
 export interface CsvValidationError {

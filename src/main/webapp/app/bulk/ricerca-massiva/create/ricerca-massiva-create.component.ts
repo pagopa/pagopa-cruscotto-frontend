@@ -114,7 +114,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.duplicateInstance = navigationState?.duplicateInstance ?? null;
     this.detailInstance = this.activatedRoute?.snapshot.data['detailInstance'] ?? navigationState?.detailInstance ?? null;
     if (this.detailInstance) {
-      this.hasCsv = this.detailInstance.inputType == 'CSV' || this.detailInstance.status == 'READY';
+      this.hasCsv =
+        this.detailInstance.inputType === 'CSV'
+          ? true
+          : this.detailInstance.status === 'READY' || this.detailInstance.status === 'EXECUTED';
     }
     this.detailInstanceId = this.detailInstance?.id ?? null;
     this.detailInstanceStatus = this.detailInstance?.status ?? null;

@@ -12,14 +12,17 @@
       "result": {
         "createdAt": "Instance timestamp",
         "name": "Instance name",
-        "status": "Instance state"
+        "status": "Instance state",
+        "inputType": "Instance type",
+        "FILTER": "Filter search",
+        "CSV": "CSV search"
       },
       "action": {
         "new": "New instance",
         "update": "Update",
-        "setAsPlanned": "Execute instance",
+        "setAsPlanned": "Execute instance {{name}}",
         "duplicate": "Duplicate",
-        "delete": "Delete",
+        "delete": "Delete instance {{name}}",
         "uploadCsv": "Upload CSV",
         "downloadResults": "Download results"
       },
@@ -46,6 +49,7 @@
         "paymentMethod": "Payment method",
         "amountMin": "Minimum amount",
         "amountMax": "Maximum amount",
+        "amount": "Amount",
         "amountRangeInvalid": "The maximum amount cannot be lower than the minimum amount",
         "creditorInstitution": "Creditor institution",
         "psp": "PSP",
