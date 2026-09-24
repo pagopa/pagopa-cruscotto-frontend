@@ -227,7 +227,7 @@
                       color="primary"
                       class="bulk-white-button"
                       type="button"
-                      [disabled]="row.status !== 'COMPLETED'"
+                      [disabled]="row.status !== 'EXECUTED'"
                       (click)="onDownloadResult(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.downloadResults' | translate"
                     >
