@@ -50,7 +50,7 @@ export class BulkSearchService {
   }
 
   plan(id: string): Observable<Record<string, unknown>> {
-    return this.lifecycleAction(id, 'plan');
+    return this.lifecycleAction(id, 'RESTORE');
   }
 
   lifecycleAction(id: string, action: BulkLifecycleAction): Observable<Record<string, unknown>> {
