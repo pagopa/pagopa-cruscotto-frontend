@@ -109,11 +109,7 @@ export class BulkSearchService {
   }
 
   downloadResult(id: string): Observable<Blob> {
-    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/result`, { responseType: 'blob' });
-  }
-
-  download(id: string): Observable<Blob> {
-    return this.downloadResult(id);
+    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/result/download`, { responseType: 'blob' });
   }
 
   downloadCsv(id: string): Observable<Blob> {
