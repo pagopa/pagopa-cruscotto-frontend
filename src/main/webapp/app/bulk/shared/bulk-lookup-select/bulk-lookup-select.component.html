@@ -34,7 +34,8 @@
     </div> -->
     <mat-option *ngIf="!loading && options.length === 0" disabled>Nessun risultato</mat-option>
   </mat-select>
-  <!-- <button *ngIf="selected" mat-icon-button matSuffix type="button" aria-label="Cancella selezione" (click)="clear()">
+
+  <button *ngIf="selected" mat-icon-button matSuffix class="clear-select-button" type="button" aria-label="Cancella" (click)="clear()">
     <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
-  </button> -->
+  </button>
 </mat-form-field>

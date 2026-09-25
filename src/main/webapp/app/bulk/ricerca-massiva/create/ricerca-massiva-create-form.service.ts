@@ -162,7 +162,7 @@ export class RicercaMassivaCreateFormService {
         intermediaryPsp: new FormControl(null),
         station: new FormControl(null),
         channel: new FormControl(null),
-        selectedReports: new FormControl(null),
+        selectedReports: new FormControl(['POSITION', 'TOKEN', 'TRANSFER']),
       },
       {
         validators: [

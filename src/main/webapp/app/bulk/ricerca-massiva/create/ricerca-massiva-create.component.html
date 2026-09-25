@@ -280,17 +280,21 @@
           <mat-form-field class="d-block mb-2">
             @let selectedReportsRef = editForm.get('selectedReports')!;
             <mat-label>Genera file selezionati</mat-label>
-            <mat-select-trigger>
-              @if (selectedReportsRef.value?.length == 0) {
-                Nessun file selezionato
-              }
-              @if (selectedReportsRef.value?.length == 3) {
-                Genera intero report
-              } @else {
-                'Genera report: '+selectedReportsRef.value.join(', ')
-              }
-            </mat-select-trigger>
             <mat-select formControlName="selectedReports" canSelectNullableOptions multiple>
+              <mat-select-trigger>
+                @let files = selectedReportsRef.value?.length ?? 0;
+                @switch (files) {
+                  @case (0) {
+                    Nessun file selezionato
+                  }
+                  @case (3) {
+                    Genera intero report
+                  }
+                  @default {
+                    {{ 'Genera report: ' + selectedReportsRef.value?.join(', ') }}
+                  }
+                }
+              </mat-select-trigger>
               @for (topping of selectedReportsValues; track topping) {
                 <mat-option [value]="topping">{{
                   'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate

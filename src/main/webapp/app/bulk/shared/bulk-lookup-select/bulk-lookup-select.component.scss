@@ -38,3 +38,23 @@
   min-height: 40px;
   padding: 8px 0;
 }
+
+.clear-select-button {
+  border: none;
+  background: none;
+  position: absolute;
+  z-index: 1;
+  right: 1.75rem;
+  top: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  transform: translateY(-50%);
+
+  mat-icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+  }
+}

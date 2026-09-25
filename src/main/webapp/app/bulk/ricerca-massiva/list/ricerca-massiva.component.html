@@ -169,7 +169,7 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">
                     {{ 'pagopaCruscottoApp.ricercaMassiva.result.createdAt' | translate }}
                   </th>
-                  <td mat-cell *matCellDef="let row">{{ row.createdAt | formatDate: 'L LTS' : locale }}</td>
+                  <td mat-cell *matCellDef="let row">{{ row.createdAt | formatDate: 'short' : 'it-IT' }}</td>
                 </ng-container>
 
                 <!-- Nome istanza -->

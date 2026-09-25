@@ -14,7 +14,11 @@ import {
 export interface BulkSearchPageRequest {
   page?: number;
   size?: number;
-  sort?: string[];
+  sort?: string;
+  name?: string;
+  status?: string;
+  createdFrom?: string;
+  createdAt?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -24,13 +28,23 @@ export class BulkSearchService {
 
   list(request?: BulkSearchPageRequest): Observable<PageDTO<SearchInstanceDTO>> {
     let params = new HttpParams();
-    if (request?.page != null) params = params.set('page', request.page);
-    if (request?.size != null) params = params.set('size', request.size);
-    request?.sort?.forEach(sort => (params = params.append('sort', sort)));
+    const req = request ?? {};
+    Object.entries(req).forEach(([key, value]) => {
+      if (value == null) return;
+      params = params.set(key, String(value));
+    });
 
     return this.http
-      .get<SearchInstanceDTO[] | PageDTO<SearchInstanceDTO>>(this.resourceUrl, { params })
-      .pipe(map(response => (Array.isArray(response) ? { content: response, totalElements: response.length } : response)));
+      .get<SearchInstanceDTO[]>(this.resourceUrl, {
+        params,
+        observe: 'response',
+      })
+      .pipe(
+        map(response => ({
+          content: response.body ?? [],
+          totalElements: Number(response.headers.get('x-total-count')) || 0,
+        })),
+      );
   }
 
   get(id: string): Observable<SearchInstanceDTO> {

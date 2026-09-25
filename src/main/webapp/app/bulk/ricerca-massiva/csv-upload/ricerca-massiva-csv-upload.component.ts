@@ -128,17 +128,6 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
                   <button type="button" mat-button color="warn" (click)="clearSelectedFile()">Rimuovi</button>
                 </div>
               </div>
-
-              <div class="preview-box">
-                <div class="preview-label">Anteprima CSV</div>
-                <textarea class="form-control" rows="8" [value]="csvPreview" readonly></textarea>
-                <small class="text-muted d-block mt-2">Anteprima limitata alle prime 10 righe, incluso l'intestazione.</small>
-              </div>
-            } @else {
-              <div class="empty-state">
-                <mat-icon fontSet="material-symbols-outlined">description</mat-icon>
-                <span>Nessun file caricato. Seleziona un CSV valido per iniziare.</span>
-              </div>
             }
 
             @if (selectedFileName && validationRequested) {
@@ -433,19 +422,19 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
         flex-wrap: wrap;
       }
 
-      .preview-box {
-        margin-top: 1rem;
-        padding: 0.9rem;
-        border: 1px solid rgba(15, 23, 42, 0.08);
-        border-radius: 12px;
-        background: #fff;
-      }
+      // .preview-box {
+      //   margin-top: 1rem;
+      //   padding: 0.9rem;
+      //   border: 1px solid rgba(15, 23, 42, 0.08);
+      //   border-radius: 12px;
+      //   background: #fff;
+      // }
 
-      .preview-label {
-        margin-bottom: 0.5rem;
-        font-weight: 700;
-        color: rgba(0, 0, 0, 0.82);
-      }
+      // .preview-label {
+      //   margin-bottom: 0.5rem;
+      //   font-weight: 700;
+      //   color: rgba(0, 0, 0, 0.82);
+      // }
 
       textarea {
         resize: vertical;

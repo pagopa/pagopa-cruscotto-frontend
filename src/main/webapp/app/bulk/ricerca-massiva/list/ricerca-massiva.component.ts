@@ -66,7 +66,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
   statusValues: string[] = ['DRAFT', 'PLANNED', 'RUNNING', 'COMPLETED', 'FAILED', 'CANCELLED'];
   isLoadingResults = false;
-  locale: string;
   isUploadingCsv = false;
 
   searchForm: FormGroup;
@@ -83,7 +82,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
 
   constructor() {
-    this.locale = this.translateService.currentLang;
     this.searchForm = this.fb.group({
       createdFrom: [null as Date | null],
       createdTo: [null as Date | null],
@@ -94,12 +92,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadInstances();
-
-    this.subscriptions.add(
-      this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-        this.locale = event.lang;
-      }),
-    );
   }
 
   ngOnDestroy(): void {
@@ -240,13 +232,19 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
   private loadInstances(): void {
     this.isLoadingResults = true;
     this.spinner.show('isLoadingResults');
+    const createdFrom = this.searchForm.get('createdFrom')?.value;
+    const createdTo = this.searchForm.get('createdTo')?.value;
 
     this.subscriptions.add(
       this.bulkSearchService
         .list({
           page: this.page - 1,
           size: this.pageSize,
-          sort: [`${this.sortActive},${this.sortDirection}`],
+          sort: `${this.sortActive},${this.sortDirection}`,
+          name: this.searchForm.get('name')?.value || undefined,
+          status: this.searchForm.get('status')?.value || undefined,
+          createdFrom: createdFrom ? createdFrom.format('YYYY-MM-DD') : undefined,
+          createdAt: createdTo ? createdTo.format('YYYY-MM-DD') : undefined,
         })
         .subscribe(page => {
           this.data = page.content ?? [];
