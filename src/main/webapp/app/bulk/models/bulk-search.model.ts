@@ -107,6 +107,7 @@ export interface PageDTO<T> {
 export interface AnagStazione {
   id?: number;
   codice?: string;
+  description?: string;
 }
 
 export interface AnagPsp {
@@ -136,6 +137,7 @@ export interface AnagPaEmittente {
 export interface AnagCanale {
   id?: number;
   codice?: string;
+  description?: string;
 }
 
 export type PageString = PageDTO<string>;

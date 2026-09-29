@@ -112,7 +112,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
       return option;
     }
 
-    return [option.codice].filter(Boolean).join(' - ');
+    return [option.codice, option.description].filter(Boolean).join(' - ');
   };
 
   trackByOption = (_index: number, option: LookupOption): number | string | undefined => (typeof option === 'string' ? option : option.id);
