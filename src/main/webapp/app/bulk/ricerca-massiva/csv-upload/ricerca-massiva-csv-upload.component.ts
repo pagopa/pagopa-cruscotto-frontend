@@ -1,19 +1,18 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BulkSearchService } from '../../services/bulk-search.service';
-
-import { CsvValidationError } from '../../models/bulk-search.model';
+import { MatSelectModule } from '@angular/material/select';
+import { CsvValidationError, SelectedReportsValues } from '../../models/bulk-search.model';
 import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'jhi-ricerca-massiva-csv-upload',
@@ -29,6 +28,8 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
           <span>Indietro</span>
         </button>
       </div>
+
+      <input #fileInput type="file" accept=".csv,text/csv" hidden (change)="onFileSelected()" />
 
       <mat-card class="guide-card">
         <mat-card-content>
@@ -60,7 +61,6 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
                       <mat-panel-title>
                         <div class="format-title-block">
                           <span class="format-title">{{ type.title }}</span>
-                          <span class="format-description">{{ type.sample }}</span>
                         </div>
                       </mat-panel-title>
                     </mat-expansion-panel-header>
@@ -68,11 +68,11 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
                     <div class="sample-shell">
                       <div class="sample-toolbar">
                         <span class="sample-label">CSV</span>
-                        <button type="button" mat-button color="primary" (click)="copyCsvExample(getSampleText(type.sample))">
-                          {{ copiedSample === getSampleText(type.sample) ? 'Copiato' : 'Copia esempio' }}
+                        <button type="button" mat-button color="primary" (click)="copyCsvExample(type.sample)">
+                          {{ copiedSample === type.sample ? 'Copiato' : 'Copia esempio' }}
                         </button>
                       </div>
-                      <pre>{{ getSampleText(type.sample) }}</pre>
+                      <pre>{{ type.sample }}</pre>
                     </div>
                   </mat-expansion-panel>
                 }
@@ -84,31 +84,31 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
 
       <mat-card class="upload-box">
         <mat-card-content>
-          <div
-            class="upload-dropzone"
-            [class.drag-active]="isDragOver"
-            (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
-            (drop)="onDrop($event)"
-          >
-            <div class="upload-header">
-              <div class="upload-icon">
-                <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
+          @if (!selectedFileName) {
+            <div
+              class="upload-dropzone"
+              [class.drag-active]="isDragOver"
+              (dragover)="onDragOver($event)"
+              (dragleave)="onDragLeave($event)"
+              (drop)="onDrop($event)"
+            >
+              <div class="upload-header">
+                <div class="upload-icon">
+                  <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
+                </div>
+                <div class="upload-text">
+                  <h3>Carica CSV</h3>
+                  <p>Trascina qui il tuo file CSV</p>
+                  <span>oppure</span>
+                </div>
               </div>
-              <div class="upload-text">
-                <h3>Carica CSV</h3>
-                <p>Trascina qui il tuo file CSV</p>
-                <span>oppure</span>
-              </div>
+
+              <button type="button" mat-flat-button color="primary" class="select-file-button" (click)="fileInput?.click()">
+                <mat-icon fontSet="material-symbols-outlined">attach_file</mat-icon>
+                <span>Seleziona file</span>
+              </button>
             </div>
-
-            <input #fileInput type="file" accept=".csv,text/csv" hidden (change)="onFileSelected(fileInput)" />
-
-            <button type="button" mat-flat-button color="primary" class="select-file-button" (click)="fileInput.click()">
-              <mat-icon fontSet="material-symbols-outlined">attach_file</mat-icon>
-              <span>Seleziona file</span>
-            </button>
-          </div>
+          }
 
           <div class="upload-body">
             @if (selectedFileName) {
@@ -125,10 +125,48 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
                 </div>
                 <div class="selection-actions">
                   <button type="button" mat-stroked-button (click)="fileInput.click()">Cambia file</button>
-                  <button type="button" mat-button color="warn" (click)="clearSelectedFile()">Rimuovi</button>
                 </div>
               </div>
             }
+            <form [formGroup]="form" class="row mt-4">
+              @if (selectedFileName) {
+                <!-- Nome istanza -->
+                <div class="col-lg-6">
+                  <mat-form-field class="d-block mb-2">
+                    <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
+                    <input matInput formControlName="name" maxlength="100" />
+                  </mat-form-field>
+                </div>
+                <!-- Tipo di report -->
+                <div class="col-lg-6">
+                  @let selectedReportsRef = form.get('selectedReports')!;
+                  <mat-form-field class="d-block mb-2">
+                    <mat-label>Genera file selezionati</mat-label>
+                    <mat-select formControlName="selectedReports" canSelectNullableOptions multiple>
+                      <mat-select-trigger>
+                        @let files = selectedReportsRef.value?.length ?? 0;
+                        @switch (files) {
+                          @case (0) {
+                            Nessun file selezionato
+                          }
+                          @case (3) {
+                            Genera intero report
+                          }
+                          @default {
+                            {{ 'Genera report: ' + selectedReportsRef.value?.join(', ') }}
+                          }
+                        }
+                      </mat-select-trigger>
+                      @for (topping of selectedReportsValues; track topping) {
+                        <mat-option [value]="topping">{{
+                          'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate
+                        }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              }
+            </form>
 
             @if (selectedFileName && validationRequested) {
               @if (validationErrors.length) {
@@ -240,20 +278,9 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
       }
 
       .guide-content {
-        margin-top: 0.75rem;
-        padding-top: 0.75rem;
-        border-top: 1px solid rgba(15, 23, 42, 0.08);
-      }
-
-      .format-title-block {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-      }
-
-      .format-title {
-        font-size: 0.95rem;
-        font-weight: 700;
+        // margin-top: 0.75rem;
+        // padding-top: 0.75rem;
+        // border-top: 1px solid rgba(15, 23, 42, 0.08);
       }
 
       .format-description {
@@ -422,20 +449,6 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
         flex-wrap: wrap;
       }
 
-      // .preview-box {
-      //   margin-top: 1rem;
-      //   padding: 0.9rem;
-      //   border: 1px solid rgba(15, 23, 42, 0.08);
-      //   border-radius: 12px;
-      //   background: #fff;
-      // }
-
-      // .preview-label {
-      //   margin-bottom: 0.5rem;
-      //   font-weight: 700;
-      //   color: rgba(0, 0, 0, 0.82);
-      // }
-
       textarea {
         resize: vertical;
         min-height: 170px;
@@ -471,7 +484,7 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     MatButtonModule,
     MatCardModule,
@@ -479,11 +492,17 @@ import { RICERCA_MASSIVA_CSV_TUTORIAL_TYPES } from '../ricerca-massiva.mock';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
+    TranslateModule,
   ],
 })
 export class RicercaMassivaCsvUploadComponent {
   readonly tutorialTypes = RICERCA_MASSIVA_CSV_TUTORIAL_TYPES;
-
+  readonly selectedReportsValues: SelectedReportsValues[] = ['POSITION', 'TOKEN', 'TRANSFER'];
+  readonly form = new FormGroup({
+    name: new FormControl<string>('', { validators: [Validators.maxLength(100)] }),
+    selectedReports: new FormControl<string[]>(this.selectedReportsValues),
+  });
   isGuideOpen = false;
   isDragOver = false;
   copiedSample: string | null = null;
@@ -508,17 +527,13 @@ export class RicercaMassivaCsvUploadComponent {
     return Math.max(this.validationErrors.length - 3, 0);
   }
 
-  @ViewChild('fileInput') private readonly fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') private readonly fileInputRef!: ElementRef<HTMLInputElement>;
 
   private readonly router = inject(Router);
   private readonly bulkSearchService = inject(BulkSearchService);
   private readonly translateService = inject(TranslateService);
   private currentCsvBlob: Blob | null = null;
   private validatedCsvBlob: Blob | null = null;
-
-  getSampleText(sampleKey: string): string {
-    return this.translateService.instant(sampleKey);
-  }
 
   previousState(): void {
     void this.router.navigate(['/bulk/ricerca-massiva']);
@@ -547,14 +562,14 @@ export class RicercaMassivaCsvUploadComponent {
 
     const droppedFiles = event.dataTransfer?.files;
     const file = droppedFiles?.[0];
-    if (!file || !this.fileInput) {
+    if (!file || !this.fileInputRef) {
       return;
     }
 
     const dataTransfer = new DataTransfer();
     dataTransfer.items.add(file);
-    this.fileInput.nativeElement.files = dataTransfer.files;
-    this.onFileSelected(this.fileInput.nativeElement);
+    this.fileInputRef.nativeElement.files = dataTransfer.files;
+    this.onFileSelected();
   }
 
   copyCsvExample(sample: string): void {
@@ -611,9 +626,8 @@ export class RicercaMassivaCsvUploadComponent {
     this.currentCsvBlob = null;
   }
 
-  onFileSelected(fileInput: HTMLInputElement): void {
-    const file = fileInput.files?.[0];
-    fileInput.value = '';
+  onFileSelected(): void {
+    const file = this.fileInputRef.nativeElement.files?.[0];
     this.selectedFileName = file ? file.name : '';
     this.selectedFileSize = file ? file.size : 0;
     this.csvPreview = '';
@@ -694,10 +708,11 @@ export class RicercaMassivaCsvUploadComponent {
       return;
     }
 
-    const name = this.instanceName.trim() || this.selectedFileName;
+    const name = this.form.get('name')?.value?.trim() || this.selectedFileName;
+    const selectedReports = this.form.get('selectedReports')?.value || [];
     this.isSubmitting = true;
     this.submitError = false;
-    this.bulkSearchService.createFromCsv(name, fileToSubmit).subscribe({
+    this.bulkSearchService.createFromCsv(name, selectedReports, fileToSubmit).subscribe({
       next: () => {
         this.isSubmitting = false;
         void this.router.navigate(['/bulk/ricerca-massiva']);

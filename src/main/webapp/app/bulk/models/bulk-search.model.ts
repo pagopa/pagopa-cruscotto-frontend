@@ -4,17 +4,23 @@ export interface SearchInstanceDTO {
   inputType?: 'FILTER' | 'CSV' | string;
   selectedReports?: string;
   status?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
   perimeterFilter?: PerimeterFilter;
 }
 
 export interface SearchInstanceExecutionDTO {
   id?: string;
+  instanceId?: string;
   status?: string;
-  startedAt?: string;
-  endedAt?: string;
-  message?: string;
+  completedAt?: string;
+  createdAt?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  generatedFiles?: number;
+  processedRows?: number;
+  totalInputRows?: number;
+  updatedAt?: string;
 }
 
 export type Statuses = 'DRAFT' | 'READY' | 'RUNNING' | 'EXECUTED' | 'FAILED' | 'ARCHIVED';

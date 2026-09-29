@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
-
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import {
   BulkLifecycleAction,
@@ -85,10 +84,10 @@ export class BulkSearchService {
     return this.http.post<unknown>(`${this.resourceUrl}/${encodeURIComponent(id)}/csv`, formData);
   }
 
-  createFromCsv(name: string, file: File | Blob): Observable<SearchInstanceDTO> {
+  createFromCsv(name: string, selectedReports: string[], file: File | Blob): Observable<SearchInstanceDTO> {
     const formData = new FormData();
     formData.append('file', file);
-    const params = new HttpParams().set('name', name);
+    const params = new HttpParams().set('name', name).set('selectedReports', selectedReports?.length ? selectedReports.join(',') : '');
     return this.http.post<SearchInstanceDTO>(`${this.resourceUrl}/csv`, formData, { params });
   }
 

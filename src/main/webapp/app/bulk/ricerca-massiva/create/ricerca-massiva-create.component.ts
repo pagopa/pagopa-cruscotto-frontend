@@ -67,10 +67,8 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   isLoadingExecutions = false;
   isDownloadingCsv = false;
   submitError = false;
-
-  executionColumns: string[] = ['id', 'status', 'startedAt', 'endedAt'];
+  executionColumns: string[] = ['id', 'status', 'startedAt', 'endedAt', 'errorCode', 'errorMessage'];
   executionRows: SearchInstanceExecutionDTO[] = [];
-
   touchpoints: string[] = [];
   paymentMethods: string[] = [];
   paymentMethodsHasMore = false;
@@ -88,6 +86,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   channelsHasMore = false;
   detailInstanceId: string | null = null;
   detailInstanceStatus: string | null = null;
+  detailInstanceType: string | null = null;
   isReadOnly = false;
   hasCsv = false;
 
@@ -97,9 +96,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
   private readonly spinner = inject(NgxSpinnerService);
-
   private readonly subscriptions = new Subscription();
-
   private readonly duplicateInstance: SearchInstanceDTO | null;
   private readonly detailInstance: SearchInstanceDTO | null;
 
@@ -121,6 +118,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     }
     this.detailInstanceId = this.detailInstance?.id ?? null;
     this.detailInstanceStatus = this.detailInstance?.status ?? null;
+    this.detailInstanceType = this.detailInstance?.inputType ?? null;
   }
 
   ngOnInit(): void {

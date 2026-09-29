@@ -14,17 +14,21 @@
         "name": "Instance name",
         "status": "Instance state",
         "inputType": "Instance type",
-        "FILTER": "Filter search",
-        "CSV": "CSV search"
+        "FILTER": "FILTRI",
+        "CSV": "CSV"
       },
       "action": {
         "new": "New instance",
         "update": "Update",
-        "setAsPlanned": "Execute instance {{name}}",
+        "setAsPlanned": "Execute instance",
         "duplicate": "Duplicate",
-        "delete": "Delete instance {{name}}",
+        "delete": "Delete instance",
         "uploadCsv": "Upload CSV",
         "downloadResults": "Download results"
+      },
+      "dialog": {
+        "setAsPlanned": "Execute instance {{name}}",
+        "delete": "Delete instance {{name}}"
       },
       "create": {
         "title": "New bulk search instance",

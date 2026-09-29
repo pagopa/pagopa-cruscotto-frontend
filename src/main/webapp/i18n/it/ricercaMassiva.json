@@ -14,17 +14,21 @@
         "name": "Nome istanza",
         "status": "Stato istanza",
         "inputType": "Tipo istanza",
-        "FILTER": "Ricerca per filtri",
-        "CSV": "Ricerca per csv"
+        "FILTER": "FILTRO",
+        "CSV": "CSV"
       },
       "action": {
         "new": "Nuova istanza",
         "update": "Modifica",
-        "setAsPlanned": "Esegui istanza {{name}}",
+        "setAsPlanned": "Esegui istanza",
         "duplicate": "Duplica",
-        "delete": "Elimina istanza {{name}}",
+        "delete": "Elimina istanza",
         "uploadCsv": "Carica CSV",
         "downloadResults": "Scarica risultati"
+      },
+      "dialog": {
+        "setAsPlanned": "Esegui istanza {{name}}",
+        "delete": "Elimina istanza {{name}}"
       },
       "create": {
         "title": "Nuova istanza di analisi massiva",

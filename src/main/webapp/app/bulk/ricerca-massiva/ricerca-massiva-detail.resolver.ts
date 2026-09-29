@@ -5,7 +5,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { SearchInstanceDTO } from '../models/bulk-search.model';
 import { BulkSearchService } from '../services/bulk-search.service';
-import { getRicercaMassivaDetailMock } from './ricerca-massiva.mock';
 
 export const ricercaMassivaDetailResolver: ResolveFn<SearchInstanceDTO> = (route: ActivatedRouteSnapshot) => {
   const id = route.paramMap.get('id');

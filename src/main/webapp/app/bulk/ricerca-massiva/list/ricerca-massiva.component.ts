@@ -16,7 +16,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import SharedModule from '../../../shared/shared.module';
 import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
@@ -25,7 +24,7 @@ import { BulkSearchService } from '../../services/bulk-search.service';
 import { ConfirmModalOptions } from '../../../shared/modal/confirm-modal-options.model';
 import { ConfirmModalService } from '../../../shared/modal/confirm-modal.service';
 import { ModalResult } from '../../../shared/modal/modal-results.enum';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'jhi-ricerca-massiva',
   templateUrl: './ricerca-massiva.component.html',
@@ -70,11 +69,8 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
   searchForm: FormGroup;
 
-  private allInstances: SearchInstanceDTO[] = [];
-
   private readonly fb = inject(FormBuilder);
   private readonly spinner = inject(NgxSpinnerService);
-  private readonly translateService = inject(TranslateService);
   private readonly bulkSearchService = inject(BulkSearchService);
   private readonly router = inject(Router);
   private readonly confirmModalService = inject(ConfirmModalService);
@@ -152,7 +148,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
 
     const confirmOptions = new ConfirmModalOptions(
       'entity.updateStatus.title',
-      'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned',
+      'pagopaCruscottoApp.ricercaMassiva.dialog.setAsPlanned',
       undefined,
       { name: instance.name ?? '' },
     );
@@ -213,7 +209,7 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.ricercaMassiva.action.delete', undefined, {
+    const confirmOptions = new ConfirmModalOptions('entity.delete.title', 'pagopaCruscottoApp.ricercaMassiva.dialog.delete', undefined, {
       name: instance.name ?? '',
     });
 
@@ -247,7 +243,10 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
           createdAt: createdTo ? createdTo.format('YYYY-MM-DD') : undefined,
         })
         .subscribe(page => {
-          this.data = page.content ?? [];
+          this.data = (page.content ?? []).map(instance => ({
+            ...instance,
+            createdAt: instance.createdAt ? new Date(instance.createdAt) : undefined,
+          }));
           this.resultsLength = page.totalElements ?? 0;
           this.isLoadingResults = false;
           this.spinner.hide('isLoadingResults');
