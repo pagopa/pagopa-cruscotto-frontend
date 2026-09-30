@@ -46,7 +46,7 @@
         let urls;
 
         if (!urls || urls.length === 0) {
-          const response = await axios.get('/management/jhiopenapigroups', axiosConfig);
+          const response = await window.axios.get('/management/jhiopenapigroups', axiosConfig);
           if (Array.isArray(response.data)) {
             urls = response.data.map(({ group, description }) => ({ name: description, url: `${serverBaseUri}${baseUrl}/${group}` }));
           } else {
@@ -76,7 +76,7 @@
 
       function initializeSwaggerUI(urls, baseUrl) {
         // Build a system
-        const ui = SwaggerUIBundle({
+        const ui = window.SwaggerUIBundle({
           urls: urls,
           url: baseUrl,
           dom_id: '#swagger-ui',
@@ -84,8 +84,8 @@
           filter: true,
           layout: 'StandaloneLayout',
           withCredentials: true,
-          presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
-          plugins: [SwaggerUIBundle.plugins.DownloadUrl, AlwaysEnableTryItOutPlugin],
+          presets: [window.SwaggerUIBundle.presets.apis, window.SwaggerUIStandalonePreset],
+          plugins: [window.SwaggerUIBundle.plugins.DownloadUrl, AlwaysEnableTryItOutPlugin],
           tryItOutEnabled: true,
           requestInterceptor: function (req) {
             req.headers['Authorization'] = getBearerToken();

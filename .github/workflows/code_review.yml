@@ -157,7 +157,6 @@ jobs:
   #         chmod +x env.sh && . ./env.sh
 
   #         yarn test
-  #         yarn lint
 
   #     - name: SonarCloud Scan
   #       uses: sonarsource/sonarcloud-github-action@master
