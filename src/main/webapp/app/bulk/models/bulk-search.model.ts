@@ -66,8 +66,9 @@ export interface PerimeterFilter {
   psps?: number[];
   channels?: number[];
   stations?: number[];
-  intermediary?: number[];
-  intermediaryPsp?: number[];
+  technologicalPartners?: number[];
+  // intermediary?: number[];
+  // intermediaryPsp?: number[];
 }
 
 export interface ProblemDetailWithCause {

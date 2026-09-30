@@ -231,10 +231,14 @@ export class RicercaMassivaCreateFormService {
       perimeterFilter.psps = [raw.psp.id];
     }
     if (raw.intermediary?.id !== undefined) {
-      perimeterFilter.intermediary = [raw.intermediary?.id];
+      // perimeterFilter.intermediary = [raw.intermediary?.id];
+      perimeterFilter.technologicalPartners = [raw.intermediary?.id];
     }
     if (raw.intermediaryPsp?.id !== undefined) {
-      perimeterFilter.intermediaryPsp = [raw.intermediaryPsp?.id];
+      // perimeterFilter.intermediaryPsp = [raw.intermediaryPsp?.id];
+      perimeterFilter.technologicalPartners = perimeterFilter.technologicalPartners?.[0]
+        ? [perimeterFilter.technologicalPartners?.[0], raw.intermediaryPsp?.id]
+        : [raw.intermediaryPsp.id];
     }
     if (raw.station?.id !== undefined) {
       perimeterFilter.stations = [raw.station.id];
@@ -261,7 +265,7 @@ export class RicercaMassivaCreateFormService {
 
     const startDate = criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null;
     const endDate = criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null;
-    const amount = (criteria.amount?.exact ?? criteria.amount?.min) ? criteria.amount?.min + '-' + criteria.amount.max : null;
+    const amount = String(criteria.amount?.exact) ?? (criteria.amount?.min ? criteria.amount?.min + '-' + criteria.amount.max : null);
 
     form.patchValue(
       {
@@ -276,8 +280,10 @@ export class RicercaMassivaCreateFormService {
         amount: amount,
         creditorInstitution: lookups.creditorInstitutions.find(item => criteria.creditors?.includes(item.id ?? -1)) ?? null,
         psp: lookups.psp.find(item => criteria.psps?.includes(item.id ?? -1)) ?? null,
-        intermediary: lookups.intermediaries.find(item => criteria.intermediary?.includes(item.id ?? -1)) ?? null,
-        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.intermediaryPsp?.includes(item.id ?? -1)) ?? null,
+        intermediary: lookups.intermediaries.find(item => criteria.technologicalPartners?.[0] == item.id) ?? null,
+        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.[1] == item.id) ?? null,
+        // intermediary: lookups.intermediaries.find(item => criteria.intermediary?.includes(item.id ?? -1)) ?? null,
+        // intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.intermediaryPsp?.includes(item.id ?? -1)) ?? null,
         station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
         channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
         selectedReports: instance.selectedReports?.split(',') ?? ['POSITION', 'TOKEN', 'TRANSFER'],
