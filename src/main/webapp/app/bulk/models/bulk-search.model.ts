@@ -64,9 +64,10 @@ export interface PerimeterFilter {
   amount?: AmountRange;
   creditors?: number[];
   psps?: number[];
-  technologicalPartners?: number[];
   channels?: number[];
   stations?: number[];
+  intermediary?: number[];
+  intermediaryPsp?: number[];
 }
 
 export interface ProblemDetailWithCause {

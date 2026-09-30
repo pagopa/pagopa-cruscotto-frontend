@@ -144,12 +144,12 @@ export type RicercaMassivaCreateFormGroup = FormGroup<RicercaMassivaCreateFormCo
 
 @Injectable({ providedIn: 'root' })
 export class RicercaMassivaCreateFormService {
-  createFormGroup(): RicercaMassivaCreateFormGroup {
+  createFormGroup(csv?: boolean): RicercaMassivaCreateFormGroup {
     return new FormGroup<RicercaMassivaCreateFormContent>(
       {
         name: new FormControl(null, { validators: [Validators.required, Validators.maxLength(100)] }),
-        periodStartDate: new FormControl(null, { validators: [Validators.required] }),
-        periodEndDate: new FormControl(null, { validators: [Validators.required] }),
+        periodStartDate: new FormControl(null, csv ? null : { validators: [Validators.required] }),
+        periodEndDate: new FormControl(null, csv ? null : { validators: [Validators.required] }),
         periodStartTime: new FormControl<Dayjs | null>(null),
         periodEndTime: new FormControl<Dayjs | null>(null),
         paymentOutcome: new FormControl(null),
@@ -165,11 +165,13 @@ export class RicercaMassivaCreateFormService {
         selectedReports: new FormControl(['POSITION', 'TOKEN', 'TRANSFER']),
       },
       {
-        validators: [
-          datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'),
-          massiveSearchPeriodValidatorFn,
-          datepickerMaxRangeValidatorFn('periodStartDate', 'periodEndDate', 14),
-        ],
+        validators: csv
+          ? []
+          : [
+              datepickerRangeValidatorFn('periodStartDate', 'periodEndDate'),
+              massiveSearchPeriodValidatorFn,
+              datepickerMaxRangeValidatorFn('periodStartDate', 'periodEndDate', 14),
+            ],
       },
     );
   }
@@ -212,7 +214,7 @@ export class RicercaMassivaCreateFormService {
       perimeterFilter.paymentMethods = [raw.paymentMethod];
     }
     if (raw.amount) {
-      if (raw.amount.includes('-')) {
+      if (raw.amount.toString().includes('-')) {
         const [min, max] = raw.amount.split('-');
         perimeterFilter.amount = {
           min: Number(min) || undefined,
@@ -228,10 +230,11 @@ export class RicercaMassivaCreateFormService {
     if (raw.psp?.id !== undefined) {
       perimeterFilter.psps = [raw.psp.id];
     }
-    if (raw.intermediary?.id !== undefined || raw.intermediaryPsp?.id !== undefined) {
-      perimeterFilter.technologicalPartners = [raw.intermediary?.id, raw.intermediaryPsp?.id].filter(
-        (id): id is number => id !== undefined,
-      );
+    if (raw.intermediary?.id !== undefined) {
+      perimeterFilter.intermediary = [raw.intermediary?.id];
+    }
+    if (raw.intermediaryPsp?.id !== undefined) {
+      perimeterFilter.intermediaryPsp = [raw.intermediaryPsp?.id];
     }
     if (raw.station?.id !== undefined) {
       perimeterFilter.stations = [raw.station.id];
@@ -273,8 +276,8 @@ export class RicercaMassivaCreateFormService {
         amount: amount,
         creditorInstitution: lookups.creditorInstitutions.find(item => criteria.creditors?.includes(item.id ?? -1)) ?? null,
         psp: lookups.psp.find(item => criteria.psps?.includes(item.id ?? -1)) ?? null,
-        intermediary: lookups.intermediaries.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
-        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.includes(item.id ?? -1)) ?? null,
+        intermediary: lookups.intermediaries.find(item => criteria.intermediary?.includes(item.id ?? -1)) ?? null,
+        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.intermediaryPsp?.includes(item.id ?? -1)) ?? null,
         station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
         channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
         selectedReports: instance.selectedReports?.split(',') ?? ['POSITION', 'TOKEN', 'TRANSFER'],

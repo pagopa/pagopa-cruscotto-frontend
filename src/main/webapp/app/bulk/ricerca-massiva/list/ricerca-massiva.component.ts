@@ -194,7 +194,6 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${instance.name ?? 'risultato'}.csv`;
         link.style.display = 'none';
         document.body.appendChild(link);
         link.click();

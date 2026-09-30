@@ -365,7 +365,6 @@
         <button
           *ngIf="detailInstanceId"
           type="button"
-          class="mr-2"
           mat-stroked-button
           (click)="downloadCsv()"
           [disabled]="!hasCsv || isLoadingDetail || isSaving || isDownloadingCsv"
@@ -378,7 +377,6 @@
           *ngIf="!isReadOnly"
           type="button"
           mat-stroked-button
-          class="mr-2"
           (click)="previousState()"
           [disabled]="isLoadingDetail || isSaving"
           [title]="'entity.action.cancel' | translate"
@@ -444,7 +442,7 @@
           </ng-container>
 
           <ng-container matColumnDef="errorMessage">
-            <th mat-header-cell *matHeaderCellDef>Errore</th>
+            <th mat-header-cell *matHeaderCellDef>Messaggio</th>
             <td mat-cell *matCellDef="let row">{{ row.errorMessage ?? '--' }}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="executionColumns"></tr>

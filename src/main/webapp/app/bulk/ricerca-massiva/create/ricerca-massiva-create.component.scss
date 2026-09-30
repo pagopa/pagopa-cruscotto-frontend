@@ -20,6 +20,10 @@
   }
 }
 
+.mat-mdc-card-actions {
+  gap: 12px !important;
+}
+
 form.detail-readonly {
   .mat-mdc-form-field,
   .mat-mdc-form-field .mat-mdc-text-field-wrapper,

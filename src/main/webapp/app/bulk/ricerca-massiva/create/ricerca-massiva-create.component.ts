@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, finalize, forkJoin, merge } from 'rxjs';
+import { Subscription, finalize, forkJoin } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -101,7 +101,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   private readonly detailInstance: SearchInstanceDTO | null;
 
   constructor() {
-    this.editForm = this.formService.createFormGroup();
     const navigationState = this.router.getCurrentNavigation()?.extras.state as
       | {
           duplicateInstance?: SearchInstanceDTO;
@@ -119,6 +118,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.detailInstanceId = this.detailInstance?.id ?? null;
     this.detailInstanceStatus = this.detailInstance?.status ?? null;
     this.detailInstanceType = this.detailInstance?.inputType ?? null;
+    this.editForm = this.formService.createFormGroup(this.detailInstanceType === 'CSV');
   }
 
   ngOnInit(): void {
@@ -267,7 +267,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
           this.stationsHasMore = !lookups.stations.last;
           this.channels = lookups.channels.content ?? [];
           this.channelsHasMore = !lookups.channels.last;
-
           const instanceToLoad = this.detailInstance ?? this.duplicateInstance;
           if (instanceToLoad) {
             this.formService.patchFromSearchInstance(this.editForm, instanceToLoad, {
@@ -279,16 +278,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
               channels: this.channels,
             });
           }
-
-          // Le stazioni disponibili dipendono dal PSP e dall'intermediario selezionati.
-          // Registriamo il watcher solo dopo la precompilazione del form, per non azzerare la stazione appena
-          // assegnata da un'istanza duplicata o caricata dal backend.
-          this.subscriptions.add(
-            merge(this.editForm.controls.psp.valueChanges, this.editForm.controls.intermediary.valueChanges).subscribe(() => {
-              this.editForm.controls.station.setValue(null);
-              this.loadStations();
-            }),
-          );
 
           if (this.detailInstance) {
             this.isReadOnly = this.detailInstance.status !== 'DRAFT';
@@ -320,14 +309,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
         .subscribe(executions => {
           this.executionRows = executions ?? [];
         }),
-    );
-  }
-
-  private loadStations(): void {
-    this.subscriptions.add(
-      this.bulkLookupService.stations({ page: 0, size: 20 }).subscribe(page => {
-        this.stations = page.content ?? [];
-      }),
     );
   }
 }
