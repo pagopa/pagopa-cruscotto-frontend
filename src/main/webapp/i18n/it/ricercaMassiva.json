@@ -1,0 +1,67 @@
+{
+  "pagopaCruscottoApp": {
+    "ricercaMassiva": {
+      "home": {
+        "title": "Ricerca Massiva"
+      },
+      "filter": {
+        "createdAt": "Data di creazione",
+        "name": "Nome istanza",
+        "status": "Stato istanza"
+      },
+      "result": {
+        "createdAt": "Timestamp istanza",
+        "name": "Nome istanza",
+        "status": "Stato istanza",
+        "inputType": "Tipo istanza",
+        "FILTER": "FILTRO",
+        "CSV": "CSV"
+      },
+      "action": {
+        "new": "Nuova istanza",
+        "update": "Modifica",
+        "setAsPlanned": "Esegui istanza",
+        "duplicate": "Duplica",
+        "delete": "Elimina istanza",
+        "uploadCsv": "Carica CSV",
+        "downloadResults": "Scarica risultati"
+      },
+      "dialog": {
+        "setAsPlanned": "Esegui istanza {{name}}",
+        "delete": "Elimina istanza {{name}}"
+      },
+      "create": {
+        "title": "Nuova istanza di analisi massiva",
+        "name": "Nome istanza",
+        "paymentOutcome": "Stato pagamento",
+        "paymentOutcomeValues": {
+          "OK": "OK",
+          "KO": "KO",
+          "NONE": "Nessun esito"
+        },
+        "selectedReports": "Tipo di report",
+        "selectedReportsValues": {
+          "POSITION": "Report Posizioni",
+          "TOKEN": "Report Tokens",
+          "TRANSFER": "Report Transfers"
+        },
+        "period": "Periodo di analisi",
+        "periodValidation": {
+          "startNotAfterEnd": "La data/ora di inizio non pu\u00F2 essere successiva alla data/ora di fine",
+          "endNotBeforeStart": "La data/ora di fine non pu\u00F2 precedere quella di inizio"
+        },
+        "touchpoint": "Touchpoint",
+        "paymentMethod": "Metodo di pagamento",
+        "amount": "Amount",
+        "amountRangeInvalid": "L'importo massimo non pu\u00F2 essere inferiore all'importo minimo",
+        "creditorInstitution": "Ente creditore",
+        "psp": "PSP",
+        "intermediary": "Intermediario",
+        "station": "Stazione",
+        "stationHint": "Le opzioni dipendono da PSP e Intermediario selezionati",
+        "neverExecuted": "L'istanza non è mai stata eseguita.",
+        "saveError": "Errore durante la creazione dell'istanza"
+      }
+    }
+  }
+}

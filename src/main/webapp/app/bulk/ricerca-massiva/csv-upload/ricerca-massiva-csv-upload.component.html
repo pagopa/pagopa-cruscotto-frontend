@@ -1,0 +1,203 @@
+<div class="csv-page-shell">
+  <div class="d-flex align-items-center justify-content-between mb-5 page-header">
+    <div>
+      <h2 class="mb-1">Nuova istanza da CSV</h2>
+    </div>
+    <button type="button" mat-flat-button (click)="previousState()">
+      <mat-icon fontSet="material-symbols-outlined">undo</mat-icon>
+      <span>Indietro</span>
+    </button>
+  </div>
+
+  <input #fileInput type="file" accept=".csv,text/csv" hidden (change)="onFileSelected()" />
+
+  <mat-card class="guide-card">
+    <mat-card-content>
+      <div
+        class="guide-summary"
+        (click)="toggleGuide()"
+        (keydown.enter)="toggleGuide()"
+        (keydown.space)="toggleGuide()"
+        tabindex="0"
+        role="button"
+        [attr.aria-expanded]="isGuideOpen"
+      >
+        <div class="guide-summary-title">
+          <span class="guide-arrow">{{ isGuideOpen ? '▾' : '▸' }}</span>
+          <span>Formati CSV supportati</span>
+          <span class="guide-count">({{ tutorialTypes.length }})</span>
+        </div>
+        <button type="button" mat-stroked-button class="guide-toggle-btn" (click)="$event.stopPropagation(); toggleGuide()">
+          {{ isGuideOpen ? 'Nascondi guida' : 'Mostra guida' }}
+        </button>
+      </div>
+
+      @if (isGuideOpen) {
+        <div class="guide-content">
+          <mat-accordion multi="false">
+            @for (type of tutorialTypes; track type.title) {
+              <mat-expansion-panel class="example-panel">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <div class="format-title-block">
+                      <span class="format-title">{{ type.title }}</span>
+                    </div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="sample-shell">
+                  <div class="sample-toolbar">
+                    <span class="sample-label">CSV</span>
+                    <button type="button" mat-button color="primary" (click)="copyCsvExample(type.sample)">
+                      {{ copiedSample === type.sample ? 'Copiato' : 'Copia esempio' }}
+                    </button>
+                  </div>
+                  <pre>{{ type.sample }}</pre>
+                </div>
+              </mat-expansion-panel>
+            }
+          </mat-accordion>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="upload-box">
+    <mat-card-content>
+      @if (!selectedFileName) {
+        <div
+          class="upload-dropzone"
+          [class.drag-active]="isDragOver"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+        >
+          <div class="upload-header">
+            <div class="upload-icon">
+              <mat-icon fontSet="material-symbols-outlined">upload_file</mat-icon>
+            </div>
+            <div class="upload-text">
+              <h3>Carica CSV</h3>
+              <p>Trascina qui il tuo file CSV</p>
+              <span>oppure</span>
+            </div>
+          </div>
+
+          <button type="button" mat-flat-button color="primary" class="select-file-button" (click)="fileInput?.click()">
+            <mat-icon fontSet="material-symbols-outlined">attach_file</mat-icon>
+            <span>Seleziona file</span>
+          </button>
+        </div>
+      }
+
+      <div class="upload-body">
+        @if (selectedFileName) {
+          <div class="selection-box">
+            <div class="selection-details">
+              <div class="selection-icon">
+                <mat-icon fontSet="material-symbols-outlined">description</mat-icon>
+              </div>
+              <div class="selection-meta">
+                <strong>{{ selectedFileName }}</strong>
+                <span>Dimensione: {{ formatFileSize(selectedFileSize) }}</span>
+                <em>✓ File selezionato correttamente</em>
+              </div>
+            </div>
+            <div class="selection-actions">
+              <button type="button" mat-stroked-button (click)="fileInput.click()">Cambia file</button>
+            </div>
+          </div>
+        }
+        <form [formGroup]="form" class="row mt-4">
+          @if (selectedFileName) {
+            <!-- Nome istanza -->
+            <div class="col-lg-6">
+              <mat-form-field class="d-block mb-2">
+                <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
+                <input matInput formControlName="name" maxlength="100" />
+              </mat-form-field>
+            </div>
+            <!-- Tipo di report -->
+            <div class="col-lg-6">
+              @let selectedReportsRef = form.get('selectedReports')!;
+              <mat-form-field class="d-block mb-2">
+                <mat-label>Genera file selezionati</mat-label>
+                <mat-select formControlName="selectedReports" canSelectNullableOptions multiple>
+                  <mat-select-trigger>
+                    @let files = selectedReportsRef.value?.length ?? 0;
+                    @switch (files) {
+                      @case (0) {
+                        Nessun file selezionato
+                      }
+                      @case (3) {
+                        Genera intero report
+                      }
+                      @default {
+                        {{ 'Genera report: ' + selectedReportsRef.value?.join(', ') }}
+                      }
+                    }
+                  </mat-select-trigger>
+                  @for (topping of selectedReportsValues; track topping) {
+                    <mat-option [value]="topping">{{
+                      'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate
+                    }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          }
+        </form>
+
+        @if (selectedFileName && validationRequested) {
+          @if (validationErrors.length) {
+            <div class="alert alert-danger mt-3" role="alert">
+              <h4 class="alert-heading mb-3">Errori di validazione</h4>
+              @if (validationSummary) {
+                <p class="mb-3 text-muted">{{ validationSummary }}</p>
+              }
+              <ul class="mb-0 ps-3">
+                @for (error of visibleValidationErrors; track error.lineNumber + error.column + error.message) {
+                  <li>
+                    <strong>Riga {{ error.lineNumber }}</strong> · {{ error.column || 'campo' }}: {{ error.message }}
+                  </li>
+                }
+                @if (remainingErrorsCount > 0) {
+                  <li class="text-muted">Altri {{ remainingErrorsCount }} errore{{ remainingErrorsCount === 1 ? '' : 'i' }}.</li>
+                }
+              </ul>
+            </div>
+          } @else {
+            <div class="alert alert-success mt-3" role="alert">
+              @if (validationSummary) {
+                {{ validationSummary }}
+              } @else {
+                Il file rispetta il formato richiesto e può essere inviato.
+              }
+            </div>
+          }
+        }
+      </div>
+    </mat-card-content>
+
+    <div class="actions-bar">
+      <button
+        type="button"
+        class="validate-button"
+        mat-stroked-button
+        (click)="validateCsv()"
+        [disabled]="!selectedFileName || isValidating"
+        [color]="selectedFileName && !isValidating ? 'primary' : undefined"
+      >
+        <mat-icon fontSet="material-symbols-outlined">rule</mat-icon>
+        <span>{{ isValidating ? 'Validazione...' : 'Valida CSV' }}</span>
+      </button>
+      <button type="button" mat-flat-button color="primary" [disabled]="!canSubmit || isValidating || isSubmitting" (click)="submit()">
+        <mat-icon fontSet="material-symbols-outlined">send</mat-icon>
+        <span>{{ isSubmitting ? 'Invio...' : 'Invia richiesta' }}</span>
+      </button>
+    </div>
+    @if (submitError) {
+      <div class="alert alert-danger mx-3 mb-3" role="alert">Impossibile creare l'istanza.</div>
+    }
+  </mat-card>
+</div>

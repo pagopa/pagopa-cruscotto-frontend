@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { Authority } from 'app/config/authority.constants';
+import { RicercaOperazioniDetailComponent } from './detail/ricerca-operazioni-detail.component';
 
 const ricercaOperazioniRoutes: Routes = [
   {
@@ -13,9 +14,9 @@ const ricercaOperazioniRoutes: Routes = [
   },
   {
     path: ':paEmittente/:nav/view',
-    loadComponent: () => import('./detail/ricerca-operazioni-detail.component').then(m => m.RicercaOperazioniDetailComponent),
+    component: RicercaOperazioniDetailComponent,
     data: {
-      // authorities: [Authority.RICERCA_OPERAZIONI_INQUIRY],
+      // authorities: [Authority.RICERCA_OPERAZIONI_INQUIRY], TODO
     },
     canActivate: [UserRouteAccessService],
   },

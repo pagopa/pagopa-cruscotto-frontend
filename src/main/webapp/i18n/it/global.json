@@ -29,7 +29,8 @@
         "pagoPaPaymentReceipt": "Receipt",
         "pagoPaRecordedTimeout": "Request",
         "pagoPaTaxonomyAggregatePosition": "Tassonomia Versamenti",
-        "ricercaOperazioni": "Ricerca Operazioni"
+        "ricercaOperazioni": "Ricerca Operazioni",
+        "ricercaMassiva": "Ricerca Massiva"
       },
       "configuration": {
         "main": "Configurazioni",

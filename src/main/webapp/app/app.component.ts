@@ -1,8 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
+import { finalize } from 'rxjs';
 import dayjs from 'dayjs/esm';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import locale from '@angular/common/locales/it';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { fontAwesomeIcons } from './config/font-awesome-icons';
@@ -17,8 +19,13 @@ import { StateStorageService } from './core/auth/state-storage.service';
 
 @Component({
   selector: 'jhi-app',
-  template: '<jhi-main></jhi-main>',
-  imports: [MainComponent],
+  template: `
+    <jhi-main></jhi-main>
+    <ngx-spinner name="account-loading" type="ball-clip-rotate" size="default">
+      <p class="ngx-spinner-loading">Loading...</p>
+    </ngx-spinner>
+  `,
+  imports: [MainComponent, NgxSpinnerModule],
 })
 export default class AppComponent implements OnInit {
   private readonly applicationConfigService = inject(ApplicationConfigService);
@@ -29,6 +36,7 @@ export default class AppComponent implements OnInit {
   private readonly msalService = inject(MsalService);
   private readonly accountService = inject(AccountService);
   private readonly stateStorageService = inject(StateStorageService);
+  private readonly spinner = inject(NgxSpinnerService);
   private msalAccountChecked = false;
   private redirectAccount: AccountInfo | null = null;
 
@@ -104,12 +112,16 @@ export default class AppComponent implements OnInit {
   }
 
   private loadBackendIdentity(): void {
-    this.accountService.identity(true).subscribe({
-      next: () => console.log('[MSAL] Backend identity loaded'),
-      error: error => {
-        console.error('[MSAL] Failed to load backend identity:', error);
-        this.msalAccountChecked = false;
-      },
-    });
+    void this.spinner.show('account-loading');
+    this.accountService
+      .identity(true)
+      .pipe(finalize(() => void this.spinner.hide('account-loading')))
+      .subscribe({
+        next: () => console.log('[MSAL] Backend identity loaded'),
+        error: error => {
+          console.error('[MSAL] Failed to load backend identity:', error);
+          this.msalAccountChecked = false;
+        },
+      });
   }
 }
