@@ -190,14 +190,21 @@ export class RicercaMassivaComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscriptions.add(
-      this.bulkSearchService.downloadResult(instance.id).subscribe(blob => {
+      this.bulkSearchService.downloadResult(instance.id).subscribe(response => {
+        const blob = response.body!;
+        const contentDisposition = response.headers.get('content-disposition');
+        const fileName = contentDisposition?.match(/filename="?([^"]+)"?/)?.[1] ?? 'download.zip';
+
         const url = URL.createObjectURL(blob);
+
         const link = document.createElement('a');
         link.href = url;
-        link.style.display = 'none';
+        link.download = fileName;
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
         URL.revokeObjectURL(url);
       }),
     );

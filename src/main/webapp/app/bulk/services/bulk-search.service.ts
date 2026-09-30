@@ -107,8 +107,8 @@ export class BulkSearchService {
       .pipe(map(response => (Array.isArray(response) ? response : (response?.content ?? []))));
   }
 
-  downloadResult(id: string): Observable<Blob> {
-    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/result/download`, { responseType: 'blob' });
+  downloadResult(id: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(`${this.resourceUrl}/${encodeURIComponent(id)}/result/download`, { observe: 'response', responseType: 'blob' });
   }
 
   downloadCsv(id: string): Observable<Blob> {
