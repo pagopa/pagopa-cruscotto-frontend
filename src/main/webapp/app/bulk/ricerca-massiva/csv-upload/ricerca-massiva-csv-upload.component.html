@@ -152,9 +152,6 @@
           @if (validationErrors.length) {
             <div class="alert alert-danger mt-3" role="alert">
               <h4 class="alert-heading mb-3">Errori di validazione</h4>
-              @if (validationSummary) {
-                <p class="mb-3 text-muted">{{ validationSummary }}</p>
-              }
               <ul class="mb-0 ps-3">
                 @for (error of validationErrors; track $index) {
                   <li>
