@@ -218,11 +218,19 @@ export class RicercaMassivaCsvUploadComponent {
         this.validatedCsvBlob = this.canSubmit ? this.currentCsvBlob : null;
         this.isValidating = false;
       },
-      error: () => {
-        this.validationErrors = [{ lineNumber: 0, column: null, codeMessage: '', message: 'Impossibile validare il file CSV.' }];
-        this.validationSummary = 'Validazione del CSV non disponibile.';
+      error: (response: unknown) => {
+        const validationResult = this.extractValidationResult(response);
+        this.validationErrors = validationResult?.errors ?? [];
+        this.validationSummary = this.buildValidationSummary(validationResult);
+        this.canSubmit = validationResult?.valid !== false;
         this.hasValidated = true;
+        this.validatedCsvBlob = this.canSubmit ? this.currentCsvBlob : null;
         this.isValidating = false;
+
+        if (!this.validationErrors.length && !this.validationSummary) {
+          this.validationErrors = [{ lineNumber: 0, column: null, codeMessage: '', message: 'Impossibile validare il file CSV.' }];
+          this.validationSummary = 'Validazione del CSV non disponibile.';
+        }
       },
     });
   }
@@ -257,6 +265,47 @@ export class RicercaMassivaCsvUploadComponent {
         this.submitError = true;
       },
     });
+  }
+
+  private extractValidationResult(
+    error: unknown,
+  ): {
+    valid?: boolean;
+    detectedTemplate?: string;
+    totalRows?: number;
+    validRows?: number;
+    invalidRows?: number;
+    errors?: CsvValidationError[];
+  } | null {
+    if (!error || typeof error !== 'object') {
+      return null;
+    }
+
+    const payload = (error as { error?: unknown; body?: unknown }).error ?? (error as { error?: unknown; body?: unknown }).body ?? error;
+    if (!payload || typeof payload !== 'object') {
+      return null;
+    }
+
+    const result = payload as {
+      valid?: boolean;
+      detectedTemplate?: string;
+      totalRows?: number;
+      validRows?: number;
+      invalidRows?: number;
+      errors?: CsvValidationError[];
+    };
+    if (
+      Array.isArray(result.errors) ||
+      typeof result.valid === 'boolean' ||
+      typeof result.detectedTemplate === 'string' ||
+      typeof result.totalRows === 'number' ||
+      typeof result.validRows === 'number' ||
+      typeof result.invalidRows === 'number'
+    ) {
+      return result;
+    }
+
+    return null;
   }
 
   private refreshCurrentCsvBlob(): void {

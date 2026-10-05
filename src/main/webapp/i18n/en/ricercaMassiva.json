@@ -69,9 +69,9 @@
           "CSV_HEADER_COLUMN_DUPLICATE": "Duplicate column in the header",
           "CSV_ROW_EMPTY": "Row is empty",
           "CSV_DATA_MISSING": "No data rows present",
-          "CSV_COLUMN_COUNT": "Invalid number of columns: expected {{expected}}, found {{found}}",
+          "CSV_COLUMN_COUNT": "Invalid number of columns",
           "CSV_VALUE_MISSING": "Required value missing",
-          "CSV_VALUE_LENGTH": "Invalid value length: expected {{expected}}, found {{found}}",
+          "CSV_VALUE_LENGTH": "Invalid value length",
           "CSV_IUV_LENGTH": "Invalid IUV length: expected between 1 and 35",
           "CSV_TOKEN_INVALID": "Invalid token: the first 32 characters must be a UUID without hyphens; the suffix can have at most 3 characters"
         }
