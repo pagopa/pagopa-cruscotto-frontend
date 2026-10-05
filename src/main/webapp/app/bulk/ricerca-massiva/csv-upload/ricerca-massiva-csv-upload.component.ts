@@ -56,14 +56,6 @@ export class RicercaMassivaCsvUploadComponent {
   isSubmitting = false;
   submitError = false;
 
-  get visibleValidationErrors(): CsvValidationError[] {
-    return this.validationErrors.slice(0, 3);
-  }
-
-  get remainingErrorsCount(): number {
-    return Math.max(this.validationErrors.length - 3, 0);
-  }
-
   @ViewChild('fileInput') private readonly fileInputRef!: ElementRef<HTMLInputElement>;
 
   private readonly router = inject(Router);
@@ -227,12 +219,18 @@ export class RicercaMassivaCsvUploadComponent {
         this.isValidating = false;
       },
       error: () => {
-        this.validationErrors = [{ lineNumber: 0, column: '', message: 'Impossibile validare il file CSV.' }];
+        this.validationErrors = [{ lineNumber: 0, column: null, codeMessage: '', message: 'Impossibile validare il file CSV.' }];
         this.validationSummary = 'Validazione del CSV non disponibile.';
         this.hasValidated = true;
         this.isValidating = false;
       },
     });
+  }
+
+  getValidationMessage(error: CsvValidationError): string {
+    const translationKey = `pagopaCruscottoApp.ricercaMassiva.create.csvValidation.${error.codeMessage}`;
+    const translatedMessage = this.translateService.instant(translationKey, error);
+    return translatedMessage === translationKey ? error.message : translatedMessage;
   }
 
   submit(): void {

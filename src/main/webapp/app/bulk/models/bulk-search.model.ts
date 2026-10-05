@@ -54,8 +54,11 @@ export interface AmountRange {
 
 export interface CsvValidationError {
   lineNumber: number;
-  column: string;
+  column: string | null;
+  codeMessage: string;
   message: string;
+  expected?: number | string;
+  found?: number | string;
 }
 
 export interface CsvValidationResult {
