@@ -124,6 +124,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   displayCodeDescription = (value: { codice?: string; description?: string } | null): string =>
     value ? [value.codice, value.description].filter(Boolean).join(' - ') : '';
 
+  isLookupOption(value: unknown): value is LookupOption {
+    return typeof value === 'object' && value !== null;
+  }
+
   clearFilter(controlName: string): void {
     if (this.isReadOnly) {
       return;

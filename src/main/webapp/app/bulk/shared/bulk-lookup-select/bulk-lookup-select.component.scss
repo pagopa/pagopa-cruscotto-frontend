@@ -6,6 +6,14 @@
   width: 100%;
 }
 
+:host ::ng-deep .lookup-disabled .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .lookup-disabled .mat-mdc-floating-label {
+  opacity: 1;
+}
+
 .lookup-viewport {
   height: 200px;
   width: 100%;

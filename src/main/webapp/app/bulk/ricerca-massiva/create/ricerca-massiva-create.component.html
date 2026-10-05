@@ -165,6 +165,9 @@
               <mat-form-field class="d-block mb-2">
                 <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.touchpoint">Touchpoint</mat-label>
                 <mat-select formControlName="touchpoint">
+                  <mat-option *ngIf="isLookupOption(editForm.controls.touchpoint.value)" [value]="editForm.controls.touchpoint.value">
+                    {{ displayCodeDescription(editForm.controls.touchpoint.value) }}
+                  </mat-option>
                   <mat-option *ngFor="let option of touchpoints" [value]="option">{{ option }}</mat-option>
                 </mat-select>
                 <button

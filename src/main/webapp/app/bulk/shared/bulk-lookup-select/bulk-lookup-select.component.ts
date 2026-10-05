@@ -150,6 +150,10 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
   };
 
   clear(): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.selected = null;
     this.onChange(null);
     this.onTouched();
