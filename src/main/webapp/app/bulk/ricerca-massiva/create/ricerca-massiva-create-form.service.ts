@@ -28,8 +28,8 @@ type RicercaMassivaCreateFormContent = {
   periodStartTime: FormControl<Dayjs | null>;
   periodEndTime: FormControl<Dayjs | null>;
   paymentOutcome: FormControl<PaymentOutcome | null>;
-  touchpoint: FormControl<LookupOption | null>;
-  paymentMethod: FormControl<LookupOption | null>;
+  touchpoint: FormControl<LookupOption | string | null>;
+  paymentMethod: FormControl<LookupOption | string | null>;
   amount: FormControl<string | null>;
   creditorInstitution: FormControl<LookupOption | null>;
   psp: FormControl<LookupOption | null>;
@@ -56,6 +56,15 @@ const clearTimeError = (control: AbstractControl | null, errorKey: string): void
   const currentErrors = { ...(control.errors ?? {}) };
   delete currentErrors[errorKey];
   control.setErrors(Object.keys(currentErrors).length > 0 ? currentErrors : null);
+};
+
+const getLookupId = (value: LookupOption | string | null): number | undefined => {
+  if (typeof value === 'string') {
+    const id = Number(value);
+    return value.trim() && Number.isSafeInteger(id) ? id : undefined;
+  }
+
+  return value?.id;
 };
 
 const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -203,11 +212,13 @@ export class RicercaMassivaCreateFormService {
     if (raw.paymentOutcome) {
       perimeterFilter.paymentStatuses = [raw.paymentOutcome];
     }
-    if (raw.touchpoint?.id !== undefined) {
-      perimeterFilter.touchpoints = [raw.touchpoint.id];
+    const touchpoint = getLookupId(raw.touchpoint);
+    if (touchpoint !== undefined) {
+      perimeterFilter.touchpoints = [touchpoint];
     }
-    if (raw.paymentMethod?.id !== undefined) {
-      perimeterFilter.paymentMethods = [raw.paymentMethod.id];
+    const paymentMethod = getLookupId(raw.paymentMethod);
+    if (paymentMethod !== undefined) {
+      perimeterFilter.paymentMethods = [paymentMethod];
     }
     if (raw.amount) {
       if (raw.amount.toString().includes('-')) {

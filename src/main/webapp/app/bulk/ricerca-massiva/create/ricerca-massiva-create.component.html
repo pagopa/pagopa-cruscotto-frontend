@@ -168,7 +168,7 @@
                   <mat-option *ngIf="isLookupOption(editForm.controls.touchpoint.value)" [value]="editForm.controls.touchpoint.value">
                     {{ displayCodeDescription(editForm.controls.touchpoint.value) }}
                   </mat-option>
-                  <mat-option *ngFor="let option of touchpoints" [value]="option">{{ option }}</mat-option>
+                  <mat-option *ngFor="let option of touchpoints" [value]="option">{{ displayCodeDescription(option) }}</mat-option>
                 </mat-select>
                 <button
                   *ngIf="editForm.controls.touchpoint.value"
@@ -271,7 +271,7 @@
               @let amountRef = editForm.get('amount')!;
               <mat-form-field class="d-block mb-2">
                 <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.amount">Importo minimo</mat-label>
-                <input matInput type="number" min="0" step="0.01" formControlName="amount" placeholder="e.g. 0.1-100.1" />
+                <input matInput formControlName="amount" placeholder="e.g. 0.1-100.1" />
 
                 <ng-container ngProjectAs="mat-error" *ngIf="amountRef.invalid && (amountRef.dirty || amountRef.touched)">
                   @if (amountRef.errors?.amountFormat) {
@@ -446,7 +446,18 @@
 
           <ng-container matColumnDef="errorMessage">
             <th mat-header-cell *matHeaderCellDef>Messaggio</th>
-            <td mat-cell *matCellDef="let row">{{ row.errorMessage ?? '--' }}</td>
+            <td mat-cell *matCellDef="let row" class="execution-message-cell">
+              <span>{{ getExecutionMessagePreview(row.errorMessage) }}</span>
+              <button
+                *ngIf="isExecutionMessageLong(row.errorMessage)"
+                type="button"
+                mat-button
+                class="execution-message-view-all"
+                (click)="viewExecutionMessage(row.errorMessage)"
+              >
+                Visualizza tutto
+              </button>
+            </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="executionColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: executionColumns"></tr>
@@ -454,4 +465,12 @@
       </div>
     </div>
   </mat-card>
+
+  <ng-template #fullExecutionMessageDialog let-message>
+    <h2 mat-dialog-title>Messaggio completo</h2>
+    <mat-dialog-content class="execution-message-dialog-content">{{ message }}</mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button type="button" mat-button mat-dialog-close>Chiudi</button>
+    </mat-dialog-actions>
+  </ng-template>
 </div>

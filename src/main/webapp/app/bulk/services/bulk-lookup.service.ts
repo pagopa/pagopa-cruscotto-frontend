@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, map, of, tap } from 'rxjs';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { PageDTO, PageString, LookupOption, PageLookupOption } from '../models/bulk-search.model';
+import { PageDTO, LookupOption, PageLookupOption } from '../models/bulk-search.model';
 
 export interface BulkLookupPageRequest {
   page?: number;
@@ -16,14 +16,14 @@ export interface BulkLookupPageRequest {
 export class BulkLookupService {
   private readonly http = inject(HttpClient);
   private readonly resourceUrl = inject(ApplicationConfigService).getSertEndpointFor('api/bulk/lookups');
-  private readonly sessionCachePrefix = 'pagopa-cruscotto.bulk-lookups.v2';
+  private readonly sessionCachePrefix = 'pagopa-cruscotto.bulk-lookups.v3';
 
-  touchpoints(request?: BulkLookupPageRequest): Observable<PageString> {
-    return this.get<PageString>('touchpoints', request);
+  touchpoints(request?: BulkLookupPageRequest): Observable<PageLookupOption> {
+    return this.get<PageLookupOption>('touchpoints', request);
   }
 
-  paymentMethods(request?: BulkLookupPageRequest): Observable<PageString> {
-    return this.get<PageString>('payment-methods', request);
+  paymentMethods(request?: BulkLookupPageRequest): Observable<PageLookupOption> {
+    return this.get<PageLookupOption>('payment-methods', request);
   }
 
   stations(request?: BulkLookupPageRequest): Observable<PageLookupOption> {

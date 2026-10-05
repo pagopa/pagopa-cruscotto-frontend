@@ -6,7 +6,7 @@ export interface SearchInstanceDTO {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  isCsvPresent?: boolean;
+  presentCsv?: boolean;
   perimeterFilter?: PerimeterFilter;
 }
 
@@ -18,7 +18,7 @@ export interface SearchInstancePOSTDTO {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  isCsvPresent?: boolean;
+  presentCsv?: boolean;
   perimeterFilter?: PerimeterFilterPOSTDTO;
 }
 

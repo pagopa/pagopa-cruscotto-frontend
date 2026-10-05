@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TemplateRef } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
@@ -19,6 +21,7 @@ describe('RicercaMassivaCreateComponent', () => {
       imports: [RicercaMassivaCreateComponent],
       providers: [
         { provide: Router, useValue: { navigate: jest.fn(), getCurrentNavigation: jest.fn(() => undefined) } },
+        { provide: MatDialog, useValue: { open: jest.fn() } },
         {
           provide: BulkLookupService,
           useValue: {
@@ -45,7 +48,9 @@ describe('RicercaMassivaCreateComponent', () => {
   });
 
   it('renders the start/end time fields in 24h format without AM/PM text', () => {
-    const inputs = fixture.nativeElement.querySelectorAll('input[formControlName="periodStartTime"], input[formControlName="periodEndTime"]');
+    const inputs = fixture.nativeElement.querySelectorAll(
+      'input[formControlName="periodStartTime"], input[formControlName="periodEndTime"]',
+    );
 
     expect(inputs).toHaveLength(2);
     expect(inputs[0].getAttribute('type')).toBe('text');
@@ -70,6 +75,24 @@ describe('RicercaMassivaCreateComponent', () => {
     expect(bulkLookupService.intermediariesPsp).toHaveBeenCalledWith({ page: 0, size: 20 });
     expect(bulkLookupService.stations).toHaveBeenCalledWith({ page: 0, size: 20 });
     expect(bulkLookupService.channels).toHaveBeenCalledWith({ page: 0, size: 20 });
+  });
+
+  it('truncates long execution messages and opens the full message in a dialog', () => {
+    const message = 'x'.repeat(comp.executionMessagePreviewLength + 1);
+    const dialog = TestBed.inject(MatDialog);
+    const dialogTemplate = {} as TemplateRef<unknown>;
+    (comp as unknown as { fullExecutionMessageDialog: TemplateRef<unknown> }).fullExecutionMessageDialog = dialogTemplate;
+
+    expect(comp.getExecutionMessagePreview(message)).toBe(`${'x'.repeat(comp.executionMessagePreviewLength)}...`);
+    expect(comp.isExecutionMessageLong(message)).toBe(true);
+
+    comp.viewExecutionMessage(message);
+
+    expect(dialog.open).toHaveBeenCalledWith(dialogTemplate, {
+      data: message,
+      width: '640px',
+      maxWidth: '90vw',
+    });
   });
 
   it('does not submit when the form is invalid', () => {

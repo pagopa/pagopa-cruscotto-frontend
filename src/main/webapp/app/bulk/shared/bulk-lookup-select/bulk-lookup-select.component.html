@@ -1,7 +1,7 @@
 <mat-form-field class="lookup-field" [class.lookup-disabled]="disabled">
   <mat-label>{{ label }}</mat-label>
   <mat-select [value]="selected" [disabled]="disabled" (selectionChange)="select($event.value)" (openedChange)="onOpenedChange($event)">
-    <mat-select-trigger>{{ disabled ? '' : displayOption(selected) }}</mat-select-trigger>
+    <mat-select-trigger>{{ displayOption(selected) }}</mat-select-trigger>
     <mat-option class="lookup-search-option" [value]="null" (click)="$event.stopPropagation()">
       <div class="lookup-search" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
         <mat-icon fontSet="material-symbols-outlined">search</mat-icon>

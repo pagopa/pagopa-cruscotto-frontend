@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, finalize, forkJoin } from 'rxjs';
@@ -6,6 +6,7 @@ import { Subscription, finalize, forkJoin } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +40,7 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -62,9 +64,10 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   isDownloadingCsv = false;
   submitError = false;
   executionColumns: string[] = ['id', 'status', 'startedAt', 'endedAt', 'errorCode', 'errorMessage'];
+  readonly executionMessagePreviewLength = 120;
   executionRows: SearchInstanceExecutionDTO[] = [];
-  touchpoints: string[] = [];
-  paymentMethods: string[] = [];
+  touchpoints: LookupOption[] = [];
+  paymentMethods: LookupOption[] = [];
   paymentMethodsHasMore = false;
   creditorInstitutions: LookupOption[] = [];
   creditorInstitutionsHasMore = false;
@@ -90,9 +93,12 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute, { optional: true });
   private readonly spinner = inject(NgxSpinnerService);
+  private readonly dialog = inject(MatDialog);
   private readonly subscriptions = new Subscription();
   private readonly duplicateInstance: SearchInstanceDTO | null;
   private readonly detailInstance: SearchInstanceDTO | null;
+
+  @ViewChild('fullExecutionMessageDialog') private fullExecutionMessageDialog!: TemplateRef<unknown>;
 
   constructor() {
     const navigationState = this.router.getCurrentNavigation()?.extras.state as
@@ -107,7 +113,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.detailInstanceStatus = this.detailInstance?.status ?? null;
     this.detailInstanceType = this.detailInstance?.inputType ?? null;
     this.editForm = this.formService.createFormGroup(this.detailInstanceType === 'CSV');
-    this.hasCsv = this.detailInstance?.isCsvPresent ?? false;
+    this.hasCsv = this.detailInstance?.presentCsv ?? false;
   }
 
   ngOnInit(): void {
@@ -121,8 +127,28 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  displayCodeDescription = (value: { codice?: string; description?: string } | null): string =>
-    value ? [value.codice, value.description].filter(Boolean).join(' - ') : '';
+  displayCodeDescription = (value: LookupOption | string | null): string =>
+    typeof value === 'string' ? value : value ? [value.codice, value.description].filter(Boolean).join(' - ') : '';
+
+  getExecutionMessagePreview(message?: string): string {
+    if (!message || message.length <= this.executionMessagePreviewLength) {
+      return message ?? '--';
+    }
+
+    return `${message.slice(0, this.executionMessagePreviewLength).trimEnd()}...`;
+  }
+
+  isExecutionMessageLong(message?: string): boolean {
+    return (message?.length ?? 0) > this.executionMessagePreviewLength;
+  }
+
+  viewExecutionMessage(message: string): void {
+    this.dialog.open(this.fullExecutionMessageDialog, {
+      data: message,
+      width: '640px',
+      maxWidth: '90vw',
+    });
+  }
 
   isLookupOption(value: unknown): value is LookupOption {
     return typeof value === 'object' && value !== null;
@@ -148,7 +174,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
         .pipe(
           finalize(() => {
             this.isDownloadingCsv = false;
-            void this.spinner.hide('download-spinner');
+            void this.spinner.hide('download-spincreditorsner');
           }),
         )
         .subscribe(blob => {

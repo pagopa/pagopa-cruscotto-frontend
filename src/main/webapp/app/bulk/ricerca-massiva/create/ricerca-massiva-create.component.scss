@@ -24,6 +24,22 @@
   gap: 12px !important;
 }
 
+.execution-message-cell {
+  max-width: 24rem;
+  overflow-wrap: anywhere;
+}
+
+.execution-message-view-all {
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.execution-message-dialog-content {
+  max-height: min(65vh, 560px);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
 form.detail-readonly {
   .mat-mdc-form-field,
   .mat-mdc-form-field .mat-mdc-text-field-wrapper,
