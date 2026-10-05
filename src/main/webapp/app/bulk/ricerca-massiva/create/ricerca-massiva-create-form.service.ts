@@ -267,7 +267,12 @@ export class RicercaMassivaCreateFormService {
 
     const startDate = criteria.paymentPeriod?.from ? dayjs(criteria.paymentPeriod.from) : null;
     const endDate = criteria.paymentPeriod?.to ? dayjs(criteria.paymentPeriod.to) : null;
-    const amount = String(criteria.amount?.exact) ?? (criteria.amount?.min ? criteria.amount?.min + '-' + criteria.amount.max : null);
+    const amount =
+      criteria.amount?.exact != null
+        ? String(criteria.amount.exact)
+        : criteria.amount?.min != null && criteria.amount.max != null
+          ? `${criteria.amount.min}-${criteria.amount.max}`
+          : null;
 
     form.patchValue(
       {
