@@ -9,6 +9,7 @@
           #searchInput
           matInput
           type="search"
+          compareWith="compareOptions"
           [formControl]="searchControl"
           [placeholder]="'Cerca ' + label"
           (click)="$event.stopPropagation()"
@@ -16,6 +17,7 @@
         />
       </div>
     </mat-option>
+    <mat-option *ngIf="selected" [value]="selected">{{ displayOption(selected) }}</mat-option>
     <cdk-virtual-scroll-viewport
       itemSize="48"
       class="lookup-viewport"

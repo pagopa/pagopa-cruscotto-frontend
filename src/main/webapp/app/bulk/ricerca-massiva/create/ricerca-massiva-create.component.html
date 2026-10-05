@@ -346,9 +346,9 @@
                     }
                   </mat-select-trigger>
                   @for (topping of selectedReportsValues; track topping) {
-                    <mat-option [value]="topping">{{
-                      'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate
-                    }}</mat-option>
+                    <mat-option [value]="topping">
+                      {{ 'pagopaCruscottoApp.ricercaMassiva.create.selectedReportsValues.' + topping | translate }}
+                    </mat-option>
                   }
                 </mat-select>
               </mat-form-field>

@@ -9,19 +9,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { Observable, debounceTime, distinctUntilChanged, finalize, map, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import {
-  AnagCanale,
-  AnagIntermediarioPa,
-  AnagIntermediarioPsp,
-  AnagPaEmittente,
-  AnagPsp,
-  AnagStazione,
-  PageDTO,
-} from '../../models/bulk-search.model';
+import { PageDTO, LookupOption } from '../../models/bulk-search.model';
 import { BulkLookupPageRequest, BulkLookupService } from '../../services/bulk-lookup.service';
 
-type LookupOption = AnagPaEmittente | AnagPsp | AnagIntermediarioPa | AnagIntermediarioPsp | AnagStazione | AnagCanale | string;
 export type BulkLookupType =
   | 'creditorInstitutions'
   | 'psp'
@@ -59,14 +49,14 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
 
   @Input({ required: true }) label = '';
   @Input({ required: true }) lookupType!: BulkLookupType;
-  @Input() initialOptions: LookupOption[] = [];
+  @Input() initialOptions: LookupOption[] | string[] = [];
   @Input() initialHasMore = true;
 
   readonly searchControl = new FormControl('', { nonNullable: true });
-  options: LookupOption[] = [];
+  options: (LookupOption | string)[] = [];
   loading = false;
   hasMore = true;
-  selected: LookupOption | null = null;
+  selected: LookupOption | string | null = null;
   disabled = false;
 
   private readonly lookupService = inject(BulkLookupService);
@@ -74,7 +64,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
   private page = 0;
   private filter = '';
   private readonly pageSize = 20;
-  private onChange: (value: LookupOption | null) => void = () => undefined;
+  private onChange: (value: LookupOption | string | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -103,7 +93,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
       .subscribe(response => this.replaceOptions(response));
   }
 
-  displayOption = (option: LookupOption | null): string => {
+  displayOption = (option: LookupOption | string | null): string => {
     if (!option) {
       return '';
     }
@@ -115,14 +105,15 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     return [option.codice, option.description].filter(Boolean).join(' - ');
   };
 
-  trackByOption = (_index: number, option: LookupOption): number | string | undefined => (typeof option === 'string' ? option : option.id);
+  trackByOption = (_index: number, option: LookupOption | string): number | string | undefined =>
+    typeof option === 'string' ? option : option.id;
 
-  writeValue(value: LookupOption | null): void {
+  writeValue(value: LookupOption | string | null): void {
     this.selected = value;
     this.searchControl.setValue('', { emitEvent: false });
   }
 
-  registerOnChange(fn: (value: LookupOption | null) => void): void {
+  registerOnChange(fn: (value: LookupOption | string | null) => void): void {
     this.onChange = fn;
   }
 
@@ -139,7 +130,7 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     }
   }
 
-  select(option: LookupOption | null): void {
+  select(option: LookupOption | string | null): void {
     if (!option) {
       return;
     }
@@ -147,6 +138,16 @@ export class BulkLookupSelectComponent implements ControlValueAccessor, OnChange
     this.onChange(option);
     this.onTouched();
   }
+
+  compareOptions = (option1: LookupOption | string | null, option2: LookupOption | string | null): boolean => {
+    if (!option1 || !option2) return false;
+
+    if (typeof option1 === 'object' && typeof option2 === 'object') {
+      return option1.id === option2.id;
+    }
+
+    return option1 === option2;
+  };
 
   clear(): void {
     this.selected = null;

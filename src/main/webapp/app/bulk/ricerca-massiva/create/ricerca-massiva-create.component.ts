@@ -14,20 +14,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTimepickerModule } from '@angular/material/timepicker';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-
 import SharedModule from '../../../shared/shared.module';
 import { BulkLookupSelectComponent } from '../../shared/bulk-lookup-select/bulk-lookup-select.component';
 import {
-  AnagIntermediarioPa,
-  AnagIntermediarioPsp,
-  AnagCanale,
-  AnagPaEmittente,
-  AnagPsp,
-  AnagStazione,
   PaymentOutcome,
   SelectedReportsValues,
   SearchInstanceDTO,
   SearchInstanceExecutionDTO,
+  LookupOption,
 } from '../../models/bulk-search.model';
 import { BulkLookupService } from '../../services/bulk-lookup.service';
 import { BulkSearchService } from '../../services/bulk-search.service';
@@ -72,17 +66,17 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
   touchpoints: string[] = [];
   paymentMethods: string[] = [];
   paymentMethodsHasMore = false;
-  creditorInstitutions: AnagPaEmittente[] = [];
+  creditorInstitutions: LookupOption[] = [];
   creditorInstitutionsHasMore = false;
-  psp: AnagPsp[] = [];
+  psp: LookupOption[] = [];
   pspHasMore = false;
-  intermediaries: AnagIntermediarioPa[] = [];
+  intermediaries: LookupOption[] = [];
   intermediariesHasMore = false;
-  intermediariesPsp: AnagIntermediarioPsp[] = [];
+  intermediariesPsp: LookupOption[] = [];
   intermediariesPspHasMore = false;
-  stations: AnagStazione[] = [];
+  stations: LookupOption[] = [];
   stationsHasMore = false;
-  channels: AnagCanale[] = [];
+  channels: LookupOption[] = [];
   channelsHasMore = false;
   detailInstanceId: string | null = null;
   detailInstanceStatus: string | null = null;
@@ -109,16 +103,11 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
       | undefined;
     this.duplicateInstance = navigationState?.duplicateInstance ?? null;
     this.detailInstance = this.activatedRoute?.snapshot.data['detailInstance'] ?? navigationState?.detailInstance ?? null;
-    if (this.detailInstance) {
-      this.hasCsv =
-        this.detailInstance.inputType === 'CSV'
-          ? true
-          : this.detailInstance.status === 'READY' || this.detailInstance.status === 'EXECUTED';
-    }
     this.detailInstanceId = this.detailInstance?.id ?? null;
     this.detailInstanceStatus = this.detailInstance?.status ?? null;
     this.detailInstanceType = this.detailInstance?.inputType ?? null;
     this.editForm = this.formService.createFormGroup(this.detailInstanceType === 'CSV');
+    this.hasCsv = this.detailInstance?.isCsvPresent ?? false;
   }
 
   ngOnInit(): void {
@@ -134,8 +123,6 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
 
   displayCodeDescription = (value: { codice?: string; description?: string } | null): string =>
     value ? [value.codice, value.description].filter(Boolean).join(' - ') : '';
-
-  displayStation = (value: AnagStazione | null): string => value?.codice ?? '';
 
   clearFilter(controlName: string): void {
     if (this.isReadOnly) {

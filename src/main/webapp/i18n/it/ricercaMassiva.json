@@ -60,7 +60,20 @@
         "station": "Stazione",
         "stationHint": "Le opzioni dipendono da PSP e Intermediario selezionati",
         "neverExecuted": "L'istanza non è mai stata eseguita.",
-        "saveError": "Errore durante la creazione dell'istanza"
+        "saveError": "Errore durante la creazione dell'istanza",
+        "csvValidation": {
+          "CSV_HEADER_MISSING": "Non compare l'intestazione CSV",
+          "CSV_HEADER_UNKNOWN": "Intestazione CSV non riconosciuta",
+          "CSV_HEADER_COLUMN_UNKNOWN": "Colonna non prevista nell'intestazione",
+          "CSV_HEADER_COLUMN_DUPLICATE": "Colonna duplicata nell'intestazione",
+          "CSV_ROW_EMPTY": "La riga è vuota",
+          "CSV_DATA_MISSING": "Non sono presenti righe dati",
+          "CSV_COLUMN_COUNT": "Numero di colonne non valido: previsto {{expected}}, trovato {{found}}",
+          "CSV_VALUE_MISSING": "Valore obbligatorio mancante",
+          "CSV_VALUE_LENGTH": "Lunghezza del valore non valida: prevista {{expected}}, trovata {{found}}",
+          "CSV_IUV_LENGTH": "Lunghezza IUV non valida: prevista tra 1 e 35",
+          "CSV_TOKEN_INVALID": "Token non valido: i primi 32 caratteri devono essere un UUID senza trattini; il suffisso può avere al massimo 3 caratteri"
+        }
       }
     }
   }

@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Dayjs } from 'dayjs/esm';
-
-import dayjs from '../../../config/dayjs';
 import { datepickerMaxRangeValidatorFn, datepickerRangeValidatorFn } from 'app/shared/util/validator-util';
 import {
-  AnagIntermediarioPa,
-  AnagIntermediarioPsp,
-  AnagCanale,
-  AnagPaEmittente,
-  AnagPsp,
-  AnagStazione,
   PerimeterFilter,
   PaymentOutcome,
   SearchInstanceDTO,
+  LookupOption,
+  SearchInstancePOSTDTO,
+  PerimeterFilterPOSTDTO,
 } from '../../models/bulk-search.model';
+import { Dayjs } from 'dayjs/esm';
+import dayjs from '../../../config/dayjs';
 
 export interface RicercaMassivaCreateFormLookups {
-  creditorInstitutions: AnagPaEmittente[];
-  psp: AnagPsp[];
-  intermediaries: AnagIntermediarioPa[];
-  intermediariesPsp: AnagIntermediarioPsp[];
-  stations: AnagStazione[];
-  channels: AnagCanale[];
+  creditorInstitutions: LookupOption[];
+  psp: LookupOption[];
+  intermediaries: LookupOption[];
+  intermediariesPsp: LookupOption[];
+  stations: LookupOption[];
+  channels: LookupOption[];
 }
 
 type RicercaMassivaCreateFormContent = {
@@ -32,15 +28,15 @@ type RicercaMassivaCreateFormContent = {
   periodStartTime: FormControl<Dayjs | null>;
   periodEndTime: FormControl<Dayjs | null>;
   paymentOutcome: FormControl<PaymentOutcome | null>;
-  touchpoint: FormControl<string | null>;
-  paymentMethod: FormControl<string | null>;
+  touchpoint: FormControl<LookupOption | null>;
+  paymentMethod: FormControl<LookupOption | null>;
   amount: FormControl<string | null>;
-  creditorInstitution: FormControl<AnagPaEmittente | null>;
-  psp: FormControl<AnagPsp | null>;
-  intermediary: FormControl<AnagIntermediarioPa | null>;
-  intermediaryPsp: FormControl<AnagIntermediarioPsp | null>;
-  station: FormControl<AnagStazione | null>;
-  channel: FormControl<AnagCanale | null>;
+  creditorInstitution: FormControl<LookupOption | null>;
+  psp: FormControl<LookupOption | null>;
+  intermediary: FormControl<LookupOption | null>;
+  intermediaryPsp: FormControl<LookupOption | null>;
+  station: FormControl<LookupOption | null>;
+  channel: FormControl<LookupOption | null>;
   selectedReports: FormControl<string[] | null>;
 };
 
@@ -177,10 +173,10 @@ export class RicercaMassivaCreateFormService {
   }
 
   // Invia le date a mezzanotte e solo i criteri effettivamente valorizzati.
-  getSearchInstance(form: RicercaMassivaCreateFormGroup): SearchInstanceDTO {
+  getSearchInstance(form: RicercaMassivaCreateFormGroup): SearchInstancePOSTDTO {
     const raw = form.getRawValue();
 
-    const perimeterFilter: PerimeterFilter = {};
+    const perimeterFilter: PerimeterFilterPOSTDTO = {};
 
     const periodStart = raw.periodStartDate
       ? raw.periodStartDate
@@ -207,11 +203,11 @@ export class RicercaMassivaCreateFormService {
     if (raw.paymentOutcome) {
       perimeterFilter.paymentStatuses = [raw.paymentOutcome];
     }
-    if (raw.touchpoint) {
-      perimeterFilter.touchpoints = [raw.touchpoint];
+    if (raw.touchpoint?.id !== undefined) {
+      perimeterFilter.touchpoints = [raw.touchpoint.id];
     }
-    if (raw.paymentMethod) {
-      perimeterFilter.paymentMethods = [raw.paymentMethod];
+    if (raw.paymentMethod?.id !== undefined) {
+      perimeterFilter.paymentMethods = [raw.paymentMethod.id];
     }
     if (raw.amount) {
       if (raw.amount.toString().includes('-')) {
@@ -231,14 +227,10 @@ export class RicercaMassivaCreateFormService {
       perimeterFilter.psps = [raw.psp.id];
     }
     if (raw.intermediary?.id !== undefined) {
-      // perimeterFilter.intermediary = [raw.intermediary?.id];
-      perimeterFilter.technologicalPartners = [raw.intermediary?.id];
+      perimeterFilter.technologicalPartnersPa = [raw.intermediary?.id];
     }
     if (raw.intermediaryPsp?.id !== undefined) {
-      // perimeterFilter.intermediaryPsp = [raw.intermediaryPsp?.id];
-      perimeterFilter.technologicalPartners = perimeterFilter.technologicalPartners?.[0]
-        ? [perimeterFilter.technologicalPartners?.[0], raw.intermediaryPsp?.id]
-        : [raw.intermediaryPsp.id];
+      perimeterFilter.technologicalPartnersPsp = [raw.intermediaryPsp?.id];
     }
     if (raw.station?.id !== undefined) {
       perimeterFilter.stations = [raw.station.id];
@@ -278,14 +270,12 @@ export class RicercaMassivaCreateFormService {
         touchpoint: criteria.touchpoints?.[0] ?? null,
         paymentMethod: criteria.paymentMethods?.[0] ?? null,
         amount: amount,
-        creditorInstitution: lookups.creditorInstitutions.find(item => criteria.creditors?.includes(item.id ?? -1)) ?? null,
-        psp: lookups.psp.find(item => criteria.psps?.includes(item.id ?? -1)) ?? null,
-        intermediary: lookups.intermediaries.find(item => criteria.technologicalPartners?.[0] == item.id) ?? null,
-        intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.technologicalPartners?.[1] == item.id) ?? null,
-        // intermediary: lookups.intermediaries.find(item => criteria.intermediary?.includes(item.id ?? -1)) ?? null,
-        // intermediaryPsp: lookups.intermediariesPsp.find(item => criteria.intermediaryPsp?.includes(item.id ?? -1)) ?? null,
-        station: lookups.stations.find(item => criteria.stations?.includes(item.id ?? -1)) ?? null,
-        channel: lookups.channels.find(item => criteria.channels?.includes(item.id ?? -1)) ?? null,
+        creditorInstitution: criteria.creditors?.[0] ?? null,
+        psp: criteria.psps?.[0] ?? null,
+        intermediary: criteria.technologicalPartnersPa?.[0] ?? null,
+        intermediaryPsp: criteria.technologicalPartnersPsp?.[0] ?? null,
+        station: criteria.stations?.[0] ?? null,
+        channel: criteria.channels?.[0] ?? null,
         selectedReports: instance.selectedReports?.split(',') ?? ['POSITION', 'TOKEN', 'TRANSFER'],
       },
       { emitEvent: false },
