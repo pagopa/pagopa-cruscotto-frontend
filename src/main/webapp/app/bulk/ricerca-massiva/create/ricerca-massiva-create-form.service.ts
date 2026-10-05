@@ -58,13 +58,12 @@ const clearTimeError = (control: AbstractControl | null, errorKey: string): void
   control.setErrors(Object.keys(currentErrors).length > 0 ? currentErrors : null);
 };
 
-const getLookupId = (value: LookupOption | string | null): number | undefined => {
+const getLookupCode = (value: LookupOption | string | null): string | undefined => {
   if (typeof value === 'string') {
-    const id = Number(value);
-    return value.trim() && Number.isSafeInteger(id) ? id : undefined;
+    return value.trim() || undefined;
   }
 
-  return value?.id;
+  return value?.codice;
 };
 
 const massiveSearchPeriodValidatorFn: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -212,11 +211,11 @@ export class RicercaMassivaCreateFormService {
     if (raw.paymentOutcome) {
       perimeterFilter.paymentStatuses = [raw.paymentOutcome];
     }
-    const touchpoint = getLookupId(raw.touchpoint);
+    const touchpoint = getLookupCode(raw.touchpoint);
     if (touchpoint !== undefined) {
       perimeterFilter.touchpoints = [touchpoint];
     }
-    const paymentMethod = getLookupId(raw.paymentMethod);
+    const paymentMethod = getLookupCode(raw.paymentMethod);
     if (paymentMethod !== undefined) {
       perimeterFilter.paymentMethods = [paymentMethod];
     }

@@ -85,8 +85,8 @@ export interface PerimeterFilter {
 export interface PerimeterFilterPOSTDTO {
   paymentPeriod?: PaymentPeriod;
   paymentStatuses?: PaymentOutcome[];
-  touchpoints?: number[];
-  paymentMethods?: number[];
+  touchpoints?: string[];
+  paymentMethods?: string[];
   amount?: AmountRange;
   creditors?: number[];
   psps?: number[];
