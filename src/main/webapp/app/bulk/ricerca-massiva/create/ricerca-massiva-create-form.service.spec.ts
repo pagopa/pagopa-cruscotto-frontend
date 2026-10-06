@@ -108,6 +108,8 @@ describe('RicercaMassivaCreateFormService', () => {
       periodStartDate: dayjs('2026-01-01'),
       periodEndDate: dayjs('2026-01-02'),
       paymentOutcome: 'OK',
+      touchpoint: { id: 17, codice: 'TP01', description: 'Touchpoint uno' },
+      paymentMethod: { id: 23, codice: 'PM01', description: 'Metodo uno' },
       psp: { id: 5, codice: 'PSP1', description: 'Psp uno' },
     });
 
@@ -121,7 +123,8 @@ describe('RicercaMassivaCreateFormService', () => {
       to: dayjs('2026-01-02').startOf('day').toISOString(),
     });
     expect(payload.perimeterFilter?.psps).toEqual([5]);
-    expect(payload.perimeterFilter?.touchpoints).toBeUndefined();
+    expect(payload.perimeterFilter?.touchpoints).toEqual(['TP01']);
+    expect(payload.perimeterFilter?.paymentMethods).toEqual(['PM01']);
     expect(payload.perimeterFilter?.creditors).toBeUndefined();
   });
 });

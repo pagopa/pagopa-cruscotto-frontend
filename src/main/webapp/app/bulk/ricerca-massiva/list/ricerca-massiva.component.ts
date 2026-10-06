@@ -17,7 +17,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import SharedModule from '../../../shared/shared.module';
-import FormatDatePipe from '../../../shared/date/format-date.pipe';
 import { ITEMS_PER_PAGE } from '../../../config/pagination.constants';
 import { SearchInstanceDTO } from '../../models/bulk-search.model';
 import { BulkSearchService } from '../../services/bulk-search.service';
@@ -35,7 +34,6 @@ import { DatePipe } from '@angular/common';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    FormatDatePipe,
     MatButtonModule,
     MatCardModule,
     MatDialogModule,

@@ -8,6 +8,7 @@ import {
   PageDTO,
   SearchInstanceDTO,
   SearchInstanceExecutionDTO,
+  SearchInstancePOSTDTO,
 } from '../models/bulk-search.model';
 
 export interface BulkSearchPageRequest {
@@ -50,11 +51,11 @@ export class BulkSearchService {
     return this.http.get<SearchInstanceDTO>(`${this.resourceUrl}/${encodeURIComponent(id)}`);
   }
 
-  create(searchInstance: SearchInstanceDTO): Observable<SearchInstanceDTO> {
+  create(searchInstance: SearchInstancePOSTDTO): Observable<SearchInstanceDTO> {
     return this.http.post<SearchInstanceDTO>(this.resourceUrl, searchInstance);
   }
 
-  update(id: string, searchInstance: SearchInstanceDTO): Observable<SearchInstanceDTO> {
+  update(id: string, searchInstance: SearchInstancePOSTDTO): Observable<SearchInstanceDTO> {
     return this.http.put<SearchInstanceDTO>(`${this.resourceUrl}/${encodeURIComponent(id)}`, searchInstance);
   }
 

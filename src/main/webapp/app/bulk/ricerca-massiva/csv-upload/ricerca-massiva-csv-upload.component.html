@@ -152,17 +152,12 @@
           @if (validationErrors.length) {
             <div class="alert alert-danger mt-3" role="alert">
               <h4 class="alert-heading mb-3">Errori di validazione</h4>
-              @if (validationSummary) {
-                <p class="mb-3 text-muted">{{ validationSummary }}</p>
-              }
               <ul class="mb-0 ps-3">
-                @for (error of visibleValidationErrors; track error.lineNumber + error.column + error.message) {
+                @for (error of validationErrors; track $index) {
                   <li>
-                    <strong>Riga {{ error.lineNumber }}</strong> · {{ error.column || 'campo' }}: {{ error.message }}
+                    <strong>Riga {{ error.lineNumber }}</strong
+                    >: {{ getValidationMessage(error) }}
                   </li>
-                }
-                @if (remainingErrorsCount > 0) {
-                  <li class="text-muted">Altri {{ remainingErrorsCount }} errore{{ remainingErrorsCount === 1 ? '' : 'i' }}.</li>
                 }
               </ul>
             </div>

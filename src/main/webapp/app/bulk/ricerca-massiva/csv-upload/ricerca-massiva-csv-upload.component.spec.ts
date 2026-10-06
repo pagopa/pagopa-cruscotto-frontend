@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { RicercaMassivaCsvUploadComponent } from './ricerca-massiva-csv-upload.component';
 import { BulkSearchService } from '../../services/bulk-search.service';
@@ -32,7 +32,7 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     expect(comp.csvPreview).toBe('value1,value2\nvalue3,value4');
   });
 
-  it('shows only the first validation errors and the remaining count', () => {
+  it('shows every validation error from the response', () => {
     const bulkSearchService = TestBed.inject(BulkSearchService) as { validateCsvFile: jest.Mock };
     bulkSearchService.validateCsvFile.mockReturnValue(
       of({
@@ -42,10 +42,17 @@ describe('RicercaMassivaCsvUploadComponent', () => {
         validRows: 1,
         invalidRows: 4,
         errors: [
-          { lineNumber: 2, column: 'NAV', message: 'Valore obbligatorio' },
-          { lineNumber: 3, column: 'IUV', message: 'Formato non valido' },
-          { lineNumber: 4, column: 'IMPORTO', message: 'Valore numerico non valido' },
-          { lineNumber: 5, column: 'DOMINIO', message: 'Valore non presente' },
+          { lineNumber: 2, column: 'NAV', codeMessage: 'CSV_VALUE_MISSING', message: 'Valore obbligatorio' },
+          { lineNumber: 3, column: 'IUV', codeMessage: 'CSV_IUV_LENGTH', message: 'Formato non valido' },
+          {
+            lineNumber: 4,
+            column: 'IMPORTO',
+            codeMessage: 'CSV_COLUMN_COUNT',
+            expected: 1,
+            found: 2,
+            message: 'Valore numerico non valido',
+          },
+          { lineNumber: 5, column: null, codeMessage: 'CSV_HEADER_UNKNOWN', message: 'Valore non presente' },
         ],
       }),
     );
@@ -54,8 +61,32 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     comp.validateCsv();
     fixture.detectChanges();
 
-    expect(comp.visibleValidationErrors).toHaveLength(3);
-    expect(comp.remainingErrorsCount).toBe(1);
-    expect(fixture.nativeElement.textContent).toContain('altri 1 errore');
+    const errorItems = fixture.nativeElement.querySelectorAll('.alert-danger li');
+    expect(errorItems).toHaveLength(4);
+    expect(fixture.nativeElement.textContent).toContain('Valore non presente');
+  });
+
+  it('uses validation errors from the HTTP error body when the backend rejects the CSV', () => {
+    const bulkSearchService = TestBed.inject(BulkSearchService) as { validateCsvFile: jest.Mock };
+    bulkSearchService.validateCsvFile.mockReturnValue(
+      throwError(() => ({
+        error: {
+          valid: false,
+          detectedTemplate: 'NAV',
+          totalRows: 5,
+          validRows: 1,
+          invalidRows: 4,
+          errors: [{ lineNumber: 2, column: 'IUV', codeMessage: 'CSV_IUV_LENGTH', message: 'Formato non valido' }],
+        },
+      })),
+    );
+
+    comp.currentCsvBlob = new Blob(['NAV\n123'], { type: 'text/csv' });
+    comp.validateCsv();
+    fixture.detectChanges();
+
+    expect(comp.validationErrors).toEqual([{ lineNumber: 2, column: 'IUV', codeMessage: 'CSV_IUV_LENGTH', message: 'Formato non valido' }]);
+    expect(comp.validationSummary).toContain('5 righe totali');
+    expect(comp.canSubmit).toBe(false);
   });
 });

@@ -6,6 +6,19 @@
   width: 100%;
 }
 
+:host ::ng-deep .lookup-disabled .mat-mdc-select-arrow-wrapper {
+  display: none;
+}
+
+:host ::ng-deep .lookup-disabled .mat-mdc-floating-label {
+  opacity: 1;
+}
+
+:host ::ng-deep .lookup-disabled .mat-mdc-select-value {
+  color: rgba(0, 0, 0, 0.87) !important;
+  opacity: 1 !important;
+}
+
 .lookup-viewport {
   height: 200px;
   width: 100%;

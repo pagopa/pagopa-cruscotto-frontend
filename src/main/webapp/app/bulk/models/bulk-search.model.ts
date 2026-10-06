@@ -6,7 +6,20 @@ export interface SearchInstanceDTO {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  presentCsv?: boolean;
   perimeterFilter?: PerimeterFilter;
+}
+
+export interface SearchInstancePOSTDTO {
+  id?: string;
+  name?: string;
+  inputType?: 'FILTER' | 'CSV' | string;
+  selectedReports?: string;
+  status?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  presentCsv?: boolean;
+  perimeterFilter?: PerimeterFilterPOSTDTO;
 }
 
 export interface SearchInstanceExecutionDTO {
@@ -41,8 +54,11 @@ export interface AmountRange {
 
 export interface CsvValidationError {
   lineNumber: number;
-  column: string;
+  column: string | null;
+  codeMessage: string;
   message: string;
+  expected?: number | string;
+  found?: number | string;
 }
 
 export interface CsvValidationResult {
@@ -59,6 +75,19 @@ export interface CsvValidationResult {
 export interface PerimeterFilter {
   paymentPeriod?: PaymentPeriod;
   paymentStatuses?: PaymentOutcome[];
+  touchpoints?: LookupOption[];
+  paymentMethods?: LookupOption[];
+  amount?: AmountRange;
+  creditors?: LookupOption[];
+  psps?: LookupOption[];
+  channels?: LookupOption[];
+  stations?: LookupOption[];
+  technologicalPartnersPa?: LookupOption[];
+  technologicalPartnersPsp?: LookupOption[];
+}
+export interface PerimeterFilterPOSTDTO {
+  paymentPeriod?: PaymentPeriod;
+  paymentStatuses?: PaymentOutcome[];
   touchpoints?: string[];
   paymentMethods?: string[];
   amount?: AmountRange;
@@ -66,9 +95,8 @@ export interface PerimeterFilter {
   psps?: number[];
   channels?: number[];
   stations?: number[];
-  technologicalPartners?: number[];
-  // intermediary?: number[];
-  // intermediaryPsp?: number[];
+  technologicalPartnersPa?: number[];
+  technologicalPartnersPsp?: number[];
 }
 
 export interface ProblemDetailWithCause {
@@ -106,46 +134,11 @@ export interface PageDTO<T> {
   empty?: boolean;
 }
 
-export interface AnagStazione {
-  id?: number;
-  codice?: string;
-  description?: string;
-}
-
-export interface AnagPsp {
-  id?: number;
-  codice?: string;
-  description?: string;
-}
-
-export interface AnagIntermediarioPa {
-  id?: number;
-  codice?: string;
-  description?: string;
-}
-
-export interface AnagIntermediarioPsp {
-  id?: number;
-  codice?: string;
-  description?: string;
-}
-
-export interface AnagPaEmittente {
-  id?: number;
-  codice?: string;
-  description?: string;
-}
-
-export interface AnagCanale {
+export interface LookupOption {
   id?: number;
   codice?: string;
   description?: string;
 }
 
 export type PageString = PageDTO<string>;
-export type PageAnagStazione = PageDTO<AnagStazione>;
-export type PageAnagPsp = PageDTO<AnagPsp>;
-export type PageAnagIntermediarioPa = PageDTO<AnagIntermediarioPa>;
-export type PageAnagIntermediarioPsp = PageDTO<AnagIntermediarioPsp>;
-export type PageAnagPaEmittente = PageDTO<AnagPaEmittente>;
-export type PageAnagCanale = PageDTO<AnagCanale>;
+export type PageLookupOption = PageDTO<LookupOption>;

@@ -1,4 +1,4 @@
-<mat-form-field class="lookup-field">
+<mat-form-field class="lookup-field" [class.lookup-disabled]="disabled">
   <mat-label>{{ label }}</mat-label>
   <mat-select [value]="selected" [disabled]="disabled" (selectionChange)="select($event.value)" (openedChange)="onOpenedChange($event)">
     <mat-select-trigger>{{ displayOption(selected) }}</mat-select-trigger>
@@ -9,6 +9,7 @@
           #searchInput
           matInput
           type="search"
+          compareWith="compareOptions"
           [formControl]="searchControl"
           [placeholder]="'Cerca ' + label"
           (click)="$event.stopPropagation()"
@@ -16,6 +17,7 @@
         />
       </div>
     </mat-option>
+    <mat-option *ngIf="selected" [value]="selected">{{ displayOption(selected) }}</mat-option>
     <cdk-virtual-scroll-viewport
       itemSize="48"
       class="lookup-viewport"
@@ -35,7 +37,15 @@
     <mat-option *ngIf="!loading && options.length === 0" disabled>Nessun risultato</mat-option>
   </mat-select>
 
-  <button *ngIf="selected" mat-icon-button matSuffix class="clear-select-button" type="button" aria-label="Cancella" (click)="clear()">
+  <button
+    *ngIf="selected && !disabled"
+    mat-icon-button
+    matSuffix
+    class="clear-select-button"
+    type="button"
+    aria-label="Cancella"
+    (click)="clear()"
+  >
     <mat-icon fontSet="material-symbols-outlined">close_small</mat-icon>
   </button>
 </mat-form-field>
