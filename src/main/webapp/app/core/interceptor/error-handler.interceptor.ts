@@ -25,7 +25,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             return;
           }
 
-          const isDuplicateBulkSearchInstance = err.status === 509 && err.url?.includes('/api/bulk/search-instances') === true;
+          const isDuplicateBulkSearchInstance = err.status === 409 && err.url?.includes('/api/bulk/search-instances') === true;
 
           if (isDuplicateBulkSearchInstance) {
             const alert: Alert = { type: 'error', translationKey: 'error.duplicateInstanceName' };
