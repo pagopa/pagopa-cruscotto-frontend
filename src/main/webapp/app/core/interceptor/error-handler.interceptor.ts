@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
+import { Alert } from '../util/alert.service';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
