@@ -25,6 +25,14 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             return;
           }
 
+          const isDuplicateBulkSearchInstance = err.status === 509 && err.url?.includes('/api/bulk/search-instances') === true;
+
+          if (isDuplicateBulkSearchInstance) {
+            const alert: Alert = { type: 'error', translationKey: 'error.duplicateInstanceName' };
+            this.eventManager.broadcast(new EventWithContent('pagopaCruscottoApp.alert', alert));
+            return;
+          }
+
           //avoid broadcasting error when generating report, as it is expected to receive a 409 response with the message "Report generation in progress" if the report is already being generated
           if (!(err.status === 409 && err.url?.includes('generate-async'))) {
             if (!(err.status === 401 && (err.message === '' || err.url?.includes('api/account')))) {

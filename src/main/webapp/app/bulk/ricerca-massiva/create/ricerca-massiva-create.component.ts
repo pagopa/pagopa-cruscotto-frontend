@@ -297,7 +297,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
           }
 
           if (this.detailInstance) {
-            this.isReadOnly = this.detailInstance.status !== 'DRAFT';
+            this.isReadOnly = !(this.detailInstance.status == 'DRAFT' || this.detailInstance.status == 'FAILED');
             if (this.isReadOnly) {
               this.editForm.disable();
             }
