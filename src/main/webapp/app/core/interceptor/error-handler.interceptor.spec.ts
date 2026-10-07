@@ -18,10 +18,10 @@ describe('ErrorHandlerInterceptor', () => {
     interceptor = TestBed.inject(ErrorHandlerInterceptor);
   });
 
-  it('broadcasts the duplicate instance name alert for a bulk search 509 error', () => {
-    const error = createError(509, 'https://example.test/api/bulk/search-instances');
+  it('forwards bulk search 409 errors to the alert component', () => {
+    const error = createError(409, 'https://example.test/api/bulk/search-instances');
     let receivedEvent: EventWithContent<unknown> | undefined;
-    eventManager.subscribe('pagopaCruscottoApp.alert', event => (receivedEvent = event as EventWithContent<unknown>));
+    eventManager.subscribe('pagopaCruscottoApp.httpError', event => (receivedEvent = event as EventWithContent<unknown>));
 
     interceptor
       .intercept(new HttpRequest('POST', error.url), {
@@ -29,15 +29,7 @@ describe('ErrorHandlerInterceptor', () => {
       })
       .subscribe({ error: () => undefined });
 
-    expect(receivedEvent).toEqual(
-      expect.objectContaining({
-        name: 'pagopaCruscottoApp.alert',
-        content: {
-          type: 'error',
-          translationKey: 'error.duplicateInstanceName',
-        },
-      }),
-    );
+    expect(receivedEvent?.content).toBe(error);
   });
 
   it('keeps broadcasting other errors through the HTTP error event', () => {

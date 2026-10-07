@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { EventManager, EventWithContent } from 'app/core/util/event-manager.service';
-import { Alert } from '../util/alert.service';
 
 @Injectable()
 export class ErrorHandlerInterceptor implements HttpInterceptor {
@@ -22,14 +21,6 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
               err.url?.includes('/api/search'));
 
           if (isExpectedNoData404) {
-            return;
-          }
-
-          const isDuplicateBulkSearchInstance = err.status === 409 && err.url?.includes('/api/bulk/search-instances') === true;
-
-          if (isDuplicateBulkSearchInstance) {
-            const alert: Alert = { type: 'error', translationKey: 'error.duplicateInstanceName' };
-            this.eventManager.broadcast(new EventWithContent('pagopaCruscottoApp.alert', alert));
             return;
           }
 

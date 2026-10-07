@@ -140,6 +140,30 @@ describe('RicercaMassivaCreateComponent', () => {
     expect(router.navigate).not.toHaveBeenCalled();
   });
 
+  it('marks the name invalid when the create request returns a duplicate conflict', () => {
+    const error = new HttpErrorResponse({
+      status: 409,
+      url: 'https://example.test/api/bulk/search-instances',
+    });
+    jest.spyOn(bulkSearchService, 'create').mockReturnValue(throwError(() => error));
+    comp.editForm.patchValue({
+      name: 'Estrazione test',
+      periodStartDate: dayjs('2026-01-01'),
+      periodEndDate: dayjs('2026-01-02'),
+    });
+
+    comp.save();
+
+    expect(comp.editForm.get('name')?.errors).toEqual({ duplicateInstanceName: true });
+    expect(comp.editForm.valid).toBe(false);
+    expect(comp.submitError).toBe(true);
+
+    comp.editForm.get('name')?.setValue('Nuovo nome');
+
+    expect(comp.editForm.get('name')?.valid).toBe(true);
+    expect(comp.editForm.get('name')?.errors).toBeNull();
+  });
+
   it('loads a detail instance in read-only mode when passed in navigation state', () => {
     (router.getCurrentNavigation as jest.Mock).mockReturnValue({
       extras: {

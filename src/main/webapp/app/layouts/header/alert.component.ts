@@ -9,6 +9,32 @@ import { translationNotFoundMessage } from 'app/config/translation.config';
 import { Alert, AlertType } from '../../core/util/alert.service';
 import { ToastrService } from 'ngx-toastr';
 
+export const isDuplicateBulkSearchInstanceError = (httpErrorResponse: HttpErrorResponse): boolean => {
+  const url = httpErrorResponse.url ?? '';
+  const pathname = url.includes('://') ? new URL(url).pathname : url.split('?')[0];
+  return httpErrorResponse.status === 409 && pathname.includes('/api/bulk/search-instances') && !pathname.endsWith('/csv');
+};
+
+const DUPLICATE_HTTP_ERROR_WINDOW_MS = 5000;
+
+export const isDuplicateHttpError = (
+  httpErrorResponse: HttpErrorResponse,
+  recentlyShownErrors: Map<string, number>,
+  now: number,
+): boolean => {
+  const key = [httpErrorResponse.status, httpErrorResponse.url, httpErrorResponse.message, JSON.stringify(httpErrorResponse.error)].join(
+    ':',
+  );
+  const lastShownAt = recentlyShownErrors.get(key);
+
+  if (lastShownAt !== undefined && now - lastShownAt < DUPLICATE_HTTP_ERROR_WINDOW_MS) {
+    return true;
+  }
+
+  recentlyShownErrors.set(key, now);
+  return false;
+};
+
 @Component({
   standalone: true,
   selector: 'jhi-alert-toastr',
@@ -19,6 +45,7 @@ export default class AlertToastrComponent implements OnDestroy {
   alertListener?: Subscription;
   httpErrorListener?: Subscription;
 
+  private readonly recentlyShownHttpErrors = new Map<string, number>();
   private readonly translateService = inject(TranslateService);
   private readonly eventManager = inject(EventManager);
   private readonly toastrService = inject(ToastrService);
@@ -32,6 +59,14 @@ export default class AlertToastrComponent implements OnDestroy {
     this.httpErrorListener = this.eventManager.subscribe('pagopaCruscottoApp.httpError', (response: EventWithContent<unknown> | string) => {
       let i;
       const httpErrorResponse = (response as EventWithContent<HttpErrorResponse>).content;
+
+      if (isDuplicateBulkSearchInstanceError(httpErrorResponse)) {
+        return;
+      }
+
+      if (isDuplicateHttpError(httpErrorResponse, this.recentlyShownHttpErrors, Date.now())) {
+        return;
+      }
 
       switch (httpErrorResponse.status) {
         // connection refused, server not reachable
@@ -167,6 +202,7 @@ export default class AlertToastrComponent implements OnDestroy {
     if (this.httpErrorListener) {
       this.eventManager.destroy(this.httpErrorListener);
     }
+    this.recentlyShownHttpErrors.clear();
   }
 
   private addAlert(type: AlertType, message?: string | object, key?: string, params?: any): void {

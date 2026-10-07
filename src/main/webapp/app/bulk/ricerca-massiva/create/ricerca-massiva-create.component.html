@@ -48,6 +48,8 @@
                     <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
                   } @else if (nameRef?.errors?.maxlength) {
                     <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">Too long</mat-error>
+                  } @else if (nameRef?.errors?.duplicateInstanceName) {
+                    <mat-error jhiTranslate="error.duplicateInstanceName">An instance with this name already exists</mat-error>
                   }
                 </ng-container>
               </mat-form-field>
@@ -325,6 +327,8 @@
                     <mat-error jhiTranslate="entity.validation.required">This field is required.</mat-error>
                   } @else if (nameRef?.errors?.maxlength) {
                     <mat-error jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">Too long</mat-error>
+                  } @else if (nameRef?.errors?.duplicateInstanceName) {
+                    <mat-error jhiTranslate="error.duplicateInstanceName">An instance with this name already exists</mat-error>
                   }
                 </ng-container>
               </mat-form-field>

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription, finalize, forkJoin } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -114,6 +115,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.detailInstanceType = this.detailInstance?.inputType ?? null;
     this.editForm = this.formService.createFormGroup(this.detailInstanceType === 'CSV');
     this.hasCsv = this.detailInstance?.presentCsv ?? false;
+    this.subscriptions.add(this.editForm.get('name')!.valueChanges.subscribe(() => this.clearDuplicateNameError()));
   }
 
   ngOnInit(): void {
@@ -227,7 +229,7 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       saveRequest.subscribe({
         next: () => this.onSaveSuccess(),
-        error: () => this.onSaveError(),
+        error: (error: HttpErrorResponse) => this.onSaveError(error),
       }),
     );
   }
@@ -237,9 +239,25 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     this.previousState();
   }
 
-  private onSaveError(): void {
+  private onSaveError(error: HttpErrorResponse): void {
     this.onSaveFinalize();
+
+    if (error.status === 409 && error.url?.includes('/api/bulk/search-instances') && !error.url.includes('/csv')) {
+      this.editForm.get('name')?.setErrors({ duplicateInstanceName: true });
+      return;
+    }
+
     this.submitError = true;
+  }
+
+  private clearDuplicateNameError(): void {
+    const nameControl = this.editForm.get('name');
+    if (nameControl?.errors?.duplicateInstanceName) {
+      const errors = { ...nameControl.errors };
+      delete errors.duplicateInstanceName;
+      nameControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+      this.submitError = false;
+    }
   }
 
   private onSaveFinalize(): void {
