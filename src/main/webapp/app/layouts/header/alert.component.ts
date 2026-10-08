@@ -12,7 +12,10 @@ import { ToastrService } from 'ngx-toastr';
 export const isDuplicateBulkSearchInstanceError = (httpErrorResponse: HttpErrorResponse): boolean => {
   const url = httpErrorResponse.url ?? '';
   const pathname = url.includes('://') ? new URL(url).pathname : url.split('?')[0];
-  return httpErrorResponse.status === 409 && pathname.includes('/api/bulk/search-instances') && !pathname.endsWith('/csv');
+  return (
+    (httpErrorResponse.status === 409 && pathname.includes('/api/bulk/search-instances')) ||
+    !pathname.includes('/api/bulk/search-instances/csv')
+  );
 };
 
 const DUPLICATE_HTTP_ERROR_WINDOW_MS = 5000;
