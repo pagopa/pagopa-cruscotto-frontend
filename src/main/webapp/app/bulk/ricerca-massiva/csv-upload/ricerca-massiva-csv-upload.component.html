@@ -112,11 +112,12 @@
           @if (selectedFileName) {
             <!-- Nome istanza -->
             <div class="col-lg-6">
+              @let nameRef = form.get('name')!;
               <mat-form-field class="d-block mb-2">
                 <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
                 <input matInput formControlName="name" maxlength="100" />
                 <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
-                  @if (form.get('name')?.errors?.duplicateInstanceName) {
+                  @if (nameRef.errors?.duplicateInstanceName) {
                     <mat-error jhiTranslate="error.duplicateInstanceName">An instance with this name already exists</mat-error>
                   }
                 </ng-container>
