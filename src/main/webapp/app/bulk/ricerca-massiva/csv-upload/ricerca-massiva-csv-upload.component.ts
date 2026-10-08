@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -63,6 +64,10 @@ export class RicercaMassivaCsvUploadComponent {
   private readonly translateService = inject(TranslateService);
   private currentCsvBlob: Blob | null = null;
   private validatedCsvBlob: Blob | null = null;
+
+  constructor() {
+    this.form.get('name')?.valueChanges.subscribe(() => this.clearDuplicateNameError());
+  }
 
   previousState(): void {
     void this.router.navigate(['/bulk/ricerca-massiva']);
@@ -242,7 +247,7 @@ export class RicercaMassivaCsvUploadComponent {
   }
 
   submit(): void {
-    if (!this.canSubmit || !this.validatedCsvBlob || this.isSubmitting) {
+    if (!this.canSubmit || this.form.invalid || !this.validatedCsvBlob || this.isSubmitting) {
       return;
     }
 
@@ -260,16 +265,30 @@ export class RicercaMassivaCsvUploadComponent {
         this.isSubmitting = false;
         void this.router.navigate(['/bulk/ricerca-massiva']);
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
+
+        if (error.status === 409 && error.url?.includes('/api/bulk/search-instances/csv')) {
+          this.form.get('name')?.setErrors({ duplicateInstanceName: true });
+          return;
+        }
+
         this.submitError = true;
       },
     });
   }
 
-  private extractValidationResult(
-    error: unknown,
-  ): {
+  private clearDuplicateNameError(): void {
+    const nameControl = this.form.get('name');
+    if (nameControl?.errors?.duplicateInstanceName) {
+      const errors = { ...nameControl.errors };
+      delete errors.duplicateInstanceName;
+      nameControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+      this.submitError = false;
+    }
+  }
+
+  private extractValidationResult(error: unknown): {
     valid?: boolean;
     detectedTemplate?: string;
     totalRows?: number;

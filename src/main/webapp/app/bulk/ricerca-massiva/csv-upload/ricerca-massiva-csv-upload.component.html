@@ -115,6 +115,9 @@
               <mat-form-field class="d-block mb-2">
                 <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
                 <input matInput formControlName="name" maxlength="100" />
+                @if (form.get('name')?.errors?.duplicateInstanceName) {
+                  <mat-error jhiTranslate="error.duplicateInstanceName">An instance with this name already exists</mat-error>
+                }
               </mat-form-field>
             </div>
             <!-- Tipo di report -->
@@ -186,7 +189,13 @@
         <mat-icon fontSet="material-symbols-outlined">rule</mat-icon>
         <span>{{ isValidating ? 'Validazione...' : 'Valida CSV' }}</span>
       </button>
-      <button type="button" mat-flat-button color="primary" [disabled]="!canSubmit || isValidating || isSubmitting" (click)="submit()">
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        [disabled]="!canSubmit || form.invalid || isValidating || isSubmitting"
+        (click)="submit()"
+      >
         <mat-icon fontSet="material-symbols-outlined">send</mat-icon>
         <span>{{ isSubmitting ? 'Invio...' : 'Invia richiesta' }}</span>
       </button>
