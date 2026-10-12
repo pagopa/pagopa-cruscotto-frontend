@@ -24,6 +24,24 @@
   gap: 12px !important;
 }
 
+.csv-download-spinner {
+  // box-sizing: border-box;
+  // display: inline-block;
+  // width: 1.125rem;
+  // height: 1.125rem;
+  // margin-right: 0.5rem;
+  // border: 2px solid currentColor;
+  // border-right-color: transparent;
+  // border-radius: 50%;
+  animation: csv-download-spin 0.7s linear infinite;
+}
+
+@keyframes csv-download-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .execution-message-cell {
   max-width: 24rem;
   overflow-wrap: anywhere;

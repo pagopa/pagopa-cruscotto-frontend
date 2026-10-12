@@ -376,8 +376,11 @@
           (click)="downloadCsv()"
           [disabled]="!hasCsv || isLoadingDetail || isSaving || isDownloadingCsv"
           title="Scarica CSV"
+          [attr.aria-busy]="isDownloadingCsv"
         >
-          <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
+          <mat-icon *ngIf="isDownloadingCsv"><mat-spinner diameter="20"></mat-spinner></mat-icon>
+          <mat-icon *ngIf="!isDownloadingCsv" fontSet="material-symbols-outlined">download</mat-icon>
+
           <span>Scarica CSV</span>
         </button>
         <button

@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription, finalize, forkJoin } from 'rxjs';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -50,6 +50,7 @@ import { RicercaMassivaCreateFormGroup, RicercaMassivaCreateFormService } from '
     MatTabsModule,
     MatTimepickerModule,
     NgxSpinnerModule,
+    MatProgressSpinnerModule,
     BulkLookupSelectComponent,
   ],
 })
@@ -169,14 +170,12 @@ export class RicercaMassivaCreateComponent implements OnInit, OnDestroy {
     }
 
     this.isDownloadingCsv = true;
-    void this.spinner.show('download-spinner');
     this.subscriptions.add(
       this.bulkSearchService
         .downloadCsv(this.detailInstanceId)
         .pipe(
           finalize(() => {
             this.isDownloadingCsv = false;
-            void this.spinner.hide('download-spincreditorsner');
           }),
         )
         .subscribe(blob => {
