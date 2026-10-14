@@ -39,6 +39,21 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     expect(comp.csvPreview).toBe('value1,value2\nvalue3,value4');
   });
 
+  it('rejects a CSV larger than 20 MiB and shows a validation error', () => {
+    const file = new File(['csv'], 'large.csv', { type: 'text/csv' });
+    Object.defineProperty(file, 'size', { value: 20 * 1024 * 1024 + 1 });
+    const input = fixture.nativeElement.querySelector('input[type="file"]') as HTMLInputElement;
+    Object.defineProperty(input, 'files', { value: [file], configurable: true });
+
+    comp.onFileSelected();
+    fixture.detectChanges();
+
+    expect(comp.selectedFileName).toBe('');
+    expect(comp.selectedFileSize).toBe(0);
+    expect(comp.fileSelectionError).toBe('pagopaCruscottoApp.ricercaMassiva.create.csvValidation.FILE_TOO_LARGE');
+    expect(fixture.nativeElement.querySelector('[role="alert"]')?.textContent).toContain(comp.fileSelectionError);
+  });
+
   it('shows every validation error from the response', () => {
     const bulkSearchService = TestBed.inject(BulkSearchService) as { validateCsvFile: jest.Mock };
     bulkSearchService.validateCsvFile.mockReturnValue(

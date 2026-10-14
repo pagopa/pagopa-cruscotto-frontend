@@ -205,7 +205,7 @@
                       color="primary"
                       class="bulk-white-button"
                       type="button"
-                      [disabled]="row.status == 'RUNNING'"
+                      [disabled]="row.status == 'RUNNING' || row.status == 'READY'"
                       (click)="onSetAsPlanned(row)"
                       [matTooltip]="'pagopaCruscottoApp.ricercaMassiva.action.setAsPlanned' | translate"
                     >

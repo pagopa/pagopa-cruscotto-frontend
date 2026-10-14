@@ -63,6 +63,7 @@
         "neverExecuted": "The instance has never been executed.",
         "saveError": "Error while creating the instance",
         "csvValidation": {
+          "FILE_TOO_LARGE": "The file exceeds the maximum allowed size of 20 MiB.",
           "CSV_HEADER_MISSING": "CSV header is missing",
           "CSV_HEADER_UNKNOWN": "Unknown CSV header",
           "CSV_HEADER_COLUMN_UNKNOWN": "Column not expected in the header",

@@ -91,6 +91,9 @@
       }
 
       <div class="upload-body">
+        @if (fileSelectionError) {
+          <div class="alert alert-danger mb-3" role="alert">{{ fileSelectionError | translate }}</div>
+        }
         @if (selectedFileName) {
           <div class="selection-box">
             <div class="selection-details">

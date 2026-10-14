@@ -35,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
 })
 export class RicercaMassivaCsvUploadComponent {
+  readonly maxCsvFileSizeBytes = 20 * 1024 * 1024;
   readonly tutorialTypes = RICERCA_MASSIVA_CSV_TUTORIAL_TYPES;
   readonly selectedReportsValues: SelectedReportsValues[] = ['POSITION', 'TOKEN', 'TRANSFER'];
   readonly form = new FormGroup({
@@ -46,6 +47,7 @@ export class RicercaMassivaCsvUploadComponent {
   copiedSample: string | null = null;
   selectedFileName = '';
   selectedFileSize = 0;
+  fileSelectionError = '';
   csvPreview = '';
   validationRequested = false;
   hasValidated = false;
@@ -148,6 +150,7 @@ export class RicercaMassivaCsvUploadComponent {
   clearSelectedFile(): void {
     this.selectedFileName = '';
     this.selectedFileSize = 0;
+    this.fileSelectionError = '';
     this.csvPreview = '';
     this.validationRequested = false;
     this.hasValidated = false;
@@ -162,8 +165,9 @@ export class RicercaMassivaCsvUploadComponent {
 
   onFileSelected(): void {
     const file = this.fileInputRef.nativeElement.files?.[0];
-    this.selectedFileName = file ? file.name : '';
-    this.selectedFileSize = file ? file.size : 0;
+    this.selectedFileName = '';
+    this.selectedFileSize = 0;
+    this.fileSelectionError = '';
     this.csvPreview = '';
     this.validationRequested = false;
     this.hasValidated = false;
@@ -178,6 +182,15 @@ export class RicercaMassivaCsvUploadComponent {
     if (!file) {
       return;
     }
+
+    if (file.size > this.maxCsvFileSizeBytes) {
+      this.fileInputRef.nativeElement.value = '';
+      this.fileSelectionError = 'pagopaCruscottoApp.ricercaMassiva.create.csvValidation.FILE_TOO_LARGE';
+      return;
+    }
+
+    this.selectedFileName = file.name;
+    this.selectedFileSize = file.size;
 
     const reader = new FileReader();
     reader.onload = () => {

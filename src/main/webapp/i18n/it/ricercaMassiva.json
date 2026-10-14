@@ -62,6 +62,7 @@
         "neverExecuted": "L'istanza non è mai stata eseguita.",
         "saveError": "Errore durante la creazione dell'istanza",
         "csvValidation": {
+          "FILE_TOO_LARGE": "Il file supera il limite massimo consentito di 20 MiB.",
           "CSV_HEADER_MISSING": "Non compare l'intestazione CSV",
           "CSV_HEADER_UNKNOWN": "Intestazione CSV non riconosciuta",
           "CSV_HEADER_COLUMN_UNKNOWN": "Colonna non prevista nell'intestazione",
