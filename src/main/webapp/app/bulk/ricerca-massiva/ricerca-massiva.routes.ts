@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { ricercaMassivaDetailResolver } from './ricerca-massiva-detail.resolver';
+import { Authority } from 'app/config/authority.constants';
 
 const ricercaMassivaRoutes: Routes = [
   {
@@ -8,7 +9,7 @@ const ricercaMassivaRoutes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./list/ricerca-massiva.component').then(m => m.RicercaMassivaComponent),
     data: {
-      // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO
+      authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -19,7 +20,7 @@ const ricercaMassivaRoutes: Routes = [
       detailInstance: ricercaMassivaDetailResolver,
     },
     data: {
-      // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO
+      authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -27,7 +28,7 @@ const ricercaMassivaRoutes: Routes = [
     path: 'new',
     loadComponent: () => import('./create/ricerca-massiva-create.component').then(m => m.RicercaMassivaCreateComponent),
     data: {
-      // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO
+      authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -35,7 +36,7 @@ const ricercaMassivaRoutes: Routes = [
     path: 'csv',
     loadComponent: () => import('./csv-upload/ricerca-massiva-csv-upload.component').then(m => m.RicercaMassivaCsvUploadComponent),
     data: {
-      // authorities: [Authority.RICERCA_MASSIVA_INQUIRY], TODO
+      authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
