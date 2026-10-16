@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -34,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
   ],
 })
 export class RicercaMassivaCsvUploadComponent {
+  readonly maxCsvFileSizeBytes = 20 * 1024 * 1024;
   readonly tutorialTypes = RICERCA_MASSIVA_CSV_TUTORIAL_TYPES;
   readonly selectedReportsValues: SelectedReportsValues[] = ['POSITION', 'TOKEN', 'TRANSFER'];
   readonly form = new FormGroup({
@@ -45,6 +47,7 @@ export class RicercaMassivaCsvUploadComponent {
   copiedSample: string | null = null;
   selectedFileName = '';
   selectedFileSize = 0;
+  fileSelectionError = '';
   csvPreview = '';
   validationRequested = false;
   hasValidated = false;
@@ -63,6 +66,10 @@ export class RicercaMassivaCsvUploadComponent {
   private readonly translateService = inject(TranslateService);
   private currentCsvBlob: Blob | null = null;
   private validatedCsvBlob: Blob | null = null;
+
+  constructor() {
+    this.form.get('name')?.valueChanges.subscribe(() => this.clearDuplicateNameError());
+  }
 
   previousState(): void {
     void this.router.navigate(['/bulk/ricerca-massiva']);
@@ -143,6 +150,7 @@ export class RicercaMassivaCsvUploadComponent {
   clearSelectedFile(): void {
     this.selectedFileName = '';
     this.selectedFileSize = 0;
+    this.fileSelectionError = '';
     this.csvPreview = '';
     this.validationRequested = false;
     this.hasValidated = false;
@@ -157,8 +165,9 @@ export class RicercaMassivaCsvUploadComponent {
 
   onFileSelected(): void {
     const file = this.fileInputRef.nativeElement.files?.[0];
-    this.selectedFileName = file ? file.name : '';
-    this.selectedFileSize = file ? file.size : 0;
+    this.selectedFileName = '';
+    this.selectedFileSize = 0;
+    this.fileSelectionError = '';
     this.csvPreview = '';
     this.validationRequested = false;
     this.hasValidated = false;
@@ -173,6 +182,15 @@ export class RicercaMassivaCsvUploadComponent {
     if (!file) {
       return;
     }
+
+    if (file.size > this.maxCsvFileSizeBytes) {
+      this.fileInputRef.nativeElement.value = '';
+      this.fileSelectionError = 'pagopaCruscottoApp.ricercaMassiva.create.csvValidation.FILE_TOO_LARGE';
+      return;
+    }
+
+    this.selectedFileName = file.name;
+    this.selectedFileSize = file.size;
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -242,7 +260,7 @@ export class RicercaMassivaCsvUploadComponent {
   }
 
   submit(): void {
-    if (!this.canSubmit || !this.validatedCsvBlob || this.isSubmitting) {
+    if (!this.canSubmit || this.form.invalid || !this.validatedCsvBlob || this.isSubmitting) {
       return;
     }
 
@@ -260,16 +278,30 @@ export class RicercaMassivaCsvUploadComponent {
         this.isSubmitting = false;
         void this.router.navigate(['/bulk/ricerca-massiva']);
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.isSubmitting = false;
+
+        if (error.status === 409 && error.url?.includes('/api/bulk/search-instances/csv')) {
+          this.form.get('name')?.setErrors({ duplicateInstanceName: true });
+          return;
+        }
+
         this.submitError = true;
       },
     });
   }
 
-  private extractValidationResult(
-    error: unknown,
-  ): {
+  private clearDuplicateNameError(): void {
+    const nameControl = this.form.get('name');
+    if (nameControl?.errors?.duplicateInstanceName) {
+      const errors = { ...nameControl.errors };
+      delete errors.duplicateInstanceName;
+      nameControl.setErrors(Object.keys(errors).length > 0 ? errors : null);
+      this.submitError = false;
+    }
+  }
+
+  private extractValidationResult(error: unknown): {
     valid?: boolean;
     detectedTemplate?: string;
     totalRows?: number;

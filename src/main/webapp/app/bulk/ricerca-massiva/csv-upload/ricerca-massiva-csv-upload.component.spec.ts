@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -14,7 +15,13 @@ describe('RicercaMassivaCsvUploadComponent', () => {
       imports: [RicercaMassivaCsvUploadComponent],
       providers: [
         { provide: Router, useValue: { navigate: jest.fn() } },
-        { provide: BulkSearchService, useValue: { validateCsvFile: jest.fn(() => of({ valid: true, errors: [] })) } },
+        {
+          provide: BulkSearchService,
+          useValue: {
+            validateCsvFile: jest.fn(() => of({ valid: true, errors: [] })),
+            createFromCsv: jest.fn(),
+          },
+        },
       ],
     }).createComponent(RicercaMassivaCsvUploadComponent);
 
@@ -30,6 +37,21 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     await comp.onFileSelected(input);
 
     expect(comp.csvPreview).toBe('value1,value2\nvalue3,value4');
+  });
+
+  it('rejects a CSV larger than 20 MiB and shows a validation error', () => {
+    const file = new File(['csv'], 'large.csv', { type: 'text/csv' });
+    Object.defineProperty(file, 'size', { value: 20 * 1024 * 1024 + 1 });
+    const input = fixture.nativeElement.querySelector('input[type="file"]') as HTMLInputElement;
+    Object.defineProperty(input, 'files', { value: [file], configurable: true });
+
+    comp.onFileSelected();
+    fixture.detectChanges();
+
+    expect(comp.selectedFileName).toBe('');
+    expect(comp.selectedFileSize).toBe(0);
+    expect(comp.fileSelectionError).toBe('pagopaCruscottoApp.ricercaMassiva.create.csvValidation.FILE_TOO_LARGE');
+    expect(fixture.nativeElement.querySelector('[role="alert"]')?.textContent).toContain(comp.fileSelectionError);
   });
 
   it('shows every validation error from the response', () => {
@@ -88,5 +110,29 @@ describe('RicercaMassivaCsvUploadComponent', () => {
     expect(comp.validationErrors).toEqual([{ lineNumber: 2, column: 'IUV', codeMessage: 'CSV_IUV_LENGTH', message: 'Formato non valido' }]);
     expect(comp.validationSummary).toContain('5 righe totali');
     expect(comp.canSubmit).toBe(false);
+  });
+
+  it('marks the name invalid when the CSV create request returns a duplicate conflict', () => {
+    const bulkSearchService = TestBed.inject(BulkSearchService) as { createFromCsv: jest.Mock };
+    const error = new HttpErrorResponse({
+      status: 409,
+      url: 'https://example.test/api/bulk/search-instances/csv?name=Existing',
+    });
+    bulkSearchService.createFromCsv.mockReturnValue(throwError(() => error));
+    comp.form.patchValue({ name: 'Existing', selectedReports: [] });
+    comp.selectedFileName = 'input.csv';
+    comp.validatedCsvBlob = new Blob(['NAV\n123'], { type: 'text/csv' });
+    comp.canSubmit = true;
+
+    comp.submit();
+
+    expect(comp.form.get('name')?.errors).toEqual({ duplicateInstanceName: true });
+    expect(comp.form.invalid).toBe(true);
+    expect(comp.submitError).toBe(false);
+
+    comp.form.get('name')?.setValue('New name');
+
+    expect(comp.form.get('name')?.errors).toBeNull();
+    expect(comp.submitError).toBe(false);
   });
 });

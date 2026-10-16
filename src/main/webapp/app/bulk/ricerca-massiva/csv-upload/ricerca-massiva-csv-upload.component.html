@@ -91,6 +91,9 @@
       }
 
       <div class="upload-body">
+        @if (fileSelectionError) {
+          <div class="alert alert-danger mb-3" role="alert">{{ fileSelectionError | translate }}</div>
+        }
         @if (selectedFileName) {
           <div class="selection-box">
             <div class="selection-details">
@@ -112,9 +115,15 @@
           @if (selectedFileName) {
             <!-- Nome istanza -->
             <div class="col-lg-6">
+              @let nameRef = form.get('name')!;
               <mat-form-field class="d-block mb-2">
                 <mat-label jhiTranslate="pagopaCruscottoApp.ricercaMassiva.create.name">Nome istanza</mat-label>
                 <input matInput formControlName="name" maxlength="100" />
+                <ng-container ngProjectAs="mat-error" *ngIf="nameRef.invalid && (nameRef.dirty || nameRef.touched)">
+                  @if (nameRef.errors?.duplicateInstanceName) {
+                    <mat-error jhiTranslate="error.duplicateInstanceName">An instance with this name already exists</mat-error>
+                  }
+                </ng-container>
               </mat-form-field>
             </div>
             <!-- Tipo di report -->
@@ -186,7 +195,13 @@
         <mat-icon fontSet="material-symbols-outlined">rule</mat-icon>
         <span>{{ isValidating ? 'Validazione...' : 'Valida CSV' }}</span>
       </button>
-      <button type="button" mat-flat-button color="primary" [disabled]="!canSubmit || isValidating || isSubmitting" (click)="submit()">
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        [disabled]="!canSubmit || form.invalid || isValidating || isSubmitting"
+        (click)="submit()"
+      >
         <mat-icon fontSet="material-symbols-outlined">send</mat-icon>
         <span>{{ isSubmitting ? 'Invio...' : 'Invia richiesta' }}</span>
       </button>
