@@ -152,7 +152,7 @@
     "webpack-notifier": "1.15.0"
   },
   "engines": {
-    "node": ">=22.13.1"
+    "node": ">=22.23.4"
   },
   "cacheDirectories": [
     "node_modules"
