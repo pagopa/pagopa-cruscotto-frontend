@@ -1,6 +1,6 @@
 {
   "name": "pagopa-cruscotto",
-  "version": "0.9.0",
+  "version": "0.9.0-1-feature/node-update",
   "private": true,
   "description": "PagoPa Cruscotto Frontend",
   "license": "UNLICENSED",
