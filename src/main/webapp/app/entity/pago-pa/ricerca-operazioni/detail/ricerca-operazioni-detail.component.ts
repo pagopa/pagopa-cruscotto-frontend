@@ -131,7 +131,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     'isPayed',
     'expand',
   ];
-  eventiColumns: string[] = ['eventoId', 'corrId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
+  eventiColumns: string[] = ['dataEvento', 'token', 'tipo', 'sottotipo', 'outcome'];
   workflowsTableState: IWorkflowsTableState = {
     pageIndex: 0,
     pageSize: 50,

@@ -36,6 +36,7 @@ export interface IPaymentInfo {
   isGpd?: boolean;
   isStandin?: boolean;
   isCart?: boolean;
+  cartId?: string;
 }
 
 export interface IPositionInfo {
@@ -261,6 +262,7 @@ export interface IRawPaymentInfo {
   'is-gpd'?: boolean;
   'is-standin'?: boolean;
   'is-cart'?: boolean;
+  'id-carrello'?: string;
 }
 
 export interface IRawUnifiedSearchResponse {
@@ -394,6 +396,7 @@ const mapRawPaymentInfo = (raw?: IRawPaymentInfo): IPaymentInfo | undefined =>
         isGpd: raw['is-gpd'],
         isStandin: raw['is-standin'],
         isCart: raw['is-cart'],
+        cartId: raw['id-carrello'],
       }
     : undefined;
 

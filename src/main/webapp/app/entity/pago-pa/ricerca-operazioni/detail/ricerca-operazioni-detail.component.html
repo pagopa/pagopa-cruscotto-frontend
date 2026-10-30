@@ -353,6 +353,21 @@
                                   <div class="fw-bold">{{ info.paymentInfo?.paymentMethod }}</div>
                                 </div>
                                 <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
+                                  <div
+                                    class="text-muted small"
+                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isCart"
+                                  >
+                                    Carrello
+                                  </div>
+                                  <div class="fw-bold">
+                                    @if (info.paymentInfo?.cartId) {
+                                      {{ info.paymentInfo?.cartId }}
+                                    } @else {
+                                      ☓
+                                    }
+                                  </div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
                                   <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isDw">
                                     Data Warehouse
                                   </div>
@@ -375,15 +390,6 @@
                                     Stand-In
                                   </div>
                                   <div class="fw-bold">{{ info.paymentInfo?.isStandin ? '✓' : '☓' }}</div>
-                                </div>
-                                <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
-                                  <div
-                                    class="text-muted small"
-                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isCart"
-                                  >
-                                    Carrello
-                                  </div>
-                                  <div class="fw-bold">{{ info.paymentInfo?.isCart ? '✓' : '☓' }}</div>
                                 </div>
                               </div>
                             </ng-container>
