@@ -142,6 +142,7 @@ export const toOperazioneRicercaRow = (
 export interface IPosizione {
   tokens?: number;
   totalTokens?: number;
+  isPayedToken?: boolean;
   payed?: IPayed;
   actors?: IActors;
   amount?: IAmount;
@@ -287,6 +288,7 @@ export interface IRawPositionPayment {
   tokens?: number;
   'total-tokens'?: number;
   'all-tokens'?: string[];
+  'is-payed-token'?: boolean;
   payed?: IRawPayed;
   actors?: IRawActors;
   amount?: IAmount;
@@ -405,6 +407,7 @@ export const mapRawPosizione = (raw: IRawPositionPayment): IPosizione => ({
   tokens: raw.tokens,
   totalTokens: raw['total-tokens'],
   allTokens: raw['all-tokens'],
+  isPayedToken: raw['is-payed-token'],
   payed: mapRawPayed(raw.payed),
   actors: mapRawActors(raw.actors),
   amount: raw.amount,

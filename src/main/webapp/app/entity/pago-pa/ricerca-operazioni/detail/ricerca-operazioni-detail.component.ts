@@ -229,8 +229,22 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         this.tokensData = this.buildTokenRows(posizione.allTokens ?? []);
         this.tokensTokenTotalCount = posizione.totalTokens ?? posizione.tokens ?? posizione.allTokens?.length ?? 0;
 
-        // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
-        this.preloadTokenInfo();
+        if (posizione.tokens === 1 && this.tokensData.length === 1) {
+          const row = this.tokensData[0];
+          const info: ITokenInfo = {
+            positionInfo: posizione.positionInfo,
+            isPayedToken: posizione.isPayedToken,
+            payed: posizione.payed,
+            actors: posizione.actors,
+            amount: posizione.amount,
+            paymentInfo: posizione.paymentInfo,
+          };
+          this.tokenInfoCacheByToken[row.token] = info;
+          row.info = info;
+        } else {
+          // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
+          this.preloadTokenInfo();
+        }
 
         // Tabella Eventi: estrai e valorizza i dati dal workflow con il conteggio totale
         this.buildEventiRows(workflows);
