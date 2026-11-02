@@ -663,31 +663,38 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   }
 
   getRowPaymentBorn(row: ITokenRow): Date | undefined {
-    return row.info?.payed?.paymentBorn ?? this.posizione?.payed?.paymentBorn;
+    if (this.posizione?.tokens == 1) return this.posizione?.payed?.paymentBorn;
+    else return row.info?.payed?.paymentBorn ?? undefined;
   }
 
   getRowPspName(row: ITokenRow): string | undefined {
-    return row.info?.actors?.psp ?? this.posizione?.actors?.psp;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.psp;
+    return row.info?.actors?.psp ?? undefined;
   }
 
   getRowPspDescription(row: ITokenRow): string | undefined {
-    return row.info?.actors?.pspDescription ?? this.posizione?.actors?.pspDescription;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.pspDescription;
+    return row.info?.actors?.pspDescription ?? undefined;
   }
 
   getRowPaDescription(row: ITokenRow): string | undefined {
-    return row.info?.actors?.ptPaDescription ?? this.posizione?.actors?.ptPaDescription;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.ptPaDescription;
+    return row.info?.actors?.ptPaDescription ?? undefined;
   }
 
   getRowAmount(row: ITokenRow): number | undefined {
-    return row.info?.amount?.amount ?? this.posizione?.amount?.amount;
+    if (this.posizione?.tokens == 1) return this.posizione?.amount?.amount;
+    return row.info?.amount?.amount ?? undefined;
   }
 
   getRowPaymentMethod(row: ITokenRow): string | undefined {
-    return row.info?.paymentInfo?.paymentMethod ?? this.posizione?.paymentInfo?.paymentMethod;
+    if (this.posizione?.tokens == 1) return this.posizione?.paymentInfo?.paymentMethod;
+    return row.info?.paymentInfo?.paymentMethod ?? undefined;
   }
 
   getRowTouchpoint(row: ITokenRow): string | undefined {
-    return row.info?.paymentInfo?.touchpoint ?? this.posizione?.paymentInfo?.touchpoint;
+    if (this.posizione?.tokens == 1) return this.posizione?.paymentInfo?.touchpoint;
+    return row.info?.paymentInfo?.touchpoint ?? undefined;
   }
 
   isRowPayed(row: ITokenRow): boolean {
