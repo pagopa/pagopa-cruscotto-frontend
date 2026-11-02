@@ -149,6 +149,7 @@ export interface IPosizione {
   positionInfo?: IPositionInfo;
   allTokens?: Array<string>;
   paymentInfo?: IPaymentInfo;
+  tokenBorn?: string;
 }
 
 /** Dato espanso di un token (informazioni di pagamento). */
@@ -159,6 +160,7 @@ export interface ITokenInfo {
   positionInfo?: IPositionInfo;
   isPayedToken?: boolean;
   paymentInfo?: IPaymentInfo;
+  tokenBorn?: string;
 }
 
 /** Informazioni aggiuntive associate a un token. */
@@ -293,6 +295,7 @@ export interface IRawPositionPayment {
   actors?: IRawActors;
   amount?: IAmount;
   'payment-info'?: IRawPaymentInfo;
+  'token-born'?: string;
 }
 
 export interface IRawTokenInfo {
@@ -302,6 +305,7 @@ export interface IRawTokenInfo {
   actors?: IRawActors;
   amount?: IAmount;
   'payment-info'?: IRawPaymentInfo;
+  'token-born'?: string;
 }
 
 export interface IRawTransferObject {
@@ -412,6 +416,7 @@ export const mapRawPosizione = (raw: IRawPositionPayment): IPosizione => ({
   actors: mapRawActors(raw.actors),
   amount: raw.amount,
   paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+  tokenBorn: raw['token-born'],
 });
 
 export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({

@@ -662,9 +662,9 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     return row.extra?.count ?? row.extra?.results?.length ?? 0;
   }
 
-  getRowPaymentBorn(row: ITokenRow): Date | undefined {
-    if (this.posizione?.tokens == 1) return this.posizione?.payed?.paymentBorn;
-    else return row.info?.payed?.paymentBorn ?? undefined;
+  getRowPaymentBorn(row: ITokenRow): string | undefined {
+    if (this.posizione?.tokens == 1) return this.posizione?.tokenBorn;
+    else return row.info?.tokenBorn ?? undefined;
   }
 
   getRowPspName(row: ITokenRow): string | undefined {
