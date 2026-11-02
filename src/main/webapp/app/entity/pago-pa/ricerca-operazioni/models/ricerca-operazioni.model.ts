@@ -426,6 +426,7 @@ export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({
   actors: mapRawActors(raw.actors),
   amount: raw.amount,
   paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+  tokenBorn: raw['token-born'],
 });
 
 export const mapRawTransfers = (raw: IRawTransfersResponse): ITransfers => {
