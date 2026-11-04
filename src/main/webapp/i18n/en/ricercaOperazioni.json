@@ -58,7 +58,8 @@
           "isDw": "is DW",
           "isGpd": "is GPD",
           "isStandin": "is Stand-In",
-          "isCart": "Cart ID"
+          "idCarrello": "Cart ID",
+          "isCart": "is Cart"
         },
         "tokens": {
           "pspDescription": "PSP Description",
