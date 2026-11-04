@@ -28,6 +28,12 @@ export class RicercaOperazioniFilter extends IFilterPagination {
   /** Informazioni Aggiuntive (valore) — esclusivo con gli altri campi di ricerca */
   static EXTRA: IParam = { name: 'extra', req: 'extra', type: TypeData.STRING, defaultValue: '' };
 
+  static DATE_FROM: IParam = { name: 'dateFrom', req: 'dateFrom', type: TypeData.DATE, defaultValue: null };
+
+  static DATE_TO: IParam = { name: 'dateTo', req: 'dateTo', type: TypeData.DATE, defaultValue: null };
+
+  static FROM_HISTORY: IParam = { name: 'fromHistory', req: 'fromHistory', type: TypeData.BOOLEAN, defaultValue: false };
+
   /** Modalità di ricerca attiva, determinata dal campo esclusivo valorizzato */
   mode?: RicercaOperazioniMode;
 

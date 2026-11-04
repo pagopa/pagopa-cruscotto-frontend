@@ -6,6 +6,7 @@
       },
       "filter": {
         "createdAt": "Creation date",
+        "paymentPeriod": "Payment period",
         "name": "Instance name",
         "status": "Instance state"
       },

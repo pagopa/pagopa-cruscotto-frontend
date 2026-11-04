@@ -7,11 +7,14 @@ import { CustomHttpUrlEncodingCodec } from '../../../../api-clients/pagopa-sert/
 
 import {
   IExtraInfo,
+  IRawExtraInfoResponse,
   IRawUnifiedSearchPayload,
   IRawPositionPayment,
   IRawWorkflowResponse,
+  IRawTransfersResponse,
   IOperazioneRicercaResponse,
   IPosizione,
+  IRawTokenInfo,
   ITokenInfo,
   ITransfers,
   IWorkflows,
@@ -22,6 +25,13 @@ import {
   mapRawUnifiedSearchResponse,
   mapRawWorkflows,
 } from '../models/ricerca-operazioni.model';
+
+export interface HistorySearchParams {
+  dateFrom?: string;
+  dateTo?: string;
+  fromHistory?: boolean;
+  fromOnline?: boolean;
+}
 
 /**
  * Service applicativo della feature "Ricerca Operazioni".
@@ -41,6 +51,9 @@ export class RicercaOperazioniService {
     iuv?: string;
     token?: string;
     idCarrello?: string;
+    dateFrom?: string;
+    dateTo?: string;
+    fromHistory?: boolean;
     info?: string;
     page?: number;
     size?: number;
@@ -49,21 +62,37 @@ export class RicercaOperazioniService {
     return this.unifiedSearch(p);
   }
   /** GET /api/position/{nav}/{paEmittente} con paginazione/sort server-side per tokens. */
-  getPosition(nav: string, paEmittente: string, page?: number, size?: number, sort?: string): Observable<IPosizione> {
-    const params = this.toPageableParams(page, size, sort);
+  getPosition(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    history?: HistorySearchParams,
+  ): Observable<IPosizione> {
+    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawPositionPayment>(url, { params }).pipe(map(mapRawPosizione));
   }
 
   /** GET /api/token/{token} */
-  getTokenInfo(token: string): Observable<ITokenInfo> {
-    return this.sertApi.getTokenInfo(token).pipe(map(mapRawTokenInfo));
+  getTokenInfo(token: string, history?: HistorySearchParams): Observable<ITokenInfo> {
+    if (!history?.fromHistory) {
+      return this.sertApi.getTokenInfo(token).pipe(map(mapRawTokenInfo));
+    }
+
+    const basePath = (this.sertApi as any).basePath as string;
+    return this.http
+      .get<IRawTokenInfo>(`${basePath}/api/token/${encodeURIComponent(token)}`, { params: this.toHistoryParams(history) })
+      .pipe(map(mapRawTokenInfo));
   }
 
   /** GET /api/extra/{token} con paginazione/sort server-side. */
-  getExtraInfo(token: string, page?: number, size?: number, sort?: string): Observable<IExtraInfo> {
-    return this.sertApi.getExtraInfo(token, page, size, sort).pipe(
+  getExtraInfo(token: string, page?: number, size?: number, sort?: string, history?: HistorySearchParams): Observable<IExtraInfo> {
+    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const basePath = (this.sertApi as any).basePath as string;
+    return this.http.get<IRawExtraInfoResponse>(`${basePath}/api/extra/${encodeURIComponent(token)}`, { params }).pipe(
       map(mapRawExtraInfo),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse && error.status === 404) {
@@ -76,8 +105,19 @@ export class RicercaOperazioniService {
   }
 
   /** GET /api/transfers/{nav}/{paEmittente}/{token} con paginazione/sort server-side. */
-  getTransfers(nav: string, paEmittente: string, token: string, page?: number, size?: number, sort?: string): Observable<ITransfers> {
-    return this.sertApi.getTransfers(nav, paEmittente, token, page, size, sort).pipe(
+  getTransfers(
+    nav: string,
+    paEmittente: string,
+    token: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    history?: HistorySearchParams,
+  ): Observable<ITransfers> {
+    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const basePath = (this.sertApi as any).basePath as string;
+    const url = `${basePath}/api/transfers/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}/${encodeURIComponent(token)}`;
+    return this.http.get<IRawTransfersResponse>(url, { params }).pipe(
       map(mapRawTransfers),
       catchError((error: unknown) => {
         if (error instanceof HttpErrorResponse && error.status === 404) {
@@ -90,8 +130,15 @@ export class RicercaOperazioniService {
   }
 
   /** GET /api/workflows/{nav}/{paEmittente} con paginazione/sort server-side. */
-  getWorkflows(nav: string, paEmittente: string, page?: number, size?: number, sort?: string): Observable<IWorkflows> {
-    const params = this.toPageableParams(page, size, sort);
+  getWorkflows(
+    nav: string,
+    paEmittente: string,
+    page?: number,
+    size?: number,
+    sort?: string,
+    history?: HistorySearchParams,
+  ): Observable<IWorkflows> {
+    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawWorkflowResponse>(url, { params, observe: 'response' }).pipe(
@@ -122,18 +169,44 @@ export class RicercaOperazioniService {
     return params;
   }
 
+  private toHistoryParams(
+    history?: HistorySearchParams,
+    params = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() }),
+  ): HttpParams {
+    if (!history?.fromHistory) {
+      return params;
+    }
+
+    params = params.set('fromHistory', 'true');
+    if (history.dateFrom) params = params.set('dateFrom', history.dateFrom);
+    if (history.dateTo) params = params.set('dateTo', history.dateTo);
+    if (history.fromOnline) params = params.set('fromOnline', 'true');
+    return params;
+  }
+
   private unifiedSearch(p: {
     pa?: string;
     nav?: string;
     iuv?: string;
     token?: string;
     idCarrello?: string;
+    dateFrom?: string;
+    dateTo?: string;
+    fromHistory?: boolean;
     info?: string;
     page?: number;
     size?: number;
     sort?: string;
   }): Observable<HttpResponse<IOperazioneRicercaResponse>> {
-    return this.sertApi.search(p.pa, p.nav, p.iuv, p.token, p.idCarrello, p.info, p.page, p.size, p.sort, 'response').pipe(
+    let params = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() });
+    Object.entries(p).forEach(([key, value]) => {
+      if (value != null) {
+        params = params.set(key, String(value));
+      }
+    });
+
+    const basePath = (this.sertApi as any).basePath as string;
+    return this.http.get<IRawUnifiedSearchPayload>(`${basePath}/api/search`, { params, observe: 'response' }).pipe(
       map(res => {
         const body = mapRawUnifiedSearchResponse(res.body as IRawUnifiedSearchPayload);
         const totalFromHeader = Number(res.headers.get('x-total-count'));

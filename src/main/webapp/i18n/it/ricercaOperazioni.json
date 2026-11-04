@@ -11,6 +11,9 @@
         "token": "Token",
         "idCarrello": "ID Carrello",
         "extra": "Informazioni Aggiuntive",
+        "history": "Ricerca sullo storico",
+        "historyPeriod": "Periodo",
+        "online": "Includi dati recenti",
         "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive",
         "paEmittenteSolo": "La ricerca per sola PA Emittente non è consentita. Aggiungere almeno un altro criterio di ricerca.",
         "exclusiveFieldsConflict": "Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive."

@@ -1,17 +1,20 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { addToFilter, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import dayjs from 'dayjs/esm';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -26,9 +29,17 @@ import { RicercaOperazioniService } from '../service/ricerca-operazioni.service'
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 
 const paEmittenteSoloValidator = (control: AbstractControl): ValidationErrors | null => {
-  const { paEmittente, nav, iuv, token, idCarrello, extra } = control.value as Record<string, string | null>;
-  const hasOther = [nav, iuv, token, idCarrello, extra].some(v => !!v?.trim());
-  return !!paEmittente?.trim() && !hasOther ? { paEmittenteSolo: true } : null;
+  const formValue = control.value as {
+    paEmittente?: string | null;
+    nav?: string | null;
+    iuv?: string | null;
+    token?: string | null;
+    idCarrello?: string | null;
+    extra?: string | null;
+    fromHistory?: boolean;
+  };
+  const hasOther = [formValue.nav, formValue.iuv, formValue.token, formValue.idCarrello, formValue.extra].some(v => !!v?.trim());
+  return !!formValue.paEmittente?.trim() && !hasOther && !formValue.fromHistory ? { paEmittenteSolo: true } : null;
 };
 
 const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
@@ -58,11 +69,13 @@ const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErr
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatPaginatorModule,
+    MatCheckboxModule,
     MatSortModule,
     MatTableModule,
     MatTooltipModule,
@@ -84,6 +97,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   isLoadingResults = false;
 
   locale: string;
+  readonly historyPickerStartAt = dayjs().subtract(6, 'month');
 
   protected readonly Authority = Authority;
 
@@ -105,6 +119,10 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       token: ['', [Validators.pattern(/^[0-9a-f]{0,32}$/i)]],
       idCarrello: ['', [Validators.pattern(/^[A-Za-z0-9]{0,40}$/)]],
       extra: [''],
+      fromHistory: [false],
+      dateFrom: new FormControl<dayjs.Dayjs | null>(null),
+      dateTo: new FormControl<dayjs.Dayjs | null>(null),
+      fromOnline: [],
     },
     { validators: [paEmittenteSoloValidator, exclusiveSearchFieldsValidator] },
   );
@@ -147,7 +165,17 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    this.searchForm.reset({ paEmittente: '', nav: '', iuv: '', token: '', idCarrello: '', extra: '' });
+    this.searchForm.reset({
+      paEmittente: '',
+      nav: '',
+      iuv: '',
+      token: '',
+      idCarrello: '',
+      extra: '',
+      fromHistory: false,
+      dateFrom: null,
+      dateTo: null,
+    });
     this.filter.clear();
     this.data = [];
     this._search = false;
@@ -157,6 +185,26 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     this.sortActive = '';
     this.sortDirection = '';
     this.displayedColumns = ['paEmittente', 'numeroAvviso', 'iuv', 'action'];
+  }
+
+  clearDateRange(): void {
+    this.searchForm.patchValue({ dateFrom: null, dateTo: null });
+  }
+
+  getDetailQueryParams(): Record<string, string | null> {
+    const { fromHistory, dateFrom, dateTo } = this.searchForm.value;
+
+    return {
+      fromHistory: fromHistory ? 'true' : null,
+      dateFrom: fromHistory ? (dateFrom?.format('YYYY-MM-DD') ?? null) : null,
+      dateTo: fromHistory ? (dateTo?.format('YYYY-MM-DD') ?? null) : null,
+    };
+  }
+
+  onHistoryToggle(enabled: boolean): void {
+    if (!enabled) {
+      this.clearDateRange();
+    }
   }
 
   changePage(event: PageEvent): void {
@@ -191,6 +239,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       token: getFilterValue(this.filter, RicercaOperazioniFilter.TOKEN),
       idCarrello: getFilterValue(this.filter, RicercaOperazioniFilter.ID_CARRELLO),
       extra: getFilterValue(this.filter, RicercaOperazioniFilter.EXTRA),
+      fromHistory: getFilterValue(this.filter, RicercaOperazioniFilter.FROM_HISTORY),
+      dateFrom: getFilterValue(this.filter, RicercaOperazioniFilter.DATE_FROM),
+      dateTo: getFilterValue(this.filter, RicercaOperazioniFilter.DATE_TO),
     });
     this.page = this.filter.page;
   }
@@ -206,6 +257,11 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     addToFilter(this.filter, this.searchForm.get('token'), RicercaOperazioniFilter.TOKEN);
     addToFilter(this.filter, this.searchForm.get('idCarrello'), RicercaOperazioniFilter.ID_CARRELLO);
     addToFilter(this.filter, this.searchForm.get('extra'), RicercaOperazioniFilter.EXTRA);
+    addToFilter(this.filter, this.searchForm.get('fromHistory'), RicercaOperazioniFilter.FROM_HISTORY);
+    if (this.searchForm.get('fromHistory')?.value) {
+      addToFilter(this.filter, this.searchForm.get('dateFrom'), RicercaOperazioniFilter.DATE_FROM);
+      addToFilter(this.filter, this.searchForm.get('dateTo'), RicercaOperazioniFilter.DATE_TO);
+    }
 
     this.filter.search = true;
   }
@@ -239,9 +295,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   private loadPage(): void {
-    const { paEmittente, nav, iuv, token, idCarrello, extra } = this.searchForm.value;
+    const { paEmittente, nav, iuv, token, idCarrello, extra, fromHistory, dateFrom, dateTo } = this.searchForm.value;
     const mode = this.detectMode();
-    if (!mode) return;
+    if (!mode && !fromHistory) return;
 
     this.filter.mode = mode;
     this.filter.search = true;
@@ -258,6 +314,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
         iuv: iuv?.trim() || undefined,
         token: token?.trim() || undefined,
         idCarrello: idCarrello?.trim() || undefined,
+        dateFrom: fromHistory ? dateFrom?.format('YYYY-MM-DD') : undefined,
+        dateTo: fromHistory ? dateTo?.format('YYYY-MM-DD') : undefined,
+        fromHistory: fromHistory ? true : undefined,
         info: extra?.trim() || undefined,
         page: this.page - 1,
         size: this.pageSize,

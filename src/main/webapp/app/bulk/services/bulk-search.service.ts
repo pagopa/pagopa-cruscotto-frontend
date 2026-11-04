@@ -19,6 +19,8 @@ export interface BulkSearchPageRequest {
   status?: string;
   createdFrom?: string;
   createdAt?: string;
+  dateFrom?: string;
+  dateTo?: string;
 }
 
 @Injectable({ providedIn: 'root' })
