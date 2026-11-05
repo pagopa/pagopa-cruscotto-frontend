@@ -7,7 +7,8 @@ function setupProxy({ tls }) {
 
   return [
     {
-      context: pathname => sertPaths.some(p => pathname.startsWith(p)),
+      context: pathname => pathname.startsWith('/sert/') || sertPaths.some(p => pathname.startsWith(p)),
+      pathRewrite: { '^/sert/': '/' },
       // target: `http${tls ? 's' : ''}://localhost:8081`,
       target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert/v1',
       secure: false,

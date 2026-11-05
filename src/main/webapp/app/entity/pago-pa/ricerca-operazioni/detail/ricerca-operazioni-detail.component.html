@@ -341,7 +341,7 @@
                                   >
                                     Touchpoint
                                   </div>
-                                  <div class="fw-bold">{{ info.paymentInfo?.touchpoint }}</div>
+                                  <div class="fw-bold">{{ info.paymentInfo?.touchpoint || '--' }}</div>
                                 </div>
                                 <div class="mb-3 flex-item" *ngIf="info.paymentInfo?.paymentMethod">
                                   <div
@@ -350,11 +350,29 @@
                                   >
                                     Metodo
                                   </div>
-                                  <div class="fw-bold">{{ info.paymentInfo?.paymentMethod }}</div>
+                                  <div class="fw-bold">{{ info.paymentInfo?.paymentMethod || '--' }}</div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
+                                  <div
+                                    class="text-muted small"
+                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.idCarrello"
+                                  >
+                                    Carrello
+                                  </div>
+                                  <div class="fw-bold">{{ info.paymentInfo?.idCarrello || '--' }}</div>
+                                </div>
+                                <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
+                                  <div
+                                    class="text-muted small"
+                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isCart"
+                                  >
+                                    IsCart
+                                  </div>
+                                  <div class="fw-bold">{{ info.paymentInfo?.isCart ? '✓' : '☓' }}</div>
                                 </div>
                                 <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
                                   <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isDw">
-                                    Data Warehouse
+                                    DW
                                   </div>
                                   <div class="fw-bold">{{ info.paymentInfo?.isDw ? '✓' : '☓' }}</div>
                                 </div>
@@ -375,15 +393,6 @@
                                     Stand-In
                                   </div>
                                   <div class="fw-bold">{{ info.paymentInfo?.isStandin ? '✓' : '☓' }}</div>
-                                </div>
-                                <div class="mb-3 flex-item" *ngIf="info.paymentInfo">
-                                  <div
-                                    class="text-muted small"
-                                    jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.paymentInfo.isCart"
-                                  >
-                                    Carrello
-                                  </div>
-                                  <div class="fw-bold">{{ info.paymentInfo?.isCart ? '✓' : '☓' }}</div>
                                 </div>
                               </div>
                             </ng-container>

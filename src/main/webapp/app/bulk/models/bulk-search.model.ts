@@ -5,7 +5,9 @@ export interface SearchInstanceDTO {
   selectedReports?: string;
   status?: string;
   createdAt?: Date;
+  createdBy?: string;
   updatedAt?: Date;
+  updatedBy?: string;
   presentCsv?: boolean;
   perimeterFilter?: PerimeterFilter;
 }
