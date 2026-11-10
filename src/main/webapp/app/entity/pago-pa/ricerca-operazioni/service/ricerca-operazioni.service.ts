@@ -44,6 +44,8 @@ export class RicercaOperazioniService {
   private readonly sertApi = inject(SertService);
   private readonly http = inject(HttpClient);
 
+  public historySearchParams: HistorySearchParams = {};
+
   /** GET /api/search con combinazioni di campi supportate dal form. */
   search(p: {
     pa?: string;
@@ -70,7 +72,7 @@ export class RicercaOperazioniService {
     sort?: string,
     history?: HistorySearchParams,
   ): Observable<IPosizione> {
-    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const params = this.toHistoryParams(this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/position/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawPositionPayment>(url, { params }).pipe(map(mapRawPosizione));
@@ -84,13 +86,13 @@ export class RicercaOperazioniService {
 
     const basePath = (this.sertApi as any).basePath as string;
     return this.http
-      .get<IRawTokenInfo>(`${basePath}/api/token/${encodeURIComponent(token)}`, { params: this.toHistoryParams(history) })
+      .get<IRawTokenInfo>(`${basePath}/api/token/${encodeURIComponent(token)}`, { params: this.toHistoryParams() })
       .pipe(map(mapRawTokenInfo));
   }
 
   /** GET /api/extra/{token} con paginazione/sort server-side. */
   getExtraInfo(token: string, page?: number, size?: number, sort?: string, history?: HistorySearchParams): Observable<IExtraInfo> {
-    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const params = this.toHistoryParams(this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     return this.http.get<IRawExtraInfoResponse>(`${basePath}/api/extra/${encodeURIComponent(token)}`, { params }).pipe(
       map(mapRawExtraInfo),
@@ -114,7 +116,7 @@ export class RicercaOperazioniService {
     sort?: string,
     history?: HistorySearchParams,
   ): Observable<ITransfers> {
-    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const params = this.toHistoryParams(this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/transfers/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}/${encodeURIComponent(token)}`;
     return this.http.get<IRawTransfersResponse>(url, { params }).pipe(
@@ -138,7 +140,7 @@ export class RicercaOperazioniService {
     sort?: string,
     history?: HistorySearchParams,
   ): Observable<IWorkflows> {
-    const params = this.toHistoryParams(history, this.toPageableParams(page, size, sort));
+    const params = this.toHistoryParams(this.toPageableParams(page, size, sort));
     const basePath = (this.sertApi as any).basePath as string;
     const url = `${basePath}/api/workflows/${encodeURIComponent(nav)}/${encodeURIComponent(paEmittente)}`;
     return this.http.get<IRawWorkflowResponse>(url, { params, observe: 'response' }).pipe(
@@ -169,18 +171,15 @@ export class RicercaOperazioniService {
     return params;
   }
 
-  private toHistoryParams(
-    history?: HistorySearchParams,
-    params = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() }),
-  ): HttpParams {
-    if (!history?.fromHistory) {
+  private toHistoryParams(params = new HttpParams({ encoder: new CustomHttpUrlEncodingCodec() })): HttpParams {
+    if (!this.historySearchParams?.fromHistory) {
       return params;
     }
 
     params = params.set('fromHistory', 'true');
-    if (history.dateFrom) params = params.set('dateFrom', history.dateFrom);
-    if (history.dateTo) params = params.set('dateTo', history.dateTo);
-    if (history.fromOnline) params = params.set('fromOnline', 'true');
+    if (this.historySearchParams.dateFrom) params = params.set('dateFrom', this.historySearchParams.dateFrom);
+    if (this.historySearchParams.dateTo) params = params.set('dateTo', this.historySearchParams.dateTo);
+    if (this.historySearchParams.fromOnline) params = params.set('fromOnline', 'true');
     return params;
   }
 

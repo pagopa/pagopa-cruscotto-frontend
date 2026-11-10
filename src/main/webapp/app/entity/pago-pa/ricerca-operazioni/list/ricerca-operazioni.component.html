@@ -111,19 +111,48 @@
         </div>
 
         <div class="row row-cols-auto justify-content-start align-content-center">
-          <div class="col mt-2">
+          <div class="mt-2">
             <mat-checkbox formControlName="fromHistory" (change)="onHistoryToggle($event.checked)">
               <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.history">cerca sullo storico</span>
             </mat-checkbox>
           </div>
 
-          <div class="col mt-2" *ngIf="searchForm.get('fromHistory')?.value">
+          <div class="mt-2" *ngIf="searchForm.get('fromHistory')?.value">
             <mat-checkbox formControlName="fromOnline">
               <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.online">cerca sull'online</span>
             </mat-checkbox>
           </div>
 
-          <div class="col" *ngIf="searchForm.get('fromHistory')?.value">
+          @if (searchForm.get('fromHistory')?.value) {
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateFrom">Periodo da</mat-label>
+              <input matInput [matDatepicker]="dpFrom" formControlName="dateFrom" [matDatepickerFilter]="dateFromFilter" />
+              <mat-hint>MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="dpFrom"></mat-datepicker-toggle>
+              <mat-datepicker
+                #dpFrom
+                startView="multi-year"
+                (monthSelected)="setMonthAndYear('from', $event, dpFrom)"
+                panelClass="example-month-picker"
+              >
+              </mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateTo">Periodo da</mat-label>
+              <input matInput [matDatepicker]="dpTo" formControlName="dateTo" [matDatepickerFilter]="dateToFilter" />
+              <mat-hint>MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="dpTo"></mat-datepicker-toggle>
+              <mat-datepicker
+                #dpTo
+                startView="multi-year"
+                (monthSelected)="setMonthAndYear('to', $event, dpTo)"
+                panelClass="example-month-picker"
+              >
+              </mat-datepicker>
+            </mat-form-field>
+          }
+
+          <!-- <div class="col" *ngIf="searchForm.get('fromHistory')?.value">
             @let dateFromRef = searchForm.get('dateFrom')!;
             @let dateToRef = searchForm.get('dateTo')!;
             <mat-form-field class="d-block mb-2">
@@ -155,7 +184,7 @@
                 }
               </ng-container>
             </mat-form-field>
-          </div>
+          </div> -->
         </div>
 
         <div class="row" *ngIf="searchForm.hasError('paEmittenteSolo') && (searchForm.dirty || searchForm.touched)">

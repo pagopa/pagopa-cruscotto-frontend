@@ -4,11 +4,9 @@ import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsMo
 import { addToFilter, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import dayjs from 'dayjs/esm';
-
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,6 +25,7 @@ import { LocaltionHelper } from '../../../../core/location/location.helper';
 import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMode } from '../models/ricerca-operazioni.model';
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
+import dayjs from 'dayjs';
 
 const paEmittenteSoloValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
@@ -98,6 +97,8 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
   locale: string;
   readonly historyPickerStartAt = dayjs().subtract(6, 'month');
+  readonly minDate = new Date(new Date().getFullYear(), new Date().getMonth() - 42, 1);
+  readonly maxDate = new Date(new Date().getFullYear(), new Date().getMonth() - 5, 0);
 
   protected readonly Authority = Authority;
 
@@ -198,6 +199,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       fromHistory: fromHistory ? 'true' : null,
       dateFrom: fromHistory ? (dateFrom?.format('YYYY-MM-DD') ?? null) : null,
       dateTo: fromHistory ? (dateTo?.format('YYYY-MM-DD') ?? null) : null,
+      fromOnline: fromHistory ? (this.searchForm.get('fromOnline')?.value ? 'false' : null) : null,
     };
   }
 
@@ -336,4 +338,38 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  setMonthAndYear(toOrFrom: 'to' | 'from', date: dayjs.Dayjs, datepicker: MatDatepicker<any>) {
+    date.add(date.utcOffset(), 'minutes').toJSON();
+    switch (toOrFrom) {
+      case 'to':
+        this.searchForm.get('dateTo')?.setValue(date.endOf('month'));
+        break;
+      case 'from':
+        this.searchForm.get('dateFrom')?.setValue(date.startOf('month'));
+        this.searchForm.get('dateTo')?.setValue(null);
+        break;
+    }
+    datepicker.close();
+  }
+
+  dateFromFilter = (date: Date | null): boolean => {
+    if (date === null) {
+      return false;
+    }
+    const dateToCheck = dayjs(date);
+    const sixMonthsAgo = dayjs().subtract(6, 'month').startOf('month');
+    const threeYearsAgo = dayjs().subtract(36, 'month').startOf('month');
+    return dateToCheck.isBefore(sixMonthsAgo, 'month') && dateToCheck.isAfter(threeYearsAgo, 'month');
+  };
+
+  dateToFilter = (date: Date | null): boolean => {
+    if (date === null) {
+      return false;
+    }
+    const dateToCheck = dayjs(date);
+    const sixMonthsAgo = dayjs().subtract(6, 'month').endOf('month');
+    const dateFrom = this.searchForm.get('dateFrom')?.value;
+    return dateToCheck.isBefore(sixMonthsAgo, 'month') && dateToCheck.isAfter(dateFrom, 'month');
+  };
 }

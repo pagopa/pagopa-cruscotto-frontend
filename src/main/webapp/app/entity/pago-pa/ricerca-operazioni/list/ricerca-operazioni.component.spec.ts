@@ -39,4 +39,15 @@ describe('RicercaOperazioniComponent', () => {
       extra: 'extra-value',
     });
   });
+
+  it('should allow only months from 42 to 6 months before now', () => {
+    const monthBeforeMin = new Date(component.minDate.getFullYear(), component.minDate.getMonth() - 1, 1);
+    const monthAfterMax = new Date(component.maxDate.getFullYear(), component.maxDate.getMonth() + 1, 1);
+
+    expect(component.dpFilter(component.minDate)).toBe(true);
+    expect(component.dpFilter(component.maxDate)).toBe(true);
+    expect(component.dpFilter(monthBeforeMin)).toBe(false);
+    expect(component.dpFilter(monthAfterMax)).toBe(false);
+    expect(component.dpFilter(null)).toBe(false);
+  });
 });
