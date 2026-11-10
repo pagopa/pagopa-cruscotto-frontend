@@ -131,7 +131,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     'isPayed',
     'expand',
   ];
-  eventiColumns: string[] = ['eventoId', 'corrId', 'tipo', 'sottotipo', 'outcome', 'token', 'dataEvento'];
+  eventiColumns: string[] = ['dataEvento', 'token', 'tipo', 'sottotipo', 'outcome'];
   workflowsTableState: IWorkflowsTableState = {
     pageIndex: 0,
     pageSize: 50,
@@ -248,8 +248,22 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         this.tokensData = this.buildTokenRows(posizione.allTokens ?? []);
         this.tokensTokenTotalCount = posizione.totalTokens ?? posizione.tokens ?? posizione.allTokens?.length ?? 0;
 
-        // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
-        this.preloadTokenInfo();
+        if (posizione.tokens === 1 && this.tokensData.length === 1) {
+          const row = this.tokensData[0];
+          const info: ITokenInfo = {
+            positionInfo: posizione.positionInfo,
+            isPayedToken: posizione.isPayedToken,
+            payed: posizione.payed,
+            actors: posizione.actors,
+            amount: posizione.amount,
+            paymentInfo: posizione.paymentInfo,
+          };
+          this.tokenInfoCacheByToken[row.token] = info;
+          row.info = info;
+        } else {
+          // Preload sezione "info": dopo /api/position, chiama /api/token per ogni token.
+          this.preloadTokenInfo();
+        }
 
         // Tabella Eventi: estrai e valorizza i dati dal workflow con il conteggio totale
         this.buildEventiRows(workflows);
@@ -676,32 +690,39 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     return row.extra?.count ?? row.extra?.results?.length ?? 0;
   }
 
-  getRowPaymentBorn(row: ITokenRow): Date | undefined {
-    return row.info?.payed?.paymentBorn ?? this.posizione?.payed?.paymentBorn;
+  getRowPaymentBorn(row: ITokenRow): string | undefined {
+    if (this.posizione?.tokens == 1) return this.posizione?.tokenBorn;
+    else return row.info?.tokenBorn ?? undefined;
   }
 
   getRowPspName(row: ITokenRow): string | undefined {
-    return row.info?.actors?.psp ?? this.posizione?.actors?.psp;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.psp;
+    return row.info?.actors?.psp ?? undefined;
   }
 
   getRowPspDescription(row: ITokenRow): string | undefined {
-    return row.info?.actors?.pspDescription ?? this.posizione?.actors?.pspDescription;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.pspDescription;
+    return row.info?.actors?.pspDescription ?? undefined;
   }
 
   getRowPaDescription(row: ITokenRow): string | undefined {
-    return row.info?.actors?.ptPaDescription ?? this.posizione?.actors?.ptPaDescription;
+    if (this.posizione?.tokens == 1) return this.posizione?.actors?.ptPaDescription;
+    return row.info?.actors?.ptPaDescription ?? undefined;
   }
 
   getRowAmount(row: ITokenRow): number | undefined {
-    return row.info?.amount?.amount ?? this.posizione?.amount?.amount;
+    if (this.posizione?.tokens == 1) return this.posizione?.amount?.amount;
+    return row.info?.amount?.amount ?? undefined;
   }
 
   getRowPaymentMethod(row: ITokenRow): string | undefined {
-    return row.info?.paymentInfo?.paymentMethod ?? this.posizione?.paymentInfo?.paymentMethod;
+    if (this.posizione?.tokens == 1) return this.posizione?.paymentInfo?.paymentMethod;
+    return row.info?.paymentInfo?.paymentMethod ?? undefined;
   }
 
   getRowTouchpoint(row: ITokenRow): string | undefined {
-    return row.info?.paymentInfo?.touchpoint ?? this.posizione?.paymentInfo?.touchpoint;
+    if (this.posizione?.tokens == 1) return this.posizione?.paymentInfo?.touchpoint;
+    return row.info?.paymentInfo?.touchpoint ?? undefined;
   }
 
   isRowPayed(row: ITokenRow): boolean {

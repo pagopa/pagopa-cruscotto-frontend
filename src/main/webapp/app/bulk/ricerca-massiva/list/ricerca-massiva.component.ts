@@ -51,7 +51,7 @@ import { DatePipe } from '@angular/common';
   ],
 })
 export class RicercaMassivaComponent implements OnInit, OnDestroy {
-  readonly displayedColumns: string[] = ['createdAt', 'name', 'status', 'inputType', 'action'];
+  readonly displayedColumns: string[] = ['createdAt', 'name', 'status', 'inputType', 'createdBy', 'action'];
 
   data: SearchInstanceDTO[] = [];
   resultsLength = 0;

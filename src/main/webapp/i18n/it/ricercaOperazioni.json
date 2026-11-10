@@ -62,6 +62,7 @@
           "isDw": "is DW",
           "isGpd": "is GPD",
           "isStandin": "is Stand-In",
+          "idCarrello": "ID Carrello",
           "isCart": "is Cart"
         },
         "tokens": {

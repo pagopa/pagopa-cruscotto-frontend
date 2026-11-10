@@ -12,6 +12,7 @@
       },
       "result": {
         "createdAt": "Timestamp istanza",
+        "createdBy": "Autore",
         "name": "Nome istanza",
         "status": "Stato istanza",
         "inputType": "Tipo istanza",

@@ -36,6 +36,7 @@ export interface IPaymentInfo {
   isGpd?: boolean;
   isStandin?: boolean;
   isCart?: boolean;
+  idCarrello?: string;
 }
 
 export interface IPositionInfo {
@@ -142,12 +143,14 @@ export const toOperazioneRicercaRow = (
 export interface IPosizione {
   tokens?: number;
   totalTokens?: number;
+  isPayedToken?: boolean;
   payed?: IPayed;
   actors?: IActors;
   amount?: IAmount;
   positionInfo?: IPositionInfo;
   allTokens?: Array<string>;
   paymentInfo?: IPaymentInfo;
+  tokenBorn?: string;
   fromHistory?: boolean;
 }
 
@@ -159,6 +162,7 @@ export interface ITokenInfo {
   positionInfo?: IPositionInfo;
   isPayedToken?: boolean;
   paymentInfo?: IPaymentInfo;
+  tokenBorn?: string;
   fromHistory?: boolean;
 }
 
@@ -264,6 +268,7 @@ export interface IRawPaymentInfo {
   'is-gpd'?: boolean;
   'is-standin'?: boolean;
   'is-cart'?: boolean;
+  'id-carrello'?: string;
 }
 
 export interface IRawUnifiedSearchResponse {
@@ -288,10 +293,12 @@ export interface IRawPositionPayment {
   tokens?: number;
   'total-tokens'?: number;
   'all-tokens'?: string[];
+  'is-payed-token'?: boolean;
   payed?: IRawPayed;
   actors?: IRawActors;
   amount?: IAmount;
   'payment-info'?: IRawPaymentInfo;
+  'token-born'?: string;
 }
 
 export interface IRawTokenInfo {
@@ -301,6 +308,7 @@ export interface IRawTokenInfo {
   actors?: IRawActors;
   amount?: IAmount;
   'payment-info'?: IRawPaymentInfo;
+  'token-born'?: string;
 }
 
 export interface IRawTransferObject {
@@ -397,6 +405,7 @@ const mapRawPaymentInfo = (raw?: IRawPaymentInfo): IPaymentInfo | undefined =>
         isGpd: raw['is-gpd'],
         isStandin: raw['is-standin'],
         isCart: raw['is-cart'],
+        idCarrello: raw['id-carrello'],
       }
     : undefined;
 
@@ -405,10 +414,12 @@ export const mapRawPosizione = (raw: IRawPositionPayment): IPosizione => ({
   tokens: raw.tokens,
   totalTokens: raw['total-tokens'],
   allTokens: raw['all-tokens'],
+  isPayedToken: raw['is-payed-token'],
   payed: mapRawPayed(raw.payed),
   actors: mapRawActors(raw.actors),
   amount: raw.amount,
   paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+  tokenBorn: raw['token-born'],
 });
 
 export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({
@@ -418,6 +429,7 @@ export const mapRawTokenInfo = (raw: IRawTokenInfo): ITokenInfo => ({
   actors: mapRawActors(raw.actors),
   amount: raw.amount,
   paymentInfo: mapRawPaymentInfo(raw['payment-info']),
+  tokenBorn: raw['token-born'],
 });
 
 export const mapRawTransfers = (raw: IRawTransfersResponse): ITransfers => {

@@ -12,6 +12,7 @@
       },
       "result": {
         "createdAt": "Instance timestamp",
+        "createdBy": "Created by",
         "name": "Instance name",
         "status": "Instance state",
         "inputType": "Instance type",
