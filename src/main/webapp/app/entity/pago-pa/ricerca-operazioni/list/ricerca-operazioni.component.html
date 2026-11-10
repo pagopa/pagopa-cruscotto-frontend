@@ -78,12 +78,6 @@
         </div> -->
 
         <div class="row">
-          <!-- <div class="col-lg-3">
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.iuv">IUV</mat-label>
-              <input matInput formControlName="iuv" />
-            </mat-form-field>
-          </div> -->
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.token">Token</mat-label>
@@ -94,7 +88,7 @@
             </mat-form-field>
           </div>
           <div class="col-lg-4">
-            <mat-form-field class="d-block mb-2">
+            <mat-form-field class="d-block">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.idCarrello">ID Carrello</mat-label>
               <input matInput formControlName="idCarrello" maxlength="255" />
               <mat-error *ngIf="searchForm.get('idCarrello')?.hasError('pattern')">
@@ -103,11 +97,54 @@
             </mat-form-field>
           </div>
           <div class="col-lg-4">
-            <mat-form-field class="d-block mb-2">
+            <mat-form-field class="d-block">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.extra">Informazioni Aggiuntive</mat-label>
               <input matInput formControlName="extra" />
             </mat-form-field>
           </div>
+        </div>
+
+        <div class="row row-cols-auto justify-content-start align-content-center">
+          <div class="mt-2">
+            <mat-checkbox formControlName="fromHistory" (change)="onHistoryToggle($event.checked)">
+              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.history">cerca sullo storico</span>
+            </mat-checkbox>
+          </div>
+
+          <div class="mt-2" *ngIf="searchForm.get('fromHistory')?.value">
+            <mat-checkbox formControlName="fromOnline">
+              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.online">cerca sull'online</span>
+            </mat-checkbox>
+          </div>
+
+          @if (searchForm.get('fromHistory')?.value) {
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateFrom">Periodo da</mat-label>
+              <input matInput [matDatepicker]="dpFrom" formControlName="dateFrom" [matDatepickerFilter]="dateFromFilter" />
+              <mat-hint>MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="dpFrom"></mat-datepicker-toggle>
+              <mat-datepicker
+                #dpFrom
+                startView="multi-year"
+                (monthSelected)="setMonthAndYear('from', $event, dpFrom)"
+                panelClass="example-month-picker"
+              >
+              </mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateTo">Periodo da</mat-label>
+              <input matInput [matDatepicker]="dpTo" formControlName="dateTo" [matDatepickerFilter]="dateToFilter" />
+              <mat-hint>MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="dpTo"></mat-datepicker-toggle>
+              <mat-datepicker
+                #dpTo
+                startView="multi-year"
+                (monthSelected)="setMonthAndYear('to', $event, dpTo)"
+                panelClass="example-month-picker"
+              >
+              </mat-datepicker>
+            </mat-form-field>
+          }
         </div>
 
         <div class="row" *ngIf="searchForm.hasError('paEmittenteSolo') && (searchForm.dirty || searchForm.touched)">
@@ -233,6 +270,7 @@
                       mat-icon-button
                       color="primary"
                       [routerLink]="['/entity/pago-pa/ricerca-operazioni', row.paEmittente, row.numeroAvviso, 'view']"
+                      [queryParams]="getDetailQueryParams()"
                       [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.result.detail' | translate"
                     >
                       <mat-icon fontSet="material-symbols-outlined">open_in_new</mat-icon>

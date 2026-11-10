@@ -9,7 +9,7 @@ const ricercaMassivaRoutes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./list/ricerca-massiva.component').then(m => m.RicercaMassivaComponent),
     data: {
-      authorities: [Authority.SERT_SEARCH],
+      // authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -20,7 +20,7 @@ const ricercaMassivaRoutes: Routes = [
       detailInstance: ricercaMassivaDetailResolver,
     },
     data: {
-      authorities: [Authority.SERT_SEARCH],
+      // authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -28,7 +28,7 @@ const ricercaMassivaRoutes: Routes = [
     path: 'new',
     loadComponent: () => import('./create/ricerca-massiva-create.component').then(m => m.RicercaMassivaCreateComponent),
     data: {
-      authorities: [Authority.SERT_SEARCH],
+      // authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },
@@ -36,7 +36,7 @@ const ricercaMassivaRoutes: Routes = [
     path: 'csv',
     loadComponent: () => import('./csv-upload/ricerca-massiva-csv-upload.component').then(m => m.RicercaMassivaCsvUploadComponent),
     data: {
-      authorities: [Authority.SERT_SEARCH],
+      // authorities: [Authority.SERT_SEARCH],
     },
     canActivate: [UserRouteAccessService],
   },

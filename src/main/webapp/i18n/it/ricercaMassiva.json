@@ -6,6 +6,7 @@
       },
       "filter": {
         "createdAt": "Data di creazione",
+        "paymentPeriod": "Periodo di pagamento",
         "name": "Nome istanza",
         "status": "Stato istanza"
       },

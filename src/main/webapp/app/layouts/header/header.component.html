@@ -28,7 +28,6 @@
               class="nav-item-btn"
               [matMenuTriggerFor]="pagamentiMenu"
               [class.active]="isActive([ricercaOperazioniItem, ricercaMassivaItem])"
-              *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem, ricercaMassivaItem]"
             >
               Pagamenti
               <mat-icon fontSet="material-symbols-outlined" class="mr-2">arrow_drop_down</mat-icon>
@@ -74,17 +73,9 @@
             Qualifica partner
           </button>
 
-          <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
-            <ng-container *ngIf="ricercaMassivaMenuItem as ricercaMassivaItem">
-              <button
-                mat-menu-item
-                class="header-nav-menu-item"
-                [matMenuTriggerFor]="pagamentiMenu"
-                [class.active]="isActive([ricercaOperazioniItem, ricercaMassivaItem])"
-                *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem, ricercaMassivaItem]"
-              >
-                Pagamenti
-              </button>
+          <ng-container>
+            <ng-container>
+              <button mat-menu-item class="header-nav-menu-item" [matMenuTriggerFor]="pagamentiMenu">Pagamenti</button>
             </ng-container>
           </ng-container>
 
@@ -125,25 +116,13 @@
 
     <mat-menu #pagamentiMenu="matMenu" panelClass="header-nav-menu">
       <ng-container *ngIf="ricercaOperazioniMenuItem as ricercaOperazioniItem">
-        <button
-          mat-menu-item
-          class="header-nav-menu-item"
-          [routerLink]="ricercaOperazioniItem.route"
-          [routerLinkActive]="['active']"
-          *jhiHasAnyAuthorityMenu="[ricercaOperazioniItem]"
-        >
+        <button mat-menu-item class="header-nav-menu-item" [routerLink]="ricercaOperazioniItem.route" [routerLinkActive]="['active']">
           Ricerca operazioni
         </button>
       </ng-container>
 
       <ng-container *ngIf="ricercaMassivaMenuItem as ricercaMassivaItem">
-        <button
-          mat-menu-item
-          class="header-nav-menu-item"
-          [routerLink]="ricercaMassivaItem.route"
-          [routerLinkActive]="['active']"
-          *jhiHasAnyAuthorityMenu="[ricercaMassivaItem]"
-        >
+        <button mat-menu-item class="header-nav-menu-item" [routerLink]="ricercaMassivaItem.route" [routerLinkActive]="['active']">
           Ricerca massiva
         </button>
       </ng-container>

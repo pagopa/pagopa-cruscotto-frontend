@@ -26,7 +26,7 @@ import {
   ITransfers,
   IWorkflows,
 } from '../models/ricerca-operazioni.model';
-import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
+import { HistorySearchParams, RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 
 /**
  * Sotto-sezione espandibile (Dettaglio Token, Transfers, Informazioni Aggiuntive)
@@ -168,6 +168,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly service = inject(RicercaOperazioniService);
+  private historySearchParams?: HistorySearchParams;
 
   private buildTokenRows(tokens: string[]): ITokenRow[] {
     return tokens.map(token => ({
@@ -185,6 +186,15 @@ export class RicercaOperazioniDetailComponent implements OnInit {
   ngOnInit(): void {
     this.paEmittente = this.route.snapshot.paramMap.get('paEmittente');
     this.nav = this.route.snapshot.paramMap.get('nav');
+    const queryParams = this.route.snapshot.queryParamMap;
+    if (queryParams.get('fromHistory') === 'true') {
+      this.historySearchParams = {
+        fromHistory: true,
+        dateFrom: queryParams.get('dateFrom') ?? undefined,
+        dateTo: queryParams.get('dateTo') ?? undefined,
+        fromOnline: queryParams.get('fromOnline') === 'false' ? false : undefined,
+      };
+    }
 
     if (!this.paEmittente || !this.nav) {
       window.history.back();
@@ -213,12 +223,21 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       // Richiedi esplicitamente page/size coerenti con tokensTableState: senza questi parametri
       // il backend applica la propria paginazione di default (potenzialmente diversa da pageSize),
       // disallineando il conteggio/i dati mostrati al primo render rispetto al paginator.
-      posizione: this.service.getPosition(this.nav, this.paEmittente, this.tokensTableState.pageIndex, this.tokensTableState.pageSize),
+      posizione: this.service.getPosition(
+        this.nav,
+        this.paEmittente,
+        this.tokensTableState.pageIndex,
+        this.tokensTableState.pageSize,
+        undefined,
+        this.historySearchParams,
+      ),
       workflows: this.service.getWorkflows(
         this.nav,
         this.paEmittente,
         this.workflowsTableState.pageIndex,
         this.workflowsTableState.pageSize,
+        undefined,
+        this.historySearchParams,
       ),
     }).subscribe({
       next: ({ posizione, workflows }) => {
@@ -311,7 +330,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
       const key = `${row.token}:info`;
       this.loadingSections.add(key);
 
-      return this.service.getTokenInfo(row.token).pipe(
+      return this.service.getTokenInfo(row.token, this.historySearchParams).pipe(
         map((info: ITokenInfo) => ({ row, info, key })),
         catchError(() => of({ row, info: null as ITokenInfo | null, key })),
       );
@@ -369,7 +388,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
 
     switch (section) {
       case 'info':
-        this.service.getTokenInfo(row.token).subscribe({
+        this.service.getTokenInfo(row.token, this.historySearchParams).subscribe({
           next: (info: ITokenInfo) => {
             this.tokenInfoCacheByToken[row.token] = info;
             row.info = info;
@@ -447,7 +466,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     const state = this.getExtraInfoTableState(row.token);
     const sortParam = this.buildExtraInfoSortParam(state);
 
-    this.service.getExtraInfo(row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
+    this.service.getExtraInfo(row.token, state.pageIndex, state.pageSize, sortParam, this.historySearchParams).subscribe({
       next: (extra: IExtraInfo) => {
         row.extra = extra;
         onDone?.();
@@ -560,7 +579,14 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     const sortParam = this.buildWorkflowsSortParam(this.workflowsTableState);
 
     this.service
-      .getWorkflows(this.nav, this.paEmittente, this.workflowsTableState.pageIndex, this.workflowsTableState.pageSize, sortParam)
+      .getWorkflows(
+        this.nav,
+        this.paEmittente,
+        this.workflowsTableState.pageIndex,
+        this.workflowsTableState.pageSize,
+        sortParam,
+        this.historySearchParams,
+      )
       .subscribe({
         next: workflows => {
           this.workflows = workflows;
@@ -620,15 +646,17 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     const state = this.getTransfersTableState(row.token);
     const sortParam = this.buildTransfersSortParam(state);
 
-    this.service.getTransfers(this.nav, this.paEmittente, row.token, state.pageIndex, state.pageSize, sortParam).subscribe({
-      next: (transfers: ITransfers) => {
-        row.transfers = transfers;
-        onDone?.();
-      },
-      error: () => {
-        onDone?.();
-      },
-    });
+    this.service
+      .getTransfers(this.nav, this.paEmittente, row.token, state.pageIndex, state.pageSize, sortParam, this.historySearchParams)
+      .subscribe({
+        next: (transfers: ITransfers) => {
+          row.transfers = transfers;
+          onDone?.();
+        },
+        error: () => {
+          onDone?.();
+        },
+      });
   }
 
   private buildTransfersSortParam(state: ITransfersTableState): string | undefined {
@@ -767,7 +795,14 @@ export class RicercaOperazioniDetailComponent implements OnInit {
     this.isTokensLoading = true;
 
     this.service
-      .getPosition(this.nav, this.paEmittente, this.tokensTableState.pageIndex, this.tokensTableState.pageSize, sortParam || undefined)
+      .getPosition(
+        this.nav,
+        this.paEmittente,
+        this.tokensTableState.pageIndex,
+        this.tokensTableState.pageSize,
+        sortParam || undefined,
+        this.historySearchParams,
+      )
       .subscribe({
         next: posizione => {
           this.posizione = posizione;

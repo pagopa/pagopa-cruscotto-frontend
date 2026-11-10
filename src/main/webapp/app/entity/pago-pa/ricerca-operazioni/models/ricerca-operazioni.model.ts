@@ -107,6 +107,7 @@ export interface IOperazioneRicercaResponse {
   totalPages: number;
   size: number;
   number: number;
+  fromHistory?: boolean;
 }
 
 /** Costruisce l'identificativo composto da usare in URL a partire da una riga DTO. */
@@ -150,6 +151,7 @@ export interface IPosizione {
   allTokens?: Array<string>;
   paymentInfo?: IPaymentInfo;
   tokenBorn?: string;
+  fromHistory?: boolean;
 }
 
 /** Dato espanso di un token (informazioni di pagamento). */
@@ -161,6 +163,7 @@ export interface ITokenInfo {
   isPayedToken?: boolean;
   paymentInfo?: IPaymentInfo;
   tokenBorn?: string;
+  fromHistory?: boolean;
 }
 
 /** Informazioni aggiuntive associate a un token. */
