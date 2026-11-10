@@ -34,6 +34,10 @@ const routes: Routes = [
         loadChildren: () => import('./entity/entity.routes'),
       },
       {
+        path: 'bulk/ricerca-massiva',
+        loadChildren: () => import('./bulk/ricerca-massiva/ricerca-massiva.routes'),
+      },
+      {
         path: '',
         redirectTo: '/home',
         pathMatch: 'full',

@@ -1,0 +1,33 @@
+export const RICERCA_MASSIVA_CSV_TUTORIAL_TYPES = [
+  {
+    title: '1. NAV / ID Ente Creditore',
+    sample: `NAV;EC
+123456789012345678;12345678901
+123456789012345679;12345678902`,
+  },
+  {
+    title: '2. IUV / ID Ente Creditore',
+    sample: `IUV;EC
+123456789012345678;12345678901
+123456789012345679;12345678902`,
+  },
+  {
+    title: '3. NAV',
+    sample: `NAV
+123456789012345678
+123456789012345679`,
+  },
+  {
+    title: '4. IUV',
+    sample: `IUV
+123456789012345678
+123456789012345678`,
+  },
+  {
+    title: '5. Token',
+    sample: `TOKEN
+4a34f94f88f049a98760fb267a017886
+d4c1a9821dbc47cd84fa65199f59a43a
+a4b3028332e14177b89ae09078fe0c40-v2`,
+  },
+];

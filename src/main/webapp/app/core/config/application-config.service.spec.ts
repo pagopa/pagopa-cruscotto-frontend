@@ -15,12 +15,21 @@ describe('ApplicationConfigService', () => {
   });
 
   describe('without prefix', () => {
-    it('should return correctly', () => {
-      expect(service.getEndpointFor('api')).toEqual('api');
+    it('should return an absolute root-relative API path', () => {
+      expect(service.getEndpointFor('api')).toEqual('/api');
     });
 
     it('should return correctly when passing microservice', () => {
-      expect(service.getEndpointFor('api', 'microservice')).toEqual('services/microservice/api');
+      expect(service.getEndpointFor('api', 'microservice')).toEqual('/services/microservice/api');
+    });
+
+    it('should route SERT endpoints to the SERT application', () => {
+      expect(service.getSertEndpointFor('api/bulk/search-instances')).toEqual('/sert/api/bulk/search-instances');
+    });
+
+    it('should distinguish core and SERT account endpoints', () => {
+      expect(service.getEndpointFor('api/account')).toEqual('/api/account');
+      expect(service.getSertEndpointFor('/api/account')).toEqual('/sert/api/account');
     });
   });
 
@@ -35,6 +44,13 @@ describe('ApplicationConfigService', () => {
 
     it('should return correctly when passing microservice', () => {
       expect(service.getEndpointFor('api', 'microservice')).toEqual('prefix/services/microservice/api');
+    });
+
+    it('should route SERT endpoints to the SERT application', () => {
+      service.setEndpointPrefix('https://api.example.com/smo/cruscotto/v1');
+
+      expect(service.getSertEndpointFor('api/bulk')).toEqual('https://api.example.com/smo/cruscotto-sert/v1/api/bulk');
+      expect(service.getSertEndpointFor('api/account')).toEqual('https://api.example.com/smo/cruscotto-sert/v1/api/account');
     });
   });
 });

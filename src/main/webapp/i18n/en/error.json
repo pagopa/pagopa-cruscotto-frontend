@@ -10,6 +10,7 @@
       "500": "Internal server error",
       "503": "Service Unavailable"
     },
+    "duplicateInstanceName": "An instance with this name already exists",
     "empty": "{{ message }}",
     "download": {
       "generic": "Error while downloading",

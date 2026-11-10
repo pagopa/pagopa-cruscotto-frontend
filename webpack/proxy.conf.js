@@ -3,11 +3,12 @@ function setupProxy({ tls }) {
 
   // Sert-specific endpoints — served by cruscotto-sert-backend on port 8081
   // Uses a function filter so these specific /api/* paths don't fall through to the main backend.
-  const sertPaths = ['/api/search', '/api/position', '/api/token', '/api/extra', '/api/transfers', '/api/workflows'];
+  const sertPaths = ['/api/search', '/api/position', '/api/token', '/api/extra', '/api/transfers', '/api/workflows', '/api/bulk'];
 
   return [
     {
-      context: pathname => sertPaths.some(p => pathname.startsWith(p)),
+      context: pathname => pathname.startsWith('/sert/') || sertPaths.some(p => pathname.startsWith(p)),
+      pathRewrite: { '^/sert/': '/' },
       // target: `http${tls ? 's' : ''}://localhost:8081`,
       target: 'https://api.dev.platform.pagopa.it/smo/cruscotto-sert/v1',
       secure: false,
