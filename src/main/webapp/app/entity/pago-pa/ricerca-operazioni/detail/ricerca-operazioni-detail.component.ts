@@ -192,7 +192,7 @@ export class RicercaOperazioniDetailComponent implements OnInit {
         fromHistory: true,
         dateFrom: queryParams.get('dateFrom') ?? undefined,
         dateTo: queryParams.get('dateTo') ?? undefined,
-        fromOnline: queryParams.get('fromOnline') == 'true' ? true : undefined,
+        fromOnline: queryParams.get('fromOnline') === 'false' ? false : undefined,
       };
     }
 

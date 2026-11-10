@@ -78,12 +78,6 @@
         </div> -->
 
         <div class="row">
-          <!-- <div class="col-lg-3">
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.iuv">IUV</mat-label>
-              <input matInput formControlName="iuv" />
-            </mat-form-field>
-          </div> -->
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.token">Token</mat-label>
@@ -151,40 +145,6 @@
               </mat-datepicker>
             </mat-form-field>
           }
-
-          <!-- <div class="col" *ngIf="searchForm.get('fromHistory')?.value">
-            @let dateFromRef = searchForm.get('dateFrom')!;
-            @let dateToRef = searchForm.get('dateTo')!;
-            <mat-form-field class="d-block mb-2">
-              <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.historyPeriod">Periodo</mat-label>
-              <mat-date-range-input [formGroup]="searchForm" [rangePicker]="historyDatePicker">
-                <input matStartDate formControlName="dateFrom" />
-                <input matEndDate formControlName="dateTo" />
-              </mat-date-range-input>
-              <mat-datepicker-toggle matIconSuffix *ngIf="dateFromRef.value || dateToRef.value" (click)="clearDateRange()">
-                <mat-icon matDatepickerToggleIcon fontSet="material-symbols-outlined" color="accent" aria-hidden="false">
-                  close_small
-                </mat-icon>
-              </mat-datepicker-toggle>
-              <mat-datepicker-toggle matSuffix [for]="historyDatePicker"></mat-datepicker-toggle>
-              <mat-date-range-picker #historyDatePicker [startAt]="historyPickerStartAt"></mat-date-range-picker>
-              <ng-container
-                ngProjectAs="mat-error"
-                *ngIf="
-                  (dateFromRef.invalid && (dateFromRef.dirty || dateFromRef.touched)) ||
-                  (dateToRef.invalid && (dateToRef.dirty || dateToRef.touched))
-                "
-              >
-                @if (dateFromRef.errors?.matDatepickerParse) {
-                  <mat-error jhiTranslate="entity.validation.fromDate">Invalid start date</mat-error>
-                } @else if (dateToRef.errors?.matDatepickerParse) {
-                  <mat-error jhiTranslate="entity.validation.toDate">Invalid end date</mat-error>
-                } @else if (dateFromRef.errors?.matStartDateInvalid || dateToRef.errors?.matEndDateInvalid) {
-                  <mat-error jhiTranslate="entity.validation.dateRange">This field should be a valid range of date</mat-error>
-                }
-              </ng-container>
-            </mat-form-field>
-          </div> -->
         </div>
 
         <div class="row" *ngIf="searchForm.hasError('paEmittenteSolo') && (searchForm.dirty || searchForm.touched)">

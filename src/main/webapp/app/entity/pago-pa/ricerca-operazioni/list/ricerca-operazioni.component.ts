@@ -25,7 +25,7 @@ import { LocaltionHelper } from '../../../../core/location/location.helper';
 import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMode } from '../models/ricerca-operazioni.model';
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
-import dayjs from 'dayjs';
+import dayjs from '../../../../config/dayjs';
 
 const paEmittenteSoloValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
@@ -193,13 +193,13 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   getDetailQueryParams(): Record<string, string | null> {
-    const { fromHistory, dateFrom, dateTo } = this.searchForm.value;
+    const { fromHistory, fromOnline, dateFrom, dateTo } = this.searchForm.value;
 
     return {
       fromHistory: fromHistory ? 'true' : null,
       dateFrom: fromHistory ? (dateFrom?.format('YYYY-MM-DD') ?? null) : null,
       dateTo: fromHistory ? (dateTo?.format('YYYY-MM-DD') ?? null) : null,
-      fromOnline: fromHistory ? (this.searchForm.get('fromOnline')?.value ? 'false' : null) : null,
+      fromOnline: fromHistory ? (fromOnline ? 'false' : null) : null,
     };
   }
 
@@ -358,9 +358,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       return false;
     }
     const dateToCheck = dayjs(date);
-    const sixMonthsAgo = dayjs().subtract(6, 'month').startOf('month');
-    const threeYearsAgo = dayjs().subtract(36, 'month').startOf('month');
-    return dateToCheck.isBefore(sixMonthsAgo, 'month') && dateToCheck.isAfter(threeYearsAgo, 'month');
+    const sixMonthsAgo = dayjs().subtract(6, 'month');
+    const threeYearsAgo = dayjs().subtract(48, 'month');
+    return dateToCheck.isSameOrBefore(sixMonthsAgo, 'month') && dateToCheck.isSameOrAfter(threeYearsAgo, 'month');
   };
 
   dateToFilter = (date: Date | null): boolean => {
@@ -368,8 +368,8 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       return false;
     }
     const dateToCheck = dayjs(date);
-    const sixMonthsAgo = dayjs().subtract(6, 'month').endOf('month');
+    const sixMonthsAgo = dayjs().subtract(6, 'month');
     const dateFrom = this.searchForm.get('dateFrom')?.value;
-    return dateToCheck.isBefore(sixMonthsAgo, 'month') && dateToCheck.isAfter(dateFrom, 'month');
+    return dateToCheck.isSameOrBefore(sixMonthsAgo, 'month') && dateToCheck.isSameOrAfter(dateFrom, 'month');
   };
 }
