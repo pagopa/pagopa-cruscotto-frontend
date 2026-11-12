@@ -118,7 +118,7 @@
           </div>
 
           @if (searchForm.get('fromHistory')?.value) {
-            <mat-form-field>
+            <mat-form-field class="history-picker">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateFrom">Periodo da</mat-label>
               <input matInput [matDatepicker]="dpFrom" formControlName="dateFrom" [matDatepickerFilter]="dateFromFilter" />
               <mat-hint>MM/YYYY</mat-hint>
@@ -126,12 +126,12 @@
               <mat-datepicker
                 #dpFrom
                 startView="multi-year"
-                (monthSelected)="setMonthAndYear('from', $event, dpFrom)"
+                (monthSelected)="setMonthAndYear('from', $event, dpFrom, dpTo)"
                 panelClass="example-month-picker"
               >
               </mat-datepicker>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="history-picker">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateTo">Periodo da</mat-label>
               <input matInput [matDatepicker]="dpTo" formControlName="dateTo" [matDatepickerFilter]="dateToFilter" />
               <mat-hint>MM/YYYY</mat-hint>

@@ -34,6 +34,8 @@ export class RicercaOperazioniFilter extends IFilterPagination {
 
   static FROM_HISTORY: IParam = { name: 'fromHistory', req: 'fromHistory', type: TypeData.BOOLEAN, defaultValue: false };
 
+  static FROM_ONLINE: IParam = { name: 'fromOnline', req: 'fromOnline', type: TypeData.BOOLEAN, defaultValue: false };
+
   /** Modalità di ricerca attiva, determinata dal campo esclusivo valorizzato */
   mode?: RicercaOperazioniMode;
 

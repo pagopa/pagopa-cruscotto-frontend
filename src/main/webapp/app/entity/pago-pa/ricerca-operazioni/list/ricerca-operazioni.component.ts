@@ -123,7 +123,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       fromHistory: [false],
       dateFrom: new FormControl<dayjs.Dayjs | null>(null),
       dateTo: new FormControl<dayjs.Dayjs | null>(null),
-      fromOnline: [],
+      fromOnline: [false],
     },
     { validators: [paEmittenteSoloValidator, exclusiveSearchFieldsValidator] },
   );
@@ -174,6 +174,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       idCarrello: '',
       extra: '',
       fromHistory: false,
+      fromOnline: false,
       dateFrom: null,
       dateTo: null,
     });
@@ -201,6 +202,10 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       dateTo: fromHistory ? (dateTo?.format('YYYY-MM-DD') ?? null) : null,
       fromOnline: fromHistory ? (fromOnline ? 'false' : null) : null,
     };
+  }
+
+  subscribeToFormChanges(): void {
+    this.searchForm;
   }
 
   onHistoryToggle(enabled: boolean): void {
@@ -242,6 +247,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       idCarrello: getFilterValue(this.filter, RicercaOperazioniFilter.ID_CARRELLO),
       extra: getFilterValue(this.filter, RicercaOperazioniFilter.EXTRA),
       fromHistory: getFilterValue(this.filter, RicercaOperazioniFilter.FROM_HISTORY),
+      fromOnline: getFilterValue(this.filter, RicercaOperazioniFilter.FROM_ONLINE),
       dateFrom: getFilterValue(this.filter, RicercaOperazioniFilter.DATE_FROM),
       dateTo: getFilterValue(this.filter, RicercaOperazioniFilter.DATE_TO),
     });
@@ -261,6 +267,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     addToFilter(this.filter, this.searchForm.get('extra'), RicercaOperazioniFilter.EXTRA);
     addToFilter(this.filter, this.searchForm.get('fromHistory'), RicercaOperazioniFilter.FROM_HISTORY);
     if (this.searchForm.get('fromHistory')?.value) {
+      addToFilter(this.filter, this.searchForm.get('fromOnline'), RicercaOperazioniFilter.FROM_ONLINE);
       addToFilter(this.filter, this.searchForm.get('dateFrom'), RicercaOperazioniFilter.DATE_FROM);
       addToFilter(this.filter, this.searchForm.get('dateTo'), RicercaOperazioniFilter.DATE_TO);
     }
@@ -297,7 +304,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   private loadPage(): void {
-    const { paEmittente, nav, iuv, token, idCarrello, extra, fromHistory, dateFrom, dateTo } = this.searchForm.value;
+    const { paEmittente, nav, iuv, token, idCarrello, extra, fromHistory, fromOnline, dateFrom, dateTo } = this.searchForm.value;
     const mode = this.detectMode();
     if (!mode && !fromHistory) return;
 
@@ -319,6 +326,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
         dateFrom: fromHistory ? dateFrom?.format('YYYY-MM-DD') : undefined,
         dateTo: fromHistory ? dateTo?.format('YYYY-MM-DD') : undefined,
         fromHistory: fromHistory ? true : undefined,
+        fromOnline: fromHistory && fromOnline ? false : undefined,
         info: extra?.trim() || undefined,
         page: this.page - 1,
         size: this.pageSize,
@@ -339,7 +347,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       });
   }
 
-  setMonthAndYear(toOrFrom: 'to' | 'from', date: dayjs.Dayjs, datepicker: MatDatepicker<any>) {
+  setMonthAndYear(toOrFrom: 'to' | 'from', date: dayjs.Dayjs, datepicker: MatDatepicker<any>, datepickerTo?: MatDatepicker<any>) {
     date.add(date.utcOffset(), 'minutes').toJSON();
     switch (toOrFrom) {
       case 'to':
@@ -351,6 +359,9 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
         break;
     }
     datepicker.close();
+    if (datepickerTo) {
+      datepickerTo.open();
+    }
   }
 
   dateFromFilter = (date: Date | null): boolean => {
@@ -359,7 +370,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     }
     const dateToCheck = dayjs(date);
     const sixMonthsAgo = dayjs().subtract(6, 'month');
-    const threeYearsAgo = dayjs().subtract(48, 'month');
+    const threeYearsAgo = dayjs().subtract(36, 'month');
     return dateToCheck.isSameOrBefore(sixMonthsAgo, 'month') && dateToCheck.isSameOrAfter(threeYearsAgo, 'month');
   };
 
@@ -368,8 +379,8 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       return false;
     }
     const dateToCheck = dayjs(date);
-    const sixMonthsAgo = dayjs().subtract(6, 'month');
-    const dateFrom = this.searchForm.get('dateFrom')?.value;
-    return dateToCheck.isSameOrBefore(sixMonthsAgo, 'month') && dateToCheck.isSameOrAfter(dateFrom, 'month');
+    const dateFrom = dayjs(this.searchForm.get('dateFrom')?.value);
+    const sixMonthsFrom = dateFrom ? dateFrom.add(6, 'month') : null;
+    return dateToCheck.isSameOrAfter(dateFrom, 'month') && dateToCheck.isSameOrBefore(sixMonthsFrom, 'month');
   };
 }

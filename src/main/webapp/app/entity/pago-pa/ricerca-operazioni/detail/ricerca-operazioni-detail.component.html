@@ -49,35 +49,6 @@
             <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.tokensCount">Numero Token</div>
             <div class="fw-bold">{{ posizione.tokens }}</div>
           </div>
-          <!-- <div class="col-lg-2 mb-3" *ngIf="posizione.tokens != null">
-          <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.tokensCount">Numero Token</div>
-          <div class="fw-bold">{{ isRowPayed(row) ? '✓' : '☓' }}</div>
-        </div> -->
-
-          <!-- Dettaglio pagamento (visibile se posizione pagata) -->
-          <!-- <ng-container *ngIf="isPagata && posizione.payed as payed">
-          <div class="col-12 mt-2">
-            <h6 jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.sections.payed">Pagamento</h6>
-          </div>
-          <div class="col-lg-4 mb-3" *ngIf="payed.token">
-            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.token">Token Pagato</div>
-            <div class="fw-bold">{{ payed.token }}</div>
-          </div>
-          <div class="col-lg-2 mb-3" *ngIf="payed.paymentBorn">
-            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.paymentBorn">
-              Registrazione Pagamento
-            </div>
-            <div class="fw-bold">{{ payed.paymentBorn | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
-          </div>
-          <div class="col-lg-2 mb-3" *ngIf="payed.payedDate">
-            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.payed.payedDate">Data Pagamento</div>
-            <div class="fw-bold">{{ payed.payedDate | date: 'dd/MM/yyyy HH:mm:ss' }}</div>
-          </div>
-          <div class="col-lg-2 mb-3" *ngIf="posizione.amount?.amount != null">
-            <div class="text-muted small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.importo">Importo</div>
-            <div class="fw-bold">{{ posizione.amount?.amount | number: '1.2-2' }} €</div>
-          </div>
-        </ng-container> -->
         </div>
       </div>
     </mat-card-content>
@@ -89,19 +60,6 @@
       <mat-tab-group #tabGroup>
         <!-- ===== TAB TOKENS ===== -->
         <mat-tab [label]="'pagopaCruscottoApp.ricercaOperazioni.detail.tabTokens' | translate">
-          <!-- <div class="d-flex justify-content-end mt-3" *ngIf="expandedTokens.size > 0">
-            <button
-              mat-stroked-button
-              color="warn"
-              type="button"
-              (click)="collapseAllTokens()"
-              [matTooltip]="'pagopaCruscottoApp.ricercaOperazioni.detail.closeAll' | translate"
-            >
-              <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
-              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.detail.closeAll">Chiudi tutto</span>
-            </button>
-          </div> -->
-
           <div class="table-loading-container mt-3">
             <div class="table-loading-overlay" *ngIf="isTokensLoading">
               <mat-spinner diameter="32"></mat-spinner>
@@ -159,12 +117,7 @@
 
                   <ng-container matColumnDef="amount">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
-                    <td mat-cell *matCellDef="let row">
-                      <ng-container *ngIf="getRowAmount(row) != null; else dashAmount">
-                        {{ getRowAmount(row) | number: '1.2-2' }} €
-                      </ng-container>
-                      <ng-template #dashAmount>--</ng-template>
-                    </td>
+                    <td mat-cell *matCellDef="let row">{{ (getRowAmount(row) | number: '1.2-2') || '--' }} €</td>
                   </ng-container>
 
                   <ng-container matColumnDef="paymentMethod">

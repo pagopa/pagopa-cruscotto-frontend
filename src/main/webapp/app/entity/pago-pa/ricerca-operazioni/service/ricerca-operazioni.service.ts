@@ -54,6 +54,7 @@ export class RicercaOperazioniService {
     dateFrom?: string;
     dateTo?: string;
     fromHistory?: boolean;
+    fromOnline?: boolean;
     info?: string;
     page?: number;
     size?: number;
@@ -193,6 +194,7 @@ export class RicercaOperazioniService {
     dateFrom?: string;
     dateTo?: string;
     fromHistory?: boolean;
+    fromOnline?: boolean;
     info?: string;
     page?: number;
     size?: number;
