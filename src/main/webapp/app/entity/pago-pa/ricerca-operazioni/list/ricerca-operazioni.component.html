@@ -29,7 +29,6 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <!-- Riga 1: PA Emittente -->
         <div class="row">
           <div class="col-lg-4">
             <mat-form-field class="d-block mb-2">
@@ -57,25 +56,6 @@
             </mat-form-field>
           </div>
         </div>
-
-        <!-- Hint esclusività -->
-        <!-- <div class="row mb-2">
-          <div class="col-12">
-            <p class="text-muted small mb-1">
-              <mat-icon fontSet="material-symbols-outlined"
-                        style="font-size:16px; vertical-align:middle;">info</mat-icon>
-              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
-                Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
-              </span>
-            </p>
-            <div *ngIf="searchForm.hasError('exclusiveFieldRequired') && (searchForm.dirty || searchForm.touched)"
-                 class="text-danger small">
-              <span jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveHint">
-                Indicare un solo campo tra IUV, Token, ID Carrello e Informazioni Aggiuntive
-              </span>
-            </div>
-          </div>
-        </div> -->
 
         <div class="row">
           <div class="col-lg-4">
@@ -147,25 +127,25 @@
           }
         </div>
 
-        <div class="row" *ngIf="searchForm.hasError('paEmittenteSolo') && (searchForm.dirty || searchForm.touched)">
-          <div class="col-12">
-            <div class="text-danger small mb-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittenteSolo">
-              La ricerca per sola PA Emittente non è consentita. Aggiungere almeno un altro criterio.
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="searchForm.hasError('exclusiveFieldsConflict') && (searchForm.dirty || searchForm.touched)">
-          <div class="col-12">
-            <div class="text-danger small mb-2" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveFieldsConflict">
-              Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive.
-            </div>
-          </div>
-        </div>
-
-        <!-- Azioni -->
+        <!-- Errori -->
         <mat-action-row class="d-block">
+          <!-- Pulsanti -->
           <div class="d-flex justify-content-end align-items-center">
+            @if (searchForm.hasError('dateFromOrDateToRequired') && (searchForm.dirty || searchForm.touched)) {
+              <span class="text-danger small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.dateFromOrDateToRequired">
+                Per la ricerca sullo storico, indicare la data di inizio e la data di fine.
+              </span>
+            }
+            @if (searchForm.hasError('exclusiveFieldsConflict') && (searchForm.dirty || searchForm.touched)) {
+              <span class="text-danger small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.exclusiveFieldsConflict">
+                Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive.
+              </span>
+            }
+            @if (searchForm.hasError('paEmittenteOrNavRequired') && (searchForm.dirty || searchForm.touched)) {
+              <span class="text-danger small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittenteOrNavRequired">
+                Indicare almeno PA Emittente o NAV.
+              </span>
+            }
             <button
               type="submit"
               id="search"
@@ -174,7 +154,6 @@
               [disabled]="searchForm.invalid || isLoadingResults"
               [title]="'entity.action.search' | translate"
             >
-              <!-- TODO: add authority check  *jhiHasAnyAuthority="Authority.RICERCA_OPERAZIONI_INQUIRY"-->
               <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
               <span jhiTranslate="entity.action.search">Cerca</span>
             </button>

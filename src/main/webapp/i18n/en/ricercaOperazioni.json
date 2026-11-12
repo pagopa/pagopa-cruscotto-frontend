@@ -16,7 +16,8 @@
         "dateFrom": "Period from",
         "dateTo": "Period to",
         "exclusiveHint": "Provide only one value among NAV, IUV, Token, Cart ID and Additional Information",
-        "paEmittenteSolo": "Searching by Issuing PA only is not allowed. Please add at least one more search criterion.",
+        "paEmittenteOrNavRequired": "Provide at least an Issuing PA or a NAV.",
+        "dateFromOrDateToRequired": "For a history search, provide both the start and end dates.",
         "exclusiveFieldsConflict": "Provide only one among IUV, Token, Cart ID or Additional Information."
       },
       "result": {

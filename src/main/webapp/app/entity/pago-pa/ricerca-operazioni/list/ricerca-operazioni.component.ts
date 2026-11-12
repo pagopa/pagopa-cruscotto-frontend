@@ -27,18 +27,21 @@ import { RicercaOperazioniService } from '../service/ricerca-operazioni.service'
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 import dayjs from '../../../../config/dayjs';
 
-const paEmittenteSoloValidator = (control: AbstractControl): ValidationErrors | null => {
+const paEmittenteOrNavRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
     paEmittente?: string | null;
     nav?: string | null;
-    iuv?: string | null;
-    token?: string | null;
-    idCarrello?: string | null;
-    extra?: string | null;
-    fromHistory?: boolean;
   };
-  const hasOther = [formValue.nav, formValue.iuv, formValue.token, formValue.idCarrello, formValue.extra].some(v => !!v?.trim());
-  return !!formValue.paEmittente?.trim() && !hasOther && !formValue.fromHistory ? { paEmittenteSolo: true } : null;
+  return formValue.paEmittente?.trim() || formValue.nav?.trim() ? null : { paEmittenteOrNavRequired: true };
+};
+
+const historyPeriodRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
+  const formValue = control.value as {
+    fromHistory?: boolean;
+    dateFrom?: dayjs.Dayjs | null;
+    dateTo?: dayjs.Dayjs | null;
+  };
+  return formValue.fromHistory && (!formValue.dateFrom || !formValue.dateTo) ? { dateFromOrDateToRequired: true } : null;
 };
 
 const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
@@ -111,6 +114,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
 
   private readonly subscriptions = new Subscription();
+  private searchSubscription?: Subscription;
 
   searchForm = this.fb.group(
     {
@@ -125,7 +129,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       dateTo: new FormControl<dayjs.Dayjs | null>(null),
       fromOnline: [false],
     },
-    { validators: [paEmittenteSoloValidator, exclusiveSearchFieldsValidator] },
+    { validators: [paEmittenteOrNavRequiredValidator, historyPeriodRequiredValidator, exclusiveSearchFieldsValidator] },
   );
 
   constructor() {
@@ -138,6 +142,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.updateForm();
+    this.subscribeToFormChanges();
 
     if (this.locationHelper.getIsBack()) {
       this.loadPage();
@@ -152,6 +157,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    this.searchSubscription?.unsubscribe();
   }
 
   search(): void {
@@ -205,7 +211,24 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   subscribeToFormChanges(): void {
-    this.searchForm;
+    const controls: AbstractControl[] = [
+      this.searchForm.controls.fromHistory,
+      this.searchForm.controls.fromOnline,
+      this.searchForm.controls.dateFrom,
+      this.searchForm.controls.dateTo,
+    ];
+
+    controls.forEach(control => {
+      this.subscriptions.add(
+        control.valueChanges.subscribe(() => {
+          this.searchSubscription?.unsubscribe();
+          this.searchSubscription = undefined;
+          this.clearResults();
+          this.isLoadingResults = false;
+          this.spinner.hide('isLoadingResults');
+        }),
+      );
+    });
   }
 
   onHistoryToggle(enabled: boolean): void {
@@ -308,6 +331,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     const mode = this.detectMode();
     if (!mode && !fromHistory) return;
 
+    this.searchSubscription?.unsubscribe();
     this.filter.mode = mode;
     this.filter.search = true;
     this._search = true;
@@ -316,7 +340,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
 
     this.spinner.show('isLoadingResults');
 
-    this.service
+    this.searchSubscription = this.service
       .search({
         pa: paEmittente?.trim() || undefined,
         nav: nav?.trim() || undefined,
@@ -345,6 +369,11 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
           this.spinner.hide('isLoadingResults');
         },
       });
+  }
+
+  private clearResults(): void {
+    this.data = [];
+    this.resultsLength = 0;
   }
 
   setMonthAndYear(toOrFrom: 'to' | 'from', date: dayjs.Dayjs, datepicker: MatDatepicker<any>, datepickerTo?: MatDatepicker<any>) {
@@ -380,7 +409,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
     }
     const dateToCheck = dayjs(date);
     const dateFrom = dayjs(this.searchForm.get('dateFrom')?.value);
-    const sixMonthsFrom = dateFrom ? dateFrom.add(6, 'month') : null;
+    const sixMonthsFrom = dateFrom ? dateFrom.add(5, 'month') : null;
     return dateToCheck.isSameOrAfter(dateFrom, 'month') && dateToCheck.isSameOrBefore(sixMonthsFrom, 'month');
   };
 }
