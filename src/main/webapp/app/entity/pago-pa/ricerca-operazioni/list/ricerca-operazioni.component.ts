@@ -27,14 +27,6 @@ import { RicercaOperazioniService } from '../service/ricerca-operazioni.service'
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 import dayjs from '../../../../config/dayjs';
 
-const paEmittenteOrNavRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
-  const formValue = control.value as {
-    paEmittente?: string | null;
-    nav?: string | null;
-  };
-  return formValue.paEmittente?.trim() || formValue.nav?.trim() ? null : { paEmittenteOrNavRequired: true };
-};
-
 const historyPeriodRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
     fromHistory?: boolean;
@@ -46,6 +38,8 @@ const historyPeriodRequiredValidator = (control: AbstractControl): ValidationErr
 
 const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
+    nav?: string | null;
+    paEmittente?: string | null;
     iuv?: string | null;
     token?: string | null;
     idCarrello?: string | null;
@@ -129,7 +123,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       dateTo: new FormControl<dayjs.Dayjs | null>(null),
       fromOnline: [false],
     },
-    { validators: [paEmittenteOrNavRequiredValidator, historyPeriodRequiredValidator, exclusiveSearchFieldsValidator] },
+    { validators: [historyPeriodRequiredValidator, exclusiveSearchFieldsValidator] },
   );
 
   constructor() {

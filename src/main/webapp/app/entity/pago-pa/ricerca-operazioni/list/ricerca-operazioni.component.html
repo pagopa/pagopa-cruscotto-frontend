@@ -103,12 +103,7 @@
               <input matInput [matDatepicker]="dpFrom" formControlName="dateFrom" [matDatepickerFilter]="dateFromFilter" />
               <mat-hint>MM/YYYY</mat-hint>
               <mat-datepicker-toggle matIconSuffix [for]="dpFrom"></mat-datepicker-toggle>
-              <mat-datepicker
-                #dpFrom
-                startView="multi-year"
-                (monthSelected)="setMonthAndYear('from', $event, dpFrom, dpTo)"
-                panelClass="example-month-picker"
-              >
+              <mat-datepicker #dpFrom startView="multi-year" (monthSelected)="setMonthAndYear('from', $event, dpFrom, dpTo)">
               </mat-datepicker>
             </mat-form-field>
             <mat-form-field class="history-picker">
@@ -116,13 +111,7 @@
               <input matInput [matDatepicker]="dpTo" formControlName="dateTo" [matDatepickerFilter]="dateToFilter" />
               <mat-hint>MM/YYYY</mat-hint>
               <mat-datepicker-toggle matIconSuffix [for]="dpTo"></mat-datepicker-toggle>
-              <mat-datepicker
-                #dpTo
-                startView="multi-year"
-                (monthSelected)="setMonthAndYear('to', $event, dpTo)"
-                panelClass="example-month-picker"
-              >
-              </mat-datepicker>
+              <mat-datepicker #dpTo startView="multi-year" (monthSelected)="setMonthAndYear('to', $event, dpTo)"> </mat-datepicker>
             </mat-form-field>
           }
         </div>
