@@ -126,7 +126,7 @@ export class PagoPaPaymentReceiptComponent implements OnInit {
     this.data = [];
     this.filter.clear();
     this.updateForm();
-    void this.router.navigate(['/entity/pago-pa/payment-receipt']);
+    void this.router.navigate(['/entity/payment-receipt']);
   }
 
   changePage(event: PageEvent): void {

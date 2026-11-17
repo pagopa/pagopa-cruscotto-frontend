@@ -34,20 +34,24 @@ const entityRoutes: Routes = [
     loadChildren: () => import('./institute/institute.routes'),
   },
   {
-    path: 'pago-pa/payment-receipt',
+    path: 'payment-receipt',
     loadChildren: () => import('./pago-pa/payment-receipt/payment-receipt.routes'),
   },
   {
-    path: 'pago-pa/recorded-timeout',
+    path: 'recorded-timeout',
     loadChildren: () => import('./pago-pa/recorded-timeout/recorded-timeout.routes'),
   },
   {
-    path: 'pago-pa/taxonomy-aggregate-position',
+    path: 'taxonomy-aggregate-position',
     loadChildren: () => import('./pago-pa/taxonomy-aggregate-position/taxonomy-aggregate-position.routes'),
   },
   {
-    path: 'pago-pa/ricerca-operazioni',
+    path: 'ricerca-operazioni',
     loadChildren: () => import('./pago-pa/ricerca-operazioni/ricerca-operazioni.routes'),
+  },
+  {
+    path: 'reporting-flow',
+    loadChildren: () => import('./reporting-flow/reporting-flow.routes'),
   },
 ];
 

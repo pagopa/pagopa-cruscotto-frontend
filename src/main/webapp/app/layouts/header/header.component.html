@@ -36,7 +36,7 @@
           </ng-container>
         </ng-container>
 
-        <button mat-button class="nav-item-btn" disabled>Flussi di rendicontazione</button>
+        <button mat-button class="nav-item-btn">Flussi di rendicontazione</button>
 
         <button
           mat-button
@@ -87,8 +87,6 @@
               </button>
             </ng-container>
           </ng-container>
-
-          <button mat-menu-item class="header-nav-menu-item" disabled>Flussi di rendicontazione</button>
 
           <button
             mat-menu-item
@@ -148,7 +146,15 @@
         </button>
       </ng-container>
 
-      <button mat-menu-item class="header-nav-menu-item" disabled>Anagrafica</button>
+      <button
+        mat-menu-item
+        class="header-nav-menu-item"
+        [routerLink]="ricercaMassivaItem.route"
+        [routerLinkActive]="['active']"
+        *jhiHasAnyAuthorityMenu="[ricercaMassivaItem]"
+      >
+        Flussi di rendicontazione
+      </button>
     </mat-menu>
 
     <mat-menu #anagraficaMenu="matMenu" panelClass="header-nav-menu">
