@@ -43,9 +43,9 @@
             <mat-form-field class="d-block mb-2">
               <mat-label jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.nav">Numero Avviso (NAV)</mat-label>
               <input matInput formControlName="nav" maxlength="18" />
-              <mat-error *ngIf="searchForm.get('nav')?.hasError('pattern')"
-                >Formato non valido: inserire massimo 18 cifre numeriche.</mat-error
-              >
+              <mat-error *ngIf="searchForm.get('nav')?.hasError('pattern')">
+                Formato non valido: inserire massimo 18 cifre numeriche.
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-lg-4">
@@ -130,9 +130,9 @@
                 Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive.
               </span>
             }
-            @if (searchForm.hasError('paEmittenteOrNavRequired') && (searchForm.dirty || searchForm.touched)) {
-              <span class="text-danger small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.paEmittenteOrNavRequired">
-                Indicare almeno PA Emittente o NAV.
+            @if (searchForm.hasError('searchParametersRequired') && (searchForm.dirty || searchForm.touched)) {
+              <span class="text-danger small" jhiTranslate="pagopaCruscottoApp.ricercaOperazioni.filter.searchParametersRequired">
+                Indicare almeno un parametro di ricerca; se si indica la PA Emittente, compilare anche un altro parametro.
               </span>
             }
             <button

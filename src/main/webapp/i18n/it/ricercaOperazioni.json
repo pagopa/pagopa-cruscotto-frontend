@@ -16,7 +16,7 @@
         "dateTo": "Periodo a",
         "online": "Escludi dati recenti",
         "exclusiveHint": "Indicare un solo campo tra NAV, IUV, Token, ID Carrello e Informazioni Aggiuntive",
-        "paEmittenteOrNavRequired": "Indicare almeno PA Emittente o NAV.",
+        "searchParametersRequired": "Indicare almeno un parametro di ricerca; se si indica la PA Emittente, compilare anche un altro parametro.",
         "dateFromOrDateToRequired": "Per la ricerca sullo storico, indicare la data di inizio e la data di fine.",
         "exclusiveFieldsConflict": "Inserire solo uno tra IUV, Token, ID Carrello o Informazioni Aggiuntive."
       },

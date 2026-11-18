@@ -36,6 +36,21 @@ const historyPeriodRequiredValidator = (control: AbstractControl): ValidationErr
   return formValue.fromHistory && (!formValue.dateFrom || !formValue.dateTo) ? { dateFromOrDateToRequired: true } : null;
 };
 
+const searchParametersRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
+  const formValue = control.value as {
+    paEmittente?: string | null;
+    nav?: string | null;
+    iuv?: string | null;
+    token?: string | null;
+    idCarrello?: string | null;
+    extra?: string | null;
+  };
+  const searchParameters = [formValue.paEmittente, formValue.nav, formValue.iuv, formValue.token, formValue.idCarrello, formValue.extra];
+  const filledSearchParameters = searchParameters.filter(fieldValue => !!fieldValue?.trim());
+
+  return filledSearchParameters.length < (formValue.paEmittente?.trim() ? 2 : 1) ? { searchParametersRequired: true } : null;
+};
+
 const exclusiveSearchFieldsValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
     nav?: string | null;
@@ -123,7 +138,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       dateTo: new FormControl<dayjs.Dayjs | null>(null),
       fromOnline: [false],
     },
-    { validators: [historyPeriodRequiredValidator, exclusiveSearchFieldsValidator] },
+    { validators: [searchParametersRequiredValidator, historyPeriodRequiredValidator, exclusiveSearchFieldsValidator] },
   );
 
   constructor() {
@@ -226,7 +241,10 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   }
 
   onHistoryToggle(enabled: boolean): void {
-    if (!enabled) {
+    if (enabled) {
+      this.searchForm.get('dateFrom')?.setValue(dayjs().subtract(12, 'month').startOf('month'));
+      this.searchForm.get('dateTo')?.setValue(dayjs().subtract(7, 'month').endOf('month'));
+    } else {
       this.clearDateRange();
     }
   }
