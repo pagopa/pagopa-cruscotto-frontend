@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 
-import _ from 'lodash';
 import { IKpiConfiguration, NewKpiConfiguration } from '../kpi-configuration.model';
 import { stringNumericValidatorFn } from 'app/shared/util/validator-util';
 import { IModule, IModuleConfiguration } from '../../../module/module.model';
@@ -116,7 +115,7 @@ export class KpiConfigurationFormService {
     toOmit.push('partner');
 
     return {
-      ..._.omit(kpiConfiguration, toOmit),
+      ...Object.fromEntries(Object.entries(kpiConfiguration).filter(([field]) => !toOmit.includes(field))),
       moduleCode: kpiConfiguration.module?.code,
     } as IKpiConfiguration | NewKpiConfiguration;
   }

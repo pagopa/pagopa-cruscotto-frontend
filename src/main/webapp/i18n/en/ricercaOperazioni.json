@@ -4,6 +4,12 @@
       "home": {
         "title": "Operation Search"
       },
+      "dialog": {
+        "historySearch": {
+          "title": "Confirm history search",
+          "question": "Do you want to perform a search in the history?"
+        }
+      },
       "filter": {
         "paEmittente": "Issuing PA (Tax Code)",
         "nav": "NAV",

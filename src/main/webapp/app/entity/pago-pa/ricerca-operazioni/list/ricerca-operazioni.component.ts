@@ -3,7 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { addToFilter, getFilterValue } from '../../../../shared/pagination/filter-util.pagination';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
@@ -26,6 +26,9 @@ import { IOperazioneRicercaResponse, IOperazioneRicercaRow, RicercaOperazioniMod
 import { RicercaOperazioniService } from '../service/ricerca-operazioni.service';
 import { RicercaOperazioniFilter } from './ricerca-operazioni.filter';
 import dayjs from '../../../../config/dayjs';
+import { ConfirmModalOptions } from '../../../../shared/modal/confirm-modal-options.model';
+import { ConfirmModalService } from '../../../../shared/modal/confirm-modal.service';
+import { ModalResult } from '../../../../shared/modal/modal-results.enum';
 
 const historyPeriodRequiredValidator = (control: AbstractControl): ValidationErrors | null => {
   const formValue = control.value as {
@@ -121,6 +124,7 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
   private readonly service = inject(RicercaOperazioniService);
   private readonly locationHelper = inject(LocaltionHelper);
   private readonly fb = inject(FormBuilder);
+  private readonly confirmModalService = inject(ConfirmModalService);
 
   private readonly subscriptions = new Subscription();
   private searchSubscription?: Subscription;
@@ -175,6 +179,31 @@ export class RicercaOperazioniComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.searchForm.get('fromHistory')?.value) {
+      const confirmOptions = new ConfirmModalOptions(
+        'pagopaCruscottoApp.ricercaOperazioni.dialog.historySearch.title',
+        'pagopaCruscottoApp.ricercaOperazioni.dialog.historySearch.question',
+        undefined,
+        undefined,
+      );
+
+      this.confirmModalService
+        .save({ width: '500px' }, confirmOptions)
+        .pipe(take(1))
+        .subscribe((result: ModalResult) => {
+          if (result !== ModalResult.CONFIRMED) {
+            return;
+          }
+
+          this.executeSearch();
+        });
+      return;
+    }
+
+    this.executeSearch();
+  }
+
+  private executeSearch(): void {
     this.populateFilter();
     this.page = 1;
     this.loadPage();

@@ -4,6 +4,12 @@
       "home": {
         "title": "Ricerca Operazioni"
       },
+      "dialog": {
+        "historySearch": {
+          "title": "Conferma ricerca sullo storico",
+          "question": "Vuoi effettuare una ricerca sullo storico?"
+        }
+      },
       "filter": {
         "paEmittente": "PA Emittente (Codice Fiscale)",
         "nav": "NAV",
